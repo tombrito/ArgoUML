@@ -47,6 +47,11 @@ import org.tigris.gef.presentation.Fig;
 class SelectionSignal extends SelectionGeneralizableElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1276007453101911678L;
+
+	/**
      * Construct a new SelectionClass for the given Fig.
      *
      * @param f The given Fig.

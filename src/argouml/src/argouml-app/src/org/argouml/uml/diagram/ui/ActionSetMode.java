@@ -57,7 +57,11 @@ import org.tigris.gef.base.SetModeAction;
  */
 public class ActionSetMode extends SetModeAction {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1294161167744180258L;
+	private static final Logger LOG =
         Logger.getLogger(ActionSetMode.class.getName());
 
     /**

@@ -61,7 +61,11 @@ import java.util.Observable;
  * @author Jason Robbins
  */
 public class DecisionModel extends Observable implements Serializable {
-    private List<Decision> decisions = new ArrayList<Decision>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6690178371954624806L;
+	private List<Decision> decisions = new ArrayList<Decision>();
 
     /**
      * The constructor.

@@ -184,21 +184,6 @@ public class ClassdiagramLayouter implements Layouter {
         }
 
         /**
-         * @return Returns the nodes.
-         */
-        public List<ClassdiagramNode> getNodeList() {
-            return nodes;
-        }
-
-        /**
-         * @return Returns the rowNumber.
-         */
-        public int getRowNumber() {
-            return rowNumber;
-        }
-
-
-        /**
          * Get the width for this row using the given horizontal gap between
          * nodes.
          *

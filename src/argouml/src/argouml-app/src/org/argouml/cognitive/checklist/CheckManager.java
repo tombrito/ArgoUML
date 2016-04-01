@@ -56,6 +56,11 @@ public class CheckManager implements Serializable {
     // static variables
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3728939841412205636L;
+
+	/**
      * List of checklists.
      *
      * Indexed on the object type of the element that this checklist is

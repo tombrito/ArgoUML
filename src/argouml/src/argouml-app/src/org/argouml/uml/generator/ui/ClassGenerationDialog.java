@@ -455,10 +455,6 @@ public class ClassGenerationDialog extends ArgoDialog
                     (String) outputDirectoryComboBox.getModel()
                             .getSelectedItem());
 
-            if (chooser == null) {
-                chooser = new JFileChooser();
-            }
-
             chooser.setFileHidingEnabled(true);
             chooser.setMultiSelectionEnabled(false);
             chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

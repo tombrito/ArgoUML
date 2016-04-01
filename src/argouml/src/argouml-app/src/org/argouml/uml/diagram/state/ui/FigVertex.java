@@ -55,7 +55,12 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigVertex extends FigNodeModelElement {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8145823805312348720L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigVertex.class.getName());
 
     private static final int MARGIN = 2;
@@ -426,7 +431,12 @@ public class FigVertex extends FigNodeModelElement {
      * @author Bob Tarling
      */
     private class FigBody extends FigText {
-        public FigBody(int x, int y, int width, int height) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -8542522293417829552L;
+
+		public FigBody(int x, int y, int width, int height) {
             super (x, y, width, height);
             setFont(getSettings().getFont(Font.PLAIN));
             setTextColor(TEXT_COLOR);
@@ -444,7 +454,12 @@ public class FigVertex extends FigNodeModelElement {
      * @author Bob Tarling
      */
     private class FigRegionCompartment extends FigGroup {
-        public FigRegionCompartment(int x, int y, int width, int height) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1758077976768187648L;
+
+		public FigRegionCompartment(int x, int y, int width, int height) {
             super();
         }
 

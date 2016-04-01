@@ -76,6 +76,11 @@ public class Critic
     implements Poster, Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2941540423500139482L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG = Logger.getLogger(Critic.class.getName());

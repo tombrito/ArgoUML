@@ -71,6 +71,12 @@ import org.argouml.uml.cognitive.critics.CrUML;
 public class CrSingletonViolatedMissingStaticAttr extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2778470349820417963L;
+
+
+	/**
      * Constructor for the critic.
      *
      * Sets up the resource name, which will allow headline and description

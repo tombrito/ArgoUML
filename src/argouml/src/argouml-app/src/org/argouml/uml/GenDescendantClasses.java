@@ -56,7 +56,11 @@ import org.tigris.gef.util.ChildGenerator;
  */
 
 public class GenDescendantClasses implements ChildGenerator {
-    private static final GenDescendantClasses SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6529129613677089520L;
+	private static final GenDescendantClasses SINGLETON =
         new GenDescendantClasses();
 
     /**

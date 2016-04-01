@@ -55,7 +55,11 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
 public class UMLStructuralFeatureChangeabilityRadioButtonPanel
 	extends UMLRadioButtonPanel {
 
-    private static List<String[]> labelTextsAndActionCommands =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 485361853968825434L;
+	private static List<String[]> labelTextsAndActionCommands =
         new ArrayList<String[]>();
 
     static {

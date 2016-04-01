@@ -59,6 +59,11 @@ import org.argouml.uml.diagram.static_structure.ui.FigLink;
 public class CrWrongLinkEnds extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5903494112156858581L;
+
+	/**
      * The constructor.
      */
     public CrWrongLinkEnds() {

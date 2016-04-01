@@ -53,7 +53,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetBehavioralFeatureQuery extends UndoableAction {
 
-    private static final ActionSetBehavioralFeatureQuery SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -546939993066098675L;
+	private static final ActionSetBehavioralFeatureQuery SINGLETON =
         new ActionSetBehavioralFeatureQuery();
 
     /**

@@ -71,6 +71,12 @@ import org.argouml.uml.cognitive.critics.CrUML;
 public class CrSingletonViolatedOnlyPrivateConstructors extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8665215639224128650L;
+
+
+	/**
      * Constructor for the critic.
      *
      * Sets up the resource name, which will allow headline and description

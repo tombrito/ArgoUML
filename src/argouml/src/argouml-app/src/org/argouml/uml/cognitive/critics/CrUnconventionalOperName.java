@@ -56,6 +56,11 @@ import org.argouml.uml.cognitive.UMLToDoItem;
 public class CrUnconventionalOperName extends AbstractCrUnconventionalName {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7146087112586774824L;
+
+	/**
      * The constructor.
      */
     public CrUnconventionalOperName() {

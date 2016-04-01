@@ -57,6 +57,11 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class FigAttribute extends FigFeature {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3460407360354178284L;
+
+	/**
      * Construct an Attribute fig.
      * 
      * @param owner owning UML element

@@ -58,6 +58,11 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetModelElementVisibility extends UndoableAction {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2312508319685947656L;
+
+	/**
      * The instance.
      */
     private static final ActionSetModelElementVisibility SINGLETON =

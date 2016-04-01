@@ -56,7 +56,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 @Deprecated
 public class ActionSetStructuralFeatureTargetScope extends UndoableAction {
 
-    private static final ActionSetStructuralFeatureTargetScope SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1500379158984265613L;
+	private static final ActionSetStructuralFeatureTargetScope SINGLETON =
 	new ActionSetStructuralFeatureTargetScope();
 
     /**

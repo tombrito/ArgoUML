@@ -66,6 +66,11 @@ public class ActionImportFromSources extends UndoableAction
         implements CommandLineInterface {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9009287502738869576L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =

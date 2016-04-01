@@ -54,6 +54,11 @@ import org.argouml.application.helpers.ResourceLoaderWrapper;
 public abstract class ActionNavigateUpNextDown extends AbstractActionNavigate {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4085777504051790017L;
+
+	/**
      * The constructor.
      */
     public ActionNavigateUpNextDown() {

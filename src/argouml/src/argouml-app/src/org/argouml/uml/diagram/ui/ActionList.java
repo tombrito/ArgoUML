@@ -57,7 +57,11 @@ import org.argouml.kernel.UmlModelMutator;
  */
 class ActionList<E> extends Vector<E> {
     
-    private final boolean readonly;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2552040327663065288L;
+	private final boolean readonly;
     
     /**
      * Construct an ActionList which filters modifying actions when

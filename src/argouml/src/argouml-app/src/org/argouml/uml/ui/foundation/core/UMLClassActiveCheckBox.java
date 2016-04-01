@@ -50,6 +50,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLClassActiveCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3815377019280356361L;
+
+	/**
      * Constructor for UMLGeneralizableElementRootCheckBox.
      */
     public UMLClassActiveCheckBox() {

@@ -56,6 +56,10 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddEventAsTrigger extends AbstractActionAddModelElement2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6472724134137733235L;
+	/**
      * The one and only instance of this class.
      */
     public static final ActionAddEventAsTrigger SINGLETON =

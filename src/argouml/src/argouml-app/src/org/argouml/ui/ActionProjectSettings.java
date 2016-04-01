@@ -54,6 +54,10 @@ import org.argouml.i18n.Translator;
 public class ActionProjectSettings extends AbstractAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 576303400524596964L;
+	/**
      * The settings dialog.
      */
     private static ProjectSettingsDialog dialog;

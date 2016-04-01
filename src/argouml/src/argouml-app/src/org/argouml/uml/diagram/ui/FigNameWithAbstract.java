@@ -55,6 +55,11 @@ import org.argouml.uml.diagram.DiagramSettings;
 class FigNameWithAbstract extends FigSingleLineText {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7756943614884804938L;
+
+	/**
      * Construct a name Fig that shows whether associated item is abstract
      * (italics) or bold.
      * 

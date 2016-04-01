@@ -53,6 +53,11 @@ import org.tigris.gef.presentation.FigText;
 public class FigMNode extends AbstractFigNode {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4526254073867754470L;
+
+	/**
      * Construct a new FigMNode.
      * 
      * @param owner owning UML element

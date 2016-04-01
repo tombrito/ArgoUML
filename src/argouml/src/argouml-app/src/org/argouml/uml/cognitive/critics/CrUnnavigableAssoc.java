@@ -55,6 +55,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrUnnavigableAssoc extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3561703362049657085L;
+
+	/**
      * The constructor.
      */
     public CrUnnavigableAssoc() {

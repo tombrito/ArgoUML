@@ -89,6 +89,11 @@ import org.argouml.uml.util.SortedListModel;
 public class UMLAddDialog extends JPanel implements ActionListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1378697565255033800L;
+
+	/**
      * The GUI list for the choices
      */
     private JList choicesList = null;

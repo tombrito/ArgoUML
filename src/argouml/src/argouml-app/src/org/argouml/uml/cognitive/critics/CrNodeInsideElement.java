@@ -57,6 +57,11 @@ import org.argouml.uml.diagram.deployment.ui.UMLDeploymentDiagram;
 public class CrNodeInsideElement extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6229465620429382444L;
+
+	/**
      * The constructor.
      *
      */

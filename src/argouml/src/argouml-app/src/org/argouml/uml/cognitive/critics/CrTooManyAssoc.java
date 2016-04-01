@@ -51,6 +51,10 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrTooManyAssoc extends AbstractCrTooMany {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1951251057760874060L;
+	/**
      * The initial threshold.
      */
     private static final int ASSOCIATIONS_THRESHOLD = 7;

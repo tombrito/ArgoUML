@@ -47,7 +47,11 @@ import javax.swing.JPanel;
  */
 public class SpacerPanel extends JPanel {
 
-    private int w = 10, h = 10;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1580522225722783409L;
+	private int w = 10, h = 10;
 
     /**
      * The constructor.

@@ -66,6 +66,11 @@ public class FigSingleLineTextWithNotation extends FigSingleLineText
     implements ArgoNotationEventListener, NotationRenderer {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7166590633996897075L;
+
+	/**
      * @param owner the owning UML object
      * @param bounds the initial position and size
      * @param settings the diagram settings applicable for this Fig

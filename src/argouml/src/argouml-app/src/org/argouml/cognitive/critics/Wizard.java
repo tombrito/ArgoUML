@@ -69,7 +69,12 @@ import javax.swing.JPanel;
  */
 public abstract class Wizard implements java.io.Serializable {
 
-    /** User interface panels displayed so far. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6894375627666452289L;
+
+	/** User interface panels displayed so far. */
     private List<JPanel> panels = new ArrayList<JPanel>();
 
     /** The current step that the Wizard is on.  Zero indicates that the

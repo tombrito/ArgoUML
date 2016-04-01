@@ -54,6 +54,10 @@ import org.tigris.gef.base.ZoomAction;
 public class ZoomActionProxy extends ZoomAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3386200018343538190L;
+	/**
      * Local instance of the magnitude that allows computation of zoom factor
      * before zooming.
      */

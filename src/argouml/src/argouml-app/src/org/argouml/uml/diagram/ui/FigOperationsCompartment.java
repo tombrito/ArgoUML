@@ -56,6 +56,11 @@ import org.argouml.uml.diagram.static_structure.ui.FigOperation;
 public class FigOperationsCompartment extends FigCompartment {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3031854637951412169L;
+
+	/**
      * Constructor for an Operations compartment.
      * 
      * @param owner owning UML element

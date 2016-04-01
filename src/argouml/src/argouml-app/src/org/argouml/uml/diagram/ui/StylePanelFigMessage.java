@@ -53,7 +53,12 @@ import org.argouml.ui.StylePanelFigNodeModelElement;
  */
 public class StylePanelFigMessage extends StylePanelFigNodeModelElement {
 
-    private JLabel arrowLabel = 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1201896104207438620L;
+
+	private JLabel arrowLabel = 
         new JLabel(Translator.localize("label.localize"));
 
     private JComboBox arrowField = 

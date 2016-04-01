@@ -69,19 +69,18 @@ public abstract class UMLPlainTextDocument
     extends PlainDocument
     implements UMLDocument {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3301781375166240681L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLPlainTextDocument.class.getName());
 
     /**
      * True if an event should be fired when the text of the document is changed
      */
     private boolean firing = true;
-
-    /**
-     * True if an user edits the document directly (by typing in text)
-     */
-    @Deprecated
-    private boolean editing = false;
 
     /**
      * The target of the propertypanel that's behind this property.

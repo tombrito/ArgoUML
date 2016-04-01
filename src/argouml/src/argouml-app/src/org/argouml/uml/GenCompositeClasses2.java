@@ -88,9 +88,6 @@ public class GenCompositeClasses2 implements
         }
         Object cls = o;
         List ends = new ArrayList(Model.getFacade().getAssociationEnds(cls));
-        if (ends == null) {
-            return res;
-        }
         Iterator assocEnds = ends.iterator();
         while (assocEnds.hasNext()) {
             Object ae = assocEnds.next();

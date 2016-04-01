@@ -241,9 +241,6 @@ public class CallStateNotationUml extends CallStateNotation {
             }
         }
 
-        if (ret == null) {
-            return "";
-        }
         return ret;
     }
 

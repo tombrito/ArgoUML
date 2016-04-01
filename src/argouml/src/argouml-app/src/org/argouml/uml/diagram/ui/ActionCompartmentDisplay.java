@@ -67,6 +67,11 @@ import org.tigris.gef.presentation.Fig;
 public class ActionCompartmentDisplay extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 528293433258880450L;
+
+	/**
      * A flag to indicate whether the action should show or hide the
      * relevant compartment.
      */

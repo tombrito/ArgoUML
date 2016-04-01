@@ -65,6 +65,11 @@ import javax.swing.plaf.metal.MetalButtonUI;
 public class JLinkButton extends JButton {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6718633133083277294L;
+
+	/**
      * Link behavior - underline always.
      */
     public static final int ALWAYS_UNDERLINE = 0;

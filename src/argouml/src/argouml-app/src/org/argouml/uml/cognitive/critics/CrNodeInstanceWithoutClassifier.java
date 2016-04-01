@@ -56,6 +56,11 @@ import org.argouml.uml.diagram.deployment.ui.UMLDeploymentDiagram;
 public class CrNodeInstanceWithoutClassifier extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5375117299489588911L;
+
+	/**
      * The constructor.
      *
      */

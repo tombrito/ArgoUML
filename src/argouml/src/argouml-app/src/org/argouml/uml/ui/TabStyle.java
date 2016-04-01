@@ -116,7 +116,12 @@ import org.tigris.gef.presentation.FigEdge;
 public class TabStyle extends AbstractArgoJPanel implements TabFigTarget,
         PropertyChangeListener, DelayedVChangeListener {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6347306410914316373L;
+
+	private static final Logger LOG =
         Logger.getLogger(TabStyle.class.getName());
 
     private Fig target;
@@ -259,12 +264,6 @@ public class TabStyle extends AbstractArgoJPanel implements TabFigTarget,
             if (lastPanel instanceof TargetListener) {
                 removeTargetListener((TargetListener) lastPanel);
             }
-        }
-        if (t == null) {
-            add(blankPanel, BorderLayout.NORTH);
-            shouldBeEnabled = false;
-            lastPanel = blankPanel;
-            return;
         }
         shouldBeEnabled = true;
         stylePanel = null;

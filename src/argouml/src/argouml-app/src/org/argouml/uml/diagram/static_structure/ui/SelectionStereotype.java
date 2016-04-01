@@ -61,7 +61,11 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionStereotype extends SelectionNodeClarifiers2 {
 
-    private static Icon inheritIcon =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7743568695915716174L;
+	private static Icon inheritIcon =
         ResourceLoaderWrapper.lookupIconResource("Generalization");
     private static Icon dependIcon =
         ResourceLoaderWrapper.lookupIconResource("Dependency");

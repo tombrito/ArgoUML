@@ -81,7 +81,12 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class UMLUseCaseDiagram extends UMLDiagram implements UseCaseDiagram {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3000294377071247312L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLUseCaseDiagram.class.getName());
 
     // Actions specific to the use case diagram toolbar
@@ -499,8 +504,6 @@ public class UMLUseCaseDiagram extends UMLDiagram implements UseCaseDiagram {
 
     @Override
     public DiagramElement drop(Object droppedObject, Point location) {
-        DiagramElement figNode = null;
-
         // If location is non-null, convert to a rectangle that we can use
         Rectangle bounds = null;
         if (location != null) {

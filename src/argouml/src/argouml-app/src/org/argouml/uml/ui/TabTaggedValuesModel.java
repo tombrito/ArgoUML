@@ -322,7 +322,6 @@ public class TabTaggedValuesModel extends AbstractTableModel implements
             if (tagType == null) {
                 return;
             }
-            Object tagValue = values[1];
             Model.getExtensionMechanismsHelper()
                     .addTaggedValue(target, tagType);
         }

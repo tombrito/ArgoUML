@@ -66,6 +66,10 @@ import org.tigris.gef.presentation.FigText;
 public class FigAssociationEnd extends FigEdgeModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2118543917627245648L;
+	/**
      * Group for the FigTexts concerning the association end.
      */
     private FigAssociationEndAnnotation destGroup;

@@ -63,7 +63,12 @@ import org.tigris.gef.base.Globals;
  */
 public class ActionCut extends AbstractAction implements CaretListener {
 
-    private static ActionCut instance = new ActionCut();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2223832109064450152L;
+
+	private static ActionCut instance = new ActionCut();
 
     private static final String LOCALIZE_KEY = "action.cut";
 

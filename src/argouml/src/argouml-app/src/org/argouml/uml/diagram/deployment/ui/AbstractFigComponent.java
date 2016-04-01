@@ -63,6 +63,10 @@ import org.tigris.gef.presentation.FigText;
 public abstract class AbstractFigComponent extends FigNodeModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5075695863263745404L;
+	/**
      * Size of the prong or finger that extends from the left side of the
      * figure. It is also the distance between the left edge of the fig and the
      * left edge of the main rectangle. Originally named BIGPORT_X (which

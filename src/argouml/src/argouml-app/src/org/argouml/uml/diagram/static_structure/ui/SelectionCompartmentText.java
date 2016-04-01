@@ -24,6 +24,11 @@ import org.tigris.gef.presentation.Fig;
 public class SelectionCompartmentText extends SelectionNodeClarifiers2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1904102483544047521L;
+
+	/**
      * Construct a new SelectionClass for the given Fig.
      *
      * @param f The given Fig.

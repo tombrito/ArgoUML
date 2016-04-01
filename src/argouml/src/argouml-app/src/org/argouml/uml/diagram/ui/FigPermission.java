@@ -54,6 +54,11 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class FigPermission extends FigDependency {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9077940777512806073L;
+
+	/**
      * Construct a Fig.
      * 
      * @param owner owning UML element

@@ -56,6 +56,11 @@ public class ActionRemoveArgument extends AbstractActionRemoveElement {
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 519395437073266307L;
+
+	/**
      * Constructor for ActionRemoveArgument.
      */
     protected ActionRemoveArgument() {

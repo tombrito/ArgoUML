@@ -509,26 +509,26 @@ class ModelEventPumpMDRImpl extends AbstractModelEventPump implements
 
         if (!listeners.isEmpty()) {
             for (PropertyChangeListener pcl : listeners) {
-                if (false /*(LOG.isDebugEnabled()*/) {
-                    LOG.log(Level.FINE, "Firing event on " + pcl.getClass().getName()
-                            + "[" + pcl + "]");
-                }
+//                if (false /*(LOG.isDebugEnabled()*/) {
+//                    LOG.log(Level.FINE, "Firing event on " + pcl.getClass().getName()
+//                            + "[" + pcl + "]");
+//                }
                 pcl.propertyChange(event);
             }
         } else {
             // For debugging you probably want either this
             // OR the logging for every event which is fired - not both
-            if (false/*LOG.isDebugEnabled()*/) {
-                LOG.log(Level.FINE, "No listener for "
-                        + modelImpl.getMetaTypes().getName(event)
-                        + " source "
-                        + modelImpl.getMetaTypes().getName(
-                                event.getSource())
-                        + " ["
-                        + ((RefBaseObject) event.getSource()).refMofId() + "]."
-                        + event.getPropertyName() + "," + event.getOldValue()
-                        + "->" + event.getNewValue());
-            }
+//            if (false/*LOG.isDebugEnabled()*/) {
+//                LOG.log(Level.FINE, "No listener for "
+//                        + modelImpl.getMetaTypes().getName(event)
+//                        + " source "
+//                        + modelImpl.getMetaTypes().getName(
+//                                event.getSource())
+//                        + " ["
+//                        + ((RefBaseObject) event.getSource()).refMofId() + "]."
+//                        + event.getPropertyName() + "," + event.getOldValue()
+//                        + "->" + event.getNewValue());
+//            }
         }
     }
 

@@ -71,6 +71,11 @@ public abstract class UMLEditableComboBox extends UMLComboBox2 implements
         FocusListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 459886889626500076L;
+
+	/**
      * The comboboxeditor for editable uml comboboxes. This has to be changed
      * since it controls the rendering of the textfield where the user can edit
      * the list elements. Setitem has to give the correct value. Furthermore,
@@ -92,6 +97,10 @@ public abstract class UMLEditableComboBox extends UMLComboBox2 implements
         private class UMLImagePanel extends JPanel {
 
             /**
+			 * 
+			 */
+			private static final long serialVersionUID = -280186739747933900L;
+			/**
              * The label that shows the icon.
              */
             private JLabel imageIconLabel = new JLabel();
@@ -121,10 +130,6 @@ public abstract class UMLEditableComboBox extends UMLComboBox2 implements
                 theTextField.addFocusListener(UMLEditableComboBox.this);
             }
 
-            public void setText(String text) {
-                theTextField.setText(text);
-            }
-
             public String getText() {
                 return theTextField.getText();
             }
@@ -148,10 +153,6 @@ public abstract class UMLEditableComboBox extends UMLComboBox2 implements
                 imageIconLabel.invalidate();
                 validate();
                 repaint();
-            }
-
-            public void selectAll() {
-                theTextField.selectAll();
             }
 
             public void addActionListener(ActionListener l) {

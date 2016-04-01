@@ -51,6 +51,11 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
 public class UMLExtensionPointLocationDocument extends UMLPlainTextDocument {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2215707279643372106L;
+
+	/**
      * Constructor for UMLExtensionPointLocationDocument.
      */
     public UMLExtensionPointLocationDocument() {

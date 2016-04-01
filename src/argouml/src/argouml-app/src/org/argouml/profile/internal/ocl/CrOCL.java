@@ -56,6 +56,11 @@ import org.argouml.uml.cognitive.critics.CrUML;
 public class CrOCL extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7275228965409823164L;
+
+	/**
      * the OCL Interpreter
      */
     private OclInterpreter interpreter = null;

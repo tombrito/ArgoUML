@@ -56,6 +56,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 public class ActionNewReception extends AbstractActionNewModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2468027167947633065L;
+
+	/**
      * The constructor.
      */
     public ActionNewReception() {

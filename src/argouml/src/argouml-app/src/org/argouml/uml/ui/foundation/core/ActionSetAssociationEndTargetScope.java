@@ -54,7 +54,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetAssociationEndTargetScope extends UndoableAction {
 
-    private static final ActionSetAssociationEndTargetScope SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4043054152564371876L;
+	private static final ActionSetAssociationEndTargetScope SINGLETON =
         new ActionSetAssociationEndTargetScope();
 
     /**

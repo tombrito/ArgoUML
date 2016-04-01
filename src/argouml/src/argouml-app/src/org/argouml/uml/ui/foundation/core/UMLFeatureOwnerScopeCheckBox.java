@@ -49,6 +49,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLFeatureOwnerScopeCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5093336348482171369L;
+
+	/**
      * Constructor for UMLFeatureOwnerScopeCheckBox.
      */
     public UMLFeatureOwnerScopeCheckBox() {

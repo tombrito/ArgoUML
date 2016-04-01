@@ -59,6 +59,11 @@ import org.argouml.i18n.Translator;
 public class ConfigPanelExtension extends JPanel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3225693056701431253L;
+
+	/**
      * Key for RE extended settings: model attributes as:
      * 0: attibutes
      * 1: associations

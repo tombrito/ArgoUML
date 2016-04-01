@@ -54,6 +54,12 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 class ActionAddPackageImport extends AbstractActionAddModelElement2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7447656342740574501L;
+
+
+	/**
      * Constructor for ActionAddPackageImport.
      */
     ActionAddPackageImport() {

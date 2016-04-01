@@ -64,15 +64,12 @@ class KindsMDRImpl implements ChangeableKind, AggregationKind,
         PseudostateKind, ScopeKind, ConcurrencyKind, DirectionKind,
         OrderingKind, VisibilityKind {
 
-    private MDRModelImplementation modelImpl;
-
     /**
      * Constructor.
      *
      * @param mi The MDRModelImplementation.
      */
     KindsMDRImpl(MDRModelImplementation mi) {
-        modelImpl = mi;
     }
 
     /*

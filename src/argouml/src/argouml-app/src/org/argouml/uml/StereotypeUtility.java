@@ -408,43 +408,6 @@ public class StereotypeUtility {
     }
 
     /**
-     * Search for a stereotype with the name given in a namespace and its
-     * containing namespaces.
-     * 
-     * @param obj The model element to be suitable for.
-     * @param namespace The namespace to start search at. If null, the namespace
-     *            of the given model element will be used as the starting point.
-     * @param name The name of the stereotype to search for.
-     * @return An stereotype named name, or null if none is found.
-     */
-    private static Object findStereotype(final Object obj,
-            final Object namespace, final String name) {
-        Object ns = namespace;
-        if (ns == null) {
-            ns = Model.getFacade().getNamespace(obj);
-            if (ns == null) {
-                return null;
-            }
-        }
-
-        Collection ownedElements = Model.getFacade().getOwnedElements(ns);
-        for (Object element : ownedElements) {
-            if (Model.getFacade().isAStereotype(element)
-                    && name.equals(Model.getFacade().getName(element))) {
-                return element;
-            }
-        }
-
-        // If not found, try the parent namespace
-        ns = Model.getFacade().getNamespace(ns);
-        if (namespace != null) {
-            return findStereotype(obj, ns, name);
-        }
-
-        return null;
-    }
-
-    /**
      * Search descending recursively for a stereotype with the name given in
      * name. NOTE: You probably don't want to use this because it's searching
      * the wrong direction!

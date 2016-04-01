@@ -69,6 +69,11 @@ public class ActionGenerateAll extends UndoableAction {
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4881111037554641667L;
+
+	/**
      * Constructor.
      */
     public ActionGenerateAll() {

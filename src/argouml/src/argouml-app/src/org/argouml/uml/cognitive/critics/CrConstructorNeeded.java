@@ -62,6 +62,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrConstructorNeeded extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4686516536089355627L;
+
+	/**
      * Constructor for the critic.<p>
      *
      * Sets up the resource name, which will allow headline and description

@@ -54,7 +54,12 @@ import org.argouml.model.Model;
  * @author jrobbins
  */
 public class WizMEName extends UMLWizard {
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8736394150766704675L;
+
+	private static final Logger LOG =
         Logger.getLogger(WizMEName.class.getName());
 
     private String instructions = Translator.localize("critics.WizMEName-ins");

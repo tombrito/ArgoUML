@@ -41,7 +41,6 @@ package org.argouml.uml.cognitive.critics;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.argouml.cognitive.Designer;
 import org.argouml.model.Model;
@@ -59,10 +58,9 @@ import org.argouml.uml.cognitive.UMLDecision;
 
 public class CrEmptyPackage extends CrUML {
     /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(CrEmptyPackage.class.getName());
+	 * 
+	 */
+	private static final long serialVersionUID = -7671260388283004938L;
 
     /**
      * The constructor.

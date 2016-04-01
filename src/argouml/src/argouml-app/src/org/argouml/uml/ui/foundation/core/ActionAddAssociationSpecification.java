@@ -56,7 +56,11 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddAssociationSpecification extends
         AbstractActionAddModelElement2 {
 
-    private static final ActionAddAssociationSpecification SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3137031571915501851L;
+	private static final ActionAddAssociationSpecification SINGLETON =
         new ActionAddAssociationSpecification();
     /**
      * Constructor for ActionAddExtendExtensionPoint.

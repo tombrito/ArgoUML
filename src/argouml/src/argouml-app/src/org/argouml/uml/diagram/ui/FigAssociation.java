@@ -76,7 +76,12 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigAssociation extends FigEdgeModelElement {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2191319431914703254L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigAssociation.class.getName());
 
     /**
@@ -703,7 +708,12 @@ public class FigAssociation extends FigEdgeModelElement {
  */
 class FigMultiplicity extends FigSingleLineTextWithNotation {
 
-    FigMultiplicity(Object owner, DiagramSettings settings) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7562370279207542080L;
+
+	FigMultiplicity(Object owner, DiagramSettings settings) {
         super(owner, new Rectangle(X0, Y0, 90, 20), settings, false,
                 new String[] {"multiplicity", "upperValue"});
         // Note that "multiplicity" is what is the notation is listening
@@ -785,7 +795,12 @@ class FigOrdering extends FigSingleLineText {
  */
 class FigRole extends FigSingleLineTextWithNotation {
 
-    FigRole(Object owner, DiagramSettings settings) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7499519515007694638L;
+
+	FigRole(Object owner, DiagramSettings settings) {
         super(owner, new Rectangle(X0, Y0, 90, 20), settings, false,
                 (String[]) null
         // no need to listen to these property changes - the

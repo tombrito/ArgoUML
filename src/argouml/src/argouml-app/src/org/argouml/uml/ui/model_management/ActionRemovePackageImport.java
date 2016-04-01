@@ -53,6 +53,11 @@ class ActionRemovePackageImport
     extends AbstractActionRemoveElement {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4933922310018200481L;
+
+	/**
      * Constructor for ActionRemovePackageImport.
      */
     ActionRemovePackageImport() {

@@ -58,6 +58,11 @@ public class ActionAddSupplierDependencyAction extends
         AbstractActionAddModelElement2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4721618163073413695L;
+
+	/**
      * The constructor.
      */
     public ActionAddSupplierDependencyAction() {

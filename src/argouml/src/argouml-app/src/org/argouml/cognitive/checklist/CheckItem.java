@@ -68,7 +68,12 @@ import org.argouml.util.PredicateTrue;
  */
 public class CheckItem implements Serializable {
 
-    private String category;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4510613302764274518L;
+
+	private String category;
 
     /**
      * One sentence description of the issue. usually in the form of a

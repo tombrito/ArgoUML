@@ -59,7 +59,11 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigObject extends FigNodeModelElement {
 
-    private FigRect cover;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4916096939495889854L;
+	private FigRect cover;
 
     @Override
     protected Fig createBigPortFig() {

@@ -55,6 +55,11 @@ import org.argouml.i18n.Translator;
 public class ActionPrint extends AbstractAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5006239452281277926L;
+
+	/**
      * The constructor.
      */
     public ActionPrint() {

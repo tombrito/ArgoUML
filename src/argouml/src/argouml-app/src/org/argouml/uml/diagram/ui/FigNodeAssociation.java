@@ -69,7 +69,11 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigNodeAssociation extends FigNodeModelElement {
     
-    private static final int X = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3895967205122127899L;
+	private static final int X = 0;
     private static final int Y = 0;
 
     private FigDiamond head;

@@ -48,6 +48,11 @@ import java.util.EventObject;
  */
 public abstract class InstanceChangeEvent extends UmlChangeEvent {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3107335259047971670L;
+
+	/**
      * Constructor.
      *
      * @param source  The bean that fired the event.

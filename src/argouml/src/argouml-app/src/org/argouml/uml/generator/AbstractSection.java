@@ -50,173 +50,178 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.IOUtils;
+
 /**
  * Reading and writing preserved sections from the code.
  *
  * @author Marian Heddesheimer
  */
 public abstract class AbstractSection {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(AbstractSection.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(AbstractSection.class.getName());
 
-    /**
-     * System newline separator.
-     */
-    private static final String LINE_SEPARATOR =
-	System.getProperty("line.separator");
+	/**
+	 * System newline separator.
+	 */
+	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
-    private Map<String, String> mAry;
+	private Map<String, String> mAry;
 
-    /**
-     * Creates a new instance of Section.
-     */
-    public AbstractSection() {
-        mAry = new HashMap<String, String>();
-    }
+	/**
+	 * Creates a new instance of Section.
+	 */
+	public AbstractSection() {
+		mAry = new HashMap<String, String>();
+	}
 
-    /**
-     * @param id the string to generate
-     * @param indent the current indentation
-     * @return the generated string
-     */
-    public static String generate(String id, String indent) {
-        return "";
-    }
+	/**
+	 * @param id
+	 *            the string to generate
+	 * @param indent
+	 *            the current indentation
+	 * @return the generated string
+	 */
+	public static String generate(String id, String indent) {
+		return "";
+	}
 
-    /**
-     * write TODO: Check if sections are not used within the file and
-     * put them as comments at the end of the file.
-     * Hint: use a second Map to compare with the used keys.
-     *
-    * @param filename the file name
-     * @param indent the current indentation
-     * @param outputLostSections true if lost sections are to be written
-     */
-    public void write(String filename, String indent,
-		      boolean outputLostSections) {
-        try {
-            FileReader f = new FileReader(filename);
-            BufferedReader fr = new BufferedReader(f);
-            // TODO: This is using the default platform character encoding
-            // specifying an encoding will produce more predictable results
-            FileWriter fw = new FileWriter(filename + ".out");
-            String line = "";
-            line = fr.readLine();
-            while (line != null) {
-                String sectionId = getSectId(line);
-                if (sectionId != null) {
-                    String content = mAry.get(sectionId);
-                    if (content != null) {
-                        fw.write(line + LINE_SEPARATOR);
-                        fw.write(content);
-                        // read until the end section is found, discard
-                        // generated content
-                        String endSectionId = null;
-                        do {
-                            line = fr.readLine();
-                            if (line == null) {
-                                throw new EOFException(
-                                        "Reached end of file while looking "
-                                        + "for the end of section with ID = \""
-                                        + sectionId + "\"!");
-                            }
-                            endSectionId = getSectId(line);
-                        } while (endSectionId == null);
-                        if (!endSectionId.equals(sectionId)) {
-                            LOG.log(Level.SEVERE, "Mismatch between sectionId (\""
-                                    + sectionId + "\") and endSectionId (\""
-                                    + endSectionId + "\")!");
-                        }
-                    }
-                    mAry.remove(sectionId);
-                }
-                fw.write(line);
-                line = fr.readLine();
-                if (line != null) {
-                    fw.write(LINE_SEPARATOR);
-                }
-            }
-            if ((!mAry.isEmpty()) && (outputLostSections)) {
-                fw.write("/* lost code following: " + LINE_SEPARATOR);
-                Set mapEntries = mAry.entrySet();
-                Iterator itr = mapEntries.iterator();
-                while (itr.hasNext()) {
-                    Map.Entry entry = (Map.Entry) itr.next();
-                    fw.write(indent + "// section " + entry.getKey()
-			     + " begin" + LINE_SEPARATOR);
-                    fw.write((String) entry.getValue());
-                    fw.write(indent + "// section " + entry.getKey()
-			     + " end" + LINE_SEPARATOR);
-                }
-                fw.write("*/");
-            }
-            fr.close();
-            fw.close();
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Error: " + e.toString());
-        }
-    }
+	/**
+	 * write TODO: Check if sections are not used within the file and put them
+	 * as comments at the end of the file. Hint: use a second Map to compare
+	 * with the used keys.
+	 *
+	 * @param filename
+	 *            the file name
+	 * @param indent
+	 *            the current indentation
+	 * @param outputLostSections
+	 *            true if lost sections are to be written
+	 */
+	public void write(String filename, String indent, boolean outputLostSections) {
+		FileReader f = null;
+		BufferedReader fr = null;
+		FileWriter fw = null;
+		try {
+			f = new FileReader(filename);
+			fr = new BufferedReader(f);
+			// TODO: This is using the default platform character encoding
+			// specifying an encoding will produce more predictable results
+			fw = new FileWriter(filename + ".out");
+			String line = "";
+			line = fr.readLine();
+			while (line != null) {
+				String sectionId = getSectId(line);
+				if (sectionId != null) {
+					String content = mAry.get(sectionId);
+					if (content != null) {
+						fw.write(line + LINE_SEPARATOR);
+						fw.write(content);
+						// read until the end section is found, discard
+						// generated content
+						String endSectionId = null;
+						do {
+							line = fr.readLine();
+							if (line == null) {
+								throw new EOFException("Reached end of file while looking "
+										+ "for the end of section with ID = \"" + sectionId + "\"!");
+							}
+							endSectionId = getSectId(line);
+						} while (endSectionId == null);
+						if (!endSectionId.equals(sectionId)) {
+							LOG.log(Level.SEVERE, "Mismatch between sectionId (\"" + sectionId
+									+ "\") and endSectionId (\"" + endSectionId + "\")!");
+						}
+					}
+					mAry.remove(sectionId);
+				}
+				fw.write(line);
+				line = fr.readLine();
+				if (line != null) {
+					fw.write(LINE_SEPARATOR);
+				}
+			}
+			if ((!mAry.isEmpty()) && (outputLostSections)) {
+				fw.write("/* lost code following: " + LINE_SEPARATOR);
+				Set mapEntries = mAry.entrySet();
+				Iterator itr = mapEntries.iterator();
+				while (itr.hasNext()) {
+					Map.Entry entry = (Map.Entry) itr.next();
+					fw.write(indent + "// section " + entry.getKey() + " begin" + LINE_SEPARATOR);
+					fw.write((String) entry.getValue());
+					fw.write(indent + "// section " + entry.getKey() + " end" + LINE_SEPARATOR);
+				}
+				fw.write("*/");
+			}
+		} catch (IOException e) {
+			LOG.log(Level.SEVERE, "Error: " + e.toString());
+		} finally {
+			IOUtils.closeQuietly(fr);
+			IOUtils.closeQuietly(fw);
+		}
+	}
 
-    /**
-     * @param filename the filename to read from
-     */
-    public void read(String filename) {
-        try {
-            // TODO: This is using the default platform character encoding
-            // specifying an encoding will produce more predictable results
-            FileReader f = new FileReader(filename);
-            BufferedReader fr = new BufferedReader(f);
+	/**
+	 * @param filename
+	 *            the filename to read from
+	 */
+	public void read(String filename) {
+		try {
+			// TODO: This is using the default platform character encoding
+			// specifying an encoding will produce more predictable results
+			FileReader f = new FileReader(filename);
+			BufferedReader fr = new BufferedReader(f);
 
-            String line = "";
-            StringBuilder content = new StringBuilder();
-            boolean inSection = false;
-            while (line != null) {
-                line = fr.readLine();
-                if (line != null) {
-                    if (inSection) {
-                        String sectionId = getSectId(line);
-                        if (sectionId != null) {
-                            inSection = false;
-                            mAry.put(sectionId, content.toString());
-                            content = new StringBuilder();
-                        } else {
-                            content.append(line + LINE_SEPARATOR);
-                        }
-                    } else {
-                        String sectionId = getSectId(line);
-                        if (sectionId != null) {
-                            inSection = true;
-                        }
-                    }
-                }
-            }
-            fr.close();
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Error: " + e.toString());
-        }
-    }
+			String line = "";
+			StringBuilder content = new StringBuilder();
+			boolean inSection = false;
+			while (line != null) {
+				line = fr.readLine();
+				if (line != null) {
+					if (inSection) {
+						String sectionId = getSectId(line);
+						if (sectionId != null) {
+							inSection = false;
+							mAry.put(sectionId, content.toString());
+							content = new StringBuilder();
+						} else {
+							content.append(line + LINE_SEPARATOR);
+						}
+					} else {
+						String sectionId = getSectId(line);
+						if (sectionId != null) {
+							inSection = true;
+						}
+					}
+				}
+			}
+			fr.close();
+		} catch (IOException e) {
+			LOG.log(Level.SEVERE, "Error: " + e.toString());
+		}
+	}
 
-    /**
-     * @param line the given line
-     * @return the section identifier
-     */
-    public static String getSectId(String line) {
-        final String begin = "// section ";
-        final String end1 = " begin";
-        final String end2 = " end";
-        int first = line.indexOf(begin);
-        int second = line.indexOf(end1);
-        if (second < 0) {
-            second = line.indexOf(end2);
-        }
-        String s = null;
-        if ((first >= 0) && (second >= 0)) {
-            first = first + begin.length();
-            s = line.substring(first, second);
-        }
-        return s;
-    }
+	/**
+	 * @param line
+	 *            the given line
+	 * @return the section identifier
+	 */
+	public static String getSectId(String line) {
+		final String begin = "// section ";
+		final String end1 = " begin";
+		final String end2 = " end";
+		int first = line.indexOf(begin);
+		int second = line.indexOf(end1);
+		if (second < 0) {
+			second = line.indexOf(end2);
+		}
+		String s = null;
+		if ((first >= 0) && (second >= 0)) {
+			first = first + begin.length();
+			s = line.substring(first, second);
+		}
+		return s;
+	}
 }

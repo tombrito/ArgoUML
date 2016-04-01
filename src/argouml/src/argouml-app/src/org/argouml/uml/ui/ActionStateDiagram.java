@@ -54,6 +54,11 @@ import org.argouml.uml.diagram.state.ui.UMLStateDiagram;
 public class ActionStateDiagram extends ActionNewDiagram {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5156437569379747444L;
+
+	/**
      * Constructor.
      */
     public ActionStateDiagram() {

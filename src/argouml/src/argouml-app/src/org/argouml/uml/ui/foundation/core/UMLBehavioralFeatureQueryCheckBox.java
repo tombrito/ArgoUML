@@ -47,6 +47,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLBehavioralFeatureQueryCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -739923780458620696L;
+
+	/**
      * Constructor.
      */
     public UMLBehavioralFeatureQueryCheckBox() {

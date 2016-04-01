@@ -56,7 +56,12 @@ import org.argouml.uml.ui.PropPanel;
  */
 public class PropPanelCritic extends PropPanel {
 
-    private JTextField criticClass;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4178060035392992398L;
+
+	private JTextField criticClass;
 
     private JTextField name;
 

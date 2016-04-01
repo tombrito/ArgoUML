@@ -66,9 +66,6 @@ public class PerspectiveSupport {
     /** list of all possible rules in the collection Todolist specific */
     private static List<TreeModel> rules = new ArrayList<TreeModel>();
 
-    private PerspectiveSupport() {
-    }
-
     /**
      * Creates a new instance of PerspectiveSupport
      *

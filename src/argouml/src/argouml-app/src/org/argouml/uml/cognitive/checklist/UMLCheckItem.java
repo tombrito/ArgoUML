@@ -55,7 +55,11 @@ import org.tigris.gef.ocl.ExpansionException;
  * @see org.argouml.ocl.OCLEvaluator */
 
 public class UMLCheckItem extends CheckItem {
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5507204901307842149L;
+	private static final Logger LOG =
         Logger.getLogger(UMLCheckItem.class.getName());
 
     /**

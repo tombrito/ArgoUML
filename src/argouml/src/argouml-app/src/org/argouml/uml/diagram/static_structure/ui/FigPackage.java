@@ -1007,7 +1007,11 @@ public class FigPackage extends FigNodeModelElement
 
     private class PackageBackground extends FigPoly {
 
-        int indentX;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1729998576990935997L;
+		int indentX;
         int tabHeight;
 
         /**

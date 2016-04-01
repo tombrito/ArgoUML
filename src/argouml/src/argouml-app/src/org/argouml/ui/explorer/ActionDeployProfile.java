@@ -70,7 +70,12 @@ import org.argouml.util.ArgoFrame;
  */
 public class ActionDeployProfile extends AbstractAction {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2325250051422415534L;
+
+	private static final Logger LOG =
         Logger.getLogger(ActionDeployProfile.class.getName());
 
     private Object undeployedProfile;

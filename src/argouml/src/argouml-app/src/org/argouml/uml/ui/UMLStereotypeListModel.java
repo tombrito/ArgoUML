@@ -71,7 +71,12 @@ import org.tigris.gef.presentation.Fig;
 abstract class UMLStereotypeListModel extends DefaultListModel
         implements TargetListener, PropertyChangeListener {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6822437699417323846L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLStereotypeListModel.class.getName());
 
     private String eventName = null;

@@ -80,6 +80,11 @@ import org.tigris.swidgets.PopupButton;
 public class ZoomSliderButton extends PopupButton {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6851021260262585421L;
+
+	/**
      * Used for loading the zoom icon from the Zoom Reset action.
      */
     private static final String RESOURCE_NAME = "Zoom Reset";
@@ -136,7 +141,12 @@ public class ZoomSliderButton extends PopupButton {
     public ZoomSliderButton() {
         super();
         setAction(new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -8510997980710579830L;
+
+			public void actionPerformed(ActionEvent e) {
                 /* If action comes in with *no* modifiers, it is a pure
                  * keyboard event (e.g. spacebar), so do it.  Anything else
                  * is probably a mouse event, so ignore it. Mouse events are
@@ -300,6 +310,11 @@ public class ZoomSliderButton extends PopupButton {
     
     private class MyPopupMenuListener extends AbstractAction implements
         PopupMenuListener {
+
+	/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6031586755708214653L;
 
 	/**
          * Empty method to satisfy interface.

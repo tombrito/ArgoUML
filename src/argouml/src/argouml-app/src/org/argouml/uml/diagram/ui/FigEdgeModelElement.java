@@ -155,7 +155,12 @@ public abstract class FigEdgeModelElement
         DiagramElement,
         Owned {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2686153077128703301L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigEdgeModelElement.class.getName());
 
     private DiElement diElement = null;
@@ -958,7 +963,7 @@ public abstract class FigEdgeModelElement
         if (getOwner() == null) {
             return;
         }
-        Object modelElement = getOwner();
+        getOwner();
         stereotypeFig.populate();
     }
 

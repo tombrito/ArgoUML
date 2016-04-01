@@ -64,7 +64,11 @@ import org.tigris.gef.presentation.Fig;
 public abstract class UMLCheckBox2 extends JCheckBox
     implements TargetListener, PropertyChangeListener {
 
-    private Object checkBoxTarget;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 746074781475929035L;
+	private Object checkBoxTarget;
     private String propertySetName;
 
     /**

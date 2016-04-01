@@ -59,6 +59,11 @@ import org.tigris.gef.presentation.Fig;
 public class CrObjectWithoutComponent extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8299013556641824375L;
+
+	/**
      * The constructor.
      */
     public CrObjectWithoutComponent() {

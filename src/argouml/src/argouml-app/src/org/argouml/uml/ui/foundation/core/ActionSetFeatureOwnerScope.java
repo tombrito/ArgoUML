@@ -54,6 +54,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class ActionSetFeatureOwnerScope extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4257221422242382514L;
+
+	/**
      * Constructor for ActionSetElementOwnershipSpecification.
      */
     public ActionSetFeatureOwnerScope() {

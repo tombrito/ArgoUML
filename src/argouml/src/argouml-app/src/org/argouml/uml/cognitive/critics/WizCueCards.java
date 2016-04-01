@@ -54,7 +54,11 @@ import org.argouml.cognitive.ui.WizStepCue;
  */
 public class WizCueCards extends UMLWizard {
 
-    private List cues = new ArrayList();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8552866870269478667L;
+	private List cues = new ArrayList();
 
     /**
      * The constructor.

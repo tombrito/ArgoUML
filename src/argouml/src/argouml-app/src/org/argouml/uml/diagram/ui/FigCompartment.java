@@ -79,7 +79,12 @@ import org.tigris.gef.presentation.FigRect;
  */
 public abstract class FigCompartment extends ArgoFigGroup {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4372396526957531695L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigCompartment.class.getName());
 
     private Fig bigPort;
@@ -409,7 +414,7 @@ public abstract class FigCompartment extends ArgoFigGroup {
     @SuppressWarnings("deprecation")
     protected FigSingleLineTextWithNotation createFigText(Object owner,
             Rectangle bounds,
-            @SuppressWarnings("unused") DiagramSettings settings,
+            DiagramSettings settings,
             NotationProvider np) {
 
         // If this is not overridden it will revert to the old behavior
@@ -451,7 +456,6 @@ public abstract class FigCompartment extends ArgoFigGroup {
      * @param h h
      * @return the new dimension
      */
-    @SuppressWarnings("unused")
     public Dimension updateFigGroupSize(
                        int x,
                        int y,
@@ -530,6 +534,11 @@ public abstract class FigCompartment extends ArgoFigGroup {
      */
     private static class FigSeparator extends FigRect {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = 624225002648352177L;
+
+		/**
          * Constructor.
          *
          * @param x coordinate
@@ -565,6 +574,11 @@ public abstract class FigCompartment extends ArgoFigGroup {
      */
     private static class FigPort extends FigRect {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4974531165768005775L;
+
+		/**
          * Constructor.
          *
          * @param x coordinate

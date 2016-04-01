@@ -46,7 +46,11 @@ package org.argouml.model;
  */
 public class XmiReferenceException extends XmiException {
     
-    private String reference;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8930503203533646002L;
+	private String reference;
     
     /**
      * Construct an XmiReferenceException with the given message.

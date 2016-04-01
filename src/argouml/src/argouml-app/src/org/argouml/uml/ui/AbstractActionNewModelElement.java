@@ -54,7 +54,11 @@ import org.argouml.ui.UndoableAction;
 @UmlModelMutator
 public abstract class AbstractActionNewModelElement extends UndoableAction {
 
-    private Object target;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8172032755203875175L;
+	private Object target;
 
     /**
      * The constructor.

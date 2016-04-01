@@ -56,7 +56,11 @@ import org.tigris.gef.base.Globals;
  */
 public class ActionAddAllClassesFromModel extends UndoableAction {
 
-    private Object object;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8178504289963654130L;
+	private Object object;
 
     /**
      * Constructor

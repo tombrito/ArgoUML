@@ -55,7 +55,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 @Deprecated
 public class ActionNewSynchState extends AbstractActionNewModelElement {
 
-    private static final ActionNewSynchState SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7124712437760864307L;
+	private static final ActionNewSynchState SINGLETON =
         new ActionNewSynchState();
 
     /**

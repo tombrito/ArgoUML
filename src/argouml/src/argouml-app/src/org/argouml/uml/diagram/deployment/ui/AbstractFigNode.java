@@ -73,6 +73,10 @@ import org.tigris.gef.presentation.FigText;
 public abstract class AbstractFigNode extends FigNodeModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -133885692215268229L;
+	/**
      * Offset in x & y for depth perspective lines of cube.
      * TODO: This is the same value as the member 'D'in 
      * {@link org.tigris.gef.presentation.FigCube}, but there is

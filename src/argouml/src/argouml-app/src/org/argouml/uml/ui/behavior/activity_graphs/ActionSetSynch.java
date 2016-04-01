@@ -55,6 +55,10 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class ActionSetSynch extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3808238971718737486L;
+	/**
      * The instance.
      */
     private static final ActionSetSynch SINGLETON =

@@ -60,7 +60,12 @@ public class StylePanelFigAssociationClass
     extends StylePanelFigNodeModelElement
     implements ItemListener, FocusListener, KeyListener {
 
-    private JCheckBox attrCheckBox =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -919690104491942480L;
+
+	private JCheckBox attrCheckBox =
         new JCheckBox(Translator.localize("checkbox.attributes"));
 
     private JCheckBox operCheckBox =

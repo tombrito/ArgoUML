@@ -53,6 +53,11 @@ public class SPFigEdgeModelElement extends StylePanelFig implements
         ItemListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5319453387418649265L;
+
+	/**
      * The constructor.
      *
      */

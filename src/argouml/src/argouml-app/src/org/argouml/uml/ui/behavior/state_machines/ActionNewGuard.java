@@ -60,7 +60,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 @Deprecated
 public class ActionNewGuard extends AbstractActionNewModelElement {
 
-    private static ActionNewGuard singleton = new ActionNewGuard();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -938445288207783933L;
+	private static ActionNewGuard singleton = new ActionNewGuard();
 
     /**
      * Constructor for ActionNewCallAction.

@@ -120,6 +120,11 @@ import org.tigris.gef.presentation.FigCircle;
 public class FigUseCase extends FigCompartmentBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5050135813119938372L;
+
+	/**
      * The minimum padding allowed above the rectangle for
      * the use case name and extension points to the top of the use
      * case oval itself.
@@ -455,6 +460,11 @@ public class FigUseCase extends FigCompartmentBox {
      */
     public static class FigMyCircle extends FigCircle {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -8397766774621845325L;
+
+		/**
          * Constructor just invokes the parent constructor.<p>
          *
          * @param x       X coordinate of the upper left corner of the bounding

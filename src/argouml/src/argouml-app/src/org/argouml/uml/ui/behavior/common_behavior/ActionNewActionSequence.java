@@ -54,7 +54,11 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewActionSequence extends ActionNewAction {
 
-    private static final ActionNewActionSequence SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1589060281200557562L;
+	private static final ActionNewActionSequence SINGLETON =
         new ActionNewActionSequence();
 
     /**
@@ -85,7 +89,12 @@ public class ActionNewActionSequence extends ActionNewAction {
     public static ActionNewAction getButtonInstance() {
         ActionNewAction a = new ActionNewActionSequence() {
 
-            public void actionPerformed(ActionEvent e) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1505404316449644635L;
+
+			public void actionPerformed(ActionEvent e) {
                 Object target = TargetManager.getInstance().getModelTarget();
                 if (!Model.getFacade().isATransition(target)) {
                     return;

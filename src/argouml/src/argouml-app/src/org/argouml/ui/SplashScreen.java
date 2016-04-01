@@ -60,7 +60,12 @@ public class SplashScreen
     extends JWindow 
     implements IStatusBar, ProgressMonitor {
 
-    private StatusBar statusBar = new StatusBar();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7969911294226186392L;
+
+	private StatusBar statusBar = new StatusBar();
     
     /**
      * Flag indicating that the splash screen has been painted.

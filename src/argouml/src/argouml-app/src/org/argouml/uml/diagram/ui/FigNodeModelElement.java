@@ -164,7 +164,12 @@ public abstract class FigNodeModelElement
         Owned {
 
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5391575873172473552L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigNodeModelElement.class.getName());
 
     // TODO: There are lots and LOTS of magic numbers used in calculating
@@ -879,7 +884,7 @@ public abstract class FigNodeModelElement
                 if (Model.getFacade().isAComponentRealization(cr)) {
                     Collection supps = Model.getFacade().getSuppliers(cr);
                     for (Object supp : supps) {
-                        Object comp = Model.getFacade().getSuppliers(cr);
+                        Model.getFacade().getSuppliers(cr);
                         if (supp == component) {
                             // The owner is already linked to the component
                             return;
@@ -2586,7 +2591,12 @@ public abstract class FigNodeModelElement
      */
     class SelectionDefaultClarifiers extends SelectionNodeClarifiers2 {
 
-        /** Construct a new SelectionNodeClarifiers for the given Fig
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -6598514688491351852L;
+
+		/** Construct a new SelectionNodeClarifiers for the given Fig
          *
          * @param f the given Fig
          */

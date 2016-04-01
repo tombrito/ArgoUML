@@ -42,10 +42,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.Action;
@@ -74,7 +72,12 @@ public abstract class UMLRadioButtonPanel
     extends JPanel
     implements TargetListener, PropertyChangeListener {
 
-    private static Font stdFont = 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1459713908009687345L;
+
+	private static Font stdFont = 
         LookAndFeelMgr.getInstance().getStandardFont();
 
     /**
@@ -159,15 +162,6 @@ public abstract class UMLRadioButtonPanel
              thePropertySetName, setAction, horizontal);
     }
     
-
-
-    private static List<String[]> toList(Map<String, String> map) {
-        List<String[]> list = new ArrayList<String[]>();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            list.add(new String[] {entry.getKey(), entry.getValue()});
-        }
-        return list;
-    }
 
 
     /**

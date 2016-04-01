@@ -53,6 +53,11 @@ public class ActionCreatePseudostate extends CmdCreateNode {
     // constructors
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5968244342979178131L;
+
+	/**
      * Construct a new Cmd with the given classes for the NetNode
      * and its FigNode.
      *

@@ -67,7 +67,12 @@ public class GoProfileToCritics extends AbstractPerspectiveRule {
     public Collection getChildren(final Object parent) {
         if (parent instanceof Profile) {
             Object critics = new ArrayList<Critic>() {
-                {
+                /**
+				 * 
+				 */
+				private static final long serialVersionUID = 7223769568113185329L;
+
+				{
                     addAll(((Profile) parent).getCritics());
                 }
 

@@ -676,21 +676,4 @@ public class OperationNotationUml extends OperationNotation {
         }
         return propertySb;
     }
-
-
-    private StringBuffer getTaggedValues(Object modelElement) {
-        StringBuffer taggedValuesSb = new StringBuffer();
-        Iterator it3 = Model.getFacade().getTaggedValues(modelElement);
-        if (it3 != null && it3.hasNext()) {
-            while (it3.hasNext()) {
-                taggedValuesSb.append(
-                        NotationUtilityUml.generateTaggedValue(it3.next()));
-                taggedValuesSb.append(",");
-            }
-            taggedValuesSb.delete(
-                    taggedValuesSb.length() - 1,
-                    taggedValuesSb.length());
-        }
-        return taggedValuesSb;
-    }
 }

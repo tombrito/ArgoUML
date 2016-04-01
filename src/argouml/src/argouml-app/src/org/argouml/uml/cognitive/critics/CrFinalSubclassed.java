@@ -62,6 +62,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrFinalSubclassed extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3669362424472721847L;
+
+	/**
      * The constructor.
      */
     public CrFinalSubclassed() {

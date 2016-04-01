@@ -69,7 +69,12 @@ import org.tigris.gef.base.Globals;
  */
 public class ImportClasspathDialog extends JPanel {
 
-    private JList paths;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4613950632194563365L;
+
+	private JList paths;
 
     private DefaultListModel pathsModel;
 

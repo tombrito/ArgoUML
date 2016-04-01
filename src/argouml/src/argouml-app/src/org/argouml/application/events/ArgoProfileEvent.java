@@ -47,6 +47,11 @@ package org.argouml.application.events;
 public class ArgoProfileEvent extends ArgoEvent {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1443494015993527723L;
+
+	/**
      * @param eT reported by this event
      * @param src object that caused the event
      */

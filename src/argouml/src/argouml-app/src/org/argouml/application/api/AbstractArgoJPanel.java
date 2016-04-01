@@ -81,6 +81,11 @@ import org.tigris.swidgets.Orientation;
 public abstract class AbstractArgoJPanel extends JPanel
     implements Cloneable, Orientable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1281345346256465131L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =

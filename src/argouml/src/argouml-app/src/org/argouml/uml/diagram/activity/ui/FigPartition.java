@@ -66,7 +66,11 @@ import org.tigris.gef.presentation.Handle;
  */
 public class FigPartition extends FigNodeModelElement {
 
-    private static final int MIN_WIDTH = 64;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2669533276182757926L;
+	private static final int MIN_WIDTH = 64;
     private static final int MIN_HEIGHT = 256;
     
     private FigLine leftLine;
@@ -431,7 +435,11 @@ public class FigPartition extends FigNodeModelElement {
      */
     private class SelectionPartition extends Selection {
 
-        private int cx;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3615423563424641802L;
+		private int cx;
         private int cy;
         private int cw;
         private int ch;

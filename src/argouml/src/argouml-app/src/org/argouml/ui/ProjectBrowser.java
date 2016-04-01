@@ -120,9 +120,7 @@ import org.argouml.util.ArgoFrame;
 import org.argouml.util.ThreadUtils;
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
-import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.GraphModel;
-import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.util.Util;
 import org.tigris.swidgets.BorderSplitPane;
 import org.tigris.swidgets.Horizontal;
@@ -761,24 +759,6 @@ public final class ProjectBrowser
      */
     public void setAppName(String n) {
         appName = n;
-    }
-
-    /**
-     * The method used by the NavigatorPane, MultiEditor and DetailsPane
-     * to set the target of the application.<p>
-     *
-     * the target is either a Model Element (usually selected in
-     * the Navigation pane or Properties panel) or a Fig (selected in
-     * a diagram).<p>
-     *
-     * The concept of a selection transaction is used to prevent a change
-     * of target in one view creating a call back to this method, which
-     * would then change the target in all views again...<p>
-     *
-     * @param o the target
-     */
-    private void setTarget(Object o) {
-        TargetManager.getInstance().setTarget(o);
     }
 
     /**
@@ -1421,29 +1401,29 @@ public final class ProjectBrowser
      */
     private void testSimulateErrors() {
         // Change to true to enable testing
-        if (false) {
-            Layer lay =
-                Globals.curEditor().getLayerManager().getActiveLayer();
-            List figs = lay.getContentsNoEdges();
-            // A Fig with a null owner
-            if (figs.size() > 0) {
-                Fig fig = (Fig) figs.get(0);
-                LOG.log(Level.SEVERE, "Setting owner of "
-                        + fig.getClass().getName() + " to null");
-                fig.setOwner(null);
-            }
-            // A Fig with a null layer
-            if (figs.size() > 1) {
-                Fig fig = (Fig) figs.get(1);
-                fig.setLayer(null);
-            }
-            // A Fig with a removed model element
-            if (figs.size() > 2) {
-                Fig fig = (Fig) figs.get(2);
-                Object owner = fig.getOwner();
-                Model.getUmlFactory().delete(owner);
-            }
-        }
+//        if (false) {
+//            Layer lay =
+//                Globals.curEditor().getLayerManager().getActiveLayer();
+//            List figs = lay.getContentsNoEdges();
+//            // A Fig with a null owner
+//            if (figs.size() > 0) {
+//                Fig fig = (Fig) figs.get(0);
+//                LOG.log(Level.SEVERE, "Setting owner of "
+//                        + fig.getClass().getName() + " to null");
+//                fig.setOwner(null);
+//            }
+//            // A Fig with a null layer
+//            if (figs.size() > 1) {
+//                Fig fig = (Fig) figs.get(1);
+//                fig.setLayer(null);
+//            }
+//            // A Fig with a removed model element
+//            if (figs.size() > 2) {
+//                Fig fig = (Fig) figs.get(2);
+//                Object owner = fig.getOwner();
+//                Model.getUmlFactory().delete(owner);
+//            }
+//        }
     }
 
     /**

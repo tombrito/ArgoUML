@@ -97,8 +97,6 @@ public class TabResults
     private static final Logger LOG =
         Logger.getLogger(TabResults.class.getName());
 
-    private static int numJumpToRelated;
-
     /**
      * Insets in pixels.
      */
@@ -324,7 +322,6 @@ public class TabResults
 	    if (row < 0) {
                 return;
             }
-	    numJumpToRelated++;
 	    sel = related.get(row);
 	}
 

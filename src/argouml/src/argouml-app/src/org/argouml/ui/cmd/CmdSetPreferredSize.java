@@ -60,6 +60,12 @@ import org.tigris.gef.presentation.Fig;
 public class CmdSetPreferredSize extends Cmd {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2127244033515126665L;
+
+
+	/**
      * Default constructor - set minimum size command.
      */
     public CmdSetPreferredSize() {

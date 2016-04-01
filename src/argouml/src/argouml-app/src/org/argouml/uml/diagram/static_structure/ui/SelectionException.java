@@ -47,6 +47,11 @@ import org.tigris.gef.presentation.Fig;
 class SelectionException extends SelectionGeneralizableElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5709687466904159104L;
+
+	/**
      * Construct a new SelectionClass for the given Fig.
      *
      * @param f The given Fig.

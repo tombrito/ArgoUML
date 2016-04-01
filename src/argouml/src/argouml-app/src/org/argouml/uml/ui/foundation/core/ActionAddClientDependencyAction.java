@@ -58,6 +58,11 @@ public class ActionAddClientDependencyAction extends
         AbstractActionAddModelElement2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6298266544437983777L;
+
+	/**
      * The constructor.
      */
     public ActionAddClientDependencyAction() {

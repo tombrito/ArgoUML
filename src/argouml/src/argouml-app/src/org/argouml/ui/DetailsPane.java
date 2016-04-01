@@ -61,8 +61,6 @@ import javax.swing.event.EventListenerList;
 import org.argouml.application.api.AbstractArgoJPanel;
 import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
-import org.argouml.swingext.LeftArrowIcon;
-import org.argouml.swingext.UpArrowIcon;
 import org.argouml.ui.ProjectBrowser.Position;
 import org.argouml.ui.targetmanager.TargetEvent;
 import org.argouml.ui.targetmanager.TargetListener;
@@ -90,6 +88,11 @@ public class DetailsPane
 	       TargetListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5408288238881845021L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =
@@ -599,16 +602,6 @@ public class DetailsPane
             }
         }
     }
-
-    /**
-     * Graphic that goes on the tab label.
-     */
-    private Icon upArrowIcon = new UpArrowIcon();
-
-    /**
-     * Graphic that goes on the tab label.
-     */
-    private Icon leftArrowIcon = new LeftArrowIcon();
 
     /*
      * @see org.tigris.swidgets.Orientable#setOrientation(org.tigris.swidgets.Orientation)

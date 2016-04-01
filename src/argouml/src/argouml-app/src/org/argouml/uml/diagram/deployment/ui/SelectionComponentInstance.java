@@ -50,7 +50,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionComponentInstance extends SelectionNodeClarifiers2 {
 
-    private static Icon dep =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1652349933258237648L;
+
+	private static Icon dep =
             ResourceLoaderWrapper.lookupIconResource("Dependency");
 
     private static Icon depRight =

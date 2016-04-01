@@ -65,7 +65,12 @@ import org.tigris.gef.presentation.FigText;
 
 public class FigStubState extends FigStateVertex {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5674880525177104093L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigStubState.class.getName());
 
     private static final int X = 0;
@@ -371,38 +376,6 @@ public class FigStubState extends FigStateVertex {
         calcBounds();
         setBounds(getBounds());
         damage();
-    }
-
-    /**
-     * @param newOwner
-     */
-    private void addListeners(Object newOwner) {
-        Object container;
-        Object top;
-        Object reference;
-        container = facade.getContainer(newOwner);
-        //The new submachine container is added as listener
-        if (container != null
-                && facade.isASubmachineState(container)) {
-            addElementListener(container);
-        }
-
-        //All states in the new reference state's path are added
-        // as listeners
-        if (container != null
-                && facade.isASubmachineState(container)
-                && facade.getSubmachine(container) != null) {
-            top = facade.getTop(facade.getSubmachine(container));
-            reference = stateMHelper.getStatebyName(facade
-                    .getReferenceState(newOwner), top);
-            String[] properties = {"name", "container"};
-            container = reference;
-            while (container != null
-                    && !container.equals(top)) {
-                addElementListener(container);
-                container = facade.getContainer(container);
-            }
-        }
     }
 
     /**

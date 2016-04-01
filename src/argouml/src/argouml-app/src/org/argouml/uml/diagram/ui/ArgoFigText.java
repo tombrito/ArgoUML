@@ -63,7 +63,12 @@ import org.tigris.gef.presentation.FigText;
 public class ArgoFigText extends FigText 
     implements NotificationEmitter, ArgoFig {
 
-    private NotificationBroadcasterSupport notifier = 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 736320728225076733L;
+
+	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 
     private DiagramSettings settings;

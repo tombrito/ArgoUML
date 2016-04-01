@@ -52,7 +52,12 @@ import org.tigris.gef.presentation.Fig;
 public class SelectionInterface extends
         SelectionClassifierBox {
 
-    private static Icon realiz =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4408164003164061409L;
+
+	private static Icon realiz =
         ResourceLoaderWrapper.lookupIconResource("Realization");
 
     private static Icon inherit =

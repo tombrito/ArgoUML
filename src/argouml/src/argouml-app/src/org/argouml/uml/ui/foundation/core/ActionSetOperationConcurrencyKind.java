@@ -56,7 +56,12 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetOperationConcurrencyKind extends UndoableAction {
 
-    private static final ActionSetOperationConcurrencyKind SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3790700527462706455L;
+
+	private static final ActionSetOperationConcurrencyKind SINGLETON =
         new ActionSetOperationConcurrencyKind();
 
     /**

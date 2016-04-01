@@ -113,10 +113,6 @@ public class ToDoPane extends JPanel
     private static final Color WARN_COLOR = Color.yellow;
     private static final Color ALARM_COLOR = Color.pink;
 
-    private static int clicksInToDoPane;
-    private static int dblClicksInToDoPane;
-    private static int toDoPerspectivesChanged;
-
     private JTree tree;
     private JComboBox combo;
 
@@ -137,7 +133,7 @@ public class ToDoPane extends JPanel
      * @deprecated for 0.31.7 by tfmorris.  Use 0-arg constructor.
      */
     @Deprecated
-    public ToDoPane(@SuppressWarnings("unused") SplashScreen splash) {
+    public ToDoPane(SplashScreen splash) {
         this();
     }
 
@@ -246,7 +242,6 @@ public class ToDoPane extends JPanel
 	    return;
 	}
         combo.setSelectedItem(per);
-        toDoPerspectivesChanged++;
     }
 
     /**
@@ -519,9 +514,8 @@ public class ToDoPane extends JPanel
      * @param path the path in the tree of the selected item
      */
     public static void mySingleClick(
-            @SuppressWarnings("unused") int row,
-            @SuppressWarnings("unused") TreePath path) {
-        clicksInToDoPane++;
+            int row,
+            TreePath path) {
     }
 
     /**
@@ -532,9 +526,8 @@ public class ToDoPane extends JPanel
      * @param path the path in the tree of the selected item
      */
     public void myDoubleClick(
-            @SuppressWarnings("unused") int row,
-            @SuppressWarnings("unused") TreePath path) {
-        dblClicksInToDoPane++;
+            int row,
+            TreePath path) {
         if (getSelectedObject() == null) {
 	    return;
 	}

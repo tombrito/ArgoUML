@@ -51,6 +51,10 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewActionForMessage extends AbstractActionNewModelElement {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 893042022454975056L;
+	/**
      * Singleton.
      */
     private static final ActionNewActionForMessage SINGLETON =

@@ -62,14 +62,11 @@ import org.omg.uml.foundation.datatypes.PseudostateKindEnum;
  */
 class DataTypesHelperMDRImpl implements DataTypesHelper {
 
-    private MDRModelImplementation modelImpl;
-	
     /**
      * Default constructor
      * @param implementation the ModelImplementatin
      */
     public DataTypesHelperMDRImpl(MDRModelImplementation implementation) {
-        modelImpl = implementation;
     }
 
     

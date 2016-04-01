@@ -56,6 +56,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 class ActionAddPackage extends AbstractActionNewModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1422043656554518987L;
+
+	/**
      * The constructor.
      */
     public ActionAddPackage() {

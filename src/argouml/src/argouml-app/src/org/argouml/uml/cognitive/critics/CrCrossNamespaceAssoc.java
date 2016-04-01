@@ -63,6 +63,11 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrCrossNamespaceAssoc extends CrUML {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2206527712974299465L;
+
+	/**
      * Constructor for the critic.<p>
      *
      * Sets up the resource name, which will allow headline and description

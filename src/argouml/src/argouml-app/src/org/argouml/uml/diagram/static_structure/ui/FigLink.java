@@ -63,7 +63,11 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigLink extends FigEdgeModelElement {
 
-    /*
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8214132223676506893L;
+	/*
      * Text group to contain name & stereotype
      */
     private FigTextGroup middleGroup; 

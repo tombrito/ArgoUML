@@ -63,9 +63,6 @@ import javax.jmi.reflect.InvalidObjectException;
 import javax.jmi.reflect.RefObject;
 import javax.jmi.reflect.RefPackage;
 import javax.jmi.xmi.MalformedXMIException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -89,8 +86,6 @@ import org.openide.ErrorManager;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLFilter;
-import org.xml.sax.XMLReader;
 
 /**
  * A wrapper around the genuine XmiReader that provides public access with no
@@ -480,74 +475,6 @@ class XmiReaderImpl implements XmiReader, UnknownElementsListener,
 
     private static final String STYLE_PATH =
         "/org/argouml/model/mdr/conversions/";
-
-    /*
-     * A near clone of this code works fine outside of ArgoUML, but throws a
-     * null pointer exception during the transform when run within ArgoUML I
-     * think it's something to do with the class libraries being used, but I
-     * can't figure out what, so I've done a simpler, less efficient stepwise
-     * translation below in serialTransform
-     */
-    private InputSource chainedTransform(String[] styles, InputSource input)
-        throws XmiException {
-        SAXTransformerFactory stf =
-            (SAXTransformerFactory) TransformerFactory.newInstance();
-
-        // TODO: Reconfigure exception handling to distinguish between errors
-        // that are possible due to bad input data and those that represent
-        // unexpected processing errors.
-        try {
-            // Set up reader to be first filter in chain
-            SAXParserFactory spf = SAXParserFactory.newInstance();
-            SAXParser parser = spf.newSAXParser();
-            XMLReader last = parser.getXMLReader();
-
-            // Create filter for each style sheet and chain to previous
-            // filter/reader
-            for (int i = 0; i < styles.length; i++) {
-                String xsltFileName = STYLE_PATH + styles[i];
-                URL xsltUrl = getClass().getResource(xsltFileName);
-                if (xsltUrl == null) {
-                    throw new IOException("Error opening XSLT style sheet : "
-                            + xsltFileName);
-                }
-                StreamSource xsltStreamSource =
-                    new StreamSource(xsltUrl.openStream());
-                xsltStreamSource.setSystemId(xsltUrl.toExternalForm());
-                XMLFilter filter = stf.newXMLFilter(xsltStreamSource);
-
-                filter.setParent(last);
-                last = filter;
-            }
-
-            SAXSource transformSource = new SAXSource(last, input);
-
-            // Create temporary file for output
-            // TODO: we should be able to chain this directly to XMI reader
-            File tmpFile = File.createTempFile(TEMP_XMI_FILE_PREFIX, ".xmi");
-            tmpFile.deleteOnExit();
-            StreamResult result =
-                new StreamResult(
-                    new FileOutputStream(tmpFile));
-
-            Transformer transformer = stf.newTransformer();
-            transformer.transform(transformSource, result);
-
-            return new InputSource(new FileInputStream(tmpFile));
-
-        } catch (SAXException e) {
-            throw new XmiException(e);
-        } catch (ParserConfigurationException e) {
-            throw new XmiException(e);
-        } catch (IOException e) {
-            throw new XmiException(e);
-        } catch (TransformerConfigurationException e) {
-            throw new XmiException(e);
-        } catch (TransformerException e) {
-            throw new XmiException(e);
-        }
-
-    }
 
     private InputSource serialTransform(String[] styles, InputSource input)
         throws UmlException {

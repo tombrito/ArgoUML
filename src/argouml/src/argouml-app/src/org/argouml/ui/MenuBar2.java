@@ -56,6 +56,11 @@ import org.argouml.uml.ui.ActionUseCaseDiagram;
 public class MenuBar2 extends GenericArgoMenuBar {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1778187437152188191L;
+
+	/**
      * Build the menu "Create" and the toolbar for diagram creation. These are
      * build together to guarantee that the same items are present in both, and
      * in the same sequence.

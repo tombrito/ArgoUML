@@ -53,6 +53,10 @@ public abstract class ActionNewAction extends AbstractActionNewModelElement
     implements ModalAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1363247124040976725L;
+	/**
      * The constant defining the role the action
      * to be created plays for its parent.
      * For example, if one wishes to create

@@ -66,7 +66,12 @@ import org.argouml.cognitive.Translator;
 class TableModelCritics extends AbstractTableModel
     implements VetoableChangeListener {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1591170525994116079L;
+
+	private static final Logger LOG =
         Logger.getLogger(TableModelCritics.class.getName());
 
     private List<Critic> critics;

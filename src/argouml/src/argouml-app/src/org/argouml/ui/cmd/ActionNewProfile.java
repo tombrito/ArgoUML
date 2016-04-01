@@ -58,6 +58,11 @@ import org.argouml.ui.targetmanager.TargetManager;
 public class ActionNewProfile extends AbstractAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5435117948523352587L;
+
+	/**
      * The constructor.
      */
     public ActionNewProfile() {

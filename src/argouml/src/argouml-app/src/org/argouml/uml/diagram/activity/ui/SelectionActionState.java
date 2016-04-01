@@ -50,7 +50,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionActionState extends SelectionNodeClarifiers2 {
 
-    private static Icon trans =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7480753754544338933L;
+
+	private static Icon trans =
 	ResourceLoaderWrapper.lookupIconResource("Transition");
     
     private static Icon transDown =

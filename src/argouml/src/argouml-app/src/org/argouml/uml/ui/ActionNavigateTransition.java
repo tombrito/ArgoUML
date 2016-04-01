@@ -47,7 +47,12 @@ import org.argouml.model.Model;
  */
 public class ActionNavigateTransition extends AbstractActionNavigate {
 
-    /*
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8311487071350398402L;
+
+	/*
      * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
      */
     protected Object navigateTo(Object source) {

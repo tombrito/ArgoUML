@@ -69,6 +69,11 @@ import org.tigris.gef.presentation.FigNode;
 public class SelectionRerouteEdge extends SelectionEdgeClarifiers {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2715749923832967903L;
+
+	/**
      * Used to determine if the association is now to self,
      * in which case The association needs automatic layout.
      */

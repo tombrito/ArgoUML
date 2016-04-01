@@ -48,6 +48,11 @@ import org.argouml.model.Model;
 public class ModeCreateDependency extends ModeCreateGraphEdge {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2877745405523132972L;
+
+	/**
      * Return the meta type of the element that this mode is designed to
      * create. In the case the dependency metatype.
      * @return the dependency meta type.

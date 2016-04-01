@@ -117,12 +117,6 @@ public final class ProjectManager implements ModelCommandCreationObserver {
 
     private static LinkedList<Project> openProjects = new LinkedList<Project>();
 
-    /**
-     * Flag to indicate we are creating a new current project.
-     * TODO: This isn't a thread-safe way of doing mutual exclusion.
-     */
-    private boolean creatingCurrentProject;
-
     private Action saveAction;
 
     /**
@@ -311,14 +305,12 @@ public final class ProjectManager implements ModelCommandCreationObserver {
             public Object execute() {
                 Model.getPump().stopPumpingEvents();
 
-                creatingCurrentProject = true;
                 LOG.log(Level.INFO, "making empty project");
                 Project newProject = new ProjectImpl();
                 createDefaultModel(newProject);
                 if (addDefaultDiagrams) {
                     createDefaultDiagrams(newProject);
                 }
-                creatingCurrentProject = false;
                 setCurrentProject(newProject);
                 Model.getPump().startPumpingEvents();
                 return null;
@@ -357,7 +349,6 @@ public final class ProjectManager implements ModelCommandCreationObserver {
             public Object execute() {
                 Model.getPump().stopPumpingEvents();
 
-                creatingCurrentProject = true;
                 LOG.log(Level.INFO, "making empty profile project");
                 Project newProject = new ProjectImpl(Project.PROFILE_PROJECT);
                 createDefaultProfile(newProject);
@@ -366,7 +357,6 @@ public final class ProjectManager implements ModelCommandCreationObserver {
                     createTodoList(newProject);
                     newProject.setActiveDiagram(d);
                 }
-                creatingCurrentProject = false;
                 setCurrentProject(newProject);
                 Model.getPump().startPumpingEvents();
                 return null;

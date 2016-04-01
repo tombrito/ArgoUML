@@ -57,6 +57,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrInvalidSynch extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6962510019502363917L;
+
+	/**
      * The constructor.
      */
     public CrInvalidSynch() {

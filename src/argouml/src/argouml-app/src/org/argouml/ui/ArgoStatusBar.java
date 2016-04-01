@@ -61,6 +61,11 @@ public class ArgoStatusBar extends StatusBar implements IStatusBar,
         ArgoStatusEventListener, ArgoHelpEventListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8012811144470344016L;
+
+	/**
      * Default constructor.  Registers itself to receive Help & Status events
      * from the ArgoUML event pump.
      */

@@ -50,6 +50,11 @@ import org.tigris.gef.presentation.FigPoly;
 public class FigSubsystem extends FigPackage {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4414294163006985985L;
+
+	/**
      * Construct a Subsystem fig.
      * 
      * @param owner owning UML element

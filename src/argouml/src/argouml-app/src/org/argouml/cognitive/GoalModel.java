@@ -55,7 +55,11 @@ import java.util.Observable;
  * @author Jason Robbins
  */
 public class GoalModel extends Observable implements Serializable {
-    private List<Goal> goals = new ArrayList<Goal>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3996422031591474941L;
+	private List<Goal> goals = new ArrayList<Goal>();
 
     /**
      * The constructor.

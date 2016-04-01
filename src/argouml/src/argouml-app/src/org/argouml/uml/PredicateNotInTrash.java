@@ -52,6 +52,11 @@ public class PredicateNotInTrash implements org.argouml.util.Predicate,
         org.tigris.gef.util.Predicate {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8826266134673254697L;
+
+	/**
      * @deprecated for 0.27.3 by tfmorris.  The type 
      * org.tigris.gef.util.Predicate (and this method) will be removed in the
      * next release.

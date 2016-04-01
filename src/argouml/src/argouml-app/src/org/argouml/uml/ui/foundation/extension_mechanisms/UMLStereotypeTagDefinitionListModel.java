@@ -51,6 +51,11 @@ class UMLStereotypeTagDefinitionListModel
     extends UMLModelElementListModel2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6970671833399323357L;
+
+	/**
      * Constructor for UMLStereotypeTagDefinitionListModel.
      */
     public UMLStereotypeTagDefinitionListModel() {

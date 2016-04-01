@@ -60,6 +60,12 @@ import org.argouml.uml.diagram.deployment.ui.UMLDeploymentDiagram;
 public class CrComponentWithoutNode extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7025297542130241409L;
+
+
+	/**
      * The constructor.
      */
     public CrComponentWithoutNode() {

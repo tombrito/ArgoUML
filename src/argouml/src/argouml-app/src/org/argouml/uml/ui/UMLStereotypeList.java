@@ -69,6 +69,11 @@ class UMLStereotypeList extends JList implements TargettableModelView {
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5581329604439695110L;
+
+	/**
      * Constructor for UMLLinkedList.
      *
      * @param dataModel the data model

@@ -60,6 +60,11 @@ public class UMLExpressionBodyField extends JTextArea
     PropertyChangeListener, TargettableModelView {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8553997984942132869L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =

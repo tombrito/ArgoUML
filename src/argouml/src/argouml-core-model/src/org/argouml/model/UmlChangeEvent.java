@@ -49,6 +49,10 @@ import java.util.EventObject;
 public abstract class UmlChangeEvent extends PropertyChangeEvent {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4222939479575242639L;
+	/**
      * The original event that caused this event to be propogated.
      * Useful for debugging purposes. Not to be made available to the
      * client code as this is implementation specific.

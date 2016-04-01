@@ -111,7 +111,12 @@ public abstract class UMLDiagram
     extends ArgoDiagramImpl
     implements Relocatable {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2206778384939534584L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLDiagram.class.getName());
 
     /**
@@ -629,7 +634,7 @@ public abstract class UMLDiagram
      * @return True if it can accept it, false otherwise.
      */
     public boolean doesAccept(
-            @SuppressWarnings("unused") Object objectToAccept) {
+            Object objectToAccept) {
         return false;
     }
 

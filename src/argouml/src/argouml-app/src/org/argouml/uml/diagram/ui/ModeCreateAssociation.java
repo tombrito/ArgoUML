@@ -53,7 +53,12 @@ import org.tigris.gef.presentation.FigEdge;
  */
 public class ModeCreateAssociation extends ModeCreateGraphEdge {
 
-    public Object getMetaType() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7276353518289792926L;
+
+	public Object getMetaType() {
         return Model.getMetaTypes().getAssociation();
     }
     

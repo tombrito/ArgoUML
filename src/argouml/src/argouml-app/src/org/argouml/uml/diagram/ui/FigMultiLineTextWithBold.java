@@ -55,6 +55,11 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class FigMultiLineTextWithBold extends FigMultiLineText {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7891346688693636897L;
+
+	/**
      * @param owner owning UML element
      * @param bounds position and size
      * @param settings render settings

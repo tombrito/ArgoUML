@@ -58,7 +58,9 @@ import javax.swing.AbstractListModel;
  */
 public class SortedListModel extends AbstractListModel implements Collection {
     
-    private Set delegate = new TreeSet(new PathComparator());
+	private static final long serialVersionUID = 55296325766543219L;
+
+	private Set<Object> delegate = new TreeSet<Object>(new PathComparator());
 
     /**
      * Returns the number of components in this list.
@@ -94,7 +96,7 @@ public class SortedListModel extends AbstractListModel implements Collection {
         // TODO: If this turns out to be a performance bottleneck, we can 
         // probably optimize the common case by caching our iterator and current
         // position, assuming that the next request will be for a greater index
-        Iterator it = delegate.iterator();
+        Iterator<Object> it = delegate.iterator();
         while (index >= 0) {
             if (it.hasNext()) {
                 result = it.next();
@@ -125,7 +127,7 @@ public class SortedListModel extends AbstractListModel implements Collection {
      */
     public int indexOf(Object o) {
         int index = 0;
-        Iterator it = delegate.iterator();
+        Iterator<Object> it = delegate.iterator();
         if (o == null) {
             while (it.hasNext()) {
                 if (o == it.next()) {
@@ -218,7 +220,7 @@ public class SortedListModel extends AbstractListModel implements Collection {
         return delegate.containsAll(c);
     }
 
-    public Iterator iterator() {
+    public Iterator<Object> iterator() {
         return delegate.iterator();
     }
 

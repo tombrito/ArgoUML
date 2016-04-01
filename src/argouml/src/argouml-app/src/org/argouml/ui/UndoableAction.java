@@ -52,7 +52,12 @@ import org.argouml.kernel.ProjectManager;
  */
 public abstract class UndoableAction extends AbstractAction {
 
-    /*
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9169059935402030947L;
+
+	/*
      * @see javax.swing.AbstractAction.AbstractAction()
      */
     public UndoableAction() {

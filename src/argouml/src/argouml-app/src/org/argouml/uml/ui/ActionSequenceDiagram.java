@@ -48,6 +48,11 @@ import org.argouml.uml.diagram.DiagramSettings;
 public final class ActionSequenceDiagram extends ActionNewDiagram {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1011522701740993462L;
+
+	/**
      * Constructor.
      */
     public ActionSequenceDiagram() {

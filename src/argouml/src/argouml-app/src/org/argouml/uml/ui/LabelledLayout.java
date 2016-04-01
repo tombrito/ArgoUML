@@ -333,9 +333,6 @@ public class LabelledLayout implements LayoutManager, java.io.Serializable {
         int unknownHeightCount = 0;
         int totalHeight = 0;
 
-        // Build up an array list of the heights of each label/component pair.
-        // Heights of zero indicate a proportional height.
-        Component previousComp = null;
         for (int i = 0; i < componentCount; ++i) {
             final Component childComp = (Component) components.get(i);
             final int childHeight;
@@ -368,8 +365,6 @@ public class LabelledLayout implements LayoutManager, java.io.Serializable {
                 totalHeight += childHeight + this.vgap;
                 rowHeights.add(new Integer(childHeight));
             }
-            
-            previousComp = childComp;
         }
         totalHeight -= this.vgap;
         
@@ -383,7 +378,6 @@ public class LabelledLayout implements LayoutManager, java.io.Serializable {
         // consecutively.
         int y = insets.top;
         int row = 0;
-        previousComp = null;
         for (int i = 0; i < componentCount; ++i) {
             Component childComp = (Component) components.get(i);
             if (childComp.isVisible()) {
@@ -434,7 +428,6 @@ public class LabelledLayout implements LayoutManager, java.io.Serializable {
                 childComp.setBounds(componentX, y, componentWidth, rowHeight);
                 y += rowHeight + this.vgap;
                 ++row;
-                previousComp = childComp;
             }
         }
     }

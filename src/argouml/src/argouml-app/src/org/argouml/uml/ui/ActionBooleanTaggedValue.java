@@ -55,7 +55,11 @@ import org.argouml.ui.UndoableAction;
  */
 public class ActionBooleanTaggedValue extends UndoableAction {
 
-    private String tagName;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3838828115196884826L;
+	private String tagName;
 
     /**
      * The constructor takes the name of the tagged value as a string, which

@@ -99,6 +99,11 @@ import org.argouml.util.ArgoDialog;
  */
 public class PerspectiveConfigurator extends ArgoDialog {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6810172908844858685L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =

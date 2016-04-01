@@ -83,7 +83,12 @@ import org.tigris.gef.undo.Memento;
 public class SettingsTabDiagramAppearance extends JPanel implements
         GUIProjectSettingsTabInterface {
 
-    private Project p;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5141470863415399604L;
+
+	private Project p;
     
     private JButton jbtnDiagramFont;
     private JCheckBox showBoldNames;

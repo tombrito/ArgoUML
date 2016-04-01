@@ -81,7 +81,11 @@ import org.tigris.gef.presentation.Fig;
 public class ActionAddConcurrentRegion extends UndoableAction {
 
 
-    /** logger */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5624824495307753841L;
+	/** logger */
     private static final Logger LOG =
         Logger.getLogger(ActionAddConcurrentRegion.class.getName());
 

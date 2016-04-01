@@ -59,6 +59,11 @@ import org.tigris.gef.presentation.FigText;
 public class FigClass extends FigClassifierBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4952197121588346256L;
+
+	/**
      * Constructor for a {@link FigClass} during file load.<p>
      *
      * Parent {@link org.argouml.uml.diagram.ui.FigNodeModelElement}
@@ -115,8 +120,8 @@ public class FigClass extends FigClassifierBox {
         Iterator thisIter = this.getFigs().iterator();
         Iterator cloneIter = figClone.getFigs().iterator();
         while (thisIter.hasNext()) {
-            Fig thisFig = (Fig) thisIter.next();
-            Fig cloneFig = (Fig) cloneIter.next();
+            thisIter.next();
+            cloneIter.next();
         }
         return figClone;
     }

@@ -47,7 +47,11 @@ import org.argouml.model.Model;
  */
 public class ActionNewCallEvent extends ActionNewEvent {
 
-    private static ActionNewCallEvent singleton = new ActionNewCallEvent();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9021120768448081398L;
+	private static ActionNewCallEvent singleton = new ActionNewCallEvent();
 
     /**
      * Constructor for ActionNewCallEvent.

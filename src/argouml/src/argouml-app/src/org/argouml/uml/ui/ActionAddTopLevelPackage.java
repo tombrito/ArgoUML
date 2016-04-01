@@ -56,6 +56,12 @@ import org.argouml.ui.UndoableAction;
 public class ActionAddTopLevelPackage extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5541199978782011201L;
+
+
+	/**
      *  The constructor.
      */
     public ActionAddTopLevelPackage() {

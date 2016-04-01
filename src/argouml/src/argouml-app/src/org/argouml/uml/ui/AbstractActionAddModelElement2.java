@@ -61,7 +61,11 @@ import org.argouml.util.ArgoFrame;
 @UmlModelMutator
 public abstract class AbstractActionAddModelElement2 extends UndoableAction {
 
-    private Object target;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7641664295323618337L;
+	private Object target;
     private boolean multiSelect = true;
     private boolean exclusive = true;
 

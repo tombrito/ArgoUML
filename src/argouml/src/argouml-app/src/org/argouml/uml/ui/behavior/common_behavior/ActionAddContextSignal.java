@@ -55,6 +55,12 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddContextSignal extends AbstractActionAddModelElement2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4323505957553491360L;
+
+
+	/**
      * The constructor.
      */
     public ActionAddContextSignal() {

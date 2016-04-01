@@ -640,16 +640,14 @@ public class ClassDiagramGraphModel extends UMLMutableGraphSupport
 	Object edgeAssoc = edge;
 
 	Object theEnd = null;
-	Object theOtherEnd = null;
-        Collection connections = Model.getFacade().getConnections(edgeAssoc);
+	Collection connections = Model.getFacade().getConnections(edgeAssoc);
         Iterator iter = connections.iterator();
         if (isSource) {
             // rerouting the source:
             theEnd = iter.next();
-            theOtherEnd = iter.next();
+            iter.next();
         } else {
-            // rerouting the destination:
-            theOtherEnd = iter.next();
+            iter.next();
             theEnd = iter.next();
         }
 

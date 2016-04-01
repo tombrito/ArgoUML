@@ -69,7 +69,11 @@ import org.tigris.gef.base.LayerGrid;
  */
 public class ActionAdjustGrid extends AbstractAction {
 
-    private final Map<String, Comparable> myMap;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7044785994708912040L;
+	private final Map<String, Comparable> myMap;
     private static final String DEFAULT_ID = "03";
     private static ButtonGroup myGroup;
 

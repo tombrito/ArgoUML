@@ -67,8 +67,6 @@ import org.tigris.toolbar.ToolBarFactory;
 public class TabToDo extends AbstractArgoJPanel 
     implements TabToDoTarget, ComponentListener {
     
-    private static int numHushes;
-
     private static final Action actionNewToDoItem = new ActionNewToDoItem();
     private static final ToDoItemAction actionResolve = new ActionResolve();
     private static final ToDoItemAction actionSnooze = new ActionSnooze();
@@ -82,7 +80,6 @@ public class TabToDo extends AbstractArgoJPanel
      * Increment the number of times we've been "snoozed" (or hushed).
      */
     public static void incrementNumHushes() {
-        numHushes++;
     }
 
     /**

@@ -52,7 +52,12 @@ import org.tigris.gef.presentation.FigInk;
  */
 public class ArgoModeCreateFigInk extends ModeCreateFigInk {
 
-    public String instructions() { 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5636656816682598629L;
+
+	public String instructions() { 
         return Translator.localize("statusmsg.help.create.ink"); 
     }
 

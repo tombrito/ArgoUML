@@ -52,6 +52,10 @@ public class ActionNewUseCaseExtensionPoint
     extends AbstractActionNewModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5935819253613306962L;
+	/**
      * The singleton.
      */
     public static final ActionNewUseCaseExtensionPoint SINGLETON =

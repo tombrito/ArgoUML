@@ -85,7 +85,6 @@ public class RelationshipActionFactory implements ContextActionFactory {
                     if (connections.size() == 2) {
                         for (Object connection : connections) {
                             if (connection != associationEnd) {
-                                final String direction;
                                 if (Model.getFacade().isNavigable(associationEnd)) {
                                     Object oppositeClass = Model.getFacade().getClassifier(connection);
                                     al.add(new AddAssociationAction(
@@ -116,7 +115,6 @@ public class RelationshipActionFactory implements ContextActionFactory {
                     if (connections.size() == 2) {
                         for (Object connection : connections) {
                             if (connection != associationEnd) {
-                                final String direction;
                                 if (!Model.getFacade().isNavigable(associationEnd)) {
                                     Object oppositeClass = Model.getFacade().getClassifier(connection);
                                     al.add(new AddAssociationAction(
@@ -124,40 +122,6 @@ public class RelationshipActionFactory implements ContextActionFactory {
                                             Model.getFacade().getName(oppositeClass),
                                             diagram, element, association, oppositeClass));
                                 }
-                            } 
-                        }
-                    }
-                }
-            }
-        }
-        return al;
-    }
-    
-    private ActionList getAssociations(final Object element, ArgoDiagram diagram) {
-        ActionList al= new ActionList("Add Associations");
-        if (Model.getFacade().isAClass(element)) {
-            Collection associationEnds = Model.getFacade().getAssociationEnds(element);
-            
-            for (Object associationEnd : associationEnds) {
-                Object association = Model.getFacade().getAssociation(associationEnd);
-                
-                // Only show actions for associations not already on diagram
-                if (diagram.presentationFor(association) == null) {
-                    Collection connections = Model.getFacade().getConnections(association);
-                    if (connections.size() == 2) {
-                        for (Object connection : connections) {
-                            if (connection != associationEnd) {
-                                final String direction;
-                                if (Model.getFacade().isNavigable(associationEnd)) {
-                                    direction = "from";
-                                } else {
-                                    direction = "to";
-                                }
-                                Object oppositeClass = Model.getFacade().getClassifier(connection);
-                                al.add(new AddAssociationAction(
-                                        "Add association " + direction + " " +
-                                        Model.getFacade().getName(oppositeClass),
-                                        diagram, element, association, oppositeClass));
                             } 
                         }
                     }
@@ -243,7 +207,11 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddAssociationAction extends AbstractAction {
         
-        final Object element;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2603136235487297871L;
+		final Object element;
         final Object association;
         final Object oppositeClass;
         final ArgoDiagram diagram;
@@ -276,7 +244,11 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddUsageAction extends AbstractAction {
         
-        final Object element;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -4495815275140447525L;
+		final Object element;
         final Object usage;
         final Object oppositeClass;
         final ArgoDiagram diagram;
@@ -310,7 +282,11 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddGeneralAction extends AbstractAction {
         
-        final Object element;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 8605677845113024987L;
+		final Object element;
         final Object generalization;
         final Object generalClass;
         final ArgoDiagram diagram;
@@ -343,7 +319,11 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddSpecialAction extends AbstractAction {
         
-        final Object element;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1165109683941394020L;
+		final Object element;
         final Object generalization;
         final Object specialClass;
         final ArgoDiagram diagram;

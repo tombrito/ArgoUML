@@ -135,8 +135,6 @@ public class ToDoList extends Observable implements Runnable {
 
     private static int longestToDoList;
 
-    private static int numNotValid;
-
     /**
      * state variable for whether the validity checking thread is paused
      * (waiting).
@@ -156,7 +154,6 @@ public class ToDoList extends Observable implements Runnable {
             Collections.synchronizedSet(new LinkedHashSet<ResolvedCritic>(100));
         listenerList = new EventListenerList();
         longestToDoList = 0;
-        numNotValid = 0;
     }
 
     /**
@@ -245,7 +242,6 @@ public class ToDoList extends Observable implements Runnable {
                     LOG.log(Level.SEVERE,buf.toString(), ex);
                 }
                 if (!valid) {
-                    numNotValid++;
                     removes.add(item);
                 }
             }

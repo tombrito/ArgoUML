@@ -56,6 +56,11 @@ import org.argouml.util.ArgoFrame;
 public class ActionSystemInfo extends AbstractAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8562172600675793797L;
+
+	/**
      * The Constructor.
      */
     public ActionSystemInfo() {

@@ -49,7 +49,11 @@ import org.tigris.gef.presentation.FigEdge;
  * @author jrobbins
  */
 public class CrZeroLengthEdge extends CrUML {
-    ////////////////////////////////////////////////////////////////
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4777975713455593366L;
+	////////////////////////////////////////////////////////////////
     // constants
     private static final int THRESHOLD = 20;
 

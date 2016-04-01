@@ -61,6 +61,11 @@ import org.argouml.ui.targetmanager.TargetManager;
 public class ActionNewTagDefinition extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7889861893551404801L;
+
+	/**
      * The constructor.
      */
     public ActionNewTagDefinition() {

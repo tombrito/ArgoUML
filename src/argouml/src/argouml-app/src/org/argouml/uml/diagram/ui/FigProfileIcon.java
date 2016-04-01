@@ -54,7 +54,12 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigProfileIcon extends FigNode {
 
-    private FigImage image = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1938117401571423760L;
+
+	private FigImage image = null;
     
     private FigText  label = null;
     

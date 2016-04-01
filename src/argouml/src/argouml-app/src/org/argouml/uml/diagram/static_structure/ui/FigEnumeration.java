@@ -57,6 +57,11 @@ import org.tigris.gef.base.Selection;
 public class FigEnumeration extends FigDataType {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5046323386264348L;
+
+	/**
      * Constructor.
      * 
      * @param owner owning UML element

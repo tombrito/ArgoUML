@@ -50,6 +50,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLGeneralizableElementRootCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2674831960227239080L;
+
+	/**
      * Constructor for UMLGeneralizableElementRootCheckBox.
      */
     public UMLGeneralizableElementRootCheckBox() {

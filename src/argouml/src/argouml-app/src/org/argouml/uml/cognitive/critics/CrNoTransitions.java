@@ -55,6 +55,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrNoTransitions extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1337933360353487248L;
+
+	/**
      * Constructor.
      */
     public CrNoTransitions() {

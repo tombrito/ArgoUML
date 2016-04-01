@@ -78,6 +78,10 @@ import org.tigris.gef.presentation.Fig;
 public abstract class FigClassifierBox extends FigCompartmentBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5125254105760702803L;
+	/**
      * The Fig for the operations compartment (if any).
      */
     private FigOperationsCompartment operationsFigCompartment;

@@ -72,7 +72,11 @@ import org.tigris.gef.util.ChildGenerator;
  */
 public class ChildGenUML implements ChildGenerator {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3057623882949073830L;
+	private static final Logger LOG =
         Logger.getLogger(ChildGenUML.class.getName());
 
     /**

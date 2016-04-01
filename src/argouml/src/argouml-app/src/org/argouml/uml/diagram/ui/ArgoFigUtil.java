@@ -110,7 +110,8 @@ public class ArgoFigUtil {
      * you can see the anchor, the computed target position, and how collision
      * detection affects a largish box.
      */
-    static void markPosition(FigEdge fe, 
+    @SuppressWarnings("unused")
+	static void markPosition(FigEdge fe, 
             int pct, int delta, int angle, int offset,
             Color color) {
         // set this to true on to enable debugging figs

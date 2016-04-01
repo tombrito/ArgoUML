@@ -61,6 +61,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrDupParamName extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5448526631172422270L;
+
+	/**
      * The constructor.
      *
      */

@@ -47,7 +47,12 @@ import org.argouml.model.Model;
  */
 public class ButtonActionNewChangeEvent extends ButtonActionNewEvent {
 
-    protected Object createEvent(Object ns) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8298674359315797029L;
+
+	protected Object createEvent(Object ns) {
         return Model.getStateMachinesFactory().buildChangeEvent(ns);
     }
     

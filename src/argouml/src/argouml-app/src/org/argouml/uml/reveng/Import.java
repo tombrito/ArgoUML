@@ -63,7 +63,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.filechooser.FileSystemView;
 
 import org.argouml.application.api.Argo;
 import org.argouml.configuration.Configuration;
@@ -543,7 +542,11 @@ public class Import extends ImportCommon implements ImportSettings {
 
     private static class ImportFileChooser extends JFileChooser {
 
-        private Import theImport;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3279250344400356112L;
+		private Import theImport;
 
         /**
          * Constructs a new ImportFileChooser opened to the given directory.
@@ -554,47 +557,6 @@ public class Import extends ImportCommon implements ImportSettings {
          */
         public ImportFileChooser(Import imp, String currentDirectoryPath) {
             super(currentDirectoryPath);
-            theImport = imp;
-            initChooser();
-        }
-
-        /**
-         * Constructs a JFileChooser using the given current directory path and
-         * FileSystemView.
-         * 
-         * @param imp the import manager
-         * @param currentDirectoryPath the directory path
-         * @param fsv the file system view
-         * @see javax.swing.JFileChooser#JFileChooser(String, FileSystemView)
-         */
-        public ImportFileChooser(Import imp, String currentDirectoryPath,
-                FileSystemView fsv) {
-            super(currentDirectoryPath, fsv);
-            theImport = imp;
-            initChooser();
-        }
-
-        /**
-         * Constructs a new default ImportFileChooser.
-         * 
-         * @param imp the import manager
-         * @see javax.swing.JFileChooser#JFileChooser()
-         */
-        public ImportFileChooser(Import imp) {
-            super();
-            theImport = imp;
-            initChooser();
-        }
-
-        /**
-         * Constructs a JFileChooser using the given FileSystemView.
-         * 
-         * @param imp the import manager
-         * @param fsv the file system view
-         * @see javax.swing.JFileChooser#JFileChooser(FileSystemView)
-         */
-        public ImportFileChooser(Import imp, FileSystemView fsv) {
-            super(fsv);
             theImport = imp;
             initChooser();
         }
@@ -655,6 +617,11 @@ public class Import extends ImportCommon implements ImportSettings {
 
 
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5021975616808365068L;
+
+		/**
          * Construct the configuration extension panel.
          * @param settings A list of settings requested by the language importer
          */

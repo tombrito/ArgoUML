@@ -52,6 +52,10 @@ public class ActionNewExtendExtensionPoint
     extends AbstractActionNewModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -636743890312695975L;
+	/**
      * The singleton.
      */
     public static final ActionNewExtendExtensionPoint SINGLETON =

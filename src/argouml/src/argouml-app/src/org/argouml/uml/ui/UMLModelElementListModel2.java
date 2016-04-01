@@ -74,7 +74,12 @@ import org.tigris.gef.presentation.Fig;
 public abstract class UMLModelElementListModel2 extends DefaultListModel
         implements TargetListener, PropertyChangeListener {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8532363380559781609L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLModelElementListModel2.class.getName());
 
     private String eventName = null;

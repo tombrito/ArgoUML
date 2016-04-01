@@ -50,7 +50,11 @@ import org.argouml.model.Model;
  */
 public class UMLTaggedValueCheckBox extends UMLCheckBox2 {
 
-    private String tagName;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8602091865067825609L;
+	private String tagName;
     
     public UMLTaggedValueCheckBox(String name) {
         super(Translator.localize("checkbox." + name + "-lc"), 

@@ -63,7 +63,11 @@ public class UMLComboBox2
     implements TargettableModelView, TargetListener, 
         JComboBox.KeySelectionManager {
 
-    private static final int KEY_TIME_THRESHOLD_MILLIS = 1500;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5654483537260803805L;
+	private static final int KEY_TIME_THRESHOLD_MILLIS = 1500;
     private String searchString = "";
     private long lastKeyEventTime;
 
@@ -173,7 +177,7 @@ public class UMLComboBox2
      *
      * @param event the event
      */
-    protected void doIt(@SuppressWarnings("unused") ActionEvent event) { }
+    protected void doIt(ActionEvent event) { }
 
     /**
      * Utility method to get the current target.

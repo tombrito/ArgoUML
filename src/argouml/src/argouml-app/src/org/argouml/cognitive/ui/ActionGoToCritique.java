@@ -54,7 +54,11 @@ import org.argouml.ui.UndoableAction;
  *
  */
 public class ActionGoToCritique extends UndoableAction {
-    private ToDoItem item = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3874441747621469616L;
+	private ToDoItem item = null;
 
     /**
      * Constructor.

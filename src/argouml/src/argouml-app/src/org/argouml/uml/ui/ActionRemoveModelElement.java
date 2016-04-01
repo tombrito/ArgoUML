@@ -56,6 +56,10 @@ import org.argouml.kernel.ProjectManager;
 public class ActionRemoveModelElement extends AbstractActionRemoveElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4448781117748072231L;
+	/**
      * The singleton.
      */
     public static final ActionRemoveModelElement SINGLETON =

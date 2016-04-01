@@ -46,7 +46,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -242,12 +241,11 @@ class ZargoFilePersister extends UmlFilePersister {
         ThreadUtils.checkIfInterrupted();
 
         int fileVersion;
-        String releaseVersion;
         try {
             String argoEntry = getEntryNames(file, ".argo").iterator().next();
             URL argoUrl = makeZipEntryUrl(toURL(file), argoEntry);
             fileVersion = getPersistenceVersion(argoUrl.openStream());
-            releaseVersion = getReleaseVersion(argoUrl.openStream());
+            getReleaseVersion(argoUrl.openStream());
         } catch (MalformedURLException e) {
             throw new OpenException(e);
         } catch (IOException e) {
@@ -577,11 +575,6 @@ class ZargoFilePersister extends UmlFilePersister {
             return null;
         }
         return zis;
-    }
-
-    private InputStream openZipEntry(URL url, String entryName)
-        throws MalformedURLException, IOException {
-        return makeZipEntryUrl(url, entryName).openStream();
     }
 
     private URL makeZipEntryUrl(URL url, String entryName)

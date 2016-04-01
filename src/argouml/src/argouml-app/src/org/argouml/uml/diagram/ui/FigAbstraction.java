@@ -53,6 +53,11 @@ import org.tigris.gef.presentation.ArrowHeadTriangle;
 public class FigAbstraction extends FigDependency {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7812659392429033459L;
+
+	/**
      * Create the arrow head for the abstraction. This overrides the
      * superclass to create a filled arrow head.
      * @return the arrow head.

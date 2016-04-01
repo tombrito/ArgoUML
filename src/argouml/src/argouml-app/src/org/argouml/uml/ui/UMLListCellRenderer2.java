@@ -65,6 +65,11 @@ import org.argouml.model.Model;
 public class UMLListCellRenderer2 extends DefaultListCellRenderer {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3370802189905568686L;
+
+	/**
      * True if the icon for the modelelement should be shown. The icon is, for
      * instance, a small class symbol for a class.
      */

@@ -68,7 +68,11 @@ public class ToDoTreeRenderer extends DefaultTreeCellRenderer {
     ////////////////////////////////////////////////////////////////
     // class variables
 
-    // general icons for poster
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4179214053253925464L;
+	// general icons for poster
     private final ImageIcon postIt0     = lookupIconResource("PostIt0");
     private final ImageIcon postIt25    = lookupIconResource("PostIt25");
     private final ImageIcon postIt50    = lookupIconResource("PostIt50");

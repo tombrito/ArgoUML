@@ -36,7 +36,12 @@ import org.tigris.gef.presentation.Handle;
 public abstract class SelectionClassifierBox extends
         SelectionNodeClarifiers2 {
 
-    /** Upper right corner Handle */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8338438224382949314L;
+
+	/** Upper right corner Handle */
     private static final int UPPER_RIGHT = 2;
 
     /** Lower right corner Handle */

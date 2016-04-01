@@ -61,6 +61,11 @@ import org.tigris.gef.base.Selection;
 public class FigCallState extends FigActionState {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7787678019716460876L;
+
+	/**
      * Construct a new FigCallState.
      * 
      * @param owner owning UML element

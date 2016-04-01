@@ -60,6 +60,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrInterfaceAllPublic extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -987600975759375974L;
+
+	/**
      * The constructor.
      */
     public CrInterfaceAllPublic() {

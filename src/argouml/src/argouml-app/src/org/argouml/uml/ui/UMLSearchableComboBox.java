@@ -53,6 +53,11 @@ import org.argouml.model.Model;
 public class UMLSearchableComboBox extends UMLEditableComboBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5947699986797612410L;
+
+	/**
      * Constructor for UMLSearchableComboBox.
      * @param model the model
      * @param selectAction the action for selection

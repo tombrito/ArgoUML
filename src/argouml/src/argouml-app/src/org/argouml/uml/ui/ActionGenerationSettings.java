@@ -51,6 +51,11 @@ import org.argouml.ui.UndoableAction;
 public class ActionGenerationSettings extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7166017263177878303L;
+
+	/**
      *  The constructor.
      */
     public ActionGenerationSettings() {

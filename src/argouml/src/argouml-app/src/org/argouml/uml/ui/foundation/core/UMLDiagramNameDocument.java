@@ -50,6 +50,11 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
 public class UMLDiagramNameDocument extends UMLPlainTextDocument {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3820469436931022297L;
+
+	/**
      * Constructor.
      */
     public UMLDiagramNameDocument() {

@@ -954,9 +954,4 @@ public final class Designer
         private static final long serialVersionUID = 7599621170029351645L;
     } /* end class ChildGenDMElements */
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3647853023882216454L;
-
 }

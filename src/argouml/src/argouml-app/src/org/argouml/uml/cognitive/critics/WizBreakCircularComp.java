@@ -59,7 +59,12 @@ import org.argouml.model.Model;
  * to make non-aggregate.
  */
 public class WizBreakCircularComp extends UMLWizard {
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7628823286035019397L;
+
+	private static final Logger LOG =
         Logger.getLogger(WizBreakCircularComp.class.getName());
 
     private String instructions1 =

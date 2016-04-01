@@ -61,6 +61,11 @@ import org.tigris.gef.base.Selection;
 public class FigSignal extends FigClassifierBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3875367030716602301L;
+
+	/**
      * Construct a Fig representing a Signal.
      * 
      * @param owner owning Signal

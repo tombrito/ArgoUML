@@ -70,6 +70,11 @@ public class CompoundCritic extends Critic {
     // instance variables
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2552510639003633546L;
+
+	/**
      * The sub-critics that make up this CompoundCritic.
      */
     private List<Critic> critics = new ArrayList<Critic>();

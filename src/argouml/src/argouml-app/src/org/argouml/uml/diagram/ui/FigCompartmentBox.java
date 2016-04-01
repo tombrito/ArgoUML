@@ -87,7 +87,14 @@ import org.tigris.gef.presentation.FigRect;
  */
 public abstract class FigCompartmentBox extends FigNodeModelElement {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -614044536942141418L;
+
+
+
+	private static final Logger LOG =
         Logger.getLogger(FigCompartmentBox.class.getName());
 
 

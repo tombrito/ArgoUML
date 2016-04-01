@@ -547,8 +547,8 @@ public class UMLCollaborationDiagram extends UMLDiagram implements Collaboration
     @Override
     public DiagramElement drop(Object droppedObject, Point location) {
         DiagramElement figNode = null;
-        GraphModel gm = getGraphModel();
-        Layer lay = Globals.curEditor().getLayerManager().getActiveLayer();
+        getGraphModel();
+        Globals.curEditor().getLayerManager().getActiveLayer();
 
         // If location is non-null, convert to a rectangle that we can use
         Rectangle bounds = null;

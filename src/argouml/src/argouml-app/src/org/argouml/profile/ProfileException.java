@@ -48,6 +48,11 @@ package org.argouml.profile;
 public class ProfileException extends Exception {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3708754124925673397L;
+
+	/**
      * The constructor.
      *
      * @param message the message to show

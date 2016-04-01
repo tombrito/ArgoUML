@@ -51,7 +51,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionMoveClarifiers extends SelectionMove {
 
-    /** Construct a new SelectionMoveClarifiers for the given Fig
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 588331720209174397L;
+
+	/** Construct a new SelectionMoveClarifiers for the given Fig
      *
      * @param f the given Fig
      */

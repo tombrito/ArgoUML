@@ -48,6 +48,11 @@ package org.argouml.uml.cognitive.critics;
 public abstract class AbstractCrUnconventionalName extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3423621464174345918L;
+
+	/**
      * Based on the input of a model element name this method
      * should compute a suggestion for the wizard to present
      * to the user. Please write tests against this method for

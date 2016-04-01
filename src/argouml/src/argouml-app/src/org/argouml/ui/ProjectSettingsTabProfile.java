@@ -85,7 +85,12 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class ProjectSettingsTabProfile extends JPanel implements
         GUIProjectSettingsTabInterface, ActionListener {
 
-    private Project p;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3556586844268368175L;
+
+	private Project p;
 
     private JButton loadFromFile;
 

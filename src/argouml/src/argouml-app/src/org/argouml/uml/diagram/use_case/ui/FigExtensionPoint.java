@@ -52,6 +52,11 @@ import org.argouml.uml.diagram.ui.CompartmentFigText;
 public class FigExtensionPoint extends CompartmentFigText {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1326026230677319655L;
+
+	/**
      * @param owner owning UML element
      * @param bounds position and size
      * @param settings render settings

@@ -56,6 +56,11 @@ import org.tigris.gef.presentation.FigEdge;
 public class ModeLabelDrag extends FigModifyingModeImpl {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4783682684263430L;
+
+	/**
      * The text label that is currently being dragged, or
      * null if nothing is being dragged.
      */

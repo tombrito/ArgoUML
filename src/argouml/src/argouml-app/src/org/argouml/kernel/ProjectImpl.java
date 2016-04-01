@@ -44,7 +44,6 @@ package org.argouml.kernel;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeSupport;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
@@ -172,8 +171,6 @@ public class ProjectImpl implements java.io.Serializable, Project {
     // TODO: Change this to use an UndoManager instance per project when
     // GEF has been enhanced.
     private UndoManager undoManager = new DefaultUndoManager(this);
-
-    private boolean dirty = false;
 
     /**
      * Constructor.
@@ -1196,9 +1193,6 @@ public class ProjectImpl implements java.io.Serializable, Project {
     }
 
     public void setDirty(boolean isDirty) {
-        // TODO: Placeholder implementation until support for tracking on
-        // a per-project basis is implemented
-        dirty = isDirty;
         ProjectManager.getManager().setSaveEnabled(isDirty);
     }
 

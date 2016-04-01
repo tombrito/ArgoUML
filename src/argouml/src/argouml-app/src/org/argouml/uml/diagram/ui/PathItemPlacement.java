@@ -79,7 +79,12 @@ import org.tigris.gef.presentation.FigEdge;
  */
 public class PathItemPlacement extends PathConv {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2642934779803194003L;
+
+	private static final Logger LOG =
         Logger.getLogger(PathItemPlacement.class.getName());
 
     private boolean useCollisionCheck = true;
@@ -313,23 +318,23 @@ public class PathItemPlacement extends PathConv {
                     scaledOffset += increment;
                 }
                 // If we timed out, give it one more try on the other side
-                if (false /* count >= limit */) {
-                    LOG.log(Level.FINE, "Retry limit exceeded.  Trying other side");
-                    result.setLocation(anchor);
-                    // TODO: This works for 90 degree angles, but is suboptimal
-                    // for other angles. It should reflect the angle, rather
-                    // than just using a negative offset along the same vector
-                    result.setLocation(
-                            applyOffset(slope, -vectorOffset, anchor));
-                    count = 0;
-                    scaledOffset = -scaledOffset;
-                    while (intersects(points, result, size)
-                            && count++ < limit) {
-                        result.setLocation(
-                                applyOffset(slope, scaledOffset, anchor));
-                        scaledOffset += increment;
-                    }
-                }
+//                if (false /* count >= limit */) {
+//                    LOG.log(Level.FINE, "Retry limit exceeded.  Trying other side");
+//                    result.setLocation(anchor);
+//                    // TODO: This works for 90 degree angles, but is suboptimal
+//                    // for other angles. It should reflect the angle, rather
+//                    // than just using a negative offset along the same vector
+//                    result.setLocation(
+//                            applyOffset(slope, -vectorOffset, anchor));
+//                    count = 0;
+//                    scaledOffset = -scaledOffset;
+//                    while (intersects(points, result, size)
+//                            && count++ < limit) {
+//                        result.setLocation(
+//                                applyOffset(slope, scaledOffset, anchor));
+//                        scaledOffset += increment;
+//                    }
+//                }
 //                LOG.log(Level.FINE, "Final point #" + count + " " + result
 //                        + " offset of " + scaledOffset);
             }

@@ -99,6 +99,11 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
         UMLUserInterfaceContainer, ComponentListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2362145015233724933L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =
@@ -241,7 +246,12 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
     private static class TargettableButton extends JButton
         implements TargettableModelView {
 
-        public TargettableButton(Action action) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2407530122884186399L;
+
+		public TargettableButton(Action action) {
             super(action);
         }
 
@@ -271,11 +281,10 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
         if (component instanceof UMLStereotypeList) {
             UMLModelElementListModel2 list =
                 (UMLModelElementListModel2) ((UMLStereotypeList) component).getModel();
-            ActionCreateContainedModelElement newAction =
-                new ActionCreateContainedModelElement(
-                        list.getMetaType(),
-                        list.getTarget(),
-                        "New..."); // TODO: i18n
+            new ActionCreateContainedModelElement(
+			        list.getMetaType(),
+			        list.getTarget(),
+			        "New...");
         }
         return jlabel;
     }
@@ -658,7 +667,12 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
 
     private class GroupPanel extends JPanel {
 
-        public GroupPanel(String title) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -3931817353777965075L;
+
+		public GroupPanel(String title) {
             super(new GridLayout2());
             TitledBorder border = new TitledBorder(Translator.localize(title));
             border.setTitleFont(stdFont);

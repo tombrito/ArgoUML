@@ -40,8 +40,6 @@ package org.argouml.model.mdr;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
-import java.util.logging.Logger;
 
 import javax.jmi.reflect.RefObject;
 import javax.jmi.reflect.RefPackage;
@@ -69,26 +67,17 @@ import org.netbeans.lib.jmi.xmi.OutputConfig;
  */
 class XmiWriterMDRImpl implements XmiWriter {
 
-    private static final Logger LOG =
-        Logger.getLogger(XmiWriterMDRImpl.class.getName());
-
     private MDRModelImplementation modelImpl;
 
     private Object model;
 
     private OutputConfig config;
 
-    private Writer writer;
-
     private OutputStream oStream;
 
     private static final String ENCODING = "UTF-8";
 
     private static final String XMI_VERSION = "1.2";
-
-    private XmiExtensionWriter xmiExtensionWriter;
-
-    private static final char[] TARGET = "/XMI.content".toCharArray();
 
     /*
      * Private constructor for common work needed by both public
@@ -157,6 +146,5 @@ class XmiWriterMDRImpl implements XmiWriter {
     }
 
     public void setXmiExtensionWriter(XmiExtensionWriter theWriter) {
-        xmiExtensionWriter = theWriter;
     }
 }

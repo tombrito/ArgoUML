@@ -67,6 +67,11 @@ public class StylePanelFigNodeModelElement
     PropertyChangeListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3087986553413785736L;
+
+	/**
      * Flag to indicate that a refresh is going on.
      */
     private boolean refreshTransaction;

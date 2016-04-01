@@ -4715,7 +4715,7 @@ class FacadeMDRImpl implements Facade {
     }
 
     RefClass getProxy(String metatypeName, RefPackage extent) {
-        Collection<MofClass> metaTypes = getMetaClasses();
+        getMetaClasses();
         MofClass mofClass = getMofClass(metatypeName);
         List<String> names = mofClass.getQualifiedName();
         // Although this only handles one level of package, it is

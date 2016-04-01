@@ -47,7 +47,11 @@ package org.argouml.application.events;
  */
 public class ArgoStatusEvent extends ArgoEvent {
 
-    private String text;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7996377091639753478L;
+	private String text;
 
     /**
      * @param eventType reported by this event.

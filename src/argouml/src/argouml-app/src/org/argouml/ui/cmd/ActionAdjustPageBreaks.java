@@ -49,6 +49,11 @@ import org.tigris.gef.base.AdjustPageBreaksAction;
 public class ActionAdjustPageBreaks extends AdjustPageBreaksAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3789112897216300382L;
+
+	/**
      * The Constructor.
      */
     public ActionAdjustPageBreaks() {

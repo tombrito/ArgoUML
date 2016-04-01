@@ -58,7 +58,11 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigAssociationRole extends FigAssociation {
     
-    private FigMessageGroup messages;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3723796931075354578L;
+	private FigMessageGroup messages;
 
     /**
      * Construct an AssociationRole fig with the given properties and diagram
@@ -105,6 +109,11 @@ public class FigAssociationRole extends FigAssociation {
 class FigMessageGroup extends ArgoFigGroup {
     
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1447476573935910141L;
+
+	/**
      * The constructor.
      * 
      * @param owner the UML Message object

@@ -63,6 +63,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrOppEndConflict extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3355540926158662853L;
+
+	/**
      * The constructor.
      */
     public CrOppEndConflict() {

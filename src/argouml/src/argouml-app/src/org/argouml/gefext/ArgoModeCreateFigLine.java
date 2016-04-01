@@ -54,7 +54,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ArgoModeCreateFigLine extends ModeCreateFigLine {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4598340052644406294L;
+
+	@Override
     public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
         Fig line = new ArgoFigLine(snapX, snapY, snapX, snapY);
         // TODO: We need a way to set the line color and width here, but

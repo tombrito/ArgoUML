@@ -57,6 +57,11 @@ import org.argouml.ui.targetmanager.TargetManager;
 abstract class AbstractActionCheckBoxMenuItem extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9103191298516631096L;
+
+	/**
      * @param key the name (to be localized)
      */
     public AbstractActionCheckBoxMenuItem(String key) {

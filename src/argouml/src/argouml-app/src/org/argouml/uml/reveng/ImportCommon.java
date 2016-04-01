@@ -244,23 +244,6 @@ public abstract class ImportCommon implements ImportSettingsInternal {
     }
 
     /*
-     * Create a TaggedValue with a tag/type matching our source module
-     * filename and a value of the file's last modified timestamp.
-     *
-     * TODO: This functionality needs to be moved someplace useful if
-     * it's needed, otherwise it can be deleted. - tfm - 20070217
-     */
-    private void setLastModified(Project project, File file) {
-        // set the lastModified value
-        String fn = file.getAbsolutePath();
-        String lm = String.valueOf(file.lastModified());
-        if (lm != null) {
-            Model.getCoreHelper()
-                .setTaggedValue(project.getModel(), fn, lm);
-        }
-    }
-
-    /*
      * @see org.argouml.uml.reveng.ImportSettings#isCreateDiagramsSelected()
      */
     public abstract boolean isCreateDiagramsSelected();

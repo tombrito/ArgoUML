@@ -64,7 +64,11 @@ import org.argouml.ui.UndoableAction;
 @Deprecated
 @UmlModelMutator
 class ActionAddStereotype extends UndoableAction {
-    private Object modelElement;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -900060300553166040L;
+	private Object modelElement;
     private Object stereotype;
 
     /**

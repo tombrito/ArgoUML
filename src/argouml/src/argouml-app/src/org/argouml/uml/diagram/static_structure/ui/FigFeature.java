@@ -60,7 +60,11 @@ import org.argouml.uml.diagram.ui.CompartmentFigText;
  */
 public abstract class FigFeature extends CompartmentFigText {
 
-    // TODO: for UML 2.x this is isStatic
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8547397650016998800L;
+	// TODO: for UML 2.x this is isStatic
     private static final String EVENT_NAME = "ownerScope";
     
     /**

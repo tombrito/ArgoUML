@@ -55,7 +55,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 @Deprecated
 public class ActionNewStubState extends AbstractActionNewModelElement {
 
-    private static final ActionNewStubState SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8010753568066416441L;
+	private static final ActionNewStubState SINGLETON =
         new ActionNewStubState();
 
     /**

@@ -50,7 +50,11 @@ import org.argouml.cognitive.ToDoItem;
  */
 public abstract class AbstractCrTooMany extends CrUML {
     
-    private int criticThreshold;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3421584041859663841L;
+	private int criticThreshold;
 
     /**
      * Set the threshold.

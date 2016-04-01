@@ -48,7 +48,11 @@ import org.tigris.gef.graph.GraphFactory;
  * @author Bobtarling
  */
 public class ModePlacePartition extends ModePlace {
-    private Object machine;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -857265378170445486L;
+	private Object machine;
     
     /**
      * @param gf the command to create the node

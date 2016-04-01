@@ -50,6 +50,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLActionAsynchronousCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6774833160753780049L;
+
+	/**
      * Constructor for UMLAssociationEndNavigableCheckBox.
      */
     public UMLActionAsynchronousCheckBox() {

@@ -50,6 +50,11 @@ import org.tigris.gef.presentation.FigRect;
 public class FigEmptyRect extends FigRect {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7954151008878710624L;
+
+	/**
      * @param x x
      * @param y y
      * @param w width

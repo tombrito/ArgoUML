@@ -53,6 +53,11 @@ package org.argouml.ui;
 public abstract class AbstractArgoJPanel extends
         org.argouml.application.api.AbstractArgoJPanel {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3304642239537812120L;
+
+	/**
      * The constructor.
      *
      */

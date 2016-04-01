@@ -52,6 +52,11 @@ import org.argouml.ui.UndoableAction;
 public class ActionOpenGoals extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3612788232238959602L;
+
+	/**
      * The constructor.
      */
     public ActionOpenGoals() {

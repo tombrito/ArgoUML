@@ -74,7 +74,12 @@ import org.tigris.gef.presentation.FigNode;
 public class FigEdgeNote extends FigEdgePoly
         implements ArgoFig, DiagramElement, Owned, IItemUID, PropertyChangeListener {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6155265188011926058L;
+
+	private static final Logger LOG =
         Logger.getLogger(FigEdgeNote.class.getName());
 
     private Object comment;

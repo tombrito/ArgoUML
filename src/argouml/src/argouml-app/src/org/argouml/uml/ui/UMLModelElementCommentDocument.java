@@ -57,7 +57,11 @@ import org.argouml.model.Model;
  */
 public class UMLModelElementCommentDocument extends UMLPlainTextDocument {
 
-    private boolean useBody;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2710344448546826155L;
+	private boolean useBody;
 
     /**
      * Creates a UMLPlainTextDocument object that represents the text of a

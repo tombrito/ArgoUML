@@ -56,7 +56,11 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSimpleState extends FigState {
 
-    private FigRect cover;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4171389097142018642L;
+	private FigRect cover;
     private FigLine divider;
 
     /**

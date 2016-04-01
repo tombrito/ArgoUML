@@ -60,6 +60,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrInterfaceOperOnly extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5843930606616863255L;
+
+	/**
      * The constructor.
      */
     public CrInterfaceOperOnly() {

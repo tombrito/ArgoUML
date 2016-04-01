@@ -63,7 +63,11 @@ import org.argouml.uml.diagram.ui.UMLDiagram;
  */
 public class UMLTreeCellRenderer extends DefaultTreeCellRenderer {
 
-    // get localised strings once only
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6765079045008523622L;
+	// get localised strings once only
     private static String name = Translator.localize("label.name");
     private static String typeName = Translator.localize("label.type");
 

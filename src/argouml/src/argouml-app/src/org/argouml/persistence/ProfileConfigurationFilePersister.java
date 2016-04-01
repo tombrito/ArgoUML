@@ -38,31 +38,21 @@
 
 package org.argouml.persistence;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.argouml.application.api.Argo;
-import org.argouml.application.helpers.ApplicationVersion;
-import org.argouml.configuration.Configuration;
 import org.argouml.kernel.ProfileConfiguration;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectMember;
-import org.argouml.model.Model;
 import org.argouml.model.UmlException;
-import org.argouml.model.XmiWriter;
 import org.argouml.profile.Profile;
 import org.argouml.profile.ProfileFacade;
 import org.argouml.profile.ProfileManager;
@@ -76,9 +66,6 @@ import org.xml.sax.SAXException;
  * @author maurelio1234
  */
 public class ProfileConfigurationFilePersister extends MemberFilePersister {
-
-    private static final Logger LOG =
-        Logger.getLogger(ProfileConfigurationFilePersister.class.getName());
 
     /*
      * @see org.argouml.persistence.MemberFilePersister#getMainTag()
@@ -131,70 +118,16 @@ public class ProfileConfigurationFilePersister extends MemberFilePersister {
      */
     private Collection<Profile> loadUnresolved(Collection<String> unresolved) {
         Collection<Profile> profiles = new ArrayList<Profile>();
-        ProfileManager profileManager = ProfileFacade.getManager();
-        for (String filename : unresolved) {
+        ProfileFacade.getManager();
+//        for (String filename : unresolved) {
             // TODO: work in progress, see issue 5039
 //            addUserDefinedProfile(filename, xmi, profileManager);
 //            Profile profile = getMatchingUserDefinedProfile(filename,
 //                    profileManager);
 //            assert profile != null : "Profile should have been found now.";
 //            profiles.add(profile);
-        }
+//        }
         return profiles;
-    }
-
-    /**
-     * Register a user defined profile in the profileManager, using the backup
-     * XMI file from the project being loaded.
-     * <p>
-     * <em>NOTE:</em> This has the side effect of permanently registering the
-     * profile which may not be what the user wants.
-     *
-     * @param fileName name of original XMI file that the author of the project
-     *                used when creating the UserDefinedProfile.
-     * @param xmi the contents of the XMI file.
-     * @param profileManager the {@link ProfileManager}.
-     * @throws IOException on any i/o error
-     */
-    private void addUserDefinedProfile(String fileName, StringBuffer xmi,
-            ProfileManager profileManager) throws IOException {
-        File profilesDirectory = getProfilesDirectory(profileManager);
-        File profileFile = new File(profilesDirectory, fileName);
-        OutputStreamWriter writer = new OutputStreamWriter(
-                new FileOutputStream(profileFile),
-                Argo.getEncoding());
-        writer.write(xmi.toString());
-        writer.close();
-
-        LOG.log(Level.INFO,
-                "Wrote user defined profile \"{0}\", with size {1}.",
-                new Object[]{profileFile, xmi.length()});
-
-        if (isSomeProfileDirectoryConfigured(profileManager)) {
-            profileManager.refreshRegisteredProfiles();
-        } else {
-            profileManager.addSearchPathDirectory(
-                profilesDirectory.getAbsolutePath());
-        }
-    }
-
-
-    private static File getProfilesDirectory(ProfileManager profileManager) {
-        if (isSomeProfileDirectoryConfigured(profileManager)) {
-            List<String> directories =
-                profileManager.getSearchPathDirectories();
-            return new File(directories.get(0));
-        } else {
-            File userSettingsFile = new File(
-                Configuration.getFactory().getConfigurationHandler().
-                    getDefaultPath());
-            return userSettingsFile.getParentFile();
-        }
-    }
-
-    private static boolean isSomeProfileDirectoryConfigured(
-            ProfileManager profileManager) {
-        return profileManager.getSearchPathDirectories().size() > 0;
     }
 
     /*
@@ -266,17 +199,17 @@ public class ProfileConfigurationFilePersister extends MemberFilePersister {
             return;
         }
 
-        StringWriter myWriter = new StringWriter();
-        for (Object model : profileModels) {
-            XmiWriter xmiWriter = Model.getXmiWriter(model,
-                (OutputStream) null, //myWriter,
-                ApplicationVersion.getVersion() + "("
-                    + UmlFilePersister.PERSISTENCE_VERSION + ")");
-            xmiWriter.write();
-        }
-
-        myWriter.flush();
-        w.println("" + myWriter.toString());
+//        StringWriter myWriter = new StringWriter();
+//        for (Object model : profileModels) {
+//            XmiWriter xmiWriter = Model.getXmiWriter(model,
+//                (OutputStream) null, //myWriter,
+//                ApplicationVersion.getVersion() + "("
+//                    + UmlFilePersister.PERSISTENCE_VERSION + ")");
+//            xmiWriter.write();
+//        }
+//
+//        myWriter.flush();
+//        w.println("" + myWriter.toString());
     }
 
 

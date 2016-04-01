@@ -57,7 +57,11 @@ import javax.swing.Timer;
  */
 public class HeapMonitor extends JComponent implements ActionListener {
 
-    // % thresholds for bar color changes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7991303236008263114L;
+	// % thresholds for bar color changes
     private static final int WARN_THRESHOLD = 75;
     private static final int CRITICAL_THRESHOLD = 90;
     

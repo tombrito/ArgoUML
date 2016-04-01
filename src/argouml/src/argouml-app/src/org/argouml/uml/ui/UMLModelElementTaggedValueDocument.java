@@ -52,6 +52,11 @@ import org.argouml.model.Model;
 public class UMLModelElementTaggedValueDocument extends UMLPlainTextDocument {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7030109675187012636L;
+
+	/**
      * Creates a UMLPlainTextDocument object that represents a tagged value of
      * an ModelElement object.
      *

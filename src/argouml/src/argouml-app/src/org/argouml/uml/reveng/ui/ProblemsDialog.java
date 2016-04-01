@@ -61,7 +61,6 @@ import org.argouml.i18n.Translator;
  */
 class ProblemsDialog extends JDialog implements ActionListener {
 
-    private Frame parentFrame;
     private JButton abortButton;
     private JButton continueButton;
     private JLabel northLabel;

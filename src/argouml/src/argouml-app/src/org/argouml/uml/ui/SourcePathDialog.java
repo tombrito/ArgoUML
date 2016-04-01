@@ -67,7 +67,12 @@ import org.argouml.util.ArgoDialog;
  */
 public class SourcePathDialog extends ArgoDialog implements ActionListener {
 
-    private SourcePathController srcPathCtrl = new SourcePathControllerImpl();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3824977290815876495L;
+
+	private SourcePathController srcPathCtrl = new SourcePathControllerImpl();
 
     private SourcePathTableModel srcPathTableModel =
         srcPathCtrl.getSourcePathSettings();
@@ -147,10 +152,8 @@ public class SourcePathDialog extends ArgoDialog implements ActionListener {
         int firstSelectedRow = rowSM.getMinSelectionIndex();
         int lastSelectedRow = rowSM.getMaxSelectionIndex();
         LinkedList selectedIndexesList = new LinkedList();
-        int numSelectedRows = 0;
         for (int i = firstSelectedRow; i <= lastSelectedRow; i++) {
             if (rowSM.isSelectedIndex(i)) {
-                numSelectedRows++;
                 selectedIndexesList.add(Integer.valueOf(i));
             }
         }

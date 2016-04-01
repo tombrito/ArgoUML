@@ -56,7 +56,12 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetParameterDirectionKind extends UndoableAction {
 
-    private static final ActionSetParameterDirectionKind SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7219592466759480273L;
+
+	private static final ActionSetParameterDirectionKind SINGLETON =
         new ActionSetParameterDirectionKind();
 
     /**

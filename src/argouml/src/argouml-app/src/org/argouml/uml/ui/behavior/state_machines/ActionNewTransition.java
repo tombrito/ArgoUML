@@ -58,6 +58,11 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 public class ActionNewTransition extends AbstractActionNewModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7767905011178519269L;
+
+	/**
      * Key used for storing the source of the transition.
      * If this value is not set,
      * the action assumes that an internal transition should be constructed.

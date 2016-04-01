@@ -53,9 +53,11 @@ package org.argouml.cognitive.checklist;
  */
 public class ChecklistStatus extends Checklist {
 
-    private static int numChecks = 0;
-
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9143607612700909214L;
+	/**
      * The constructor.
      *
      */
@@ -71,7 +73,6 @@ public class ChecklistStatus extends Checklist {
     @Override
     public boolean add(CheckItem item) {
         super.add(item);
-        numChecks++;
         return true;
     }
     

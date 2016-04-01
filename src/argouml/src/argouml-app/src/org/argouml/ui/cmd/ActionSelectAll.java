@@ -49,6 +49,11 @@ import org.tigris.gef.base.SelectAllAction;
 public class ActionSelectAll extends SelectAllAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 562649225417421866L;
+
+	/**
      * The constructor.
      */
     public ActionSelectAll() {

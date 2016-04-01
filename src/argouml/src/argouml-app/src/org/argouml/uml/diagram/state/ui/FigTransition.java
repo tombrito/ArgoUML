@@ -71,7 +71,12 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class FigTransition extends FigEdgeModelElement {
 
-    private ArrowHeadGreater endArrow = new ArrowHeadGreater();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7290412320294384479L;
+
+	private ArrowHeadGreater endArrow = new ArrowHeadGreater();
 
     /**
      * If <code>dashed</code> is true, then the transition represents

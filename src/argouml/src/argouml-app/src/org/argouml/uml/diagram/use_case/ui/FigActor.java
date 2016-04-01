@@ -75,6 +75,11 @@ import org.tigris.gef.presentation.FigRect;
 public class FigActor extends FigNodeModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4153987594343356435L;
+
+	/**
      * The padding between the actor body and name and the top of the
      * stereotype.
      */
@@ -342,6 +347,10 @@ public class FigActor extends FigNodeModelElement {
      */
     static class ActorPortFigRect extends FigRect {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2615791325948729299L;
+		/**
          * the parent fig, i.e. the Actor
          */
         private Fig parent;

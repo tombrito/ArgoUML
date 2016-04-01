@@ -59,7 +59,11 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigInterface extends FigClassifierBox {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1104179136912846119L;
+	private static final Logger LOG =
         Logger.getLogger(FigInterface.class.getName());
 
     /**

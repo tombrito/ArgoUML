@@ -94,8 +94,6 @@ public class FindDialog extends ArgoDialog
     private static FindDialog instance;
     private static int nextResultNum = 1;
 
-    private static int numFinds;
-
     /**
      * Insets in pixels.
      */
@@ -474,7 +472,6 @@ public class FindDialog extends ArgoDialog
      * Do the search.
      */
     private void doSearch() {
-        numFinds++;
         String eName = "";
         if (elementName.getSelectedItem() != null) {
             eName += elementName.getSelectedItem();
@@ -758,9 +755,4 @@ class PredicateMType extends PredicateType {
         }
         return result;
     }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 901828109709882796L;
 } /* end class PredicateMType */

@@ -68,7 +68,12 @@ import org.tigris.gef.presentation.FigRect;
  */
 public class FigPool extends FigNodeModelElement {
 
-    private void initialize(Rectangle r) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4441142386301785487L;
+
+	private void initialize(Rectangle r) {
         /* TODO: Replace the next deprecated call. This case is complicated 
          * by the use of parameters. All other Figs work differently. */
         setBigPort(new FigEmptyRect(r.x, r.y, r.width, r.height));

@@ -56,6 +56,11 @@ import org.argouml.ui.StylePanelFigNodeModelElement;
 public class StylePanelFigUseCase extends StylePanelFigNodeModelElement {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9017559768579187374L;
+
+	/**
      * The check box for toggling the visibility of extension points.
      */
     private JCheckBox epCheckBox = 

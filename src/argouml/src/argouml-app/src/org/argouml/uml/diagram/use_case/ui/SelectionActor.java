@@ -51,6 +51,11 @@ import org.tigris.gef.presentation.Fig;
 public class SelectionActor extends SelectionNodeClarifiers2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 263519975467638070L;
+
+	/**
      * The icon for an association.
      */
     private static Icon associationIcon =

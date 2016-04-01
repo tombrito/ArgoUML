@@ -51,7 +51,11 @@ import org.argouml.ui.UndoableAction;
  */
 public abstract class ToDoItemAction extends UndoableAction {
 
-    private Object rememberedTarget = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1858465640164017310L;
+	private Object rememberedTarget = null;
 
     /**
      * @param name to be localized

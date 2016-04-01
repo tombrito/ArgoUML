@@ -53,7 +53,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionComment extends SelectionNodeClarifiers2 {
 
-    private static Icon linkIcon =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2821153191290662619L;
+
+	private static Icon linkIcon =
         ResourceLoaderWrapper.lookupIconResource("CommentLink");
 
     private static Icon icons[] =

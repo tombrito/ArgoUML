@@ -56,6 +56,11 @@ public class SelectionEdgeClarifiers extends SelectionReshape {
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1464652738507937285L;
+
+	/**
      * Construct a new SelectionEdgeClarifiers for the given Fig
      * 
      * @param f the given fig

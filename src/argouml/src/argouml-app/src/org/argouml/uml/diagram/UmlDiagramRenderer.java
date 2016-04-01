@@ -42,12 +42,10 @@ import java.util.Map;
 
 import org.argouml.model.Model;
 import org.argouml.uml.CommentEdge;
-import org.argouml.uml.diagram.ui.FigCompartmentBox;
 import org.argouml.uml.diagram.ui.FigEdgeModelElement;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.GraphEdgeRenderer;
 import org.tigris.gef.graph.GraphNodeRenderer;
-import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigNode;
 
@@ -65,6 +63,11 @@ public abstract class UmlDiagramRenderer
     implements GraphNodeRenderer, GraphEdgeRenderer {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6983978200144995713L;
+
+	/**
      * @deprecated for 0.27.3 by tfmorris. Only used by
      *             {@link DiagramFactory#createRenderingElement(Object, Object)}
      *             which is itself unused (and now deprecated).
@@ -176,44 +179,6 @@ public abstract class UmlDiagramRenderer
 //        setStyleAttributes(figNode, styleAttributes);
 //
 //        return figNode;
-    }
-
-    /**
-     * Set the fig style according to attributes. <p>
-     * 
-     * TODO: This is never used! Can we remove?
-     *
-     * @param fig the fig to style.
-     * @param attributeMap a map of name value pairs
-     */
-    private void setStyleAttributes(Fig fig, Map<String, String> attributeMap) {
-        String name;
-        String value;
-        for (Map.Entry<String, String> entry : attributeMap.entrySet()) {
-            name = entry.getKey();
-            value = entry.getValue();
-
-            if (fig instanceof FigCompartmentBox) {
-                FigCompartmentBox fcb = (FigCompartmentBox) fig;
-                if ("operationsVisible".equals(name)) {
-                    fcb.showCompartment(
-                            Model.getMetaTypes().getOperation(), 
-                            value.equalsIgnoreCase("true"));
-                } else if ("attributesVisible".equals(name)) {
-                    fcb.showCompartment(
-                            Model.getMetaTypes().getAttribute(), 
-                            value.equalsIgnoreCase("true"));
-                } else if ("enumerationLiteralsVisible".equals(name)) {
-                    fcb.showCompartment(
-                            Model.getMetaTypes().getEnumerationLiteral(), 
-                            value.equalsIgnoreCase("true"));
-                } else if ("extensionPointVisible".equals(name)) {
-                    fcb.showCompartment(
-                            Model.getMetaTypes().getExtensionPoint(), 
-                            value.equalsIgnoreCase("true"));
-                }
-            }
-        }
     }
 
     /**

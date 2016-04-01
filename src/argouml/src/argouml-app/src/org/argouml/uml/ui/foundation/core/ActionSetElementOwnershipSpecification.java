@@ -57,7 +57,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetElementOwnershipSpecification extends UndoableAction {
 
-    private static final ActionSetElementOwnershipSpecification SINGLETON =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2291835125401528344L;
+	private static final ActionSetElementOwnershipSpecification SINGLETON =
         new ActionSetElementOwnershipSpecification();
 
     /**

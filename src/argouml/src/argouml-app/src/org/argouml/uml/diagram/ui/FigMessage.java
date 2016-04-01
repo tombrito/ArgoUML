@@ -64,7 +64,12 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigMessage extends FigNodeModelElement {
 
-    private static Vector<String> arrowDirections;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1641975975733014174L;
+
+	private static Vector<String> arrowDirections;
 
     private static final int SOUTH = 0;
     private static final int EAST = 1;
@@ -331,31 +336,27 @@ public class FigMessage extends FigNodeModelElement {
         super.modelChanged(mee);
         
         // Do nothing until code is reviewed
-        if (true) {
-            return;
-        }
-        
-        if (Model.getFacade().isAMessage(getOwner())) {
-            if (Model.getFacade().isAParameter(mee.getSource())) {
-                Object par = mee.getSource();
-                updateArgumentsFromParameter(getOwner(), par);
-
-            }
-            
-            if (mee == null || mee.getSource() == getOwner()
-                    || Model.getFacade().isAAction(mee.getSource())
-                    || Model.getFacade().isAOperation(mee.getSource())
-                    || Model.getFacade().isAArgument(mee.getSource())
-                    || Model.getFacade().isASignal(mee.getSource())) {
-                updateListeners(getOwner());
-            }
-
-            // needs to be updated for changes in Notation subsystem - tfm
-//            String nameStr = Notation.generate(this, getOwner()).trim();
-//            getNameFig().setText(nameStr);
-            updateArrow();
-            damage();
-        }
+//        if (Model.getFacade().isAMessage(getOwner())) {
+//            if (Model.getFacade().isAParameter(mee.getSource())) {
+//                Object par = mee.getSource();
+//                updateArgumentsFromParameter(getOwner(), par);
+//
+//            }
+//            
+//            if (mee == null || mee.getSource() == getOwner()
+//                    || Model.getFacade().isAAction(mee.getSource())
+//                    || Model.getFacade().isAOperation(mee.getSource())
+//                    || Model.getFacade().isAArgument(mee.getSource())
+//                    || Model.getFacade().isASignal(mee.getSource())) {
+//                updateListeners(getOwner());
+//            }
+//
+//            // needs to be updated for changes in Notation subsystem - tfm
+////            String nameStr = Notation.generate(this, getOwner()).trim();
+////            getNameFig().setText(nameStr);
+//            updateArrow();
+//            damage();
+//        }
     }
 
 
@@ -377,48 +378,48 @@ public class FigMessage extends FigNodeModelElement {
             return;
         }
         
-        if (newOwner != null) {
-            Object act = Model.getFacade().getAction(newOwner);
-            if (Model.getFacade().isACallAction(act)) {
-                if (Model.getFacade().getOperation(act) != null) {
-                    Object operation = Model.getFacade().getOperation(act);
-                    if (Model.getDirectionKind().getInParameter().equals(
-                            Model.getFacade().getKind(parameter))) {
-                        
-                        // Update for changes in Model subsystem - tfm
-//                        Collection colpar = Model.getFacade().getInParameters(
-//                                operation);
-//                        Collection colarg = Model.getFacade()
-//                                .getActualArguments(act);
-//                        if (colpar.size() == colarg.size()) {
-//                            Iterator iter = colarg.iterator();
-//                            while (iter.hasNext()) {
-//                                Object arg = iter.next();
-//                                if (!iter.hasNext()) {
-//                                    Model.getCommonBehaviorHelper()
-//                                            .removeActualArgument(act, arg);
-//                                }
-//                            }
-//                        }
-                        Object newArgument = Model.getCommonBehaviorFactory()
-                                .createArgument();
-                        Model.getCommonBehaviorHelper().setValue(
-                                newArgument,
-                                Model.getDataTypesFactory().createExpression(
-                                        "",
-                                        Model.getFacade().getName(parameter)));
-                        Model.getCoreHelper().setName(newArgument,
-                                Model.getFacade().getName(parameter));
-                        Model.getCommonBehaviorHelper().addActualArgument(act,
-                                newArgument);
-
-                        Model.getPump().removeModelEventListener(this,
-                                parameter);
-                        Model.getPump().addModelEventListener(this, parameter);
-                    }
-                }
-            }
-        }
+//        if (newOwner != null) {
+//            Object act = Model.getFacade().getAction(newOwner);
+//            if (Model.getFacade().isACallAction(act)) {
+//                if (Model.getFacade().getOperation(act) != null) {
+//                    Object operation = Model.getFacade().getOperation(act);
+//                    if (Model.getDirectionKind().getInParameter().equals(
+//                            Model.getFacade().getKind(parameter))) {
+//                        
+//                        // Update for changes in Model subsystem - tfm
+////                        Collection colpar = Model.getFacade().getInParameters(
+////                                operation);
+////                        Collection colarg = Model.getFacade()
+////                                .getActualArguments(act);
+////                        if (colpar.size() == colarg.size()) {
+////                            Iterator iter = colarg.iterator();
+////                            while (iter.hasNext()) {
+////                                Object arg = iter.next();
+////                                if (!iter.hasNext()) {
+////                                    Model.getCommonBehaviorHelper()
+////                                            .removeActualArgument(act, arg);
+////                                }
+////                            }
+////                        }
+//                        Object newArgument = Model.getCommonBehaviorFactory()
+//                                .createArgument();
+//                        Model.getCommonBehaviorHelper().setValue(
+//                                newArgument,
+//                                Model.getDataTypesFactory().createExpression(
+//                                        "",
+//                                        Model.getFacade().getName(parameter)));
+//                        Model.getCoreHelper().setName(newArgument,
+//                                Model.getFacade().getName(parameter));
+//                        Model.getCommonBehaviorHelper().addActualArgument(act,
+//                                newArgument);
+//
+//                        Model.getPump().removeModelEventListener(this,
+//                                parameter);
+//                        Model.getPump().addModelEventListener(this, parameter);
+//                    }
+//                }
+//            }
+//        }
     }
 
 
@@ -441,42 +442,42 @@ public class FigMessage extends FigNodeModelElement {
             return;
         }
         
-        if (newOwner != null) {
-            Object act = Model.getFacade().getAction(newOwner);
-            if (act != null) {
-                Model.getPump().removeModelEventListener(this, act);
-                Model.getPump().addModelEventListener(this, act);
-                Iterator iter = Model.getFacade().getActualArguments(act)
-                        .iterator();
-                while (iter.hasNext()) {
-                    Object arg = iter.next();
-                    Model.getPump().removeModelEventListener(this, arg);
-                    Model.getPump().addModelEventListener(this, arg);
-                }
-                if (Model.getFacade().isACallAction(act)) {
-                    Object oper = Model.getFacade().getOperation(act);
-                    if (oper != null) {
-                        Model.getPump().removeModelEventListener(this, oper);
-                        Model.getPump().addModelEventListener(this, oper);
-                        Iterator it2 = Model.getFacade().getParameters(oper)
-                                .iterator();
-                        while (it2.hasNext()) {
-                            Object param = it2.next();
-                            Model.getPump().removeModelEventListener(this,
-                                    param);
-                            Model.getPump().addModelEventListener(this, param);
-                        }
-                    }
-                }
-                if (Model.getFacade().isASendAction(act)) {
-                    Object sig = Model.getFacade().getSignal(act);
-                    if (sig != null) {
-                        Model.getPump().removeModelEventListener(this, sig);
-                    }
-                    Model.getPump().addModelEventListener(this, sig);
-                }
-            }
-        }
+//        if (newOwner != null) {
+//            Object act = Model.getFacade().getAction(newOwner);
+//            if (act != null) {
+//                Model.getPump().removeModelEventListener(this, act);
+//                Model.getPump().addModelEventListener(this, act);
+//                Iterator iter = Model.getFacade().getActualArguments(act)
+//                        .iterator();
+//                while (iter.hasNext()) {
+//                    Object arg = iter.next();
+//                    Model.getPump().removeModelEventListener(this, arg);
+//                    Model.getPump().addModelEventListener(this, arg);
+//                }
+//                if (Model.getFacade().isACallAction(act)) {
+//                    Object oper = Model.getFacade().getOperation(act);
+//                    if (oper != null) {
+//                        Model.getPump().removeModelEventListener(this, oper);
+//                        Model.getPump().addModelEventListener(this, oper);
+//                        Iterator it2 = Model.getFacade().getParameters(oper)
+//                                .iterator();
+//                        while (it2.hasNext()) {
+//                            Object param = it2.next();
+//                            Model.getPump().removeModelEventListener(this,
+//                                    param);
+//                            Model.getPump().addModelEventListener(this, param);
+//                        }
+//                    }
+//                }
+//                if (Model.getFacade().isASendAction(act)) {
+//                    Object sig = Model.getFacade().getSignal(act);
+//                    if (sig != null) {
+//                        Model.getPump().removeModelEventListener(this, sig);
+//                    }
+//                    Model.getPump().addModelEventListener(this, sig);
+//                }
+//            }
+//        }
     }
 
 

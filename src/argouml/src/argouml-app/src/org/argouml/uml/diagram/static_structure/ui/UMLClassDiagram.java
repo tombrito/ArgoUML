@@ -95,7 +95,12 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class UMLClassDiagram extends UMLDiagram implements ClassDiagram {
 
-    private static final Logger LOG =
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -170590122570561627L;
+
+	private static final Logger LOG =
         Logger.getLogger(UMLClassDiagram.class.getName());
 
     ////////////////
@@ -271,17 +276,17 @@ public class UMLClassDiagram extends UMLDiagram implements ClassDiagram {
         // Status as of Nov. 2008 - Figs created, property panels exist, more
         // work required on explorer and assumptions about models not being
         // nested - tfm
-        if (false) {
-            Object[] actions = {
-                    getActionPackage(),
-                    getActionModel(),
-                    getActionSubsystem(),
-            };
-            ToolBarUtility.manageDefault(actions, "diagram.class.package");
-            return actions;
-        } else {
+//        if (false) {
+//            Object[] actions = {
+//                    getActionPackage(),
+//                    getActionModel(),
+//                    getActionSubsystem(),
+//            };
+//            ToolBarUtility.manageDefault(actions, "diagram.class.package");
+//            return actions;
+//        } else {
             return getActionPackage();
-        }
+//        }
     }
 
     /**

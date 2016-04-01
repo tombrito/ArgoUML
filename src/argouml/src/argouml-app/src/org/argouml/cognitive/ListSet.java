@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.Spliterator;
 
 /**
  * An Ordered, non-duplicated collection of objects (not exactly a
@@ -58,7 +59,9 @@ import java.util.Set;
 public class ListSet<T extends Object> 
     implements Serializable, Set<T>, List<T> {
 
-    private static final int TC_LIMIT = 50;
+	private static final long serialVersionUID = 6360004609290892633L;
+
+	private static final int TC_LIMIT = 50;
 
     private List<T> list;
     
@@ -550,5 +553,11 @@ public class ListSet<T extends Object>
     public List<T> subList(int fromIndex, int toIndex) {
         return subList(fromIndex, toIndex);
     }
+
+	@Override
+	public Spliterator<T> spliterator() {
+		// TODO unchecked fix for: Duplicate default methods named spliterator with the parameters () and () are inherited from the types List<T> and Set<T>
+		return Set.super.spliterator();
+	}
 
 }

@@ -122,16 +122,7 @@ public class UserDefinedProfile extends Profile {
 
         private Image img;
 
-        private String src;
-
         private int length;
-
-        /**
-         * @return if this descriptor is valid
-         */
-        public boolean isValid() {
-            return stereotype != null && src != null && length > 0;
-        }
     }
 
     /**
@@ -762,7 +753,6 @@ public class UserDefinedProfile extends Profile {
         throws IOException {
         FigNodeDescriptor descriptor = new FigNodeDescriptor();
         descriptor.length = (int) f.length();
-        descriptor.src = f.getPath();
         descriptor.stereotype = stereotype;
 
         BufferedInputStream bis = new BufferedInputStream(
@@ -771,6 +761,7 @@ public class UserDefinedProfile extends Profile {
         byte[] buf = new byte[descriptor.length];
         try {
             bis.read(buf);
+            bis.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

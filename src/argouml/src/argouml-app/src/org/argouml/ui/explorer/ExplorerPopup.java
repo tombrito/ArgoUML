@@ -626,6 +626,10 @@ public class ExplorerPopup extends JPopupMenu {
     private class ActionAddExistingRelatedNode extends UndoableAction {
 
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3238624747787194314L;
+		/**
          * The UML object to be added to the diagram.
          */
         private Object object;
@@ -689,20 +693,16 @@ public class ExplorerPopup extends JPopupMenu {
     private class OrderedMenuItem extends JMenuItem implements Comparable {
 
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -7303021728838587098L;
+
+		/**
          * Instantiate OrderedMenuItem
          * @param action
          */
         public OrderedMenuItem(Action action) {
             super(action);
-        }
-
-        /**
-         * Instantiate OrderedMenuItem
-         * @param name
-         */
-        public OrderedMenuItem(String name) {
-            super(name);
-            setName(name);
         }
 
         public int compareTo(Object o) {
@@ -719,6 +719,11 @@ public class ExplorerPopup extends JPopupMenu {
     private class OrderedMenu extends JMenu implements Comparable {
 
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -191954144059184479L;
+
+		/**
          * Instantiate OrderedMenu
          * @param name
          */
@@ -739,7 +744,11 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class ActionCreateAssociation extends AbstractAction {
 
-        private Object metaType;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 7923552050547787235L;
+		private Object metaType;
         private List classifiers;
 
         public ActionCreateAssociation(
@@ -785,7 +794,11 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class ActionCreateAssociationRole extends AbstractAction {
 
-        private Object metaType;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -7463475872146036771L;
+		private Object metaType;
         private List classifierRoles;
 
         public ActionCreateAssociationRole(

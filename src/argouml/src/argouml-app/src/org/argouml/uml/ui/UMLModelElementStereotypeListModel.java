@@ -56,6 +56,11 @@ class UMLModelElementStereotypeListModel
     extends UMLStereotypeListModel {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2613154006308503453L;
+
+	/**
      * Constructor for UMLModelElementNamespaceListModel.
      */
     public UMLModelElementStereotypeListModel() {

@@ -70,6 +70,10 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public abstract class ActionAddDiagram extends UndoableAction {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -433191702691457746L;
+	/**
      * Logger.
      */
     private static final Logger LOG =
@@ -185,7 +189,7 @@ public abstract class ActionAddDiagram extends UndoableAction {
      *             is no longer abstract, so implementing classes may remove it.
      */
     @Deprecated
-    public ArgoDiagram createDiagram(@SuppressWarnings("unused") Object ns) {
+    public ArgoDiagram createDiagram(Object ns) {
         // Do nothing during the deprecation period, then it can be removed.
         return null;
     }

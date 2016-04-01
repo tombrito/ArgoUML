@@ -57,6 +57,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrUnconventionalPackName extends AbstractCrUnconventionalName {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8267398453542656320L;
+
+	/**
      * The constructor.
      */
     public CrUnconventionalPackName() {

@@ -50,7 +50,11 @@ import org.argouml.ui.LookAndFeelMgr;
 public class UMLExpressionLanguageField extends JTextField implements
         DocumentListener, UMLUserInterfaceComponent {
 
-    private UMLExpressionModel2 model;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 121239865751986119L;
+	private UMLExpressionModel2 model;
     private boolean notifyModel;
 
     /**

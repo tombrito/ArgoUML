@@ -56,7 +56,11 @@ import java.util.List;
 public class Checklist extends ArrayList<CheckItem> implements List<CheckItem>,
         Serializable {
 
-    private String nextCategory = "General";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8197231521366476245L;
+	private String nextCategory = "General";
 
     /**
      * The constructor.

@@ -53,6 +53,10 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetClassActive extends UndoableAction {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4775539904590994787L;
+	/**
      * The instance.
      */
     private static final ActionSetClassActive SINGLETON =

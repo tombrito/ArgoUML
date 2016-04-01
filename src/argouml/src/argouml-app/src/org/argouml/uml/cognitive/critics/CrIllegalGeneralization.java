@@ -60,6 +60,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrIllegalGeneralization extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5816207370484180412L;
+
+	/**
      * The constructor.
      */
     public CrIllegalGeneralization() {

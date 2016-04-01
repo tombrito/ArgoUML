@@ -85,6 +85,10 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class CollabDiagramRenderer extends UmlDiagramRenderer {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8801058393247175485L;
+	/**
      * Logger.
      */
     private static final Logger LOG =

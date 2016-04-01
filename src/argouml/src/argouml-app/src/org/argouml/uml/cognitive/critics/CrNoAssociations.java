@@ -59,6 +59,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrNoAssociations extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4800134923876879869L;
+
+	/**
      * Constructor.
      */
     public CrNoAssociations() {

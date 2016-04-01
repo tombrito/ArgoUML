@@ -56,6 +56,11 @@ import org.argouml.uml.cognitive.UMLDecision;
 public class CrInvalidPseudoStateTrigger extends CrUML {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7182606018907009589L;
+
+	/**
      * The constructor.
      */
     public CrInvalidPseudoStateTrigger() {

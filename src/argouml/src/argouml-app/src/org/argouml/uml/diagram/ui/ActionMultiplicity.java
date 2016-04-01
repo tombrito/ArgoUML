@@ -56,7 +56,11 @@ import org.tigris.gef.presentation.Fig;
  *
  */
 public class ActionMultiplicity extends UndoableAction {
-    private String str = "";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7307260972667097549L;
+	private String str = "";
     private Object mult = null;
 
     // multiplicity

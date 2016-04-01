@@ -89,10 +89,13 @@ public class CriticBrowserDialog extends ArgoDialog
 	       DocumentListener,
                TableModelListener,
                Observer {
-    private static final Logger LOG =
-        Logger.getLogger(CriticBrowserDialog.class.getName());
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7205117574109088995L;
 
-    private static int numCriticBrowser = 0;
+	private static final Logger LOG =
+        Logger.getLogger(CriticBrowserDialog.class.getName());
 
     private static final int NUM_COLUMNS = 25;
 
@@ -283,7 +286,6 @@ public class CriticBrowserDialog extends ArgoDialog
         mainContent.add(bsp);
 	setResizable(true);
 	setContent(mainContent);
-	numCriticBrowser++;
     }
 
     private void addListeners() {

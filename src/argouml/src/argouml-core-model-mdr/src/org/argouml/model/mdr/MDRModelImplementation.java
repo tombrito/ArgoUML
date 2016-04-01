@@ -222,16 +222,8 @@ public class MDRModelImplementation implements ModelImplementation {
             this.readOnly = readOnly;
         }
 
-        int getRefCount() {
-            return refCount;
-        }
-
         synchronized int decrementCount() {
             return refCount--;
-        }
-
-        synchronized int incrementCount() {
-            return refCount++;
         }
     }
 

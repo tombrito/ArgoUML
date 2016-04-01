@@ -50,6 +50,11 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLAssociationEndOrderingCheckBox extends UMLCheckBox2 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1908547293045981547L;
+
+	/**
      * Constructor for UMLAssociationEndOrderingCheckBox.
      */
     public UMLAssociationEndOrderingCheckBox() {

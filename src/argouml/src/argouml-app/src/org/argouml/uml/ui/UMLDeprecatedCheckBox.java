@@ -48,6 +48,11 @@ import org.argouml.application.api.Argo;
 public class UMLDeprecatedCheckBox extends UMLTaggedValueCheckBox {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -554362933814155617L;
+
+	/**
      * The constructor.
      *
      */

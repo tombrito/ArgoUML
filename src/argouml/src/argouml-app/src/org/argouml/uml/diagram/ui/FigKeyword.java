@@ -61,7 +61,11 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigKeyword extends FigSingleLineText {
 
-    private final String keywordText;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9112882227316485601L;
+	private final String keywordText;
 
     /**
      * @param keyword the text to show

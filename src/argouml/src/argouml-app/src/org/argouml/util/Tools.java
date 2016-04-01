@@ -110,14 +110,10 @@ public class Tools {
     public static String getVersionInfo() {
         try {
 
-            // class preloading, so packages are there...
-            Class cls = org.tigris.gef.base.Editor.class;
-            cls = org.xml.sax.AttributeList.class;
-
             // TODO: The following is MDR specific.  We need something generic
             // to all Model subsystems - tfm 20070716
             try {
-                cls = Class.forName("org.netbeans.api.mdr.MDRManager");
+                Class.forName("org.netbeans.api.mdr.MDRManager");
             } catch (ClassNotFoundException e) {
                 // ignore
             }

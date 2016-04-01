@@ -54,6 +54,11 @@ import org.argouml.ui.UndoableAction;
  */
 public class ActionNavigability extends UndoableAction {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 239592059501649761L;
+
+	/**
      * Enumeration constant for <code>BIDIRECTIONAL</code> navigability.
      */
     public static final int BIDIRECTIONAL = 0;

@@ -65,7 +65,12 @@ import org.argouml.ui.targetmanager.TargetManager;
 public class UMLComboBoxNavigator extends JPanel implements ActionListener,
         ItemListener {
 
-    private static ImageIcon icon = ResourceLoaderWrapper
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2712434923312475256L;
+
+	private static ImageIcon icon = ResourceLoaderWrapper
             .lookupIconResource("ComboNav");
 
     private JComboBox theComboBox;

@@ -911,7 +911,7 @@ public class ProjectSettings {
      *             setting. Any uses will be ignored.
      */
     @Deprecated
-    public void setGenerationOutputDir(@SuppressWarnings("unused") String od) {
+    public void setGenerationOutputDir(String od) {
         // ignored
     }
 

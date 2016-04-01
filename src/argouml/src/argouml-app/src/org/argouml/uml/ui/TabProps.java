@@ -80,6 +80,11 @@ public class TabProps
     implements TabModelTarget {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1524433366015220012L;
+
+	/**
      * Logger.
      */
     private static final Logger LOG =

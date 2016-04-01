@@ -54,7 +54,12 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ArgoModeCreateFigRect extends ModeCreateFigRect {
 
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3234077620655840366L;
+
+	@Override
     public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
         return new ArgoFigRect(snapX, snapY, 0, 0);
     }

@@ -62,6 +62,10 @@ import org.tigris.gef.graph.MutableGraphModel;
 public class ActionAddExistingNode extends UndoableAction {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3750858726454871503L;
+	/**
      * The UML object to be added to the diagram.
      */
     private Object object;

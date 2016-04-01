@@ -51,7 +51,12 @@ public class PerspectiveComboBox
     extends JComboBox
     implements PerspectiveManagerListener {
 
-    /** Creates a new instance of PerspectiveCombobox */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7245314921584964767L;
+
+	/** Creates a new instance of PerspectiveCombobox */
     public PerspectiveComboBox() {
         /* The default nr of rows is 8, 
          * but since we have 9 perspectives by default now, 

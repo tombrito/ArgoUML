@@ -58,7 +58,11 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionAggregation extends UndoableAction {
     
-    public static final int NONE = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5705616234737463543L;
+	public static final int NONE = 0;
     public static final int AGGREGATE_END1 = 1;
     public static final int AGGREGATE_END2 = 2;
     public static final int COMPOSITE_END1 = 3;

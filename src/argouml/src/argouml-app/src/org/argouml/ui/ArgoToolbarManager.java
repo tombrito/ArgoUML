@@ -71,6 +71,11 @@ public class ArgoToolbarManager {
      */
     private class ToolbarManagerMenuItemAction extends AbstractAction {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = -7685804677897514874L;
+
+		/**
          * Key to which this action is associated
          */
         private Object key;

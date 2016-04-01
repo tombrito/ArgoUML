@@ -44,7 +44,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -358,46 +357,6 @@ public class ExplorerTree extends DisplayTextTree {
             if (rowItem == target) {
                 addSelectionRow(j);
             }
-        }
-    }
-
-    /**
-     * Search the entire tree and select all instances of targets found.
-     */
-    private void selectAll(Set targets) {
-        ExplorerTreeModel model = (ExplorerTreeModel) getModel();
-        ExplorerTreeNode root = (ExplorerTreeNode) model.getRoot();
-        selectChildren(model, root, targets);
-    }
-
-    /*
-     * Perform recursive search of subtree rooted at 'node', selecting all nodes
-     * which have a userObject matching one of our targets.
-     */
-    private void selectChildren(ExplorerTreeModel model, ExplorerTreeNode node,
-            Set targets) {
-        if (targets.isEmpty()) {
-            return;
-        }
-
-        Object nodeObject = node.getUserObject();
-        if (nodeObject != null) {
-            for (Object t : targets) {
-                if (t == nodeObject) {
-                    addSelectionPath(new TreePath(node.getPath()));
-                    // target may appear multiple places in the tree, so
-                    // we don't stop here (but it's expensive to search
-                    // the whole tree) - tfm - 20070904
-                    // targets.remove(t);
-                    // break;
-                }
-            }
-        }
-
-        model.updateChildren(new TreePath(node.getPath()));
-        Enumeration e = node.children();
-        while (e.hasMoreElements()) {
-            selectChildren(model, (ExplorerTreeNode) e.nextElement(), targets);
         }
     }
 
