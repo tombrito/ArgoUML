@@ -58,10 +58,7 @@ import org.argouml.uml.diagram.ui.FigCompartmentBox;
  */
 public class StylePanelFigClass extends StylePanelFigNodeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4587367369055254943L;
+    private static final long serialVersionUID = 4587367369055254943L;
 
 	private JCheckBox attrCheckBox =
             new JCheckBox(Translator.localize("checkbox.attributes"));

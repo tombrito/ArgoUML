@@ -62,10 +62,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  * @author Jason Robbins
  */
 public class CrCrossNamespaceAssoc extends CrUML {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2206527712974299465L;
+    private static final long serialVersionUID = -2206527712974299465L;
 
 	/**
      * Constructor for the critic.<p>

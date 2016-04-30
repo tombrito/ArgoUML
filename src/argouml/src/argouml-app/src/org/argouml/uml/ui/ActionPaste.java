@@ -68,10 +68,7 @@ public class ActionPaste
     extends AbstractAction
     implements CaretListener, FocusListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5988660582249255196L;
+    private static final long serialVersionUID = -5988660582249255196L;
 
 	////////////////////////////////////////////////////////////////
     // static variables

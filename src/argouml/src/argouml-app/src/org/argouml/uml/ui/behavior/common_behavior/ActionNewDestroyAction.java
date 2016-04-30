@@ -54,10 +54,7 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewDestroyAction extends ActionNewAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3958638479919007028L;
+    private static final long serialVersionUID = -3958638479919007028L;
 	private static final ActionNewDestroyAction SINGLETON =
         new ActionNewDestroyAction();
 
@@ -88,10 +85,7 @@ public class ActionNewDestroyAction extends ActionNewAction {
     public static ActionNewAction getButtonInstance() {
         ActionNewAction a = new ActionNewDestroyAction() {
 
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = -3879885663053048817L;
+            private static final long serialVersionUID = -3879885663053048817L;
 
 			public void actionPerformed(ActionEvent e) {
                 Object target = TargetManager.getInstance().getModelTarget();

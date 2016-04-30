@@ -48,10 +48,7 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLReceptionSpecificationDocument extends UMLPlainTextDocument {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3557794808236894016L;
+    private static final long serialVersionUID = 3557794808236894016L;
 
 	/**
      * Constructor.

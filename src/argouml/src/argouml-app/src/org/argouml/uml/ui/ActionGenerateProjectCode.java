@@ -61,10 +61,7 @@ import org.argouml.uml.generator.ui.ClassGenerationDialog;
  */
 public class ActionGenerateProjectCode extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4370205168901819629L;
+    private static final long serialVersionUID = -4370205168901819629L;
 
 	/**
      *  The constructor.

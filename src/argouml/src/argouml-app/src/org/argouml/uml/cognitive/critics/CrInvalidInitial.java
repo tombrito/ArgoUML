@@ -58,10 +58,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidInitial extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8476995693772234263L;
+    private static final long serialVersionUID = 8476995693772234263L;
 
 	/**
      * The constructor.

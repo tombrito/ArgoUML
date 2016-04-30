@@ -49,10 +49,7 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class UMLAssociationEndTargetScopeCheckbox extends UMLCheckBox2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1624000754155640133L;
+    private static final long serialVersionUID = -1624000754155640133L;
 
 	/**
      * Constructor for UMLAssociationEndTargetScopeCheckbox.

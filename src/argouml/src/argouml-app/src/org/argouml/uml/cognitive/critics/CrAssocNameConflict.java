@@ -62,10 +62,7 @@ import org.argouml.uml.cognitive.UMLToDoItem;
  */
 public class CrAssocNameConflict extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5192018692556260838L;
+    private static final long serialVersionUID = 5192018692556260838L;
 
 	/**
      * The constructor.

@@ -56,10 +56,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigNodeInstance extends AbstractFigNode {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4449909026084671964L;
+    private static final long serialVersionUID = 4449909026084671964L;
 
 
 	/**

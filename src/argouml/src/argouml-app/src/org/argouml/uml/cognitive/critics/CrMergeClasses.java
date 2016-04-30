@@ -55,10 +55,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrMergeClasses extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -563713227021753985L;
+    private static final long serialVersionUID = -563713227021753985L;
 
 	/**
      * The constructor.

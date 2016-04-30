@@ -54,10 +54,7 @@ import org.argouml.ui.ProjectBrowser;
  */
 public class ActionReopenProject extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8745737280015401109L;
+    private static final long serialVersionUID = -8745737280015401109L;
 	private String filename;
 
     ////////////////////////////////////////////////////////////////

@@ -58,10 +58,7 @@ import org.argouml.uml.diagram.ui.FigNodeModelElement;
  */
 public class CrSeqInstanceWithoutClassifier extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4096806290094913170L;
+    private static final long serialVersionUID = -4096806290094913170L;
 
 	/**
      * The constructor.

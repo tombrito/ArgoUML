@@ -53,10 +53,7 @@ import org.argouml.model.Model;
  */
 public abstract class UMLWizard extends Wizard {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4503611591015151953L;
+    private static final long serialVersionUID = 4503611591015151953L;
 	/**
      * The suggestion string.
      */

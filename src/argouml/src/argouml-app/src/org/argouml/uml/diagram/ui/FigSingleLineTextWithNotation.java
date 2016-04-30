@@ -65,10 +65,7 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class FigSingleLineTextWithNotation extends FigSingleLineText 
     implements ArgoNotationEventListener, NotationRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7166590633996897075L;
+    private static final long serialVersionUID = -7166590633996897075L;
 
 	/**
      * @param owner the owning UML object

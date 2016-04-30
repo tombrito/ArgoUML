@@ -58,10 +58,7 @@ import org.tigris.toolbar.toolbutton.AbstractButtonAction;
  */
 public class RadioAction extends AbstractButtonAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7488831242390384425L;
+    private static final long serialVersionUID = -7488831242390384425L;
 	private Action realAction;
 
     /**

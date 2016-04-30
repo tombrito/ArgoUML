@@ -47,10 +47,7 @@ import org.argouml.model.Model;
  */
 public class ActionNewSignalEvent extends ActionNewEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6187709394247416079L;
+    private static final long serialVersionUID = 6187709394247416079L;
 	private static ActionNewSignalEvent singleton = new ActionNewSignalEvent();
 
     /**

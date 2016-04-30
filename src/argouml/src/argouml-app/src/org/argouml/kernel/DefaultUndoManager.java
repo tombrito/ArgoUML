@@ -281,10 +281,7 @@ class DefaultUndoManager implements UndoManager {
 
     private abstract class InteractionStack extends Stack<Interaction> {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -1148484356155589986L;
+        private static final long serialVersionUID = -1148484356155589986L;
 		private String labelProperty;
         private String addedProperty;
         private String removedProperty;
@@ -326,10 +323,7 @@ class DefaultUndoManager implements UndoManager {
 
     private class UndoStack extends InteractionStack {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 595983957693391861L;
+        private static final long serialVersionUID = 595983957693391861L;
 
 		public UndoStack() {
             super(
@@ -372,10 +366,7 @@ class DefaultUndoManager implements UndoManager {
 
     private class RedoStack extends InteractionStack {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -2402253073159850738L;
+        private static final long serialVersionUID = -2402253073159850738L;
 
 		public RedoStack() {
             super(

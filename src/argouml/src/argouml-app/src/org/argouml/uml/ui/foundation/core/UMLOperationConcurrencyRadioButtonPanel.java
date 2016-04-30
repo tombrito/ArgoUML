@@ -53,10 +53,7 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
 public class UMLOperationConcurrencyRadioButtonPanel extends
         UMLRadioButtonPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6385820029160457040L;
+    private static final long serialVersionUID = -6385820029160457040L;
 	private static List<String[]> labelTextsAndActionCommands;
 
     private static List<String[]> getCommands() {

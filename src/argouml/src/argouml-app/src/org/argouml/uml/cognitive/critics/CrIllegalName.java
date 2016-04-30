@@ -54,10 +54,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrIllegalName extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1070212079159239264L;
+    private static final long serialVersionUID = 1070212079159239264L;
 
 	/**
      * The constructor.

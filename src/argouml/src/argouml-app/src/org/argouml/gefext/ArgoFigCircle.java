@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigCircle;
  */
 public class ArgoFigCircle extends FigCircle implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 654738545610418037L;
+    private static final long serialVersionUID = 654738545610418037L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 

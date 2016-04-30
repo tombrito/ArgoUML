@@ -21,10 +21,7 @@ import org.tigris.gef.presentation.FigRect;
  */
 public class FigRegion extends FigRect {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -152506165956915180L;
+    private static final long serialVersionUID = -152506165956915180L;
 
 	/**
      * Construct a fig representing a region.

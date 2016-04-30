@@ -55,10 +55,7 @@ import org.argouml.model.Model;
  */
 class SourcePathTableModel extends DefaultTableModel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 781230679247058429L;
+    private static final long serialVersionUID = 781230679247058429L;
 	/**
      * Index of the column where model element objects are placed.
      */

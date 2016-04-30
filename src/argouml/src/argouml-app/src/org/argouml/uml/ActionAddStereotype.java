@@ -61,10 +61,7 @@ import org.argouml.ui.UndoableAction;
 @UmlModelMutator
 public class ActionAddStereotype extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5708852651371644279L;
+    private static final long serialVersionUID = 5708852651371644279L;
 
 	private Collection<Object> modelElements;
 

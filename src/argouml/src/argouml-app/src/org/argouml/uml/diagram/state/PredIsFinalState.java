@@ -47,10 +47,7 @@ import org.tigris.gef.util.Predicate;
  */
 public class PredIsFinalState implements Predicate {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7935954685451090350L;
+    private static final long serialVersionUID = 7935954685451090350L;
 	/**
      * TheInstance is the singleton.
      */

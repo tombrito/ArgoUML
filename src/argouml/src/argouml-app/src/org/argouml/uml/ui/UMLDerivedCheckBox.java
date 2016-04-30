@@ -47,10 +47,7 @@ import org.argouml.model.Facade;
  */
 public class UMLDerivedCheckBox extends UMLTaggedValueCheckBox {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3086337969734871247L;
+    private static final long serialVersionUID = -3086337969734871247L;
 
 	/**
      * The constructor.

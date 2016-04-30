@@ -50,10 +50,7 @@ import org.argouml.uml.diagram.ui.UMLDiagram;
  */
 public class ActionNavigateNamespace extends AbstractActionNavigate {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 856917494110309143L;
+    private static final long serialVersionUID = 856917494110309143L;
 
 	/*
      * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)

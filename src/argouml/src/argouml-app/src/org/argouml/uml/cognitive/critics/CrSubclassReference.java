@@ -62,10 +62,7 @@ import org.argouml.uml.cognitive.UMLToDoItem;
  */
 public class CrSubclassReference extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6218613378933021459L;
+    private static final long serialVersionUID = 6218613378933021459L;
 
 	/**
      * The constructor.

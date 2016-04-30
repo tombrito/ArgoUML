@@ -47,10 +47,7 @@ import org.argouml.model.Model;
  */
 public class ActionNewTimeEvent extends ActionNewEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4979988865482284187L;
+    private static final long serialVersionUID = 4979988865482284187L;
 	/**
      * The instance.
      */

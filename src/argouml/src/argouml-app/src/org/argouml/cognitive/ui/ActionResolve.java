@@ -46,10 +46,7 @@ import java.awt.event.ActionEvent;
  */
 public class ActionResolve extends ToDoItemAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6532931093049986159L;
+    private static final long serialVersionUID = -6532931093049986159L;
 
 	/**
      * Construct an Action to resolve a ToDo item.

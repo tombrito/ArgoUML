@@ -63,10 +63,7 @@ import org.tigris.gef.presentation.Fig;
  */
 class ActionSetPath extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -364568814110408164L;
+    private static final long serialVersionUID = -364568814110408164L;
 	private static final UndoableAction SHOW_PATH =
         new ActionSetPath(false);
     private static final UndoableAction HIDE_PATH =

@@ -56,10 +56,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ArgoModeCreateFigText extends ModeCreateFigText {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2888858151513812276L;
+    private static final long serialVersionUID = -2888858151513812276L;
 
 	@Override
     public String instructions() {

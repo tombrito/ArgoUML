@@ -67,10 +67,7 @@ import org.argouml.model.Model;
  * @author jrobbins@ics.uci.edu
  */
 public class WizAssocComposite extends UMLWizard {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6685095200902446743L;
+    private static final long serialVersionUID = -6685095200902446743L;
 
 	/**
      * Logger.

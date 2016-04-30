@@ -61,10 +61,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrNoInstanceVariables extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1125503821976343318L;
+    private static final long serialVersionUID = -1125503821976343318L;
 	private static final int MAX_DEPTH = 50;
 
     /**

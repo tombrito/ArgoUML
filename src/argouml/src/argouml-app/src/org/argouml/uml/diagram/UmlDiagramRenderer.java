@@ -62,10 +62,7 @@ import org.tigris.gef.presentation.FigNode;
 public abstract class UmlDiagramRenderer
     implements GraphNodeRenderer, GraphEdgeRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6983978200144995713L;
+    private static final long serialVersionUID = -6983978200144995713L;
 
 	/**
      * @deprecated for 0.27.3 by tfmorris. Only used by

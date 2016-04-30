@@ -82,10 +82,7 @@ import org.tigris.gef.util.Util;
 public class ActionSaveAllGraphics extends AbstractAction
     implements CommandLineInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1481643571127069688L;
+    private static final long serialVersionUID = 1481643571127069688L;
 
 	private static final Logger LOG =
         Logger.getLogger(ActionSaveAllGraphics.class.getName());

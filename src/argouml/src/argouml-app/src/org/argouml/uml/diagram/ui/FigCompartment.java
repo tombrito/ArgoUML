@@ -79,10 +79,7 @@ import org.tigris.gef.presentation.FigRect;
  */
 public abstract class FigCompartment extends ArgoFigGroup {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4372396526957531695L;
+    private static final long serialVersionUID = -4372396526957531695L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigCompartment.class.getName());
@@ -533,10 +530,7 @@ public abstract class FigCompartment extends ArgoFigGroup {
      * around the start and end coordinates with a line width > 1.
      */
     private static class FigSeparator extends FigRect {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 624225002648352177L;
+        private static final long serialVersionUID = 624225002648352177L;
 
 		/**
          * Constructor.
@@ -573,10 +567,7 @@ public abstract class FigCompartment extends ArgoFigGroup {
      * around the start and end coordinates with a line width > 1.
      */
     private static class FigPort extends FigRect {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 4974531165768005775L;
+        private static final long serialVersionUID = 4974531165768005775L;
 
 		/**
          * Constructor.

@@ -66,10 +66,7 @@ import org.argouml.util.ArgoDialog;
  */
 public class GotoDialog extends ArgoDialog {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7195407055178260421L;
+    private static final long serialVersionUID = -7195407055178260421L;
 	private final TabResults allDiagrams = new TabResults(false); // no related
 
     /**

@@ -63,10 +63,7 @@ import org.argouml.ui.UndoableAction;
  */
 class ActionFind extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 207770345812177881L;
+    private static final long serialVersionUID = 207770345812177881L;
 	private String name;
     
     /**

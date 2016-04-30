@@ -58,10 +58,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidFork extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5086683562482416311L;
+    private static final long serialVersionUID = 5086683562482416311L;
 
 	/**
      * The constructor.

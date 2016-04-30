@@ -54,10 +54,7 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddExtendExtensionPoint
     extends AbstractActionAddModelElement2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 9162759378659983873L;
+    private static final long serialVersionUID = 9162759378659983873L;
 	private static final ActionAddExtendExtensionPoint SINGLETON =
         new ActionAddExtendExtensionPoint();
     /**

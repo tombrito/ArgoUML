@@ -81,10 +81,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class UMLUseCaseDiagram extends UMLDiagram implements UseCaseDiagram {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3000294377071247312L;
+    private static final long serialVersionUID = -3000294377071247312L;
 
 	private static final Logger LOG =
         Logger.getLogger(UMLUseCaseDiagram.class.getName());

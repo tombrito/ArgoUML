@@ -66,10 +66,7 @@ import org.argouml.util.ArgoDialog;
  */
 public class DesignIssuesDialog extends ArgoDialog implements ChangeListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7020175997032541360L;
+    private static final long serialVersionUID = -7020175997032541360L;
 	////////////////////////////////////////////////////////////////
     // constants
     ////////////////////////////////////////////////////////////////

@@ -62,10 +62,7 @@ public class PropPanelString
     extends AbstractArgoJPanel
     implements TabModelTarget, PropertyChangeListener, DocumentListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8059085008407973648L;
+    private static final long serialVersionUID = -8059085008407973648L;
 	private FigText target;
     private JLabel nameLabel = new JLabel(Translator.localize("label.text"));
     private JTextField nameField = new JTextField();

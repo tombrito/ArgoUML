@@ -47,10 +47,7 @@ import java.util.EventObject;
  * @author Bob Tarling
  */
 public abstract class InstanceChangeEvent extends UmlChangeEvent {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3107335259047971670L;
+    private static final long serialVersionUID = -3107335259047971670L;
 
 	/**
      * Constructor.

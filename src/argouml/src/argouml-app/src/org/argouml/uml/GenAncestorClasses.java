@@ -52,10 +52,7 @@ import org.tigris.gef.util.ChildGenerator;
  */
 public class GenAncestorClasses implements ChildGenerator {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8993083177829145234L;
+    private static final long serialVersionUID = 8993083177829145234L;
 
 	/*
      * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)

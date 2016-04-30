@@ -64,10 +64,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigMessage extends FigNodeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1641975975733014174L;
+    private static final long serialVersionUID = -1641975975733014174L;
 
 	private static Vector<String> arrowDirections;
 

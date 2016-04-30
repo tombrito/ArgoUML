@@ -73,10 +73,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class UMLToDoItem extends ToDoItem {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8043553323004131623L;
+    private static final long serialVersionUID = 8043553323004131623L;
 
 	/**
      * The constructor.

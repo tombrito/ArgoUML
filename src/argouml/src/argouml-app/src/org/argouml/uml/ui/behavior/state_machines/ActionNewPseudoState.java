@@ -56,10 +56,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 @Deprecated
 public class ActionNewPseudoState extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6498885236416964449L;
+    private static final long serialVersionUID = -6498885236416964449L;
 	private Object kind;
 
     /**

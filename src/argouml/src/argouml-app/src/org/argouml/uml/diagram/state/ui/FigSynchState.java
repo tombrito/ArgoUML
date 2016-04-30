@@ -61,10 +61,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSynchState extends FigStateVertex {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2566887523327603687L;
+    private static final long serialVersionUID = 2566887523327603687L;
 	private static final int X = X0;
     private static final int Y = Y0;
     private static final int WIDTH = 25;

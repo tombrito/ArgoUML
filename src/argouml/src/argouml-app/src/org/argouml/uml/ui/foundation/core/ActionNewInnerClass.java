@@ -54,10 +54,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewInnerClass extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -740852894054688786L;
+    private static final long serialVersionUID = -740852894054688786L;
 
 	/**
      * The constructor.

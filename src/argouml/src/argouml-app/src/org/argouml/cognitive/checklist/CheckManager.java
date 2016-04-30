@@ -55,10 +55,7 @@ public class CheckManager implements Serializable {
     ////////////////////////////////////////////////////////////////
     // static variables
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3728939841412205636L;
+    private static final long serialVersionUID = -3728939841412205636L;
 
 	/**
      * List of checklists.

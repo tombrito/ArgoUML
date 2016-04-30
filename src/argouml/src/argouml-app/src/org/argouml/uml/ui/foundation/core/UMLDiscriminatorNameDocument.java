@@ -49,10 +49,7 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLDiscriminatorNameDocument extends UMLPlainTextDocument {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4418360430357902569L;
+    private static final long serialVersionUID = -4418360430357902569L;
 
 	/**
      * Constructor for UMLModelElementNameDocument.

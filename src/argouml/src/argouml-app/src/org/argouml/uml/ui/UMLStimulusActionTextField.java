@@ -52,10 +52,7 @@ public class UMLStimulusActionTextField extends JTextField
     implements DocumentListener, UMLUserInterfaceComponent, 
     PropertyChangeListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7758146816646053322L;
+    private static final long serialVersionUID = 7758146816646053322L;
 	private UMLUserInterfaceContainer theContainer;
     private UMLStimulusActionTextProperty theProperty;
 

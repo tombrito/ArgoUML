@@ -57,10 +57,7 @@ import org.argouml.ui.explorer.ExplorerPopup;
  */
 public class ActionCreateEdgeModelElement extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7837473126471683486L;
+    private static final long serialVersionUID = 7837473126471683486L;
 
 	private static final Logger LOG =
         Logger.getLogger(ExplorerPopup.class.getName());

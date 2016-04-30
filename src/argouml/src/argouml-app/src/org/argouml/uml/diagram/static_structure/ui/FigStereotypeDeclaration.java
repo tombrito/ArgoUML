@@ -67,10 +67,7 @@ import org.tigris.gef.base.Selection;
  */
 public class FigStereotypeDeclaration extends FigCompartmentBox {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3278972862726775237L;
+    private static final long serialVersionUID = 3278972862726775237L;
 
 	private void constructFigs(Rectangle bounds) {
         // Put all the bits together, suppressing bounds calculations until

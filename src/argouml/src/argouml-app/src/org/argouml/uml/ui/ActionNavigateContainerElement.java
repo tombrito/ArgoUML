@@ -50,10 +50,7 @@ import org.argouml.model.Model;
  */
 public class ActionNavigateContainerElement extends AbstractActionNavigate {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6012024872418415031L;
+    private static final long serialVersionUID = -6012024872418415031L;
 
 	/*
      * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)

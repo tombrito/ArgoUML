@@ -59,9 +59,6 @@ import org.argouml.util.ChildGenerator;
  */
 public class CrUselessAbstract extends CrUML {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8036494703287368085L;
 
 	/**

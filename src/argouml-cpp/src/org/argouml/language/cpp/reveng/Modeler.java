@@ -186,14 +186,8 @@ public interface Modeler {
      */
     void endParameterDeclaration();
 
-    /**
-     * 
-     */
     void beginInitializer();
 
-    /**
-     * 
-     */
     void endInitializer();
 
     /**

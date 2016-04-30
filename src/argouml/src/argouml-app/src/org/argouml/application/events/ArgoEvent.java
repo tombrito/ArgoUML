@@ -49,10 +49,7 @@ import java.util.EventObject;
 public abstract class ArgoEvent extends EventObject
     implements ArgoEventTypes {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3401168641539027479L;
+    private static final long serialVersionUID = -3401168641539027479L;
 	private int eventType = 0;
 
     /**

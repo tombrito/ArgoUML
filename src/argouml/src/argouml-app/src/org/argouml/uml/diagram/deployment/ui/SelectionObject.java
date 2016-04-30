@@ -50,10 +50,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionObject extends SelectionNodeClarifiers2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8731705953394710222L;
+    private static final long serialVersionUID = 8731705953394710222L;
 
 	private static Icon linkIcon =
 	ResourceLoaderWrapper.lookupIconResource("Link");

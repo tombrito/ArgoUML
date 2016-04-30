@@ -50,10 +50,7 @@ package org.argouml.persistence;
  * @author Bob Tarling
  */
 public class SaveException extends PersistenceException {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 576722391317647798L;
+    private static final long serialVersionUID = 576722391317647798L;
 
 	/**
      * The constructor.

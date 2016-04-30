@@ -71,10 +71,7 @@ import org.argouml.util.ArgoFrame;
  */
 public class ActionExportProfileXMI extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8910180381110506879L;
+    private static final long serialVersionUID = -8910180381110506879L;
 
 	/**
      * Logger.

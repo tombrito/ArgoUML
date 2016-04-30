@@ -207,10 +207,7 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddAssociationAction extends AbstractAction {
         
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -2603136235487297871L;
+        private static final long serialVersionUID = -2603136235487297871L;
 		final Object element;
         final Object association;
         final Object oppositeClass;
@@ -244,10 +241,7 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddUsageAction extends AbstractAction {
         
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -4495815275140447525L;
+        private static final long serialVersionUID = -4495815275140447525L;
 		final Object element;
         final Object usage;
         final Object oppositeClass;
@@ -282,10 +276,7 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddGeneralAction extends AbstractAction {
         
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 8605677845113024987L;
+        private static final long serialVersionUID = 8605677845113024987L;
 		final Object element;
         final Object generalization;
         final Object generalClass;
@@ -319,10 +310,7 @@ public class RelationshipActionFactory implements ContextActionFactory {
     
     private class AddSpecialAction extends AbstractAction {
         
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -1165109683941394020L;
+        private static final long serialVersionUID = -1165109683941394020L;
 		final Object element;
         final Object generalization;
         final Object specialClass;

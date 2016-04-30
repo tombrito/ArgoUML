@@ -49,10 +49,7 @@ import org.argouml.cognitive.ToDoItem;
  */
 public class ActionSnooze extends ToDoItemAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4758700846492016814L;
+    private static final long serialVersionUID = -4758700846492016814L;
 
 	/**
      * The constructor.

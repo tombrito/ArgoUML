@@ -49,10 +49,7 @@ import org.tigris.gef.presentation.FigPoly;
  */
 public class FigModel extends FigPackage {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 128770396151321212L;
+    private static final long serialVersionUID = 128770396151321212L;
 
 	/**
      * Construct a Model fig

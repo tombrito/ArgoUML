@@ -57,19 +57,13 @@ import org.argouml.i18n.Translator;
  */
 public class WizTooMany extends UMLWizard {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5878299006096207672L;
+    private static final long serialVersionUID = 5878299006096207672L;
 
 	private String instructions = 
         Translator.localize("critics.WizTooMany-ins");
         
     private WizStepTextField step1;
 
-    /**
-     *
-     */
     public WizTooMany() {
         super();
     }

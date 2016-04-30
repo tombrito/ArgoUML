@@ -54,10 +54,7 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionAddPackage  extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3751332956804844520L;
+    private static final long serialVersionUID = 3751332956804844520L;
 
 	/**
      * Creates a new instance of ActionAddPackage.

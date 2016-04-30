@@ -42,9 +42,6 @@ import java.util.Collection;
 
 import org.argouml.model.Model;
 
-/**
- *
- */
 class UMLLinkConnectionListModel
         extends UMLModelElementListModel 
         implements Ordered {

@@ -45,10 +45,7 @@ package org.argouml.persistence;
  */
 public class VersionException extends OpenException {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8957033708572418997L;
+    private static final long serialVersionUID = -8957033708572418997L;
 
 	/**
      * Construct the exception the version information found.

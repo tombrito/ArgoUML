@@ -84,10 +84,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigStereotypesGroup extends ArgoFigGroup {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4650490538622085123L;
+    private static final long serialVersionUID = 4650490538622085123L;
 
 	private Fig bigPort;
 

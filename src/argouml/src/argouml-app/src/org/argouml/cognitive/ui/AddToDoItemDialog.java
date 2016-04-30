@@ -66,10 +66,7 @@ import org.tigris.swidgets.LabelledLayout;
  */
 public class AddToDoItemDialog extends ArgoDialog {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6158921814836107080L;
+    private static final long serialVersionUID = 6158921814836107080L;
 	////////////////////////////////////////////////////////////////
     // constants
     private static final String[] PRIORITIES = {

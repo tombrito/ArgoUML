@@ -58,10 +58,7 @@ package org.argouml.uml.diagram.ui;
  */
 public abstract class ActionStereotypeView extends AbstractActionRadioMenuItem {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2569411443381550783L;
+    private static final long serialVersionUID = -2569411443381550783L;
 	private FigNodeModelElement targetNode;
     private int selectedStereotypeView;
     

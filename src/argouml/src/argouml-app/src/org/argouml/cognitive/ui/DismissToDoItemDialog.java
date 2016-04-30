@@ -68,10 +68,7 @@ import org.tigris.swidgets.Dialog;
  */
 public class DismissToDoItemDialog extends ArgoDialog {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4179831013338943555L;
+    private static final long serialVersionUID = 4179831013338943555L;
 
 	private static final Logger LOG =
         Logger.getLogger(DismissToDoItemDialog.class.getName());

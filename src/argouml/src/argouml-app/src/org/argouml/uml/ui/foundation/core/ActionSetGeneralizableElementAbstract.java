@@ -53,10 +53,7 @@ import org.argouml.uml.ui.UMLCheckBox2;
  * @since Jan 27, 2003
  */
 public class ActionSetGeneralizableElementAbstract extends UndoableAction {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3835806944304533687L;
+    private static final long serialVersionUID = -3835806944304533687L;
 	/**
      * The instance.
      */

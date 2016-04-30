@@ -48,10 +48,7 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public class FigDeepHistoryState extends FigHistoryState {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6303940763807098196L;
+    private static final long serialVersionUID = -6303940763807098196L;
 
 	/**
      * Construct a new FigDeepHistoryState.

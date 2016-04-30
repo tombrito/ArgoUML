@@ -57,10 +57,7 @@ import org.argouml.ui.UndoableAction;
 @UmlModelMutator
 public class AbstractActionRemoveElement extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -281517575101521950L;
+    private static final long serialVersionUID = -281517575101521950L;
 
 	/**
      * The object that owns the object that must be removed (the

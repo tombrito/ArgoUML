@@ -542,10 +542,7 @@ public class Import extends ImportCommon implements ImportSettings {
 
     private static class ImportFileChooser extends JFileChooser {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 3279250344400356112L;
+        private static final long serialVersionUID = 3279250344400356112L;
 		private Import theImport;
 
         /**
@@ -616,10 +613,7 @@ public class Import extends ImportCommon implements ImportSettings {
     class ConfigPanelExtension extends JPanel {
 
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -5021975616808365068L;
+        private static final long serialVersionUID = -5021975616808365068L;
 
 		/**
          * Construct the configuration extension panel.

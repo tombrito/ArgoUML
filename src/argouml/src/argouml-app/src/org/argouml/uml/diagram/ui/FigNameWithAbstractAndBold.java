@@ -57,10 +57,7 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 class FigNameWithAbstractAndBold extends FigNameWithAbstract {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6745960767954692417L;
+    private static final long serialVersionUID = 6745960767954692417L;
 
 	/**
      * Construct a name Fig that shows whether associated item is abstract

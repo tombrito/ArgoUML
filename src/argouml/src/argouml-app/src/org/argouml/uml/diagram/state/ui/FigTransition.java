@@ -71,10 +71,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class FigTransition extends FigEdgeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7290412320294384479L;
+    private static final long serialVersionUID = 7290412320294384479L;
 
 	private ArrowHeadGreater endArrow = new ArrowHeadGreater();
 

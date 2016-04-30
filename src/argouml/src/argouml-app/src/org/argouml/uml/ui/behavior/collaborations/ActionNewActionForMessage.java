@@ -50,10 +50,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  * @stereotype singleton
  */
 public class ActionNewActionForMessage extends AbstractActionNewModelElement {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 893042022454975056L;
+    private static final long serialVersionUID = 893042022454975056L;
 	/**
      * Singleton.
      */

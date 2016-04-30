@@ -52,10 +52,7 @@ import org.tigris.gef.presentation.FigSpline;
  */
 public class ArgoModeCreateFigSpline extends ModeCreateFigSpline {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7837041211760728963L;
+    private static final long serialVersionUID = -7837041211760728963L;
 
 	public String instructions() {
         return Translator.localize("statusmsg.help.create.spline");

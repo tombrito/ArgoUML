@@ -58,10 +58,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrUtilityViolated extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3346621330064493850L;
+    private static final long serialVersionUID = 3346621330064493850L;
 
 	/**
      * The constructor.

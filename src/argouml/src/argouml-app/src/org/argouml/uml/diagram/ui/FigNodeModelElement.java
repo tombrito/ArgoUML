@@ -164,10 +164,7 @@ public abstract class FigNodeModelElement
         Owned {
 
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5391575873172473552L;
+    private static final long serialVersionUID = 5391575873172473552L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigNodeModelElement.class.getName());
@@ -2591,10 +2588,7 @@ public abstract class FigNodeModelElement
      */
     class SelectionDefaultClarifiers extends SelectionNodeClarifiers2 {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -6598514688491351852L;
+        private static final long serialVersionUID = -6598514688491351852L;
 
 		/** Construct a new SelectionNodeClarifiers for the given Fig
          *

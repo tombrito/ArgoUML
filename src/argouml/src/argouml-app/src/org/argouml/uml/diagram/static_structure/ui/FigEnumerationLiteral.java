@@ -51,10 +51,7 @@ import org.argouml.uml.diagram.ui.CompartmentFigText;
  */
 public class FigEnumerationLiteral extends CompartmentFigText {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4329575493025528544L;
+    private static final long serialVersionUID = 4329575493025528544L;
 
 	/**
      * Build a new Enumeration Literal figText of the given dimensions, 

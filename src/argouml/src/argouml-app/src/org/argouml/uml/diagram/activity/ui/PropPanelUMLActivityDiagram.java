@@ -49,10 +49,7 @@ import org.argouml.uml.diagram.ui.PropPanelDiagram;
  */
 class PropPanelUMLActivityDiagram extends PropPanelDiagram {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5062019148074410539L;
+    private static final long serialVersionUID = -5062019148074410539L;
 
 	/**
      * Constructor for PropPanelUMLActivityDiagram.

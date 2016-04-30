@@ -69,10 +69,7 @@ import org.argouml.i18n.Translator;
  */
 public class ArgoJFontChooser extends JDialog {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1447282062598064435L;
+    private static final long serialVersionUID = -1447282062598064435L;
 
 	private JPanel jContentPane = null;
 

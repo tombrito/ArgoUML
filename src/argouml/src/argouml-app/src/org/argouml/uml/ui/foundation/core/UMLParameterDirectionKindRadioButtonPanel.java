@@ -53,10 +53,7 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
 public class UMLParameterDirectionKindRadioButtonPanel extends
         UMLRadioButtonPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1481010423575553881L;
+    private static final long serialVersionUID = 1481010423575553881L;
 	private static List<String[]> labelTextsAndActionCommands =
             new ArrayList<String[]>();
 

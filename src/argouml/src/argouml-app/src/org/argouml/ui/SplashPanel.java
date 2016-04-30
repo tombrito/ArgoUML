@@ -57,10 +57,7 @@ import org.argouml.application.helpers.ResourceLoaderWrapper;
  */
 class SplashPanel extends JPanel {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1364073982638581104L;
+    private static final long serialVersionUID = -1364073982638581104L;
 	private ImageIcon splashImage = null;
     
     /**
@@ -75,10 +72,7 @@ class SplashPanel extends JPanel {
 
 	JLabel splashLabel = new JLabel("", SwingConstants.LEFT) {
 
-	    /**
-		 * 
-		 */
-		private static final long serialVersionUID = -9185188128909684037L;
+	    private static final long serialVersionUID = -9185188128909684037L;
 
 		/**
              * The following values were determined experimentally:

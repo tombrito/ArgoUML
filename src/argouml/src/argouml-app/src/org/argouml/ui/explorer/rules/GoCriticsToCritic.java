@@ -75,10 +75,7 @@ public class GoCriticsToCritic implements PerspectiveRule {
                         if (critic instanceof CompoundCritic) {
 
                             Object compound = new Vector<Critic>() {
-                                /**
-								 * 
-								 */
-								private static final long serialVersionUID = 3035292287570822636L;
+                                private static final long serialVersionUID = 3035292287570822636L;
 
 								{
                                     addAll(((CompoundCritic) fc)

@@ -79,10 +79,7 @@ import org.tigris.gef.presentation.FigEdge;
  */
 public class PathItemPlacement extends PathConv {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2642934779803194003L;
+    private static final long serialVersionUID = -2642934779803194003L;
 
 	private static final Logger LOG =
         Logger.getLogger(PathItemPlacement.class.getName());

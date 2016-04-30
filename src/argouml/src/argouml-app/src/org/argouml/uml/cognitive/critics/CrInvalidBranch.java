@@ -69,10 +69,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidBranch extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8891623137883314994L;
+    private static final long serialVersionUID = -8891623137883314994L;
 
 	/**
      * The constructor.

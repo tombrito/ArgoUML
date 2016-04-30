@@ -50,10 +50,7 @@ import org.argouml.i18n.Translator;
  */
 class ActionPageSetup extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -920150575108329513L;
+    private static final long serialVersionUID = -920150575108329513L;
 
 	/**
      * Constructor.

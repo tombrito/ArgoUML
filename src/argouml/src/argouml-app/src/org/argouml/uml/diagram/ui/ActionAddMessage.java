@@ -62,10 +62,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class ActionAddMessage extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2405835829763972385L;
+    private static final long serialVersionUID = -2405835829763972385L;
 	private static ActionAddMessage targetFollower;
     
     /**

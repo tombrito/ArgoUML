@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigRRect;
  */
 public class ArgoFigRRect extends FigRRect implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8558623195782613576L;
+    private static final long serialVersionUID = 8558623195782613576L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
     

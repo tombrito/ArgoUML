@@ -45,10 +45,7 @@ package org.argouml.persistence;
  */
 public class UmlVersionException extends XmiFormatException {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 572039833250263170L;
+    private static final long serialVersionUID = 572039833250263170L;
 
 	/**
      * Construct an UmlVersionException with the version string

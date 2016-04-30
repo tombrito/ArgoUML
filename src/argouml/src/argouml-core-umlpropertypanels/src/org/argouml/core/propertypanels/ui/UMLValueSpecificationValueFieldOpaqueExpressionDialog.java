@@ -47,9 +47,6 @@ class UMLValueSpecificationValueFieldOpaqueExpressionDialog extends
      */
     private static final long serialVersionUID = -5429439639242117770L;
 
-    /**
-     * 
-     */
     private UMLValueSpecificationModel model;
 
     /**
@@ -67,14 +64,8 @@ class UMLValueSpecificationValueFieldOpaqueExpressionDialog extends
      */
     private JTextField curLanguage;
 
-    /**
-     * 
-     */
     private JTextArea curBody;
 
-    /**
-     * 
-     */
     private JList list;
     /**
      * Model for JList, containing all the language value for this Property

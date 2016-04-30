@@ -67,10 +67,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrDupRoleNames extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5260666518607207517L;
+    private static final long serialVersionUID = -5260666518607207517L;
 
 	/**
      * <p>Constructor for the critic.</p>

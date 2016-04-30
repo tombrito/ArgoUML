@@ -70,10 +70,7 @@ import org.argouml.uml.cognitive.critics.CrUML;
  */
 public class CrSingletonViolatedOnlyPrivateConstructors extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8665215639224128650L;
+    private static final long serialVersionUID = 8665215639224128650L;
 
 
 	/**

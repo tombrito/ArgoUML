@@ -144,10 +144,7 @@ public interface ImportInterface extends ModuleInterface {
      */
     public class ImportException extends Exception {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -760011955259190223L;
+        private static final long serialVersionUID = -760011955259190223L;
 
 		/**
          * Construct an ImportException with a wrapped Throwable.

@@ -64,10 +64,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigActionState extends FigStateVertex {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2365503713978074294L;
+    private static final long serialVersionUID = -2365503713978074294L;
 
 	private static final int HEIGHT = 25;
 

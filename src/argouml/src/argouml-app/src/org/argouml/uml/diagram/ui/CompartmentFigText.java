@@ -58,10 +58,7 @@ import org.tigris.gef.presentation.FigText;
 public abstract class CompartmentFigText extends FigSingleLineTextWithNotation
         implements Clarifiable {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7514436862080860603L;
+    private static final long serialVersionUID = 7514436862080860603L;
 	private static final int MARGIN = 3;
 
     /**

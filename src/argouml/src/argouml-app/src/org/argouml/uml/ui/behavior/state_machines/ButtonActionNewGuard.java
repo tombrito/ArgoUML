@@ -58,10 +58,7 @@ import org.tigris.toolbar.toolbutton.ModalAction;
 public class ButtonActionNewGuard extends UndoableAction 
     implements ModalAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6896668298554746950L;
+    private static final long serialVersionUID = 6896668298554746950L;
 
 	public ButtonActionNewGuard() {
         super();

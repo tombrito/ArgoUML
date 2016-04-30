@@ -40,9 +40,6 @@ package org.argouml.core.propertypanels.ui;
 
 import org.argouml.model.Model;
 
-/**
- *
- */
 class UMLInstanceLinkEndListModel
     extends UMLModelElementListModel {
 

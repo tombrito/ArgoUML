@@ -56,10 +56,7 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddMessagePredecessor 
     extends AbstractActionAddModelElement2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7133471696539329826L;
+    private static final long serialVersionUID = 7133471696539329826L;
 	private static final ActionAddMessagePredecessor SINGLETON =
 	new ActionAddMessagePredecessor();
 

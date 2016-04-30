@@ -79,10 +79,7 @@ public class TabProps
     extends AbstractArgoJPanel
     implements TabModelTarget {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1524433366015220012L;
+    private static final long serialVersionUID = 1524433366015220012L;
 
 	/**
      * Logger.

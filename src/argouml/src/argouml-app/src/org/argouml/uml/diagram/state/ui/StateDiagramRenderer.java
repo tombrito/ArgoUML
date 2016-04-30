@@ -84,10 +84,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class StateDiagramRenderer extends UmlDiagramRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7009268328918921631L;
+    private static final long serialVersionUID = 7009268328918921631L;
 	private static final Logger LOG =
         Logger.getLogger(StateDiagramRenderer.class.getName());
 

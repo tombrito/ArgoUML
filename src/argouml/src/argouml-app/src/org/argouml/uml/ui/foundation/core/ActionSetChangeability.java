@@ -53,10 +53,7 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetChangeability extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5905937772935927718L;
+    private static final long serialVersionUID = -5905937772935927718L;
 
 	private static final ActionSetChangeability SINGLETON =
         new ActionSetChangeability();

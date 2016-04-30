@@ -58,10 +58,7 @@ import org.argouml.ui.ProjectSettingsTabProfile;
  */
 public class ActionManageProfiles extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6890249815123934988L;
+    private static final long serialVersionUID = 6890249815123934988L;
 	/**
      * The settings dialog.
      */

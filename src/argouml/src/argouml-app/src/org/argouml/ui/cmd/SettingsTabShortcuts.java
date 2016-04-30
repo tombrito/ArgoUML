@@ -506,10 +506,7 @@ class SettingsTabShortcuts extends JPanel implements
      */
     class ShortcutTableModel extends AbstractTableModel {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 8690105289717428633L;
+        private static final long serialVersionUID = 8690105289717428633L;
 
 		/**
          * Constructor.
@@ -625,10 +622,7 @@ class SettingsTabShortcuts extends JPanel implements
  */
 class KeyStrokeCellRenderer extends DefaultTableCellRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8166409791644369828L;
+    private static final long serialVersionUID = 8166409791644369828L;
 
 	/**
      * Construct a table cell rendered for key strokes.

@@ -57,10 +57,7 @@ import org.tigris.gef.presentation.FigGroup;
  */
 public abstract class ArgoFigGroup extends FigGroup implements ArgoFig {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1012617605194168797L;
+    private static final long serialVersionUID = -1012617605194168797L;
 
 	private static final Logger LOG =
         Logger.getLogger(ArgoFigGroup.class.getName());

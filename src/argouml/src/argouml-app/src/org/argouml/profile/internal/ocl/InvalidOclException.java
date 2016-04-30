@@ -45,10 +45,7 @@ package org.argouml.profile.internal.ocl;
  */
 public class InvalidOclException extends Exception {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8646186094013800957L;
+    private static final long serialVersionUID = -8646186094013800957L;
 
 	/**
      * Default Constructor

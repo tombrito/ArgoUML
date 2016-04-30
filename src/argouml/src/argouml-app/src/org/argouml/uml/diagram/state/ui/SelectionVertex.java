@@ -27,10 +27,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionVertex extends SelectionState {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2772054826265794643L;
+    private static final long serialVersionUID = 2772054826265794643L;
 
 	/**
      * Construct a new SelectionState for the given Fig.

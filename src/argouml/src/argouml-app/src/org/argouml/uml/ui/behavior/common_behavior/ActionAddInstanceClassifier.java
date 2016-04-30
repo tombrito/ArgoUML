@@ -58,10 +58,7 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  */
 public class ActionAddInstanceClassifier extends AbstractActionAddModelElement2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6475347975525794134L;
+    private static final long serialVersionUID = -6475347975525794134L;
 	private Object choiceClass = Model.getMetaTypes().getClassifier();
 
     /**

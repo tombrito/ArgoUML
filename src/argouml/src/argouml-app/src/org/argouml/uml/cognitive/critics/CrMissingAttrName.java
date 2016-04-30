@@ -55,10 +55,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrMissingAttrName extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4281066282140790966L;
+    private static final long serialVersionUID = 4281066282140790966L;
 
 	/**
      * The constructor.

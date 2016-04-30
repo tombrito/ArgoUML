@@ -50,10 +50,7 @@ import org.argouml.uml.ui.UMLModelElementListModel2;
 class UMLStereotypeTagDefinitionListModel
     extends UMLModelElementListModel2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6970671833399323357L;
+    private static final long serialVersionUID = 6970671833399323357L;
 
 	/**
      * Constructor for UMLStereotypeTagDefinitionListModel.

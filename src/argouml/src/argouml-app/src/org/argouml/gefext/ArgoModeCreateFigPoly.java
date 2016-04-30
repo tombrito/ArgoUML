@@ -54,10 +54,7 @@ import org.tigris.gef.presentation.FigPoly;
  */
 public class ArgoModeCreateFigPoly extends ModeCreateFigPoly {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2461075297289020635L;
+    private static final long serialVersionUID = -2461075297289020635L;
 
 	public String instructions() {
         return Translator.localize("statusmsg.help.create.poly");

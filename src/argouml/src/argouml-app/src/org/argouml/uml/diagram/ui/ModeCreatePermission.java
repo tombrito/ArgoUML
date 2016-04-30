@@ -51,10 +51,7 @@ import org.argouml.model.Model;
  */
 public final class ModeCreatePermission extends ModeCreateDependency {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8090404711458126327L;
+    private static final long serialVersionUID = -8090404711458126327L;
 
 	protected final Object getMetaType() {
 	return Model.getMetaTypes().getPackageImport();

@@ -57,10 +57,7 @@ import org.tigris.gef.presentation.FigLine;
  */
 public class ArgoFigLine extends FigLine implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5131637334539246807L;
+    private static final long serialVersionUID = 5131637334539246807L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 

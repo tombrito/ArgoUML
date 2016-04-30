@@ -55,10 +55,7 @@ import org.argouml.uml.diagram.static_structure.ui.FigEnumerationLiteral;
  */
 public class FigEnumLiteralsCompartment extends FigCompartment {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2836976843592319318L;
+    private static final long serialVersionUID = 2836976843592319318L;
 
 	/**
      * Constructor.

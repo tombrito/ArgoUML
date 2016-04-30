@@ -85,10 +85,7 @@ import tudresden.ocl.parser.node.TName;
 public class TabConstraints extends AbstractArgoJPanel
     implements TabModelTarget, ComponentListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7997370836785333929L;
+    private static final long serialVersionUID = -7997370836785333929L;
 
 	private static final Logger LOG =
         Logger.getLogger(TabConstraints.class.getName());

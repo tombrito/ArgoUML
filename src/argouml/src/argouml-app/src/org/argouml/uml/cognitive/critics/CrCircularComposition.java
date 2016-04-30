@@ -56,10 +56,7 @@ import org.argouml.uml.cognitive.UMLToDoItem;
  * @author jrobbins@ics.uci.edu
  */
 public class CrCircularComposition extends CrUML {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8622440448569183759L;
+    private static final long serialVersionUID = -8622440448569183759L;
 	private static final Logger LOG =
         Logger.getLogger(CrCircularComposition.class.getName());
 

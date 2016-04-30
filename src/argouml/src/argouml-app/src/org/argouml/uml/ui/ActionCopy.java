@@ -64,10 +64,7 @@ public class ActionCopy extends AbstractAction implements CaretListener {
     ////////////////////////////////////////////////////////////////
     // static variables
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8877033229048615486L;
+    private static final long serialVersionUID = 8877033229048615486L;
 
 	private static ActionCopy instance = new ActionCopy();
 

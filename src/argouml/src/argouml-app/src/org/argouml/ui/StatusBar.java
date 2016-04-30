@@ -59,10 +59,7 @@ public class StatusBar
     extends JPanel 
     implements Runnable, IStatusBar, ProgressMonitor {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6869455407441292190L;
+    private static final long serialVersionUID = -6869455407441292190L;
 	private JLabel msg = new JLabel();
     private JProgressBar progress = new JProgressBar();
     private String statusText;

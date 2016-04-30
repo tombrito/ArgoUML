@@ -70,10 +70,7 @@ import org.tigris.gef.graph.MutableGraphSupport;
  */
 public abstract class UMLMutableGraphSupport extends MutableGraphSupport {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3981861751557465851L;
+    private static final long serialVersionUID = 3981861751557465851L;
 
 	/**
      * Logger.

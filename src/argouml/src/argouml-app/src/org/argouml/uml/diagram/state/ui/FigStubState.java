@@ -65,10 +65,7 @@ import org.tigris.gef.presentation.FigText;
 
 public class FigStubState extends FigStateVertex {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5674880525177104093L;
+    private static final long serialVersionUID = 5674880525177104093L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigStubState.class.getName());

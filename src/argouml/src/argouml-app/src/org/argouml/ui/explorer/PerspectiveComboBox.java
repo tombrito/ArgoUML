@@ -51,10 +51,7 @@ public class PerspectiveComboBox
     extends JComboBox
     implements PerspectiveManagerListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7245314921584964767L;
+    private static final long serialVersionUID = -7245314921584964767L;
 
 	/** Creates a new instance of PerspectiveCombobox */
     public PerspectiveComboBox() {

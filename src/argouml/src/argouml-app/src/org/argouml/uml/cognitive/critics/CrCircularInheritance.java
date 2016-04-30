@@ -59,10 +59,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  * @author jrobbins
  */
 public class CrCircularInheritance extends CrUML {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6233216429868419134L;
+    private static final long serialVersionUID = 6233216429868419134L;
 	/**
      * Logger.
      */

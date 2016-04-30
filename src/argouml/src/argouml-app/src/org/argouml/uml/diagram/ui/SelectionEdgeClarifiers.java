@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigEdge;
 public class SelectionEdgeClarifiers extends SelectionReshape {
 
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1464652738507937285L;
+    private static final long serialVersionUID = -1464652738507937285L;
 
 	/**
      * Construct a new SelectionEdgeClarifiers for the given Fig

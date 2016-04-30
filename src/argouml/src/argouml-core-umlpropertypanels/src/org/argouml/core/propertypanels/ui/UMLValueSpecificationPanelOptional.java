@@ -38,9 +38,6 @@ class UMLValueSpecificationPanelOptional extends JPanel implements
     private static final Logger LOG =
         Logger.getLogger(UMLValueSpecificationPanel.class.getName());
 
-    /**
-     *
-     */
     private JCheckBox valueExists;
 
     /**
@@ -48,9 +45,6 @@ class UMLValueSpecificationPanelOptional extends JPanel implements
      */
     private UMLValueSpecificationPanel uvsPanel;
 
-    /**
-     *
-     */
     private final UMLValueSpecificationModel model;
 
     public UMLValueSpecificationPanelOptional(

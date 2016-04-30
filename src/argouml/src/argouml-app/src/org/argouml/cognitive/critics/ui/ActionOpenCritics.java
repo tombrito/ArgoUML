@@ -51,10 +51,7 @@ import org.argouml.ui.UndoableAction;
  */
 public class ActionOpenCritics extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -9143339072050133583L;
+    private static final long serialVersionUID = -9143339072050133583L;
 
 	/**
      * The constructor.

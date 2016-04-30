@@ -71,10 +71,7 @@ public class ActionOpenProject extends UndoableAction
     ////////////////////////////////////////////////////////////////
     // constructors
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2170949602613977950L;
+    private static final long serialVersionUID = -2170949602613977950L;
 
 	/**
      * Constructor for this action.

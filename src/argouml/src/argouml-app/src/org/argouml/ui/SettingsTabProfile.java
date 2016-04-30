@@ -87,10 +87,7 @@ import org.argouml.uml.diagram.DiagramAppearance;
 public class SettingsTabProfile extends JPanel implements
         GUISettingsTabInterface, ActionListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7241508361962619878L;
+    private static final long serialVersionUID = -7241508361962619878L;
 
 	private JButton loadFromFile;
 

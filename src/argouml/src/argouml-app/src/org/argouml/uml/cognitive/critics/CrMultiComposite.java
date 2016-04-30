@@ -58,10 +58,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrMultiComposite extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1806420591738641858L;
+    private static final long serialVersionUID = -1806420591738641858L;
 
 	/**
      * The constructor.

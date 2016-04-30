@@ -75,10 +75,7 @@ public class Critic
     extends Observable
     implements Poster, Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2941540423500139482L;
+    private static final long serialVersionUID = 2941540423500139482L;
 
 	/**
      * Logger.

@@ -72,10 +72,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSingleLineText extends ArgoFigText  {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -9196961513698862434L;
+    private static final long serialVersionUID = -9196961513698862434L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigSingleLineText.class.getName());

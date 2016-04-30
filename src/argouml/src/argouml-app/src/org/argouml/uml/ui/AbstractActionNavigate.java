@@ -59,10 +59,7 @@ import org.argouml.ui.targetmanager.TargetManager;
 public abstract class AbstractActionNavigate extends UndoableAction 
     implements TargetListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1569067969535429781L;
+    private static final long serialVersionUID = 1569067969535429781L;
 
 	/**
      * The constructor.

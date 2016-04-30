@@ -55,10 +55,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 public class ActionCreateContainedModelElement
             extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 635512789390426721L;
+    private static final long serialVersionUID = 635512789390426721L;
 	private final Object metaType; 
     private final String property; 
 

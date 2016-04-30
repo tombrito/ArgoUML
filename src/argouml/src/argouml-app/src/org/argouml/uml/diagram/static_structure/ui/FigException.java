@@ -50,10 +50,7 @@ import org.tigris.gef.base.Selection;
  */
 public class FigException extends FigSignal {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -558418170404346284L;
+    private static final long serialVersionUID = -558418170404346284L;
 
 	/**
      * Construct an Exception fig.

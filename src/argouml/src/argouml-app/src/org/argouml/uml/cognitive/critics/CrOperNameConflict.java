@@ -72,10 +72,7 @@ import org.argouml.uml.cognitive.UMLDecision;
 
 public class CrOperNameConflict extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -88089440012097708L;
+    private static final long serialVersionUID = -88089440012097708L;
 
 	/**
      * Constructor for the critic.<p>

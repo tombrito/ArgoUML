@@ -98,10 +98,7 @@ import org.tigris.toolbar.ToolBarFactory;
 public abstract class PropPanel extends AbstractArgoJPanel implements
         UMLUserInterfaceContainer, ComponentListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2362145015233724933L;
+    private static final long serialVersionUID = -2362145015233724933L;
 
 	/**
      * Logger.
@@ -246,10 +243,7 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
     private static class TargettableButton extends JButton
         implements TargettableModelView {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -2407530122884186399L;
+        private static final long serialVersionUID = -2407530122884186399L;
 
 		public TargettableButton(Action action) {
             super(action);
@@ -667,10 +661,7 @@ public abstract class PropPanel extends AbstractArgoJPanel implements
 
     private class GroupPanel extends JPanel {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -3931817353777965075L;
+        private static final long serialVersionUID = -3931817353777965075L;
 
 		public GroupPanel(String title) {
             super(new GridLayout2());

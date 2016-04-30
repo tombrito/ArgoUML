@@ -53,10 +53,7 @@ import org.argouml.model.Model;
  */
 public class WizAddInstanceVariable extends UMLWizard {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1545548627221599788L;
+    private static final long serialVersionUID = -1545548627221599788L;
 	private WizStepTextField step1 = null;
     private String label = Translator.localize("label.name");
     private String instructions = 

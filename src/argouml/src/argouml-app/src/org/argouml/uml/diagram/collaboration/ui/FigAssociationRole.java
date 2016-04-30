@@ -58,10 +58,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigAssociationRole extends FigAssociation {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3723796931075354578L;
+    private static final long serialVersionUID = 3723796931075354578L;
 	private FigMessageGroup messages;
 
     /**
@@ -108,10 +105,7 @@ public class FigAssociationRole extends FigAssociation {
  */
 class FigMessageGroup extends ArgoFigGroup {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1447476573935910141L;
+    private static final long serialVersionUID = -1447476573935910141L;
 
 	/**
      * The constructor.

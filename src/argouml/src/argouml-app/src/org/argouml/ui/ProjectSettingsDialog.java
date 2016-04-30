@@ -66,10 +66,7 @@ import org.argouml.util.ArgoDialog;
 public class ProjectSettingsDialog 
                 extends ArgoDialog implements WindowListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4198704188492265110L;
+    private static final long serialVersionUID = -4198704188492265110L;
 	private JButton applyButton;
     private JButton resetToDefaultButton;
 

@@ -64,10 +64,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSubactivityState extends FigStateVertex {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5289732026723904393L;
+    private static final long serialVersionUID = 5289732026723904393L;
 
 	private static final int PADDING = 8;
 

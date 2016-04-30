@@ -62,10 +62,7 @@ import org.tigris.gef.presentation.FigCircle;
  */
 public class FigFinalState extends FigStateVertex {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8876016932440856411L;
+    private static final long serialVersionUID = -8876016932440856411L;
 
 	/**
      * The diameter of the disc when the line width would be 0

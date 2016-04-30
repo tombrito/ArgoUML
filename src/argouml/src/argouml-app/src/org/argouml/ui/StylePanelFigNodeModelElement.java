@@ -66,10 +66,7 @@ public class StylePanelFigNodeModelElement
     implements ItemListener, FocusListener, KeyListener, 
     PropertyChangeListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3087986553413785736L;
+    private static final long serialVersionUID = -3087986553413785736L;
 
 	/**
      * Flag to indicate that a refresh is going on.

@@ -60,10 +60,7 @@ import org.argouml.ui.targetmanager.TargetManager;
 @UmlModelMutator
 public class ActionNewTagDefinition extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7889861893551404801L;
+    private static final long serialVersionUID = 7889861893551404801L;
 
 	/**
      * The constructor.

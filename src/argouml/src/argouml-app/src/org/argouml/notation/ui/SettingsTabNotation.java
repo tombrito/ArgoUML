@@ -81,10 +81,7 @@ public class SettingsTabNotation
     extends JPanel
     implements GUIProjectSettingsTabInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2073944137253128663L;
+    private static final long serialVersionUID = -2073944137253128663L;
 	private JPanel topPanel;
     private JComboBox notationLanguage;
     private JCheckBox useGuillemots;

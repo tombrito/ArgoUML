@@ -60,10 +60,7 @@ public class LanguageComboBox
     extends JComboBox
     implements ArgoGeneratorEventListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3094341775741698597L;
+    private static final long serialVersionUID = 3094341775741698597L;
 	/** logger */
     private static final Logger LOG =
         Logger.getLogger(LanguageComboBox.class.getName());

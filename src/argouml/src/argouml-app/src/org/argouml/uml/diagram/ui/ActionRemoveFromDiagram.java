@@ -59,10 +59,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionRemoveFromDiagram extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7598139085486370311L;
+    private static final long serialVersionUID = 7598139085486370311L;
 
 	/**
      * The constructor.

@@ -63,10 +63,7 @@ public class ActionGotoDiagram
 	extends UndoableAction
 	implements CommandLineInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8718976362785794884L;
+    private static final long serialVersionUID = 8718976362785794884L;
 
 	/**
      * The constructor.

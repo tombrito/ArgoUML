@@ -57,10 +57,7 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 abstract class AbstractActionRadioMenuItem extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4182711548724004867L;
+    private static final long serialVersionUID = 4182711548724004867L;
 
 	/**
      * @param key the name to be localized

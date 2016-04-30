@@ -57,10 +57,7 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 public class ActionAddSupplierDependencyAction extends
         AbstractActionAddModelElement2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4721618163073413695L;
+    private static final long serialVersionUID = -4721618163073413695L;
 
 	/**
      * The constructor.

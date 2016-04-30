@@ -155,10 +155,7 @@ public abstract class FigEdgeModelElement
         DiagramElement,
         Owned {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2686153077128703301L;
+    private static final long serialVersionUID = 2686153077128703301L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigEdgeModelElement.class.getName());

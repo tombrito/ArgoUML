@@ -55,10 +55,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrNoInitialState extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -877805031613966347L;
+    private static final long serialVersionUID = -877805031613966347L;
 
 	/**
      * The constructor.

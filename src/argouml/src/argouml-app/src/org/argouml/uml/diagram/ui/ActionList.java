@@ -57,10 +57,7 @@ import org.argouml.kernel.UmlModelMutator;
  */
 class ActionList<E> extends Vector<E> {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2552040327663065288L;
+    private static final long serialVersionUID = -2552040327663065288L;
 	private final boolean readonly;
     
     /**

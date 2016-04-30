@@ -54,10 +54,7 @@ import org.argouml.uml.CommentEdge;
 
 public class ActionSetAddCommentLinkMode extends ActionSetMode {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4388464627082828170L;
+    private static final long serialVersionUID = -4388464627082828170L;
 
 	/**
      * Construct a new ActionSetAddCommentLinkMode.<p>

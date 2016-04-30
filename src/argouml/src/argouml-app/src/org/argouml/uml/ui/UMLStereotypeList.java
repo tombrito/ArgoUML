@@ -68,10 +68,7 @@ import org.argouml.ui.targetmanager.TargettableModelView;
 class UMLStereotypeList extends JList implements TargettableModelView {
 
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5581329604439695110L;
+    private static final long serialVersionUID = -5581329604439695110L;
 
 	/**
      * Constructor for UMLLinkedList.

@@ -51,10 +51,7 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public class ActionUseCaseDiagram extends ActionAddDiagram {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8630392726758800318L;
+    private static final long serialVersionUID = -8630392726758800318L;
 	private static final Logger LOG =
         Logger.getLogger(ActionUseCaseDiagram.class.getName());
 

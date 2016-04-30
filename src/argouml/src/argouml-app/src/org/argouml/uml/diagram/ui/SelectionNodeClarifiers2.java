@@ -76,10 +76,7 @@ import org.tigris.gef.presentation.Handle;
  */
 public abstract class SelectionNodeClarifiers2 extends SelectionButtons {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 731913269627669704L;
+    private static final long serialVersionUID = 731913269627669704L;
 
 	private static final Logger LOG =
         Logger.getLogger(SelectionNodeClarifiers2.class.getName());

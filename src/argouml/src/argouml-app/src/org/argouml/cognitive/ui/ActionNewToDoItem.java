@@ -52,10 +52,7 @@ import org.argouml.uml.ui.UMLListCellRenderer2;
  */
 public class ActionNewToDoItem extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3755116561941054008L;
+    private static final long serialVersionUID = -3755116561941054008L;
 
 	/**
      * Construct an action to create a new ToDo item.

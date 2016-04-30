@@ -52,10 +52,7 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 class ActionNewEntryCallAction extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 9203120180293672115L;
+    private static final long serialVersionUID = 9203120180293672115L;
 
 	/**
      * Constructor for ActionNewEntryCallAction.

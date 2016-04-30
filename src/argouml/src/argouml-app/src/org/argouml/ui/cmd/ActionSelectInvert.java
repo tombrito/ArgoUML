@@ -48,10 +48,7 @@ import org.tigris.gef.base.SelectInvertAction;
  */
 public class ActionSelectInvert extends SelectInvertAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5712571946727013134L;
+    private static final long serialVersionUID = -5712571946727013134L;
 
 	/**
      * The constructor.

@@ -61,10 +61,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrConstructorNeeded extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4686516536089355627L;
+    private static final long serialVersionUID = -4686516536089355627L;
 
 	/**
      * Constructor for the critic.<p>

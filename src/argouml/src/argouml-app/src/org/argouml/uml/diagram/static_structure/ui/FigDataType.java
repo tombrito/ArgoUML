@@ -70,10 +70,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigDataType extends FigClassifierBox {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4783188624314551870L;
+    private static final long serialVersionUID = 4783188624314551870L;
 	private static final Logger LOG =
         Logger.getLogger(FigDataType.class.getName());
 

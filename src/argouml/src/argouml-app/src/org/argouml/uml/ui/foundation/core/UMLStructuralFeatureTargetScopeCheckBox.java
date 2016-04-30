@@ -53,10 +53,7 @@ import org.argouml.uml.ui.UMLCheckBox2;
 public class UMLStructuralFeatureTargetScopeCheckBox extends UMLCheckBox2 {
 
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6172952380819456693L;
+    private static final long serialVersionUID = 6172952380819456693L;
 
 	/**
      * Constructor for UMLStructuralFeatureTargetScopeCheckBox.

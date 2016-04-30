@@ -44,10 +44,7 @@ package org.argouml.application.events;
  */
 public class ArgoGeneratorEvent extends ArgoEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3646899062036736500L;
+    private static final long serialVersionUID = 3646899062036736500L;
 
 	/**
      * @param eventType reported by this event.

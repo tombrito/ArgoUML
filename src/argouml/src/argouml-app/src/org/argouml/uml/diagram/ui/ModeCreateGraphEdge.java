@@ -62,10 +62,7 @@ import org.tigris.gef.presentation.FigPoly;
  */
 public abstract class ModeCreateGraphEdge extends ModeCreatePolyEdge {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 295165688572831211L;
+    private static final long serialVersionUID = 295165688572831211L;
 
 	private static final Logger LOG =
         Logger.getLogger(ModeCreateGraphEdge.class.getName());

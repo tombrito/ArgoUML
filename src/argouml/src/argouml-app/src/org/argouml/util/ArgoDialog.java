@@ -55,10 +55,7 @@ import org.tigris.swidgets.Dialog;
  * @author Bob Tarling
  */
 public class ArgoDialog extends Dialog {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3987212186027972769L;
+    private static final long serialVersionUID = 3987212186027972769L;
 
 	private static Frame frame;
 

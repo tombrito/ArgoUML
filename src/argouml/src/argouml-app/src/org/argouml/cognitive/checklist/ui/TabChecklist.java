@@ -80,10 +80,7 @@ public class TabChecklist extends AbstractArgoJPanel
     implements TabModelTarget, ActionListener, ListSelectionListener,
             ComponentListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4987608234755607490L;
+    private static final long serialVersionUID = -4987608234755607490L;
 	////////////////////////////////////////////////////////////////
     // instance variables
     private Object target;
@@ -308,10 +305,7 @@ public class TabChecklist extends AbstractArgoJPanel
  */
 class TableModelChecklist extends AbstractTableModel
     implements VetoableChangeListener, PropertyChangeListener {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6820238562892142520L;
+    private static final long serialVersionUID = -6820238562892142520L;
 
 	/**
      * Logger.

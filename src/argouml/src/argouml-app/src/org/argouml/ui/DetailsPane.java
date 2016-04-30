@@ -87,10 +87,7 @@ public class DetailsPane
 	       Orientable,
 	       TargetListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5408288238881845021L;
+    private static final long serialVersionUID = 5408288238881845021L;
 
 	/**
      * Logger.

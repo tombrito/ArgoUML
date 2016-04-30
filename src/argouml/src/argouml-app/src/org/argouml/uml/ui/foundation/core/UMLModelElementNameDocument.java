@@ -47,10 +47,7 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLModelElementNameDocument extends UMLPlainTextDocument {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7855199868377805942L;
+    private static final long serialVersionUID = -7855199868377805942L;
 
 	/**
      * Constructor for UMLModelElementNameDocument.

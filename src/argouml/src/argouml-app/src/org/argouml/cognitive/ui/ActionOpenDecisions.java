@@ -55,10 +55,7 @@ import org.argouml.ui.UndoableAction;
  */
 public class ActionOpenDecisions extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7193688805307101577L;
+    private static final long serialVersionUID = -7193688805307101577L;
 
 	/**
      * The constructor.

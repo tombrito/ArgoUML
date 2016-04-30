@@ -44,10 +44,7 @@ package org.argouml.application.events;
  */
 public class ArgoNotationEvent extends ArgoEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -445499786274114632L;
+    private static final long serialVersionUID = -445499786274114632L;
 
 	/**
      * @param eventType reported by this event.

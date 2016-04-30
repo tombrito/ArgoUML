@@ -47,10 +47,7 @@ package org.argouml.application.events;
  */
 public class ArgoHelpEvent extends ArgoEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5263493158959721892L;
+    private static final long serialVersionUID = 5263493158959721892L;
 	private String helpText;
 
     /**

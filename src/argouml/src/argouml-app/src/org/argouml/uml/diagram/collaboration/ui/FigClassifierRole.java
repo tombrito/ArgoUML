@@ -68,10 +68,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigClassifierRole extends FigNodeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2563662467867242311L;
+    private static final long serialVersionUID = 2563662467867242311L;
 
 	private static final int DEFAULT_HEIGHT = 50;
 

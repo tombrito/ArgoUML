@@ -69,9 +69,6 @@ public class ModeBroomMessages extends FigModifyingModeImpl  {
     private int x1, x2, y;
     private int lastX1, lastX2, lastY;
     
-    /**
-     * 
-     */
     public ModeBroomMessages() {
         currentDirection = DIRECTION_UNDEFINED;
     }

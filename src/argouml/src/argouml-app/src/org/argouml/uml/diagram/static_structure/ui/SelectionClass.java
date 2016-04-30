@@ -60,10 +60,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionClass extends SelectionClassifierBox {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7135375776978586577L;
+    private static final long serialVersionUID = -7135375776978586577L;
 
 	private static Icon inherit =
         ResourceLoaderWrapper.lookupIconResource("Generalization");
@@ -213,10 +210,7 @@ public class SelectionClass extends SelectionClassifierBox {
      */
     class ModeCreateEdgeAndNodeWithComposition extends ModeCreateEdgeAndNode {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 4835008837562861043L;
+        private static final long serialVersionUID = 4835008837562861043L;
 
 		public ModeCreateEdgeAndNodeWithComposition(Editor ce, Object edgeType,
                 boolean postProcess, SelectionNodeClarifiers2 nodeCreator) {

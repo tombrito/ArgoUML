@@ -60,10 +60,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionGenerateOne extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3033446455166215841L;
+    private static final long serialVersionUID = 3033446455166215841L;
 
 	/**
      * The constructor.

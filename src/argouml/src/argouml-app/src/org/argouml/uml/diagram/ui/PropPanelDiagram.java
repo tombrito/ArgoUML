@@ -72,10 +72,7 @@ import org.argouml.uml.util.PathComparator;
  */
 public class PropPanelDiagram extends PropPanel implements TabModelTarget {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 6505702826023687012L;
+    private static final long serialVersionUID = 6505702826023687012L;
 	private JComboBox homeModelSelector;
     private UMLDiagramHomeModelComboBoxModel homeModelComboBoxModel =
         new UMLDiagramHomeModelComboBoxModel();
@@ -131,10 +128,7 @@ public class PropPanelDiagram extends PropPanel implements TabModelTarget {
 
 class UMLDiagramHomeModelComboBoxModel extends UMLComboBoxModel2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2557119728191528521L;
+    private static final long serialVersionUID = -2557119728191528521L;
 
 	public UMLDiagramHomeModelComboBoxModel() {
         super(ArgoDiagram.NAMESPACE_KEY, false);
@@ -193,10 +187,7 @@ class UMLDiagramHomeModelComboBoxModel extends UMLComboBoxModel2 {
 }
 
 class ActionSetDiagramHomeModel extends UndoableAction {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2869461832433043098L;
+    private static final long serialVersionUID = 2869461832433043098L;
 
 	protected ActionSetDiagramHomeModel() {
         super();
@@ -220,10 +211,7 @@ class ActionSetDiagramHomeModel extends UndoableAction {
 
 class ActionNavigateUpFromDiagram extends AbstractActionNavigate {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8578095420580137199L;
+    private static final long serialVersionUID = -8578095420580137199L;
 
 	/**
      * The constructor.

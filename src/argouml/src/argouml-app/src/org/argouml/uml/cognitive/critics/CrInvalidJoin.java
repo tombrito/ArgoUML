@@ -59,10 +59,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidJoin extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7898610670949506764L;
+    private static final long serialVersionUID = 7898610670949506764L;
 
 	/**
      * The constructor.

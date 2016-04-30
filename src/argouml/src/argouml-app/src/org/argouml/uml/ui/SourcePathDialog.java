@@ -67,10 +67,7 @@ import org.argouml.util.ArgoDialog;
  */
 public class SourcePathDialog extends ArgoDialog implements ActionListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3824977290815876495L;
+    private static final long serialVersionUID = 3824977290815876495L;
 
 	private SourcePathController srcPathCtrl = new SourcePathControllerImpl();
 

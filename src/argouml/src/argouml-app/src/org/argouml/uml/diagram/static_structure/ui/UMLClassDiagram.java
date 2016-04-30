@@ -95,10 +95,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class UMLClassDiagram extends UMLDiagram implements ClassDiagram {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -170590122570561627L;
+    private static final long serialVersionUID = -170590122570561627L;
 
 	private static final Logger LOG =
         Logger.getLogger(UMLClassDiagram.class.getName());

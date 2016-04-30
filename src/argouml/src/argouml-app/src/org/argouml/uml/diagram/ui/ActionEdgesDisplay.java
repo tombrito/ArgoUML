@@ -65,10 +65,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionEdgesDisplay extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5612710941159907173L;
+    private static final long serialVersionUID = -5612710941159907173L;
 	// compartments
     private static UndoableAction showEdges = new ActionEdgesDisplay(true,
                 Translator.localize("menu.popup.add.all-relations"));

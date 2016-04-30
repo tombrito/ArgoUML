@@ -54,10 +54,7 @@ import org.tigris.gef.presentation.FigRRect;
  */
 public class StylePanelFigRRect extends StylePanelFig {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2020061325564520009L;
+    private static final long serialVersionUID = 2020061325564520009L;
 
 	private JLabel roundingLabel = new JLabel(Translator
             .localize("label.stylepane.rounding")

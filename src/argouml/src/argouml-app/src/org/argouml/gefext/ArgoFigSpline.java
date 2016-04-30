@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigSpline;
  */
 public class ArgoFigSpline extends FigSpline implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8619142386232030227L;
+    private static final long serialVersionUID = 8619142386232030227L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 

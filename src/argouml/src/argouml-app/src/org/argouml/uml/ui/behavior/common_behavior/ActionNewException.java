@@ -55,10 +55,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewException extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5094412386470666158L;
+    private static final long serialVersionUID = 5094412386470666158L;
 
 	/**
      * The constructor.

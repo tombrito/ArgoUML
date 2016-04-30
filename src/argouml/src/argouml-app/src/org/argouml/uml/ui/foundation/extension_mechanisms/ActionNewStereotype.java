@@ -61,10 +61,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionNewStereotype extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3492828342803948915L;
+    private static final long serialVersionUID = 3492828342803948915L;
 	static final Logger LOG =
         Logger.getLogger(ActionNewStereotype.class.getName());
 

@@ -78,10 +78,7 @@ public class MultiEditorPane
     extends JPanel
     implements ChangeListener, MouseListener, TargetListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7921420323781431533L;
+    private static final long serialVersionUID = 7921420323781431533L;
 
 	{
         // I hate this so much even before I start writing it.

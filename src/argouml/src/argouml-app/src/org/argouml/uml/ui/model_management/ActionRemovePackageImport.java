@@ -52,10 +52,7 @@ import org.argouml.uml.ui.AbstractActionRemoveElement;
 class ActionRemovePackageImport
     extends AbstractActionRemoveElement {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4933922310018200481L;
+    private static final long serialVersionUID = -4933922310018200481L;
 
 	/**
      * Constructor for ActionRemovePackageImport.

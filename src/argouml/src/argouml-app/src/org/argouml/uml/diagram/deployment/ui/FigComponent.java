@@ -59,10 +59,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigComponent extends AbstractFigComponent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5710238905308711337L;
+    private static final long serialVersionUID = -5710238905308711337L;
 
 	/**
      * Construct a new FigComponent.

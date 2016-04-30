@@ -49,10 +49,7 @@ import org.argouml.uml.diagram.DiagramSettings;
 public class FigShallowHistoryState extends FigHistoryState {
 
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2422035514865876406L;
+    private static final long serialVersionUID = -2422035514865876406L;
 
 	/**
      * Construct a new FigSubactivityState.

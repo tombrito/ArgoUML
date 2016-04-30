@@ -58,10 +58,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigMultiLineText extends ArgoFigText {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5016150851754013790L;
+    private static final long serialVersionUID = 5016150851754013790L;
 
 	private void initFigs() {
         setTextColor(TEXT_COLOR);

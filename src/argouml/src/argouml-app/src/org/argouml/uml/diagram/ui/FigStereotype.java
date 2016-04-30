@@ -58,10 +58,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigStereotype extends FigSingleLineText {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1024281419476358090L;
+    private static final long serialVersionUID = 1024281419476358090L;
 
 	/**
      * Construct a fig for a Stereotype or a keyword (which visually resembles a

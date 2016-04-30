@@ -55,10 +55,7 @@ import org.argouml.uml.diagram.use_case.ui.FigExtensionPoint;
  */
 public class FigExtensionPointsCompartment extends FigCompartment {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4631450920160263966L;
+    private static final long serialVersionUID = -4631450920160263966L;
 
 	/**
      * The constructor.

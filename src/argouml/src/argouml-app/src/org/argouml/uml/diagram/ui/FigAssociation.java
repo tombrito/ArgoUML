@@ -76,10 +76,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigAssociation extends FigEdgeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2191319431914703254L;
+    private static final long serialVersionUID = -2191319431914703254L;
 
 	private static final Logger LOG =
         Logger.getLogger(FigAssociation.class.getName());
@@ -632,9 +629,6 @@ public class FigAssociation extends FigEdgeModelElement {
     }
 
 
-    /**
-     *
-     */
     class EndDecoration {
         private FigAssociationEndAnnotation group;
         private FigMultiplicity mult;
@@ -708,10 +702,7 @@ public class FigAssociation extends FigEdgeModelElement {
  */
 class FigMultiplicity extends FigSingleLineTextWithNotation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7562370279207542080L;
+    private static final long serialVersionUID = -7562370279207542080L;
 
 	FigMultiplicity(Object owner, DiagramSettings settings) {
         super(owner, new Rectangle(X0, Y0, 90, 20), settings, false,
@@ -795,10 +786,7 @@ class FigOrdering extends FigSingleLineText {
  */
 class FigRole extends FigSingleLineTextWithNotation {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 7499519515007694638L;
+    private static final long serialVersionUID = 7499519515007694638L;
 
 	FigRole(Object owner, DiagramSettings settings) {
         super(owner, new Rectangle(X0, Y0, 90, 20), settings, false,

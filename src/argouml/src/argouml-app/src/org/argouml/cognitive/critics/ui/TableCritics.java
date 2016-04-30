@@ -61,10 +61,7 @@ import org.argouml.cognitive.Critic;
  */
 class TableCritics extends JTable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1009571079528141952L;
+    private static final long serialVersionUID = -1009571079528141952L;
 	private boolean initialised;
     private static final String DESC_WIDTH_TEXT =
         "This is Sample Text for determining Column Width";

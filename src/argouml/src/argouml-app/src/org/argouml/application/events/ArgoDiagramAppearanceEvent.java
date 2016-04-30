@@ -46,10 +46,7 @@ package org.argouml.application.events;
  */
 public class ArgoDiagramAppearanceEvent extends ArgoEvent {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8103180887065616789L;
+    private static final long serialVersionUID = 8103180887065616789L;
 
 	/**
      * @param eventType reported by this event.

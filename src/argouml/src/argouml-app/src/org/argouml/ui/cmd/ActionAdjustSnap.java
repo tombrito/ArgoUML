@@ -66,10 +66,7 @@ import org.tigris.gef.base.GuideGrid;
  */
 public class ActionAdjustSnap extends AbstractAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2601308253327773162L;
+    private static final long serialVersionUID = -2601308253327773162L;
 	private int guideSize;
     private static final String DEFAULT_ID = "8";
     private static ButtonGroup myGroup;

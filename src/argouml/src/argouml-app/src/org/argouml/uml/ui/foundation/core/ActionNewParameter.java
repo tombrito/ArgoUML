@@ -59,10 +59,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewParameter extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4213606596873805950L;
+    private static final long serialVersionUID = 4213606596873805950L;
 
 	/**
      * The constructor.

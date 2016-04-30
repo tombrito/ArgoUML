@@ -51,9 +51,6 @@ package org.argouml.model;
  */
 public class InvalidElementException extends RuntimeException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5831736942969641257L;
 
     /**

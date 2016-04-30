@@ -81,10 +81,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class ActivityDiagramRenderer extends StateDiagramRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8172974987690070320L;
+    private static final long serialVersionUID = -8172974987690070320L;
 
 	/*
      * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(

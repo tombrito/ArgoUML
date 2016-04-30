@@ -63,10 +63,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public abstract class FigStateVertex extends FigNodeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1944612615396591837L;
+    private static final long serialVersionUID = 1944612615396591837L;
 
 	/**
      * Constructor used by PGML parser.

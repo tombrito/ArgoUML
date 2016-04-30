@@ -59,10 +59,7 @@ import org.tigris.gef.presentation.Fig;
 public abstract class SelectionGeneralizableElement extends
         SelectionClassifierBox {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3308483049791987643L;
+    private static final long serialVersionUID = 3308483049791987643L;
 
 	private static Icon inherit =
             ResourceLoaderWrapper.lookupIconResource("Generalization");

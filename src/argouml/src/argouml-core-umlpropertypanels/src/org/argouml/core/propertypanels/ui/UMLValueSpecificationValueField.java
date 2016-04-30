@@ -25,9 +25,6 @@ abstract class UMLValueSpecificationValueField {
     protected static final Logger LOG =
         Logger.getLogger(UMLValueSpecificationValueField.class.getName());
 
-    /**
-     *
-     */
     private UMLValueSpecificationModel model;
 
     /**

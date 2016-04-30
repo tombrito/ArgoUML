@@ -108,9 +108,6 @@ class UMLSubmachineStateComboBoxModel extends UMLComboBoxModel {
      */
     private class ActionSetSubmachineStateSubmachine extends UndoableAction {
 
-        /**
-         * 
-         */
         private static final long serialVersionUID = -2501791485368016442L;
 
         /**

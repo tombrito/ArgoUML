@@ -43,10 +43,7 @@ package org.argouml.cognitive;
  */
 public class UnresolvableException extends Exception
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4761420288616508694L;
+    private static final long serialVersionUID = -4761420288616508694L;
 
 	/**
      * Creates a new UnresolvableException with message msg.

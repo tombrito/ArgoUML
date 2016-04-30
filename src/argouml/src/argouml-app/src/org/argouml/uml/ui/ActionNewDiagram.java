@@ -67,10 +67,7 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public abstract class ActionNewDiagram extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3882944191886509131L;
+    private static final long serialVersionUID = 3882944191886509131L;
 	private static final Logger LOG =
         Logger.getLogger(ActionNewDiagram.class.getName());
 

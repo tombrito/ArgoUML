@@ -48,10 +48,7 @@ import org.tigris.gef.presentation.Fig;
  */
 class SelectionEnumeration extends SelectionDataType {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4879511544098524439L;
+    private static final long serialVersionUID = 4879511544098524439L;
 	// TODO: I18N
     private static String[] instructions =
     {"Add a super-enumeration",

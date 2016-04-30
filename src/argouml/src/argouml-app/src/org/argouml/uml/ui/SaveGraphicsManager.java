@@ -389,10 +389,7 @@ public final class SaveGraphicsManager {
 
 class SaveScaledEPSAction extends SaveEPSAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1997030530486224624L;
+    private static final long serialVersionUID = -1997030530486224624L;
 
 	SaveScaledEPSAction(String name) {
         super(name);
@@ -428,10 +425,7 @@ class SaveScaledEPSAction extends SaveEPSAction {
  */
 class SavePNGAction2 extends SavePNGAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2425500802531261245L;
+    private static final long serialVersionUID = -2425500802531261245L;
 	private static final Logger LOG = Logger.getLogger(SavePNGAction2.class.getName());
 
     SavePNGAction2(String name) {
@@ -496,10 +490,7 @@ class SavePNGAction2 extends SavePNGAction {
  */
 class SaveGIFAction2 extends SaveGIFAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 3771869546045902965L;
+    private static final long serialVersionUID = 3771869546045902965L;
 
 
 	/**
@@ -545,10 +536,7 @@ class SaveGIFAction2 extends SaveGIFAction {
 
 class SaveSVGAction2 extends SaveGraphicsAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 8364884114801581611L;
+    private static final long serialVersionUID = 8364884114801581611L;
 
 	/**
      * Creates a new SaveSVGAction

@@ -48,9 +48,6 @@ class UMLValueSpecificationPanel extends JPanel {
     private static final Logger LOG =
         Logger.getLogger(UMLValueSpecificationPanel.class.getName());
 
-    /**
-     *
-     */
     private final UMLValueSpecificationModel model;
 
     /**

@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigInk;
  */
 public class ArgoFigInk extends FigInk implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7192626224953045908L;
+    private static final long serialVersionUID = -7192626224953045908L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 

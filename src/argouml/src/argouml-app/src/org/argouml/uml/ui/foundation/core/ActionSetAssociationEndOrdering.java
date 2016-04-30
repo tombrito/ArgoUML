@@ -55,10 +55,7 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetAssociationEndOrdering extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4576950714837529512L;
+    private static final long serialVersionUID = 4576950714837529512L;
 	private static final ActionSetAssociationEndOrdering SINGLETON =
 	new ActionSetAssociationEndOrdering();
 

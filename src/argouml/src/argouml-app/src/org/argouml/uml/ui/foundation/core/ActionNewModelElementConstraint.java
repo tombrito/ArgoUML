@@ -51,10 +51,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 public class ActionNewModelElementConstraint
     extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5290420904805888224L;
+    private static final long serialVersionUID = 5290420904805888224L;
 	private static final ActionNewModelElementConstraint SINGLETON =
         new ActionNewModelElementConstraint();
 

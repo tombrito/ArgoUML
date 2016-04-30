@@ -57,10 +57,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidHistory extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4553895318602540847L;
+    private static final long serialVersionUID = 4553895318602540847L;
 
 	/**
      * The constructor.

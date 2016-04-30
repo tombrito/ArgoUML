@@ -54,10 +54,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrNonAggDataType extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4971068846580434759L;
+    private static final long serialVersionUID = -4971068846580434759L;
 
 	/**
      * The constructor.

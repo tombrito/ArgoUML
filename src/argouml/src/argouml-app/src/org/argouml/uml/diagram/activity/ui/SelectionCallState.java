@@ -49,10 +49,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionCallState extends SelectionActionState {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5287126071178891766L;
+    private static final long serialVersionUID = 5287126071178891766L;
 
 	/**
      * @param f the fig that is selected

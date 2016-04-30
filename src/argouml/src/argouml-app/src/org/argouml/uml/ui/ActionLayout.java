@@ -59,10 +59,7 @@ import org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram;
  */
 public class ActionLayout extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -508359146982576733L;
+    private static final long serialVersionUID = -508359146982576733L;
 
 	/**
      * The constructor.

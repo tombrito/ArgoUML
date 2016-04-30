@@ -61,9 +61,6 @@ public class Modeller {
      */
     private Collection<Object> newElements;
     
-    /**
-     * 
-     */
     private String settingLevel;
     
     

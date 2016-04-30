@@ -58,10 +58,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigClass extends FigClassifierBox {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4952197121588346256L;
+    private static final long serialVersionUID = -4952197121588346256L;
 
 	/**
      * Constructor for a {@link FigClass} during file load.<p>

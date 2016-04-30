@@ -625,10 +625,7 @@ public class ExplorerPopup extends JPopupMenu {
 
     private class ActionAddExistingRelatedNode extends UndoableAction {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 3238624747787194314L;
+        private static final long serialVersionUID = 3238624747787194314L;
 		/**
          * The UML object to be added to the diagram.
          */
@@ -692,10 +689,7 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class OrderedMenuItem extends JMenuItem implements Comparable {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -7303021728838587098L;
+        private static final long serialVersionUID = -7303021728838587098L;
 
 		/**
          * Instantiate OrderedMenuItem
@@ -718,10 +712,7 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class OrderedMenu extends JMenu implements Comparable {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -191954144059184479L;
+        private static final long serialVersionUID = -191954144059184479L;
 
 		/**
          * Instantiate OrderedMenu
@@ -744,10 +735,7 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class ActionCreateAssociation extends AbstractAction {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 7923552050547787235L;
+        private static final long serialVersionUID = 7923552050547787235L;
 		private Object metaType;
         private List classifiers;
 
@@ -794,10 +782,7 @@ public class ExplorerPopup extends JPopupMenu {
      */
     private class ActionCreateAssociationRole extends AbstractAction {
 
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = -7463475872146036771L;
+        private static final long serialVersionUID = -7463475872146036771L;
 		private Object metaType;
         private List classifierRoles;
 

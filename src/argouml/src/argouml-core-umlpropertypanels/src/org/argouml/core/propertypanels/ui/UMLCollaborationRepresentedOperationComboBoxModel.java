@@ -120,9 +120,6 @@ class UMLCollaborationRepresentedOperationComboBoxModel
     private class ActionSetRepresentedOperationCollaboration
             extends UndoableAction {
 
-        /**
-         * 
-         */
         private static final long serialVersionUID = 3408819535102974375L;
 
         /**

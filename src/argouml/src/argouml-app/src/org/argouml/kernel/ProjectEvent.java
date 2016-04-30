@@ -17,10 +17,7 @@ import java.util.EventObject;
 
 public class ProjectEvent extends EventObject {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4340708020855515296L;
+    private static final long serialVersionUID = 4340708020855515296L;
 
 	public ProjectEvent(Object arg0) {
         super(arg0);

@@ -63,10 +63,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrDisambigClassName extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1291597294786510640L;
+    private static final long serialVersionUID = -1291597294786510640L;
 
 	/**
      * The constructor.

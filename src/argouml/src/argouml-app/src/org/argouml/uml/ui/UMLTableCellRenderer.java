@@ -46,10 +46,7 @@ import org.argouml.model.Model;
  */
 public class UMLTableCellRenderer extends DefaultTableCellRenderer {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8204518656072625195L;
+    private static final long serialVersionUID = -8204518656072625195L;
 
 	/**
      * Construct a TableCellRender which uses the name of a UML element.

@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigPoly;
  */
 public class ArgoFigPoly extends FigPoly implements NotificationEmitter {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3199538282350792059L;
+    private static final long serialVersionUID = -3199538282350792059L;
 	private NotificationBroadcasterSupport notifier = 
         new NotificationBroadcasterSupport();
 

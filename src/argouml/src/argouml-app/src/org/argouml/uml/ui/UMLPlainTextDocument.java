@@ -69,10 +69,7 @@ public abstract class UMLPlainTextDocument
     extends PlainDocument
     implements UMLDocument {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3301781375166240681L;
+    private static final long serialVersionUID = -3301781375166240681L;
 
 	private static final Logger LOG =
         Logger.getLogger(UMLPlainTextDocument.class.getName());

@@ -83,10 +83,7 @@ import org.tigris.gef.undo.Memento;
 public class SettingsTabDiagramAppearance extends JPanel implements
         GUIProjectSettingsTabInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5141470863415399604L;
+    private static final long serialVersionUID = -5141470863415399604L;
 
 	private Project p;
     

@@ -61,10 +61,7 @@ public class ActionRevertToSaved extends AbstractAction {
     ////////////////////////////////////////////////////////////////
     // constructors
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2811033510888904162L;
+    private static final long serialVersionUID = 2811033510888904162L;
 
 	/**
      * Constructor.

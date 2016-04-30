@@ -50,10 +50,7 @@ import org.argouml.uml.diagram.DiagramAppearance;
  * @author maurelio1234
  */
 public class ActionStereotypeViewBigIcon extends ActionStereotypeView {    
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -722599169717340070L;
+    private static final long serialVersionUID = -722599169717340070L;
 
 	/**
      * Default constructor for this action

@@ -55,10 +55,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrNoGuard extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8039340813809999413L;
+    private static final long serialVersionUID = -8039340813809999413L;
 
 	/**
      * The constructor.

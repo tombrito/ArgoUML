@@ -63,10 +63,7 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public final class ActionAddExtensionPoint extends UndoableAction {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4636319612927934680L;
+    private static final long serialVersionUID = -4636319612927934680L;
 	/**
      * Our private copy of the instance. Only accessible through the proper
      * access method.

@@ -58,9 +58,6 @@ import org.argouml.ui.UndoableAction;
  */
 class UMLActivityGraphContextComboBoxModel extends  UMLComboBoxModel {
     
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8957839123057771519L;
 
     /**

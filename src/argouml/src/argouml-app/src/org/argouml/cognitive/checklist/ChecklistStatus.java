@@ -53,10 +53,7 @@ package org.argouml.cognitive.checklist;
  */
 public class ChecklistStatus extends Checklist {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -9143607612700909214L;
+    private static final long serialVersionUID = -9143607612700909214L;
 	/**
      * The constructor.
      *

@@ -89,10 +89,7 @@ import org.tigris.swidgets.Vertical;
  */
 public class TabDocumentation extends PropPanel implements TabModelTarget {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -6321620143211504706L;
+    private static final long serialVersionUID = -6321620143211504706L;
 	private static String orientation = Configuration.getString(Configuration
             .makeKey("layout", "tabdocumentation"));
 

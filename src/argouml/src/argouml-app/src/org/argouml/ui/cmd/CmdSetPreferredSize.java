@@ -59,10 +59,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public class CmdSetPreferredSize extends Cmd {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2127244033515126665L;
+    private static final long serialVersionUID = -2127244033515126665L;
 
 
 	/**

@@ -66,10 +66,7 @@ import org.argouml.kernel.Project;
 public class ProjectSettingsTabProperties extends JPanel implements
         GUIProjectSettingsTabInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2234316909501389694L;
+    private static final long serialVersionUID = 2234316909501389694L;
 
 	private Project p;
     

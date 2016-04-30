@@ -402,9 +402,6 @@ public class FigClassifierRole extends FigNodeModelElement {
      */
     class FigClassifierRolePort extends FigRect {
         
-        /**
-         * 
-         */
         FigClassifierRolePort() {
             super(0, 0, 0, 0, null, null);
             setLineWidth(0);

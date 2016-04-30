@@ -55,10 +55,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigTextGroup extends ArgoFigGroup implements MouseListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2606577209031053575L;
+    private static final long serialVersionUID = 2606577209031053575L;
 	private boolean supressCalcBounds = false;
 
     /**

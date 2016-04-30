@@ -69,10 +69,7 @@ import org.argouml.uml.diagram.DiagramSettings;
  * @author jaap.branderhorst@xs4all.nl
  */
 public abstract class ActionAddDiagram extends UndoableAction {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -433191702691457746L;
+    private static final long serialVersionUID = -433191702691457746L;
 	/**
      * Logger.
      */

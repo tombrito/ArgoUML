@@ -93,10 +93,7 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigObjectFlowState extends FigNodeModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5531288635671112413L;
+    private static final long serialVersionUID = 5531288635671112413L;
 	private static final int PADDING = 8;
     private static final int OFS_WIDTH = 70;
     private static final int HEIGHT = 50;

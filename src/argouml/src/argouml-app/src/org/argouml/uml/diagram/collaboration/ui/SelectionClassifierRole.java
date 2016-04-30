@@ -57,10 +57,7 @@ import org.tigris.gef.presentation.Handle;
  */
 public class SelectionClassifierRole extends SelectionNodeClarifiers2 {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7331092537545831777L;
+    private static final long serialVersionUID = -7331092537545831777L;
 
 	private static Icon assocrole =
 	ResourceLoaderWrapper

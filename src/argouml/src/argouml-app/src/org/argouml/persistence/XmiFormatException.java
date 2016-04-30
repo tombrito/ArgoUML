@@ -45,10 +45,7 @@ package org.argouml.persistence;
  */
 public class XmiFormatException extends OpenException {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7626483549804274034L;
+    private static final long serialVersionUID = -7626483549804274034L;
 
 	/**
      * Construct an XmiFormatException with a nested cause.

@@ -57,10 +57,7 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrConflictingComposites extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2688012306866016457L;
+    private static final long serialVersionUID = 2688012306866016457L;
 
 	/**
      * The constructor.

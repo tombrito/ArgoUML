@@ -47,10 +47,7 @@ import org.tigris.gef.base.Mode;
  */
 public class ActionCreatePartition extends CmdCreateNode {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7869881830747450411L;
+    private static final long serialVersionUID = -7869881830747450411L;
 	private Object machine;
 
     /**

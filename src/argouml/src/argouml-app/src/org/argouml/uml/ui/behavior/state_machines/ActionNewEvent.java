@@ -53,10 +53,7 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public abstract class ActionNewEvent extends AbstractActionNewModelElement {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3348801178747839654L;
+    private static final long serialVersionUID = -3348801178747839654L;
 	/**
      * The constant defining the role the event to be created plays for its
      * parent. For example, if one wishes to create a trigger event for a

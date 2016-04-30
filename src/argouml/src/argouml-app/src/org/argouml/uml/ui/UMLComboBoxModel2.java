@@ -80,10 +80,7 @@ public abstract class UMLComboBoxModel2 extends AbstractListModel
         implements PropertyChangeListener,
         ComboBoxModel, TargetListener, PopupMenuListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1529195514859691888L;
+    private static final long serialVersionUID = 1529195514859691888L;
 
 	private static final Logger LOG =
         Logger.getLogger(UMLComboBoxModel2.class.getName());

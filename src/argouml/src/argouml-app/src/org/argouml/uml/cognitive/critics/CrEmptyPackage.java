@@ -57,10 +57,7 @@ import org.argouml.uml.cognitive.UMLDecision;
 //of references to elements of other packages?
 
 public class CrEmptyPackage extends CrUML {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7671260388283004938L;
+    private static final long serialVersionUID = -7671260388283004938L;
 
     /**
      * The constructor.

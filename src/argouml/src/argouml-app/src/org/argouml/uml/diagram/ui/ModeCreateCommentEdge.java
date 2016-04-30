@@ -49,10 +49,7 @@ import org.tigris.gef.presentation.Fig;
  */
 public final class ModeCreateCommentEdge extends ModeCreateGraphEdge {
     
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 4584099650050892525L;
+    private static final long serialVersionUID = 4584099650050892525L;
 
 	/*
      * If we're drawing to an edge then only allow if the start is a comment

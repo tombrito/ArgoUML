@@ -111,10 +111,7 @@ public abstract class UMLDiagram
     extends ArgoDiagramImpl
     implements Relocatable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2206778384939534584L;
+    private static final long serialVersionUID = -2206778384939534584L;
 
 	private static final Logger LOG =
         Logger.getLogger(UMLDiagram.class.getName());

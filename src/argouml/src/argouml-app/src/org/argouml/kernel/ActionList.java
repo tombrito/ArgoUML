@@ -35,10 +35,7 @@ import javax.swing.Icon;
  */
 public class ActionList extends ArrayList<Action> implements Action {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -4899604613280060467L;
+    private static final long serialVersionUID = -4899604613280060467L;
 	private Action dummyAction;
     
     public ActionList(String name) {
@@ -78,10 +75,7 @@ public class ActionList extends ArrayList<Action> implements Action {
     }
 
     private static class DummyAction extends AbstractAction {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1875305181887517506L;
+        private static final long serialVersionUID = 1875305181887517506L;
 		DummyAction(String name) {
             super(name);
         }

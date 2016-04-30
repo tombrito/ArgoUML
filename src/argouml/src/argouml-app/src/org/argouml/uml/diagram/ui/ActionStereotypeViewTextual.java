@@ -48,10 +48,7 @@ import org.argouml.uml.diagram.DiagramAppearance;
  * @author maurelio1234
  */
 public class ActionStereotypeViewTextual extends ActionStereotypeView {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -5657208671097711886L;
+    private static final long serialVersionUID = -5657208671097711886L;
 
 	/**
      * Default constructor for this action

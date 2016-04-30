@@ -62,10 +62,7 @@ import org.argouml.persistence.PersistenceManager;
 class SettingsTabPreferences extends JPanel
     implements GUISettingsTabInterface {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 291324967069048399L;
+    private static final long serialVersionUID = 291324967069048399L;
 	private JPanel topPanel;
     private JCheckBox chkSplash;
     private JCheckBox chkReloadRecent;

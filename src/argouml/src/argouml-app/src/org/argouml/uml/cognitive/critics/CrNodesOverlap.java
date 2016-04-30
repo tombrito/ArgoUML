@@ -64,10 +64,7 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class CrNodesOverlap extends CrUML {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -2675239757363889825L;
+    private static final long serialVersionUID = -2675239757363889825L;
 
 	/**
      * The constructor.

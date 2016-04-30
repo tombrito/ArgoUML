@@ -72,10 +72,7 @@ public abstract class UMLRadioButtonPanel
     extends JPanel
     implements TargetListener, PropertyChangeListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -1459713908009687345L;
+    private static final long serialVersionUID = -1459713908009687345L;
 
 	private static Font stdFont = 
         LookAndFeelMgr.getInstance().getStandardFont();

@@ -70,10 +70,7 @@ import org.argouml.application.helpers.ResourceLoaderWrapper;
 public abstract class UMLEditableComboBox extends UMLComboBox2 implements
         FocusListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 459886889626500076L;
+    private static final long serialVersionUID = 459886889626500076L;
 
 	/**
      * The comboboxeditor for editable uml comboboxes. This has to be changed
@@ -96,10 +93,7 @@ public abstract class UMLEditableComboBox extends UMLComboBox2 implements
          */
         private class UMLImagePanel extends JPanel {
 
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = -280186739747933900L;
+            private static final long serialVersionUID = -280186739747933900L;
 			/**
              * The label that shows the icon.
              */

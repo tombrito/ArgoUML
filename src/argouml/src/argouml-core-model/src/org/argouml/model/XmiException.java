@@ -47,10 +47,7 @@ package org.argouml.model;
 public class XmiException extends UmlException {
     
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 2750529962768007727L;
+    private static final long serialVersionUID = 2750529962768007727L;
 
 	private String publicId;
 

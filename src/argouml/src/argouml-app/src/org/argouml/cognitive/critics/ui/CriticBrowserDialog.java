@@ -89,10 +89,7 @@ public class CriticBrowserDialog extends ArgoDialog
 	       DocumentListener,
                TableModelListener,
                Observer {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -7205117574109088995L;
+    private static final long serialVersionUID = -7205117574109088995L;
 
 	private static final Logger LOG =
         Logger.getLogger(CriticBrowserDialog.class.getName());
