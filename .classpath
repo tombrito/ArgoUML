@@ -12,7 +12,6 @@
 	<classpathentry kind="lib" path="libs/batik-util-1.7.jar"/>
 	<classpathentry kind="lib" path="libs/batik-xml-1.7.jar"/>
 	<classpathentry kind="lib" path="libs/commons-logging-1.0.2.jar"/>
-	<classpathentry kind="lib" path="libs/gef-0.13.9M1.jar"/>
 	<classpathentry kind="lib" path="libs/java-interfaces.jar"/>
 	<classpathentry kind="lib" path="libs/jmi.jar"/>
 	<classpathentry kind="lib" path="libs/jmiutils.jar"/>
@@ -50,5 +49,6 @@
 	<classpathentry kind="lib" path="libs/swidgets-0.1.4.jar"/>
 	<classpathentry kind="lib" path="libs/toolbar-1.4.1-20071227.jar"/>
 	<classpathentry kind="lib" path="libs/commons-io-2.4.jar" sourcepath="C:/Users/Wellington/Programs/libs/commons-io-2.4-src.zip"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ArgoUML-gef"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
