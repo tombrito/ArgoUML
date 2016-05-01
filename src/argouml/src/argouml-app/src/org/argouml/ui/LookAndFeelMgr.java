@@ -172,7 +172,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return look and feel display names
 	 */
-	public String[] getAvailableLookAndFeelNames() {
+	String[] getAvailableLookAndFeelNames() {
 		UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
 
 		String[] names = new String[lafs.length + 1];
@@ -190,7 +190,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return theme display names
 	 */
-	public String[] getAvailableThemeNames() {
+	String[] getAvailableThemeNames() {
 		String[] names = new String[LookAndFeelMgr.THEMES.length];
 		for (int i = 0; i < THEMES.length; ++i) {
 			names[i] = THEMES[i].getName();
@@ -207,7 +207,7 @@ public final class LookAndFeelMgr {
 	 *            display name of desired look and feel
 	 * @return class name for desired look and feel
 	 */
-	public String getLookAndFeelFromName(String name) {
+	String getLookAndFeelFromName(String name) {
 		if (name == null || DEFAULT_KEY.equals(name)) {
 			return null;
 		}
@@ -232,7 +232,7 @@ public final class LookAndFeelMgr {
 	 *            display name of desired theme
 	 * @return class name for desired theme
 	 */
-	public String getThemeFromName(String name) {
+	private String getThemeFromName(String name) {
 		if (name == null) {
 			return null;
 		}
@@ -256,7 +256,7 @@ public final class LookAndFeelMgr {
 	 *            look and feel class name
 	 * @return true if supports themes
 	 */
-	public boolean isThemeCompatibleLookAndFeel(String lafClass) {
+	boolean isThemeCompatibleLookAndFeel(String lafClass) {
 		if (lafClass == null) {
 			return false;
 		}
@@ -271,7 +271,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return current look and feel class name
 	 */
-	public String getCurrentLookAndFeel() {
+	private String getCurrentLookAndFeel() {
 		String value = Configuration.getString(Argo.KEY_LOOK_AND_FEEL_CLASS, null);
 		if (DEFAULT_KEY.equals(value)) {
 			value = null;
@@ -284,7 +284,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return look and feel display name
 	 */
-	public String getCurrentLookAndFeelName() {
+	String getCurrentLookAndFeelName() {
 		String currentLookAndFeel = getCurrentLookAndFeel();
 
 		if (currentLookAndFeel == null) {
@@ -312,7 +312,7 @@ public final class LookAndFeelMgr {
 	 * @param themeName
 	 *            the name of the theme
 	 */
-	public void setCurrentLAFAndThemeByName(String lafName, String themeName) {
+	void setCurrentLAFAndThemeByName(String lafName, String themeName) {
 		String lafClass = getLookAndFeelFromName(lafName);
 		String currentLookAndFeel = getCurrentLookAndFeel();
 
@@ -343,7 +343,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return current theme class name or null
 	 */
-	public String getCurrentThemeClassName() {
+	private String getCurrentThemeClassName() {
 		String value = Configuration.getString(Argo.KEY_THEME_CLASS, null);
 		if (DEFAULT_KEY.equals(value)) {
 			value = null;
@@ -357,7 +357,7 @@ public final class LookAndFeelMgr {
 	 *
 	 * @return theme display name
 	 */
-	public String getCurrentThemeName() {
+	String getCurrentThemeName() {
 		String currentThemeClassName = getCurrentThemeClassName();
 
 		if (currentThemeClassName == null) {
@@ -417,6 +417,7 @@ public final class LookAndFeelMgr {
 	}
 
 	/**
+	 * TODO unused, but may be something I want
 	 * @return the small font
 	 */
 	public Font getSmallFont() {
