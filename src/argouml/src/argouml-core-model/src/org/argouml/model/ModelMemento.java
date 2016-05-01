@@ -39,31 +39,32 @@
 package org.argouml.model;
 
 /**
- * A memento to record the state of an object before an undoable change.<p>
- * The model implementation should create a ModelMemento for any
- * undoable operation performed. Any mutator method should normally be
- * undoable except loading a model from file.
+ * A memento to record the state of an object before an undoable change.
+ * <p>
+ * The model implementation should create a ModelMemento for any undoable
+ * operation performed. Any mutator method should normally be undoable except
+ * loading a model from file.
  * 
  * @author Bob Tarling
  */
 public abstract class ModelMemento {
 
-    /**
-     * The method to undo this memento.
-     */
-    public abstract void undo();
+	/**
+	 * The method to undo this memento.
+	 */
+	public abstract void undo();
 
-    /**
-     * The method to redo this memento once undone.
-     */
-    public abstract void redo();
-    
-    /**
-     * Dispose of any resources used by this memento before it is
-     * destroyed. A memento is destroyed when it is forced off the
-     * end of the undo or redo stack when that stack has reached
-     * its maximum size or when the stack is emptied.
-     */
-    public void dispose() {
-    }
+	/**
+	 * The method to redo this memento once undone.
+	 */
+	public abstract void redo();
+
+	/**
+	 * Dispose of any resources used by this memento before it is destroyed. A
+	 * memento is destroyed when it is forced off the end of the undo or redo
+	 * stack when that stack has reached its maximum size or when the stack is
+	 * emptied.
+	 */
+	public void dispose() {
+	}
 }

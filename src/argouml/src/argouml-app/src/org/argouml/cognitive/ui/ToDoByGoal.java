@@ -51,124 +51,125 @@ import org.argouml.cognitive.ToDoListListener;
  * Represents a perspective for ToDo items: grouping by goal type.
  *
  */
-public class ToDoByGoal extends ToDoPerspective
-    implements ToDoListListener {
-    private static final Logger LOG =
-        Logger.getLogger(ToDoByGoal.class.getName());
+public class ToDoByGoal extends ToDoPerspective implements ToDoListListener {
+	private static final Logger LOG = Logger.getLogger(ToDoByGoal.class.getName());
 
-
-    /**
-     * The constructor.
-     *
-     */
-    public ToDoByGoal() {
-	super("combobox.todo-perspective-goal");
-	addSubTreeModel(new GoListToGoalsToItems());
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // ToDoListListener implementation
-
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsChanged(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemsChanged");
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
-
-        for (Goal g : Designer.theDesigner().getGoalList()) {
-	    path[1] = g;
-	    int nMatchingItems = 0;
-            for (ToDoItem item : tde.getToDoItemList()) {
-		if (!item.supports(g)) {
-                    continue;
-                }
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-	        continue;
-	    }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            for (ToDoItem item : tde.getToDoItemList()) {
-		if (!item.supports(g)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(g, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesChanged(this, path, childIndices, children);
+	/**
+	 * The constructor.
+	 *
+	 */
+	public ToDoByGoal() {
+		super("combobox.todo-perspective-goal");
+		addSubTreeModel(new GoListToGoalsToItems());
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsAdded(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemAdded");
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	////////////////////////////////////////////////////////////////
+	// ToDoListListener implementation
 
-        for (Goal g : Designer.theDesigner().getGoalList()) {
-	    path[1] = g;
-	    int nMatchingItems = 0;
-            for (ToDoItem item : tde.getToDoItemList()) {
-		if (!item.supports(g)) {
-		    continue;
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsChanged(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemsChanged");
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
+
+		for (Goal g : Designer.theDesigner().getGoalList()) {
+			path[1] = g;
+			int nMatchingItems = 0;
+			for (ToDoItem item : tde.getToDoItemList()) {
+				if (!item.supports(g)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			for (ToDoItem item : tde.getToDoItemList()) {
+				if (!item.supports(g)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(g, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesChanged(this, path, childIndices, children);
 		}
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-		continue;
-	    }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            // TODO: This shouldn't require two passes through the list - tfm
-            for (ToDoItem item : tde.getToDoItemList()) {
-		if (!item.supports(g)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(g, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesInserted(this, path, childIndices, children);
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsRemoved(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemAdded");
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsAdded(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemAdded");
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
 
-        for (Goal g : Designer.theDesigner().getGoalList()) {
-            LOG.log(Level.FINE, "toDoItemRemoved updating decision node!");
-	    boolean anyInGoal = false;
-            for (ToDoItem item : tde.getToDoItemList()) {
-		if (item.supports(g)) {
-		    anyInGoal = true;
+		for (Goal g : Designer.theDesigner().getGoalList()) {
+			path[1] = g;
+			int nMatchingItems = 0;
+			for (ToDoItem item : tde.getToDoItemList()) {
+				if (!item.supports(g)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			// TODO: This shouldn't require two passes through the list - tfm
+			for (ToDoItem item : tde.getToDoItemList()) {
+				if (!item.supports(g)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(g, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesInserted(this, path, childIndices, children);
 		}
-	    }
-	    if (!anyInGoal) {
-	        continue;
-	    }
-	    path[1] = g;
-	    //fireTreeNodesChanged(this, path, childIndices, children);
-	    fireTreeStructureChanged(path);
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoListChanged(ToDoListEvent tde) { }
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsRemoved(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemAdded");
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
 
+		for (Goal g : Designer.theDesigner().getGoalList()) {
+			LOG.log(Level.FINE, "toDoItemRemoved updating decision node!");
+			boolean anyInGoal = false;
+			for (ToDoItem item : tde.getToDoItemList()) {
+				if (item.supports(g)) {
+					anyInGoal = true;
+				}
+			}
+			if (!anyInGoal) {
+				continue;
+			}
+			path[1] = g;
+			// fireTreeNodesChanged(this, path, childIndices, children);
+			fireTreeStructureChanged(path);
+		}
+	}
+
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoListChanged(ToDoListEvent tde) {
+	}
 
 }

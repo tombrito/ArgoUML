@@ -39,41 +39,43 @@
 package org.argouml.application.events;
 
 /**
- * The Help Event is used to notify interested parties
- * (like e.g. the StatusBar of the main window) 
- * that a help-text should be shown.
+ * The Help Event is used to notify interested parties (like e.g. the StatusBar
+ * of the main window) that a help-text should be shown.
  *
  * @author Michiel
  */
 public class ArgoHelpEvent extends ArgoEvent {
 
-    private static final long serialVersionUID = 5263493158959721892L;
+	private static final long serialVersionUID = 5263493158959721892L;
 	private String helpText;
 
-    /**
-     * @param eventType reported by this event.
-     * @param src object that caused the event.
-     * @param message the help text string (already translated) to be shown
-     */
-    public ArgoHelpEvent(int eventType, Object src, String message) {
-        super(eventType, src);
-        helpText = message;
-    }
+	/**
+	 * @param eventType
+	 *            reported by this event.
+	 * @param src
+	 *            object that caused the event.
+	 * @param message
+	 *            the help text string (already translated) to be shown
+	 */
+	public ArgoHelpEvent(int eventType, Object src, String message) {
+		super(eventType, src);
+		helpText = message;
+	}
 
-    /**
-     * Indicates the start of the 100-digit range for help events.
-     *
-     * @return the first id reserved for events.
-     */
-    @Override
-    public int getEventStartRange() {
-        return ANY_HELP_EVENT;
-    }
+	/**
+	 * Indicates the start of the 100-digit range for help events.
+	 *
+	 * @return the first id reserved for events.
+	 */
+	@Override
+	public int getEventStartRange() {
+		return ANY_HELP_EVENT;
+	}
 
-    /**
-     * @return Returns the helpText.
-     */
-    public String getHelpText() {
-        return helpText;
-    }
+	/**
+	 * @return Returns the helpText.
+	 */
+	public String getHelpText() {
+		return helpText;
+	}
 }

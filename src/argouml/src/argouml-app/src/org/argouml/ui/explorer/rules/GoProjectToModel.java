@@ -51,28 +51,31 @@ import org.argouml.kernel.Project;
  */
 public class GoProjectToModel extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-	return Translator.localize("misc.project.model");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (parent instanceof Project) {
-	    return ((Project) parent).getUserDefinedModelList();
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.project.model");
 	}
-	return Collections.emptyList();
-    }
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-	return Collections.emptySet();
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (parent instanceof Project) {
+			return ((Project) parent).getUserDefinedModelList();
+		}
+		return Collections.emptyList();
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.emptySet();
+	}
 }

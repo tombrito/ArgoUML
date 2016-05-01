@@ -51,47 +51,46 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class UMLConditionExpressionModel extends UMLExpressionModel2 {
 
-    private static final Logger LOG =
-        Logger.getLogger(UMLConditionExpressionModel.class.getName());
+	private static final Logger LOG = Logger.getLogger(UMLConditionExpressionModel.class.getName());
 
-    /**
-     * The constructor.
-     *
-     * @param container the container of UML user interface components
-     * @param propertyName the name of the property
-     */
-    public UMLConditionExpressionModel(UMLUserInterfaceContainer container,
-            String propertyName) {
-        super(container, propertyName);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param container
+	 *            the container of UML user interface components
+	 * @param propertyName
+	 *            the name of the property
+	 */
+	public UMLConditionExpressionModel(UMLUserInterfaceContainer container, String propertyName) {
+		super(container, propertyName);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
-     */
-    public Object getExpression() {
-        return Model.getFacade().getCondition(
-                TargetManager.getInstance().getTarget());
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
+	 */
+	public Object getExpression() {
+		return Model.getFacade().getCondition(TargetManager.getInstance().getTarget());
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
-     */
-    public void setExpression(Object expression) {
-        Object target = TargetManager.getInstance().getTarget();
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
+	 */
+	public void setExpression(Object expression) {
+		Object target = TargetManager.getInstance().getTarget();
 
-        if (target == null) {
-            throw new IllegalStateException("There is no target for "
-                    + getContainer());
-        }
-        Model.getUseCasesHelper().setCondition(target, expression);
-    }
+		if (target == null) {
+			throw new IllegalStateException("There is no target for " + getContainer());
+		}
+		Model.getUseCasesHelper().setCondition(target, expression);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
-     */
-    public Object newExpression() {
-        LOG.log(Level.FINE, "new boolean expression");
-        return Model.getDataTypesFactory().createBooleanExpression("", "");
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
+	 */
+	public Object newExpression() {
+		LOG.log(Level.FINE, "new boolean expression");
+		return Model.getDataTypesFactory().createBooleanExpression("", "");
+	}
 
 }

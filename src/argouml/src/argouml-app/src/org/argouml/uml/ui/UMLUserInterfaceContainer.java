@@ -36,68 +36,70 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.ui;
+
 import java.util.Iterator;
 
 import org.argouml.kernel.ProfileConfiguration;
 
 /**
- * Interface supported by any container of UML user interface components.
- * This interface allows UML user interface components to determine
- * the currently selected target and profile and allows the control
- * to request a navigation.  Implemented by PropPanel.
+ * Interface supported by any container of UML user interface components. This
+ * interface allows UML user interface components to determine the currently
+ * selected target and profile and allows the control to request a navigation.
+ * Implemented by PropPanel.
  *
  * @author Curt Arnold
  * @see PropPanel
  */
 public interface UMLUserInterfaceContainer {
 
-    /**
-     * @return the current target for the container, may be null
-     */
-    public Object getTarget();
+	/**
+	 * @return the current target for the container, may be null
+	 */
+	public Object getTarget();
 
-    /**
-     * @return the current target for the container if the target is a
-     *      ModelElement, otherwise null
-     */
-    public Object getModelElement();
+	/**
+	 * @return the current target for the container if the target is a
+	 *         ModelElement, otherwise null
+	 */
+	public Object getModelElement();
 
-    /**
-     * Return the current profile.
-     * <p>
-     * NOTE: An incompatible change was made to this API for 0.25.4. The return
-     * type was changed from Profile to ProfileConfiguration.
-     * 
-     * @return the current profile, may not be null
-     */
-    public ProfileConfiguration getProfile();
+	/**
+	 * Return the current profile.
+	 * <p>
+	 * NOTE: An incompatible change was made to this API for 0.25.4. The return
+	 * type was changed from Profile to ProfileConfiguration.
+	 * 
+	 * @return the current profile, may not be null
+	 */
+	public ProfileConfiguration getProfile();
 
-    /**
-     * Formats the specified model element.  Typically, deferred to the
-     * profile.
-     *
-     * @param element the given ModelElement
-     * @return the formatted string
-     */
-    public String formatElement(Object element);
+	/**
+	 * Formats the specified model element. Typically, deferred to the profile.
+	 *
+	 * @param element
+	 *            the given ModelElement
+	 * @return the formatted string
+	 */
+	public String formatElement(Object element);
 
-    /**
-     * Formats a collection of model elements.  Typically, deferred to the
-     * profile.
-     *
-     * @param iter an iterator into the collection of modelelements
-     * @return the formatted string
-     */
-    public String formatCollection(Iterator iter);
+	/**
+	 * Formats a collection of model elements. Typically, deferred to the
+	 * profile.
+	 *
+	 * @param iter
+	 *            an iterator into the collection of modelelements
+	 * @return the formatted string
+	 */
+	public String formatCollection(Iterator iter);
 
-    /**
-     * Formats the model element as a namespace.
-     *
-     * @param ns the namespace
-     * @return the formatted string
-     */
-    public String formatNamespace(Object ns);
+	/**
+	 * Formats the model element as a namespace.
+	 *
+	 * @param ns
+	 *            the namespace
+	 * @return the formatted string
+	 */
+	public String formatNamespace(Object ns);
 
 }

@@ -50,141 +50,136 @@ import org.argouml.uml.diagram.deployment.ui.UMLDeploymentDiagram;
 import org.argouml.uml.diagram.ui.FigDependency;
 
 /**
- * A critic to detect when in a deployment-diagram the supplier or the
- * client of a dependency is a mobject and inside a figComponent and
- * the other end is a mobject and inside a figComponentInstance.
+ * A critic to detect when in a deployment-diagram the supplier or the client of
+ * a dependency is a mobject and inside a figComponent and the other end is a
+ * mobject and inside a figComponentInstance.
  *
  * @author 5eichler
  */
 public class CrWrongDepEnds extends CrUML {
 
-    /**
-     * The constructor.
-     */
-    public CrWrongDepEnds() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.PATTERNS);
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(dm instanceof UMLDeploymentDiagram)) {
-            return NO_PROBLEM;
-        }
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
-	ListSet offs = computeOffenders(dd);
-	if (offs == null) {
-            return NO_PROBLEM;
-        }
-	return PROBLEM_FOUND;
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
-	ListSet offs = computeOffenders(dd);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-            return false;
-        }
-	ListSet offs = i.getOffenders();
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) offs.get(0);
-	//if (!predicate(dm, dsgr)) return false;
-	ListSet newOffs = computeOffenders(dd);
-	boolean res = offs.equals(newOffs);
-	return res;
-    }
-
-    /**
-     * If there are deps that are going from inside a FigComponent to
-     * inside a FigComponentInstance the returned vector-set is not
-     * null.  Then in the vector-set are the UMLDeploymentDiagram and
-     * all FigDependencies with this characteristic and their
-     * FigObjects described over the supplier and client.
-     *
-     * @param dd the diagram to check
-     * @return the set of offenders
-     */
-    public ListSet computeOffenders(UMLDeploymentDiagram dd) {
-	Collection figs = dd.getLayer().getContents();
-	ListSet offs = null;
-        for (Object obj : figs) {
-	    if (!(obj instanceof FigDependency)) {
-                continue;
-            }
-	    FigDependency figDependency = (FigDependency) obj;
-	    if (!(Model.getFacade().isADependency(figDependency.getOwner()))) {
-                continue;
-            }
-	    Object dependency = figDependency.getOwner();
-	    Collection suppliers = Model.getFacade().getSuppliers(dependency);
-	    int count = 0;
-	    if (suppliers != null) {
-                for (Object moe : suppliers) {
-		    if (Model.getFacade().isAObject(moe)) {
-			Object objSup = moe;
-			if (Model.getFacade().getElementResidences(objSup)
-			        != null
-			    && (Model.getFacade().getElementResidences(objSup)
-			            .size() > 0)) {
-			    count += 2;
-                        }
-			if (Model.getFacade().getComponentInstance(objSup)
-			        != null) {
-			    count++;
-                        }
-		    }
-		}
-	    }
-	    Collection clients = Model.getFacade().getClients(dependency);
-	    if (clients != null && (clients.size() > 0)) {
-                for (Object moe : clients) {
-		    if (Model.getFacade().isAObject(moe)) {
-			Object objCli = moe;
-			if (Model.getFacade().getElementResidences(objCli)
-			        != null
-			    && (Model.getFacade().getElementResidences(objCli)
-			            .size() > 0)) {
-			    count += 2;
-                        }
-			if (Model.getFacade().getComponentInstance(objCli)
-			        != null) {
-			    count++;
-                        }
-		    }
-		}
-	    }
-	    if (count == 3) {
-		if (offs == null) {
-		    offs = new ListSet();
-		    offs.add(dd);
-		}
-		offs.add(figDependency);
-		offs.add(figDependency.getSourcePortFig());
-		offs.add(figDependency.getDestPortFig());
-	    }
+	/**
+	 * The constructor.
+	 */
+	public CrWrongDepEnds() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.PATTERNS);
 	}
-	return offs;
-    }
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -6587198606342935144L;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(dm instanceof UMLDeploymentDiagram)) {
+			return NO_PROBLEM;
+		}
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
+		ListSet offs = computeOffenders(dd);
+		if (offs == null) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
+		ListSet offs = computeOffenders(dd);
+		return new UMLToDoItem(this, offs, dsgr);
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) offs.get(0);
+		// if (!predicate(dm, dsgr)) return false;
+		ListSet newOffs = computeOffenders(dd);
+		boolean res = offs.equals(newOffs);
+		return res;
+	}
+
+	/**
+	 * If there are deps that are going from inside a FigComponent to inside a
+	 * FigComponentInstance the returned vector-set is not null. Then in the
+	 * vector-set are the UMLDeploymentDiagram and all FigDependencies with this
+	 * characteristic and their FigObjects described over the supplier and
+	 * client.
+	 *
+	 * @param dd
+	 *            the diagram to check
+	 * @return the set of offenders
+	 */
+	public ListSet computeOffenders(UMLDeploymentDiagram dd) {
+		Collection figs = dd.getLayer().getContents();
+		ListSet offs = null;
+		for (Object obj : figs) {
+			if (!(obj instanceof FigDependency)) {
+				continue;
+			}
+			FigDependency figDependency = (FigDependency) obj;
+			if (!(Model.getFacade().isADependency(figDependency.getOwner()))) {
+				continue;
+			}
+			Object dependency = figDependency.getOwner();
+			Collection suppliers = Model.getFacade().getSuppliers(dependency);
+			int count = 0;
+			if (suppliers != null) {
+				for (Object moe : suppliers) {
+					if (Model.getFacade().isAObject(moe)) {
+						Object objSup = moe;
+						if (Model.getFacade().getElementResidences(objSup) != null
+								&& (Model.getFacade().getElementResidences(objSup).size() > 0)) {
+							count += 2;
+						}
+						if (Model.getFacade().getComponentInstance(objSup) != null) {
+							count++;
+						}
+					}
+				}
+			}
+			Collection clients = Model.getFacade().getClients(dependency);
+			if (clients != null && (clients.size() > 0)) {
+				for (Object moe : clients) {
+					if (Model.getFacade().isAObject(moe)) {
+						Object objCli = moe;
+						if (Model.getFacade().getElementResidences(objCli) != null
+								&& (Model.getFacade().getElementResidences(objCli).size() > 0)) {
+							count += 2;
+						}
+						if (Model.getFacade().getComponentInstance(objCli) != null) {
+							count++;
+						}
+					}
+				}
+			}
+			if (count == 3) {
+				if (offs == null) {
+					offs = new ListSet();
+					offs.add(dd);
+				}
+				offs.add(figDependency);
+				offs.add(figDependency.getSourcePortFig());
+				offs.add(figDependency.getDestPortFig());
+			}
+		}
+		return offs;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -6587198606342935144L;
 }

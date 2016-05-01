@@ -52,237 +52,254 @@ import org.argouml.application.events.ArgoEventTypes;
 import org.argouml.application.events.ArgoNotationEvent;
 
 /**
- * This class provides definition and manipulation of notation names.
- * All notation names will be accessed using the
- * {@link NotationName} wrapper.
+ * This class provides definition and manipulation of notation names. All
+ * notation names will be accessed using the {@link NotationName} wrapper.
  *
  * Not mutable!
  *
  * @author Thierry Lach
  * @since 0.9.4
  */
-class NotationNameImpl
-    implements NotationName {
+class NotationNameImpl implements NotationName {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(NotationNameImpl.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(NotationNameImpl.class.getName());
 
-    private String name;
-    private String version;
-    private Icon icon;
+	private String name;
+	private String version;
+	private Icon icon;
 
-    /** The one and only list of notations available
-     * in the running ArgoUML application. */
-    private static ArrayList<NotationName> notations =
-        new ArrayList<NotationName>();
+	/**
+	 * The one and only list of notations available in the running ArgoUML
+	 * application.
+	 */
+	private static ArrayList<NotationName> notations = new ArrayList<NotationName>();
 
-    /**
-     * A notation without a version or icon.
-     *
-     * @param theName the name of the notation
-     */
-    protected NotationNameImpl(String theName) {
-        this(theName, null, null);
-    }
-
-    /**
-     * A notation without a version and with an icon.
-     *
-     * @param theName the name of the notation
-     * @param theIcon the icon for of the notation
-     */
-    protected NotationNameImpl(String theName, Icon theIcon) {
-        this(theName, null, theIcon);
-    }
-
-    /**
-     * A notation with a version and no icon.
-     *
-     * @param theName the name of the notation
-     * @param theVersion the version of the notation
-     */
-    protected NotationNameImpl(String theName, String theVersion) {
-        this(theName, theVersion, null);
-    }
-
-    /**
-     * A notation with a version and an icon.
-     *
-     * @param myName    the name of the notation
-     * @param myVersion the version of the notation
-     * @param myIcon    the icon of the notation
-     */
-    protected NotationNameImpl(String myName, String myVersion, Icon myIcon) {
-        name = myName;
-        version = myVersion;
-        icon = myIcon;
-    }
-
-    /**
-     * Accessor for the language name.
-     *
-     * @see org.argouml.notation.NotationName#getName()
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Accessor for the language version.
-     *
-     * @see org.argouml.notation.NotationName#getVersion()
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Gets a textual title for the notation suitable for use
-     * in a combo box or other such visual location.
-     *
-     * @see org.argouml.notation.NotationName#getTitle()
-     */
-    public String getTitle() {
-        String myName = name;
-        if (myName.equalsIgnoreCase("uml")) {
-            myName = myName.toUpperCase();
-        }
-
-        if (version == null || version.equals("")) {
-            return myName;
-        }
-        return myName + " " + version;
-    }
-
-    /**
-     * Returns an icon for the notation, or null if no icon is available.
-     *
-     * @see org.argouml.notation.NotationName#getIcon()
-     */
-    public Icon getIcon() {
-        return icon;
-    }
-
-    /*
-     * @see org.argouml.notation.NotationName#getConfigurationValue()
-     */
-    public String getConfigurationValue() {
-        return getNotationNameString(name, version);
-    }
-
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return getTitle();
-    }
-
-    /**
-     * @param k1 first part of the given name
-     * @param k2 2nd part of the given name
-     * @return the notation name string
-     */
-    static String getNotationNameString(String k1, String k2) {
-        if (k2 == null) {
-            return k1;
-        }
-        if (k2.equals("")) {
-            return k1;
-        }
-	return k1 + " " + k2;
-    }
-
-    private static void fireEvent(int eventType, NotationName nn) {
-	ArgoEventPump.fireEvent(new ArgoNotationEvent(eventType, nn));
-    }
-
-    /**
-     * Create a NotationName with or without a version.
-     * The NotationName is only created if there is no such notation before.
-     *
-     * @param k1 the 1st part of the notation name
-     * @param k2 the 2nd part of the notation name
-     * @param icon the icon for the notation
-     * @return the newly created or the old NotationName
-     */
-    static NotationName makeNotation(String k1, String k2, Icon icon) {
-	NotationName nn = null;
-	nn = findNotation(getNotationNameString(k1, k2));
-	if (nn == null) {
-	    nn = new NotationNameImpl(k1, k2, icon);
-	    notations.add(nn);
-	    fireEvent(ArgoEventTypes.NOTATION_ADDED, nn);
+	/**
+	 * A notation without a version or icon.
+	 *
+	 * @param theName
+	 *            the name of the notation
+	 */
+	protected NotationNameImpl(String theName) {
+		this(theName, null, null);
 	}
-        return nn;
-    }
 
-    static boolean removeNotation(NotationName theNotation)  {
-        return notations.remove(theNotation);
-    }
+	/**
+	 * A notation without a version and with an icon.
+	 *
+	 * @param theName
+	 *            the name of the notation
+	 * @param theIcon
+	 *            the icon for of the notation
+	 */
+	protected NotationNameImpl(String theName, Icon theIcon) {
+		this(theName, null, theIcon);
+	}
 
-    /**
-     * Get all of the registered notations.
-     *
-     * @return a List with all notations
-     */
-    static List<NotationName> getAvailableNotations() {
-        return Collections.unmodifiableList(notations);
-    }
+	/**
+	 * A notation with a version and no icon.
+	 *
+	 * @param theName
+	 *            the name of the notation
+	 * @param theVersion
+	 *            the version of the notation
+	 */
+	protected NotationNameImpl(String theName, String theVersion) {
+		this(theName, theVersion, null);
+	}
 
-    /**
-     * Finds a NotationName matching the string matching
-     * the name of the notation. Returns null if no match.
-     *
-     * @param s the name string
-     * @return the notationName or null
-     */
-    static NotationName findNotation(String s) {
-        ListIterator iterator = notations.listIterator();
-        while (iterator.hasNext()) {
-	    try {
-                NotationName nn = (NotationName) iterator.next();
-		if (s.equals(nn.getConfigurationValue())) {
-		    return nn;
+	/**
+	 * A notation with a version and an icon.
+	 *
+	 * @param myName
+	 *            the name of the notation
+	 * @param myVersion
+	 *            the version of the notation
+	 * @param myIcon
+	 *            the icon of the notation
+	 */
+	protected NotationNameImpl(String myName, String myVersion, Icon myIcon) {
+		name = myName;
+		version = myVersion;
+		icon = myIcon;
+	}
+
+	/**
+	 * Accessor for the language name.
+	 *
+	 * @see org.argouml.notation.NotationName#getName()
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Accessor for the language version.
+	 *
+	 * @see org.argouml.notation.NotationName#getVersion()
+	 */
+	public String getVersion() {
+		return version;
+	}
+
+	/**
+	 * Gets a textual title for the notation suitable for use in a combo box or
+	 * other such visual location.
+	 *
+	 * @see org.argouml.notation.NotationName#getTitle()
+	 */
+	public String getTitle() {
+		String myName = name;
+		if (myName.equalsIgnoreCase("uml")) {
+			myName = myName.toUpperCase();
 		}
-	    } catch (Exception e) {
-	        // TODO: Document why we catch this.
-                LOG.log(Level.SEVERE, "Unexpected exception", e);
-	    }
+
+		if (version == null || version.equals("")) {
+			return myName;
+		}
+		return myName + " " + version;
 	}
-	return null;
-    }
 
-    /*
-     * @see org.argouml.notation.NotationName#sameNotationAs(org.argouml.notation.NotationName)
-     */
-    public boolean sameNotationAs(NotationName nn) {
-        return this.getConfigurationValue().equals(nn.getConfigurationValue());
-    }
+	/**
+	 * Returns an icon for the notation, or null if no icon is available.
+	 *
+	 * @see org.argouml.notation.NotationName#getIcon()
+	 */
+	public Icon getIcon() {
+		return icon;
+	}
 
-    /**
-     * Finds a NotationName matching the language with no version.
-     * Returns null if no match.
-     *
-     * @param k1 the notation name string
-     * @return the notation name
-     */
-    static NotationName getNotation(String k1) {
-        return findNotation(getNotationNameString(k1, null));
-    }
+	/*
+	 * @see org.argouml.notation.NotationName#getConfigurationValue()
+	 */
+	public String getConfigurationValue() {
+		return getNotationNameString(name, version);
+	}
 
-    /**
-     * Finds a NotationName matching the language and version.
-     * Returns null if no match.
-     *
-     * @param k1 the 1st part of the notation name
-     * @param k2 the 2nd part of the notation name
-     * @return the notation name
-     */
-    static NotationName getNotation(String k1, String k2) {
-        return findNotation(getNotationNameString(k1, k2));
-    }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return getTitle();
+	}
+
+	/**
+	 * @param k1
+	 *            first part of the given name
+	 * @param k2
+	 *            2nd part of the given name
+	 * @return the notation name string
+	 */
+	static String getNotationNameString(String k1, String k2) {
+		if (k2 == null) {
+			return k1;
+		}
+		if (k2.equals("")) {
+			return k1;
+		}
+		return k1 + " " + k2;
+	}
+
+	private static void fireEvent(int eventType, NotationName nn) {
+		ArgoEventPump.fireEvent(new ArgoNotationEvent(eventType, nn));
+	}
+
+	/**
+	 * Create a NotationName with or without a version. The NotationName is only
+	 * created if there is no such notation before.
+	 *
+	 * @param k1
+	 *            the 1st part of the notation name
+	 * @param k2
+	 *            the 2nd part of the notation name
+	 * @param icon
+	 *            the icon for the notation
+	 * @return the newly created or the old NotationName
+	 */
+	static NotationName makeNotation(String k1, String k2, Icon icon) {
+		NotationName nn = null;
+		nn = findNotation(getNotationNameString(k1, k2));
+		if (nn == null) {
+			nn = new NotationNameImpl(k1, k2, icon);
+			notations.add(nn);
+			fireEvent(ArgoEventTypes.NOTATION_ADDED, nn);
+		}
+		return nn;
+	}
+
+	static boolean removeNotation(NotationName theNotation) {
+		return notations.remove(theNotation);
+	}
+
+	/**
+	 * Get all of the registered notations.
+	 *
+	 * @return a List with all notations
+	 */
+	static List<NotationName> getAvailableNotations() {
+		return Collections.unmodifiableList(notations);
+	}
+
+	/**
+	 * Finds a NotationName matching the string matching the name of the
+	 * notation. Returns null if no match.
+	 *
+	 * @param s
+	 *            the name string
+	 * @return the notationName or null
+	 */
+	static NotationName findNotation(String s) {
+		ListIterator iterator = notations.listIterator();
+		while (iterator.hasNext()) {
+			try {
+				NotationName nn = (NotationName) iterator.next();
+				if (s.equals(nn.getConfigurationValue())) {
+					return nn;
+				}
+			} catch (Exception e) {
+				// TODO: Document why we catch this.
+				LOG.log(Level.SEVERE, "Unexpected exception", e);
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.notation.NotationName#sameNotationAs(org.argouml.notation.
+	 * NotationName)
+	 */
+	public boolean sameNotationAs(NotationName nn) {
+		return this.getConfigurationValue().equals(nn.getConfigurationValue());
+	}
+
+	/**
+	 * Finds a NotationName matching the language with no version. Returns null
+	 * if no match.
+	 *
+	 * @param k1
+	 *            the notation name string
+	 * @return the notation name
+	 */
+	static NotationName getNotation(String k1) {
+		return findNotation(getNotationNameString(k1, null));
+	}
+
+	/**
+	 * Finds a NotationName matching the language and version. Returns null if
+	 * no match.
+	 *
+	 * @param k1
+	 *            the 1st part of the notation name
+	 * @param k2
+	 *            the 2nd part of the notation name
+	 * @return the notation name
+	 */
+	static NotationName getNotation(String k1, String k2) {
+		return findNotation(getNotationNameString(k1, k2));
+	}
 
 }

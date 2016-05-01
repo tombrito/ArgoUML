@@ -51,28 +51,27 @@ import org.argouml.i18n.Translator;
  *
  */
 public class ActionPerspectiveConfig extends AbstractAction {
-    /**
-     * The constructor. Translate the name and set icon.
-     */
-    public ActionPerspectiveConfig() {
-        super(Translator.localize("action.configure-perspectives"),
-                ResourceLoaderWrapper
-                        .lookupIcon("action.configure-perspectives"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.configure-perspectives"));
-    }
+	/**
+	 * The constructor. Translate the name and set icon.
+	 */
+	public ActionPerspectiveConfig() {
+		super(Translator.localize("action.configure-perspectives"),
+				ResourceLoaderWrapper.lookupIcon("action.configure-perspectives"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.configure-perspectives"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        PerspectiveConfigurator ncd = new PerspectiveConfigurator();
-        ncd.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		PerspectiveConfigurator ncd = new PerspectiveConfigurator();
+		ncd.setVisible(true);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -708783262437452872L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -708783262437452872L;
 }

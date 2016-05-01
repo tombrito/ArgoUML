@@ -60,81 +60,80 @@ import org.argouml.ui.targetmanager.TargetManager;
 @UmlModelMutator
 public class ActionAddOperation extends UndoableAction {
 
-    private static ActionAddOperation targetFollower;
+	private static ActionAddOperation targetFollower;
 
-    /**
-     * The constructor.
-     */
-    public ActionAddOperation() {
-        super(Translator.localize("button.new-operation"),
-                ResourceLoaderWrapper.lookupIcon("button.new-operation"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("button.new-operation"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionAddOperation() {
+		super(Translator.localize("button.new-operation"), ResourceLoaderWrapper.lookupIcon("button.new-operation"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("button.new-operation"));
+	}
 
-    public static ActionAddOperation getTargetFollower() {
-        if (targetFollower == null) {
-            targetFollower  = new ActionAddOperation();
-            TargetManager.getInstance().addTargetListener(new TargetListener() {
-                public void targetAdded(TargetEvent e) {
-                    setTarget();
-                }
-                public void targetRemoved(TargetEvent e) {
-                    setTarget();
-                }
+	public static ActionAddOperation getTargetFollower() {
+		if (targetFollower == null) {
+			targetFollower = new ActionAddOperation();
+			TargetManager.getInstance().addTargetListener(new TargetListener() {
+				public void targetAdded(TargetEvent e) {
+					setTarget();
+				}
 
-                public void targetSet(TargetEvent e) {
-                    setTarget();
-                }
-                private void setTarget() {
-                    targetFollower.setEnabled(targetFollower.shouldBeEnabled());
-                }
-            });
-            targetFollower.setEnabled(targetFollower.shouldBeEnabled());
-        }
-        return targetFollower;
-    }
+				public void targetRemoved(TargetEvent e) {
+					setTarget();
+				}
 
+				public void targetSet(TargetEvent e) {
+					setTarget();
+				}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
+				private void setTarget() {
+					targetFollower.setEnabled(targetFollower.shouldBeEnabled());
+				}
+			});
+			targetFollower.setEnabled(targetFollower.shouldBeEnabled());
+		}
+		return targetFollower;
+	}
 
-        super.actionPerformed(ae);
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
 
-        Object target =  TargetManager.getInstance().getModelTarget();
-        Object classifier = null;
+		super.actionPerformed(ae);
 
-        if (Model.getFacade().isAClassifier(target)) {
-            classifier = target;
-        } else if (Model.getFacade().isAFeature(target)) {
-            classifier = Model.getFacade().getOwner(target);
-        } else {
-            return;
-        }
-        
-        Project project = ProjectManager.getManager().getCurrentProject();
-        Defaults defaults = project.getDefaults();
-        Object attr = Model.getUmlFactory().buildNode(Model.getMetaTypes().getOperation(), classifier, null, defaults);
-        TargetManager.getInstance().setTarget(attr);
-    }
+		Object target = TargetManager.getInstance().getModelTarget();
+		Object classifier = null;
 
-    /**
-     * @return true if this tool should be enabled
-     */
-    public boolean shouldBeEnabled() {
-        Object target = TargetManager.getInstance().getSingleModelTarget();
-        if (target == null) {
-            return false;
-        }
-        return Model.getFacade().isAClassifier(target)
-            || Model.getFacade().isAFeature(target);
-    }
+		if (Model.getFacade().isAClassifier(target)) {
+			classifier = target;
+		} else if (Model.getFacade().isAFeature(target)) {
+			classifier = Model.getFacade().getOwner(target);
+		} else {
+			return;
+		}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1383845502957256177L;
+		Project project = ProjectManager.getManager().getCurrentProject();
+		Defaults defaults = project.getDefaults();
+		Object attr = Model.getUmlFactory().buildNode(Model.getMetaTypes().getOperation(), classifier, null, defaults);
+		TargetManager.getInstance().setTarget(attr);
+	}
+
+	/**
+	 * @return true if this tool should be enabled
+	 */
+	public boolean shouldBeEnabled() {
+		Object target = TargetManager.getInstance().getSingleModelTarget();
+		if (target == null) {
+			return false;
+		}
+		return Model.getFacade().isAClassifier(target) || Model.getFacade().isAFeature(target);
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1383845502957256177L;
 }

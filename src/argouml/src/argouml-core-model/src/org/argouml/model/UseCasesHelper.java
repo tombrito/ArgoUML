@@ -40,195 +40,236 @@ package org.argouml.model;
 
 import java.util.Collection;
 
-
 /**
- * The interface for the helper for UseCases.<p>
+ * The interface for the helper for UseCases.
+ * <p>
  *
  * Created from the old UseCasesHelper.
  */
 public interface UseCasesHelper {
 
-    /**
-     * Returns all usecases in some namespace ns.
-     *
-     * @param ns is the namespace
-     * @return Collection
-     */
-    Collection getAllUseCases(Object ns);
+	/**
+	 * Returns all usecases in some namespace ns.
+	 *
+	 * @param ns
+	 *            is the namespace
+	 * @return Collection
+	 */
+	Collection getAllUseCases(Object ns);
 
-    /**
-     * Returns all actors in some namespace ns.
-     *
-     * @param ns is the namespace
-     * @return Collection
-     */
-    Collection getAllActors(Object ns);
+	/**
+	 * Returns all actors in some namespace ns.
+	 *
+	 * @param ns
+	 *            is the namespace
+	 * @return Collection
+	 */
+	Collection getAllActors(Object ns);
 
-    /**
-     * Returns all usecases this given usecase extends.<p>
-     *
-     * @param ausecase the given usecase
-     * @return Collection all usecases this given usecase extends
-     */
-    Collection getExtendedUseCases(Object ausecase);
+	/**
+	 * Returns all usecases this given usecase extends.
+	 * <p>
+	 *
+	 * @param ausecase
+	 *            the given usecase
+	 * @return Collection all usecases this given usecase extends
+	 */
+	Collection getExtendedUseCases(Object ausecase);
 
+	/**
+	 * Returns the extend relation between two usecases base and extension. If
+	 * there is none null is returned.
+	 *
+	 * @param abase
+	 *            the given base usecase
+	 * @param anextension
+	 *            the given extension usecase
+	 * @return MExtend the extend relation
+	 */
+	Object getExtends(Object abase, Object anextension);
 
-    /**
-     * Returns the extend relation between two usecases base and
-     * extension. If there is none null is returned.
-     *
-     * @param abase the given base usecase
-     * @param anextension the given extension usecase
-     * @return MExtend the extend relation
-     */
-    Object getExtends(Object abase, Object anextension);
+	/**
+	 * Returns all usecases this usecase includes.
+	 *
+	 * @param ausecase
+	 *            the given usecase
+	 * @return Collection all usecases the given usecase includes
+	 */
+	Collection getIncludedUseCases(Object ausecase);
 
-    /**
-     * Returns all usecases this usecase includes.
-     *
-     * @param ausecase the given usecase
-     * @return Collection all usecases the given usecase includes
-     */
-    Collection getIncludedUseCases(Object ausecase);
+	/**
+	 * Returns the include relation between two usecases base and inclusion. If
+	 * there is none null is returned.
+	 *
+	 * @param abase
+	 *            the given base usecase
+	 * @param aninclusion
+	 *            the given inclusion usecase
+	 * @return The include relation.
+	 */
+	Object getIncludes(Object abase, Object aninclusion);
 
-    /**
-     * Returns the include relation between two usecases base and
-     * inclusion. If there is none null is returned.
-     *
-     * @param abase the given base usecase
-     * @param aninclusion the given inclusion usecase
-     * @return The include relation.
-     */
-    Object getIncludes(Object abase, Object aninclusion);
+	/**
+	 * Returns the specificationpath operation of some usecase. See section
+	 * 2.11.3.5 of the UML 1.3 spec for a definition.
+	 * <p>
+	 *
+	 * @param ausecase
+	 *            the given usecase
+	 * @return Collection the specificationpath operation of the given usecase
+	 */
+	Collection getSpecificationPath(Object ausecase);
 
-    /**
-     * Returns the specificationpath operation of some usecase. See
-     * section 2.11.3.5 of the UML 1.3 spec for a definition.<p>
-     *
-     * @param ausecase the given usecase
-     * @return Collection the specificationpath operation of the given usecase
-     */
-    Collection getSpecificationPath(Object ausecase);
+	/**
+	 * Sets the base usecase of a given extend. Updates the extensionpoints of
+	 * the extend too.
+	 * 
+	 * @param extend
+	 *            the given extend
+	 * @param base
+	 *            the base usecase
+	 */
+	void setBase(Object extend, Object base);
 
-    /**
-     * Sets the base usecase of a given extend. Updates the
-     * extensionpoints of the extend too.
-     * @param extend the given extend
-     * @param base the base usecase
-     */
-    void setBase(Object extend, Object base);
+	/**
+	 * Remove an extend to a Use Case or Extension Point.
+	 *
+	 * @param elem
+	 *            The Use Case or Extension Point.
+	 * @param extend
+	 *            The Extend to add.
+	 */
+	void removeExtend(Object elem, Object extend);
 
-    /**
-     * Remove an extend to a Use Case or Extension Point.
-     *
-     * @param elem The Use Case or Extension Point.
-     * @param extend The Extend to add.
-     */
-    void removeExtend(Object elem, Object extend);
+	/**
+	 * This method removes an Extension Point from a Use Case or an Extend.
+	 *
+	 * @param elem
+	 *            is The Use Case or Extend.
+	 * @param ep
+	 *            is the extension point
+	 */
+	void removeExtensionPoint(Object elem, Object ep);
 
-    /**
-     * This method removes an Extension Point from a Use Case or an Extend.
-     *
-     * @param elem is The Use Case or Extend.
-     * @param ep is the extension point
-     */
-    void removeExtensionPoint(Object elem, Object ep);
+	/**
+	 * Remove an include from a Use Case.
+	 *
+	 * @param usecase
+	 *            The Use Case.
+	 * @param include
+	 *            The Include.
+	 */
+	void removeInclude(Object usecase, Object include);
 
-    /**
-     * Remove an include from a Use Case.
-     *
-     * @param usecase The Use Case.
-     * @param include The Include.
-     */
-    void removeInclude(Object usecase, Object include);
+	/**
+	 * Add an extend to a Use Case or Extension Point.
+	 *
+	 * @param elem
+	 *            The Use Case or Extension Point.
+	 * @param extend
+	 *            The Extend to add.
+	 */
+	void addExtend(Object elem, Object extend);
 
-    /**
-     * Add an extend to a Use Case or Extension Point.
-     *
-     * @param elem The Use Case or Extension Point.
-     * @param extend The Extend to add.
-     */
-    void addExtend(Object elem, Object extend);
+	/**
+	 * Adds an extension point to some Use Case or Extend.
+	 *
+	 * @param handle
+	 *            is the Use Case or Extend
+	 * @param extensionPoint
+	 *            is the Extension Point
+	 */
+	void addExtensionPoint(Object handle, Object extensionPoint);
 
-    /**
-     * Adds an extension point to some Use Case or Extend.
-     *
-     * @param handle is the Use Case or Extend
-     * @param extensionPoint is the Extension Point
-     */
-    void addExtensionPoint(Object handle, Object extensionPoint);
+	/**
+	 * Adds an extension point to some Extend.
+	 *
+	 * @param handle
+	 *            is the Extend
+	 * @param position
+	 *            the 0-based position at which to insert the Extension Point
+	 * @param extensionPoint
+	 *            is the Extension Point
+	 */
+	void addExtensionPoint(Object handle, int position, Object extensionPoint);
 
-    /**
-     * Adds an extension point to some Extend.
-     *
-     * @param handle is the Extend
-     * @param position the 0-based position at which
-     *          to insert the Extension Point
-     * @param extensionPoint is the Extension Point
-     */
-    void addExtensionPoint(Object handle, int position, Object extensionPoint);
+	/**
+	 * Add an include to a Use Case.
+	 *
+	 * @param usecase
+	 *            The Use Case.
+	 * @param include
+	 *            The Include.
+	 */
+	void addInclude(Object usecase, Object include);
 
-    /**
-     * Add an include to a Use Case.
-     *
-     * @param usecase The Use Case.
-     * @param include The Include.
-     */
-    void addInclude(Object usecase, Object include);
+	/**
+	 * Sets the addition to an include.
+	 *
+	 * @param handle
+	 *            Include
+	 * @param useCase
+	 *            UseCase
+	 */
+	void setAddition(Object handle, Object useCase);
 
-    /**
-     * Sets the addition to an include.
-     *
-     * @param handle Include
-     * @param useCase UseCase
-     */
-    void setAddition(Object handle, Object useCase);
+	/**
+	 * Set the condition of an extend.
+	 *
+	 * @param handle
+	 *            is the extend
+	 * @param booleanExpression
+	 *            is the condition
+	 */
+	void setCondition(Object handle, Object booleanExpression);
 
-    /**
-     * Set the condition of an extend.
-     *
-     * @param handle is the extend
-     * @param booleanExpression is the condition
-     */
-    void setCondition(Object handle, Object booleanExpression);
+	/**
+	 * Set the extension of a usecase.
+	 *
+	 * @param handle
+	 *            Extend
+	 * @param ext
+	 *            UseCase or null
+	 */
+	void setExtension(Object handle, Object ext);
 
-    /**
-     * Set the extension of a usecase.
-     *
-     * @param handle Extend
-     * @param ext UseCase or null
-     */
-    void setExtension(Object handle, Object ext);
+	/**
+	 * Sets the extension points of some use cases.
+	 *
+	 * @param handle
+	 *            the use case
+	 * @param extensionPoints
+	 *            is the extension points
+	 */
+	void setExtensionPoints(Object handle, Collection extensionPoints);
 
-    /**
-     * Sets the extension points of some use cases.
-     *
-     * @param handle the use case
-     * @param extensionPoints is the extension points
-     */
-    void setExtensionPoints(Object handle, Collection extensionPoints);
+	/**
+	 * Set the collection of Include relationships for a usecase.
+	 *
+	 * @param handle
+	 *            UseCase
+	 * @param includes
+	 *            the collection of Include relationships
+	 */
+	void setIncludes(Object handle, Collection includes);
 
-    /**
-     * Set the collection of Include relationships for a usecase.
-     *
-     * @param handle UseCase
-     * @param includes the collection of Include relationships
-     */
-    void setIncludes(Object handle, Collection includes);
+	/**
+	 * Sets a location of some extension point.
+	 *
+	 * @param handle
+	 *            is the extension point
+	 * @param loc
+	 *            is the location
+	 */
+	void setLocation(Object handle, String loc);
 
-    /**
-     * Sets a location of some extension point.
-     *
-     * @param handle is the extension point
-     * @param loc is the location
-     */
-    void setLocation(Object handle, String loc);
-
-    /**
-     * Set a Use Case for an Extension Point.
-     *
-     * @param elem The Extension Point.
-     * @param usecase The Use Case.
-     */
-    void setUseCase(Object elem, Object usecase);
+	/**
+	 * Set a Use Case for an Extension Point.
+	 *
+	 * @param elem
+	 *            The Extension Point.
+	 * @param usecase
+	 *            The Use Case.
+	 */
+	void setUseCase(Object elem, Object usecase);
 }

@@ -58,121 +58,116 @@ import org.argouml.i18n.Translator;
 import org.tigris.gef.base.Globals;
 
 /**
- * Action to paste the content of either the GEF clipboard or the
- * system clipboard.  The action is enabled if there is content on
- * either clipboard AND either the mouse hovers over the JGraph (the
- * diagram) or the caret in a UMLTextField2 or UMLTextArea2 is
- * enabled.
+ * Action to paste the content of either the GEF clipboard or the system
+ * clipboard. The action is enabled if there is content on either clipboard AND
+ * either the mouse hovers over the JGraph (the diagram) or the caret in a
+ * UMLTextField2 or UMLTextArea2 is enabled.
  */
-public class ActionPaste
-    extends AbstractAction
-    implements CaretListener, FocusListener {
+public class ActionPaste extends AbstractAction implements CaretListener, FocusListener {
 
-    private static final long serialVersionUID = -5988660582249255196L;
+	private static final long serialVersionUID = -5988660582249255196L;
 
 	////////////////////////////////////////////////////////////////
-    // static variables
-    /**
-     * The singelton.
-     */
-    private static ActionPaste instance = new ActionPaste();
+	// static variables
+	/**
+	 * The singelton.
+	 */
+	private static ActionPaste instance = new ActionPaste();
 
-    /**
-     * The key.
-     */
-    private static final String LOCALIZE_KEY = "action.paste";
+	/**
+	 * The key.
+	 */
+	private static final String LOCALIZE_KEY = "action.paste";
 
-    /**
-     * Default constructor for action. We cannot use UMLChangeAction
-     * as a parent for this class since it works with shouldBeEnabled
-     * etc. which doesn't give enough control about enabling/disabling
-     * this action.
-     *
-     */
-    public ActionPaste() {
-        super(Translator.localize(LOCALIZE_KEY));
-        Icon icon = ResourceLoaderWrapper.lookupIcon(LOCALIZE_KEY);
-        if (icon != null) {
-            putValue(Action.SMALL_ICON, icon);
-        }
-        putValue(
-		 Action.SHORT_DESCRIPTION,
-		 Translator.localize(LOCALIZE_KEY) + " ");
-        // setEnabled((Globals.clipBoard != null &&
-        // !Globals.clipBoard.isEmpty()) ||
-        // !isSystemClipBoardEmpty());
-        setEnabled(false);
-    }
-
-    /**
-     * Singleton implementation.
-     * @return The singleton
-     */
-    public static ActionPaste getInstance() {
-        return instance;
-    }
-
-    /**
-     * The source textcomponent where the caret is positioned.
-     */
-    private JTextComponent textSource;
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        if (Globals.clipBoard != null && !Globals.clipBoard.isEmpty()) {
-        	 /* Disable pasting as long as issue 594 is not solved:*/
-//            CmdPaste cmd = new CmdPaste();
-//            cmd.doIt();
-        } else {
-            if (!isSystemClipBoardEmpty() && textSource != null) {
-                textSource.paste();
-            }
-        }
-
-    }
-
-
-    /**
-     * Check if there is a selection on the clipboard.
-     *
-     * @return <code>true</code> if there is.
-     */
-    private boolean isSystemClipBoardEmpty() {
-	try {
-	    Object text =
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-		    .getContents(null).getTransferData(DataFlavor.stringFlavor);
-	    return text == null;
-	} catch (IOException ignorable) {
-	} catch (UnsupportedFlavorException ignorable) {
+	/**
+	 * Default constructor for action. We cannot use UMLChangeAction as a parent
+	 * for this class since it works with shouldBeEnabled etc. which doesn't
+	 * give enough control about enabling/disabling this action.
+	 *
+	 */
+	public ActionPaste() {
+		super(Translator.localize(LOCALIZE_KEY));
+		Icon icon = ResourceLoaderWrapper.lookupIcon(LOCALIZE_KEY);
+		if (icon != null) {
+			putValue(Action.SMALL_ICON, icon);
+		}
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(LOCALIZE_KEY) + " ");
+		// setEnabled((Globals.clipBoard != null &&
+		// !Globals.clipBoard.isEmpty()) ||
+		// !isSystemClipBoardEmpty());
+		setEnabled(false);
 	}
-	return true;
-    }
 
-    /*
-     * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-     */
-    public void focusLost(FocusEvent e) {
-        if (e.getSource() == textSource) {
-            textSource = null;
-        }
-    }
+	/**
+	 * Singleton implementation.
+	 * 
+	 * @return The singleton
+	 */
+	public static ActionPaste getInstance() {
+		return instance;
+	}
 
-    /*
-     * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
-     */
-    public void caretUpdate(CaretEvent e) {
-        textSource = (JTextComponent) e.getSource();
+	/**
+	 * The source textcomponent where the caret is positioned.
+	 */
+	private JTextComponent textSource;
 
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		if (Globals.clipBoard != null && !Globals.clipBoard.isEmpty()) {
+			/* Disable pasting as long as issue 594 is not solved: */
+			// CmdPaste cmd = new CmdPaste();
+			// cmd.doIt();
+		} else {
+			if (!isSystemClipBoardEmpty() && textSource != null) {
+				textSource.paste();
+			}
+		}
 
-    /*
-     * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
-     */
-    public void focusGained(FocusEvent e) {
-        textSource = (JTextComponent) e.getSource();
-    }
+	}
+
+	/**
+	 * Check if there is a selection on the clipboard.
+	 *
+	 * @return <code>true</code> if there is.
+	 */
+	private boolean isSystemClipBoardEmpty() {
+		try {
+			Object text = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null)
+					.getTransferData(DataFlavor.stringFlavor);
+			return text == null;
+		} catch (IOException ignorable) {
+		} catch (UnsupportedFlavorException ignorable) {
+		}
+		return true;
+	}
+
+	/*
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	public void focusLost(FocusEvent e) {
+		if (e.getSource() == textSource) {
+			textSource = null;
+		}
+	}
+
+	/*
+	 * @see
+	 * javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
+	public void caretUpdate(CaretEvent e) {
+		textSource = (JTextComponent) e.getSource();
+
+	}
+
+	/*
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	public void focusGained(FocusEvent e) {
+		textSource = (JTextComponent) e.getSource();
+	}
 
 } /* end class ActionPaste */

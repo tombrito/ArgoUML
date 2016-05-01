@@ -52,28 +52,25 @@ import org.argouml.uml.ui.UMLListCellRenderer2;
  */
 public class ActionNewToDoItem extends UndoableAction {
 
-    private static final long serialVersionUID = -3755116561941054008L;
+	private static final long serialVersionUID = -3755116561941054008L;
 
 	/**
-     * Construct an action to create a new ToDo item.
-     */
-    public ActionNewToDoItem() {
-        super(Translator.localize("action.new-todo-item"),
-                ResourceLoaderWrapper.lookupIcon("action.new-todo-item"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.new-todo-item"));
-    }
+	 * Construct an action to create a new ToDo item.
+	 */
+	public ActionNewToDoItem() {
+		super(Translator.localize("action.new-todo-item"), ResourceLoaderWrapper.lookupIcon("action.new-todo-item"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.new-todo-item"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        AddToDoItemDialog dialog = new AddToDoItemDialog(
-                new UMLListCellRenderer2(true));
-        dialog.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		AddToDoItemDialog dialog = new AddToDoItemDialog(new UMLListCellRenderer2(true));
+		dialog.setVisible(true);
+	}
 }
-

@@ -47,91 +47,91 @@ import java.util.Collection;
  *
  * @author Bob Tarling
  */
-public abstract class AbstractDataTypesHelperDecorator
-	implements DataTypesHelper {
+public abstract class AbstractDataTypesHelperDecorator implements DataTypesHelper {
 
-    /**
-     * The component.
-     */
-    private DataTypesHelper impl;
+	/**
+	 * The component.
+	 */
+	private DataTypesHelper impl;
 
-    /**
-     * @param component The component to decorate.
-     */
-    protected AbstractDataTypesHelperDecorator(DataTypesHelper component) {
-        impl = component;
-    }
+	/**
+	 * @param component
+	 *            The component to decorate.
+	 */
+	protected AbstractDataTypesHelperDecorator(DataTypesHelper component) {
+		impl = component;
+	}
 
-    /**
-     * The component we are decorating.
-     *
-     * @return Returns the component.
-     */
-    protected DataTypesHelper getComponent() {
-        return impl;
-    }
+	/**
+	 * The component we are decorating.
+	 *
+	 * @return Returns the component.
+	 */
+	protected DataTypesHelper getComponent() {
+		return impl;
+	}
 
-    public boolean equalsINITIALKind(Object kind) {
-        return impl.equalsINITIALKind(kind);
-    }
+	public boolean equalsINITIALKind(Object kind) {
+		return impl.equalsINITIALKind(kind);
+	}
 
-    public boolean equalsDeepHistoryKind(Object kind) {
-        return impl.equalsDeepHistoryKind(kind);
-    }
+	public boolean equalsDeepHistoryKind(Object kind) {
+		return impl.equalsDeepHistoryKind(kind);
+	}
 
-    public boolean equalsShallowHistoryKind(Object kind) {
-        return impl.equalsShallowHistoryKind(kind);
-    }
+	public boolean equalsShallowHistoryKind(Object kind) {
+		return impl.equalsShallowHistoryKind(kind);
+	}
 
-    public boolean equalsFORKKind(Object kind) {
-        return impl.equalsFORKKind(kind);
-    }
+	public boolean equalsFORKKind(Object kind) {
+		return impl.equalsFORKKind(kind);
+	}
 
-    public boolean equalsJOINKind(Object kind) {
-        return impl.equalsJOINKind(kind);
-    }
+	public boolean equalsJOINKind(Object kind) {
+		return impl.equalsJOINKind(kind);
+	}
 
-    public boolean equalsCHOICEKind(Object kind) {
-        return impl.equalsCHOICEKind(kind);
-    }
+	public boolean equalsCHOICEKind(Object kind) {
+		return impl.equalsCHOICEKind(kind);
+	}
 
-    public boolean equalsJUNCTIONKind(Object kind) {
-        return impl.equalsJUNCTIONKind(kind);
-    }
+	public boolean equalsJUNCTIONKind(Object kind) {
+		return impl.equalsJUNCTIONKind(kind);
+	}
 
-    public String multiplicityToString(Object multiplicity) {
-        return impl.multiplicityToString(multiplicity);
-    }
+	public String multiplicityToString(Object multiplicity) {
+		return impl.multiplicityToString(multiplicity);
+	}
 
-    public Object setBody(Object handle, String body) {
-        return impl.setBody(handle, body);
-    }
+	public Object setBody(Object handle, String body) {
+		return impl.setBody(handle, body);
+	}
 
-    public String getBody(Object handle) {
-        return impl.getBody(handle);
-    }
+	public String getBody(Object handle) {
+		return impl.getBody(handle);
+	}
 
-    public Object setLanguage(Object handle, String language) {
-        return impl.setLanguage(handle, language);
-    }
+	public Object setLanguage(Object handle, String language) {
+		return impl.setLanguage(handle, language);
+	}
 
-    public String getLanguage(Object handle) {
-        return impl.getLanguage(handle);
-    }
+	public String getLanguage(Object handle) {
+		return impl.getLanguage(handle);
+	}
 
-    public Collection<String> getValueSpecifications(){
-        return impl.getValueSpecifications();
-    }
-    
-    public Object createValueSpecification(Object handle, String type) {
-        return impl.createValueSpecification(handle, type);
-    }
-    
-    public void modifyValueSpecification(Object handle, Object[] tabValues) {
-        impl.modifyValueSpecification(handle, tabValues);
-    }
+	public Collection<String> getValueSpecifications() {
+		return impl.getValueSpecifications();
+	}
 
-    public Object[] getValueSpecificationValues(Object handle) {
-        return impl.getValueSpecificationValues(handle);
-    }    
+	public Object createValueSpecification(Object handle, String type) {
+		return impl.createValueSpecification(handle, type);
+	}
+
+	public void modifyValueSpecification(Object handle, Object[] tabValues) {
+		impl.modifyValueSpecification(handle, tabValues);
+	}
+
+	public Object[] getValueSpecificationValues(Object handle) {
+		return impl.getValueSpecificationValues(handle);
+	}
 }

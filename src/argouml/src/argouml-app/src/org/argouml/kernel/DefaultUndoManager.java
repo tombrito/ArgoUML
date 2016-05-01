@@ -58,353 +58,334 @@ import org.argouml.i18n.Translator;
  */
 class DefaultUndoManager implements UndoManager {
 
-    private static final Logger LOG =
-        Logger.getLogger(DefaultUndoManager.class.getName());
+	private static final Logger LOG = Logger.getLogger(DefaultUndoManager.class.getName());
 
-    /**
-     * The number of undoable commands to store. When set to zero undo is
-     * disabled entirely.
-     */
-    private int undoMax = 0;
+	/**
+	 * The number of undoable commands to store. When set to zero undo is
+	 * disabled entirely.
+	 */
+	private int undoMax = 0;
 
-    private ArrayList<PropertyChangeListener> listeners =
-        new ArrayList<PropertyChangeListener>();
+	private ArrayList<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
 
-    /**
-     * Set when a new user interaction begins
-     */
-    private boolean newInteraction = true;
+	/**
+	 * Set when a new user interaction begins
+	 */
+	private boolean newInteraction = true;
 
-    /**
-     * The project to which this undo manager relates
-     */
-    private final Project project;
+	/**
+	 * The project to which this undo manager relates
+	 */
+	private final Project project;
 
-    /**
-     * A description of the user interaction taking place.
-     * Often this is the label of an Action.
-     */
-    private String newInteractionLabel;
+	/**
+	 * A description of the user interaction taking place. Often this is the
+	 * label of an Action.
+	 */
+	private String newInteractionLabel;
 
-    private UndoStack undoStack = new UndoStack();
-    private RedoStack redoStack = new RedoStack();
+	private UndoStack undoStack = new UndoStack();
+	private RedoStack redoStack = new RedoStack();
 
-    /**
-     * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
-     */
-    @Deprecated
-    private static final UndoManager INSTANCE = new DefaultUndoManager();
+	/**
+	 * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
+	 */
+	@Deprecated
+	private static final UndoManager INSTANCE = new DefaultUndoManager();
 
-    /**
-     * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
-     */
-    @Deprecated
-    private DefaultUndoManager() {
-        super();
-        project = null;
-    }
+	/**
+	 * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
+	 */
+	@Deprecated
+	private DefaultUndoManager() {
+		super();
+		project = null;
+	}
 
-    DefaultUndoManager(Project project) {
-        super();
-        this.project = project;
-    }
+	DefaultUndoManager(Project project) {
+		super();
+		this.project = project;
+	}
 
-    /**
-     * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
-     */
-    @Deprecated
-    public static UndoManager getInstance() {
-        return INSTANCE;
-    }
+	/**
+	 * @deprecated in 0.32 alpha by Bob Tarling use DefaultUndoManager(Project)
+	 */
+	@Deprecated
+	public static UndoManager getInstance() {
+		return INSTANCE;
+	}
 
-    public synchronized Object execute(Command command) {
-        addCommand(command);
-        return command.execute();
-    }
+	public synchronized Object execute(Command command) {
+		addCommand(command);
+		return command.execute();
+	}
 
-    public synchronized void addCommand(Command command) {
+	public synchronized void addCommand(Command command) {
 
-        // TODO: Once the default constructor is deleted we only set dirty flag
-        if (project != null) {
-            project.setDirty(true);
-        } else {
-            ProjectManager.getManager().setSaveEnabled(true);
-        }
+		// TODO: Once the default constructor is deleted we only set dirty flag
+		if (project != null) {
+			project.setDirty(true);
+		} else {
+			ProjectManager.getManager().setSaveEnabled(true);
+		}
 
-        if (undoMax == 0) {
-            return;
-        }
+		if (undoMax == 0) {
+			return;
+		}
 
-        if (!command.isUndoable()) {
-            undoStack.clear();
-            newInteraction = true;
-        }
-        // Flag the command as to whether it is first in a chain
-        final Interaction macroCommand;
-        if (newInteraction || undoStack.isEmpty()) {
-            redoStack.clear();
-            newInteraction = false;
-            if (undoStack.size() > undoMax) {
-                undoStack.remove(0);
-            }
-            macroCommand = new Interaction(newInteractionLabel);
-            undoStack.push(macroCommand);
-        } else {
-            macroCommand = undoStack.peek();
-        }
-        macroCommand.addCommand(command);
-    }
+		if (!command.isUndoable()) {
+			undoStack.clear();
+			newInteraction = true;
+		}
+		// Flag the command as to whether it is first in a chain
+		final Interaction macroCommand;
+		if (newInteraction || undoStack.isEmpty()) {
+			redoStack.clear();
+			newInteraction = false;
+			if (undoStack.size() > undoMax) {
+				undoStack.remove(0);
+			}
+			macroCommand = new Interaction(newInteractionLabel);
+			undoStack.push(macroCommand);
+		} else {
+			macroCommand = undoStack.peek();
+		}
+		macroCommand.addCommand(command);
+	}
 
-    public void setUndoMax(int max) {
-        undoMax = max;
-    }
+	public void setUndoMax(int max) {
+		undoMax = max;
+	}
 
+	public synchronized void undo() {
+		final Interaction command = undoStack.pop();
+		command.undo();
+		if (!command.isRedoable()) {
+			redoStack.clear();
+		}
+		redoStack.push(command);
+	}
 
-    public synchronized void undo() {
-        final Interaction command = undoStack.pop();
-        command.undo();
-        if (!command.isRedoable()) {
-            redoStack.clear();
-        }
-        redoStack.push(command);
-    }
+	public synchronized void redo() {
+		final Interaction command = redoStack.pop();
+		command.execute();
+		undoStack.push(command);
+	}
 
+	public synchronized void startInteraction(String label) {
+		LOG.log(Level.FINE, "Starting interaction {0}", label);
+		this.newInteractionLabel = label;
+		newInteraction = true;
+	}
 
-    public synchronized void redo() {
-        final Interaction command = redoStack.pop();
-        command.execute();
-        undoStack.push(command);
-    }
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		listeners.add(listener);
+	}
 
-    public synchronized void startInteraction(String label) {
-        LOG.log(Level.FINE, "Starting interaction {0}", label);
-        this.newInteractionLabel = label;
-        newInteraction = true;
-    }
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.remove(listener);
+	}
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners.add(listener);
-    }
+	private void fire(final String property, final Object value) {
+		for (PropertyChangeListener listener : listeners) {
+			listener.propertyChange(new PropertyChangeEvent(this, property, "", value));
+		}
+	}
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        listeners.remove(listener);
-    }
+	/**
+	 * An Interact is a Command the contains a list of sub-commands. It
+	 * represents a single user interaction and contains all the commands
+	 * executed as part of that interaction.
+	 *
+	 * @author Bob
+	 */
+	class Interaction extends AbstractCommand {
 
-    private void fire(final String property, final Object value) {
-        for (PropertyChangeListener listener : listeners) {
-            listener.propertyChange(
-                    new PropertyChangeEvent(this, property, "", value));
-        }
-    }
+		private List<Command> commands = new ArrayList<Command>();
 
-    /**
-     * An Interact is a Command the contains a list of sub-commands. It
-     * represents a single user interaction and contains all the commands
-     * executed as part of that interaction.
-     *
-     * @author Bob
-     */
-    class Interaction extends AbstractCommand {
+		private String label;
 
-        private List<Command> commands = new ArrayList<Command>();
+		Interaction(String lbl) {
+			label = lbl;
+		}
 
-        private String label;
+		public void undo() {
+			final ListIterator<Command> it = commands.listIterator(commands.size());
+			while (it.hasPrevious()) {
+				it.previous().undo();
+			}
+		}
 
-        Interaction(String lbl) {
-            label = lbl;
-        }
+		public Object execute() {
+			final Iterator<Command> it = commands.iterator();
+			while (it.hasNext()) {
+				it.next().execute();
+			}
+			return null;
+		}
 
-        public void undo() {
-            final ListIterator<Command> it =
-                commands.listIterator(commands.size());
-            while (it.hasPrevious()) {
-                it.previous().undo();
-            }
-        }
+		public boolean isUndoable() {
+			final Iterator<Command> it = commands.iterator();
+			while (it.hasNext()) {
+				final Command command = it.next();
+				if (!command.isUndoable()) {
+					return false;
+				}
+			}
+			return true;
+		}
 
-        public Object execute() {
-            final Iterator<Command> it = commands.iterator();
-            while (it.hasNext()) {
-                it.next().execute();
-            }
-            return null;
-        }
+		public boolean isRedoable() {
+			final Iterator<Command> it = commands.iterator();
+			while (it.hasNext()) {
+				final Command command = it.next();
+				if (!command.isRedoable()) {
+					return false;
+				}
+			}
+			return true;
+		}
 
-        public boolean isUndoable() {
-            final Iterator<Command> it = commands.iterator();
-            while (it.hasNext()) {
-                final Command command = it.next();
-                if (!command.isUndoable()) {
-                    return false;
-                }
-            }
-            return true;
-        }
+		private void addCommand(Command command) {
+			commands.add(command);
+		}
 
-        public boolean isRedoable() {
-            final Iterator<Command> it = commands.iterator();
-            while (it.hasNext()) {
-                final Command command = it.next();
-                if (!command.isRedoable()) {
-                    return false;
-                }
-            }
-            return true;
-        }
+		// TODO: i18n
+		private String getUndoLabel() {
+			if (isUndoable()) {
+				return "Undo " + label;
+			} else {
+				return "Can't Undo " + label;
+			}
+		}
 
-        private void addCommand(Command command) {
-            commands.add(command);
-        }
+		// TODO: i18n
+		private String getRedoLabel() {
+			if (isRedoable()) {
+				return "Redo " + label;
+			} else {
+				return "Can't Redo " + label;
+			}
+		}
 
-        // TODO: i18n
-        private String getUndoLabel() {
-            if (isUndoable()) {
-                return "Undo " + label;
-            } else {
-                return "Can't Undo " + label;
-            }
-        }
+		List<Command> getCommands() {
+			return new ArrayList<Command>(commands);
+		}
+	}
 
-        // TODO: i18n
-        private String getRedoLabel() {
-            if (isRedoable()) {
-                return "Redo " + label;
-            } else {
-                return "Can't Redo " + label;
-            }
-        }
+	private abstract class InteractionStack extends Stack<Interaction> {
 
-        List<Command> getCommands() {
-            return new ArrayList<Command> (commands);
-        }
-    }
-
-    private abstract class InteractionStack extends Stack<Interaction> {
-
-        private static final long serialVersionUID = -1148484356155589986L;
+		private static final long serialVersionUID = -1148484356155589986L;
 		private String labelProperty;
-        private String addedProperty;
-        private String removedProperty;
-        private String sizeProperty;
+		private String addedProperty;
+		private String removedProperty;
+		private String sizeProperty;
 
-        public InteractionStack(
-                String labelProp,
-                String addedProp,
-                String removedProp,
-                String sizeProp) {
-            labelProperty = labelProp;
-            addedProperty = addedProp;
-            removedProperty = removedProp;
-            sizeProperty = sizeProp;
-        }
+		public InteractionStack(String labelProp, String addedProp, String removedProp, String sizeProp) {
+			labelProperty = labelProp;
+			addedProperty = addedProp;
+			removedProperty = removedProp;
+			sizeProperty = sizeProp;
+		}
 
-        public Interaction push(Interaction item) {
-            super.push(item);
-            fireLabel();
-            fire(addedProperty, item);
-            fire(sizeProperty, size());
-            return item;
-        }
+		public Interaction push(Interaction item) {
+			super.push(item);
+			fireLabel();
+			fire(addedProperty, item);
+			fire(sizeProperty, size());
+			return item;
+		}
 
-        public Interaction pop() {
-            Interaction item = super.pop();
-            fireLabel();
-            fire(removedProperty, item);
-            fire(sizeProperty, size());
-            return item;
-        }
+		public Interaction pop() {
+			Interaction item = super.pop();
+			fireLabel();
+			fire(removedProperty, item);
+			fire(sizeProperty, size());
+			return item;
+		}
 
-        private void fireLabel() {
-            fire(labelProperty, getLabel());
-        }
+		private void fireLabel() {
+			fire(labelProperty, getLabel());
+		}
 
-        protected abstract String getLabel();
-    }
+		protected abstract String getLabel();
+	}
 
-    private class UndoStack extends InteractionStack {
+	private class UndoStack extends InteractionStack {
 
-        private static final long serialVersionUID = 595983957693391861L;
+		private static final long serialVersionUID = 595983957693391861L;
 
 		public UndoStack() {
-            super(
-                    "undoLabel",
-                    "undoAdded",
-                    "undoRemoved",
-                    "undoSize");
-        }
+			super("undoLabel", "undoAdded", "undoRemoved", "undoSize");
+		}
 
-        public Interaction push(Interaction item) {
-            super.push(item);
-            if (item.isUndoable()) {
-                fire("undoable", true);
-            }
-            return item;
-        }
+		public Interaction push(Interaction item) {
+			super.push(item);
+			if (item.isUndoable()) {
+				fire("undoable", true);
+			}
+			return item;
+		}
 
-        public Interaction pop() {
-            Interaction item = super.pop();
-            if (size() == 0 || !peek().isUndoable()) {
-                fire("undoable", false);
-            }
-            return item;
-        }
+		public Interaction pop() {
+			Interaction item = super.pop();
+			if (size() == 0 || !peek().isUndoable()) {
+				fire("undoable", false);
+			}
+			return item;
+		}
 
-        public void clear() {
-            super.clear();
-            fire("undoSize", size());
-            fire("undoable", false);
-        }
+		public void clear() {
+			super.clear();
+			fire("undoSize", size());
+			fire("undoable", false);
+		}
 
-        protected String getLabel() {
-            if (empty()) {
-                return Translator.localize("action.undo");
-            } else {
-                return peek().getUndoLabel();
-            }
-        }
-    }
+		protected String getLabel() {
+			if (empty()) {
+				return Translator.localize("action.undo");
+			} else {
+				return peek().getUndoLabel();
+			}
+		}
+	}
 
-    private class RedoStack extends InteractionStack {
+	private class RedoStack extends InteractionStack {
 
-        private static final long serialVersionUID = -2402253073159850738L;
+		private static final long serialVersionUID = -2402253073159850738L;
 
 		public RedoStack() {
-            super(
-                    "redoLabel",
-                    "redoAdded",
-                    "redoRemoved",
-                    "redoSize");
-        }
+			super("redoLabel", "redoAdded", "redoRemoved", "redoSize");
+		}
 
+		public Interaction push(Interaction item) {
+			super.push(item);
+			if (item.isRedoable()) {
+				fire("redoable", true);
+			}
+			return item;
+		}
 
-        public Interaction push(Interaction item) {
-            super.push(item);
-            if (item.isRedoable()) {
-                fire("redoable", true);
-            }
-            return item;
-        }
+		public Interaction pop() {
+			Interaction item = super.pop();
+			if (size() == 0 || !peek().isRedoable()) {
+				fire("redoable", false);
+			}
+			return item;
+		}
 
-        public Interaction pop() {
-            Interaction item = super.pop();
-            if (size() == 0 || !peek().isRedoable()) {
-                fire("redoable", false);
-            }
-            return item;
-        }
+		public void clear() {
+			super.clear();
+			fire("redoSize", size());
+			fire("redoable", false);
+		}
 
-        public void clear() {
-            super.clear();
-            fire("redoSize", size());
-            fire("redoable", false);
-        }
-
-        protected String getLabel() {
-            if (empty()) {
-                return Translator.localize("action.redo");
-            } else {
-                return peek().getRedoLabel();
-            }
-        }
-    }
+		protected String getLabel() {
+			if (empty()) {
+				return Translator.localize("action.redo");
+			} else {
+				return peek().getRedoLabel();
+			}
+		}
+	}
 }

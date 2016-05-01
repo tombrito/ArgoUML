@@ -36,26 +36,26 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.ui;
 
 import org.argouml.model.Model;
 
-
 /**
  * Navigate to the owner.
+ * 
  * @author mkl
  *
  */
 public class ActionNavigateOwner extends AbstractActionNavigate {
 
-    private static final long serialVersionUID = 430347933634658601L;
+	private static final long serialVersionUID = 430347933634658601L;
 
 	/*
-     * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
-     */
-    protected Object navigateTo(Object source) {
-        return Model.getFacade().getOwner(source);
-    }
+	 * @see
+	 * org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
+	 */
+	protected Object navigateTo(Object source) {
+		return Model.getFacade().getOwner(source);
+	}
 
 }

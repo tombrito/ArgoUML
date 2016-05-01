@@ -39,23 +39,22 @@
 package org.argouml.uml.diagram;
 
 public class DiagramEdgeSettings extends DiagramElementSettings {
-    
-    private final Object sourceConnector;
-    private final Object destinationConnector;
-    
-    public DiagramEdgeSettings(
-            final Object modelElement,
-            final Object sourceConnector,
-            final Object destinationConnector) {
-        super(modelElement);
-        this.sourceConnector = sourceConnector;
-        this.destinationConnector = destinationConnector;
-    }
 
-    public Object getSourceConnector() {
-        return sourceConnector;
-    }
-    public Object getDestinationConnector() {
-        return destinationConnector;
-    }
+	private final Object sourceConnector;
+	private final Object destinationConnector;
+
+	public DiagramEdgeSettings(final Object modelElement, final Object sourceConnector,
+			final Object destinationConnector) {
+		super(modelElement);
+		this.sourceConnector = sourceConnector;
+		this.destinationConnector = destinationConnector;
+	}
+
+	public Object getSourceConnector() {
+		return sourceConnector;
+	}
+
+	public Object getDestinationConnector() {
+		return destinationConnector;
+	}
 }

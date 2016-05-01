@@ -44,34 +44,38 @@ import java.awt.Rectangle;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * A FigMultiLineText that handles cases where the projectsettings 
- * indicate that the node name should be in bold. <p>
+ * A FigMultiLineText that handles cases where the projectsettings indicate that
+ * the node name should be in bold.
+ * <p>
  * 
- * Since this Fig follows the setting "Show name of NODES in bold font",
- * it would be wise to use it for nodes only. See issue 5013.
+ * Since this Fig follows the setting "Show name of NODES in bold font", it
+ * would be wise to use it for nodes only. See issue 5013.
  *
  * @author Michiel
  */
 public class FigMultiLineTextWithBold extends FigMultiLineText {
 
-    private static final long serialVersionUID = -7891346688693636897L;
+	private static final long serialVersionUID = -7891346688693636897L;
 
 	/**
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @param expandOnly true if fig should never shrink
-     */
-    public FigMultiLineTextWithBold(Object owner, Rectangle bounds, 
-            DiagramSettings settings, boolean expandOnly) {
-        super(owner, bounds, settings, expandOnly);
-    }
-    
-    @Override
-    protected int getFigFontStyle() {
-        boolean showBoldName = getSettings().isShowBoldNames();
-        int boldStyle =  showBoldName ? Font.BOLD : Font.PLAIN;
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @param expandOnly
+	 *            true if fig should never shrink
+	 */
+	public FigMultiLineTextWithBold(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
+		super(owner, bounds, settings, expandOnly);
+	}
 
-        return super.getFigFontStyle() | boldStyle;
-    }
+	@Override
+	protected int getFigFontStyle() {
+		boolean showBoldName = getSettings().isShowBoldNames();
+		int boldStyle = showBoldName ? Font.BOLD : Font.PLAIN;
+
+		return super.getFigFontStyle() | boldStyle;
+	}
 }

@@ -43,19 +43,21 @@ package org.argouml.uml.diagram;
  * 
  * @since 0.27.3 when it replaced DiagramFactoryInterface
  */
-public interface DiagramFactoryInterface2  {
+public interface DiagramFactoryInterface2 {
 
-    /**
-     * Factory method to create a new instance of an ArgoDiagram.
-     * 
-     * @param owner the owning element. This can be the owning namespace for a
-     *            Class diagram or an owning Statemachine for a State Diagram or
-     *            any other interpretation that the diagram type wants to apply.
-     * @param name the name of the diagram. This may be null if the caller would
-     *            like the factory to provide a default name.
-     * @param settings default rendering settings for the diagram
-     * @return the newly instantiated diagram
-     */
-    public ArgoDiagram createDiagram(final Object owner, final String name,
-            DiagramSettings settings);
+	/**
+	 * Factory method to create a new instance of an ArgoDiagram.
+	 * 
+	 * @param owner
+	 *            the owning element. This can be the owning namespace for a
+	 *            Class diagram or an owning Statemachine for a State Diagram or
+	 *            any other interpretation that the diagram type wants to apply.
+	 * @param name
+	 *            the name of the diagram. This may be null if the caller would
+	 *            like the factory to provide a default name.
+	 * @param settings
+	 *            default rendering settings for the diagram
+	 * @return the newly instantiated diagram
+	 */
+	public ArgoDiagram createDiagram(final Object owner, final String name, DiagramSettings settings);
 }

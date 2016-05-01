@@ -40,30 +40,29 @@ package org.argouml.cognitive.ui;
 
 import java.awt.event.ActionEvent;
 
-
 /**
  * The action to resolve a todo item.
  */
 public class ActionResolve extends ToDoItemAction {
 
-    private static final long serialVersionUID = -6532931093049986159L;
+	private static final long serialVersionUID = -6532931093049986159L;
 
 	/**
-     * Construct an Action to resolve a ToDo item.
-     */
-    public ActionResolve() {
-        super("action.resolve-item", true);
-    }
+	 * Construct an Action to resolve a ToDo item.
+	 */
+	public ActionResolve() {
+		super("action.resolve-item", true);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	DismissToDoItemDialog dialog = new DismissToDoItemDialog();
-	dialog.setTarget(getRememberedTarget());
-	dialog.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		DismissToDoItemDialog dialog = new DismissToDoItemDialog();
+		dialog.setTarget(getRememberedTarget());
+		dialog.setVisible(true);
+	}
 }
-

@@ -45,125 +45,135 @@ import javax.swing.tree.TreeModel;
 
 import org.argouml.i18n.Translator;
 
-
 /**
- * Helper class for tree models that provides help building perspectives
- * out of gorules.<p>
+ * Helper class for tree models that provides help building perspectives out of
+ * gorules.
+ * <p>
  *
- * @author  alexb
+ * @author alexb
  * @since 0.13.5, Created on 15 April 2003
  */
 public class PerspectiveSupport {
 
-    /**
-     * The go rules that this Tree model uses to build child nodes.
-     */
-    private List<TreeModel> goRules;
+	/**
+	 * The go rules that this Tree model uses to build child nodes.
+	 */
+	private List<TreeModel> goRules;
 
-    /** name */
-    private String name;
+	/** name */
+	private String name;
 
-    /** list of all possible rules in the collection Todolist specific */
-    private static List<TreeModel> rules = new ArrayList<TreeModel>();
+	/** list of all possible rules in the collection Todolist specific */
+	private static List<TreeModel> rules = new ArrayList<TreeModel>();
 
-    /**
-     * Creates a new instance of PerspectiveSupport
-     *
-     * @param n the name to be localized
-     */
-    public PerspectiveSupport(String n) {
-        name = Translator.localize(n);
-        goRules = new ArrayList<TreeModel>();
-    }
+	/**
+	 * Creates a new instance of PerspectiveSupport
+	 *
+	 * @param n
+	 *            the name to be localized
+	 */
+	public PerspectiveSupport(String n) {
+		name = Translator.localize(n);
+		goRules = new ArrayList<TreeModel>();
+	}
 
-    /**
-     * The constructor.<p>
-     *
-     * TODO: Is this constructor used? What is the purpose with it?
-     *
-     * @param n the name to be localized
-     * @param subs the go rules
-     */
-    public PerspectiveSupport(String n, List<TreeModel> subs) {
-        this(n);
-        goRules = subs;
-    }
+	/**
+	 * The constructor.
+	 * <p>
+	 *
+	 * TODO: Is this constructor used? What is the purpose with it?
+	 *
+	 * @param n
+	 *            the name to be localized
+	 * @param subs
+	 *            the go rules
+	 */
+	public PerspectiveSupport(String n, List<TreeModel> subs) {
+		this(n);
+		goRules = subs;
+	}
 
-    // ------------- Rule management --------------
+	// ------------- Rule management --------------
 
-    /**
-     * Adds a rule to the perspective that will generate child
-     * nodes for any given parent node.
-     *
-     * @param tm the tree model to be added
-     */
-    public void addSubTreeModel(TreeModel tm) {
-        if (goRules.contains(tm)) {
-            return;
-        }
-        goRules.add(tm);
-    }
+	/**
+	 * Adds a rule to the perspective that will generate child nodes for any
+	 * given parent node.
+	 *
+	 * @param tm
+	 *            the tree model to be added
+	 */
+	public void addSubTreeModel(TreeModel tm) {
+		if (goRules.contains(tm)) {
+			return;
+		}
+		goRules.add(tm);
+	}
 
-    /**
-     * Remove a rule from the perspective that will generate child
-     * nodes for any given parent node.
-     *
-     * @param tm the treemodel to be removed
-     */
-    public void removeSubTreeModel(TreeModel tm) {
-        goRules.remove(tm);
-    }
+	/**
+	 * Remove a rule from the perspective that will generate child nodes for any
+	 * given parent node.
+	 *
+	 * @param tm
+	 *            the treemodel to be removed
+	 */
+	public void removeSubTreeModel(TreeModel tm) {
+		goRules.remove(tm);
+	}
 
+	/**
+	 * Get the rules that together form the perspective.
+	 *
+	 * @return the rules that form the perspective
+	 */
+	public List<TreeModel> getSubTreeModelList() {
+		return goRules;
+	}
 
-    /**
-     * Get the rules that together form the perspective.
-     *
-     * @return the rules that form the perspective
-     */
-    public List<TreeModel> getSubTreeModelList() {
-        return goRules;
-    }
-    
-    // ----------- name -------------------------
+	// ----------- name -------------------------
 
-    /**
-     * @return the name
-     */
-    public String getName() { return name; }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
+	/**
+	 * @param s
+	 *            the name
+	 */
+	public void setName(String s) {
+		name = s;
+	}
 
-    /**
-     * @param s the name
-     */
-    public void setName(String s) { name = s; }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		if (getName() != null) {
+			return getName();
+		} else {
+			return super.toString();
+		}
+	}
 
+	// ------ all rules ----------
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        if (getName() != null) {
-            return getName();
-        } else {
-            return super.toString();
-        }
-    }
+	/**
+	 * TODO: factor out
+	 *
+	 * @param rule
+	 *            the rule to be added
+	 */
+	public static void registerRule(TreeModel rule) {
+		rules.add(rule);
+	}
 
-    // ------ all rules ----------
-
-    /** TODO: factor out
-     *
-     * @param rule the rule to be added
-     */
-    public static void registerRule(TreeModel rule) {
-        rules.add(rule);
-    }
-
-    /**
-     * @return Returns the _goRules.
-     */
-    protected List<TreeModel> getGoRuleList() {
-        return goRules;
-    }
+	/**
+	 * @return Returns the _goRules.
+	 */
+	protected List<TreeModel> getGoRuleList() {
+		return goRules;
+	}
 }

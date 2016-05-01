@@ -50,76 +50,62 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionComponentInstance extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -1652349933258237648L;
+	private static final long serialVersionUID = -1652349933258237648L;
 
-	private static Icon dep =
-            ResourceLoaderWrapper.lookupIconResource("Dependency");
+	private static Icon dep = ResourceLoaderWrapper.lookupIconResource("Dependency");
 
-    private static Icon depRight =
-            ResourceLoaderWrapper.lookupIconResource("DependencyRight");
+	private static Icon depRight = ResourceLoaderWrapper.lookupIconResource("DependencyRight");
 
-    private static Icon icons[] = 
-    {dep,
-     dep,
-     depRight,
-     depRight,
-     null,
-    };
-    
-    // TODO: I18N required
-    private static String instructions[] = 
-    {"Add a component-instance",
-     "Add a component-instance",
-     "Add a component-instance",
-     "Add a component-instance",
-     null,
-     "Move object(s)",
-    };
+	private static Icon icons[] = { dep, dep, depRight, depRight, null, };
 
-    /**
-     * Construct a new SelectionComponentInstanceInstance for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionComponentInstance(Fig f) { super(f); }
+	// TODO: I18N required
+	private static String instructions[] = { "Add a component-instance", "Add a component-instance",
+			"Add a component-instance", "Add a component-instance", null, "Move object(s)", };
 
+	/**
+	 * Construct a new SelectionComponentInstanceInstance for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionComponentInstance(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, dep, depRight, null, null };
-        }
-        return icons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, dep, depRight, null, null };
+		}
+		return icons;
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return Model.getMetaTypes().getDependency();
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return Model.getMetaTypes().getDependency();
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        return Model.getCommonBehaviorFactory().createComponentInstance();
-    }
-    
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getComponentInstance();
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		return Model.getCommonBehaviorFactory().createComponentInstance();
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == BOTTOM || index == LEFT) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getComponentInstance();
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == BOTTOM || index == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
 }
-

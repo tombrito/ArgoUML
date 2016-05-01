@@ -55,36 +55,36 @@ import org.argouml.util.ArgoFrame;
  */
 public class ActionSystemInfo extends AbstractAction {
 
-    private static final long serialVersionUID = -8562172600675793797L;
+	private static final long serialVersionUID = -8562172600675793797L;
 
 	/**
-     * The Constructor.
-     */
-    public ActionSystemInfo() {
-        super(Translator.localize("action.system-information"),
-                ResourceLoaderWrapper.lookupIcon("action.system-information"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.system-information"));
-    }
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-	Frame frame = ArgoFrame.getFrame();
-	SystemInfoDialog sysInfoDialog = new SystemInfoDialog(true);
-	Dimension siDim = sysInfoDialog.getSize();
-	Dimension pbDim = frame.getSize();
-
-	if (siDim.width > pbDim.width / 2) {
-	    sysInfoDialog.setSize(pbDim.width / 2, siDim.height + 45);
-	} else {
-	    sysInfoDialog.setSize(siDim.width, siDim.height + 45);
+	 * The Constructor.
+	 */
+	public ActionSystemInfo() {
+		super(Translator.localize("action.system-information"),
+				ResourceLoaderWrapper.lookupIcon("action.system-information"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.system-information"));
 	}
 
-	sysInfoDialog.setLocationRelativeTo(frame);
-	sysInfoDialog.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		Frame frame = ArgoFrame.getFrame();
+		SystemInfoDialog sysInfoDialog = new SystemInfoDialog(true);
+		Dimension siDim = sysInfoDialog.getSize();
+		Dimension pbDim = frame.getSize();
 
-} 
+		if (siDim.width > pbDim.width / 2) {
+			sysInfoDialog.setSize(pbDim.width / 2, siDim.height + 45);
+		} else {
+			sysInfoDialog.setSize(siDim.width, siDim.height + 45);
+		}
+
+		sysInfoDialog.setLocationRelativeTo(frame);
+		sysInfoDialog.setVisible(true);
+	}
+
+}

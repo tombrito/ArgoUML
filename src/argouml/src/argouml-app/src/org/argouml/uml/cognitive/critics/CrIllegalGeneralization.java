@@ -52,56 +52,57 @@ import org.argouml.uml.cognitive.UMLDecision;
  * Well-formedness rule [5] for GeneralizableElement. See page 59 of UML 1.4
  * Semantics. OMG document UML 1.4.2 formal/04-07-02.
  *
- * This critic checks that the parent and child in a generalization are
- * of the same metatype.
+ * This critic checks that the parent and child in a generalization are of the
+ * same metatype.
  *
  * @author jrobbins
  */
 public class CrIllegalGeneralization extends CrUML {
 
-    private static final long serialVersionUID = 5816207370484180412L;
+	private static final long serialVersionUID = 5816207370484180412L;
 
 	/**
-     * The constructor.
-     */
-    public CrIllegalGeneralization() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	addTrigger("supertype");
-	addTrigger("subtype");
-    }
+	 * The constructor.
+	 */
+	public CrIllegalGeneralization() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		addTrigger("supertype");
+		addTrigger("subtype");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAGeneralization(dm))) {
-	    return NO_PROBLEM;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAGeneralization(dm))) {
+			return NO_PROBLEM;
+		}
+		Object gen = dm;
+		Object cls1 = Model.getFacade().getGeneral(gen);
+		Object cls2 = Model.getFacade().getSpecific(gen);
+		if (cls1 == null || cls2 == null) {
+			return NO_PROBLEM;
+		}
+		java.lang.Class javaClass1 = cls1.getClass();
+		java.lang.Class javaClass2 = cls2.getClass();
+		if (javaClass1 != javaClass2) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-	Object gen = dm;
-	Object cls1 = Model.getFacade().getGeneral(gen);
-	Object cls2 = Model.getFacade().getSpecific(gen);
-	if (cls1 == null || cls2 == null) {
-	    return NO_PROBLEM;
-	}
-	java.lang.Class javaClass1 = cls1.getClass();
-	java.lang.Class javaClass2 = cls2.getClass();
-	if (javaClass1 != javaClass2) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getGeneralizableElement());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getGeneralizableElement());
+		return ret;
+	}
+
 }

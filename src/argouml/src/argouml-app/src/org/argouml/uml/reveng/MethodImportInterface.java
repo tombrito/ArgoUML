@@ -41,17 +41,17 @@ package org.argouml.uml.reveng;
 /**
  * An interface for the import of method bodies.
  * <p>
- * WARNING: This is very new stuff and probably will be changed. If you
- * are going to use it in your import module, then please send a mail to
- * dev@argouml.tigris.org, so that your module gets the needed support
- * until this interface has become stable!
+ * WARNING: This is very new stuff and probably will be changed. If you are
+ * going to use it in your import module, then please send a mail to
+ * dev@argouml.tigris.org, so that your module gets the needed support until
+ * this interface has become stable!
  * 
  * @author Thomas Neustupny
  * @since 0.25.6
  */
 public interface MethodImportInterface {
-    
-    public void beginMethodImports();
-    
-    public void endMethodImports();
+
+	public void beginMethodImports();
+
+	public void endMethodImports();
 }

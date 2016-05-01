@@ -14,14 +14,13 @@
 package org.argouml.kernel;
 
 /**
- * To be implemented by classes that are "owned" by some model element.
- * e.g. a FigClass is owned by a class, a UMLClassDiagram is owned by a
- * namespace.
- * The owner is typically immutable and set by the constructor. Hence not
- * setter is provided as part of this interface.
+ * To be implemented by classes that are "owned" by some model element. e.g. a
+ * FigClass is owned by a class, a UMLClassDiagram is owned by a namespace. The
+ * owner is typically immutable and set by the constructor. Hence not setter is
+ * provided as part of this interface.
  *
  * @author Bob Tarling
  */
 public interface Owned {
-    Object getOwner();
+	Object getOwner();
 }

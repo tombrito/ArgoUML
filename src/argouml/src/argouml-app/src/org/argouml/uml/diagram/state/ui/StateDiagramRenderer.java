@@ -58,8 +58,10 @@ import org.tigris.gef.presentation.FigNode;
 
 /**
  * This class defines a renderer object for UML Statechart Diagrams. In a
- * Statechart Diagram the following UML objects are displayed with the
- * following Figs: <p>
+ * Statechart Diagram the following UML objects are displayed with the following
+ * Figs:
+ * <p>
+ * 
  * <pre>
  *  UML Object          ---  Fig
  *  ---------------------------------------
@@ -78,66 +80,60 @@ import org.tigris.gef.presentation.FigNode;
  *  SynchState         ---  FigSynchState
  *  Transition         ---  FigTransition
  *  more...
- *  </pre>
+ * </pre>
  *
  * @author ics125b spring 1998
  */
 public class StateDiagramRenderer extends UmlDiagramRenderer {
 
-    private static final long serialVersionUID = 7009268328918921631L;
-	private static final Logger LOG =
-        Logger.getLogger(StateDiagramRenderer.class.getName());
+	private static final long serialVersionUID = 7009268328918921631L;
+	private static final Logger LOG = Logger.getLogger(StateDiagramRenderer.class.getName());
 
-    /*
-     * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
-     *      org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
-     *      java.lang.Object, java.util.Map)
-     */
-    public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node,
-                                 Map styleAttributes) {
+	/*
+	 * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
+	 * org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
+	 * java.lang.Object, java.util.Map)
+	 */
+	public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node, Map styleAttributes) {
 
-        assert node != null;
+		assert node != null;
 
-        FigNode figNode = null;
-        // Although not generally true for GEF, for Argo we know that the layer
-        // is a LayerPerspective which knows the associated diagram
-        Diagram diag = ((LayerPerspective) lay).getDiagram();
-        if (diag instanceof UMLDiagram
-                && ((UMLDiagram) diag).doesAccept(node)) {
-            figNode = (FigNode) ((UMLDiagram) diag).drop(node, null);
-        } else {
-            LOG.log(Level.FINE, "TODO: StateDiagramRenderer getFigNodeFor");
+		FigNode figNode = null;
+		// Although not generally true for GEF, for Argo we know that the layer
+		// is a LayerPerspective which knows the associated diagram
+		Diagram diag = ((LayerPerspective) lay).getDiagram();
+		if (diag instanceof UMLDiagram && ((UMLDiagram) diag).doesAccept(node)) {
+			figNode = (FigNode) ((UMLDiagram) diag).drop(node, null);
+		} else {
+			LOG.log(Level.FINE, "TODO: StateDiagramRenderer getFigNodeFor");
 
-            throw new IllegalArgumentException(
-                    "Node is not a recognised type. Received "
-                    + node.getClass().getName());
-        }
+			throw new IllegalArgumentException("Node is not a recognised type. Received " + node.getClass().getName());
+		}
 
-        lay.add(figNode);
-        return figNode;
-    }
+		lay.add(figNode);
+		return figNode;
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphEdgeRenderer#getFigEdgeFor(
-     *      org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
-     *      java.lang.Object, java.util.Map)
-     */
-    public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge,
-            Map styleAttributes) {
-        assert edge != null;
-        assert lay instanceof LayerPerspective;
+	/*
+	 * @see org.tigris.gef.graph.GraphEdgeRenderer#getFigEdgeFor(
+	 * org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
+	 * java.lang.Object, java.util.Map)
+	 */
+	public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge, Map styleAttributes) {
+		assert edge != null;
+		assert lay instanceof LayerPerspective;
 
-        ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
-        DiagramSettings settings = diag.getDiagramSettings();
-        FigEdge newEdge = null;
+		ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
+		DiagramSettings settings = diag.getDiagramSettings();
+		FigEdge newEdge = null;
 
-        if (Model.getFacade().isATransition(edge)) {
-            newEdge = new FigTransition(edge, settings);
-        } else if (edge instanceof CommentEdge) {
-            newEdge = new FigEdgeNote(edge, settings); // TODO -> settings
-        }
-        addEdge(lay, newEdge, edge);
-        return newEdge;
-    }
+		if (Model.getFacade().isATransition(edge)) {
+			newEdge = new FigTransition(edge, settings);
+		} else if (edge instanceof CommentEdge) {
+			newEdge = new FigEdgeNote(edge, settings); // TODO -> settings
+		}
+		addEdge(lay, newEdge, edge);
+		return newEdge;
+	}
 
 }

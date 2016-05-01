@@ -49,85 +49,79 @@ import org.argouml.uml.cognitive.UMLDecision;
 /**
  * UML 1.5 Well-formedness rule [2] for Sync States.
  *
- * Well-formedness rule [2] for SynchState. See page 139 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [2] for SynchState. See page 139 of UML 1.4 Semantics.
+ * OMG document UML 1.4.2 formal/04-07-02.
  *
  * @author pepargouml@yahoo.es
  */
 public class CrInvalidSynch extends CrUML {
 
-    private static final long serialVersionUID = 6962510019502363917L;
+	private static final long serialVersionUID = 6962510019502363917L;
 
 	/**
-     * The constructor.
-     */
-    public CrInvalidSynch() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.STATE_MACHINES);
-        addTrigger("incoming");
-        addTrigger("outgoing");
-    }
+	 * The constructor.
+	 */
+	public CrInvalidSynch() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		addTrigger("incoming");
+		addTrigger("outgoing");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        Object destinationRegion = null;
-        Object sourceRegion = null;
-        Object aux = null;
-        Object tr = null;
-        if (!Model.getFacade().isASynchState(dm)) {
-            return NO_PROBLEM;
-        }
-        Iterator outgoing = Model.getFacade().getOutgoings(dm).iterator();
-        while (outgoing.hasNext()) {
-            tr = outgoing.next();
-            aux = Model.getFacade().getContainer(Model.getFacade().
-                    getTarget(tr));
-            if (destinationRegion == null) {
-                destinationRegion = aux;
-            } else if (!aux.equals(destinationRegion)) {
-                return PROBLEM_FOUND;
-            }
-        }
-        Iterator incoming = Model.getFacade().getIncomings(dm).iterator();
-        while (incoming.hasNext()) {
-            tr = incoming.next();
-            aux = Model.getFacade().getContainer(Model.getFacade().
-                    getSource(tr));
-            if (sourceRegion == null) {
-                sourceRegion = aux;
-            } else if (!aux.equals(sourceRegion)) {
-                return PROBLEM_FOUND;
-            }
-        }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		Object destinationRegion = null;
+		Object sourceRegion = null;
+		Object aux = null;
+		Object tr = null;
+		if (!Model.getFacade().isASynchState(dm)) {
+			return NO_PROBLEM;
+		}
+		Iterator outgoing = Model.getFacade().getOutgoings(dm).iterator();
+		while (outgoing.hasNext()) {
+			tr = outgoing.next();
+			aux = Model.getFacade().getContainer(Model.getFacade().getTarget(tr));
+			if (destinationRegion == null) {
+				destinationRegion = aux;
+			} else if (!aux.equals(destinationRegion)) {
+				return PROBLEM_FOUND;
+			}
+		}
+		Iterator incoming = Model.getFacade().getIncomings(dm).iterator();
+		while (incoming.hasNext()) {
+			tr = incoming.next();
+			aux = Model.getFacade().getContainer(Model.getFacade().getSource(tr));
+			if (sourceRegion == null) {
+				sourceRegion = aux;
+			} else if (!aux.equals(sourceRegion)) {
+				return PROBLEM_FOUND;
+			}
+		}
 
-        if (destinationRegion != null
-                && !Model.getFacade().isAConcurrentRegion(destinationRegion)
-        ) {
-            return PROBLEM_FOUND;
-        }
+		if (destinationRegion != null && !Model.getFacade().isAConcurrentRegion(destinationRegion)) {
+			return PROBLEM_FOUND;
+		}
 
-        if (sourceRegion != null
-                && !Model.getFacade().isAConcurrentRegion(sourceRegion)
-        ) {
-            return PROBLEM_FOUND;
-        }
+		if (sourceRegion != null && !Model.getFacade().isAConcurrentRegion(sourceRegion)) {
+			return PROBLEM_FOUND;
+		}
 
-        return NO_PROBLEM;
-    }
+		return NO_PROBLEM;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getSynchState());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getSynchState());
+		return ret;
+	}
+
 } /* end class CrInvalidSynch */
-

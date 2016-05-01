@@ -44,38 +44,36 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the ClassifierInState state name text shown in an ObjectFlowState. 
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the
+ * ClassifierInState state name text shown in an ObjectFlowState. Subclass this
+ * for all languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class ObjectFlowStateStateNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     * 
-     * @param objectflowstate the UML object
-     */
-    public ObjectFlowStateStateNotation(Object objectflowstate) {
-        if (!Model.getFacade().isAObjectFlowState(objectflowstate)) {
-            throw new IllegalArgumentException(
-                    "This is not a ObjectFlowState.");
-        }
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param objectflowstate
+	 *            the UML object
+	 */
+	public ObjectFlowStateStateNotation(Object objectflowstate) {
+		if (!Model.getFacade().isAObjectFlowState(objectflowstate)) {
+			throw new IllegalArgumentException("This is not a ObjectFlowState.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement);
-        Object cis = Model.getFacade().getType(modelElement);
-        if (Model.getFacade().isAClassifierInState(cis)) {
-            addElementListener(cis,
-                    new String[] {"remove", "inState"});
-            Collection<Object> c = Model.getFacade().getInStates(cis);
-            for (Object state : c) {
-                addElementListener(state,
-                        new String[] {"remove", "name"});
-            }
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement);
+		Object cis = Model.getFacade().getType(modelElement);
+		if (Model.getFacade().isAClassifierInState(cis)) {
+			addElementListener(cis, new String[] { "remove", "inState" });
+			Collection<Object> c = Model.getFacade().getInStates(cis);
+			for (Object state : c) {
+				addElementListener(state, new String[] { "remove", "name" });
+			}
+		}
+	}
 }

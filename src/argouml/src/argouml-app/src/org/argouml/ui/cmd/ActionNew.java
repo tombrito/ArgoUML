@@ -57,50 +57,49 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNew extends AbstractAction {
 
-    /**
-     * The constructor.
-     */
-    public ActionNew() {
-        // Set the name and icon:
-        super(Translator.localize("action.new"),
-                ResourceLoaderWrapper.lookupIcon("action.new"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.new"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionNew() {
+		// Set the name and icon:
+		super(Translator.localize("action.new"), ResourceLoaderWrapper.lookupIcon("action.new"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.new"));
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Model.getPump().flushModelEvents();
-        Model.getPump().stopPumpingEvents();
-        Model.getPump().flushModelEvents();
-        Project p = ProjectManager.getManager().getCurrentProject();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Model.getPump().flushModelEvents();
+		Model.getPump().stopPumpingEvents();
+		Model.getPump().flushModelEvents();
+		Project p = ProjectManager.getManager().getCurrentProject();
 
-        if (getValue("non-interactive") == null) {
-            if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
-                return;
-            }
-        }
+		if (getValue("non-interactive") == null) {
+			if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
+				return;
+			}
+		}
 
-        ProjectBrowser.getInstance().clearDialogs();
-        Designer.disableCritiquing();
-        Designer.clearCritiquing();
-        // clean the history
-        TargetManager.getInstance().cleanHistory();
-        p.remove();
-        p = ProjectManager.getManager().makeEmptyProject();
-        TargetManager.getInstance().setTarget(p.getDiagramList().get(0));
-        Designer.enableCritiquing();
-        Model.getPump().startPumpingEvents();
-    }
+		ProjectBrowser.getInstance().clearDialogs();
+		Designer.disableCritiquing();
+		Designer.clearCritiquing();
+		// clean the history
+		TargetManager.getInstance().cleanHistory();
+		p.remove();
+		p = ProjectManager.getManager().makeEmptyProject();
+		TargetManager.getInstance().setTarget(p.getDiagramList().get(0));
+		Designer.enableCritiquing();
+		Model.getPump().startPumpingEvents();
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3943153836514178100L;
-} 
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -3943153836514178100L;
+}

@@ -56,42 +56,42 @@ import org.argouml.model.Model;
  */
 public class GoModelToCollaboration extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.model.collaboration");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.model.collaboration");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (Model.getFacade().isAModel(parent)) {
-            Collection col =
-                Model.getModelManagementHelper().getAllModelElementsOfKind(
-                        parent,
-                        Model.getMetaTypes().getCollaboration());
-            List returnList = new ArrayList();
-            Iterator it = col.iterator();
-            while (it.hasNext()) {
-                Object collab = it.next();
-                if (Model.getFacade().getRepresentedClassifier(collab) == null
-                    && Model.getFacade().getRepresentedOperation(collab)
-                        == null) {
-                    returnList.add(collab);
-                }
-            }
-            return returnList;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAModel(parent)) {
+			Collection col = Model.getModelManagementHelper().getAllModelElementsOfKind(parent,
+					Model.getMetaTypes().getCollaboration());
+			List returnList = new ArrayList();
+			Iterator it = col.iterator();
+			while (it.hasNext()) {
+				Object collab = it.next();
+				if (Model.getFacade().getRepresentedClassifier(collab) == null
+						&& Model.getFacade().getRepresentedOperation(collab) == null) {
+					returnList.add(collab);
+				}
+			}
+			return returnList;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-	// TODO: What?
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.EMPTY_SET;
+	}
 }

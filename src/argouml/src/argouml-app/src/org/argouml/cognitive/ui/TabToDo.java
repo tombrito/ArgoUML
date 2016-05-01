@@ -64,216 +64,216 @@ import org.tigris.toolbar.ToolBarFactory;
  * The ToDo Tab.
  *
  */
-public class TabToDo extends AbstractArgoJPanel 
-    implements TabToDoTarget, ComponentListener {
-    
-    private static final Action actionNewToDoItem = new ActionNewToDoItem();
-    private static final ToDoItemAction actionResolve = new ActionResolve();
-    private static final ToDoItemAction actionSnooze = new ActionSnooze();
+public class TabToDo extends AbstractArgoJPanel implements TabToDoTarget, ComponentListener {
 
-    private WizDescription description = new WizDescription();
-    private JPanel lastPanel;
-    private BorderSplitPane splitPane;
-    private Object target;
+	private static final Action actionNewToDoItem = new ActionNewToDoItem();
+	private static final ToDoItemAction actionResolve = new ActionResolve();
+	private static final ToDoItemAction actionSnooze = new ActionSnooze();
 
-    /**
-     * Increment the number of times we've been "snoozed" (or hushed).
-     */
-    public static void incrementNumHushes() {
-    }
+	private WizDescription description = new WizDescription();
+	private JPanel lastPanel;
+	private BorderSplitPane splitPane;
+	private Object target;
 
-    /**
-     * Construct a ToDo tab for the property panel.
-     */
-    public TabToDo() {
-        super("tab.todo-item");
-        setIcon(new LeftArrowIcon());
-
-        String position =
-	    Configuration.getString(Configuration.makeKey("layout",
-							  "tabtodo"));
-        setOrientation(
-            ((position.equals("West") || position.equals("East"))
-             ? Vertical.getInstance() : Horizontal.getInstance()));
-
-        setLayout(new BorderLayout());
-
-        Object[] actions = {actionNewToDoItem, actionResolve, actionSnooze };
-        ToolBarFactory factory = new ToolBarFactory(actions);
-        factory.setRollover(true);
-        factory.setFloatable(false);
-        factory.setOrientation(SwingConstants.VERTICAL);
-        JToolBar toolBar = factory.createToolBar();
-        toolBar.setName(getTitle());
-        add(toolBar, BorderLayout.WEST);
-
-        splitPane = new BorderSplitPane();
-        add(splitPane, BorderLayout.CENTER);
-        setTarget(null);
-        
-        addComponentListener(this);
-        
-        // TODO: Register listener for target ToDo item changes
-        // and for new showStep() requests
-    }
-
-    /**
-     * Show the description of a todo item.
-     */
-    public void showDescription() {
-        if (lastPanel != null) {
-            splitPane.remove(lastPanel);
-        }
-        splitPane.add(description, BorderSplitPane.CENTER);
-        lastPanel = description;
-        validate();
-        repaint();
-    }
-
-    /**
-     * @param tdp the todo pane
-     */
-    public void setTree(ToDoPane tdp) {
-        if (getOrientation().equals(Horizontal.getInstance())) {
-            splitPane.add(tdp, BorderSplitPane.WEST);
-        } else {
-            splitPane.add(tdp, BorderSplitPane.NORTH);
-        }
-    }
-
-    /**
-     * @param ws the panel to be shown
-     */
-    public void showStep(JPanel ws) {
-        // TODO: This should listen for new target events 
-        // fired by WizStep.updateTabToDo so that we
-        // can decouple it from the ProjectBrowser.
-        if (lastPanel != null) {
-            splitPane.remove(lastPanel);
+	/**
+	 * Increment the number of times we've been "snoozed" (or hushed).
+	 */
+	public static void incrementNumHushes() {
 	}
-        if (ws != null) {
-            splitPane.add(ws, BorderSplitPane.CENTER);
-            lastPanel = ws;
-        } else {
-            splitPane.add(description, BorderSplitPane.CENTER);
-            lastPanel = description;
-        }
-        validate();
-        repaint();
-    }
 
-    /**
-     * Sets the target of the TabToDo.
-     *
-     * @param item the new target
-     */
-    public void setTarget(Object item) {
-        target = item;
-        if (isVisible()) {
-            setTargetInternal(item);
-        }
-        
-        // Request that we be made visible if we're not?
-        // topLevelTabbedPane.setSelectedComponent(t);
-    }
+	/**
+	 * Construct a ToDo tab for the property panel.
+	 */
+	public TabToDo() {
+		super("tab.todo-item");
+		setIcon(new LeftArrowIcon());
 
-    private void setTargetInternal(Object item) {
-        // the target of description will always be set directly by tabtodo
-        description.setTarget(item);
-        Wizard w = null;
-        if (item instanceof ToDoItem) {
-            w = ((ToDoItem) item).getWizard();
-        }
-        if (w != null) {
-            showStep(w.getCurrentPanel());
-        } else {
-            showDescription();
-        }
-        updateActionsEnabled(item);
-    }
+		String position = Configuration.getString(Configuration.makeKey("layout", "tabtodo"));
+		setOrientation(((position.equals("West") || position.equals("East")) ? Vertical.getInstance()
+				: Horizontal.getInstance()));
 
-   /**
-    * Returns the target of the TabToDo.
-    *
-    * @return The current target of the TabToDo
-    */
-    public Object getTarget() {
-        return target;
-    }
+		setLayout(new BorderLayout());
 
+		Object[] actions = { actionNewToDoItem, actionResolve, actionSnooze };
+		ToolBarFactory factory = new ToolBarFactory(actions);
+		factory.setRollover(true);
+		factory.setFloatable(false);
+		factory.setOrientation(SwingConstants.VERTICAL);
+		JToolBar toolBar = factory.createToolBar();
+		toolBar.setName(getTitle());
+		add(toolBar, BorderLayout.WEST);
 
-    /**
-     * Set the target again to what it was before.
-     */
-    public void refresh() {
-        setTarget(TargetManager.getInstance().getTarget());
-    }
+		splitPane = new BorderSplitPane();
+		add(splitPane, BorderLayout.CENTER);
+		setTarget(null);
 
-    /**
-     * Update the "enabled" state of the resolve and snooze actions.
-     * 
-     * @param item  the target of the TabToDo class
-     */
-    protected static void updateActionsEnabled(Object item) {
-        actionResolve.setEnabled(actionResolve.isEnabled());
-        actionResolve.updateEnabled(item);
-        actionSnooze.setEnabled(actionSnooze.isEnabled());
-        actionSnooze.updateEnabled(item);
-    }
+		addComponentListener(this);
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetAdded(
-     *          TargetEvent)
-     */
-    public void targetAdded(TargetEvent e) {
-	setTarget(e.getNewTarget());
-    }
+		// TODO: Register listener for target ToDo item changes
+		// and for new showStep() requests
+	}
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetRemoved(
-     *          TargetEvent)
-     */
-    public void targetRemoved(TargetEvent e) {
-	// how to handle empty target lists?
-	// probably the wizstep should only show an empty pane in that case
-	setTarget(e.getNewTarget());
-    }
+	/**
+	 * Show the description of a todo item.
+	 */
+	public void showDescription() {
+		if (lastPanel != null) {
+			splitPane.remove(lastPanel);
+		}
+		splitPane.add(description, BorderSplitPane.CENTER);
+		lastPanel = description;
+		validate();
+		repaint();
+	}
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetSet(TargetEvent)
-     */
-    public void targetSet(TargetEvent e) {
-	setTarget(e.getNewTarget());
-    }
+	/**
+	 * @param tdp
+	 *            the todo pane
+	 */
+	public void setTree(ToDoPane tdp) {
+		if (getOrientation().equals(Horizontal.getInstance())) {
+			splitPane.add(tdp, BorderSplitPane.WEST);
+		} else {
+			splitPane.add(tdp, BorderSplitPane.NORTH);
+		}
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 4819730646847978729L;
+	/**
+	 * @param ws
+	 *            the panel to be shown
+	 */
+	public void showStep(JPanel ws) {
+		// TODO: This should listen for new target events
+		// fired by WizStep.updateTabToDo so that we
+		// can decouple it from the ProjectBrowser.
+		if (lastPanel != null) {
+			splitPane.remove(lastPanel);
+		}
+		if (ws != null) {
+			splitPane.add(ws, BorderSplitPane.CENTER);
+			lastPanel = ws;
+		} else {
+			splitPane.add(description, BorderSplitPane.CENTER);
+			lastPanel = description;
+		}
+		validate();
+		repaint();
+	}
 
-    /*
-     * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
-     */
-    public void componentShown(ComponentEvent e) {
-        // Update our model with our saved target
-        setTargetInternal(target);
-    }
-    
-    /*
-     * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
-     */
-    public void componentHidden(ComponentEvent e) {
-        // Stop updating model when we're not visible
-        setTargetInternal(null);
-    }
+	/**
+	 * Sets the target of the TabToDo.
+	 *
+	 * @param item
+	 *            the new target
+	 */
+	public void setTarget(Object item) {
+		target = item;
+		if (isVisible()) {
+			setTargetInternal(item);
+		}
 
-    public void componentMoved(ComponentEvent e) {
-        // ignored
-    }
+		// Request that we be made visible if we're not?
+		// topLevelTabbedPane.setSelectedComponent(t);
+	}
 
-    public void componentResized(ComponentEvent e) {
-        // ignored
-    }
+	private void setTargetInternal(Object item) {
+		// the target of description will always be set directly by tabtodo
+		description.setTarget(item);
+		Wizard w = null;
+		if (item instanceof ToDoItem) {
+			w = ((ToDoItem) item).getWizard();
+		}
+		if (w != null) {
+			showStep(w.getCurrentPanel());
+		} else {
+			showDescription();
+		}
+		updateActionsEnabled(item);
+	}
 
-    
+	/**
+	 * Returns the target of the TabToDo.
+	 *
+	 * @return The current target of the TabToDo
+	 */
+	public Object getTarget() {
+		return target;
+	}
+
+	/**
+	 * Set the target again to what it was before.
+	 */
+	public void refresh() {
+		setTarget(TargetManager.getInstance().getTarget());
+	}
+
+	/**
+	 * Update the "enabled" state of the resolve and snooze actions.
+	 * 
+	 * @param item
+	 *            the target of the TabToDo class
+	 */
+	protected static void updateActionsEnabled(Object item) {
+		actionResolve.setEnabled(actionResolve.isEnabled());
+		actionResolve.updateEnabled(item);
+		actionSnooze.setEnabled(actionSnooze.isEnabled());
+		actionSnooze.updateEnabled(item);
+	}
+
+	/*
+	 * @see org.argouml.ui.targetmanager.TargetListener#targetAdded(
+	 * TargetEvent)
+	 */
+	public void targetAdded(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
+
+	/*
+	 * @see org.argouml.ui.targetmanager.TargetListener#targetRemoved(
+	 * TargetEvent)
+	 */
+	public void targetRemoved(TargetEvent e) {
+		// how to handle empty target lists?
+		// probably the wizstep should only show an empty pane in that case
+		setTarget(e.getNewTarget());
+	}
+
+	/*
+	 * @see org.argouml.ui.targetmanager.TargetListener#targetSet(TargetEvent)
+	 */
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 4819730646847978729L;
+
+	/*
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentShown(ComponentEvent e) {
+		// Update our model with our saved target
+		setTargetInternal(target);
+	}
+
+	/*
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentHidden(ComponentEvent e) {
+		// Stop updating model when we're not visible
+		setTargetInternal(null);
+	}
+
+	public void componentMoved(ComponentEvent e) {
+		// ignored
+	}
+
+	public void componentResized(ComponentEvent e) {
+		// ignored
+	}
+
 }

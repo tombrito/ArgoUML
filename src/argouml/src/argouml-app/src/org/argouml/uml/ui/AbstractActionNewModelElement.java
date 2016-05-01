@@ -54,61 +54,62 @@ import org.argouml.ui.UndoableAction;
 @UmlModelMutator
 public abstract class AbstractActionNewModelElement extends UndoableAction {
 
-    private static final long serialVersionUID = 8172032755203875175L;
+	private static final long serialVersionUID = 8172032755203875175L;
 	private Object target;
 
-    /**
-     * The constructor.
-     * Defaults to name "action.new", global and NO_ICON
-     */
-    protected AbstractActionNewModelElement() {
-        super(Translator.localize("action.new"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.new"));
-    }
+	/**
+	 * The constructor. Defaults to name "action.new", global and NO_ICON
+	 */
+	protected AbstractActionNewModelElement() {
+		super(Translator.localize("action.new"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.new"));
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param name the to be localized name of the action
-     */
-    protected AbstractActionNewModelElement(String name) {
-        super(Translator.localize(name), 
-                ResourceLoaderWrapper.lookupIcon(name));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(name));
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param name
+	 *            the to be localized name of the action
+	 */
+	protected AbstractActionNewModelElement(String name) {
+		super(Translator.localize(name), ResourceLoaderWrapper.lookupIcon(name));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
+	}
 
-    /**
-     * The constructor. This is provided for module developers to extend
-     * this action for their own purposes with their own icon.
-     *
-     * @param name the to be localized name of the action
-     * @param the icon to represent this action visually
-     */
-    protected AbstractActionNewModelElement(String name, Icon icon) {
-        super(Translator.localize(name), icon);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(name));
-    }
+	/**
+	 * The constructor. This is provided for module developers to extend this
+	 * action for their own purposes with their own icon.
+	 *
+	 * @param name
+	 *            the to be localized name of the action
+	 * @param the
+	 *            icon to represent this action visually
+	 */
+	protected AbstractActionNewModelElement(String name, Icon icon) {
+		super(Translator.localize(name), icon);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
+	}
 
-     /**
-     * Returns the target.
-     * @return ModelElement
-     */
-    public Object getTarget() {
-        return target;
-    }
+	/**
+	 * Returns the target.
+	 * 
+	 * @return ModelElement
+	 */
+	public Object getTarget() {
+		return target;
+	}
 
-    /**
-     * Sets the target.
-     * @param theTarget The target to set
-     */
-    public void setTarget(Object theTarget) {
-        target = theTarget;
-    }
+	/**
+	 * Sets the target.
+	 * 
+	 * @param theTarget
+	 *            The target to set
+	 */
+	public void setTarget(Object theTarget) {
+		target = theTarget;
+	}
 
 }

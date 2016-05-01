@@ -38,108 +38,119 @@
 
 package org.argouml.model;
 
-
 /**
  * The interface for the factory for UseCases.
  */
 public interface UseCasesFactory extends Factory {
-    /**
-     * Create an empty but initialized instance of a Extend.
-     *
-     * @return an initialized Extend instance.
-     */
-    Object createExtend();
+	/**
+	 * Create an empty but initialized instance of a Extend.
+	 *
+	 * @return an initialized Extend instance.
+	 */
+	Object createExtend();
 
-    /**
-     * Create an empty but initialized instance of a ExtensionPoint.
-     *
-     * @return an initialized ExtensionPoint instance.
-     */
-    Object createExtensionPoint();
+	/**
+	 * Create an empty but initialized instance of a ExtensionPoint.
+	 *
+	 * @return an initialized ExtensionPoint instance.
+	 */
+	Object createExtensionPoint();
 
-    /**
-     * Create an empty but initialized instance of a Actor.
-     *
-     * @return an initialized Actor instance.
-     */
-    Object createActor();
+	/**
+	 * Create an empty but initialized instance of a Actor.
+	 *
+	 * @return an initialized Actor instance.
+	 */
+	Object createActor();
 
-    /**
-     * Create an empty but initialized instance of a Include.
-     *
-     * @return an initialized Include instance.
-     */
-    Object createInclude();
+	/**
+	 * Create an empty but initialized instance of a Include.
+	 *
+	 * @return an initialized Include instance.
+	 */
+	Object createInclude();
 
-    /**
-     * Create an empty but initialized instance of a UseCase.
-     *
-     * @return an initialized UseCase instance.
-     */
-    Object createUseCase();
+	/**
+	 * Create an empty but initialized instance of a UseCase.
+	 *
+	 * @return an initialized UseCase instance.
+	 */
+	Object createUseCase();
 
+	/**
+	 * Build an extend relationship with a newly created extension point.
+	 * Equivalent to calling 3 argument form with null as 3rd argument.
+	 * <p>
+	 * 
+	 * @param abase
+	 *            The base use case for the relationship
+	 * @param anextension
+	 *            The extension use case for the relationship
+	 * @return The new extend relationship or <code>null</code> if it can't be
+	 *         created.
+	 */
+	Object buildExtend(Object abase, Object anextension);
 
-    /**
-     * Build an extend relationship with a newly created extension point.
-     * Equivalent to calling 3 argument form with null as 3rd argument.<p>
-     * 
-     * @param abase       The base use case for the relationship
-     * @param anextension The extension use case for the relationship
-     * @return            The new extend relationship or <code>null</code>
-     *                    if it can't be created.
-     */
-    Object buildExtend(Object abase, Object anextension);
+	/**
+	 * Build an extend relationship.
+	 * <p>
+	 * 
+	 * @param abase
+	 *            The base use case for the relationship
+	 * @param anextension
+	 *            The extension use case for the relationship
+	 * @param apoint
+	 *            The extension point in the base for the extension. If null,
+	 *            one is created.
+	 * @return The new extend relationship or <code>null</code> if it can't be
+	 *         created.
+	 */
+	Object buildExtend(Object abase, Object anextension, Object apoint);
 
-    /**
-     * Build an extend relationship.<p>
-     * 
-     * @param abase
-     *            The base use case for the relationship
-     * @param anextension
-     *            The extension use case for the relationship
-     * @param apoint
-     *            The extension point in the base for the extension. If null,
-     *            one is created.
-     * @return The new extend relationship or <code>null</code> if it can't be
-     *         created.
-     */
-    Object buildExtend(Object abase, Object anextension, Object apoint);
+	/**
+	 * Builds an extension point for a use case.
+	 *
+	 * @param modelElement
+	 *            The owning use case for the extension point.
+	 * @return The new extension point.
+	 * @throws IllegalArgumentException
+	 *             if modelElement isn't a use-case.
+	 */
+	Object buildExtensionPoint(Object modelElement);
 
-    /**
-     * Builds an extension point for a use case.
-     *
-     * @param modelElement The owning use case for the extension point.
-     * @return The new extension point.
-     * @throws IllegalArgumentException if modelElement isn't a use-case.
-     */
-    Object buildExtensionPoint(Object modelElement);
+	/**
+	 * Build an include relationship.
+	 * <p>
+	 *
+	 * Set the namespace to the base (preferred) or else extension's namespace.
+	 * We don't do any checking on base and extension. They should be different,
+	 * but that is someone else's problem.
+	 * <p>
+	 *
+	 * @param abase
+	 *            The base use case for the relationship
+	 *
+	 * @param anaddition
+	 *            The extension use case for the relationship
+	 *
+	 * @return The new include relationship or <code>null</code> if it can't be
+	 *         created.
+	 */
+	Object buildInclude(Object abase, Object anaddition);
 
-    /**
-     * Build an include relationship.<p>
-     *
-     * Set the namespace to the base (preferred) or else extension's
-     * namespace. We don't do any checking on base and extension. They
-     * should be different, but that is someone else's problem.<p>
-     *
-     * @param abase      The base use case for the relationship
-     *
-     * @param anaddition The extension use case for the relationship
-     *
-     * @return           The new include relationship or <code>null</code> if
-     *                   it can't be created.
-     */
-    Object buildInclude(Object abase, Object anaddition);
-
-    /**
-     * Builds an actor in the same namespace as the given actor. If
-     * the object is not and actor nothing is built.<p>
-     * 
-     * TODO: This shouldn't just silently fail if it is passed a bad
-     * argument.  This contract will change. - tfm 20070607
-     *
-     * @param model The namespace.
-     * @param actor the given actor
-     * @return Actor the newly built actor
-     */
-    Object buildActor(Object actor, Object model);
+	/**
+	 * Builds an actor in the same namespace as the given actor. If the object
+	 * is not and actor nothing is built.
+	 * <p>
+	 * 
+	 * TODO: This shouldn't just silently fail if it is passed a bad argument.
+	 * This contract will change. - tfm 20070607
+	 *
+	 * @param model
+	 *            The namespace.
+	 * @param actor
+	 *            the given actor
+	 * @return Actor the newly built actor
+	 */
+	Object buildActor(Object actor, Object model);
 }

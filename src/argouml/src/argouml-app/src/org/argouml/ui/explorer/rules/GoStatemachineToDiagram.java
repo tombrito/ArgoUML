@@ -52,57 +52,59 @@ import org.argouml.uml.diagram.activity.ui.UMLActivityDiagram;
 import org.argouml.uml.diagram.state.ui.UMLStateDiagram;
 
 /**
- * A go rule to navigate from a statemachine or activitygraph
- * to the statediagram or activitydiagram that's showing it.
+ * A go rule to navigate from a statemachine or activitygraph to the
+ * statediagram or activitydiagram that's showing it.
  *
  * @since Jul 12, 2004
  * @author jaap.branderhorst@xs4all.nl
  */
 public class GoStatemachineToDiagram extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAStateMachine(parent)) {
-            Set<ArgoDiagram> returnList = new HashSet<ArgoDiagram>();
-            Project proj = ProjectManager.getManager().getCurrentProject();
-            for (ArgoDiagram diagram : proj.getDiagramList()) {
-                if (diagram instanceof UMLActivityDiagram) {
-                    UMLActivityDiagram activityDiagram =
-                        (UMLActivityDiagram) diagram;
-                    Object activityGraph = activityDiagram.getStateMachine();
-                    if (activityGraph == parent) {
-                        returnList.add(activityDiagram);
-                        continue;
-                    }
-                }
-                if (diagram instanceof UMLStateDiagram) {
-                    UMLStateDiagram stateDiagram = (UMLStateDiagram) diagram;
-                    Object stateMachine = stateDiagram.getStateMachine();
-                    if (stateMachine == parent) {
-                        returnList.add(stateDiagram);
-                        continue;
-                    }
-                }
-            }
-            return returnList;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAStateMachine(parent)) {
+			Set<ArgoDiagram> returnList = new HashSet<ArgoDiagram>();
+			Project proj = ProjectManager.getManager().getCurrentProject();
+			for (ArgoDiagram diagram : proj.getDiagramList()) {
+				if (diagram instanceof UMLActivityDiagram) {
+					UMLActivityDiagram activityDiagram = (UMLActivityDiagram) diagram;
+					Object activityGraph = activityDiagram.getStateMachine();
+					if (activityGraph == parent) {
+						returnList.add(activityDiagram);
+						continue;
+					}
+				}
+				if (diagram instanceof UMLStateDiagram) {
+					UMLStateDiagram stateDiagram = (UMLStateDiagram) diagram;
+					Object stateMachine = stateDiagram.getStateMachine();
+					if (stateMachine == parent) {
+						returnList.add(stateDiagram);
+						continue;
+					}
+				}
+			}
+			return returnList;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.state-machine.diagram");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.state-machine.diagram");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		return Collections.EMPTY_SET;
+	}
 
 }

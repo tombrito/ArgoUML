@@ -47,186 +47,197 @@ import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Class to display graphics for N-ary association edges (association ends).<p>
+ * Class to display graphics for N-ary association edges (association ends).
+ * <p>
  *
- * This class represents an association End Fig on a diagram, 
- * i.e. the line between the diamond and a node (like a class). <p>
+ * This class represents an association End Fig on a diagram, i.e. the line
+ * between the diamond and a node (like a class).
+ * <p>
  * 
- * The direction of the lines is from the diamond outwards,
- * hence the destination is the side of the classifier,
- * where the labels are shown. <p>
+ * The direction of the lines is from the diamond outwards, hence the
+ * destination is the side of the classifier, where the labels are shown.
+ * <p>
  * 
- * There is no support for arrows indicating navigability. <p>
+ * There is no support for arrows indicating navigability.
+ * <p>
  * 
- * Showing qualifiers or aggregation is not permitted 
- * according the UML 1.4.2 standard.
+ * Showing qualifiers or aggregation is not permitted according the UML 1.4.2
+ * standard.
  *
  * @author pepargouml@yahoo.es
  */
 public class FigAssociationEnd extends FigEdgeModelElement {
 
-    private static final long serialVersionUID = 2118543917627245648L;
+	private static final long serialVersionUID = 2118543917627245648L;
 	/**
-     * Group for the FigTexts concerning the association end.
-     */
-    private FigAssociationEndAnnotation destGroup;
-    private FigMultiplicity destMult;
+	 * Group for the FigTexts concerning the association end.
+	 */
+	private FigAssociationEndAnnotation destGroup;
+	private FigMultiplicity destMult;
 
-    /**
-     * Construct Fig.
-     * 
-     * @param owner owning UML element (i.e. an AssociationEnd)
-     * @param settings rendering settings
-     */
-    public FigAssociationEnd(Object owner, DiagramSettings settings) {
-        super(owner, settings);
+	/**
+	 * Construct Fig.
+	 * 
+	 * @param owner
+	 *            owning UML element (i.e. an AssociationEnd)
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigAssociationEnd(Object owner, DiagramSettings settings) {
+		super(owner, settings);
 
-        destMult = new FigMultiplicity(owner, settings);
-        addPathItem(destMult, 
-                new PathItemPlacement(this, destMult, 100, -5, 45, 5));
-        ArgoFigUtil.markPosition(this, 100, -5, 45, 5, Color.green);
-        
-        destGroup = new FigAssociationEndAnnotation(this, owner, settings);
-        addPathItem(destGroup, 
-                new PathItemPlacement(this, destGroup, 100, -5, -45, 5));
-        ArgoFigUtil.markPosition(this, 100, -5, -45, 5, Color.blue);
+		destMult = new FigMultiplicity(owner, settings);
+		addPathItem(destMult, new PathItemPlacement(this, destMult, 100, -5, 45, 5));
+		ArgoFigUtil.markPosition(this, 100, -5, 45, 5, Color.green);
 
-        setBetweenNearestPoints(true);
-        
-        initializeNotationProvidersInternal(owner);
-    }
+		destGroup = new FigAssociationEndAnnotation(this, owner, settings);
+		addPathItem(destGroup, new PathItemPlacement(this, destGroup, 100, -5, -45, 5));
+		ArgoFigUtil.markPosition(this, 100, -5, -45, 5, Color.blue);
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#getNotationProviderType()
-     */
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_ASSOCIATION_END_NAME;
-    }
+		setBetweenNearestPoints(true);
 
-    @Override
-    protected void initNotationProviders(Object own) {
-        initializeNotationProvidersInternal(own);
-    }
+		initializeNotationProvidersInternal(owner);
+	}
 
-    private void initializeNotationProvidersInternal(Object own) {
-        super.initNotationProviders(own);
-        destMult.initNotationProviders();
-        initNotationArguments();
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigEdgeModelElement#getNotationProviderType()
+	 */
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_ASSOCIATION_END_NAME;
+	}
 
-    protected void initNotationArguments() {
-        /* Nothing yet. Later maybe something like: */
-//        putNotationArgument("showAssociationName", 
-//                getSettings().isShowAssociationNames());
-    }
+	@Override
+	protected void initNotationProviders(Object own) {
+		initializeNotationProvidersInternal(own);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#updateListeners(java.lang.Object)
-     */
-    @Override
-    public void updateListeners(Object oldOwner, Object newOwner) {
-        Set<Object[]> listeners = new HashSet<Object[]>();
-        if (newOwner != null) {
-            listeners.add(new Object[] {newOwner, 
-                new String[] {"isAbstract", "remove"}
-            });
-        }
-        updateElementListeners(listeners);
-    }
+	private void initializeNotationProvidersInternal(Object own) {
+		super.initNotationProviders(own);
+		destMult.initNotationProviders();
+		initNotationArguments();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#textEdited(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    protected void textEdited(FigText ft) {
-        if (getOwner() == null) {
-            return;
-        }
-        super.textEdited(ft);
-        if (getOwner() == null) {
-            return;
-        }
-        if (ft == destGroup.getRole()) {
-            destGroup.getRole().textEdited();
-        } else if (ft == destMult) {
-            /* The text the user has filled in the textfield is first checked
-             * to see if it's a valid multiplicity. If so then that is the 
-             * multiplicity to be set. If not the input is rejected. */
-            destMult.textEdited();
-        }
-    }
+	protected void initNotationArguments() {
+		/* Nothing yet. Later maybe something like: */
+		// putNotationArgument("showAssociationName",
+		// getSettings().isShowAssociationNames());
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#textEditStarted(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    protected void textEditStarted(FigText ft) {
-        if (ft == destGroup.getRole()) {
-            destGroup.getRole().textEditStarted();
-        } else if (ft == destMult) {
-            destMult.textEditStarted();
-        } else {
-            super.textEditStarted(ft);
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigEdgeModelElement#updateListeners(java.lang.
+	 * Object)
+	 */
+	@Override
+	public void updateListeners(Object oldOwner, Object newOwner) {
+		Set<Object[]> listeners = new HashSet<Object[]>();
+		if (newOwner != null) {
+			listeners.add(new Object[] { newOwner, new String[] { "isAbstract", "remove" } });
+		}
+		updateElementListeners(listeners);
+	}
 
-    @Override
-    public void renderingChanged() {
-        super.renderingChanged();
-        // Fonts and colors should get updated automatically for contained figs
-        destMult.renderingChanged();
-        destGroup.renderingChanged();
-        initNotationArguments();
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigEdgeModelElement#textEdited(org.tigris.gef.
+	 * presentation.FigText)
+	 */
+	@Override
+	protected void textEdited(FigText ft) {
+		if (getOwner() == null) {
+			return;
+		}
+		super.textEdited(ft);
+		if (getOwner() == null) {
+			return;
+		}
+		if (ft == destGroup.getRole()) {
+			destGroup.getRole().textEdited();
+		} else if (ft == destMult) {
+			/*
+			 * The text the user has filled in the textfield is first checked to
+			 * see if it's a valid multiplicity. If so then that is the
+			 * multiplicity to be set. If not the input is rejected.
+			 */
+			destMult.textEdited();
+		}
+	}
 
-    @Override
-    protected void updateStereotypeText() {
-        /* There is none... */
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigEdgeModelElement#textEditStarted(org.tigris
+	 * .gef.presentation.FigText)
+	 */
+	@Override
+	protected void textEditStarted(FigText ft) {
+		if (ft == destGroup.getRole()) {
+			destGroup.getRole().textEditStarted();
+		} else if (ft == destMult) {
+			destMult.textEditStarted();
+		} else {
+			super.textEditStarted(ft);
+		}
+	}
 
-    /**
-     * Updates the multiplicity field.
-     */
-    protected void updateMultiplicity() {
-        if (getOwner() != null 
-                && destMult.getOwner() != null) {
-            destMult.setText();
-        }
-    }
+	@Override
+	public void renderingChanged() {
+		super.renderingChanged();
+		// Fonts and colors should get updated automatically for contained figs
+		destMult.renderingChanged();
+		destGroup.renderingChanged();
+		initNotationArguments();
+	}
 
-    /* TODO: Support navigability. 
-     * The code below causes and exception in FigAssociationEndAnnotation. */
-//  @Override
-//  public void paint(Graphics g) {
-//      if (getOwner() == null ) {
-//          LOG.error(
-//              "Trying to paint a FigAssociationEnd without an owner. ");
-//      } else {
-//          applyArrowHeads(); 
-//      }
-//      if (getSourceArrowHead() != null) {
-//          getSourceArrowHead().setLineColor(getLineColor());
-//      }
-//      super.paint(g);
-//  }
-    
-//    /**
-//     * Choose the arrowhead style for each end. <p>
-//     * 
-//     * TODO: This is called from paint(). Would it not better 
-//     * be called from renderingChanged()?
-//     */
-//    protected void applyArrowHeads() {
-//        int sourceArrowType = destGroup.getArrowType();
-//
-//        if (!getSettings().isShowBidirectionalArrows()
-//                && sourceArrowType > 2) {
-//            sourceArrowType -= 3;
-//        }
-//        
-//        setSourceArrowHead(FigAssociationEndAnnotation
-//                .ARROW_HEADS[sourceArrowType]);
-//    }
+	@Override
+	protected void updateStereotypeText() {
+		/* There is none... */
+	}
+
+	/**
+	 * Updates the multiplicity field.
+	 */
+	protected void updateMultiplicity() {
+		if (getOwner() != null && destMult.getOwner() != null) {
+			destMult.setText();
+		}
+	}
+
+	/*
+	 * TODO: Support navigability. The code below causes and exception in
+	 * FigAssociationEndAnnotation.
+	 */
+	// @Override
+	// public void paint(Graphics g) {
+	// if (getOwner() == null ) {
+	// LOG.error(
+	// "Trying to paint a FigAssociationEnd without an owner. ");
+	// } else {
+	// applyArrowHeads();
+	// }
+	// if (getSourceArrowHead() != null) {
+	// getSourceArrowHead().setLineColor(getLineColor());
+	// }
+	// super.paint(g);
+	// }
+
+	// /**
+	// * Choose the arrowhead style for each end. <p>
+	// *
+	// * TODO: This is called from paint(). Would it not better
+	// * be called from renderingChanged()?
+	// */
+	// protected void applyArrowHeads() {
+	// int sourceArrowType = destGroup.getArrowType();
+	//
+	// if (!getSettings().isShowBidirectionalArrows()
+	// && sourceArrowType > 2) {
+	// sourceArrowType -= 3;
+	// }
+	//
+	// setSourceArrowHead(FigAssociationEndAnnotation
+	// .ARROW_HEADS[sourceArrowType]);
+	// }
 
 }

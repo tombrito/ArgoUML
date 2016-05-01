@@ -41,46 +41,48 @@ package org.argouml.uml.diagram;
 import java.util.Collection;
 
 /**
- * Interface which is used by the Explorer to determine if a diagram can
- * change its location to a new model element.
+ * Interface which is used by the Explorer to determine if a diagram can change
+ * its location to a new model element.
  *
  * @author MarkusK
  *
  */
 public interface Relocatable {
 
-    /**
-     * This function should return true if it is allowed to relocate
-     * this type of diagram to the given modelelement.
-     *
-     * @param base the given modelelement
-     * @return true if adding a diagram here is allowed
-     */
-    boolean isRelocationAllowed(Object base);
+	/**
+	 * This function should return true if it is allowed to relocate this type
+	 * of diagram to the given modelelement.
+	 *
+	 * @param base
+	 *            the given modelelement
+	 * @return true if adding a diagram here is allowed
+	 */
+	boolean isRelocationAllowed(Object base);
 
-    /**
-     * Relocate this diagram,
-     * e.g. for a class diagram assign it a new namespace,
-     * e.g. for a statechart move it together with the
-     * statemachine to a new operation/classifier. <p>
-     *
-     * Precondition: isRelocationAllowed(base) is true.
-     *
-     * @param base the new location, i.e. base modelelement
-     * @return true if successful
-     */
-    boolean relocate(Object base);
+	/**
+	 * Relocate this diagram, e.g. for a class diagram assign it a new
+	 * namespace, e.g. for a statechart move it together with the statemachine
+	 * to a new operation/classifier.
+	 * <p>
+	 *
+	 * Precondition: isRelocationAllowed(base) is true.
+	 *
+	 * @param base
+	 *            the new location, i.e. base modelelement
+	 * @return true if successful
+	 */
+	boolean relocate(Object base);
 
-    /**
-     * Create a collection of candidate modelelements 
-     * to relocate this diagram to. 
-     * All candidates belong to a given namespace - e.g. the root Model.
-     * 
-     * @param root all returned candidates are contained in this namespace
-     * @return the collection of candidate modelelements 
-     * to which this diagram may be relocated
-     */
-    @SuppressWarnings("unchecked")
-    Collection getRelocationCandidates(Object root);
+	/**
+	 * Create a collection of candidate modelelements to relocate this diagram
+	 * to. All candidates belong to a given namespace - e.g. the root Model.
+	 * 
+	 * @param root
+	 *            all returned candidates are contained in this namespace
+	 * @return the collection of candidate modelelements to which this diagram
+	 *         may be relocated
+	 */
+	@SuppressWarnings("unchecked")
+	Collection getRelocationCandidates(Object root);
 
 }

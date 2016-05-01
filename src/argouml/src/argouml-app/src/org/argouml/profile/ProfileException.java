@@ -39,42 +39,45 @@
 package org.argouml.profile;
 
 /**
- * An exception to be thrown during failure in the Profile subsystem.
- * This will typically be a wrapped exception containing the exception
- * representing the underlying failure cause.
+ * An exception to be thrown during failure in the Profile subsystem. This will
+ * typically be a wrapped exception containing the exception representing the
+ * underlying failure cause.
  * 
  * @author Marcus Aurelio (maurelio1234)
  */
 public class ProfileException extends Exception {
 
-    private static final long serialVersionUID = -3708754124925673397L;
+	private static final long serialVersionUID = -3708754124925673397L;
 
 	/**
-     * The constructor.
-     *
-     * @param message the message to show
-     */
-    public ProfileException(String message) {
-        super(message);
-    }
+	 * The constructor.
+	 *
+	 * @param message
+	 *            the message to show
+	 */
+	public ProfileException(String message) {
+		super(message);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param message the message to show
-     * @param theCause the cause for the exception
-     */
-    public ProfileException(String message, Throwable theCause) {
-        super(message, theCause);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param message
+	 *            the message to show
+	 * @param theCause
+	 *            the cause for the exception
+	 */
+	public ProfileException(String message, Throwable theCause) {
+		super(message, theCause);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param theCause the cause for the exception
-     */
-    public ProfileException(Throwable theCause) {
-        super(theCause);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param theCause
+	 *            the cause for the exception
+	 */
+	public ProfileException(Throwable theCause) {
+		super(theCause);
+	}
 }
-

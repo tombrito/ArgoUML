@@ -55,49 +55,51 @@ import org.argouml.uml.diagram.use_case.ui.FigExtensionPoint;
  */
 public class FigExtensionPointsCompartment extends FigCompartment {
 
-    private static final long serialVersionUID = -4631450920160263966L;
+	private static final long serialVersionUID = -4631450920160263966L;
 
 	/**
-     * The constructor.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigExtensionPointsCompartment(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        super.populate();
-    }
+	 * The constructor.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigExtensionPointsCompartment(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		super.populate();
+	}
 
-    @Override
-    FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        return new FigExtensionPoint(owner, bounds, settings);
-    }
+	@Override
+	FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds, DiagramSettings settings) {
+		return new FigExtensionPoint(owner, bounds, settings);
+	}
 
-    @Override
-    protected int getNotationType() {
-        return NotationProviderFactory2.TYPE_EXTENSION_POINT;
-    }
+	@Override
+	protected int getNotationType() {
+		return NotationProviderFactory2.TYPE_EXTENSION_POINT;
+	}
 
-    @Override
-    protected Collection getUmlCollection() {
-        Object usecase = getOwner(); //TODO: check!
-        return Model.getFacade().getExtensionPoints(usecase);
-    }
+	@Override
+	protected Collection getUmlCollection() {
+		Object usecase = getOwner(); // TODO: check!
+		return Model.getFacade().getExtensionPoints(usecase);
+	}
 
-    @Override
-    public String getName() {
-        return "extension points";
-    }
-    
-    /**
-     * Returns the meta type for ExtensionPoint to indicate the type of model
-     * element within this compartment.
-     * @return a model element type
-     */
-    public Object getCompartmentType() {
-        return Model.getMetaTypes().getExtensionPoint();
-    }
+	@Override
+	public String getName() {
+		return "extension points";
+	}
+
+	/**
+	 * Returns the meta type for ExtensionPoint to indicate the type of model
+	 * element within this compartment.
+	 * 
+	 * @return a model element type
+	 */
+	public Object getCompartmentType() {
+		return Model.getMetaTypes().getExtensionPoint();
+	}
 }

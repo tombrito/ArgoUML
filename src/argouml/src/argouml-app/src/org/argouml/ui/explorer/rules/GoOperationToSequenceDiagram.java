@@ -51,45 +51,48 @@ import org.argouml.uml.diagram.ArgoDiagram;
 import org.argouml.uml.diagram.SequenceDiagram;
 
 /**
- * Rule for Operation->Sequence diagram.
- * Go rule from represented operation to sequence diagram representing it
+ * Rule for Operation->Sequence diagram. Go rule from represented operation to
+ * sequence diagram representing it
+ * 
  * @author : jaap.branderhorst@xs4all.nl
  */
 public class GoOperationToSequenceDiagram extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.operation.sequence-diagram");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.operation.sequence-diagram");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAOperation(parent)) {
-            Collection col = Model.getFacade().getCollaborations(parent);
-            Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
-            Project p = ProjectManager.getManager().getCurrentProject();
-            for (ArgoDiagram diagram : p.getDiagramList()) {
-                if (diagram instanceof SequenceDiagram
-                        && col.contains(((SequenceDiagram) diagram)
-                                .getCollaboration())) {
-                    ret.add(diagram);
-                }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAOperation(parent)) {
+			Collection col = Model.getFacade().getCollaborations(parent);
+			Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
+			Project p = ProjectManager.getManager().getCurrentProject();
+			for (ArgoDiagram diagram : p.getDiagramList()) {
+				if (diagram instanceof SequenceDiagram
+						&& col.contains(((SequenceDiagram) diagram).getCollaboration())) {
+					ret.add(diagram);
+				}
 
-            }
-            return ret;
-        }
-        return Collections.emptySet();
-    }
+			}
+			return ret;
+		}
+		return Collections.emptySet();
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-	return Collections.emptySet();
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.emptySet();
+	}
 }

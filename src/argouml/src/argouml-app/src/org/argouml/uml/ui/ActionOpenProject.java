@@ -59,132 +59,118 @@ import org.argouml.ui.UndoableAction;
 import org.argouml.util.ArgoFrame;
 
 /**
- * Action that loads the project.
- * This will throw away the project that we were working with up to this
- * point so some extra caution.
+ * Action that loads the project. This will throw away the project that we were
+ * working with up to this point so some extra caution.
  *
  * @see ActionSaveProject
  */
-public class ActionOpenProject extends UndoableAction
-    implements CommandLineInterface {
+public class ActionOpenProject extends UndoableAction implements CommandLineInterface {
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
+	////////////////////////////////////////////////////////////////
+	// constructors
 
-    private static final long serialVersionUID = -2170949602613977950L;
+	private static final long serialVersionUID = -2170949602613977950L;
 
 	/**
-     * Constructor for this action.
-     */
-    public ActionOpenProject() {
-        super(Translator.localize("action.open-project"),
-                ResourceLoaderWrapper.lookupIcon("action.open-project"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.open-project"));
-    }
+	 * Constructor for this action.
+	 */
+	public ActionOpenProject() {
+		super(Translator.localize("action.open-project"), ResourceLoaderWrapper.lookupIcon("action.open-project"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.open-project"));
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
+	/**
+	 * Performs the action of opening a project.
+	 *
+	 * @param e
+	 *            an event
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Project p = ProjectManager.getManager().getCurrentProject();
+		PersistenceManager pm = PersistenceManager.getInstance();
 
-    /**
-     * Performs the action of opening a project.
-     *
-     * @param e an event
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Project p = ProjectManager.getManager().getCurrentProject();
-        PersistenceManager pm = PersistenceManager.getInstance();
+		if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
+			return;
+		}
 
-        if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
-            return;
-        }
+		// next line does give user.home back but this is not
+		// compliant with how the project.uri works and therefore
+		// open and save project as give different starting
+		// directories. String directory =
+		// Globals.getLastDirectory();
+		JFileChooser chooser = null;
+		if (p != null && p.getURI() != null) {
+			File file = new File(p.getURI());
+			if (file.getParentFile() != null) {
+				chooser = new JFileChooser(file.getParent());
+			}
+		} else {
+			chooser = new JFileChooser();
+		}
 
-        // next line does give user.home back but this is not
-        // compliant with how the project.uri works and therefore
-        // open and save project as give different starting
-        // directories.  String directory =
-        // Globals.getLastDirectory();
-        JFileChooser chooser = null;
-        if (p != null && p.getURI() != null) {
-            File file = new File(p.getURI());
-            if (file.getParentFile() != null) {
-                chooser = new JFileChooser(file.getParent());
-            }
-        } else {
-            chooser = new JFileChooser();
-        }
+		if (chooser == null) {
+			chooser = new JFileChooser();
+		}
 
-        if (chooser == null) {
-            chooser = new JFileChooser();
-        }
+		chooser.setDialogTitle(Translator.localize("filechooser.open-project"));
 
-        chooser.setDialogTitle(
-                Translator.localize("filechooser.open-project"));
+		chooser.setAcceptAllFileFilterUsed(false);
 
-        chooser.setAcceptAllFileFilterUsed(false);
+		// adding project files icon
+		chooser.setFileView(ProjectFileView.getInstance());
 
-        // adding project files icon
-        chooser.setFileView(ProjectFileView.getInstance());
-        
-        pm.setOpenFileChooserFilter(chooser);
+		pm.setOpenFileChooserFilter(chooser);
 
-        String fn = Configuration.getString(
-                PersistenceManager.KEY_OPEN_PROJECT_PATH);
-        if (fn.length() > 0) {
-            chooser.setSelectedFile(new File(fn));
-        }
+		String fn = Configuration.getString(PersistenceManager.KEY_OPEN_PROJECT_PATH);
+		if (fn.length() > 0) {
+			chooser.setSelectedFile(new File(fn));
+		}
 
-        int retval = chooser.showOpenDialog(ArgoFrame.getFrame());
-        if (retval == JFileChooser.APPROVE_OPTION) {
-            File theFile = chooser.getSelectedFile();
+		int retval = chooser.showOpenDialog(ArgoFrame.getFrame());
+		if (retval == JFileChooser.APPROVE_OPTION) {
+			File theFile = chooser.getSelectedFile();
 
-            if (!theFile.canRead()) {
-                /* Try adding the extension from the chosen filter. */
-                FileFilter ffilter = chooser.getFileFilter();
-                if (ffilter instanceof AbstractFilePersister) {
-                    AbstractFilePersister afp = 
-                        (AbstractFilePersister) ffilter;
-                    File m =
-                        new File(theFile.getPath() + "."
-                                + afp.getExtension());
-                    if (m.canRead()) {
-                        theFile = m;
-                    }
-                }
-                if (!theFile.canRead()) {
-                    /* Try adding the default extension. */
-                    File n =
-                        new File(theFile.getPath() + "."
-                                + pm.getDefaultExtension());
-                    if (n.canRead()) {
-                        theFile = n;
-                    }
-                }
-            }
-            if (theFile != null) {
-                Configuration.setString(
-                        PersistenceManager.KEY_OPEN_PROJECT_PATH,
-                        theFile.getPath());
+			if (!theFile.canRead()) {
+				/* Try adding the extension from the chosen filter. */
+				FileFilter ffilter = chooser.getFileFilter();
+				if (ffilter instanceof AbstractFilePersister) {
+					AbstractFilePersister afp = (AbstractFilePersister) ffilter;
+					File m = new File(theFile.getPath() + "." + afp.getExtension());
+					if (m.canRead()) {
+						theFile = m;
+					}
+				}
+				if (!theFile.canRead()) {
+					/* Try adding the default extension. */
+					File n = new File(theFile.getPath() + "." + pm.getDefaultExtension());
+					if (n.canRead()) {
+						theFile = n;
+					}
+				}
+			}
+			if (theFile != null) {
+				Configuration.setString(PersistenceManager.KEY_OPEN_PROJECT_PATH, theFile.getPath());
 
-                ProjectBrowser.getInstance().loadProjectWithProgressMonitor(
-                		theFile, true);
-            }
-        }
-    }
+				ProjectBrowser.getInstance().loadProjectWithProgressMonitor(theFile, true);
+			}
+		}
+	}
 
-    /**
-     * Execute this action from the command line.
-     *
-     * @see org.argouml.application.api.CommandLineInterface#doCommand(String)
-     * @param argument is the url of the project we load.
-     * @return true if it is OK.
-     */
-    public boolean doCommand(String argument) {
-        return ProjectBrowser.getInstance()
-            .loadProject(new File(argument), false, null);
-    }
+	/**
+	 * Execute this action from the command line.
+	 *
+	 * @see org.argouml.application.api.CommandLineInterface#doCommand(String)
+	 * @param argument
+	 *            is the url of the project we load.
+	 * @return true if it is OK.
+	 */
+	public boolean doCommand(String argument) {
+		return ProjectBrowser.getInstance().loadProject(new File(argument), false, null);
+	}
 
 } /* end class ActionOpenProject */

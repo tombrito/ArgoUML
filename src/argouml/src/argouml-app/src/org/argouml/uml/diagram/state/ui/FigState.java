@@ -67,233 +67,228 @@ import org.tigris.gef.presentation.FigText;
  */
 public abstract class FigState extends FigStateVertex {
 
-    private static final long serialVersionUID = -2948230753919885387L;
+	private static final long serialVersionUID = -2948230753919885387L;
 	protected static final int SPACE_TOP = 0;
-    protected static final int SPACE_MIDDLE = 0;
-    protected static final int DIVIDER_Y = 0;
-    protected static final int SPACE_BOTTOM = 6;
+	protected static final int SPACE_MIDDLE = 0;
+	protected static final int DIVIDER_Y = 0;
+	protected static final int SPACE_BOTTOM = 6;
 
-    protected static final int MARGIN = 2;
+	protected static final int MARGIN = 2;
 
-    protected NotationProvider notationProviderBody;
+	protected NotationProvider notationProviderBody;
 
-    /**
-     * The text inside the state.
-     */
-    private FigText internal;
+	/**
+	 * The text inside the state.
+	 */
+	private FigText internal;
 
-    /**
-     * Constructor used by PGML parser.
-     * 
-     * @param owner the owning UML element
-     * @param bounds rectangle describing bounds
-     * @param settings rendering settings
-     */
-    public FigState(Object owner, Rectangle bounds, DiagramSettings settings) {
-        super(owner, bounds, settings);
+	/**
+	 * Constructor used by PGML parser.
+	 * 
+	 * @param owner
+	 *            the owning UML element
+	 * @param bounds
+	 *            rectangle describing bounds
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
 
-        initializeState();
+		initializeState();
 
-        NotationName notation = Notation.findNotation(
-                getNotationSettings().getNotationLanguage());
-        notationProviderBody =
-            NotationProviderFactory2.getInstance().getNotationProvider(
-                    NotationProviderFactory2.TYPE_STATEBODY, getOwner(), this, 
-                    notation);
-    }
+		NotationName notation = Notation.findNotation(getNotationSettings().getNotationLanguage());
+		notationProviderBody = NotationProviderFactory2.getInstance()
+				.getNotationProvider(NotationProviderFactory2.TYPE_STATEBODY, getOwner(), this, notation);
+	}
 
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigRRect(getInitialX() + 1, getInitialY() + 1,
-                getInitialWidth() - 2, getInitialHeight() - 2,
-                DEBUG_COLOR, DEBUG_COLOR);
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigRRect(getInitialX() + 1, getInitialY() + 1, getInitialWidth() - 2, getInitialHeight() - 2,
+				DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-    private void initializeState() {
-        // TODO: Get rid of magic numbers!  Figure out which represent line
-        // widths vs padding vs offsets
-        getNameFig().setLineWidth(0);
-        getNameFig().setBounds(getInitialX() + 2, getInitialY() + 2,
-                       getInitialWidth() - 4,
-                       getNameFig().getBounds().height);
-        getNameFig().setFilled(false);
+	private void initializeState() {
+		// TODO: Get rid of magic numbers! Figure out which represent line
+		// widths vs padding vs offsets
+		getNameFig().setLineWidth(0);
+		getNameFig().setBounds(getInitialX() + 2, getInitialY() + 2, getInitialWidth() - 4,
+				getNameFig().getBounds().height);
+		getNameFig().setFilled(false);
 
-        internal =
-            new FigText(getInitialX() + 2,
-                    getInitialY() + 2 + NAME_FIG_HEIGHT + 4,
-                    getInitialWidth() - 4,
-                    getInitialHeight() 
-                    - (getInitialY() + 2 + NAME_FIG_HEIGHT + 4));
-        internal.setFont(getSettings().getFont(Font.PLAIN));
-        internal.setTextColor(TEXT_COLOR);
-        internal.setLineWidth(0);
-        internal.setFilled(false);
-        internal.setExpandOnly(true);
-        internal.setReturnAction(FigText.INSERT);
-        internal.setJustification(FigText.JUSTIFY_LEFT);
-    }
+		internal = new FigText(getInitialX() + 2, getInitialY() + 2 + NAME_FIG_HEIGHT + 4, getInitialWidth() - 4,
+				getInitialHeight() - (getInitialY() + 2 + NAME_FIG_HEIGHT + 4));
+		internal.setFont(getSettings().getFont(Font.PLAIN));
+		internal.setTextColor(TEXT_COLOR);
+		internal.setLineWidth(0);
+		internal.setFilled(false);
+		internal.setExpandOnly(true);
+		internal.setReturnAction(FigText.INSERT);
+		internal.setJustification(FigText.JUSTIFY_LEFT);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigStateVertex#initNotationProviders(java.lang.Object)
-     */
-    @Override
-    protected void initNotationProviders(Object own) {
-        if (notationProviderBody != null) {
-            notationProviderBody.cleanListener();
-        }
-        super.initNotationProviders(own);
-        NotationName notation = Notation.findNotation(
-                getNotationSettings().getNotationLanguage());
-        if (Model.getFacade().isAState(own)) {
-            notationProviderBody =
-                NotationProviderFactory2.getInstance().getNotationProvider(
-                        NotationProviderFactory2.TYPE_STATEBODY, own, this, 
-                        notation);
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.state.ui.FigStateVertex#initNotationProviders(
+	 * java.lang.Object)
+	 */
+	@Override
+	protected void initNotationProviders(Object own) {
+		if (notationProviderBody != null) {
+			notationProviderBody.cleanListener();
+		}
+		super.initNotationProviders(own);
+		NotationName notation = Notation.findNotation(getNotationSettings().getNotationLanguage());
+		if (Model.getFacade().isAState(own)) {
+			notationProviderBody = NotationProviderFactory2.getInstance()
+					.getNotationProvider(NotationProviderFactory2.TYPE_STATEBODY, own, this, notation);
+		}
+	}
 
-    @Override
-    protected void modelChanged(PropertyChangeEvent mee) {
-        super.modelChanged(mee);
-        // TODO: Do we really need to be listening for both of these events?
-        if (mee instanceof AssociationChangeEvent 
-                || mee instanceof AttributeChangeEvent) {
-            
-            // TODO: We definitely don't want to react to addition and
-            // removal of transitions. Can't we be more specific when
-            // we register ourselves as a listener.
-            if ((mee.getPropertyName().equals("incoming")
-                        || mee.getPropertyName().equals("outgoing"))) {
-                return;
-            }
-            
-            renderingChanged();
-            damage();
-        }
-    }
+	@Override
+	protected void modelChanged(PropertyChangeEvent mee) {
+		super.modelChanged(mee);
+		// TODO: Do we really need to be listening for both of these events?
+		if (mee instanceof AssociationChangeEvent || mee instanceof AttributeChangeEvent) {
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#removeFromDiagramImpl()
-     */
-    @Override
-    public void removeFromDiagramImpl() {
-        if (notationProviderBody != null) {
-            notationProviderBody.cleanListener();
-        }
-        super.removeFromDiagramImpl();
-    }
+			// TODO: We definitely don't want to react to addition and
+			// removal of transitions. Can't we be more specific when
+			// we register ourselves as a listener.
+			if ((mee.getPropertyName().equals("incoming") || mee.getPropertyName().equals("outgoing"))) {
+				return;
+			}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#renderingChanged()
-     */
-    @Override
-    public void renderingChanged() {
-        super.renderingChanged();
-        Object state = getOwner();
-        // Entered in 0.29.3
-        // Prove that the test below is not needed
-        assert state != null;
-        if (state == null) {
-            return;
-        }
-        if (notationProviderBody != null) {
-            internal.setText(notationProviderBody.toString(getOwner(), 
-                    getNotationSettings()));
-        }
-        calcBounds();
-        setBounds(getBounds());
-    }
+			renderingChanged();
+			damage();
+		}
+	}
 
-    /**
-     * @return the initial X
-     */
-    protected abstract int getInitialX();
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#removeFromDiagramImpl()
+	 */
+	@Override
+	public void removeFromDiagramImpl() {
+		if (notationProviderBody != null) {
+			notationProviderBody.cleanListener();
+		}
+		super.removeFromDiagramImpl();
+	}
 
-    /**
-     * @return the initial Y
-     */
-    protected abstract int getInitialY();
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#renderingChanged()
+	 */
+	@Override
+	public void renderingChanged() {
+		super.renderingChanged();
+		Object state = getOwner();
+		// Entered in 0.29.3
+		// Prove that the test below is not needed
+		assert state != null;
+		if (state == null) {
+			return;
+		}
+		if (notationProviderBody != null) {
+			internal.setText(notationProviderBody.toString(getOwner(), getNotationSettings()));
+		}
+		calcBounds();
+		setBounds(getBounds());
+	}
 
-    /**
-     * @return the initial width
-     */
-    protected abstract int getInitialWidth();
+	/**
+	 * @return the initial X
+	 */
+	protected abstract int getInitialX();
 
-    /**
-     * @return the initial height
-     */
-    protected abstract int getInitialHeight();
+	/**
+	 * @return the initial Y
+	 */
+	protected abstract int getInitialY();
 
-    /**
-     * @param theInternal The internal to set.
-     */
-    protected void setInternal(FigText theInternal) {
-        this.internal = theInternal;
-    }
+	/**
+	 * @return the initial width
+	 */
+	protected abstract int getInitialWidth();
 
-    /**
-     * @return Returns the internal.
-     */
-    protected FigText getInternal() {
-        return internal;
-    }
+	/**
+	 * @return the initial height
+	 */
+	protected abstract int getInitialHeight();
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#textEditStarted(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    protected void textEditStarted(FigText ft) {
-        super.textEditStarted(ft);
-        if (ft == internal) {
-            showHelp(notationProviderBody.getParsingHelp());
-        }
-    }
+	/**
+	 * @param theInternal
+	 *            The internal to set.
+	 */
+	protected void setInternal(FigText theInternal) {
+		this.internal = theInternal;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#textEdited(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    public void textEdited(FigText ft) throws PropertyVetoException {
-        super.textEdited(ft);
-        if (ft == getInternal()) {
-            Object st = getOwner();
-            if (st == null) {
-                return;
-            }
-            notationProviderBody.parse(getOwner(), ft.getText());
-            ft.setText(notationProviderBody.toString(getOwner(), 
-                    getNotationSettings()));
-        }
-    }
+	/**
+	 * @return Returns the internal.
+	 */
+	protected FigText getInternal() {
+		return internal;
+	}
 
-    /**
-     * 
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateFont()
-     */
-    @Override
-    protected void updateFont() {
-        super.updateFont();
-        Font f = getSettings().getFont(Font.PLAIN);
-        internal.setFont(f);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#textEditStarted(org.tigris
+	 * .gef.presentation.FigText)
+	 */
+	@Override
+	protected void textEditStarted(FigText ft) {
+		super.textEditStarted(ft);
+		if (ft == internal) {
+			showHelp(notationProviderBody.getParsingHelp());
+		}
+	}
 
-    public void notationRenderingChanged(NotationProvider np, String rendering) {
-        super.notationRenderingChanged(np, rendering);
-        if (notationProviderBody == np) {
-            internal.setText(rendering);
-            updateBounds();
-            damage();
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#textEdited(org.tigris.gef.
+	 * presentation.FigText)
+	 */
+	@Override
+	public void textEdited(FigText ft) throws PropertyVetoException {
+		super.textEdited(ft);
+		if (ft == getInternal()) {
+			Object st = getOwner();
+			if (st == null) {
+				return;
+			}
+			notationProviderBody.parse(getOwner(), ft.getText());
+			ft.setText(notationProviderBody.toString(getOwner(), getNotationSettings()));
+		}
+	}
 
-    public NotationSettings getNotationSettings(NotationProvider np) {
-        // both have the same settings
-        return getNotationSettings();
-    }
+	/**
+	 * 
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateFont()
+	 */
+	@Override
+	protected void updateFont() {
+		super.updateFont();
+		Font f = getSettings().getFont(Font.PLAIN);
+		internal.setFont(f);
+	}
 
-    public Object getOwner(NotationProvider np) {
-        // both have the same owner
-        return getOwner();
-    }
+	public void notationRenderingChanged(NotationProvider np, String rendering) {
+		super.notationRenderingChanged(np, rendering);
+		if (notationProviderBody == np) {
+			internal.setText(rendering);
+			updateBounds();
+			damage();
+		}
+	}
+
+	public NotationSettings getNotationSettings(NotationProvider np) {
+		// both have the same settings
+		return getNotationSettings();
+	}
+
+	public Object getOwner(NotationProvider np) {
+		// both have the same owner
+		return getOwner();
+	}
 
 }

@@ -51,62 +51,49 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public class ActionUseCaseDiagram extends ActionAddDiagram {
 
-    private static final long serialVersionUID = -8630392726758800318L;
-	private static final Logger LOG =
-        Logger.getLogger(ActionUseCaseDiagram.class.getName());
+	private static final long serialVersionUID = -8630392726758800318L;
+	private static final Logger LOG = Logger.getLogger(ActionUseCaseDiagram.class.getName());
 
-    /**
-     * Constructor.
-     */
-    public ActionUseCaseDiagram() {
-        super("action.usecase-diagram");
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionUseCaseDiagram() {
+		super("action.usecase-diagram");
+	}
 
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	@Override
+	public ArgoDiagram createDiagram(Object namespace) {
+		if (!Model.getFacade().isANamespace(namespace)) {
+			LOG.log(Level.SEVERE, "No namespace as argument {0}", namespace);
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    @Override
-    public ArgoDiagram createDiagram(Object namespace) {
-        if (!Model.getFacade().isANamespace(namespace)) {
-            LOG.log(Level.SEVERE, "No namespace as argument {0}",namespace);
-            
-            throw new IllegalArgumentException(
-                "The argument " + namespace + "is not a namespace.");
-        }
-        return DiagramFactory.getInstance().createDiagram(
-                DiagramFactory.DiagramType.UseCase,
-                namespace,
-                null);
-    }
+			throw new IllegalArgumentException("The argument " + namespace + "is not a namespace.");
+		}
+		return DiagramFactory.getInstance().createDiagram(DiagramFactory.DiagramType.UseCase, namespace, null);
+	}
 
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
+	 */
+	@Override
+	public ArgoDiagram createDiagram(Object namespace, DiagramSettings settings) {
+		if (!Model.getFacade().isANamespace(namespace)) {
+			LOG.log(Level.SEVERE, "No namespace as argument {0}", namespace);
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
-     */
-    @Override
-    public ArgoDiagram createDiagram(Object namespace,
-            DiagramSettings settings) {
-        if (!Model.getFacade().isANamespace(namespace)) {
-            LOG.log(Level.SEVERE, "No namespace as argument {0}",namespace);
-            
-            throw new IllegalArgumentException(
-                "The argument " + namespace + "is not a namespace.");
-        }
-        return DiagramFactory.getInstance().create(
-                DiagramFactory.DiagramType.UseCase,
-                namespace,
-                settings);
-    }
+			throw new IllegalArgumentException("The argument " + namespace + "is not a namespace.");
+		}
+		return DiagramFactory.getInstance().create(DiagramFactory.DiagramType.UseCase, namespace, settings);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
-     */
-    public boolean isValidNamespace(Object handle) {
-        return (Model.getFacade().isAPackage(handle)
-                || Model.getFacade().isAClassifier(handle));
-    }
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
+	 */
+	public boolean isValidNamespace(Object handle) {
+		return (Model.getFacade().isAPackage(handle) || Model.getFacade().isAClassifier(handle));
+	}
 
 }

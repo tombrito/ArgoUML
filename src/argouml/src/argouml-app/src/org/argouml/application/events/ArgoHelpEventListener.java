@@ -41,25 +41,26 @@ package org.argouml.application.events;
 import org.argouml.application.api.ArgoEventListener;
 
 /**
- * An interface that objects that are interested in HelpEvents 
- * must extend.
+ * An interface that objects that are interested in HelpEvents must extend.
  *
  * @author Michiel
  */
 public interface ArgoHelpEventListener extends ArgoEventListener {
 
-    /**
-     * Invoked when there is a new help text to be shown, 
-     * that should replace any previous one.
-     * 
-     * @param e <code>ArgoHelpEvent</code> describing the changed text
-     */
-    public void helpChanged(ArgoHelpEvent e);
-    
-    /**
-     * Invoked when a previously shown help text has to be removed.
-     * 
-     * @param e <code>ArgoHelpEvent</code> describing the removed event
-     */
-    public void helpRemoved(ArgoHelpEvent e);
+	/**
+	 * Invoked when there is a new help text to be shown, that should replace
+	 * any previous one.
+	 * 
+	 * @param e
+	 *            <code>ArgoHelpEvent</code> describing the changed text
+	 */
+	public void helpChanged(ArgoHelpEvent e);
+
+	/**
+	 * Invoked when a previously shown help text has to be removed.
+	 * 
+	 * @param e
+	 *            <code>ArgoHelpEvent</code> describing the removed event
+	 */
+	public void helpRemoved(ArgoHelpEvent e);
 }

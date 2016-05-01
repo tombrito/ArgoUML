@@ -50,21 +50,20 @@ import org.argouml.i18n.Translator;
  */
 class ActionPageSetup extends AbstractAction {
 
-    private static final long serialVersionUID = -920150575108329513L;
+	private static final long serialVersionUID = -920150575108329513L;
 
 	/**
-     * Constructor.
-     */
-    public ActionPageSetup() {
-        super(Translator.localize("action.page-setup"),
-                ResourceLoaderWrapper.lookupIcon("action.page-setup"));
-    }
+	 * Constructor.
+	 */
+	public ActionPageSetup() {
+		super(Translator.localize("action.page-setup"), ResourceLoaderWrapper.lookupIcon("action.page-setup"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        PrintManager.getInstance().showPageSetupDialog();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		PrintManager.getInstance().showPageSetupDialog();
+	}
 } /* end class ActionPageSetup */
-

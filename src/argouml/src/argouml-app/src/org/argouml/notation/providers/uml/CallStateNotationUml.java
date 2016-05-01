@@ -37,6 +37,7 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.notation.providers.uml;
+
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -51,202 +52,184 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationSettings;
 import org.argouml.notation.providers.CallStateNotation;
 
-
-
 /**
- * The UML notation for a CallState. <p>
+ * The UML notation for a CallState.
+ * <p>
  * 
- * A call state is shown with the name of the operation being called 
- * in the symbol, along with the name of the classifier 
- * that hosts the operation in parentheses under it. <p>
+ * A call state is shown with the name of the operation being called in the
+ * symbol, along with the name of the classifier that hosts the operation in
+ * parentheses under it.
+ * <p>
  * 
- * Despite being shown on 2 lines, this is considered 1 text. 
- * The user may enter the text in 1 or 2 lines, but ArgoUML 
- * shows it as 2 lines.  
+ * Despite being shown on 2 lines, this is considered 1 text. The user may enter
+ * the text in 1 or 2 lines, but ArgoUML shows it as 2 lines.
  *
  * @author Michiel
  */
 public class CallStateNotationUml extends CallStateNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param callState the UML CallState
-     */
-    public CallStateNotationUml(Object callState) {
-        super(callState);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param callState
+	 *            the UML CallState
+	 */
+	public CallStateNotationUml(Object callState) {
+		super(callState);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        try {
-            parseCallState(modelElement, text);
-        } catch (ParseException pe) {
-            String msg = "statusmsg.bar.error.parsing.callstate";
-            Object[] args = {pe.getLocalizedMessage(),
-                             Integer.valueOf(pe.getErrorOffset()), };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                    Translator.messageFormat(msg, args)));
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		try {
+			parseCallState(modelElement, text);
+		} catch (ParseException pe) {
+			String msg = "statusmsg.bar.error.parsing.callstate";
+			Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-    protected Object parseCallState(Object callState, String s1)
-        throws ParseException {
+	protected Object parseCallState(Object callState, String s1) throws ParseException {
 
-        String s = s1.trim();
+		String s = s1.trim();
 
-        int a = s.indexOf("(");
-        int b = s.indexOf(")");
-        if (((a < 0) && (b >= 0)) || ((b < 0) && (a >= 0)) || (b < a)) {
-            throw new ParseException("No matching brackets () found.", 0);
-        }
+		int a = s.indexOf("(");
+		int b = s.indexOf(")");
+		if (((a < 0) && (b >= 0)) || ((b < 0) && (a >= 0)) || (b < a)) {
+			throw new ParseException("No matching brackets () found.", 0);
+		}
 
-        /* First we decode the string: */
-        String newClassName = null;
-        String newOperationName = null;
-        StringTokenizer tokenizer = new StringTokenizer(s, "(");
-        while (tokenizer.hasMoreTokens()) {
-            String nextToken = tokenizer.nextToken().trim();
-            if (nextToken.endsWith(")")) {
-                newClassName = nextToken.substring(0, nextToken.length() - 1);
-            } else {
-                newOperationName = nextToken.trim();
-            }
-        }
+		/* First we decode the string: */
+		String newClassName = null;
+		String newOperationName = null;
+		StringTokenizer tokenizer = new StringTokenizer(s, "(");
+		while (tokenizer.hasMoreTokens()) {
+			String nextToken = tokenizer.nextToken().trim();
+			if (nextToken.endsWith(")")) {
+				newClassName = nextToken.substring(0, nextToken.length() - 1);
+			} else {
+				newOperationName = nextToken.trim();
+			}
+		}
 
-        /* Secondly we check the previous model structure: */
-        String oldOperationName = null;
-        String oldClassName = null;
-        Object entry = Model.getFacade().getEntry(callState);
-        Object operation = null;
-        Object clazz = null;
-        if (Model.getFacade().isACallAction(entry)) {
-            operation = Model.getFacade().getOperation(entry);
-            if (Model.getFacade().isAOperation(operation)) {
-                oldOperationName = Model.getFacade().getName(operation);
-                clazz = Model.getFacade().getOwner(operation);
-                oldClassName = Model.getFacade().getName(clazz);
-            }
-        }
-        
-        /* And 3rd, we adapt the model: */
-        boolean found = false;
-        if ((newClassName != null) 
-                && newClassName.equals(oldClassName)
-                && (newOperationName != null) 
-                && !newOperationName.equals(oldOperationName)) {
-            // Same class, other operation
-            for ( Object op : Model.getFacade().getOperations(clazz)) {
-                if (newOperationName.equals(
-                        Model.getFacade().getName(op))) {
-                    Model.getCommonBehaviorHelper().setOperation(entry, op);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                throw new ParseException(
-                        "Operation " + newOperationName 
-                        + " not found in " + newClassName + ".", 0);
-            }
+		/* Secondly we check the previous model structure: */
+		String oldOperationName = null;
+		String oldClassName = null;
+		Object entry = Model.getFacade().getEntry(callState);
+		Object operation = null;
+		Object clazz = null;
+		if (Model.getFacade().isACallAction(entry)) {
+			operation = Model.getFacade().getOperation(entry);
+			if (Model.getFacade().isAOperation(operation)) {
+				oldOperationName = Model.getFacade().getName(operation);
+				clazz = Model.getFacade().getOwner(operation);
+				oldClassName = Model.getFacade().getName(clazz);
+			}
+		}
 
-        } else if ((newClassName != null) 
-                && !newClassName.equals(oldClassName)
-                && (newOperationName != null)) {
-            // Other class
-            Object model = 
-                ProjectManager.getManager().getCurrentProject().getRoot();
-            Collection c =
-                Model.getModelManagementHelper().
-                    getAllModelElementsOfKind(model,
-                                Model.getMetaTypes().getClassifier());
-            Iterator i = c.iterator();
-            Object classifier = null;
-            while (i.hasNext()) {
-                Object cl = i.next();
-                String cn = Model.getFacade().getName(cl);
-                if (cn.equals(newClassName)) {
-                    classifier = cl;
-                    break;
-                }
-            }
-            if (classifier == null) {
-                throw new ParseException(
-                        "Classifier " + newClassName + " not found.", 0);
-            }
-            // We found the classifier, now go find the operation:
-            if (classifier != null) {
-                Collection ops = Model.getFacade().getOperations(classifier);
-                Iterator io = ops.iterator();
-                while (io.hasNext()) {
-                    Object op = io.next();
-                    if (newOperationName.equals(
-                            Model.getFacade().getName(op))) {
-                        /* Here we located the new classifier 
-                         * with its operation. */
-                        found = true;
-                        if (!Model.getFacade().isACallAction(entry)) {
-                            entry = Model.getCommonBehaviorFactory()
-                                .buildCallAction(op, "ca");
-                            Model.getStateMachinesHelper().setEntry(
-                                    callState, entry);
-                        } else {
-                            Model.getCommonBehaviorHelper().setOperation(
-                                    entry, op);
-                        }
-                        break;
-                    }
-                }
-                if (!found) {
-                    throw new ParseException(
-                            "Operation " + newOperationName 
-                            + " not found in " + newClassName + ".", 0);
-                }
-            }
-        }
-        if (!found) {
-            throw new ParseException(
-                    "Incompatible input found.", 0);
-        }
+		/* And 3rd, we adapt the model: */
+		boolean found = false;
+		if ((newClassName != null) && newClassName.equals(oldClassName) && (newOperationName != null)
+				&& !newOperationName.equals(oldOperationName)) {
+			// Same class, other operation
+			for (Object op : Model.getFacade().getOperations(clazz)) {
+				if (newOperationName.equals(Model.getFacade().getName(op))) {
+					Model.getCommonBehaviorHelper().setOperation(entry, op);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				throw new ParseException("Operation " + newOperationName + " not found in " + newClassName + ".", 0);
+			}
 
-        return callState;
-    }
+		} else if ((newClassName != null) && !newClassName.equals(oldClassName) && (newOperationName != null)) {
+			// Other class
+			Object model = ProjectManager.getManager().getCurrentProject().getRoot();
+			Collection c = Model.getModelManagementHelper().getAllModelElementsOfKind(model,
+					Model.getMetaTypes().getClassifier());
+			Iterator i = c.iterator();
+			Object classifier = null;
+			while (i.hasNext()) {
+				Object cl = i.next();
+				String cn = Model.getFacade().getName(cl);
+				if (cn.equals(newClassName)) {
+					classifier = cl;
+					break;
+				}
+			}
+			if (classifier == null) {
+				throw new ParseException("Classifier " + newClassName + " not found.", 0);
+			}
+			// We found the classifier, now go find the operation:
+			if (classifier != null) {
+				Collection ops = Model.getFacade().getOperations(classifier);
+				Iterator io = ops.iterator();
+				while (io.hasNext()) {
+					Object op = io.next();
+					if (newOperationName.equals(Model.getFacade().getName(op))) {
+						/*
+						 * Here we located the new classifier with its
+						 * operation.
+						 */
+						found = true;
+						if (!Model.getFacade().isACallAction(entry)) {
+							entry = Model.getCommonBehaviorFactory().buildCallAction(op, "ca");
+							Model.getStateMachinesHelper().setEntry(callState, entry);
+						} else {
+							Model.getCommonBehaviorHelper().setOperation(entry, op);
+						}
+						break;
+					}
+				}
+				if (!found) {
+					throw new ParseException("Operation " + newOperationName + " not found in " + newClassName + ".",
+							0);
+				}
+			}
+		}
+		if (!found) {
+			throw new ParseException("Incompatible input found.", 0);
+		}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-callstate";
-    }
+		return callState;
+	}
 
-    private String toString(Object modelElement) {
-        String ret = "";
-        Object action = Model.getFacade().getEntry(modelElement);
-        if (Model.getFacade().isACallAction(action)) {
-            Object operation = Model.getFacade().getOperation(action);
-            if (operation != null) {
-                Object n = Model.getFacade().getName(operation);
-                if (n != null) {
-                    ret = (String) n;
-                }
-                n =
-                    Model.getFacade().getName(
-                        Model.getFacade().getOwner(operation));
-                if (n != null && !n.equals("")) {
-                    ret += "\n(" + (String) n + ")";
-                }
-            }
-        }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-callstate";
+	}
 
-        return ret;
-    }
+	private String toString(Object modelElement) {
+		String ret = "";
+		Object action = Model.getFacade().getEntry(modelElement);
+		if (Model.getFacade().isACallAction(action)) {
+			Object operation = Model.getFacade().getOperation(action);
+			if (operation != null) {
+				Object n = Model.getFacade().getName(operation);
+				if (n != null) {
+					ret = (String) n;
+				}
+				n = Model.getFacade().getName(Model.getFacade().getOwner(operation));
+				if (n != null && !n.equals("")) {
+					ret += "\n(" + (String) n + ")";
+				}
+			}
+		}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+		return ret;
+	}
+
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

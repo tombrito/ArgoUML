@@ -51,534 +51,524 @@ import org.argouml.notation.NotationSettings;
 import org.tigris.gef.undo.Memento;
 
 /**
- * Diagram appearance settings.  This includes basic things like colors and
+ * Diagram appearance settings. This includes basic things like colors and
  * fonts, as well as the {@link NotationSettings} which contain all the settings
  * that control text formatting.
  * <p>
  * The settings are designed to work in a hierarchical fashion with any settings
- * that are defaulted at the current level inheriting from the next level in
- * the hierarchy.  A typical hierarchy would be Fig->StyleSheet->Project where 
- * a style sheet is a named set of attributes that can be applied as a set to
- * a fig (perhaps in conjunction with a stereotype).  The hierarchy which is
+ * that are defaulted at the current level inheriting from the next level in the
+ * hierarchy. A typical hierarchy would be Fig->StyleSheet->Project where a
+ * style sheet is a named set of attributes that can be applied as a set to a
+ * fig (perhaps in conjunction with a stereotype). The hierarchy which is
  * currently used in ArgoUML is Fig->Diagram->Project, although there's no
  * support for changing anything but the Project (and a few of the attributes
  * managed directly by GEF).
  * <p>
- * Notation settings have a semantic meaning in the UML, which
- * defines the difference between notation settings and 
- * diagram appearance settings.
+ * Notation settings have a semantic meaning in the UML, which defines the
+ * difference between notation settings and diagram appearance settings.
  * 
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class DiagramSettings {
 
-    /*
-     * The special value <code>null</code> is used internally to indicate that
-     * the default value should be inherited from the next level of settings.
-     */
-    
-    /**
-     * Enumeration representing different stereotype presentation styles
-     */
-    public enum StereotypeStyle {
-        
-        // *IMPORTANT* - These MUST remain in order!
-        
-        /**
-         * Textual rendering for stereotype
-         */
-        TEXTUAL(DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL), 
-        /**
-         * Stereotype rendered with large icon
-         */
-        BIG_ICON(DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON), 
-        /**
-         * Stereotype rendered with small icon
-         */
-        SMALL_ICON(DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON);
-       
-        StereotypeStyle(int value) {
-            assert value == this.ordinal();
-        }
-        
+	/*
+	 * The special value <code>null</code> is used internally to indicate that
+	 * the default value should be inherited from the next level of settings.
+	 */
 
-        /**
-         * Convert old style int representation to an enum.  The enum returned
-         * is the one at the given ordinal (ie this is the inverse of the
-         * mapping done by ordinal()).
-         * 
-         * @param value one of the defined int values in DiagramAppearance
-         * @return the corresponding StereotypeView enum
-         */
-        public static StereotypeStyle getEnum(int value) {
-            int counter = 0;
-            for (StereotypeStyle sv : StereotypeStyle.values()) {
-                if (counter == value) {
-                    return sv;
-                }
-                counter++;
-            }
-            return null;
-        }
-    }
-    
-//    private static final StereotypeView[] stereotypeViewMap;
-//    
-//    static {
-//        stereotypeViewMap = new StereotypeView[3];
-//        StereotypeView.
-//        stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL] = 
-//            StereotypeView.TEXTUAL;
-//        stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON] = 
-//            StereotypeView.BIG_ICON;
-//        stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON] = 
-//            StereotypeView.SMALL_ICON;
-//    }
-    
-    /**
-     * Next level in the settings hierarchy to inherit from if the value
-     * isn't set (ie is <default>) at the current level.
-     */
-    private DiagramSettings parent;
-    
-    private NotationSettings notationSettings;
+	/**
+	 * Enumeration representing different stereotype presentation styles
+	 */
+	public enum StereotypeStyle {
 
-    /* Diagram appearance settings with project scope: */
-    private String fontName;
-    private Integer fontSize;
-    
-    // We can not remove this and have the application manage things directly
-    // based on the font, since only the names should be bold.
-    private Boolean showBoldNames;
+		// *IMPORTANT* - These MUST remain in order!
 
-    private Boolean showBidirectionalArrows;
-    
-    private Integer defaultShadowWidth;
-    
-    private StereotypeStyle defaultStereotypeView;
+		/**
+		 * Textual rendering for stereotype
+		 */
+		TEXTUAL(DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL),
+		/**
+		 * Stereotype rendered with large icon
+		 */
+		BIG_ICON(DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON),
+		/**
+		 * Stereotype rendered with small icon
+		 */
+		SMALL_ICON(DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON);
 
-    /* Some cached fonts based on the above settings */
-    private Font fontPlain;
-    private Font fontItalic;
-    private Font fontBold;
-    private Font fontBoldItalic;
+		StereotypeStyle(int value) {
+			assert value == this.ordinal();
+		}
 
-    /**
-     * Construct an empty diagram settings with no parent and all values
-     * defaulted. <p>
-     */
-    public DiagramSettings() {
-        this(null);
-    }
-    
-    /**
-     * Construct a DiagramSettings object which inherits from the given
-     * parent settings (e.g. project default diagram settings).
-     * 
-     * @param parentSettings settings to inherit from if default values aren't
-     * overridden.
-     */
-    public DiagramSettings(DiagramSettings parentSettings) {
-        super();
-        parent = parentSettings;
-        if (parentSettings == null) {
-            notationSettings = new NotationSettings();
-        } else {
-            notationSettings = 
-                new NotationSettings(parent.getNotationSettings());
-        }
-        recomputeFonts();
-    }
+		/**
+		 * Convert old style int representation to an enum. The enum returned is
+		 * the one at the given ordinal (ie this is the inverse of the mapping
+		 * done by ordinal()).
+		 * 
+		 * @param value
+		 *            one of the defined int values in DiagramAppearance
+		 * @return the corresponding StereotypeView enum
+		 */
+		public static StereotypeStyle getEnum(int value) {
+			int counter = 0;
+			for (StereotypeStyle sv : StereotypeStyle.values()) {
+				if (counter == value) {
+					return sv;
+				}
+				counter++;
+			}
+			return null;
+		}
+	}
 
-    /**
-     * Send all events when the settings are changed to refresh
-     * anything rendered with these settings.
-     */
-    public void notifyOfChangedSettings() {
-        /*
-         * Since body ever looks
-         * at the type of the diagram appearance event, we can simplify from
-         * sending every existing event to one event only. But since there is no
-         * catch-all event defined, we just use one. Rationale: reduce the
-         * number of total refreshes of the drawing.
-         */
-        ConfigurationKey key = 
-            Configuration.makeKey("diagramappearance", "all");
-        ArgoEventPump.fireEvent(new ArgoDiagramAppearanceEvent(
-                ArgoEventTypes.DIAGRAM_FONT_CHANGED, new PropertyChangeEvent(
-                        this, key.getKey(),  "0", "0")));
-    }
+	// private static final StereotypeView[] stereotypeViewMap;
+	//
+	// static {
+	// stereotypeViewMap = new StereotypeView[3];
+	// StereotypeView.
+	// stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL] =
+	// StereotypeView.TEXTUAL;
+	// stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON] =
+	// StereotypeView.BIG_ICON;
+	// stereotypeViewMap[DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON] =
+	// StereotypeView.SMALL_ICON;
+	// }
 
-    /**
-     * Initialize the diagram settings with application default values 
-     * from the Configuration retrieved from disk.
-     */
-    public void initFromConfiguration() {
-        setShowBoldNames(Configuration.getBoolean(
-                DiagramAppearance.KEY_SHOW_BOLD_NAMES));
-        
-        setShowBidirectionalArrows(!Configuration.getBoolean(
-                DiagramAppearance.KEY_HIDE_BIDIRECTIONAL_ARROWS, true));
-        
-        setDefaultShadowWidth(Configuration.getInteger(
-                DiagramAppearance.KEY_DEFAULT_SHADOW_WIDTH, 1));
+	/**
+	 * Next level in the settings hierarchy to inherit from if the value isn't
+	 * set (ie is <default>) at the current level.
+	 */
+	private DiagramSettings parent;
 
-        setDefaultStereotypeView(Configuration.getInteger(
-                ProfileConfiguration.KEY_DEFAULT_STEREOTYPE_VIEW,
-                DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL));
+	private NotationSettings notationSettings;
 
-        setFontName(
-                DiagramAppearance.getInstance().getConfiguredFontName());
-        setFontSize(
-                Configuration.getInteger(DiagramAppearance.KEY_FONT_SIZE));
-    }
+	/* Diagram appearance settings with project scope: */
+	private String fontName;
+	private Integer fontSize;
 
-    /**
-     * @return Returns the notationSettings.
-     */
-    public NotationSettings getNotationSettings() {
-        return notationSettings;
-    }
+	// We can not remove this and have the application manage things directly
+	// based on the font, since only the names should be bold.
+	private Boolean showBoldNames;
 
+	private Boolean showBidirectionalArrows;
 
-    /**
-     * @param notationSettings The notationSettings to set.
-     */
-    public void setNotationSettings(NotationSettings notationSettings) {
-        this.notationSettings = notationSettings;
-    }
+	private Integer defaultShadowWidth;
 
+	private StereotypeStyle defaultStereotypeView;
 
-    /**
-     * @return Returns <code>true</code> if we show bold names.
-     */
-    public boolean isShowBoldNames() {
-        if (showBoldNames == null) {
-            if (parent != null) {
-                return parent.isShowBoldNames();
-            } else {
-                return false;
-            }
-        }
-        return showBoldNames;
-    }
+	/* Some cached fonts based on the above settings */
+	private Font fontPlain;
+	private Font fontItalic;
+	private Font fontBold;
+	private Font fontBoldItalic;
 
-    /**
-     * @param showem <code>true</code> if names are to be shown in bold font.
-     */
-    public void setShowBoldNames(final boolean showem) {
-        if (showBoldNames != null && showBoldNames == showem) {
-            return;
-        }
+	/**
+	 * Construct an empty diagram settings with no parent and all values
+	 * defaulted.
+	 * <p>
+	 */
+	public DiagramSettings() {
+		this(null);
+	}
 
-        Memento memento = new Memento() {
-            public void redo() {
-                showBoldNames = showem;
-            }
+	/**
+	 * Construct a DiagramSettings object which inherits from the given parent
+	 * settings (e.g. project default diagram settings).
+	 * 
+	 * @param parentSettings
+	 *            settings to inherit from if default values aren't overridden.
+	 */
+	public DiagramSettings(DiagramSettings parentSettings) {
+		super();
+		parent = parentSettings;
+		if (parentSettings == null) {
+			notationSettings = new NotationSettings();
+		} else {
+			notationSettings = new NotationSettings(parent.getNotationSettings());
+		}
+		recomputeFonts();
+	}
 
-            public void undo() {
-                showBoldNames = !showem;
-            }
-        };
-        doUndoable(memento);
-    }
+	/**
+	 * Send all events when the settings are changed to refresh anything
+	 * rendered with these settings.
+	 */
+	public void notifyOfChangedSettings() {
+		/*
+		 * Since body ever looks at the type of the diagram appearance event, we
+		 * can simplify from sending every existing event to one event only. But
+		 * since there is no catch-all event defined, we just use one.
+		 * Rationale: reduce the number of total refreshes of the drawing.
+		 */
+		ConfigurationKey key = Configuration.makeKey("diagramappearance", "all");
+		ArgoEventPump.fireEvent(new ArgoDiagramAppearanceEvent(ArgoEventTypes.DIAGRAM_FONT_CHANGED,
+				new PropertyChangeEvent(this, key.getKey(), "0", "0")));
+	}
 
-   
-    /**
-     * @return Returns <code>true</code> if we show the arrows when
-     * both association ends of an association are navigable.
-     */
-    public boolean isShowBidirectionalArrows() {
-        if (showBidirectionalArrows == null) {
-            if (parent != null) {
-                return parent.isShowBidirectionalArrows();
-            } else {
-                return false;
-            }
-        }
-        return showBidirectionalArrows;
-    }
+	/**
+	 * Initialize the diagram settings with application default values from the
+	 * Configuration retrieved from disk.
+	 */
+	public void initFromConfiguration() {
+		setShowBoldNames(Configuration.getBoolean(DiagramAppearance.KEY_SHOW_BOLD_NAMES));
 
-    /**
-     * @param showem <code>true</code> if both arrows are to be shown when
-     * both association ends of an association are navigable.
-     */
-    public void setShowBidirectionalArrows(final boolean showem) {
-        if (showBidirectionalArrows != null 
-                && showBidirectionalArrows == showem) {
-            return;
-        }
+		setShowBidirectionalArrows(!Configuration.getBoolean(DiagramAppearance.KEY_HIDE_BIDIRECTIONAL_ARROWS, true));
 
-        Memento memento = new Memento() {
-            public void redo() {
-                showBidirectionalArrows = showem;
-            }
+		setDefaultShadowWidth(Configuration.getInteger(DiagramAppearance.KEY_DEFAULT_SHADOW_WIDTH, 1));
 
-            public void undo() {
-                showBidirectionalArrows = !showem;
-            }
-        };
-        doUndoable(memento);
+		setDefaultStereotypeView(Configuration.getInteger(ProfileConfiguration.KEY_DEFAULT_STEREOTYPE_VIEW,
+				DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL));
 
-    }
+		setFontName(DiagramAppearance.getInstance().getConfiguredFontName());
+		setFontSize(Configuration.getInteger(DiagramAppearance.KEY_FONT_SIZE));
+	}
 
+	/**
+	 * @return Returns the notationSettings.
+	 */
+	public NotationSettings getNotationSettings() {
+		return notationSettings;
+	}
 
-    /**
-     * @return Returns the shadow width.
-     */
-    public int getDefaultShadowWidth() {
-        if (defaultShadowWidth == null) {
-            if (parent != null) {
-                return parent.getDefaultShadowWidth();
-            } else {
-                return 0;
-            }
-        }
-        return defaultShadowWidth;
-    }
+	/**
+	 * @param notationSettings
+	 *            The notationSettings to set.
+	 */
+	public void setNotationSettings(NotationSettings notationSettings) {
+		this.notationSettings = notationSettings;
+	}
 
-    /**
-     * @param newWidth The Shadow Width.
-     */
-    public void setDefaultShadowWidth(final int newWidth) {
-        if (defaultShadowWidth != null && defaultShadowWidth == newWidth) {
-            return;
-        }
+	/**
+	 * @return Returns <code>true</code> if we show bold names.
+	 */
+	public boolean isShowBoldNames() {
+		if (showBoldNames == null) {
+			if (parent != null) {
+				return parent.isShowBoldNames();
+			} else {
+				return false;
+			}
+		}
+		return showBoldNames;
+	}
 
-        final Integer oldValue = defaultShadowWidth;
+	/**
+	 * @param showem
+	 *            <code>true</code> if names are to be shown in bold font.
+	 */
+	public void setShowBoldNames(final boolean showem) {
+		if (showBoldNames != null && showBoldNames == showem) {
+			return;
+		}
 
-        Memento memento = new Memento() {
-            public void redo() {
-                defaultShadowWidth = newWidth;
-            }
+		Memento memento = new Memento() {
+			public void redo() {
+				showBoldNames = showem;
+			}
 
-            public void undo() {
-                defaultShadowWidth = oldValue;
-            }
-        };
-        doUndoable(memento);
+			public void undo() {
+				showBoldNames = !showem;
+			}
+		};
+		doUndoable(memento);
+	}
 
-    }
+	/**
+	 * @return Returns <code>true</code> if we show the arrows when both
+	 *         association ends of an association are navigable.
+	 */
+	public boolean isShowBidirectionalArrows() {
+		if (showBidirectionalArrows == null) {
+			if (parent != null) {
+				return parent.isShowBidirectionalArrows();
+			} else {
+				return false;
+			}
+		}
+		return showBidirectionalArrows;
+	}
 
+	/**
+	 * @param showem
+	 *            <code>true</code> if both arrows are to be shown when both
+	 *            association ends of an association are navigable.
+	 */
+	public void setShowBidirectionalArrows(final boolean showem) {
+		if (showBidirectionalArrows != null && showBidirectionalArrows == showem) {
+			return;
+		}
 
-    /**
-     * @return Returns the default stereotype view
-     * TODO: Enumeration here?
-     */
-    public StereotypeStyle getDefaultStereotypeView() {
-        if (defaultStereotypeView == null) {
-            if (parent != null) {
-                return parent.getDefaultStereotypeView();
-            } else {
-                return StereotypeStyle.TEXTUAL;
-            }
-        }
-        return defaultStereotypeView;
-    }
+		Memento memento = new Memento() {
+			public void redo() {
+				showBidirectionalArrows = showem;
+			}
 
-    /**
-     * @return Returns the default stereotype view as an int compatible with
-     * old users of DiagramAppearance-defined ints.
-     * @deprecated for 0.27.2 by tfmorris.  For backward compatibility only.
-     */
-    public int getDefaultStereotypeViewInt() {
-        return getDefaultStereotypeView().ordinal();
-    }
-    
-    /**
-     * @param newView the default stereotype view
-     * @deprecated for 0.27.2 by tfmorris. Not for use in new code. Only for
-     *             help in transitioning to enum based methods. Use
-     *             {@link #setDefaultStereotypeView(StereotypeStyle)}.
-     */
-    public void setDefaultStereotypeView(final int newView) {
-        StereotypeStyle sv = StereotypeStyle.getEnum(newView);
-        if (sv == null) {
-            throw new IllegalArgumentException("Bad argument " + newView);
-        }
-        setDefaultStereotypeView(sv);
-    }
+			public void undo() {
+				showBidirectionalArrows = !showem;
+			}
+		};
+		doUndoable(memento);
 
-    /**
-     * @param newView the default stereotype view
-     */
-    public void setDefaultStereotypeView(final StereotypeStyle newView) {
-        if (defaultStereotypeView != null && defaultStereotypeView == newView) {
-            return;
-        }
+	}
 
-        final StereotypeStyle oldValue = defaultStereotypeView;
+	/**
+	 * @return Returns the shadow width.
+	 */
+	public int getDefaultShadowWidth() {
+		if (defaultShadowWidth == null) {
+			if (parent != null) {
+				return parent.getDefaultShadowWidth();
+			} else {
+				return 0;
+			}
+		}
+		return defaultShadowWidth;
+	}
 
-        Memento memento = new Memento() {
-            public void redo() {
-                defaultStereotypeView = newView;
-            }
+	/**
+	 * @param newWidth
+	 *            The Shadow Width.
+	 */
+	public void setDefaultShadowWidth(final int newWidth) {
+		if (defaultShadowWidth != null && defaultShadowWidth == newWidth) {
+			return;
+		}
 
-            public void undo() {
-                defaultStereotypeView = oldValue;
-            }
-        };
-        doUndoable(memento);
-    }
+		final Integer oldValue = defaultShadowWidth;
 
+		Memento memento = new Memento() {
+			public void redo() {
+				defaultShadowWidth = newWidth;
+			}
 
-    /**
-     * Diagram font name. <p>
-     * 
-     * @return diagram font name.
-     */
-    public String getFontName() {
-        if (fontName == null) {
-            if (parent != null) {
-                return parent.getFontName();
-            } else {
-                return "Dialog";
-            }
-        }
-        return fontName;
-    }
+			public void undo() {
+				defaultShadowWidth = oldValue;
+			}
+		};
+		doUndoable(memento);
 
-    /**
-     * Diagram font name.
-     * @param newFontName diagram font name.
-     */
-    public void setFontName(String newFontName) {
-        if (fontName != null && fontName.equals(newFontName)) {
-            return;
-        }
-        fontName = newFontName;
-        recomputeFonts();
-    }
+	}
 
-    /**
-     * Diagram font size. <p>
-     *
-     * @return diagram font size.
-     */
-    public int getFontSize() {
-        if (fontSize == null) {
-            if (parent != null) {
-                return parent.getFontSize();
-            } else {
-                return 10;
-            }
-        }
-        return fontSize;
-    }
+	/**
+	 * @return Returns the default stereotype view TODO: Enumeration here?
+	 */
+	public StereotypeStyle getDefaultStereotypeView() {
+		if (defaultStereotypeView == null) {
+			if (parent != null) {
+				return parent.getDefaultStereotypeView();
+			} else {
+				return StereotypeStyle.TEXTUAL;
+			}
+		}
+		return defaultStereotypeView;
+	}
 
-    /**
-     * Diagram font size.
-     * @param newFontSize diagram font size.
-     */
-    public void setFontSize(int newFontSize) {
-        if (fontSize != null && fontSize == newFontSize) {
-            return;
-        }
-        fontSize = newFontSize;
-        recomputeFonts();
-    }
+	/**
+	 * @return Returns the default stereotype view as an int compatible with old
+	 *         users of DiagramAppearance-defined ints.
+	 * @deprecated for 0.27.2 by tfmorris. For backward compatibility only.
+	 */
+	public int getDefaultStereotypeViewInt() {
+		return getDefaultStereotypeView().ordinal();
+	}
 
-    private void recomputeFonts() {
-        // If we've got a local (uninherited) font name or size or if we've got
-        // no parent to inherit from recompute our cached fonts
-        if ((fontName != null && !"".equals(fontName) && fontSize != null)
-                || parent == null) {
-            String name = getFontName();
-            int size = getFontSize();
-            fontPlain = new Font(name, Font.PLAIN, size);
-            fontItalic = new Font(name, Font.ITALIC, size);
-            fontBold = new Font(name, Font.BOLD, size);
-            fontBoldItalic = new Font(name, Font.BOLD | Font.ITALIC, size);
-        } else {
-            fontPlain = null;
-            fontItalic = null;
-            fontBold = null;
-            fontBoldItalic = null;
-        }
-    }
+	/**
+	 * @param newView
+	 *            the default stereotype view
+	 * @deprecated for 0.27.2 by tfmorris. Not for use in new code. Only for
+	 *             help in transitioning to enum based methods. Use
+	 *             {@link #setDefaultStereotypeView(StereotypeStyle)}.
+	 */
+	public void setDefaultStereotypeView(final int newView) {
+		StereotypeStyle sv = StereotypeStyle.getEnum(newView);
+		if (sv == null) {
+			throw new IllegalArgumentException("Bad argument " + newView);
+		}
+		setDefaultStereotypeView(sv);
+	}
 
-    /**
-     * Returns the Plain diagram font which corresponds
-     * to selected parameters.
-     *
-     * @return plain diagram font
-     */
-    public Font getFontPlain() {
-        if (fontPlain == null) {
-            return parent.getFontPlain();
-        }
-        return fontPlain;
-    }
+	/**
+	 * @param newView
+	 *            the default stereotype view
+	 */
+	public void setDefaultStereotypeView(final StereotypeStyle newView) {
+		if (defaultStereotypeView != null && defaultStereotypeView == newView) {
+			return;
+		}
 
-    /**
-     * Returns the Italic diagram font which corresponds
-     * to selected parameters.
-     *
-     * @return italic diagram font
-     */
-    public Font getFontItalic() {
-        if (fontItalic == null) {
-            return parent.getFontItalic();
-        }
-        return fontItalic;
-    }
+		final StereotypeStyle oldValue = defaultStereotypeView;
 
-    /**
-     * Returns the Bold diagram font which corresponds
-     * to selected parameters.
-     *
-     * @return bold diagram font
-     */
-    public Font getFontBold() {
-        if (fontBold == null) {
-            return parent.getFontBold();
-        }
-        return fontBold;
-    }
+		Memento memento = new Memento() {
+			public void redo() {
+				defaultStereotypeView = newView;
+			}
 
-    /**
-     * Returns the Bold-Italic diagram font which corresponds
-     * to selected parameters.
-     *
-     * @return bold-italic diagram font
-     */
-    public Font getFontBoldItalic() {
-        if (fontBoldItalic == null) {
-            return parent.getFontBoldItalic();
-        }
-        return fontBoldItalic;
-    }
+			public void undo() {
+				defaultStereotypeView = oldValue;
+			}
+		};
+		doUndoable(memento);
+	}
 
-    /**
-     * Utility function to convert a font style integer into a Font.
-     *
-     * @param fontStyle the style; see the predefined constants in Font
-     * @return the Font that corresponds to the style
-     */
-    public Font getFont(int fontStyle) {
-        if ((fontStyle & Font.ITALIC) != 0) {
-            if ((fontStyle & Font.BOLD) != 0) {
-                return getFontBoldItalic();
-            } else {
-                return getFontItalic();
-            }
-        } else {
-            if ((fontStyle & Font.BOLD) != 0) {
-                return getFontBold();
-            } else {
-                return getFontPlain();
-            }
-        }
-    }
+	/**
+	 * Diagram font name.
+	 * <p>
+	 * 
+	 * @return diagram font name.
+	 */
+	public String getFontName() {
+		if (fontName == null) {
+			if (parent != null) {
+				return parent.getFontName();
+			} else {
+				return "Dialog";
+			}
+		}
+		return fontName;
+	}
 
-    private void doUndoable(Memento memento) {
-        // TODO: Undo should be managed externally or we should be given 
-        // an Undo manager to use (the project's) rather than using a global one
-//        if (DiagramUndoManager.getInstance().isGenerateMementos()) {
-//            DiagramUndoManager.getInstance().addMemento(memento);
-//        }
-        memento.redo();
-        // TODO: Mark diagram/project as dirty?
-    }
+	/**
+	 * Diagram font name.
+	 * 
+	 * @param newFontName
+	 *            diagram font name.
+	 */
+	public void setFontName(String newFontName) {
+		if (fontName != null && fontName.equals(newFontName)) {
+			return;
+		}
+		fontName = newFontName;
+		recomputeFonts();
+	}
+
+	/**
+	 * Diagram font size.
+	 * <p>
+	 *
+	 * @return diagram font size.
+	 */
+	public int getFontSize() {
+		if (fontSize == null) {
+			if (parent != null) {
+				return parent.getFontSize();
+			} else {
+				return 10;
+			}
+		}
+		return fontSize;
+	}
+
+	/**
+	 * Diagram font size.
+	 * 
+	 * @param newFontSize
+	 *            diagram font size.
+	 */
+	public void setFontSize(int newFontSize) {
+		if (fontSize != null && fontSize == newFontSize) {
+			return;
+		}
+		fontSize = newFontSize;
+		recomputeFonts();
+	}
+
+	private void recomputeFonts() {
+		// If we've got a local (uninherited) font name or size or if we've got
+		// no parent to inherit from recompute our cached fonts
+		if ((fontName != null && !"".equals(fontName) && fontSize != null) || parent == null) {
+			String name = getFontName();
+			int size = getFontSize();
+			fontPlain = new Font(name, Font.PLAIN, size);
+			fontItalic = new Font(name, Font.ITALIC, size);
+			fontBold = new Font(name, Font.BOLD, size);
+			fontBoldItalic = new Font(name, Font.BOLD | Font.ITALIC, size);
+		} else {
+			fontPlain = null;
+			fontItalic = null;
+			fontBold = null;
+			fontBoldItalic = null;
+		}
+	}
+
+	/**
+	 * Returns the Plain diagram font which corresponds to selected parameters.
+	 *
+	 * @return plain diagram font
+	 */
+	public Font getFontPlain() {
+		if (fontPlain == null) {
+			return parent.getFontPlain();
+		}
+		return fontPlain;
+	}
+
+	/**
+	 * Returns the Italic diagram font which corresponds to selected parameters.
+	 *
+	 * @return italic diagram font
+	 */
+	public Font getFontItalic() {
+		if (fontItalic == null) {
+			return parent.getFontItalic();
+		}
+		return fontItalic;
+	}
+
+	/**
+	 * Returns the Bold diagram font which corresponds to selected parameters.
+	 *
+	 * @return bold diagram font
+	 */
+	public Font getFontBold() {
+		if (fontBold == null) {
+			return parent.getFontBold();
+		}
+		return fontBold;
+	}
+
+	/**
+	 * Returns the Bold-Italic diagram font which corresponds to selected
+	 * parameters.
+	 *
+	 * @return bold-italic diagram font
+	 */
+	public Font getFontBoldItalic() {
+		if (fontBoldItalic == null) {
+			return parent.getFontBoldItalic();
+		}
+		return fontBoldItalic;
+	}
+
+	/**
+	 * Utility function to convert a font style integer into a Font.
+	 *
+	 * @param fontStyle
+	 *            the style; see the predefined constants in Font
+	 * @return the Font that corresponds to the style
+	 */
+	public Font getFont(int fontStyle) {
+		if ((fontStyle & Font.ITALIC) != 0) {
+			if ((fontStyle & Font.BOLD) != 0) {
+				return getFontBoldItalic();
+			} else {
+				return getFontItalic();
+			}
+		} else {
+			if ((fontStyle & Font.BOLD) != 0) {
+				return getFontBold();
+			} else {
+				return getFontPlain();
+			}
+		}
+	}
+
+	private void doUndoable(Memento memento) {
+		// TODO: Undo should be managed externally or we should be given
+		// an Undo manager to use (the project's) rather than using a global one
+		// if (DiagramUndoManager.getInstance().isGenerateMementos()) {
+		// DiagramUndoManager.getInstance().addMemento(memento);
+		// }
+		memento.redo();
+		// TODO: Mark diagram/project as dirty?
+	}
 }
-

@@ -59,41 +59,43 @@ import org.argouml.uml.diagram.collaboration.ui.UMLCollaborationDiagram;
  */
 public class GoOperationToCollaborationDiagram extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAOperation(parent)) {
-            Object operation = parent;
-            Collection col = Model.getFacade().getCollaborations(operation);
-            Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
-            Project p = ProjectManager.getManager().getCurrentProject();
-            for (ArgoDiagram diagram : p.getDiagramList()) {
-                if (diagram instanceof UMLCollaborationDiagram
-		    && col.contains(((UMLCollaborationDiagram) diagram)
-				    .getNamespace())) {
-                    ret.add(diagram);
-                }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAOperation(parent)) {
+			Object operation = parent;
+			Collection col = Model.getFacade().getCollaborations(operation);
+			Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
+			Project p = ProjectManager.getManager().getCurrentProject();
+			for (ArgoDiagram diagram : p.getDiagramList()) {
+				if (diagram instanceof UMLCollaborationDiagram
+						&& col.contains(((UMLCollaborationDiagram) diagram).getNamespace())) {
+					ret.add(diagram);
+				}
 
-            }
-            return ret;
-        }
-        return Collections.EMPTY_SET;
-    }
+			}
+			return ret;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.operation.collaboration-diagram");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.operation.collaboration-diagram");
+	}
 
 }

@@ -58,45 +58,43 @@ import org.argouml.ui.ProjectSettingsTabProfile;
  */
 public class ActionManageProfiles extends AbstractAction {
 
-    private static final long serialVersionUID = 6890249815123934988L;
+	private static final long serialVersionUID = 6890249815123934988L;
 	/**
-     * The settings dialog.
-     */
-    private ProjectSettingsDialog dialog;
-    private ProjectSettingsTabProfile profilesTab;
+	 * The settings dialog.
+	 */
+	private ProjectSettingsDialog dialog;
+	private ProjectSettingsTabProfile profilesTab;
 
-    /**
-     * Constructor.
-     */
-    public ActionManageProfiles() {
-        super(Translator.localize("action.manage-profiles"),
-                ResourceLoaderWrapper.lookupIcon("action.manage-profiles"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.manage-profiles"));
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionManageProfiles() {
+		super(Translator.localize("action.manage-profiles"),
+				ResourceLoaderWrapper.lookupIcon("action.manage-profiles"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.manage-profiles"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (profilesTab == null) {
-            Iterator iter = GUI.getInstance().getProjectSettingsTabs()
-                    .iterator();
-            while (iter.hasNext()) {
-                GUISettingsTabInterface stp = (GUISettingsTabInterface) iter
-                        .next();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (profilesTab == null) {
+			Iterator iter = GUI.getInstance().getProjectSettingsTabs().iterator();
+			while (iter.hasNext()) {
+				GUISettingsTabInterface stp = (GUISettingsTabInterface) iter.next();
 
-                if (stp instanceof ProjectSettingsTabProfile) {
-                    profilesTab = (ProjectSettingsTabProfile) stp;
-                }
-            }
-        }
-        
-        if (dialog == null) {
-            dialog = new ProjectSettingsDialog();
-        }
-        dialog.showDialog(profilesTab);        
-    }
+				if (stp instanceof ProjectSettingsTabProfile) {
+					profilesTab = (ProjectSettingsTabProfile) stp;
+				}
+			}
+		}
+
+		if (dialog == null) {
+			dialog = new ProjectSettingsDialog();
+		}
+		dialog.showDialog(profilesTab);
+	}
 
 }

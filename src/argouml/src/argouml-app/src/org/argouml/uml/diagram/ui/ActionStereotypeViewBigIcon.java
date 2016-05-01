@@ -41,24 +41,24 @@ package org.argouml.uml.diagram.ui;
 import org.argouml.uml.diagram.DiagramAppearance;
 
 /**
- * When this action is triggered the selected node visualization changes into 
+ * When this action is triggered the selected node visualization changes into
  * <code>BigIcon</code> mode. If the node has more than one applied stereotype
- * it should be displayed exactly as its default visualization. If if has just 
- * one stereotype and it provider an icon, this icon replaces the default 
- * figure for the classifier.
+ * it should be displayed exactly as its default visualization. If if has just
+ * one stereotype and it provider an icon, this icon replaces the default figure
+ * for the classifier.
  *
  * @author maurelio1234
  */
-public class ActionStereotypeViewBigIcon extends ActionStereotypeView {    
-    private static final long serialVersionUID = -722599169717340070L;
+public class ActionStereotypeViewBigIcon extends ActionStereotypeView {
+	private static final long serialVersionUID = -722599169717340070L;
 
 	/**
-     * Default constructor for this action
-     * 
-     * @param node the current node
-     */
-    public ActionStereotypeViewBigIcon(FigNodeModelElement node) {
-	super(node, "menu.popup.stereotype-view.big-icon",
-		DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON);
-    }
+	 * Default constructor for this action
+	 * 
+	 * @param node
+	 *            the current node
+	 */
+	public ActionStereotypeViewBigIcon(FigNodeModelElement node) {
+		super(node, "menu.popup.stereotype-view.big-icon", DiagramAppearance.STEREOTYPE_VIEW_BIG_ICON);
+	}
 }

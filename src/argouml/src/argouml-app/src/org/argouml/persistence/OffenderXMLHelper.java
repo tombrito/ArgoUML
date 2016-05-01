@@ -39,44 +39,44 @@
 package org.argouml.persistence;
 
 /**
- * Helper class to make an offender fit right in the XML file during save.<p>
+ * Helper class to make an offender fit right in the XML file during save.
+ * <p>
  *
- * An offender is a subject that is (partly) responsible for trigging a
- * critic. These need to be saved to keep track of in which contexts a
- * critic has been resolved.
- * Used by todo.tee
- * This is not to be considered as part of the peristence interface.
+ * An offender is a subject that is (partly) responsible for trigging a critic.
+ * These need to be saved to keep track of in which contexts a critic has been
+ * resolved. Used by todo.tee This is not to be considered as part of the
+ * peristence interface.
  *
- * @author	Michael Stockman
+ * @author Michael Stockman
  */
 public class OffenderXMLHelper {
-    /**
-     * A description of the offender.
-     */
-    private final String item;
+	/**
+	 * A description of the offender.
+	 */
+	private final String item;
 
-    /**
-     * Creates a new OffenderXMLHelper describing the offender
-     * described by item.
-     *
-     * @param	offender	A description of an offender.
-     * @throws	IllegalArgumentException if item is null.
-     */
-    public OffenderXMLHelper(String offender) {
-        if (offender == null) {
-            throw new IllegalArgumentException(
-                    "An offender string must be supplied");
-        }
-        item = offender;
-    }
+	/**
+	 * Creates a new OffenderXMLHelper describing the offender described by
+	 * item.
+	 *
+	 * @param offender
+	 *            A description of an offender.
+	 * @throws IllegalArgumentException
+	 *             if item is null.
+	 */
+	public OffenderXMLHelper(String offender) {
+		if (offender == null) {
+			throw new IllegalArgumentException("An offender string must be supplied");
+		}
+		item = offender;
+	}
 
-    /**
-     * Gets the description of this offender.
-     *
-     * @return	The description as a String.
-     */
-    public String getOffender() {
-        return item;
-    }
+	/**
+	 * Gets the description of this offender.
+	 *
+	 * @return The description as a String.
+	 */
+	public String getOffender() {
+		return item;
+	}
 }
-

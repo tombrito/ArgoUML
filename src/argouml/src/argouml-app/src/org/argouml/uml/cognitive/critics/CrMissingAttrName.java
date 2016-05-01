@@ -55,86 +55,89 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrMissingAttrName extends CrUML {
 
-    private static final long serialVersionUID = 4281066282140790966L;
+	private static final long serialVersionUID = 4281066282140790966L;
 
 	/**
-     * The constructor.
-     */
-    public CrMissingAttrName() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.NAMING);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-	addTrigger("name");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAAttribute(dm))) {
-	    return NO_PROBLEM;
+	 * The constructor.
+	 */
+	public CrMissingAttrName() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("name");
 	}
-	Object attr = dm;
-	String myName = Model.getFacade().getName(attr);
-	if (myName == null
-            || "".equals(myName)) {
-	    return PROBLEM_FOUND;
-	}
-	if (myName.length() == 0) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.cognitive.Poster#getClarifier()
-     */
-    @Override
-    public Icon getClarifier() {
-	return ClAttributeCompartment.getTheInstance();
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#initWizard(
-     *         org.argouml.cognitive.ui.Wizard)
-     */
-    @Override
-    public void initWizard(Wizard w) {
-	if (w instanceof WizMEName) {
-	    ToDoItem item = (ToDoItem) w.getToDoItem();
-	    Object me = item.getOffenders().get(0);
-	    String ins = super.getInstructions();
-	    String sug = super.getDefaultSuggestion();
-	    if (Model.getFacade().isAAttribute(me)) {
-		Object a = me;
-		int count = 1;
-		if (Model.getFacade().getOwner(a) != null) {
-		    count = Model.getFacade().getFeatures(
-		            Model.getFacade().getOwner(a)).size();
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAAttribute(dm))) {
+			return NO_PROBLEM;
 		}
-		sug = "attr" + (count + 1);
-	    }
-	    ((WizMEName) w).setInstructions(ins);
-	    ((WizMEName) w).setSuggestion(sug);
+		Object attr = dm;
+		String myName = Model.getFacade().getName(attr);
+		if (myName == null || "".equals(myName)) {
+			return PROBLEM_FOUND;
+		}
+		if (myName.length() == 0) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) { return WizMEName.class; }
+	/*
+	 * @see org.argouml.cognitive.Poster#getClarifier()
+	 */
+	@Override
+	public Icon getClarifier() {
+		return ClAttributeCompartment.getTheInstance();
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAttribute());
-        return ret;
-    }
-    
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#initWizard(
+	 * org.argouml.cognitive.ui.Wizard)
+	 */
+	@Override
+	public void initWizard(Wizard w) {
+		if (w instanceof WizMEName) {
+			ToDoItem item = (ToDoItem) w.getToDoItem();
+			Object me = item.getOffenders().get(0);
+			String ins = super.getInstructions();
+			String sug = super.getDefaultSuggestion();
+			if (Model.getFacade().isAAttribute(me)) {
+				Object a = me;
+				int count = 1;
+				if (Model.getFacade().getOwner(a) != null) {
+					count = Model.getFacade().getFeatures(Model.getFacade().getOwner(a)).size();
+				}
+				sug = "attr" + (count + 1);
+			}
+			((WizMEName) w).setInstructions(ins);
+			((WizMEName) w).setSuggestion(sug);
+		}
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizMEName.class;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAttribute());
+		return ret;
+	}
+
 }

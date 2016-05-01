@@ -46,59 +46,61 @@ import javax.swing.Action;
 import org.argouml.application.helpers.ResourceLoaderWrapper;
 
 /**
- * An action to navigate to the next in the list, 
- * i.e. first we go up, then down again to the next in the list.
+ * An action to navigate to the next in the list, i.e. first we go up, then down
+ * again to the next in the list.
  * 
  * @author Michiel
  */
 public abstract class ActionNavigateUpNextDown extends AbstractActionNavigate {
 
-    private static final long serialVersionUID = 4085777504051790017L;
+	private static final long serialVersionUID = 4085777504051790017L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNavigateUpNextDown() {
-        super("button.go-up-next-down", true);
-        putValue(Action.SMALL_ICON,
-                ResourceLoaderWrapper.lookupIconResource("NavigateUpNext"));
-    }
+	 * The constructor.
+	 */
+	public ActionNavigateUpNextDown() {
+		super("button.go-up-next-down", true);
+		putValue(Action.SMALL_ICON, ResourceLoaderWrapper.lookupIconResource("NavigateUpNext"));
+	}
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
-     */
-    protected Object navigateTo(Object source) {
-        Object up = getParent(source);
-        List family = getFamily(up);
-        assert family.contains(source);
-        Iterator it = family.iterator();
-        while (it.hasNext()) {
-            Object child = it.next();
-            if (child == source) {
-                if (it.hasNext()) {
-                    return it.next();
-                } else {
-                    return null;
-                }
-            }
-        }
-        return null;
-    }
-    
-    /**
-     * Get the list of elements that we are navigating through.
-     * 
-     * @param parent the parent element that owns all elements in the list
-     * @return the list
-     */
-    public abstract List getFamily(Object parent);
+	/*
+	 * @see
+	 * org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
+	 */
+	protected Object navigateTo(Object source) {
+		Object up = getParent(source);
+		List family = getFamily(up);
+		assert family.contains(source);
+		Iterator it = family.iterator();
+		while (it.hasNext()) {
+			Object child = it.next();
+			if (child == source) {
+				if (it.hasNext()) {
+					return it.next();
+				} else {
+					return null;
+				}
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Get the parent of the list of elements that we are navigating through.
-     * 
-     * @param child the childelement of which we seek the previous element
-     * @return the parent element
-     */
-    public abstract Object getParent(Object child);
+	/**
+	 * Get the list of elements that we are navigating through.
+	 * 
+	 * @param parent
+	 *            the parent element that owns all elements in the list
+	 * @return the list
+	 */
+	public abstract List getFamily(Object parent);
+
+	/**
+	 * Get the parent of the list of elements that we are navigating through.
+	 * 
+	 * @param child
+	 *            the childelement of which we seek the previous element
+	 * @return the parent element
+	 */
+	public abstract Object getParent(Object child);
 
 }

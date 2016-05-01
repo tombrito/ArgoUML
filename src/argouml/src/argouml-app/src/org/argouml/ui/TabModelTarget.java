@@ -38,7 +38,6 @@
 
 package org.argouml.ui;
 
-
 /**
  * Empty interface used to tag Tabbed panels that accept a Model Element Target.
  */

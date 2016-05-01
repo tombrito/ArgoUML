@@ -42,125 +42,124 @@ import java.awt.Component;
 import java.awt.Container;
 
 /**
- * This class is used to dispatch a UML model change event (which may
- * occur on a non-UI) thread) to user interface components.  The class
- * is created in response to a UML Model change event being captured by a
- * UMLUserInterfaceContainer and then is passed as an argument to
- * InvokeLater to be run on the user interface thread.<p>
+ * This class is used to dispatch a UML model change event (which may occur on a
+ * non-UI) thread) to user interface components. The class is created in
+ * response to a UML Model change event being captured by a
+ * UMLUserInterfaceContainer and then is passed as an argument to InvokeLater to
+ * be run on the user interface thread.
+ * <p>
  *
- * This class is updated to cope with changes to the targetchanged
- * mechanism.
+ * This class is updated to cope with changes to the targetchanged mechanism.
  */
 public class UMLChangeDispatch implements Runnable, UMLUserInterfaceComponent {
-    private int eventType;
-    private Container container;
+	private int eventType;
+	private Container container;
 
-    /**
-     * The target of the proppanel that constructs this umlchangedispatch.
-     */
-    private Object target;
+	/**
+	 * The target of the proppanel that constructs this umlchangedispatch.
+	 */
+	private Object target;
 
-    /**
-     * Dispatch a target changed event
-     */
-    public static final int TARGET_CHANGED_ADD = -1;
+	/**
+	 * Dispatch a target changed event
+	 */
+	public static final int TARGET_CHANGED_ADD = -1;
 
+	/**
+	 * Dispatch a target changed event.
+	 */
+	public static final int TARGET_CHANGED = 0;
+	/**
+	 * Dispatch a target reasserted event.
+	 */
+	public static final int TARGET_REASSERTED = 7;
 
-    /**
-     * Dispatch a target changed event.
-     */
-    public static final int TARGET_CHANGED = 0;
-    /**
-     * Dispatch a target reasserted event.
-     */
-    public static final int TARGET_REASSERTED = 7;
-
-    /**
-     * Creates a UMLChangeDispatch.  eventType is overriden if a call to
-     * one of the event functions is called.
-     *
-     * @param uic user interface container to which changes are dispatched.
-     * @param et -1 will add event listener to new target, 0 for default.
-     */
-    public UMLChangeDispatch(Container uic, int et) {
-        synchronized (uic) {
-            container = uic;
-            eventType = et;
-            if (uic instanceof PropPanel) {
-            	target = ((PropPanel) uic).getTarget();
-            }
-        }
-    }
-
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetChanged()
-     */
-    public void targetChanged() {
-        eventType = 0;
-    }
-    
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetReasserted()
-     */
-    public void targetReasserted() {
-        eventType = 7;
-    }
-
-    /**
-     * Called by InvokeLater on user interface thread.  Dispatches
-     * event to all contained objects implementing
-     * UMLUserInterfaceComponent.  If event == TARGET_CHANGED_ADD, adds change
-     * listener to new target on completion of dispatch.
-     */
-    public void run() {
-        if (target != null) {
-            synchronizedDispatch(container);
-        } else {
-	    dispatch(container);
-        }
-    }
-
-    /**
-     * Iterates through all children of this container.  If a child
-     * is another container then calls dispatch recursively, if
-     * a child supports UMLUserInterfaceComponent then calls the
-     * appropriate method.
-     *
-     * @param theAWTContainer AWT container
-     */
-    private void dispatch(Container theAWTContainer) {
-
-        int count = theAWTContainer.getComponentCount();
-        Component component;
-        for (int i = 0; i < count; i++) {
-            component = theAWTContainer.getComponent(i);
-            if (component instanceof Container) {
-                dispatch((Container) component);
-            }
-            if (component instanceof UMLUserInterfaceComponent
-                    && component.isVisible()) {
-
-                switch(eventType) {
-                case TARGET_CHANGED_ADD:
-                case TARGET_CHANGED:
-                    ((UMLUserInterfaceComponent) component).targetChanged();
-                    break;
-
-                case TARGET_REASSERTED:
-                    ((UMLUserInterfaceComponent) component).targetReasserted();
-                    break;
-                }
-            }
-        }
-    }
-
-    private void synchronizedDispatch(Container cont) {
-        if (target == null) {
-	    throw new IllegalStateException("Target may not be null in "
-					    + "synchronized dispatch");
+	/**
+	 * Creates a UMLChangeDispatch. eventType is overriden if a call to one of
+	 * the event functions is called.
+	 *
+	 * @param uic
+	 *            user interface container to which changes are dispatched.
+	 * @param et
+	 *            -1 will add event listener to new target, 0 for default.
+	 */
+	public UMLChangeDispatch(Container uic, int et) {
+		synchronized (uic) {
+			container = uic;
+			eventType = et;
+			if (uic instanceof PropPanel) {
+				target = ((PropPanel) uic).getTarget();
+			}
+		}
 	}
-        synchronized (target) {
-            dispatch(cont);
-        }
-    }
+
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetChanged()
+	 */
+	public void targetChanged() {
+		eventType = 0;
+	}
+
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetReasserted()
+	 */
+	public void targetReasserted() {
+		eventType = 7;
+	}
+
+	/**
+	 * Called by InvokeLater on user interface thread. Dispatches event to all
+	 * contained objects implementing UMLUserInterfaceComponent. If event ==
+	 * TARGET_CHANGED_ADD, adds change listener to new target on completion of
+	 * dispatch.
+	 */
+	public void run() {
+		if (target != null) {
+			synchronizedDispatch(container);
+		} else {
+			dispatch(container);
+		}
+	}
+
+	/**
+	 * Iterates through all children of this container. If a child is another
+	 * container then calls dispatch recursively, if a child supports
+	 * UMLUserInterfaceComponent then calls the appropriate method.
+	 *
+	 * @param theAWTContainer
+	 *            AWT container
+	 */
+	private void dispatch(Container theAWTContainer) {
+
+		int count = theAWTContainer.getComponentCount();
+		Component component;
+		for (int i = 0; i < count; i++) {
+			component = theAWTContainer.getComponent(i);
+			if (component instanceof Container) {
+				dispatch((Container) component);
+			}
+			if (component instanceof UMLUserInterfaceComponent && component.isVisible()) {
+
+				switch (eventType) {
+				case TARGET_CHANGED_ADD:
+				case TARGET_CHANGED:
+					((UMLUserInterfaceComponent) component).targetChanged();
+					break;
+
+				case TARGET_REASSERTED:
+					((UMLUserInterfaceComponent) component).targetReasserted();
+					break;
+				}
+			}
+		}
+	}
+
+	private void synchronizedDispatch(Container cont) {
+		if (target == null) {
+			throw new IllegalStateException("Target may not be null in " + "synchronized dispatch");
+		}
+		synchronized (target) {
+			dispatch(cont);
+		}
+	}
 }

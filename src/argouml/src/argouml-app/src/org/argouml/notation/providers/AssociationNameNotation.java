@@ -45,42 +45,38 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown above the association Fig.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown above the association Fig. Subclass this for all languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class AssociationNameNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     * 
-     * @param modelElement the UML Association
-     */
-    public AssociationNameNotation(Object modelElement) {
-        if (!Model.getFacade().isAAssociation(modelElement)) {
-            throw new IllegalArgumentException("This is not an Association.");
-        }
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param modelElement
+	 *            the UML Association
+	 */
+	public AssociationNameNotation(Object modelElement) {
+		if (!Model.getFacade().isAAssociation(modelElement)) {
+			throw new IllegalArgumentException("This is not an Association.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        /* Listen to the modelelement itself: */
-        addElementListener(modelElement, 
-                new String[] {"name", "visibility", "stereotype", "taggedValue"});
-        Collection stereotypes =
-            Model.getFacade().getStereotypes(modelElement);
-        Iterator iter = stereotypes.iterator();
-        while (iter.hasNext()) {
-            Object oneStereoType = iter.next();
-            addElementListener(
-                    oneStereoType, 
-                    new String[] {"name", "remove"});
-        }
-        // We also show tagged values (the / for derived)
-        for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
-            addElementListener(uml);
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		/* Listen to the modelelement itself: */
+		addElementListener(modelElement, new String[] { "name", "visibility", "stereotype", "taggedValue" });
+		Collection stereotypes = Model.getFacade().getStereotypes(modelElement);
+		Iterator iter = stereotypes.iterator();
+		while (iter.hasNext()) {
+			Object oneStereoType = iter.next();
+			addElementListener(oneStereoType, new String[] { "name", "remove" });
+		}
+		// We also show tagged values (the / for derived)
+		for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
+			addElementListener(uml);
+		}
+	}
 }

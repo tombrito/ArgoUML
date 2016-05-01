@@ -38,23 +38,26 @@
 
 package org.argouml.uml.diagram;
 
-
 /**
-* An interface to be implemented by any Fig that may or may not
-* show a stereotype.
-* @author mvw@tigris.org
-*/
+ * An interface to be implemented by any Fig that may or may not show a
+ * stereotype.
+ * 
+ * @author mvw@tigris.org
+ */
 public interface StereotypeContainer {
-    /**
-     * Determine if the stereotype is visible.
-     * @return true if the stereotype is visible.
-     */
-    boolean isStereotypeVisible();
+	/**
+	 * Determine if the stereotype is visible.
+	 * 
+	 * @return true if the stereotype is visible.
+	 */
+	boolean isStereotypeVisible();
 
-    /**
-     * Set the visibility of the stereotype.
-     * @param visible the new visibility status.
-     */
-    void setStereotypeVisible(boolean visible);
+	/**
+	 * Set the visibility of the stereotype.
+	 * 
+	 * @param visible
+	 *            the new visibility status.
+	 */
+	void setStereotypeVisible(boolean visible);
 
 }

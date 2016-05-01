@@ -48,30 +48,32 @@ import org.tigris.gef.graph.GraphFactory;
  * @author Bobtarling
  */
 public class ModePlacePartition extends ModePlace {
-    private static final long serialVersionUID = -857265378170445486L;
+	private static final long serialVersionUID = -857265378170445486L;
 	private Object machine;
-    
-    /**
-     * @param gf the command to create the node
-     * @param instructions help text
-     * @param activityGraph the UML element that contains the Partition
-     */
-    public ModePlacePartition(GraphFactory gf, String instructions, 
-            Object activityGraph) {
-	super(gf, instructions);
-	machine = activityGraph;
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent me) {
-        if (me.isConsumed()) {
-            return;
-        }
-        
-        FigPartition fig = (FigPartition) _pers;
-        
-        super.mouseReleased(me);
-        
-        fig.appendToPool(machine);
-    }
+
+	/**
+	 * @param gf
+	 *            the command to create the node
+	 * @param instructions
+	 *            help text
+	 * @param activityGraph
+	 *            the UML element that contains the Partition
+	 */
+	public ModePlacePartition(GraphFactory gf, String instructions, Object activityGraph) {
+		super(gf, instructions);
+		machine = activityGraph;
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent me) {
+		if (me.isConsumed()) {
+			return;
+		}
+
+		FigPartition fig = (FigPartition) _pers;
+
+		super.mouseReleased(me);
+
+		fig.appendToPool(machine);
+	}
 }

@@ -55,128 +55,129 @@ import org.argouml.uml.cognitive.UMLDecision;
 import org.argouml.uml.cognitive.UMLToDoItem;
 
 /**
- * A critic to detect when a class can never have instances (of
- * itself of any subclasses).
+ * A critic to detect when a class can never have instances (of itself of any
+ * subclasses).
  *
  * @author jrobbins
  */
 public class CrSubclassReference extends CrUML {
 
-    private static final long serialVersionUID = 6218613378933021459L;
+	private static final long serialVersionUID = 6218613378933021459L;
 
 	/**
-     * The constructor.
-     */
-    public CrSubclassReference() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.RELATIONSHIPS);
-	addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
-	setKnowledgeTypes(Critic.KT_SEMANTICS);
-	addTrigger("specialization");
-	addTrigger("associationEnd");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAClass(dm))) {
-            return NO_PROBLEM;
-        }
-	Object cls = dm;
-	ListSet offs = computeOffenders(cls);
-	if (offs != null) {
-            return PROBLEM_FOUND;
-        }
-	return NO_PROBLEM;
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	Object cls = dm;
-	ListSet offs = computeOffenders(cls);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-            return false;
-        }
-	ListSet offs = i.getOffenders();
-	Object dm = offs.get(0);
-	//if (!predicate(dm, dsgr)) return false;
-	ListSet newOffs = computeOffenders(dm);
-	boolean res = offs.equals(newOffs);
-	return res;
-    }
-
-    /**
-     * @param cls is the UML entity that is being checked.
-     * @return the list of offenders
-     */
-    public ListSet computeOffenders(Object cls) {
-	Collection asc = Model.getFacade().getAssociationEnds(cls);
-	if (asc == null || asc.size() == 0) {
-	    return null;
+	 * The constructor.
+	 */
+	public CrSubclassReference() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
+		setKnowledgeTypes(Critic.KT_SEMANTICS);
+		addTrigger("specialization");
+		addTrigger("associationEnd");
 	}
 
-	Enumeration descendEnum =
-	    GenDescendantClasses.getSINGLETON().gen(cls);
-	if (!descendEnum.hasMoreElements()) {
-            return null;
-        }
-	ListSet descendants = new ListSet();
-	while (descendEnum.hasMoreElements()) {
-	    descendants.add(descendEnum.nextElement());
-	}
-
-	//TODO: GenNavigableClasses?
-	ListSet offs = null;
-        for (Object ae : asc) {
-	    Object a = Model.getFacade().getAssociation(ae);
-	    List conn = new ArrayList(Model.getFacade().getConnections(a));
-	    if (conn.size() != 2) {
-                continue;
-            }
-	    Object otherEnd = conn.get(0);
-	    if (ae == conn.get(0)) {
-	        otherEnd = conn.get(1);
-	    }
-	    if (!Model.getFacade().isNavigable(otherEnd)) {
-                continue;
-            }
-	    Object otherCls = Model.getFacade().getType(otherEnd);
-	    if (descendants.contains(otherCls)) {
-		if (offs == null) {
-		    offs = new ListSet();
-		    offs.add(cls);
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClass(dm))) {
+			return NO_PROBLEM;
 		}
-		offs.add(a);
-		offs.add(otherCls);
-	    }
+		Object cls = dm;
+		ListSet offs = computeOffenders(cls);
+		if (offs != null) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-	return offs;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
-    
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		Object cls = dm;
+		ListSet offs = computeOffenders(cls);
+		return new UMLToDoItem(this, offs, dsgr);
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		Object dm = offs.get(0);
+		// if (!predicate(dm, dsgr)) return false;
+		ListSet newOffs = computeOffenders(dm);
+		boolean res = offs.equals(newOffs);
+		return res;
+	}
+
+	/**
+	 * @param cls
+	 *            is the UML entity that is being checked.
+	 * @return the list of offenders
+	 */
+	public ListSet computeOffenders(Object cls) {
+		Collection asc = Model.getFacade().getAssociationEnds(cls);
+		if (asc == null || asc.size() == 0) {
+			return null;
+		}
+
+		Enumeration descendEnum = GenDescendantClasses.getSINGLETON().gen(cls);
+		if (!descendEnum.hasMoreElements()) {
+			return null;
+		}
+		ListSet descendants = new ListSet();
+		while (descendEnum.hasMoreElements()) {
+			descendants.add(descendEnum.nextElement());
+		}
+
+		// TODO: GenNavigableClasses?
+		ListSet offs = null;
+		for (Object ae : asc) {
+			Object a = Model.getFacade().getAssociation(ae);
+			List conn = new ArrayList(Model.getFacade().getConnections(a));
+			if (conn.size() != 2) {
+				continue;
+			}
+			Object otherEnd = conn.get(0);
+			if (ae == conn.get(0)) {
+				otherEnd = conn.get(1);
+			}
+			if (!Model.getFacade().isNavigable(otherEnd)) {
+				continue;
+			}
+			Object otherCls = Model.getFacade().getType(otherEnd);
+			if (descendants.contains(otherCls)) {
+				if (offs == null) {
+					offs = new ListSet();
+					offs.add(cls);
+				}
+				offs.add(a);
+				offs.add(otherCls);
+			}
+		}
+		return offs;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
+	}
+
 }

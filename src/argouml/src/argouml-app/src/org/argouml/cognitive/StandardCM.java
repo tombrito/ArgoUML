@@ -52,58 +52,58 @@ import java.util.List;
  * </ul>
  *
  * implying that a critic is relevant if and if only it is enabled, not snoozed,
- * applicable to the current goals and relevant decisions to be supported.<p>
+ * applicable to the current goals and relevant decisions to be supported.
+ * <p>
  * 
- * Mech is short for Mechanism. 
- * A Control Mechanism is a structured way 
- * to calculate a single condition from multiple different unrelated ones. 
- * In the case of a StandardCM, 
- * the single condition holds if we are enabled, 
- * and not snoozed, 
- * and fulfill designgoals, 
- * and the designer is interested in these decisions.
+ * Mech is short for Mechanism. A Control Mechanism is a structured way to
+ * calculate a single condition from multiple different unrelated ones. In the
+ * case of a StandardCM, the single condition holds if we are enabled, and not
+ * snoozed, and fulfill designgoals, and the designer is interested in these
+ * decisions.
  */
 public class StandardCM extends AndCM {
 
-    /**
-     * The constructor.
-     *
-     */
-    public StandardCM() {
-        addMech(new EnabledCM());
-        addMech(new NotSnoozedCM());
-        addMech(new DesignGoalsCM());
-        addMech(new CurDecisionCM());
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public StandardCM() {
+		addMech(new EnabledCM());
+		addMech(new NotSnoozedCM());
+		addMech(new DesignGoalsCM());
+		addMech(new CurDecisionCM());
+	}
 } /* end class StandardCM */
 
-
 class EnabledCM implements ControlMech {
-    
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        return c.isEnabled();
-    }
+
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		return c.isEnabled();
+	}
 } // end class EnabledCM
 
 class NotSnoozedCM implements ControlMech {
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        return !c.snoozeOrder().getSnoozed();
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		return !c.snoozeOrder().getSnoozed();
+	}
 } // end class NotSnoozedCM
 
 class DesignGoalsCM implements ControlMech {
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        return c.isRelevantToGoals(d);
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		return c.isRelevantToGoals(d);
+	}
 } // end class DesignGoalsCM
 
 // How much control should critics have over when they are relavant?
@@ -112,57 +112,60 @@ class DesignGoalsCM implements ControlMech {
 // componentization?
 
 class CurDecisionCM implements ControlMech {
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        return c.isRelevantToDecisions(d);
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		return c.isRelevantToDecisions(d);
+	}
 } // end class CurDecisionCM
 
 abstract class CompositeCM implements ControlMech {
-    private List<ControlMech> mechs = new ArrayList<ControlMech>();
+	private List<ControlMech> mechs = new ArrayList<ControlMech>();
 
-    /**
-     * @return a list of the ControlMechs.
-     */
-    protected List<ControlMech> getMechList() {
-        return mechs;
-    }
+	/**
+	 * @return a list of the ControlMechs.
+	 */
+	protected List<ControlMech> getMechList() {
+		return mechs;
+	}
 
-    /**
-     * @param cm
-     *            the ControlMech
-     */
-    public void addMech(ControlMech cm) {
-        mechs.add(cm);
-    }
+	/**
+	 * @param cm
+	 *            the ControlMech
+	 */
+	public void addMech(ControlMech cm) {
+		mechs.add(cm);
+	}
 } // end class CompositeCM
 
 class AndCM extends CompositeCM {
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        for (ControlMech cm : getMechList()) {
-            if (!cm.isRelevant(c, d)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		for (ControlMech cm : getMechList()) {
+			if (!cm.isRelevant(c, d)) {
+				return false;
+			}
+		}
+		return true;
+	}
 } // end class AndCM
 
 class OrCM extends CompositeCM {
-    /*
-     * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.cognitive.critics.Critic, org.argouml.cognitive.Designer)
-     */
-    public boolean isRelevant(Critic c, Designer d) {
-        for (ControlMech cm : getMechList()) {
-            if (cm.isRelevant(c, d)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.ControlMech#isRelevant(org.argouml.
+	 * cognitive.critics.Critic, org.argouml.cognitive.Designer)
+	 */
+	public boolean isRelevant(Critic c, Designer d) {
+		for (ControlMech cm : getMechList()) {
+			if (cm.isRelevant(c, d)) {
+				return true;
+			}
+		}
+		return false;
+	}
 } // end class OrCM

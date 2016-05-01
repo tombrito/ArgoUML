@@ -46,18 +46,19 @@ import org.argouml.notation.NotationSettings;
  * @author michiel
  */
 public class MessageNotationUml extends AbstractMessageNotationUml {
-    /**
-     * The constructor.
-     *
-     * @param message the UML object
-     */
-    public MessageNotationUml(Object message) {
-        super(message);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param message
+	 *            the UML object
+	 */
+	public MessageNotationUml(Object message) {
+		super(message);
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement, true);
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement, true);
+	}
 
 }

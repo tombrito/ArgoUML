@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.diagram.ui;
 
 import java.awt.Color;
@@ -49,28 +48,29 @@ import org.tigris.gef.presentation.FigEdgeLine;
  */
 public class FigTrace extends FigEdgeLine {
 
-    /**
-     * The constructor.
-     */
-    public FigTrace() {
-        // TODO: Why are these different colors? - tfm
-	getFig().setLineColor(Color.red);
-	ArrowHeadTriangle endArrow = new ArrowHeadTriangle();
-	endArrow.setFillColor(Color.red);
-	setDestArrowHead(endArrow);
-	setBetweenNearestPoints(true);
-    }
+	/**
+	 * The constructor.
+	 */
+	public FigTrace() {
+		// TODO: Why are these different colors? - tfm
+		getFig().setLineColor(Color.red);
+		ArrowHeadTriangle endArrow = new ArrowHeadTriangle();
+		endArrow.setFillColor(Color.red);
+		setDestArrowHead(endArrow);
+		setBetweenNearestPoints(true);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param edge the owning UML element
-     */
-    public FigTrace(Object edge) {
-	this();
-	setOwner(edge);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param edge
+	 *            the owning UML element
+	 */
+	public FigTrace(Object edge) {
+		this();
+		setOwner(edge);
+	}
 
-    static final long serialVersionUID = -2094146244090391544L;
+	static final long serialVersionUID = -2094146244090391544L;
 
 }

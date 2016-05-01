@@ -45,16 +45,16 @@ import org.argouml.model.Model;
  */
 public class ActionNavigateAction extends AbstractActionNavigate {
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(
-     *         java.lang.Object)
-     */
-    protected Object navigateTo(Object source) {
-        return Model.getFacade().getAction(source);
-    }
+	/*
+	 * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(
+	 * java.lang.Object)
+	 */
+	protected Object navigateTo(Object source) {
+		return Model.getFacade().getAction(source);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -4136512885671684476L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -4136512885671684476L;
 }

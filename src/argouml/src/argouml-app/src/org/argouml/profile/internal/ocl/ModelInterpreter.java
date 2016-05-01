@@ -49,31 +49,35 @@ import java.util.Map;
  */
 public interface ModelInterpreter {
 
-    /**
-     * Actually interprets the feature and operations in the model
-     * 
-     * @param vt the variable table
-     * @param subject the subject (the object from which the feature is
-     *            accessed)
-     * @param feature the feature name (operation, attribute or collection
-     *            operation)
-     * @param type the type of feature ("." for operations and attributes and
-     *            "->" for collection operations)
-     * @param parameters the parameters for this invokation
-     * @return the return value
-     */
-    Object invokeFeature(Map<String, Object> vt, Object subject,
-            String feature, String type, Object[] parameters);
+	/**
+	 * Actually interprets the feature and operations in the model
+	 * 
+	 * @param vt
+	 *            the variable table
+	 * @param subject
+	 *            the subject (the object from which the feature is accessed)
+	 * @param feature
+	 *            the feature name (operation, attribute or collection
+	 *            operation)
+	 * @param type
+	 *            the type of feature ("." for operations and attributes and
+	 *            "->" for collection operations)
+	 * @param parameters
+	 *            the parameters for this invokation
+	 * @return the return value
+	 */
+	Object invokeFeature(Map<String, Object> vt, Object subject, String feature, String type, Object[] parameters);
 
-    /**
-     * Looks for a built-in symbol. In the case that not all possible built-in
-     * symbols are not in the variable table, the remaining ones should be
-     * resolved using this method. This should be the case, e.g., for the names
-     * of the UML metaclasses.
-     * 
-     * @param sym the symbol name
-     * @return the symbol value, or null if the passed symbol is not built-in
-     */
-    Object getBuiltInSymbol(String sym);
+	/**
+	 * Looks for a built-in symbol. In the case that not all possible built-in
+	 * symbols are not in the variable table, the remaining ones should be
+	 * resolved using this method. This should be the case, e.g., for the names
+	 * of the UML metaclasses.
+	 * 
+	 * @param sym
+	 *            the symbol name
+	 * @return the symbol value, or null if the passed symbol is not built-in
+	 */
+	Object getBuiltInSymbol(String sym);
 
 }

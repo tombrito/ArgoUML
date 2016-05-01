@@ -43,51 +43,52 @@ import java.awt.event.ActionEvent;
 
 import org.argouml.model.Model;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
+
 /**
  * Action to build a new action to some message.
+ * 
  * @since Oct 3, 2002
  * @author jaap.branderhorst@xs4all.nl
  * @stereotype singleton
  */
 public class ActionNewActionForMessage extends AbstractActionNewModelElement {
-    private static final long serialVersionUID = 893042022454975056L;
+	private static final long serialVersionUID = 893042022454975056L;
 	/**
-     * Singleton.
-     */
-    private static final ActionNewActionForMessage SINGLETON =
-        new ActionNewActionForMessage();
+	 * Singleton.
+	 */
+	private static final ActionNewActionForMessage SINGLETON = new ActionNewActionForMessage();
 
-    /**
-     * The constructor.
-     */
-    public ActionNewActionForMessage() {
-        super();
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionNewActionForMessage() {
+		super();
+	}
 
-    /*
-     * @see
-     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getCommonBehaviorFactory().buildAction(getTarget());
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getCommonBehaviorFactory().buildAction(getTarget());
+	}
 
-    /*
-     * @see javax.swing.Action#isEnabled()
-     */
-    public boolean isEnabled() {
-        if (getTarget() != null) {
-            return Model.getFacade().getAction(getTarget()) == null;
-        }
-        return false;
-    }
+	/*
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	public boolean isEnabled() {
+		if (getTarget() != null) {
+			return Model.getFacade().getAction(getTarget()) == null;
+		}
+		return false;
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewActionForMessage getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewActionForMessage getInstance() {
+		return SINGLETON;
+	}
 
 }

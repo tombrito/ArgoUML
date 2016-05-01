@@ -41,29 +41,30 @@ package org.argouml.uml.ui;
 import javax.swing.JPanel;
 
 /**
- * Interface for a factory of proppanels, 
- * which are created based on a given object.
+ * Interface for a factory of proppanels, which are created based on a given
+ * object.
  *
  * @author Michiel
  */
 public interface PropPanelFactory {
 
-    /**
-     * This method shall test the type of the given object,
-     * and if recognised, create a new instance of a PropPanel. <p>
-     * 
-     * If the object type is not something this factory 
-     * knows how to deal with, then null shall be returned
-     * (do NOT throw an exception). <p>
-     * 
-     * If the given object falls within a class of objects 
-     * that this factory is the exclusive factory for,
-     * then it is allowed to throw an exception if 
-     * the object is invalid/unknown. However,
-     * be careful not to break the possibility to extend ArgoUML.  
-     *  
-     * @param object the object to create a new PropPanel for
-     * @return the new proppanel or null
-     */
-    JPanel createPropPanel(Object object);
+	/**
+	 * This method shall test the type of the given object, and if recognised,
+	 * create a new instance of a PropPanel.
+	 * <p>
+	 * 
+	 * If the object type is not something this factory knows how to deal with,
+	 * then null shall be returned (do NOT throw an exception).
+	 * <p>
+	 * 
+	 * If the given object falls within a class of objects that this factory is
+	 * the exclusive factory for, then it is allowed to throw an exception if
+	 * the object is invalid/unknown. However, be careful not to break the
+	 * possibility to extend ArgoUML.
+	 * 
+	 * @param object
+	 *            the object to create a new PropPanel for
+	 * @return the new proppanel or null
+	 */
+	JPanel createPropPanel(Object object);
 }

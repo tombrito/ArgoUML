@@ -51,28 +51,31 @@ import org.argouml.kernel.ProfileConfiguration;
  */
 public class GoProfileConfigurationToProfile extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-	return Translator.localize("misc.profileconfiguration.profile");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (parent instanceof ProfileConfiguration) {
-	    return ((ProfileConfiguration) parent).getProfiles();
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.profileconfiguration.profile");
 	}
-	return Collections.EMPTY_SET;
-    }
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (parent instanceof ProfileConfiguration) {
+			return ((ProfileConfiguration) parent).getProfiles();
+		}
+		return Collections.EMPTY_SET;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.EMPTY_SET;
+	}
 }

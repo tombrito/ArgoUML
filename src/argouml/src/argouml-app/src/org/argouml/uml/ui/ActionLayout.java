@@ -59,66 +59,64 @@ import org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram;
  */
 public class ActionLayout extends UndoableAction {
 
-    private static final long serialVersionUID = -508359146982576733L;
+	private static final long serialVersionUID = -508359146982576733L;
 
 	/**
-     * The constructor.
-     */
-    public ActionLayout() {
-        super(Translator.localize("action.layout"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.layout"));
-    }
+	 * The constructor.
+	 */
+	public ActionLayout() {
+		super(Translator.localize("action.layout"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.layout"));
+	}
 
-    /**
-     * Check whether we deal with a supported diagram type (currently only Class
-     * and Activity diagrams).
-     * <p>
-     * NOTE: This is only called at initialization time by Swing, so the 
-     * application is responsible for checking when the current diagram changes.
-     * Currently done in 
-     * {@link org.argouml.ui.cmd.GenericArgoMenuBar#setTarget()}.
-     * 
-     * @return true if the action is enabled
-     */
-    @Override
-    public boolean isEnabled() {
-        ArgoDiagram d;
-        Object target = TargetManager.getInstance().getTarget();
-        if (target instanceof ArgoDiagram) {
-            d = (ArgoDiagram) target;
-        } else {
-            d = DiagramUtils.getActiveDiagram(); 
-        }
-        if (d instanceof UMLClassDiagram 
-                || d instanceof UMLActivityDiagram) {
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Check whether we deal with a supported diagram type (currently only Class
+	 * and Activity diagrams).
+	 * <p>
+	 * NOTE: This is only called at initialization time by Swing, so the
+	 * application is responsible for checking when the current diagram changes.
+	 * Currently done in
+	 * {@link org.argouml.ui.cmd.GenericArgoMenuBar#setTarget()}.
+	 * 
+	 * @return true if the action is enabled
+	 */
+	@Override
+	public boolean isEnabled() {
+		ArgoDiagram d;
+		Object target = TargetManager.getInstance().getTarget();
+		if (target instanceof ArgoDiagram) {
+			d = (ArgoDiagram) target;
+		} else {
+			d = DiagramUtils.getActiveDiagram();
+		}
+		if (d instanceof UMLClassDiagram || d instanceof UMLActivityDiagram) {
+			return true;
+		}
+		return false;
+	}
 
-    /*
-     * This action performs the layout and triggers a redraw of the editor pane.
-     * 
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        ArgoDiagram diagram = DiagramUtils.getActiveDiagram();
-        Layouter layouter;
-        if (diagram instanceof UMLClassDiagram) {
-            layouter = new ClassdiagramLayouter(diagram);
-        } else if (diagram instanceof UMLActivityDiagram) {
-            layouter = 
-                 new ActivityDiagramLayouter(diagram);
-        } else {
-            return;
-        }
+	/*
+	 * This action performs the layout and triggers a redraw of the editor pane.
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		ArgoDiagram diagram = DiagramUtils.getActiveDiagram();
+		Layouter layouter;
+		if (diagram instanceof UMLClassDiagram) {
+			layouter = new ClassdiagramLayouter(diagram);
+		} else if (diagram instanceof UMLActivityDiagram) {
+			layouter = new ActivityDiagramLayouter(diagram);
+		} else {
+			return;
+		}
 
-        // Rearrange the diagram layout
-        layouter.layout();
-        diagram.damage();
-    }
+		// Rearrange the diagram layout
+		layouter.layout();
+		diagram.damage();
+	}
 }

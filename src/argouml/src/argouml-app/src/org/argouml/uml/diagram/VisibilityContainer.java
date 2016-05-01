@@ -38,24 +38,26 @@
 
 package org.argouml.uml.diagram;
 
-
 /**
-* An interface to be implemented by any Fig that may or may not
-* show visibility (by symbol -, + or #).
-*
-* @author mvw@tigris.org
-*/
+ * An interface to be implemented by any Fig that may or may not show visibility
+ * (by symbol -, + or #).
+ *
+ * @author mvw@tigris.org
+ */
 public interface VisibilityContainer {
-    /**
-     * Determine if the visibility is visible.
-     * @return true if the visibility is visible.
-     */
-    boolean isVisibilityVisible();
+	/**
+	 * Determine if the visibility is visible.
+	 * 
+	 * @return true if the visibility is visible.
+	 */
+	boolean isVisibilityVisible();
 
-    /**
-     * Set the visibility of the visibility.
-     * @param visible the new visibility status.
-     */
-    void setVisibilityVisible(boolean visible);
+	/**
+	 * Set the visibility of the visibility.
+	 * 
+	 * @param visible
+	 *            the new visibility status.
+	 */
+	void setVisibilityVisible(boolean visible);
 
 }

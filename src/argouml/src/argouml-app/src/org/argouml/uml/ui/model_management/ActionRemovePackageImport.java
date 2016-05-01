@@ -49,25 +49,24 @@ import org.argouml.uml.ui.AbstractActionRemoveElement;
  * 
  * @author Michiel
  */
-class ActionRemovePackageImport
-    extends AbstractActionRemoveElement {
-    
-    private static final long serialVersionUID = -4933922310018200481L;
+class ActionRemovePackageImport extends AbstractActionRemoveElement {
+
+	private static final long serialVersionUID = -4933922310018200481L;
 
 	/**
-     * Constructor for ActionRemovePackageImport.
-     */
-    ActionRemovePackageImport() {
-        super(Translator.localize("menu.popup.remove"));
-    }
-    
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getModelManagementHelper()
-            .removeImportedElement(getTarget(), getObjectToRemove());
-    }
-    
+	 * Constructor for ActionRemovePackageImport.
+	 */
+	ActionRemovePackageImport() {
+		super(Translator.localize("menu.popup.remove"));
+	}
+
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getModelManagementHelper().removeImportedElement(getTarget(), getObjectToRemove());
+	}
+
 }

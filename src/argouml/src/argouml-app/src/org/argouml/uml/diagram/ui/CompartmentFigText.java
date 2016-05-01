@@ -49,100 +49,108 @@ import org.tigris.gef.presentation.FigGroup;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * A single line FigText class extension for editable 
- * FigClass/FigInterface/FigUseCase
- * compartments that use notation. 
+ * A single line FigText class extension for editable
+ * FigClass/FigInterface/FigUseCase compartments that use notation.
  *
  * @author thn
  */
-public abstract class CompartmentFigText extends FigSingleLineTextWithNotation
-        implements Clarifiable {
-    
-    private static final long serialVersionUID = 7514436862080860603L;
+public abstract class CompartmentFigText extends FigSingleLineTextWithNotation implements Clarifiable {
+
+	private static final long serialVersionUID = 7514436862080860603L;
 	private static final int MARGIN = 3;
 
-    /**
-     * Construct a CompartmentFigText.
-     * 
-     * @param element owning uml element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public CompartmentFigText(Object element, Rectangle bounds,
-            DiagramSettings settings) {
-        super(element, bounds, settings, true);
+	/**
+	 * Construct a CompartmentFigText.
+	 * 
+	 * @param element
+	 *            owning uml element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public CompartmentFigText(Object element, Rectangle bounds, DiagramSettings settings) {
+		super(element, bounds, settings, true);
 
-        setJustification(FigText.JUSTIFY_LEFT);
-        setRightMargin(MARGIN);
-        setLeftMargin(MARGIN);
-        // TODO: We'd like these to not be filled, but GEF won't let us
-        // select them if we do that.
-//        setFilled(false);
-    }
+		setJustification(FigText.JUSTIFY_LEFT);
+		setRightMargin(MARGIN);
+		setLeftMargin(MARGIN);
+		// TODO: We'd like these to not be filled, but GEF won't let us
+		// select them if we do that.
+		// setFilled(false);
+	}
 
-    /**
-     * Build a new compartment figText of the given dimensions, within the
-     * compartment described by <code>aFig</code>.
-     * <p>
-     * Invoke the parent constructor, then set the reference to the associated
-     * compartment figure. The associated FigText is marked as expand only.
-     * <p>
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @param property The property this Fig should listen for
-     */
-    public CompartmentFigText(Object owner, Rectangle bounds, 
-            DiagramSettings settings, String property) {
-        this(owner, bounds, settings, new String[] {property});
-    }
-    
-    /**
-     * Build a new compartment figText of the given dimensions, within the
-     * compartment described by <code>aFig</code>.
-     * <p>
-     * Invoke the parent constructor, then set the reference to the associated
-     * compartment figure. The associated FigText is marked as expand only.
-     * <p>
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @param properties The properties this Fig should listen for
-     */
-    public CompartmentFigText(Object owner, Rectangle bounds, 
-            DiagramSettings settings, String[] properties) {
-        super(owner, bounds, settings, true, properties);
-    }
-    
-    /*
-     * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
-     */
-    @Override
-    public void removeFromDiagram() {
-        super.removeFromDiagram();
-        Fig fg = getGroup();
-        if (fg instanceof FigGroup) {
-            ((FigGroup) fg).removeFig(this);
-            setGroup(null);
-        }
-    }
+	/**
+	 * Build a new compartment figText of the given dimensions, within the
+	 * compartment described by <code>aFig</code>.
+	 * <p>
+	 * Invoke the parent constructor, then set the reference to the associated
+	 * compartment figure. The associated FigText is marked as expand only.
+	 * <p>
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @param property
+	 *            The property this Fig should listen for
+	 */
+	public CompartmentFigText(Object owner, Rectangle bounds, DiagramSettings settings, String property) {
+		this(owner, bounds, settings, new String[] { property });
+	}
 
-    /**
-     * @return  Current fill status&mdash;always <code>false</code>.
-     */
-    @Override
-    public boolean isFilled() {
-        return false;
-    }
+	/**
+	 * Build a new compartment figText of the given dimensions, within the
+	 * compartment described by <code>aFig</code>.
+	 * <p>
+	 * Invoke the parent constructor, then set the reference to the associated
+	 * compartment figure. The associated FigText is marked as expand only.
+	 * <p>
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @param properties
+	 *            The properties this Fig should listen for
+	 */
+	public CompartmentFigText(Object owner, Rectangle bounds, DiagramSettings settings, String[] properties) {
+		super(owner, bounds, settings, true, properties);
+	}
 
-    public void paintClarifiers(Graphics g) {
-    }
-    
-    public Selection makeSelection() {
-        return new SelectionCompartmentText(this);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
+	 */
+	@Override
+	public void removeFromDiagram() {
+		super.removeFromDiagram();
+		Fig fg = getGroup();
+		if (fg instanceof FigGroup) {
+			((FigGroup) fg).removeFig(this);
+			setGroup(null);
+		}
+	}
 
-    public boolean isResizable() {
-        return false;
-    }
+	/**
+	 * @return Current fill status&mdash;always <code>false</code>.
+	 */
+	@Override
+	public boolean isFilled() {
+		return false;
+	}
+
+	public void paintClarifiers(Graphics g) {
+	}
+
+	public Selection makeSelection() {
+		return new SelectionCompartmentText(this);
+	}
+
+	public boolean isResizable() {
+		return false;
+	}
 }

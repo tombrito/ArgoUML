@@ -70,84 +70,82 @@ import org.argouml.util.ArgoFrame;
  */
 public class ActionDeployProfile extends AbstractAction {
 
-    private static final long serialVersionUID = -2325250051422415534L;
+	private static final long serialVersionUID = -2325250051422415534L;
 
-	private static final Logger LOG =
-        Logger.getLogger(ActionDeployProfile.class.getName());
+	private static final Logger LOG = Logger.getLogger(ActionDeployProfile.class.getName());
 
-    private Object undeployedProfile;
+	private Object undeployedProfile;
 
-    /**
-     * Default Constructor
-     *
-     * @param profile the selected profile
-     */
-    public ActionDeployProfile(Object profile) {
-        super(Translator.localize("action.deploy-profile") + "...");
-        undeployedProfile = profile;
-    }
+	/**
+	 * Default Constructor
+	 *
+	 * @param profile
+	 *            the selected profile
+	 */
+	public ActionDeployProfile(Object profile) {
+		super(Translator.localize("action.deploy-profile") + "...");
+		undeployedProfile = profile;
+	}
 
-    public void actionPerformed(ActionEvent arg0) {
-        // get one of the default profile dirs, if available
-        // (as a default value for the following save dialog)
-        ProfileManager profileManager = ProfileFacade.getManager();
-        StringBuffer path = new StringBuffer();
-        Collection dirs = profileManager.getSearchPathDirectories();
-        if (dirs != null && !dirs.isEmpty()) {
-            String s = (String) dirs.iterator().next();
-            path.append(s);
-            if (!(s.endsWith("/") || s.endsWith("\\"))) {
-                path.append('/');
-            }
-        }
-        // save profile
-        path.append(Model.getFacade().getName(undeployedProfile));
-        File f = saveProfile(path.toString());
-        if (f == null) {
-            return;
-        }
-        // register it as a user profile
-        try {
-            profileManager.registerProfile(new UserDefinedProfile(f,
-                profileManager));
-        } catch (ProfileException e) {
-            LOG.log(Level.WARNING, "failed to load profile from file " + f.getPath(), e);
-        }
-    }
+	public void actionPerformed(ActionEvent arg0) {
+		// get one of the default profile dirs, if available
+		// (as a default value for the following save dialog)
+		ProfileManager profileManager = ProfileFacade.getManager();
+		StringBuffer path = new StringBuffer();
+		Collection dirs = profileManager.getSearchPathDirectories();
+		if (dirs != null && !dirs.isEmpty()) {
+			String s = (String) dirs.iterator().next();
+			path.append(s);
+			if (!(s.endsWith("/") || s.endsWith("\\"))) {
+				path.append('/');
+			}
+		}
+		// save profile
+		path.append(Model.getFacade().getName(undeployedProfile));
+		File f = saveProfile(path.toString());
+		if (f == null) {
+			return;
+		}
+		// register it as a user profile
+		try {
+			profileManager.registerProfile(new UserDefinedProfile(f, profileManager));
+		} catch (ProfileException e) {
+			LOG.log(Level.WARNING, "failed to load profile from file " + f.getPath(), e);
+		}
+	}
 
-    /**
-     * Offers the saving of the profile by presenting a file dialog.
-     *
-     * @param fn the suggested default path for the file dialog
-     * @return the File instance where the profile is saved, null on abort
-     */
-    private File saveProfile(String fn) {
-        File theFile = null;
-        PersistenceManager pm = PersistenceManager.getInstance();
-        // show a chooser dialog for the file name, only xmi is allowed
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle(Translator.localize("action.deploy-profile"));
-        chooser.setFileView(ProjectFileView.getInstance());
-        chooser.setApproveButtonText(Translator.localize("filechooser.export"));
-        chooser.setAcceptAllFileFilterUsed(true);
-        pm.setXmiFileChooserFilter(chooser);
-        if (fn.length() > 0) {
-            fn = PersistenceManager.getInstance().getBaseName(fn);
-            chooser.setSelectedFile(new File(fn));
-        }
-        int result = chooser.showSaveDialog(ArgoFrame.getFrame());
-        if (result == JFileChooser.APPROVE_OPTION) {
-            theFile = chooser.getSelectedFile();
-            if (theFile != null) {
-                Model.getExtensionMechanismsHelper().makeProfileApplicable(
-                    undeployedProfile);
-                String name = theFile.getName();
-                name = pm.fixXmiExtension(name);
-                theFile = new File(theFile.getParent(), name);
-                ProjectBrowser.getInstance().trySaveWithProgressMonitor(true,
-                        theFile, false);
-            }
-        }
-        return theFile;
-    }
+	/**
+	 * Offers the saving of the profile by presenting a file dialog.
+	 *
+	 * @param fn
+	 *            the suggested default path for the file dialog
+	 * @return the File instance where the profile is saved, null on abort
+	 */
+	private File saveProfile(String fn) {
+		File theFile = null;
+		PersistenceManager pm = PersistenceManager.getInstance();
+		// show a chooser dialog for the file name, only xmi is allowed
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle(Translator.localize("action.deploy-profile"));
+		chooser.setFileView(ProjectFileView.getInstance());
+		chooser.setApproveButtonText(Translator.localize("filechooser.export"));
+		chooser.setAcceptAllFileFilterUsed(true);
+		pm.setXmiFileChooserFilter(chooser);
+		if (fn.length() > 0) {
+			fn = PersistenceManager.getInstance().getBaseName(fn);
+			chooser.setSelectedFile(new File(fn));
+		}
+		int result = chooser.showSaveDialog(ArgoFrame.getFrame());
+		if (result == JFileChooser.APPROVE_OPTION) {
+			theFile = chooser.getSelectedFile();
+			if (theFile != null) {
+				Model.getExtensionMechanismsHelper().makeProfileApplicable(undeployedProfile);
+				String name = theFile.getName();
+				name = pm.fixXmiExtension(name);
+				theFile = new File(theFile.getParent(), name);
+				ProjectBrowser.getInstance().trySaveWithProgressMonitor(true, theFile, false);
+			}
+		}
+		return theFile;
+	}
 }

@@ -57,115 +57,112 @@ import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * An action that makes all edges on the selected node visible/not visible
- * on the diagram.
+ * An action that makes all edges on the selected node visible/not visible on
+ * the diagram.
  *
  * @author David Manura
  * @since 0.13.5
  */
 public class ActionEdgesDisplay extends UndoableAction {
 
-    private static final long serialVersionUID = -5612710941159907173L;
+	private static final long serialVersionUID = -5612710941159907173L;
 	// compartments
-    private static UndoableAction showEdges = new ActionEdgesDisplay(true,
-                Translator.localize("menu.popup.add.all-relations"));
-    private static UndoableAction hideEdges = new ActionEdgesDisplay(false,
-                Translator.localize("menu.popup.remove.all-relations"));
+	private static UndoableAction showEdges = new ActionEdgesDisplay(true,
+			Translator.localize("menu.popup.add.all-relations"));
+	private static UndoableAction hideEdges = new ActionEdgesDisplay(false,
+			Translator.localize("menu.popup.remove.all-relations"));
 
-    private boolean show;
+	private boolean show;
 
-    /**
-     * The constructor.
-     *
-     * @param showEdge to show or not to show
-     * @param desc the name
-     */
-    protected ActionEdgesDisplay(boolean showEdge, String desc) {
-        super(desc, null);
+	/**
+	 * The constructor.
+	 *
+	 * @param showEdge
+	 *            to show or not to show
+	 * @param desc
+	 *            the name
+	 */
+	protected ActionEdgesDisplay(boolean showEdge, String desc) {
+		super(desc, null);
 		// Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, desc);
-        show = showEdge;
-    }
+		putValue(Action.SHORT_DESCRIPTION, desc);
+		show = showEdge;
+	}
 
-    /*
-     * TODO: Support commentEdges.
-     * TODO: Support associations to self.
-     *
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        ArgoDiagram d = DiagramUtils.getActiveDiagram();
-        Editor ce = Globals.curEditor();
-        MutableGraphModel mgm = (MutableGraphModel) ce.getGraphModel();
+	/*
+	 * TODO: Support commentEdges. TODO: Support associations to self.
+	 *
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		ArgoDiagram d = DiagramUtils.getActiveDiagram();
+		Editor ce = Globals.curEditor();
+		MutableGraphModel mgm = (MutableGraphModel) ce.getGraphModel();
 
-        Enumeration e = ce.getSelectionManager().selections().elements();
-        while (e.hasMoreElements()) {
-            Selection sel = (Selection) e.nextElement();
-            Object owner = sel.getContent().getOwner();
+		Enumeration e = ce.getSelectionManager().selections().elements();
+		while (e.hasMoreElements()) {
+			Selection sel = (Selection) e.nextElement();
+			Object owner = sel.getContent().getOwner();
 
-            if (show) { // add
-                mgm.addNodeRelatedEdges(owner);
-//                Collection c = Model.getFacade().getComments(owner);
-//                Iterator i = c.iterator();
-//                while (i.hasNext()) {
-//                    Object annotatedElement = i.next();
-//                    Fig f = d.presentationFor(annotatedElement);
-//                    // and now what? How do I add it to the diagram?
-//                }
-            } else { // remove
-                List edges = mgm.getInEdges(owner);
-                edges.addAll(mgm.getOutEdges(owner));
-                Iterator e2 = edges.iterator();
-                while (e2.hasNext()) {
-                    Object edge = e2.next();
-                    if (Model.getFacade().isAAssociationEnd(edge)) {
-                        edge = Model.getFacade().getAssociation(edge);
-                    }
-                    Fig fig = d.presentationFor(edge);
-                    if (fig != null) {
-                        fig.removeFromDiagram();
-                    }
-                }
-                //The next does not yet work for comment edges:
-//                Collection c = Model.getFacade().getComments(owner);
-//                Iterator i = c.iterator();
-//                while (i.hasNext()) {
-//                    Object annotatedElement = i.next();
-//                    Fig f = d.presentationFor(annotatedElement);
-//                    if (f != null) f.removeFromDiagram();
-//                }
-            }
-        }
-    }
+			if (show) { // add
+				mgm.addNodeRelatedEdges(owner);
+				// Collection c = Model.getFacade().getComments(owner);
+				// Iterator i = c.iterator();
+				// while (i.hasNext()) {
+				// Object annotatedElement = i.next();
+				// Fig f = d.presentationFor(annotatedElement);
+				// // and now what? How do I add it to the diagram?
+				// }
+			} else { // remove
+				List edges = mgm.getInEdges(owner);
+				edges.addAll(mgm.getOutEdges(owner));
+				Iterator e2 = edges.iterator();
+				while (e2.hasNext()) {
+					Object edge = e2.next();
+					if (Model.getFacade().isAAssociationEnd(edge)) {
+						edge = Model.getFacade().getAssociation(edge);
+					}
+					Fig fig = d.presentationFor(edge);
+					if (fig != null) {
+						fig.removeFromDiagram();
+					}
+				}
+				// The next does not yet work for comment edges:
+				// Collection c = Model.getFacade().getComments(owner);
+				// Iterator i = c.iterator();
+				// while (i.hasNext()) {
+				// Object annotatedElement = i.next();
+				// Fig f = d.presentationFor(annotatedElement);
+				// if (f != null) f.removeFromDiagram();
+				// }
+			}
+		}
+	}
 
-    /**
-     * @return true if the action is enabled
-     * @see org.tigris.gef.undo.UndoableAction#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	/**
+	 * @return true if the action is enabled
+	 * @see org.tigris.gef.undo.UndoableAction#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
+	/**
+	 * @return Returns the showEdges.
+	 */
+	public static UndoableAction getShowEdges() {
+		return showEdges;
+	}
 
-    /**
-     * @return Returns the showEdges.
-     */
-    public static UndoableAction getShowEdges() {
-        return showEdges;
-    }
-
-
-    /**
-     * @return Returns the hideEdges.
-     */
-    public static UndoableAction getHideEdges() {
-        return hideEdges;
-    }
+	/**
+	 * @return Returns the hideEdges.
+	 */
+	public static UndoableAction getHideEdges() {
+		return hideEdges;
+	}
 
 }
-
-
-

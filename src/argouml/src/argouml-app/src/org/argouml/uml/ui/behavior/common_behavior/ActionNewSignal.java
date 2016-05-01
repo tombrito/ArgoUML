@@ -54,43 +54,41 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewSignal extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -6974088771316972327L;
+	private static final long serialVersionUID = -6974088771316972327L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewSignal() {
-        super("button.new-signal");
-        putValue(Action.NAME, Translator.localize("button.new-signal"));
-        Icon icon = ResourceLoaderWrapper.lookupIcon("SignalSending");
-        putValue(Action.SMALL_ICON, icon);
-    }
+	 * The constructor.
+	 */
+	public ActionNewSignal() {
+		super("button.new-signal");
+		putValue(Action.NAME, Translator.localize("button.new-signal"));
+		Icon icon = ResourceLoaderWrapper.lookupIcon("SignalSending");
+		putValue(Action.SMALL_ICON, icon);
+	}
 
-    /**
-     * Creates a new signal and in case of a SignalEvent as target also set the
-     * Signal for this event.<p>
-     * {@inheritDoc}
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isASignalEvent(target)
-                || Model.getFacade().isASendAction(target)
-                || Model.getFacade().isAReception(target)
-                || Model.getFacade().isABehavioralFeature(target)) {
-            Object newSig = 
-                Model.getCommonBehaviorFactory().buildSignal(target);
-            TargetManager.getInstance().setTarget(newSig);
-        } else {
-            Object ns = null;
-            if (Model.getFacade().isANamespace(target)) {
-                ns = target;
-            } else {
-                ns = Model.getFacade().getNamespace(target);
-            }
-            Object newElement = Model.getCommonBehaviorFactory().createSignal();
-            TargetManager.getInstance().setTarget(newElement);
-            Model.getCoreHelper().setNamespace(newElement, ns);
-        }
-        super.actionPerformed(e);
-    }
+	/**
+	 * Creates a new signal and in case of a SignalEvent as target also set the
+	 * Signal for this event.
+	 * <p>
+	 * {@inheritDoc}
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isASignalEvent(target) || Model.getFacade().isASendAction(target)
+				|| Model.getFacade().isAReception(target) || Model.getFacade().isABehavioralFeature(target)) {
+			Object newSig = Model.getCommonBehaviorFactory().buildSignal(target);
+			TargetManager.getInstance().setTarget(newSig);
+		} else {
+			Object ns = null;
+			if (Model.getFacade().isANamespace(target)) {
+				ns = target;
+			} else {
+				ns = Model.getFacade().getNamespace(target);
+			}
+			Object newElement = Model.getCommonBehaviorFactory().createSignal();
+			TargetManager.getInstance().setTarget(newElement);
+			Model.getCoreHelper().setNamespace(newElement, ns);
+		}
+		super.actionPerformed(e);
+	}
 }

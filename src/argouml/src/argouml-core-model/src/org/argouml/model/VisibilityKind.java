@@ -42,23 +42,23 @@ package org.argouml.model;
  * The different VisibilityKinds.
  */
 public interface VisibilityKind {
-    /**
-     * @return Returns the Private VisibilityKind.
-     */
-    Object getPrivate();
+	/**
+	 * @return Returns the Private VisibilityKind.
+	 */
+	Object getPrivate();
 
-    /**
-     * @return Returns the Protected VisibilityKind.
-     */
-    Object getProtected();
+	/**
+	 * @return Returns the Protected VisibilityKind.
+	 */
+	Object getProtected();
 
-    /**
-     * @return Returns the Public VisibilityKind.
-     */
-    Object getPublic();
-    
-    /**
-     * @return Returns the Package VisibilityKind.
-     */
-    Object getPackage();
+	/**
+	 * @return Returns the Public VisibilityKind.
+	 */
+	Object getPublic();
+
+	/**
+	 * @return Returns the Package VisibilityKind.
+	 */
+	Object getPackage();
 }

@@ -59,145 +59,140 @@ import org.argouml.swingext.JLinkButton;
  * Tab Panel for setting the default user attributes: name and email.
  *
  * @author Thierry Lach
- * @since  0.9.4
+ * @since 0.9.4
  */
-class SettingsTabUser extends JPanel
-    implements GUISettingsTabInterface {
+class SettingsTabUser extends JPanel implements GUISettingsTabInterface {
 
-    private JPanel topPanel;
-    
-    /**
-     * This is where the user enters full name in settings tab.
-     * This information is stored
-     * in the argo.user.properties file.
-     */
-    private JTextField userFullname;
+	private JPanel topPanel;
 
-    /**
-     * This is where the user enters email in settings tab.
-     * This information is stored
-     * in the argo.user.properties file.
-     */
-    private JTextField userEmail;
+	/**
+	 * This is where the user enters full name in settings tab. This information
+	 * is stored in the argo.user.properties file.
+	 */
+	private JTextField userFullname;
 
-    /**
-     * The constructor.
-     */
-    SettingsTabUser() {
-        // defer work until fetched/visible
-    }
+	/**
+	 * This is where the user enters email in settings tab. This information is
+	 * stored in the argo.user.properties file.
+	 */
+	private JTextField userEmail;
 
-    private void buildPanel() {
-        setLayout(new BorderLayout());
-        
-        topPanel = new JPanel();
-        topPanel.setLayout(new BorderLayout());
-        
-        JPanel warning = new JPanel();
-        warning.setLayout(new BoxLayout(warning, BoxLayout.PAGE_AXIS));
-        JLabel warningLabel = new JLabel(Translator.localize("label.warning"));
-        warningLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        warning.add(warningLabel);
+	/**
+	 * The constructor.
+	 */
+	SettingsTabUser() {
+		// defer work until fetched/visible
+	}
 
-        JLinkButton projectSettings = new JLinkButton();
-        projectSettings.setAction(new ActionProjectSettings());
-        projectSettings.setText(Translator.localize("button.project-settings"));
-        projectSettings.setIcon(null);
-        projectSettings.setAlignmentX(Component.RIGHT_ALIGNMENT);
-        warning.add(projectSettings);
-        
-        topPanel.add(warning, BorderLayout.NORTH);
-        
-	JPanel settings = new JPanel();
-    	settings.setLayout(new GridBagLayout());
+	private void buildPanel() {
+		setLayout(new BorderLayout());
 
-	GridBagConstraints labelConstraints = new GridBagConstraints();
-	labelConstraints.anchor = GridBagConstraints.WEST;
-	labelConstraints.gridy = 0;
-	labelConstraints.gridx = 0;
-	labelConstraints.gridwidth = 1;
-	labelConstraints.gridheight = 1;
-	labelConstraints.insets = new Insets(2, 20, 2, 4);
+		topPanel = new JPanel();
+		topPanel.setLayout(new BorderLayout());
 
-	GridBagConstraints fieldConstraints = new GridBagConstraints();
-	fieldConstraints.anchor = GridBagConstraints.EAST;
-	fieldConstraints.fill = GridBagConstraints.HORIZONTAL;
-	fieldConstraints.gridy = 0;
-	fieldConstraints.gridx = 1;
-	fieldConstraints.gridwidth = 3;
-	fieldConstraints.gridheight = 1;
-	fieldConstraints.weightx = 1.0;
-	fieldConstraints.insets = new Insets(2, 4, 2, 20);
+		JPanel warning = new JPanel();
+		warning.setLayout(new BoxLayout(warning, BoxLayout.PAGE_AXIS));
+		JLabel warningLabel = new JLabel(Translator.localize("label.warning"));
+		warningLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		warning.add(warningLabel);
 
-	labelConstraints.gridy = 0;
-	fieldConstraints.gridy = 0;
-	settings.add(new JLabel(Translator.localize("label.user")),
-                labelConstraints);
-	JTextField j = new JTextField();
-        userFullname = j;
-	settings.add(userFullname, fieldConstraints);
+		JLinkButton projectSettings = new JLinkButton();
+		projectSettings.setAction(new ActionProjectSettings());
+		projectSettings.setText(Translator.localize("button.project-settings"));
+		projectSettings.setIcon(null);
+		projectSettings.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		warning.add(projectSettings);
 
-	labelConstraints.gridy = 1;
-	fieldConstraints.gridy = 1;
- 	settings.add(new JLabel(Translator.localize("label.email")),
-                labelConstraints);
- 	JTextField j1 = new JTextField();
-        userEmail = j1;
-	settings.add(userEmail, fieldConstraints);
-	topPanel.add(settings, BorderLayout.CENTER);
-	
-	add(topPanel, BorderLayout.NORTH);
-    }
+		topPanel.add(warning, BorderLayout.NORTH);
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabRefresh()
-     */
-    public void handleSettingsTabRefresh() {
-        userFullname.setText(Configuration.getString(Argo.KEY_USER_FULLNAME));
-        userEmail.setText(Configuration.getString(Argo.KEY_USER_EMAIL));
-    }
+		JPanel settings = new JPanel();
+		settings.setLayout(new GridBagLayout());
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabSave()
-     */
-    public void handleSettingsTabSave() {
-        Configuration.setString(Argo.KEY_USER_FULLNAME, userFullname.getText());
-        Configuration.setString(Argo.KEY_USER_EMAIL, userEmail.getText());
-    }
+		GridBagConstraints labelConstraints = new GridBagConstraints();
+		labelConstraints.anchor = GridBagConstraints.WEST;
+		labelConstraints.gridy = 0;
+		labelConstraints.gridx = 0;
+		labelConstraints.gridwidth = 1;
+		labelConstraints.gridheight = 1;
+		labelConstraints.insets = new Insets(2, 20, 2, 4);
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabCancel()
-     */
-    public void handleSettingsTabCancel() {
-	handleSettingsTabRefresh();
-    }
+		GridBagConstraints fieldConstraints = new GridBagConstraints();
+		fieldConstraints.anchor = GridBagConstraints.EAST;
+		fieldConstraints.fill = GridBagConstraints.HORIZONTAL;
+		fieldConstraints.gridy = 0;
+		fieldConstraints.gridx = 1;
+		fieldConstraints.gridwidth = 3;
+		fieldConstraints.gridheight = 1;
+		fieldConstraints.weightx = 1.0;
+		fieldConstraints.insets = new Insets(2, 4, 2, 20);
 
-    /*
-     * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
-     */
-    public void handleResetToDefault() {
-        // Do nothing - these buttons are not shown.
-    }
+		labelConstraints.gridy = 0;
+		fieldConstraints.gridy = 0;
+		settings.add(new JLabel(Translator.localize("label.user")), labelConstraints);
+		JTextField j = new JTextField();
+		userFullname = j;
+		settings.add(userFullname, fieldConstraints);
 
-    /*
-     * @see GUISettingsTabInterface#getTabKey()
-     */
-    public String getTabKey() {
-        return "tab.user";
-    }
+		labelConstraints.gridy = 1;
+		fieldConstraints.gridy = 1;
+		settings.add(new JLabel(Translator.localize("label.email")), labelConstraints);
+		JTextField j1 = new JTextField();
+		userEmail = j1;
+		settings.add(userEmail, fieldConstraints);
+		topPanel.add(settings, BorderLayout.CENTER);
 
-    /*
-     * @see GUISettingsTabInterface#getTabPanel()
-     */
-    public JPanel getTabPanel() {
-        if (topPanel == null) {
-            buildPanel();
-        }
-        return this;
-    }
+		add(topPanel, BorderLayout.NORTH);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -742258688091914619L;
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabRefresh()
+	 */
+	public void handleSettingsTabRefresh() {
+		userFullname.setText(Configuration.getString(Argo.KEY_USER_FULLNAME));
+		userEmail.setText(Configuration.getString(Argo.KEY_USER_EMAIL));
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabSave()
+	 */
+	public void handleSettingsTabSave() {
+		Configuration.setString(Argo.KEY_USER_FULLNAME, userFullname.getText());
+		Configuration.setString(Argo.KEY_USER_EMAIL, userEmail.getText());
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabCancel()
+	 */
+	public void handleSettingsTabCancel() {
+		handleSettingsTabRefresh();
+	}
+
+	/*
+	 * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
+	 */
+	public void handleResetToDefault() {
+		// Do nothing - these buttons are not shown.
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#getTabKey()
+	 */
+	public String getTabKey() {
+		return "tab.user";
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#getTabPanel()
+	 */
+	public JPanel getTabPanel() {
+		if (topPanel == null) {
+			buildPanel();
+		}
+		return this;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -742258688091914619L;
 }

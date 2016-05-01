@@ -52,21 +52,21 @@ import org.tigris.gef.presentation.FigSpline;
  */
 public class ArgoModeCreateFigSpline extends ModeCreateFigSpline {
 
-    private static final long serialVersionUID = -7837041211760728963L;
+	private static final long serialVersionUID = -7837041211760728963L;
 
 	public String instructions() {
-        return Translator.localize("statusmsg.help.create.spline");
-    }
-    
-    public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
-        FigSpline p = new ArgoFigSpline(snapX, snapY);
-        p.addPoint(snapX, snapY); // add the first point twice
-        _startX = snapX; 
-        _startY = snapY;
-        _lastX = snapX; 
-        _lastY = snapY;
-        _npoints = 2;
-        return p;
-    }
+		return Translator.localize("statusmsg.help.create.spline");
+	}
+
+	public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
+		FigSpline p = new ArgoFigSpline(snapX, snapY);
+		p.addPoint(snapX, snapY); // add the first point twice
+		_startX = snapX;
+		_startY = snapY;
+		_lastX = snapX;
+		_lastY = snapY;
+		_npoints = 2;
+		return p;
+	}
 
 }

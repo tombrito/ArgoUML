@@ -46,60 +46,56 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
 
 /**
- * A Mode to interpret user input while drawing a binary association.
- * The association can connect two existing classifiers.
+ * A Mode to interpret user input while drawing a binary association. The
+ * association can connect two existing classifiers.
  * 
  * @author Bob Tarling
  */
 public class ModeCreateAssociation extends ModeCreateGraphEdge {
 
-    private static final long serialVersionUID = 7276353518289792926L;
+	private static final long serialVersionUID = 7276353518289792926L;
 
 	public Object getMetaType() {
-        return Model.getMetaTypes().getAssociation();
-    }
-    
-    /**
-     * Create an edge of the given type and connect it to the
-     * given nodes.
-     *
-     * @param graphModel     the graph model in which to create the connection
-     *                       element
-     * @param edgeType       the UML object type of the connection
-     * @param sourceFigNode      the FigNode for the source element
-     * @param destFigNode        the FigNode for the destination element
-     * @return The FigEdge representing the newly created model element
-     */
-    @Override
-    protected FigEdge buildConnection(
-            final MutableGraphModel graphModel,
-            final Object edgeType,
-            final Fig sourceFigNode,
-            final Fig destFigNode) {
-        Object association = graphModel.connect(
-                sourceFigNode.getOwner(), 
-                destFigNode.getOwner(), 
-                edgeType);
-        
-        setNewEdge(association);
+		return Model.getMetaTypes().getAssociation();
+	}
 
-        // Calling connect() will add the edge to the GraphModel and
-        // any LayerPersectives on that GraphModel will get a
-        // edgeAdded event and will add an appropriate FigEdge
-        // (determined by the GraphEdgeRenderer).
+	/**
+	 * Create an edge of the given type and connect it to the given nodes.
+	 *
+	 * @param graphModel
+	 *            the graph model in which to create the connection element
+	 * @param edgeType
+	 *            the UML object type of the connection
+	 * @param sourceFigNode
+	 *            the FigNode for the source element
+	 * @param destFigNode
+	 *            the FigNode for the destination element
+	 * @return The FigEdge representing the newly created model element
+	 */
+	@Override
+	protected FigEdge buildConnection(final MutableGraphModel graphModel, final Object edgeType,
+			final Fig sourceFigNode, final Fig destFigNode) {
+		Object association = graphModel.connect(sourceFigNode.getOwner(), destFigNode.getOwner(), edgeType);
 
-        if (getNewEdge() != null) {
-            getSourceFigNode().damage();
-            destFigNode.damage();
-            final Layer lay = editor.getLayerManager().getActiveLayer();
-            final FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
-            _newItem.setLineColor(Color.black);
-            fe.setFig(_newItem);
-            fe.computeRoute();
-            return fe;
+		setNewEdge(association);
 
-        } else {
-            return null;
-        }
-    }
+		// Calling connect() will add the edge to the GraphModel and
+		// any LayerPersectives on that GraphModel will get a
+		// edgeAdded event and will add an appropriate FigEdge
+		// (determined by the GraphEdgeRenderer).
+
+		if (getNewEdge() != null) {
+			getSourceFigNode().damage();
+			destFigNode.damage();
+			final Layer lay = editor.getLayerManager().getActiveLayer();
+			final FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
+			_newItem.setLineColor(Color.black);
+			fe.setFig(_newItem);
+			fe.computeRoute();
+			return fe;
+
+		} else {
+			return null;
+		}
+	}
 }

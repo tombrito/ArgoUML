@@ -53,29 +53,29 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetFeatureOwnerScope extends UndoableAction {
 
-    private static final long serialVersionUID = -4257221422242382514L;
+	private static final long serialVersionUID = -4257221422242382514L;
 
 	/**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    public ActionSetFeatureOwnerScope() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	public ActionSetFeatureOwnerScope() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof UMLCheckBox2) {
-            UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-            Object target = source.getTarget();
-            if (Model.getFacade().isAFeature(target)) {
-                Model.getCoreHelper().setStatic(target, source.isSelected());
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAFeature(target)) {
+				Model.getCoreHelper().setStatic(target, source.isSelected());
+			}
+		}
+	}
 }

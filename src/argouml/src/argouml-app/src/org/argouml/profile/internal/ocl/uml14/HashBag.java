@@ -51,140 +51,133 @@ import java.util.Map;
  */
 public class HashBag<E> implements Bag<E> {
 
-    private Map<E, Integer> map = new HashMap<E, Integer>();
+	private Map<E, Integer> map = new HashMap<E, Integer>();
 
-    /**
-     * Default Constructor
-     * 
-     */
-    public HashBag() {
-    }
-    
-    /**
-     * Creates a new Bag from a Collection
-     * 
-     * @param col the collection
-     */
-    public HashBag(Collection col) {
-        this();
-        addAll(col);
-    }
+	/**
+	 * Default Constructor
+	 * 
+	 */
+	public HashBag() {
+	}
 
-    /*
-     * @see org.argouml.profile.internal.ocl.uml14.Bag#count(java.lang.Object)
-     */
-    public int count(Object element) {
-        Integer c = map.get(element);
-        return c == null ? 0 : c;
-    }
+	/**
+	 * Creates a new Bag from a Collection
+	 * 
+	 * @param col
+	 *            the collection
+	 */
+	public HashBag(Collection col) {
+		this();
+		addAll(col);
+	}
 
+	/*
+	 * @see org.argouml.profile.internal.ocl.uml14.Bag#count(java.lang.Object)
+	 */
+	public int count(Object element) {
+		Integer c = map.get(element);
+		return c == null ? 0 : c;
+	}
 
-    public boolean add(E e) {
-        if (e != null) {
-            if (map.get(e) == null) {
-                map.put(e, 1);
-            } else {
-                map.put(e, map.get(e) + 1);
-            }
-        }
-        return true;
-    }
+	public boolean add(E e) {
+		if (e != null) {
+			if (map.get(e) == null) {
+				map.put(e, 1);
+			} else {
+				map.put(e, map.get(e) + 1);
+			}
+		}
+		return true;
+	}
 
+	@SuppressWarnings("unchecked")
+	public boolean addAll(Collection c) {
+		for (Object object : c) {
+			add((E) object);
+		}
+		return true;
+	}
 
-    @SuppressWarnings("unchecked")
-    public boolean addAll(Collection c) {
-        for (Object object : c) {
-            add((E) object);
-        }
-        return true;
-    }
+	public void clear() {
+		map.clear();
+	}
 
+	public boolean contains(Object o) {
+		return map.containsKey(o);
+	}
 
-    public void clear() {
-        map.clear();
-    }
+	public boolean containsAll(Collection c) {
+		return map.keySet().containsAll(c);
+	}
 
+	public boolean isEmpty() {
+		return map.isEmpty();
+	}
 
-    public boolean contains(Object o) {
-        return map.containsKey(o);
-    }
+	public Iterator<E> iterator() {
+		return map.keySet().iterator();
+	}
 
-    public boolean containsAll(Collection c) {
-        return map.keySet().containsAll(c);
-    }
+	public boolean remove(Object o) {
+		return (map.remove(o) == null);
+	}
 
-    public boolean isEmpty() {
-        return map.isEmpty();
-    }
+	public boolean removeAll(Collection c) {
+		boolean changed = false;
+		for (Object object : c) {
+			changed |= remove(object);
+		}
+		return changed;
+	}
 
-    public Iterator<E> iterator() {
-        return map.keySet().iterator();
-    }
+	public boolean retainAll(Collection c) {
+		throw new UnsupportedOperationException();
+	}
 
-    public boolean remove(Object o) {
-        return (map.remove(o) == null);
-    }
+	/**
+	 * @return the number of elements in this bag
+	 * @see java.util.Set#size()
+	 */
+	public int size() {
+		int sum = 0;
 
+		for (E e : map.keySet()) {
+			sum += count(e);
+		}
 
-    public boolean removeAll(Collection c) {
-        boolean changed = false;
-        for (Object object : c) {
-            changed |= remove(object);
-        }
-        return changed;
-    }
+		return sum;
+	}
 
-    public boolean retainAll(Collection c) {
-        throw new UnsupportedOperationException();
-    }
+	public Object[] toArray() {
+		return map.keySet().toArray();
+	}
 
-    /**
-     * @return the number of elements in this bag
-     * @see java.util.Set#size()
-     */
-    public int size() {
-        int sum = 0;
+	public <T> T[] toArray(T[] a) {
+		return map.keySet().toArray(a);
+	}
 
-        for (E e : map.keySet()) {
-            sum += count(e);
-        }
+	@Override
+	public String toString() {
+		return map.toString();
+	}
 
-        return sum;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Bag) {
+			Bag bag = (Bag) obj;
+			for (Object object : bag) {
+				if (count(object) != bag.count(object)) {
+					return false;
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-
-    public Object[] toArray() {
-        return map.keySet().toArray();
-    }
-
-
-    public <T> T[] toArray(T[] a) {
-        return map.keySet().toArray(a);
-    }
-
-    @Override
-    public String toString() {
-        return map.toString();
-    }
-    
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Bag) {
-            Bag bag = (Bag) obj;
-            for (Object object : bag) {
-                if (count(object) != bag.count(object)) {
-                    return false;
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    @Override
-    public int hashCode() {
-        return map.hashCode() * 35;
-    }
+	@Override
+	public int hashCode() {
+		return map.hashCode() * 35;
+	}
 }

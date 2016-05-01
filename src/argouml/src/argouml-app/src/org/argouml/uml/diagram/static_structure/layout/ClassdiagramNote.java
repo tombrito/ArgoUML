@@ -41,67 +41,72 @@ package org.argouml.uml.diagram.static_structure.layout;
 import org.tigris.gef.presentation.FigNode;
 
 /**
- * This class overrides some of the aspects of ClassdiagramNodes to simplify
- * the positioning of notes nearby the commented nodes.
+ * This class overrides some of the aspects of ClassdiagramNodes to simplify the
+ * positioning of notes nearby the commented nodes.
  *
  * @author David Gunkel
  */
 public class ClassdiagramNote extends ClassdiagramNode {
-    /**
-     * @param f the fig
-     */
-    public ClassdiagramNote(FigNode f) {
-        super(f);
-    }
+	/**
+	 * @param f
+	 *            the fig
+	 */
+	public ClassdiagramNote(FigNode f) {
+		super(f);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#getTypeOrderNumer()
-     */
-    public int getTypeOrderNumer() {
-        return first() == null
-	    ? super.getTypeOrderNumer()
-	    : first().getTypeOrderNumer();
-    }
-    
-    /*
-     * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#calculateWeight()
-     */
-    @Override
-    public float calculateWeight() {
-        setWeight(getWeight());
-        return getWeight();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#
+	 * getTypeOrderNumer()
+	 */
+	public int getTypeOrderNumer() {
+		return first() == null ? super.getTypeOrderNumer() : first().getTypeOrderNumer();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#getRank()
-     */
-    @Override
-    public int getRank() {
-        return first() == null ? 0 : first().getRank();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#
+	 * calculateWeight()
+	 */
+	@Override
+	public float calculateWeight() {
+		setWeight(getWeight());
+		return getWeight();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#getWeight()
-     */
-    @Override
-    public float getWeight() {
-        return first() == null ? 0 : first().getWeight() * 0.9999999f;
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#getRank(
+	 * )
+	 */
+	@Override
+	public int getRank() {
+		return first() == null ? 0 : first().getRank();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#isStandalone()
-     */
-    @Override
-    public boolean isStandalone() {
-        return first() == null ? true : first().isStandalone();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#
+	 * getWeight()
+	 */
+	@Override
+	public float getWeight() {
+		return first() == null ? 0 : first().getWeight() * 0.9999999f;
+	}
 
-    /**
-     * Return the first node to which this note is attached to.
-     *
-     * @return A ClassdiagramNode.
-     */
-    private ClassdiagramNode first() {
-        return getUpNodes().isEmpty() ? null : getUpNodes().get(0);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.static_structure.layout.ClassdiagramNode#
+	 * isStandalone()
+	 */
+	@Override
+	public boolean isStandalone() {
+		return first() == null ? true : first().isStandalone();
+	}
+
+	/**
+	 * Return the first node to which this note is attached to.
+	 *
+	 * @return A ClassdiagramNode.
+	 */
+	private ClassdiagramNode first() {
+		return getUpNodes().isEmpty() ? null : getUpNodes().get(0);
+	}
 }

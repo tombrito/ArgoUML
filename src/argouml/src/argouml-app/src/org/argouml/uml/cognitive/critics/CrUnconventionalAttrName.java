@@ -53,203 +53,205 @@ import org.argouml.uml.cognitive.UMLDecision;
 import org.argouml.uml.cognitive.UMLToDoItem;
 
 /**
- * Critic to detect whether an attribute name obeys to certain rules.<p>
+ * Critic to detect whether an attribute name obeys to certain rules.
+ * <p>
  *
  * Checks for:
  * <ul>
- * <li> all lower case or
- * <li> all upper case
+ * <li>all lower case or
+ * <li>all upper case
  * </ul>
- * where trailing underscores are removed, and
- * constants are not nagged at.
+ * where trailing underscores are removed, and constants are not nagged at.
  */
 public class CrUnconventionalAttrName extends AbstractCrUnconventionalName {
 
-    /**
-     * The constructor.
-     */
-    public CrUnconventionalAttrName() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.NAMING);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-	addTrigger("feature_name");
-    }
-
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!Model.getFacade().isAAttribute(dm)) {
-	    return NO_PROBLEM;
+	/**
+	 * The constructor.
+	 */
+	public CrUnconventionalAttrName() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("feature_name");
 	}
 
-	Object attr = /*(MAttribute)*/ dm;
-	String nameStr = Model.getFacade().getName(attr);
-	if (nameStr == null || nameStr.equals("")) {
-	    return NO_PROBLEM;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!Model.getFacade().isAAttribute(dm)) {
+			return NO_PROBLEM;
+		}
+
+		Object attr = /* (MAttribute) */ dm;
+		String nameStr = Model.getFacade().getName(attr);
+		if (nameStr == null || nameStr.equals("")) {
+			return NO_PROBLEM;
+		}
+
+		int pos = 0;
+		int length = nameStr.length();
+
+		for (; pos < length && nameStr.charAt(pos) == '_'; pos++) {
+		}
+
+		// If the name is only underscores
+		if (pos >= length) {
+			return PROBLEM_FOUND;
+		}
+
+		// check for all uppercase and/or mixed with underscores
+		char initalChar = nameStr.charAt(pos);
+		boolean allCapitals = true;
+		for (; pos < length; pos++) {
+			if (!Character.isUpperCase(nameStr.charAt(pos)) && nameStr.charAt(pos) != '_') {
+				allCapitals = false;
+				break;
+			}
+		}
+		if (allCapitals) {
+			return NO_PROBLEM;
+		}
+
+		// check whether constant, constants are often weird and thus not a
+		// problem
+		if (Model.getFacade().isReadOnly(attr)) {
+			return NO_PROBLEM;
+		}
+
+		if (!Character.isLowerCase(initalChar)) {
+			return PROBLEM_FOUND;
+		}
+
+		return NO_PROBLEM;
 	}
 
-	int pos = 0;
-	int length = nameStr.length();
-
-	for (; pos < length && nameStr.charAt(pos) == '_'; pos++) {
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		Object f = dm;
+		ListSet offs = computeOffenders(f);
+		return new UMLToDoItem(this, offs, dsgr);
 	}
 
-	// If the name is only underscores
-	if (pos >= length) {
-	    return PROBLEM_FOUND;
+	/**
+	 * @param dm
+	 *            the feature
+	 * @return the set of offenders
+	 */
+	protected ListSet computeOffenders(Object dm) {
+		ListSet offs = new ListSet(dm);
+		offs.add(Model.getFacade().getOwner(dm));
+		return offs;
 	}
 
-	// check for all uppercase and/or mixed with underscores
-	char initalChar = nameStr.charAt(pos);
-	boolean allCapitals = true;
-	for (; pos < length; pos++) {
-	    if (!Character.isUpperCase(nameStr.charAt(pos))
-		&& nameStr.charAt(pos) != '_') {
-		allCapitals = false;
-		break;
-	    }
-	}
-	if (allCapitals) {
-	    return NO_PROBLEM;
-	}
+	/*
+	 * @see org.argouml.uml.cognitive.critics.AbstractCrUnconventionalName#
+	 * computeSuggestion(java.lang.String)
+	 */
+	public String computeSuggestion(String name) {
+		String sug;
+		int nu;
 
-	// check whether constant, constants are often weird and thus not a
-	// problem
-	if (Model.getFacade().isReadOnly(attr)) {
-	    return NO_PROBLEM;
-	}
+		if (name == null) {
+			return "attr";
+		}
 
-	if (!Character.isLowerCase(initalChar)) {
-	    return PROBLEM_FOUND;
-	}
+		for (nu = 0; nu < name.length(); nu++) {
+			if (name.charAt(nu) != '_') {
+				break;
+			}
+		}
 
-	return NO_PROBLEM;
-    }
+		if (nu > 0) {
+			sug = name.substring(0, nu);
+		} else {
+			sug = "";
+		}
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	Object f = dm;
-	ListSet offs = computeOffenders(f);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
+		if (nu < name.length()) {
+			sug += Character.toLowerCase(name.charAt(nu));
+		}
 
-    /**
-     * @param dm the feature
-     * @return the set of offenders
-     */
-    protected ListSet computeOffenders(Object dm) {
-	ListSet offs = new ListSet(dm);
-	offs.add(Model.getFacade().getOwner(dm));
-	return offs;
-    }
+		if (nu + 1 < name.length()) {
+			sug += name.substring(nu + 1);
+		}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.AbstractCrUnconventionalName#computeSuggestion(java.lang.String)
-     */
-    public String computeSuggestion(String name) {
-	String sug;
-	int nu;
-
-	if (name == null) {
-	    return "attr";
+		return sug;
 	}
 
-	for (nu = 0; nu < name.length(); nu++) {
-	    if (name.charAt(nu) != '_') {
-		break;
-	    }
+	/*
+	 * @see org.argouml.cognitive.Poster#getClarifier()
+	 */
+	@Override
+	public Icon getClarifier() {
+		return ClAttributeCompartment.getTheInstance();
 	}
 
-	if (nu > 0) {
-	    sug = name.substring(0, nu);
-	} else {
-	    sug = "";
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		Object f = offs.get(0);
+		if (!predicate(f, dsgr)) {
+			return false;
+		}
+		ListSet newOffs = computeOffenders(f);
+		boolean res = offs.equals(newOffs);
+		return res;
 	}
 
-	if (nu < name.length()) {
-	    sug += Character.toLowerCase(name.charAt(nu));
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#initWizard(
+	 * org.argouml.cognitive.ui.Wizard)
+	 */
+	@Override
+	public void initWizard(Wizard w) {
+		if (w instanceof WizMEName) {
+			ToDoItem item = (ToDoItem) w.getToDoItem();
+			Object me = item.getOffenders().get(0);
+			String sug = computeSuggestion(Model.getFacade().getName(me));
+			String ins = super.getInstructions();
+			((WizMEName) w).setInstructions(ins);
+			((WizMEName) w).setSuggestion(sug);
+		}
 	}
 
-	if (nu + 1 < name.length()) {
-	    sug += name.substring(nu + 1);
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizMEName.class;
 	}
 
-	return sug;
-    }
-    
-    /*
-     * @see org.argouml.cognitive.Poster#getClarifier()
-     */
-    @Override
-    public Icon getClarifier() {
-	return ClAttributeCompartment.getTheInstance();
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-	    return false;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAttribute());
+		return ret;
 	}
-	ListSet offs = i.getOffenders();
-	Object f = offs.get(0);
-	if (!predicate(f, dsgr)) {
-	    return false;
-	}
-	ListSet newOffs = computeOffenders(f);
-	boolean res = offs.equals(newOffs);
-	return res;
-    }
 
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#initWizard(
-     *         org.argouml.cognitive.ui.Wizard)
-     */
-    @Override
-    public void initWizard(Wizard w) {
-	if (w instanceof WizMEName) {
-	    ToDoItem item = (ToDoItem) w.getToDoItem();
-	    Object me = item.getOffenders().get(0);
-	    String sug = computeSuggestion(Model.getFacade().getName(me));
-	    String ins = super.getInstructions();
-	    ((WizMEName) w).setInstructions(ins);
-	    ((WizMEName) w).setSuggestion(sug);
-	}
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) {
-        return WizMEName.class;
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAttribute());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 4741909365018862474L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 4741909365018862474L;
 
 }

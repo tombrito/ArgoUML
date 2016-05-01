@@ -47,22 +47,26 @@ import java.util.EventObject;
  * @author Bob Tarling
  */
 public abstract class InstanceChangeEvent extends UmlChangeEvent {
-    private static final long serialVersionUID = -3107335259047971670L;
+	private static final long serialVersionUID = -3107335259047971670L;
 
 	/**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     */
-    public InstanceChangeEvent(Object source, String propertyName,
-            Object oldValue, Object newValue, EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, originalEvent);
-    }
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 */
+	public InstanceChangeEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, originalEvent);
+	}
 
 }

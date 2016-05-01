@@ -42,35 +42,36 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * This is the interface for rules that together make a model perspective
- * in the explorer.
+ * This is the interface for rules that together make a model perspective in the
+ * explorer.
  *
  * @since 0.15.2, Created on 03 October 2003, 20:55
- * @author  alexb
+ * @author alexb
  */
 public interface PerspectiveRule {
 
-    /**
-     * @return the name of the rule, like "from->to".
-     */
-    String getRuleName();
+	/**
+	 * @return the name of the rule, like "from->to".
+	 */
+	String getRuleName();
 
-    /**
-     * Gets a collection of 'child' objects for the given 'parent' object in the
-     * uml model, which creates the tree structure.
-     *
-     * @param parent the given parent
-     * @return the children
-     */
-    Collection getChildren(Object parent);
+	/**
+	 * Gets a collection of 'child' objects for the given 'parent' object in the
+	 * uml model, which creates the tree structure.
+	 *
+	 * @param parent
+	 *            the given parent
+	 * @return the children
+	 */
+	Collection getChildren(Object parent);
 
-    /**
-     * Gets a collection of objects for any 'parent' object in the
-     * uml model for which the tree structure must be recreated when
-     * they are changed.
-     *
-     * @param parent the parent
-     * @return the dependent objects
-     */
-    Set getDependencies(Object parent);
+	/**
+	 * Gets a collection of objects for any 'parent' object in the uml model for
+	 * which the tree structure must be recreated when they are changed.
+	 *
+	 * @param parent
+	 *            the parent
+	 * @return the dependent objects
+	 */
+	Set getDependencies(Object parent);
 }

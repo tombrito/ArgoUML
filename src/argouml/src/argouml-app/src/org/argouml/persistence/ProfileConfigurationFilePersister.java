@@ -67,156 +67,146 @@ import org.xml.sax.SAXException;
  */
 public class ProfileConfigurationFilePersister extends MemberFilePersister {
 
-    /*
-     * @see org.argouml.persistence.MemberFilePersister#getMainTag()
-     */
-    public String getMainTag() {
-        return "profile";
-    }
-
-    public void load(Project project, InputStream inputStream)
-        throws OpenException {
-        load(project, new InputSource(inputStream));
-    }
-
-    /*
-     * @see org.argouml.persistence.MemberFilePersister#load(org.argouml.kernel.Project, java.io.InputStream)
-     */
-    public void load(Project project, InputSource inputSource)
-        throws OpenException {
-        try {
-            ProfileConfigurationParser parser =
-                new ProfileConfigurationParser();
-            parser.parse(inputSource);
-            Collection<Profile> profiles = parser.getProfiles();
-
-            Collection<String> unresolved = parser.getUnresolvedFilenames();
-            if (!unresolved.isEmpty()) {
-                profiles.addAll(loadUnresolved(unresolved));
-            }
-
-            ProfileConfiguration pc = new ProfileConfiguration(project,
-                    profiles);
-            project.setProfileConfiguration(pc);
-        } catch (Exception e) {
-            if (e instanceof OpenException) {
-                throw (OpenException) e;
-            }
-            throw new OpenException(e);
-        }
-    }
-
-
-    /**
-     * Use XMI as a fall back alternative when the file for the user defined
-     * profile isn't found by the profile manager.
-     * <p>
-     * TODO: work in progress, see issue 5039
-     *
-     * @param unresolved collection of unresolved filenames from the parser
-     * @return collection of resolved profiles
-     */
-    private Collection<Profile> loadUnresolved(Collection<String> unresolved) {
-        Collection<Profile> profiles = new ArrayList<Profile>();
-        ProfileFacade.getManager();
-//        for (String filename : unresolved) {
-            // TODO: work in progress, see issue 5039
-//            addUserDefinedProfile(filename, xmi, profileManager);
-//            Profile profile = getMatchingUserDefinedProfile(filename,
-//                    profileManager);
-//            assert profile != null : "Profile should have been found now.";
-//            profiles.add(profile);
-//        }
-        return profiles;
-    }
-
-    /*
-     * @see org.argouml.persistence.MemberFilePersister#save(org.argouml.kernel.ProjectMember, java.io.OutputStream)
-     */
-    public void save(ProjectMember member, OutputStream stream)
-	throws SaveException {
-
-        PrintWriter w;
-        try {
-            w = new PrintWriter(new OutputStreamWriter(stream, "UTF-8"));
-        } catch (UnsupportedEncodingException e1) {
-            throw new SaveException("UTF-8 encoding not supported on platform",
-                    e1);
-        }
-        saveProjectMember(member, w);
-        w.flush();
-    }
-
-    private void saveProjectMember(ProjectMember member, PrintWriter w)
-	throws SaveException {
-
-        try {
-	    if (member instanceof ProfileConfiguration) {
-		ProfileConfiguration pc = (ProfileConfiguration) member;
-
-		w.println("<?xml version = \"1.0\" encoding = \"UTF-8\" ?>");
-		// TODO: This DTD doesn't exist, so we can't tell readers to
-		// look for it
-//		w.println("<!DOCTYPE profile SYSTEM \"profile.dtd\" >");
-		// but we need a 2nd line to make the funky UML persister work
-		w.println(""); // remove this line if the above is uncommented
-		w.println("<profile>");
-
-		for (Profile profile : pc.getProfiles()) {
-                    if (profile instanceof UserDefinedProfile) {
-                        UserDefinedProfile uprofile =
-                            (UserDefinedProfile) profile;
-                        w.println("\t\t<userDefined>");
-                        w.println("\t\t\t<filename>"
-                                + uprofile.getModelFile().getName()
-                                + "</filename>");
-                        w.println("\t\t\t<model>");
-
-                        printModelXMI(w, uprofile.getProfilePackages());
-
-                        w.println("\t\t\t</model>");
-                        w.println("\t\t</userDefined>");
-                    } else {
-                        w.println("\t\t<plugin>");
-                        w.println("\t\t\t" + profile.getProfileIdentifier());
-                        w.println("\t\t</plugin>");
-                    }
-                }
-
-		w.println("</profile>");
-	    }
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    throw new SaveException(e);
+	/*
+	 * @see org.argouml.persistence.MemberFilePersister#getMainTag()
+	 */
+	public String getMainTag() {
+		return "profile";
 	}
-    }
 
-    private void printModelXMI(PrintWriter w, Collection profileModels)
-        throws UmlException {
+	public void load(Project project, InputStream inputStream) throws OpenException {
+		load(project, new InputSource(inputStream));
+	}
 
-        // TODO: Why is this not executed?  Remove if not needed - tfm
-        if (true) {
-            return;
-        }
+	/*
+	 * @see org.argouml.persistence.MemberFilePersister#load(org.argouml.kernel.
+	 * Project, java.io.InputStream)
+	 */
+	public void load(Project project, InputSource inputSource) throws OpenException {
+		try {
+			ProfileConfigurationParser parser = new ProfileConfigurationParser();
+			parser.parse(inputSource);
+			Collection<Profile> profiles = parser.getProfiles();
 
-//        StringWriter myWriter = new StringWriter();
-//        for (Object model : profileModels) {
-//            XmiWriter xmiWriter = Model.getXmiWriter(model,
-//                (OutputStream) null, //myWriter,
-//                ApplicationVersion.getVersion() + "("
-//                    + UmlFilePersister.PERSISTENCE_VERSION + ")");
-//            xmiWriter.write();
-//        }
-//
-//        myWriter.flush();
-//        w.println("" + myWriter.toString());
-    }
+			Collection<String> unresolved = parser.getUnresolvedFilenames();
+			if (!unresolved.isEmpty()) {
+				profiles.addAll(loadUnresolved(unresolved));
+			}
 
+			ProfileConfiguration pc = new ProfileConfiguration(project, profiles);
+			project.setProfileConfiguration(pc);
+		} catch (Exception e) {
+			if (e instanceof OpenException) {
+				throw (OpenException) e;
+			}
+			throw new OpenException(e);
+		}
+	}
 
-    @Override
-    public void load(Project project, URL url) throws OpenException {
-        load(project, new InputSource(url.toExternalForm()));
-    }
+	/**
+	 * Use XMI as a fall back alternative when the file for the user defined
+	 * profile isn't found by the profile manager.
+	 * <p>
+	 * TODO: work in progress, see issue 5039
+	 *
+	 * @param unresolved
+	 *            collection of unresolved filenames from the parser
+	 * @return collection of resolved profiles
+	 */
+	private Collection<Profile> loadUnresolved(Collection<String> unresolved) {
+		Collection<Profile> profiles = new ArrayList<Profile>();
+		ProfileFacade.getManager();
+		// for (String filename : unresolved) {
+		// TODO: work in progress, see issue 5039
+		// addUserDefinedProfile(filename, xmi, profileManager);
+		// Profile profile = getMatchingUserDefinedProfile(filename,
+		// profileManager);
+		// assert profile != null : "Profile should have been found now.";
+		// profiles.add(profile);
+		// }
+		return profiles;
+	}
+
+	/*
+	 * @see org.argouml.persistence.MemberFilePersister#save(org.argouml.kernel.
+	 * ProjectMember, java.io.OutputStream)
+	 */
+	public void save(ProjectMember member, OutputStream stream) throws SaveException {
+
+		PrintWriter w;
+		try {
+			w = new PrintWriter(new OutputStreamWriter(stream, "UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			throw new SaveException("UTF-8 encoding not supported on platform", e1);
+		}
+		saveProjectMember(member, w);
+		w.flush();
+	}
+
+	private void saveProjectMember(ProjectMember member, PrintWriter w) throws SaveException {
+
+		try {
+			if (member instanceof ProfileConfiguration) {
+				ProfileConfiguration pc = (ProfileConfiguration) member;
+
+				w.println("<?xml version = \"1.0\" encoding = \"UTF-8\" ?>");
+				// TODO: This DTD doesn't exist, so we can't tell readers to
+				// look for it
+				// w.println("<!DOCTYPE profile SYSTEM \"profile.dtd\" >");
+				// but we need a 2nd line to make the funky UML persister work
+				w.println(""); // remove this line if the above is uncommented
+				w.println("<profile>");
+
+				for (Profile profile : pc.getProfiles()) {
+					if (profile instanceof UserDefinedProfile) {
+						UserDefinedProfile uprofile = (UserDefinedProfile) profile;
+						w.println("\t\t<userDefined>");
+						w.println("\t\t\t<filename>" + uprofile.getModelFile().getName() + "</filename>");
+						w.println("\t\t\t<model>");
+
+						printModelXMI(w, uprofile.getProfilePackages());
+
+						w.println("\t\t\t</model>");
+						w.println("\t\t</userDefined>");
+					} else {
+						w.println("\t\t<plugin>");
+						w.println("\t\t\t" + profile.getProfileIdentifier());
+						w.println("\t\t</plugin>");
+					}
+				}
+
+				w.println("</profile>");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new SaveException(e);
+		}
+	}
+
+	private void printModelXMI(PrintWriter w, Collection profileModels) throws UmlException {
+
+		// TODO: Why is this not executed? Remove if not needed - tfm
+		if (true) {
+			return;
+		}
+
+		// StringWriter myWriter = new StringWriter();
+		// for (Object model : profileModels) {
+		// XmiWriter xmiWriter = Model.getXmiWriter(model,
+		// (OutputStream) null, //myWriter,
+		// ApplicationVersion.getVersion() + "("
+		// + UmlFilePersister.PERSISTENCE_VERSION + ")");
+		// xmiWriter.write();
+		// }
+		//
+		// myWriter.flush();
+		// w.println("" + myWriter.toString());
+	}
+
+	@Override
+	public void load(Project project, URL url) throws OpenException {
+		load(project, new InputSource(url.toExternalForm()));
+	}
 
 }
 
@@ -227,230 +217,218 @@ public class ProfileConfigurationFilePersister extends MemberFilePersister {
  */
 class ProfileConfigurationParser extends SAXParserBase {
 
-    private static final Logger LOG =
-        Logger.getLogger(ProfileConfigurationParser.class.getName());
+	private static final Logger LOG = Logger.getLogger(ProfileConfigurationParser.class.getName());
 
-    private ProfileConfigurationTokenTable tokens =
-        new ProfileConfigurationTokenTable();
+	private ProfileConfigurationTokenTable tokens = new ProfileConfigurationTokenTable();
 
-    private Profile profile;
+	private Profile profile;
 
-    private String model;
+	private String model;
 
-    private String filename;
+	private String filename;
 
-    private Collection<Profile> profiles = new ArrayList<Profile>();
+	private Collection<Profile> profiles = new ArrayList<Profile>();
 
-    private Collection<String> unresolvedFilenames = new ArrayList<String>();
+	private Collection<String> unresolvedFilenames = new ArrayList<String>();
 
-    /**
-     * Construct the parser.
-     */
-    public ProfileConfigurationParser() {
-        // Empty constructor
-    }
+	/**
+	 * Construct the parser.
+	 */
+	public ProfileConfigurationParser() {
+		// Empty constructor
+	}
 
-    public Collection<Profile> getProfiles() {
-        return profiles;
-    }
+	public Collection<Profile> getProfiles() {
+		return profiles;
+	}
 
-    public Collection<String> getUnresolvedFilenames() {
-        return unresolvedFilenames;
-    }
+	public Collection<String> getUnresolvedFilenames() {
+		return unresolvedFilenames;
+	}
 
-    public void handleStartElement(XMLElement e) {
+	public void handleStartElement(XMLElement e) {
 
-        try {
-            switch (tokens.toToken(e.getName(), true)) {
+		try {
+			switch (tokens.toToken(e.getName(), true)) {
 
-            case ProfileConfigurationTokenTable.TOKEN_PROFILE:
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_PLUGIN:
-                profile = null;
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_USER_DEFINED:
-                profile = null;
-                filename = null;
-                model = null;
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_FILENAME:
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_MODEL:
-                break;
+			case ProfileConfigurationTokenTable.TOKEN_PROFILE:
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_PLUGIN:
+				profile = null;
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_USER_DEFINED:
+				profile = null;
+				filename = null;
+				model = null;
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_FILENAME:
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_MODEL:
+				break;
 
-            default:
-                LOG.log(Level.WARNING, "WARNING: unknown tag:" + e.getName());
-                break;
-            }
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, "Exception in startelement", ex);
-        }
-    }
+			default:
+				LOG.log(Level.WARNING, "WARNING: unknown tag:" + e.getName());
+				break;
+			}
+		} catch (Exception ex) {
+			LOG.log(Level.SEVERE, "Exception in startelement", ex);
+		}
+	}
 
-    /**
-     * Called by the XML implementation to signal the end of an XML entity.
-     *
-     * @param e The XML entity that ends.
-     * @throws SAXException on any error
-     */
-    public void handleEndElement(XMLElement e) throws SAXException {
+	/**
+	 * Called by the XML implementation to signal the end of an XML entity.
+	 *
+	 * @param e
+	 *            The XML entity that ends.
+	 * @throws SAXException
+	 *             on any error
+	 */
+	public void handleEndElement(XMLElement e) throws SAXException {
 
-        try {
-            switch (tokens.toToken(e.getName(), false)) {
+		try {
+			switch (tokens.toToken(e.getName(), false)) {
 
-            case ProfileConfigurationTokenTable.TOKEN_PROFILE:
-                handleProfileEnd(e);
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_PLUGIN:
-                handlePluginEnd(e);
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_USER_DEFINED:
-                handleUserDefinedEnd(e);
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_FILENAME:
-                handleFilenameEnd(e);
-                break;
-            case ProfileConfigurationTokenTable.TOKEN_MODEL:
-                handleModelEnd(e);
-                break;
+			case ProfileConfigurationTokenTable.TOKEN_PROFILE:
+				handleProfileEnd(e);
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_PLUGIN:
+				handlePluginEnd(e);
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_USER_DEFINED:
+				handleUserDefinedEnd(e);
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_FILENAME:
+				handleFilenameEnd(e);
+				break;
+			case ProfileConfigurationTokenTable.TOKEN_MODEL:
+				handleModelEnd(e);
+				break;
 
-            default:
-                LOG.log(Level.WARNING,
-                        "WARNING: unknown end tag:" + e.getName());
-                break;
-            }
-        } catch (Exception ex) {
-            throw new SAXException(ex);
-        }
-    }
+			default:
+				LOG.log(Level.WARNING, "WARNING: unknown end tag:" + e.getName());
+				break;
+			}
+		} catch (Exception ex) {
+			throw new SAXException(ex);
+		}
+	}
 
-    protected void handleProfileEnd(XMLElement e) {
-        if (profiles.isEmpty()) {
-            LOG.log(Level.WARNING, "No profiles defined");
-        }
-    }
+	protected void handleProfileEnd(XMLElement e) {
+		if (profiles.isEmpty()) {
+			LOG.log(Level.WARNING, "No profiles defined");
+		}
+	}
 
-    protected void handlePluginEnd(XMLElement e) throws SAXException {
-        String name = e.getText().trim();
-        profile = lookupProfile(name);
-        if (profile != null) {
-            profiles.add(profile);
-            LOG.log(Level.FINE, "Found plugin profile {0}", name);
-        } else {
-            LOG.log(Level.SEVERE, "Unabled to find plugin profile - {0}", name);
-        }
-    }
+	protected void handlePluginEnd(XMLElement e) throws SAXException {
+		String name = e.getText().trim();
+		profile = lookupProfile(name);
+		if (profile != null) {
+			profiles.add(profile);
+			LOG.log(Level.FINE, "Found plugin profile {0}", name);
+		} else {
+			LOG.log(Level.SEVERE, "Unabled to find plugin profile - {0}", name);
+		}
+	}
 
-    private static Profile lookupProfile(String profileIdentifier)
-        throws SAXException {
-        Profile profile;
-        profile = ProfileFacade.getManager().lookForRegisteredProfile(
-                profileIdentifier);
-        if (profile == null) {
+	private static Profile lookupProfile(String profileIdentifier) throws SAXException {
+		Profile profile;
+		profile = ProfileFacade.getManager().lookForRegisteredProfile(profileIdentifier);
+		if (profile == null) {
 
-            // for compatibility with older format
-            profile = ProfileFacade.getManager().getProfileForClass(
-                    profileIdentifier);
+			// for compatibility with older format
+			profile = ProfileFacade.getManager().getProfileForClass(profileIdentifier);
 
-            if (profile == null) {
-                throw new SAXException("Plugin profile \"" + profileIdentifier
-                        + "\" is not available in installation.", null);
-            }
-        }
-        return profile;
-    }
+			if (profile == null) {
+				throw new SAXException("Plugin profile \"" + profileIdentifier + "\" is not available in installation.",
+						null);
+			}
+		}
+		return profile;
+	}
 
-    protected void handleUserDefinedEnd(XMLElement e) {
-        // <model> is not used in current implementation
-        if (filename == null /* || model == null */) {
-            LOG.log(Level.SEVERE,
-                    "Got badly formed user defined profile entry " + e);
-        }
-        profile = getMatchingUserDefinedProfile(filename, ProfileFacade
-                .getManager());
+	protected void handleUserDefinedEnd(XMLElement e) {
+		// <model> is not used in current implementation
+		if (filename == null /* || model == null */) {
+			LOG.log(Level.SEVERE, "Got badly formed user defined profile entry " + e);
+		}
+		profile = getMatchingUserDefinedProfile(filename, ProfileFacade.getManager());
 
-        if (profile == null) {
-            unresolvedFilenames.add(filename);
-        } else {
-            profiles.add(profile);
-            LOG.log(Level.FINE,
-                    "Loaded user defined profile - filename = {0}", filename);
-        }
+		if (profile == null) {
+			unresolvedFilenames.add(filename);
+		} else {
+			profiles.add(profile);
+			LOG.log(Level.FINE, "Loaded user defined profile - filename = {0}", filename);
+		}
 
-    }
+	}
 
-    private static Profile getMatchingUserDefinedProfile(String fileName,
-            ProfileManager profileManager) {
-        for (Profile candidateProfile
-                : profileManager.getRegisteredProfiles()) {
-            if (candidateProfile instanceof UserDefinedProfile) {
-                UserDefinedProfile userProfile =
-                    (UserDefinedProfile) candidateProfile;
-                if (userProfile.getModelFile() != null
-                        && fileName
-                                .equals(userProfile.getModelFile().getName())) {
-                    return userProfile;
-                }
-            }
-        }
-        return null;
-    }
+	private static Profile getMatchingUserDefinedProfile(String fileName, ProfileManager profileManager) {
+		for (Profile candidateProfile : profileManager.getRegisteredProfiles()) {
+			if (candidateProfile instanceof UserDefinedProfile) {
+				UserDefinedProfile userProfile = (UserDefinedProfile) candidateProfile;
+				if (userProfile.getModelFile() != null && fileName.equals(userProfile.getModelFile().getName())) {
+					return userProfile;
+				}
+			}
+		}
+		return null;
+	}
 
-    protected void handleFilenameEnd(XMLElement e) {
-        filename = e.getText().trim();
-        LOG.log(Level.FINE, "Got filename = {0}", filename);
-    }
+	protected void handleFilenameEnd(XMLElement e) {
+		filename = e.getText().trim();
+		LOG.log(Level.FINE, "Got filename = {0}", filename);
+	}
 
-    protected void handleModelEnd(XMLElement e) {
-        model = e.getText().trim();
-        LOG.log(Level.FINE, "Got model = {0}", model);
-    }
+	protected void handleModelEnd(XMLElement e) {
+		model = e.getText().trim();
+		LOG.log(Level.FINE, "Got model = {0}", model);
+	}
 
-    /**
-     * Token Table for Profile Configuration parser.
-     *
-     * @author Tom Morris
-     */
-    class ProfileConfigurationTokenTable extends XMLTokenTableBase {
+	/**
+	 * Token Table for Profile Configuration parser.
+	 *
+	 * @author Tom Morris
+	 */
+	class ProfileConfigurationTokenTable extends XMLTokenTableBase {
 
-        private static final String STRING_PROFILE = "profile";
+		private static final String STRING_PROFILE = "profile";
 
-        private static final String STRING_PLUGIN = "plugin";
+		private static final String STRING_PLUGIN = "plugin";
 
-        private static final String STRING_USER_DEFINED = "userDefined";
+		private static final String STRING_USER_DEFINED = "userDefined";
 
-        private static final String STRING_FILENAME = "filename";
+		private static final String STRING_FILENAME = "filename";
 
-        private static final String STRING_MODEL = "model";
+		private static final String STRING_MODEL = "model";
 
-        public static final int TOKEN_PROFILE = 1;
+		public static final int TOKEN_PROFILE = 1;
 
-        public static final int TOKEN_PLUGIN = 2;
+		public static final int TOKEN_PLUGIN = 2;
 
-        public static final int TOKEN_USER_DEFINED = 3;
+		public static final int TOKEN_USER_DEFINED = 3;
 
-        public static final int TOKEN_FILENAME = 4;
+		public static final int TOKEN_FILENAME = 4;
 
-        public static final int TOKEN_MODEL = 5;
+		public static final int TOKEN_MODEL = 5;
 
-        private static final int TOKEN_LAST = 5;
+		private static final int TOKEN_LAST = 5;
 
-        public static final int TOKEN_UNDEFINED = 999;
+		public static final int TOKEN_UNDEFINED = 999;
 
-        /**
-         * Construct the token table.,
-         */
-        public ProfileConfigurationTokenTable() {
-            super(TOKEN_LAST);
-        }
+		/**
+		 * Construct the token table.,
+		 */
+		public ProfileConfigurationTokenTable() {
+			super(TOKEN_LAST);
+		}
 
-        protected void setupTokens() {
-            addToken(STRING_PROFILE, Integer.valueOf(TOKEN_PROFILE));
-            addToken(STRING_PLUGIN, Integer.valueOf(TOKEN_PLUGIN));
-            addToken(STRING_USER_DEFINED, Integer.valueOf(TOKEN_USER_DEFINED));
-            addToken(STRING_FILENAME, Integer.valueOf(TOKEN_FILENAME));
-            addToken(STRING_MODEL, Integer.valueOf(TOKEN_MODEL));
-        }
-    }
+		protected void setupTokens() {
+			addToken(STRING_PROFILE, Integer.valueOf(TOKEN_PROFILE));
+			addToken(STRING_PLUGIN, Integer.valueOf(TOKEN_PLUGIN));
+			addToken(STRING_USER_DEFINED, Integer.valueOf(TOKEN_USER_DEFINED));
+			addToken(STRING_FILENAME, Integer.valueOf(TOKEN_FILENAME));
+			addToken(STRING_MODEL, Integer.valueOf(TOKEN_MODEL));
+		}
+	}
 
 }

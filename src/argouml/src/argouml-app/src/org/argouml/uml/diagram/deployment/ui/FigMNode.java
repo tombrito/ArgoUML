@@ -51,39 +51,40 @@ import org.tigris.gef.presentation.FigText;
  * @author 5eichler@informatik.uni-hamburg.de
  */
 public class FigMNode extends AbstractFigNode {
-    
-    private static final long serialVersionUID = 4526254073867754470L;
+
+	private static final long serialVersionUID = 4526254073867754470L;
 
 	/**
-     * Construct a new FigMNode.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigMNode(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
-    
-    @Override
-    protected void textEditStarted(FigText ft) {
-        if (ft == getNameFig()) {
-            showHelp("parsing.help.fig-node");
-        }
-    }
+	 * Construct a new FigMNode.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigMNode(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
 
-    /*
-     * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.MouseEvent)
-     */
-    @Override
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        // Modifiers ...
-        popUpActions.add(
-                popUpActions.size() - getPopupAddOffset(),
-                buildModifierPopUp(ABSTRACT | LEAF | ROOT));
-        return popUpActions;
-    }
+	@Override
+	protected void textEditStarted(FigText ft) {
+		if (ft == getNameFig()) {
+			showHelp("parsing.help.fig-node");
+		}
+	}
+
+	/*
+	 * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.
+	 * MouseEvent)
+	 */
+	@Override
+	public Vector getPopUpActions(MouseEvent me) {
+		Vector popUpActions = super.getPopUpActions(me);
+		// Modifiers ...
+		popUpActions.add(popUpActions.size() - getPopupAddOffset(), buildModifierPopUp(ABSTRACT | LEAF | ROOT));
+		return popUpActions;
+	}
 
 }

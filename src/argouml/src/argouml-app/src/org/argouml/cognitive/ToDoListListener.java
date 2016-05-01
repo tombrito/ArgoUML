@@ -38,33 +38,35 @@
 
 package org.argouml.cognitive;
 
-
-
 /**
- * These are the methods you have to implement if you want
- * to get notified when the todo list changes.
+ * These are the methods you have to implement if you want to get notified when
+ * the todo list changes.
  *
  */
 public interface ToDoListListener extends java.util.EventListener {
 
-    /**
-     * @param tde the todo list event
-     */
-    void toDoListChanged(ToDoListEvent tde);
+	/**
+	 * @param tde
+	 *            the todo list event
+	 */
+	void toDoListChanged(ToDoListEvent tde);
 
-    /**
-     * @param tde the todo list event
-     */
-    void toDoItemsChanged(ToDoListEvent tde);
+	/**
+	 * @param tde
+	 *            the todo list event
+	 */
+	void toDoItemsChanged(ToDoListEvent tde);
 
-    /**
-     * @param tde the todo list event
-     */
-    void toDoItemsAdded(ToDoListEvent tde);
+	/**
+	 * @param tde
+	 *            the todo list event
+	 */
+	void toDoItemsAdded(ToDoListEvent tde);
 
-    /**
-     * @param tde the todo list event
-     */
-    void toDoItemsRemoved(ToDoListEvent tde);
-    
+	/**
+	 * @param tde
+	 *            the todo list event
+	 */
+	void toDoItemsRemoved(ToDoListEvent tde);
+
 }

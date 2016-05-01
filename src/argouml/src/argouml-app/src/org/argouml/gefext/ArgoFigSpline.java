@@ -55,60 +55,63 @@ import org.tigris.gef.presentation.FigSpline;
  */
 public class ArgoFigSpline extends FigSpline implements NotificationEmitter {
 
-    private static final long serialVersionUID = 8619142386232030227L;
-	private NotificationBroadcasterSupport notifier = 
-        new NotificationBroadcasterSupport();
+	private static final long serialVersionUID = 8619142386232030227L;
+	private NotificationBroadcasterSupport notifier = new NotificationBroadcasterSupport();
 
-    public ArgoFigSpline() {
-    
-    }
-    
-    public ArgoFigSpline(int x, int y) {
-        super(x, y);
-    }
+	public ArgoFigSpline() {
 
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#deleteFromModel()
-     */
-    @Override
-    public void deleteFromModel() {
-        super.deleteFromModel();
-        firePropChange("remove", null, null);
-        notifier.sendNotification(new Notification("remove", this, 0));
-    }
+	public ArgoFigSpline(int x, int y) {
+		super(x, y);
+	}
 
-    /*
-     * @see javax.management.NotificationEmitter#removeNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
-     */
-    public void removeNotificationListener(NotificationListener listener,
-        NotificationFilter filter, Object handback) 
-        throws ListenerNotFoundException {
-        notifier.removeNotificationListener(listener, filter, handback);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#deleteFromModel()
+	 */
+	@Override
+	public void deleteFromModel() {
+		super.deleteFromModel();
+		firePropChange("remove", null, null);
+		notifier.sendNotification(new Notification("remove", this, 0));
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#addNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
-     */
-    public void addNotificationListener(NotificationListener listener, 
-        NotificationFilter filter, Object handback) 
-        throws IllegalArgumentException {
-        notifier.addNotificationListener(listener, filter, handback);
-    }
+	/*
+	 * @see
+	 * javax.management.NotificationEmitter#removeNotificationListener(javax.
+	 * management.NotificationListener, javax.management.NotificationFilter,
+	 * java.lang.Object)
+	 */
+	public void removeNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback)
+			throws ListenerNotFoundException {
+		notifier.removeNotificationListener(listener, filter, handback);
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#getNotificationInfo()
-     */
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return notifier.getNotificationInfo();
-    }
+	/*
+	 * @see
+	 * javax.management.NotificationBroadcaster#addNotificationListener(javax.
+	 * management.NotificationListener, javax.management.NotificationFilter,
+	 * java.lang.Object)
+	 */
+	public void addNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback)
+			throws IllegalArgumentException {
+		notifier.addNotificationListener(listener, filter, handback);
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#removeNotificationListener(javax.management.NotificationListener)
-     */
-    public void removeNotificationListener(NotificationListener listener) 
-        throws ListenerNotFoundException {
-        notifier.removeNotificationListener(listener);
-    }
+	/*
+	 * @see javax.management.NotificationBroadcaster#getNotificationInfo()
+	 */
+	public MBeanNotificationInfo[] getNotificationInfo() {
+		return notifier.getNotificationInfo();
+	}
+
+	/*
+	 * @see
+	 * javax.management.NotificationBroadcaster#removeNotificationListener(javax
+	 * .management.NotificationListener)
+	 */
+	public void removeNotificationListener(NotificationListener listener) throws ListenerNotFoundException {
+		notifier.removeNotificationListener(listener);
+	}
 
 }

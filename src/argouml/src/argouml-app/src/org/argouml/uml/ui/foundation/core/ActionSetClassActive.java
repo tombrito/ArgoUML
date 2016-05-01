@@ -52,42 +52,41 @@ import org.argouml.uml.ui.UMLCheckBox2;
  * @author mkl
  */
 public class ActionSetClassActive extends UndoableAction {
-    private static final long serialVersionUID = 4775539904590994787L;
+	private static final long serialVersionUID = 4775539904590994787L;
 	/**
-     * The instance.
-     */
-    private static final ActionSetClassActive SINGLETON =
-        new ActionSetClassActive();
+	 * The instance.
+	 */
+	private static final ActionSetClassActive SINGLETON = new ActionSetClassActive();
 
-    /**
-     * Constructor.
-     */
-    protected ActionSetClassActive() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * Constructor.
+	 */
+	protected ActionSetClassActive() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof UMLCheckBox2) {
-            UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-            Object target = source.getTarget();
-            if (Model.getFacade().isAClass(target)) {
-                Object m = target;
-                Model.getCoreHelper().setActive(m, source.isSelected());
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAClass(target)) {
+				Object m = target;
+				Model.getCoreHelper().setActive(m, source.isSelected());
+			}
+		}
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionSetClassActive getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionSetClassActive getInstance() {
+		return SINGLETON;
+	}
 }

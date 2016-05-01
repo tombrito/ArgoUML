@@ -45,20 +45,21 @@ package org.argouml.notation;
  */
 public class SDNotationSettings extends NotationSettings {
 
-    private boolean showSequenceNumbers;
+	private boolean showSequenceNumbers;
 
-    /**
-     * @return the showSequenceNumbers setting
-     */
-    public boolean isShowSequenceNumbers() {
-        return showSequenceNumbers;
-    }
+	/**
+	 * @return the showSequenceNumbers setting
+	 */
+	public boolean isShowSequenceNumbers() {
+		return showSequenceNumbers;
+	}
 
-    /**
-     * @param showThem true to show sequence numbers
-     */
-    public void setShowSequenceNumbers(boolean showThem) {
-        this.showSequenceNumbers = showThem;
-    }
+	/**
+	 * @param showThem
+	 *            true to show sequence numbers
+	 */
+	public void setShowSequenceNumbers(boolean showThem) {
+		this.showSequenceNumbers = showThem;
+	}
 
 }

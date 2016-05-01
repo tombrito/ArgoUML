@@ -42,21 +42,20 @@ import org.argouml.model.AbstractCollaborationsHelperDecorator;
 import org.argouml.model.CollaborationsHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoCollaborationsHelperDecorator
-	extends AbstractCollaborationsHelperDecorator {
+class UndoCollaborationsHelperDecorator extends AbstractCollaborationsHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoCollaborationsHelperDecorator(CollaborationsHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoCollaborationsHelperDecorator(CollaborationsHelper component) {
+		super(component);
+	}
 }
-

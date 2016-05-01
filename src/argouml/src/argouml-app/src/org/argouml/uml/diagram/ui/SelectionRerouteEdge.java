@@ -55,192 +55,183 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigNode;
 
 /**
- * A general class for rerouting edges, achieved by delegating
- * the re-routing logic to the graphmodels; extends
- * functionality in SelectionEdgeClarifiers.
+ * A general class for rerouting edges, achieved by delegating the re-routing
+ * logic to the graphmodels; extends functionality in SelectionEdgeClarifiers.
  *
- * <p>If a graphmodel does not override canChangeConnectedNode()
- * then rerouting is not possible and ArgoUML should behave as if
- * rerouting had never been implemented.
+ * <p>
+ * If a graphmodel does not override canChangeConnectedNode() then rerouting is
+ * not possible and ArgoUML should behave as if rerouting had never been
+ * implemented.
  *
- * @author  alexb
+ * @author alexb
  * @since 0.13.2
  */
 public class SelectionRerouteEdge extends SelectionEdgeClarifiers {
 
-    private static final long serialVersionUID = 2715749923832967903L;
+	private static final long serialVersionUID = 2715749923832967903L;
 
 	/**
-     * Used to determine if the association is now to self,
-     * in which case The association needs automatic layout.
-     */
-    private FigNode sourceFig;
+	 * Used to determine if the association is now to self, in which case The
+	 * association needs automatic layout.
+	 */
+	private FigNode sourceFig;
 
-    /**
-     * Used to determine if the association is now to self,
-     * in which case The association needs automatic layout.
-     */
-    private FigNode destFig;
+	/**
+	 * Used to determine if the association is now to self, in which case The
+	 * association needs automatic layout.
+	 */
+	private FigNode destFig;
 
-    /**
-     * The re-routing capability it armed if the mouse was previously
-     * dragged.
-     * <p>prevents just selecting the message then clicking somewhere
-     * else on the diagram,
-     */
-    private boolean armed;
+	/**
+	 * The re-routing capability it armed if the mouse was previously dragged.
+	 * <p>
+	 * prevents just selecting the message then clicking somewhere else on the
+	 * diagram,
+	 */
+	private boolean armed;
 
-    /**
-     * The index of the point on the line of the message.
-     * <p>0 = sender end
-     * <p>1..* = receiver end
-     */
-    private int pointIndex;
+	/**
+	 * The index of the point on the line of the message.
+	 * <p>
+	 * 0 = sender end
+	 * <p>
+	 * 1..* = receiver end
+	 */
+	private int pointIndex;
 
-    /** 
-     * Creates a new instance of SelectionRerouteEdge
-     *
-     * @param feme the given Fig
-     */
-    public SelectionRerouteEdge(FigEdgeModelElement feme) {
-        // TODO: There is a cyclic dependency between SelectionRerouteEdge
-        // and FigEdgeModelElement
-        super(feme);
+	/**
+	 * Creates a new instance of SelectionRerouteEdge
+	 *
+	 * @param feme
+	 *            the given Fig
+	 */
+	public SelectionRerouteEdge(FigEdgeModelElement feme) {
+		// TODO: There is a cyclic dependency between SelectionRerouteEdge
+		// and FigEdgeModelElement
+		super(feme);
 
-        // set it to an invalid number by default
-        // to make sure it is set correctly.
-        pointIndex = -1;
-    }
-
-    /**
-     * Set up for re-routing.
-     *
-     * {@inheritDoc}
-     */
-    public void mousePressed(MouseEvent me) {
-
-        // calculate the source and dest figs for to self assoc
-        sourceFig =
-	    ((FigEdge) getContent()).getSourceFigNode();
-        destFig = 
-            ((FigEdge) getContent()).getDestFigNode();
-
-        final Rectangle mousePosition =
-	    new Rectangle(me.getX() - 5, me.getY() - 5, 10, 10);
-        //reset the pointIndex
-        pointIndex = -1;
-        final int npoints = getContent().getNumPoints();
-        final int[] xs = getContent().getXs();
-        final int[] ys = getContent().getYs();
-        if (mousePosition.contains(xs[0], ys[0])) {
-            pointIndex = 0;
-        } else if (mousePosition.contains(
-                xs[npoints - 1], ys[npoints - 1])) {
-            pointIndex = npoints - 1;
-        }
-
-        super.mousePressed(me);
-    }
-
-    /*
-     * Need to 'arm' the rerouting capability with mouseDragged().
-     * <p>
-     * Don't arm if the edtior's current mode is a figedge create mode,
-     * because once a new edge has been created it is not deselected,
-     * therefore on the next create an unwanted reroute is performed.
-     *
-     * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent)
-     */
-    public void mouseDragged(MouseEvent me) {
-
-        Editor editor = Globals.curEditor();
-        ModeManager modeMgr = editor.getModeManager();
-        FigModifyingMode fMode = modeMgr.top();
-
-        if (!(fMode instanceof ModeCreatePolyEdge)) {
-            armed = true;
-        }
-        super.mouseDragged(me);
-    }
-
-    /*
-     * Perform re-routing if src/dest nodes have changed.
-     *
-     * <p>This method needs to be 'armed' by a previous mouseDragged()
-     * to avoid the situation where the user just clicks on the node
-     * then clicks on some unrelated Fig, without moving the edge...
-     *
-     * <p>TODO: improve the fig finding algorithm to find the top most fig
-     * in the layer. will be useful for nested states in a statechart.
-     *
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
-    public void mouseReleased(MouseEvent me) {
-        // check pre-conds
-        if (me.isConsumed() || !armed || pointIndex == -1) {
-            armed = false;
-            super.mouseReleased(me);
-            return;
-        }
-
-        //Set-up:
-        int x = me.getX(), y = me.getY();
-        // the fig that was under the mouse when it was released
-        FigNodeModelElement newFig = null;
-        //make a nice little target area:
-        Rectangle mousePoint = new Rectangle(x - 5, y - 5, 5, 5);
-        // and find the Fig:
-        Editor editor = Globals.curEditor();
-        LayerManager lm = editor.getLayerManager();
-        Layer active = lm.getActiveLayer();
-        Enumeration figs = active.elementsIn(mousePoint);
-        // last is the top fig.
-        while (figs.hasMoreElements()) {
-            Fig candidateFig = (Fig) figs.nextElement();
-            if (candidateFig instanceof FigNodeModelElement
-                    && candidateFig.isSelectable()) {
-                newFig = (FigNodeModelElement) candidateFig;
-            }
-        }
-        // check intermediate post-condition.
-        if (newFig == null) {
-            armed = false;
-            super.mouseReleased(me);
-            return;
-        }
-
-        UMLMutableGraphSupport mgm =
-            (UMLMutableGraphSupport) editor.getGraphModel();
-        FigNode oldFig = null;
-        boolean isSource = false;
-        if (pointIndex == 0) {
-            oldFig = sourceFig;
-            isSource = true;
-        }
-        else {
-            oldFig = destFig;
-        }
-
-        // delegate the re-routing to graphmodels.
-        if (mgm.canChangeConnectedNode(newFig.getOwner(),
-				       oldFig.getOwner(),
-				       this.getContent().getOwner())) {
-	    mgm.changeConnectedNode(newFig.getOwner(),
-				    oldFig.getOwner(),
-				    this.getContent().getOwner(),
-				    isSource);
+		// set it to an invalid number by default
+		// to make sure it is set correctly.
+		pointIndex = -1;
 	}
 
-        editor.getSelectionManager().deselect(getContent());
-        armed = false;
-        // TODO: There is a cyclic dependency between SelectionRerouteEdge
-        // and FigEdgeModelElement
-        FigEdgeModelElement figEdge = (FigEdgeModelElement) getContent();
-        figEdge.determineFigNodes();
-        figEdge.computeRoute();
-        super.mouseReleased(me);
-        return;
-    }
+	/**
+	 * Set up for re-routing.
+	 *
+	 * {@inheritDoc}
+	 */
+	public void mousePressed(MouseEvent me) {
 
+		// calculate the source and dest figs for to self assoc
+		sourceFig = ((FigEdge) getContent()).getSourceFigNode();
+		destFig = ((FigEdge) getContent()).getDestFigNode();
+
+		final Rectangle mousePosition = new Rectangle(me.getX() - 5, me.getY() - 5, 10, 10);
+		// reset the pointIndex
+		pointIndex = -1;
+		final int npoints = getContent().getNumPoints();
+		final int[] xs = getContent().getXs();
+		final int[] ys = getContent().getYs();
+		if (mousePosition.contains(xs[0], ys[0])) {
+			pointIndex = 0;
+		} else if (mousePosition.contains(xs[npoints - 1], ys[npoints - 1])) {
+			pointIndex = npoints - 1;
+		}
+
+		super.mousePressed(me);
+	}
+
+	/*
+	 * Need to 'arm' the rerouting capability with mouseDragged(). <p> Don't arm
+	 * if the edtior's current mode is a figedge create mode, because once a new
+	 * edge has been created it is not deselected, therefore on the next create
+	 * an unwanted reroute is performed.
+	 *
+	 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.
+	 * MouseEvent)
+	 */
+	public void mouseDragged(MouseEvent me) {
+
+		Editor editor = Globals.curEditor();
+		ModeManager modeMgr = editor.getModeManager();
+		FigModifyingMode fMode = modeMgr.top();
+
+		if (!(fMode instanceof ModeCreatePolyEdge)) {
+			armed = true;
+		}
+		super.mouseDragged(me);
+	}
+
+	/*
+	 * Perform re-routing if src/dest nodes have changed.
+	 *
+	 * <p>This method needs to be 'armed' by a previous mouseDragged() to avoid
+	 * the situation where the user just clicks on the node then clicks on some
+	 * unrelated Fig, without moving the edge...
+	 *
+	 * <p>TODO: improve the fig finding algorithm to find the top most fig in
+	 * the layer. will be useful for nested states in a statechart.
+	 *
+	 * @see
+	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased(MouseEvent me) {
+		// check pre-conds
+		if (me.isConsumed() || !armed || pointIndex == -1) {
+			armed = false;
+			super.mouseReleased(me);
+			return;
+		}
+
+		// Set-up:
+		int x = me.getX(), y = me.getY();
+		// the fig that was under the mouse when it was released
+		FigNodeModelElement newFig = null;
+		// make a nice little target area:
+		Rectangle mousePoint = new Rectangle(x - 5, y - 5, 5, 5);
+		// and find the Fig:
+		Editor editor = Globals.curEditor();
+		LayerManager lm = editor.getLayerManager();
+		Layer active = lm.getActiveLayer();
+		Enumeration figs = active.elementsIn(mousePoint);
+		// last is the top fig.
+		while (figs.hasMoreElements()) {
+			Fig candidateFig = (Fig) figs.nextElement();
+			if (candidateFig instanceof FigNodeModelElement && candidateFig.isSelectable()) {
+				newFig = (FigNodeModelElement) candidateFig;
+			}
+		}
+		// check intermediate post-condition.
+		if (newFig == null) {
+			armed = false;
+			super.mouseReleased(me);
+			return;
+		}
+
+		UMLMutableGraphSupport mgm = (UMLMutableGraphSupport) editor.getGraphModel();
+		FigNode oldFig = null;
+		boolean isSource = false;
+		if (pointIndex == 0) {
+			oldFig = sourceFig;
+			isSource = true;
+		} else {
+			oldFig = destFig;
+		}
+
+		// delegate the re-routing to graphmodels.
+		if (mgm.canChangeConnectedNode(newFig.getOwner(), oldFig.getOwner(), this.getContent().getOwner())) {
+			mgm.changeConnectedNode(newFig.getOwner(), oldFig.getOwner(), this.getContent().getOwner(), isSource);
+		}
+
+		editor.getSelectionManager().deselect(getContent());
+		armed = false;
+		// TODO: There is a cyclic dependency between SelectionRerouteEdge
+		// and FigEdgeModelElement
+		FigEdgeModelElement figEdge = (FigEdgeModelElement) getContent();
+		figEdge.determineFigNodes();
+		figEdge.computeRoute();
+		super.mouseReleased(me);
+		return;
+	}
 
 }

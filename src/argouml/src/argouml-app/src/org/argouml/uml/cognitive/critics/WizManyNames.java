@@ -56,102 +56,99 @@ import org.argouml.model.Model;
  * @author jrobbins
  */
 public class WizManyNames extends UMLWizard {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(WizManyNames.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(WizManyNames.class.getName());
 
-    /**
-     * The text that describes what to be done.
-     */
-    private String instructions = Translator
-            .localize("critics.WizManyNames-ins");
+	/**
+	 * The text that describes what to be done.
+	 */
+	private String instructions = Translator.localize("critics.WizManyNames-ins");
 
-    /**
-     * A list of model elements.
-     */
-    private List mes;
+	/**
+	 * A list of model elements.
+	 */
+	private List mes;
 
-    private WizStepManyTextFields step1;
+	private WizStepManyTextFields step1;
 
-    /**
-     * The constructor.
-     *
-     */
-    public WizManyNames() {
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public WizManyNames() {
+	}
 
+	/**
+	 * Set the list of offending ModelElements.
+	 *
+	 * @param elements
+	 *            the list of offending ModelElements
+	 */
+	public void setModelElements(List elements) {
+		int mSize = elements.size();
+		for (int i = 0; i < 3 && i < mSize; ++i) {
+			if (!Model.getFacade().isAModelElement(elements.get(i))) {
+				throw new IllegalArgumentException(
+						"The list should contain model elements in " + "the first 3 positions");
+			}
+		}
 
-    /**
-     * Set the list of offending ModelElements.
-     *
-     * @param elements the list of offending ModelElements
-     */
-    public void setModelElements(List elements) {
-        int mSize = elements.size();
-        for (int i = 0; i < 3 && i < mSize; ++i) {
-            if (!Model.getFacade().isAModelElement(elements.get(i))) {
-                throw new IllegalArgumentException(
-                        "The list should contain model elements in "
-                                + "the first 3 positions");
-            }
-        }
+		mes = elements;
+	}
 
-        mes = elements;
-    }
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#makePanel(int)
+	 */
+	public JPanel makePanel(int newStep) {
+		switch (newStep) {
+		case 1:
+			if (step1 == null) {
+				List<String> names = new ArrayList<String>();
+				int size = mes.size();
+				for (int i = 0; i < size; i++) {
+					Object me = mes.get(i);
+					names.add(Model.getFacade().getName(me));
+				}
+				step1 = new WizStepManyTextFields(this, instructions, names);
+			}
+			return step1;
 
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#makePanel(int)
-     */
-    public JPanel makePanel(int newStep) {
-        switch (newStep) {
-        case 1:
-            if (step1 == null) {
-                List<String> names = new ArrayList<String>();
-                int size = mes.size();
-                for (int i = 0; i < size; i++) {
-                    Object me = mes.get(i);
-                    names.add(Model.getFacade().getName(me));
-                }
-                step1 = new WizStepManyTextFields(this, instructions, names);
-            }
-            return step1;
+		default:
+		}
+		return null;
+	}
 
-        default:
-        }
-        return null;
-    }
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#doAction(int)
+	 */
+	public void doAction(int oldStep) {
+		LOG.log(Level.FINE, "doAction {0}", oldStep);
 
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#doAction(int)
-     */
-    public void doAction(int oldStep) {
-        LOG.log(Level.FINE, "doAction {0}", oldStep);
+		switch (oldStep) {
+		case 1:
+			List<String> newNames = null;
+			if (step1 != null) {
+				newNames = step1.getStringList();
+			}
+			try {
+				int size = mes.size();
+				for (int i = 0; i < size; i++) {
+					Object me = mes.get(i);
+					Model.getCoreHelper().setName(me, newNames.get(i));
+				}
+			} catch (Exception pve) {
+				LOG.log(Level.SEVERE, "could not set name", pve);
+			}
+			break;
 
-        switch (oldStep) {
-        case 1:
-            List<String> newNames = null;
-            if (step1 != null) {
-                newNames = step1.getStringList();
-            }
-            try {
-                int size = mes.size();
-                for (int i = 0; i < size; i++) {
-                    Object me = mes.get(i);
-                    Model.getCoreHelper().setName(me, newNames.get(i));
-                }
-            } catch (Exception pve) {
-                LOG.log(Level.SEVERE, "could not set name", pve);
-            }
-            break;
+		default:
+		}
+	}
 
-        default:
-        }
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -2827847568754795770L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -2827847568754795770L;
 }

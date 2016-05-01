@@ -51,7 +51,8 @@ import org.argouml.cognitive.Critic;
  * presentation characteristics that can be tailored to various modeling
  * environments.
  * <p>
- * An ArgoUML Profile consists of:<ul>
+ * An ArgoUML Profile consists of:
+ * <ul>
  * <li>a UML profile (a special type of UML Model)
  * <li>a set of ArgoUML Critics
  * <li>a set of default types for parameters, etc
@@ -61,138 +62,143 @@ import org.argouml.cognitive.Critic;
  */
 public abstract class Profile {
 
-    private Set<String> dependencies = new HashSet<String>();
+	private Set<String> dependencies = new HashSet<String>();
 
-    /**
-     * The critics provided by this profile
-     */
-    private Set<Critic> critics = new HashSet<Critic>();
+	/**
+	 * The critics provided by this profile
+	 */
+	private Set<Critic> critics = new HashSet<Critic>();
 
-    /**
-     * Add a dependency on the given profile from this profile.
-     * 
-     * @param p the profile
-     * @throws IllegalArgumentException never thrown
-     */
-    protected final void addProfileDependency(Profile p)
-        throws IllegalArgumentException {
-        addProfileDependency(p.getProfileIdentifier());
-    }
+	/**
+	 * Add a dependency on the given profile from this profile.
+	 * 
+	 * @param p
+	 *            the profile
+	 * @throws IllegalArgumentException
+	 *             never thrown
+	 */
+	protected final void addProfileDependency(Profile p) throws IllegalArgumentException {
+		addProfileDependency(p.getProfileIdentifier());
+	}
 
-    /**
-     * Add a dependency on the given profile from this profile.
-     * 
-     * @param profileIdentifier the profile identifier
-     */
-    protected void addProfileDependency(String profileIdentifier) {
-        dependencies.add(profileIdentifier);
-    }
+	/**
+	 * Add a dependency on the given profile from this profile.
+	 * 
+	 * @param profileIdentifier
+	 *            the profile identifier
+	 */
+	protected void addProfileDependency(String profileIdentifier) {
+		dependencies.add(profileIdentifier);
+	}
 
-    /**
-     * @return the dependencies
-     */
-    public final Set<Profile> getDependencies() {
-        if (ProfileFacade.isInitiated()) {
-            Set<Profile> ret = new HashSet<Profile>();
-            for (String pid : dependencies) {
-                Profile p = ProfileFacade.getManager()
-                        .lookForRegisteredProfile(pid);
-                if (p != null) {
-                    ret.add(p);
-                    ret.addAll(p.getDependencies());
-                }
-            }
-            return ret;
-        } else {
-            return new HashSet<Profile>();
-        }
-    }
+	/**
+	 * @return the dependencies
+	 */
+	public final Set<Profile> getDependencies() {
+		if (ProfileFacade.isInitiated()) {
+			Set<Profile> ret = new HashSet<Profile>();
+			for (String pid : dependencies) {
+				Profile p = ProfileFacade.getManager().lookForRegisteredProfile(pid);
+				if (p != null) {
+					ret.add(p);
+					ret.addAll(p.getDependencies());
+				}
+			}
+			return ret;
+		} else {
+			return new HashSet<Profile>();
+		}
+	}
 
-    /**
-     * @return the ids of the dependencies
-     */
-    public final Set<String> getDependenciesID() {
-        return dependencies;
-    }
+	/**
+	 * @return the ids of the dependencies
+	 */
+	public final Set<String> getDependenciesID() {
+		return dependencies;
+	}
 
-    /**
-     * @return the name for this profile
-     */
-    public abstract String getDisplayName();
+	/**
+	 * @return the name for this profile
+	 */
+	public abstract String getDisplayName();
 
-    /**
-     * @return the formating strategy offered by this profile, if any. Returns
-     *         <code>null</code> if this profile has no formating strategy.
-     */
-    public FormatingStrategy getFormatingStrategy() {
-        return null;
-    }
+	/**
+	 * @return the formating strategy offered by this profile, if any. Returns
+	 *         <code>null</code> if this profile has no formating strategy.
+	 */
+	public FormatingStrategy getFormatingStrategy() {
+		return null;
+	}
 
-    /**
-     * @return the FigNodeStrategy offered by this profile, if any. Returns
-     *         <code>null</code> if this profile has no FigNodeStrategy.
-     */
-    public FigNodeStrategy getFigureStrategy() {
-        return null;
-    }
+	/**
+	 * @return the FigNodeStrategy offered by this profile, if any. Returns
+	 *         <code>null</code> if this profile has no FigNodeStrategy.
+	 */
+	public FigNodeStrategy getFigureStrategy() {
+		return null;
+	}
 
-    /**
-     * @return the DefaultTypeStrategy offered by this profile, if any. Returns
-     *         <code>null</code> if this profile has no DefaultTypeStrategy.
-     */
-    public DefaultTypeStrategy getDefaultTypeStrategy() {
-        return null;
-    }
+	/**
+	 * @return the DefaultTypeStrategy offered by this profile, if any. Returns
+	 *         <code>null</code> if this profile has no DefaultTypeStrategy.
+	 */
+	public DefaultTypeStrategy getDefaultTypeStrategy() {
+		return null;
+	}
 
-    /**
-     * @return a collection of the top level UML Packages containing the
-     *         profile.
-     * @throws ProfileException if failed to get profile.
-     */
-    public Collection getProfilePackages() throws ProfileException {
-        return Collections.emptyList();
-    }
+	/**
+	 * @return a collection of the top level UML Packages containing the
+	 *         profile.
+	 * @throws ProfileException
+	 *             if failed to get profile.
+	 */
+	public Collection getProfilePackages() throws ProfileException {
+		return Collections.emptyList();
+	}
 
-    /**
-     * Get just those top level profile packages which have been loaded into the
-     * model repository. Primarily for internal use. Applications should use
-     * {@link #getProfilePackages()}.
-     * 
-     * @return collection of top level UML profile packages.
-     * @throws ProfileException if failed to get profile.
-     */
-    public Collection getLoadedPackages() throws ProfileException {
-        return getProfilePackages();
-    }
-    
-    /**
-     * @return the display name
-     */
-    @Override
-    public String toString() {
-        return getDisplayName();
-    }
+	/**
+	 * Get just those top level profile packages which have been loaded into the
+	 * model repository. Primarily for internal use. Applications should use
+	 * {@link #getProfilePackages()}.
+	 * 
+	 * @return collection of top level UML profile packages.
+	 * @throws ProfileException
+	 *             if failed to get profile.
+	 */
+	public Collection getLoadedPackages() throws ProfileException {
+		return getProfilePackages();
+	}
 
-    /**
-     * @return Returns the critics defined by this profile.
-     */
-    public Set<Critic> getCritics() {
-        return critics;
-    }
+	/**
+	 * @return the display name
+	 */
+	@Override
+	public String toString() {
+		return getDisplayName();
+	}
 
-    /**
-     * @return a unique identifier for this profile
-     * 
-     * For technical reasons this identifier should not contain stars '*'
-     */
-    public String getProfileIdentifier() {
-        return getDisplayName();
-    }
+	/**
+	 * @return Returns the critics defined by this profile.
+	 */
+	public Set<Critic> getCritics() {
+		return critics;
+	}
 
-    /**
-     * @param criticsSet The critics to set.
-     */
-    protected void setCritics(Set<Critic> criticsSet) {
-        this.critics = criticsSet;
-    }
+	/**
+	 * @return a unique identifier for this profile
+	 * 
+	 *         For technical reasons this identifier should not contain stars
+	 *         '*'
+	 */
+	public String getProfileIdentifier() {
+		return getDisplayName();
+	}
+
+	/**
+	 * @param criticsSet
+	 *            The critics to set.
+	 */
+	protected void setCritics(Set<Critic> criticsSet) {
+		this.critics = criticsSet;
+	}
 }

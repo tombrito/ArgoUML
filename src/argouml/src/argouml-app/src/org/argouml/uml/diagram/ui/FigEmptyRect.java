@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.diagram.ui;
 
 import java.awt.Color;
@@ -45,32 +44,36 @@ import org.tigris.gef.presentation.FigRect;
 
 /**
  * A FigRect that is always transparent
+ * 
  * @author Bob Tarling
  */
 public class FigEmptyRect extends FigRect {
 
-    private static final long serialVersionUID = -7954151008878710624L;
+	private static final long serialVersionUID = -7954151008878710624L;
 
 	/**
-     * @param x x
-     * @param y y
-     * @param w width
-     * @param h height
-     */
-    public FigEmptyRect(int x, int y, int w, int h) {
-        super(x, y, w, h);
-        super.setFilled(false);
-    }
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 */
+	public FigEmptyRect(int x, int y, int w, int h) {
+		super(x, y, w, h);
+		super.setFilled(false);
+	}
 
-    @Override
-    public void setFilled(boolean filled) {
-        // Do nothing, this rect will always be transparent
-    }
+	@Override
+	public void setFilled(boolean filled) {
+		// Do nothing, this rect will always be transparent
+	}
 
-    @Override
-    public void setFillColor(Color col) {
-        // Do nothing, this rect will always be transparent
-    }
-    
-    
+	@Override
+	public void setFillColor(Color col) {
+		// Do nothing, this rect will always be transparent
+	}
+
 }

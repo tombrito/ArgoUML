@@ -53,50 +53,54 @@ import tudresden.ocl.parser.node.APreStereotype;
  */
 public class ContextApplicable extends DepthFirstAdapter {
 
-    private boolean applicable = true;
+	private boolean applicable = true;
 
-    private Object modelElement;
+	private Object modelElement;
 
-    /**
-     * Constructor.
-     *
-     * @param element the model element
-     */
-    public ContextApplicable(Object element) {
-        this.modelElement = element;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param element
+	 *            the model element
+	 */
+	public ContextApplicable(Object element) {
+		this.modelElement = element;
+	}
 
-    /**
-     * @return Returns the applicable.
-     */
-    public boolean isApplicable() {
-        return applicable;
-    }
+	/**
+	 * @return Returns the applicable.
+	 */
+	public boolean isApplicable() {
+		return applicable;
+	}
 
-    /**
-     * @param node the node visited
-     * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#caseAClassifierContext(tudresden.ocl.parser.node.AClassifierContext)
-     */
-    @Override
-    public void caseAClassifierContext(AClassifierContext node) {
-        String metaclass = ("" + node.getPathTypeName()).trim();
-        applicable &= Model.getFacade().isA(metaclass, modelElement);
-    }
+	/**
+	 * @param node
+	 *            the node visited
+	 * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#caseAClassifierContext(tudresden.ocl.parser.node.AClassifierContext)
+	 */
+	@Override
+	public void caseAClassifierContext(AClassifierContext node) {
+		String metaclass = ("" + node.getPathTypeName()).trim();
+		applicable &= Model.getFacade().isA(metaclass, modelElement);
+	}
 
-    /**
-     * @param node the node visited
-     * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#inAPreStereotype(tudresden.ocl.parser.node.APreStereotype)
-     */
-    public void inAPreStereotype(APreStereotype node) {
-        applicable = false;
-    }
+	/**
+	 * @param node
+	 *            the node visited
+	 * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#inAPreStereotype(tudresden.ocl.parser.node.APreStereotype)
+	 */
+	public void inAPreStereotype(APreStereotype node) {
+		applicable = false;
+	}
 
-    /**
-     * @param node the node visited
-     * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#inAPostStereotype(tudresden.ocl.parser.node.APostStereotype)
-     */
-    public void inAPostStereotype(APostStereotype node) {
-        applicable = false;
-    }
+	/**
+	 * @param node
+	 *            the node visited
+	 * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#inAPostStereotype(tudresden.ocl.parser.node.APostStereotype)
+	 */
+	public void inAPostStereotype(APostStereotype node) {
+		applicable = false;
+	}
 
 }

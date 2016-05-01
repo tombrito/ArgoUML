@@ -66,137 +66,121 @@ import org.tigris.swidgets.LabelledLayout;
  */
 public class AddToDoItemDialog extends ArgoDialog {
 
-    private static final long serialVersionUID = 6158921814836107080L;
+	private static final long serialVersionUID = 6158921814836107080L;
 	////////////////////////////////////////////////////////////////
-    // constants
-    private static final String[] PRIORITIES = {
-        Translator.localize("misc.level.high"),
-        Translator.localize("misc.level.medium"),
-        Translator.localize("misc.level.low"),
-    };
-    private static final int TEXT_ROWS = 8;
-    private static final int TEXT_COLUMNS = 30;
-    /** Insets in pixels  */
-    private static final int INSET_PX = 3;
+	// constants
+	private static final String[] PRIORITIES = { Translator.localize("misc.level.high"),
+			Translator.localize("misc.level.medium"), Translator.localize("misc.level.low"), };
+	private static final int TEXT_ROWS = 8;
+	private static final int TEXT_COLUMNS = 30;
+	/** Insets in pixels */
+	private static final int INSET_PX = 3;
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
-    private JTextField headLineTextField;
-    private JComboBox  priorityComboBox;
-    private JTextField moreinfoTextField;
-    private JList offenderList;
-    private JTextArea  descriptionTextArea;
+	////////////////////////////////////////////////////////////////
+	// instance variables
+	private JTextField headLineTextField;
+	private JComboBox priorityComboBox;
+	private JTextField moreinfoTextField;
+	private JList offenderList;
+	private JTextArea descriptionTextArea;
 
+	/**
+	 * Create a new AddToDoItemDialog
+	 * 
+	 * @param renderer
+	 *            the ListCellRenderer to use in order to display the offenders
+	 */
+	public AddToDoItemDialog(ListCellRenderer renderer) {
+		super(Translator.localize("dialog.title.add-todo-item"), Dialog.OK_CANCEL_OPTION, true);
 
-    /**
-     * Create a new AddToDoItemDialog
-     * @param renderer the ListCellRenderer to use in order
-     *                 to display the offenders
-     */
-    public AddToDoItemDialog(ListCellRenderer renderer) {
-        super(Translator.localize("dialog.title.add-todo-item"),
-	      Dialog.OK_CANCEL_OPTION, true);
+		headLineTextField = new JTextField(TEXT_COLUMNS);
+		priorityComboBox = new JComboBox(PRIORITIES);
+		moreinfoTextField = new JTextField(TEXT_COLUMNS);
+		descriptionTextArea = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
 
-        headLineTextField = new JTextField(TEXT_COLUMNS);
-        priorityComboBox = new JComboBox(PRIORITIES);
-        moreinfoTextField = new JTextField(TEXT_COLUMNS);
-        descriptionTextArea = new JTextArea(TEXT_ROWS, TEXT_COLUMNS);
+		DefaultListModel dlm = new DefaultListModel();
+		Object[] offObj = TargetManager.getInstance().getModelTargets().toArray();
+		for (int i = 0; i < offObj.length; i++) {
+			if (offObj[i] != null) {
+				dlm.addElement(offObj[i]);
+			}
+		}
 
-        DefaultListModel dlm = new DefaultListModel();
-        Object[] offObj =
-            TargetManager.getInstance().getModelTargets().toArray();
-        for (int i = 0; i < offObj.length; i++) {
-            if (offObj[i] != null) {
-                dlm.addElement(offObj[i]);
-            }
-        }
+		offenderList = new JList(dlm);
+		offenderList.setCellRenderer(renderer);
+		JScrollPane offenderScroll = new JScrollPane(offenderList);
+		offenderScroll.setOpaque(true);
 
-        offenderList = new JList(dlm);
-        offenderList.setCellRenderer(renderer);
-        JScrollPane offenderScroll = new JScrollPane(offenderList);
-        offenderScroll.setOpaque(true);
+		JLabel headlineLabel = new JLabel(Translator.localize("label.headline"));
+		JLabel priorityLabel = new JLabel(Translator.localize("label.priority"));
+		JLabel moreInfoLabel = new JLabel(Translator.localize("label.more-info-url"));
+		JLabel offenderLabel = new JLabel(Translator.localize("label.offenders"));
+		priorityComboBox.setSelectedItem(PRIORITIES[0]);
 
-        JLabel headlineLabel =
-            new JLabel(Translator.localize("label.headline"));
-        JLabel priorityLabel =
-            new JLabel(Translator.localize("label.priority"));
-        JLabel moreInfoLabel =
-            new JLabel(Translator.localize("label.more-info-url"));
-        JLabel offenderLabel =
-            new JLabel(Translator.localize("label.offenders"));
-        priorityComboBox.setSelectedItem(PRIORITIES[0]);
+		JPanel panel = new JPanel(new LabelledLayout(getLabelGap(), getComponentGap()));
 
-        JPanel panel = new JPanel(new LabelledLayout(getLabelGap(),
-                getComponentGap()));
+		headlineLabel.setLabelFor(headLineTextField);
+		panel.add(headlineLabel);
+		panel.add(headLineTextField);
 
-        headlineLabel.setLabelFor(headLineTextField);
-        panel.add(headlineLabel);
-        panel.add(headLineTextField);
+		priorityLabel.setLabelFor(priorityComboBox);
+		panel.add(priorityLabel);
+		panel.add(priorityComboBox);
 
-        priorityLabel.setLabelFor(priorityComboBox);
-        panel.add(priorityLabel);
-        panel.add(priorityComboBox);
+		moreInfoLabel.setLabelFor(moreinfoTextField);
+		panel.add(moreInfoLabel);
+		panel.add(moreinfoTextField);
 
-        moreInfoLabel.setLabelFor(moreinfoTextField);
-        panel.add(moreInfoLabel);
-        panel.add(moreinfoTextField);
+		offenderLabel.setLabelFor(offenderScroll);
+		panel.add(offenderLabel);
+		panel.add(offenderScroll);
 
-        offenderLabel.setLabelFor(offenderScroll);
-        panel.add(offenderLabel);
-        panel.add(offenderScroll);
+		descriptionTextArea.setLineWrap(true); // MVW - Issue 2422
+		descriptionTextArea.setWrapStyleWord(true); // MVW - Issue 2422
+		descriptionTextArea.setText(Translator.localize("label.enter-todo-item") + "\n");
+		descriptionTextArea.setMargin(new Insets(INSET_PX, INSET_PX, INSET_PX, INSET_PX));
+		JScrollPane descriptionScroller = new JScrollPane(descriptionTextArea);
+		descriptionScroller.setPreferredSize(descriptionTextArea.getPreferredSize());
+		panel.add(descriptionScroller);
 
-        descriptionTextArea.setLineWrap(true);  //MVW - Issue 2422
-        descriptionTextArea.setWrapStyleWord(true);   //MVW - Issue 2422
-        descriptionTextArea.setText(Translator.localize("label.enter-todo-item")
-                	    + "\n");
-        descriptionTextArea.setMargin(new Insets(INSET_PX, INSET_PX,
-                INSET_PX, INSET_PX));
-        JScrollPane descriptionScroller = new JScrollPane(descriptionTextArea);
-        descriptionScroller.setPreferredSize(
-                descriptionTextArea.getPreferredSize());
-        panel.add(descriptionScroller);
+		setContent(panel);
+	}
 
-        setContent(panel);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() == getOkButton()) {
+			doAdd();
+		}
+	}
 
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() == getOkButton()) {
-            doAdd();
-        }
-    }
-
-    private void doAdd() {
-        Designer designer = Designer.theDesigner();
-        String headline = headLineTextField.getText();
-        int priority = ToDoItem.HIGH_PRIORITY;
-        switch (priorityComboBox.getSelectedIndex()) {
-	case 0:
-	    priority = ToDoItem.HIGH_PRIORITY;
-	    break;
-	case 1:
-	    priority = ToDoItem.MED_PRIORITY;
-	    break;
-	case 2:
-	    priority = ToDoItem.LOW_PRIORITY;
-	    break;
-        }
-        String desc = descriptionTextArea.getText();
-        String moreInfoURL = moreinfoTextField.getText();
-        ListSet newOffenders = new ListSet();
-        for (int i = 0; i < offenderList.getModel().getSize(); i++) {
-            newOffenders.add(offenderList.getModel().getElementAt(i));
-        }
-        ToDoItem item =
-            new UMLToDoItem(designer, headline, priority, 
-                    desc, moreInfoURL, newOffenders);
-        designer.getToDoList().addElement(item); //? inform()
-        Designer.firePropertyChange(Designer.MODEL_TODOITEM_ADDED, null, item);
-    }
+	private void doAdd() {
+		Designer designer = Designer.theDesigner();
+		String headline = headLineTextField.getText();
+		int priority = ToDoItem.HIGH_PRIORITY;
+		switch (priorityComboBox.getSelectedIndex()) {
+		case 0:
+			priority = ToDoItem.HIGH_PRIORITY;
+			break;
+		case 1:
+			priority = ToDoItem.MED_PRIORITY;
+			break;
+		case 2:
+			priority = ToDoItem.LOW_PRIORITY;
+			break;
+		}
+		String desc = descriptionTextArea.getText();
+		String moreInfoURL = moreinfoTextField.getText();
+		ListSet newOffenders = new ListSet();
+		for (int i = 0; i < offenderList.getModel().getSize(); i++) {
+			newOffenders.add(offenderList.getModel().getElementAt(i));
+		}
+		ToDoItem item = new UMLToDoItem(designer, headline, priority, desc, moreInfoURL, newOffenders);
+		designer.getToDoList().addElement(item); // ? inform()
+		Designer.firePropertyChange(Designer.MODEL_TODOITEM_ADDED, null, item);
+	}
 }
-

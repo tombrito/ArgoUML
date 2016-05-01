@@ -53,7 +53,6 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 import org.tigris.gef.presentation.Fig;
 
-
 /**
  * This action creates a new Stereotype in the current Model.
  *
@@ -61,47 +60,42 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionNewStereotype extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 3492828342803948915L;
-	static final Logger LOG =
-        Logger.getLogger(ActionNewStereotype.class.getName());
+	private static final long serialVersionUID = 3492828342803948915L;
+	static final Logger LOG = Logger.getLogger(ActionNewStereotype.class.getName());
 
-    /**
-     * The constructor.
-     */
-    public ActionNewStereotype() {
-        super("button.new-stereotype");
-        putValue(Action.NAME, Translator.localize("button.new-stereotype"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionNewStereotype() {
+		super("button.new-stereotype");
+		putValue(Action.NAME, Translator.localize("button.new-stereotype"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object t = TargetManager.getInstance().getTarget();
-        if (t instanceof Fig) {
-            t = ((Fig) t).getOwner();
-        }
-        Project p = ProjectManager.getManager().getCurrentProject();
-        Object model = p.getModel();
-        Collection models = p.getModels();
-        Object newStereo = Model.getExtensionMechanismsFactory()
-            .buildStereotype(
-                    Model.getFacade().isAModelElement(t) ? t : null,
-                    (String) null,
-                    model,
-                    models
-            );
-        if (newStereo != null) {
-            if (Model.getFacade().isAModelElement(t)) {
-                Object ns = Model.getFacade().getNamespace(t);
-                if (Model.getFacade().isANamespace(ns)) {
-                    Model.getCoreHelper().setNamespace(newStereo, ns);
-                }
-            }
-            TargetManager.getInstance().setTarget(newStereo);
-        } else {
-            LOG.log(Level.SEVERE, "We failed to create a stereotype");
-        }
-        super.actionPerformed(e);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object t = TargetManager.getInstance().getTarget();
+		if (t instanceof Fig) {
+			t = ((Fig) t).getOwner();
+		}
+		Project p = ProjectManager.getManager().getCurrentProject();
+		Object model = p.getModel();
+		Collection models = p.getModels();
+		Object newStereo = Model.getExtensionMechanismsFactory()
+				.buildStereotype(Model.getFacade().isAModelElement(t) ? t : null, (String) null, model, models);
+		if (newStereo != null) {
+			if (Model.getFacade().isAModelElement(t)) {
+				Object ns = Model.getFacade().getNamespace(t);
+				if (Model.getFacade().isANamespace(ns)) {
+					Model.getCoreHelper().setNamespace(newStereo, ns);
+				}
+			}
+			TargetManager.getInstance().setTarget(newStereo);
+		} else {
+			LOG.log(Level.SEVERE, "We failed to create a stereotype");
+		}
+		super.actionPerformed(e);
+	}
 }

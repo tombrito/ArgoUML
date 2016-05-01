@@ -49,97 +49,80 @@ import org.tigris.gef.presentation.Fig;
 /**
  * @author jrobbins@ics.uci.edu
  */
-public class SelectionInterface extends
-        SelectionClassifierBox {
+public class SelectionInterface extends SelectionClassifierBox {
 
-    private static final long serialVersionUID = 4408164003164061409L;
+	private static final long serialVersionUID = 4408164003164061409L;
 
-	private static Icon realiz =
-        ResourceLoaderWrapper.lookupIconResource("Realization");
+	private static Icon realiz = ResourceLoaderWrapper.lookupIconResource("Realization");
 
-    private static Icon inherit =
-        ResourceLoaderWrapper.lookupIconResource("Generalization");
+	private static Icon inherit = ResourceLoaderWrapper.lookupIconResource("Generalization");
 
-    private static Icon icons[] = 
-    {inherit,
-     realiz,
-     null,
-     null,
-     null,
-    };
-    
-    private static String instructions[] = 
-    {"Add an interface",
-     "Add a realization",
-     null,
-     null,
-     null,
-     "Move object(s)",
-    };
-    
-    /**
-     * Construct a new SelectionInterface for the given Fig.
-     *
-     * @param f
-     *            The given Fig.
-     */
-    public SelectionInterface(Fig f) {
-        super(f);
-    }
+	private static Icon icons[] = { inherit, realiz, null, null, null, };
 
-    @Override
-    protected Object getNewNode(int index) {
-        if (index == 0) {
-            index = getButton();
-        }
-        if (index == TOP) {
-            return Model.getCoreFactory().buildInterface();
-        } else {
-            return Model.getCoreFactory().buildClass();
-        }
-    }
+	private static String instructions[] = { "Add an interface", "Add a realization", null, null, null,
+			"Move object(s)", };
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        if (index == TOP) {
-            return Model.getMetaTypes().getGeneralization();
-        } else if (index == BOTTOM) {
-            return Model.getMetaTypes().getAbstraction();
-        }
-        return null;
-    }
+	/**
+	 * Construct a new SelectionInterface for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionInterface(Fig f) {
+		super(f);
+	}
 
+	@Override
+	protected Object getNewNode(int index) {
+		if (index == 0) {
+			index = getButton();
+		}
+		if (index == TOP) {
+			return Model.getCoreFactory().buildInterface();
+		} else {
+			return Model.getCoreFactory().buildClass();
+		}
+	}
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        if (index == TOP) {
-            return Model.getMetaTypes().getInterface();
-        } else if (index == BOTTOM) {
-            return Model.getMetaTypes().getUMLClass();
-        }
-        return null;
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		if (index == TOP) {
+			return Model.getMetaTypes().getGeneralization();
+		} else if (index == BOTTOM) {
+			return Model.getMetaTypes().getAbstraction();
+		}
+		return null;
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, realiz, null, null, null };
-        }
-        return icons;
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		if (index == TOP) {
+			return Model.getMetaTypes().getInterface();
+		} else if (index == BOTTOM) {
+			return Model.getMetaTypes().getUMLClass();
+		}
+		return null;
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected Icon[] getIcons() {
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, realiz, null, null, null };
+		}
+		return icons;
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == 11) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == 11) {
+			return true;
+		}
+		return false;
+	}
 
 }

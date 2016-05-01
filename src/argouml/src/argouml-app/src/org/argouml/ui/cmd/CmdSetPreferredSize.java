@@ -48,10 +48,11 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.SelectionManager;
 import org.tigris.gef.presentation.Fig;
 
-
 /**
- * A command to set selected figs to their minimum size. <p>
- * Despite its name, really the minimum size is selected here! <p>
+ * A command to set selected figs to their minimum size.
+ * <p>
+ * Despite its name, really the minimum size is selected here!
+ * <p>
  * 
  * TODO: Rename this class.
  *
@@ -59,89 +60,87 @@ import org.tigris.gef.presentation.Fig;
  */
 public class CmdSetPreferredSize extends Cmd {
 
-    private static final long serialVersionUID = -2127244033515126665L;
-
+	private static final long serialVersionUID = -2127244033515126665L;
 
 	/**
-     * Default constructor - set minimum size command.
-     */
-    public CmdSetPreferredSize() {
-//        super(Translator.localize("action.size-to-fit-contents"));
-	super(Translator.localize("action.set-minimum-size"));
-    }
+	 * Default constructor - set minimum size command.
+	 */
+	public CmdSetPreferredSize() {
+		// super(Translator.localize("action.size-to-fit-contents"));
+		super(Translator.localize("action.set-minimum-size"));
+	}
 
+	/**
+	 * Set the fig to be resized.
+	 *
+	 * @param f
+	 *            the fig to resize
+	 */
+	public void setFigToResize(Fig f) {
+		List<Fig> figs = new ArrayList<Fig>(1);
+		figs.add(f);
+		setArg("figs", figs);
+	}
 
-    /**
-     * Set the fig to be resized.
-     *
-     * @param f the fig to resize
-     */
-    public void setFigToResize(Fig f) {
-        List<Fig> figs = new ArrayList<Fig>(1);
-        figs.add(f);
-        setArg("figs", figs);
-    }
+	/**
+	 * Set the figs to be resized.
+	 *
+	 * @param figs
+	 *            the list of figs to resize
+	 */
+	public void setFigToResize(List figs) {
+		setArg("figs", figs);
+	}
 
-    /**
-     * Set the figs to be resized.
-     *
-     * @param figs the list of figs to resize
-     */
-    public void setFigToResize(List figs) {
-        setArg("figs", figs);
-    }
+	/**
+	 * Set all the figs in the selection or passed by param "figs" to the size
+	 * according to the mode of the command.
+	 */
+	public void doIt() {
+		Editor ce = Globals.curEditor();
+		List<Fig> figs = (List<Fig>) getArg("figs");
+		if (figs == null) {
+			SelectionManager sm = ce.getSelectionManager();
+			if (sm.getLocked()) {
+				Globals.showStatus(Translator.localize("action.locked-objects-not-modify"));
+				return;
+			}
+			figs = sm.getFigs();
+		}
 
+		if (figs == null) {
+			return;
+		}
+		int size = figs.size();
+		if (size == 0) {
+			return;
+		}
 
-    /**
-     * Set all the figs in the selection or passed by param "figs" to the
-     * size according to the mode of the command.
-     */
-    public void doIt() {
-        Editor ce = Globals.curEditor();
-        List<Fig> figs = (List<Fig>) getArg("figs");
-        if (figs == null) {
-            SelectionManager sm = ce.getSelectionManager();
-            if (sm.getLocked()) {
-                Globals.showStatus(
-                    Translator.localize("action.locked-objects-not-modify"));
-                return;
-            }
-            figs = sm.getFigs();
-        }
+		for (int i = 0; i < size; i++) {
+			Fig fi = figs.get(i);
+			/*
+			 * Only resize elements which the user would also be able to resize:
+			 */
+			if (fi.isResizable()
+					/*
+					 * But exclude elements that enclose others, since their
+					 * algorithms to calculate the minimum size does not take
+					 * enclosed objects into account:
+					 */
+					&& (fi.getEnclosedFigs() == null || fi.getEnclosedFigs().size() == 0)) {
+				fi.setSize(fi.getMinimumSize());
+				/* TODO: Beautify the 2nd part of this string: */
+				Globals.showStatus(Translator.localize("action.setting-size", new Object[] { fi }));
+			}
+			fi.endTrans();
+		}
+	}
 
-        if (figs == null) {
-            return;
-        }
-        int size = figs.size();
-        if (size == 0) {
-            return;
-        }
-
-        for (int i = 0; i < size; i++) {
-            Fig fi = figs.get(i);
-            /* Only resize elements which the user would also be able
-             * to resize: */
-            if (fi.isResizable() 
-                    /* But exclude elements that enclose others, 
-                     * since their algorithms to calculate the minimum size 
-                     * does not take enclosed objects into account: */
-                    && (fi.getEnclosedFigs() == null 
-                            || fi.getEnclosedFigs().size() == 0)) {
-                fi.setSize(fi.getMinimumSize());
-                /* TODO: Beautify the 2nd part of this string: */
-                Globals.showStatus(Translator.localize("action.setting-size", 
-                        new Object[] {fi}));
-            }
-            fi.endTrans();
-        }
-    }
-
-
-    /*
-     * @see org.tigris.gef.base.Cmd#undoIt()
-     */
-    public void undoIt() {
-        // unsupported. 
-    }
+	/*
+	 * @see org.tigris.gef.base.Cmd#undoIt()
+	 */
+	public void undoIt() {
+		// unsupported.
+	}
 
 }

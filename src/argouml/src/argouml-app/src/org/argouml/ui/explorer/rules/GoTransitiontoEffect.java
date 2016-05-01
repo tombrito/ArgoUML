@@ -54,38 +54,41 @@ import org.argouml.model.Model;
  */
 public class GoTransitiontoEffect extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.transition.effect");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.transition.effect");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isATransition(parent)) {
-            Object effect = Model.getFacade().getEffect(parent);
-            if (effect != null) {
-                Collection col = new ArrayList();
-                col.add(effect);
-                return col;
-            }
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isATransition(parent)) {
+			Object effect = Model.getFacade().getEffect(parent);
+			if (effect != null) {
+				Collection col = new ArrayList();
+				col.add(effect);
+				return col;
+			}
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isATransition(parent)) {
-            Set set = new HashSet();
-            set.add(parent);
-            return set;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isATransition(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 
 }

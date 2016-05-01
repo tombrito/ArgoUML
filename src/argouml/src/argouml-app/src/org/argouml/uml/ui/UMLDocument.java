@@ -50,7 +50,6 @@ import org.argouml.ui.targetmanager.TargetListener;
  * @author Tom Morris
  *
  */
-public interface UMLDocument extends Document, PropertyChangeListener,
-        TargetListener {
+public interface UMLDocument extends Document, PropertyChangeListener, TargetListener {
 
 }

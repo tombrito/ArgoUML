@@ -62,252 +62,258 @@ import org.argouml.application.helpers.ResourceLoaderWrapper;
  * sent as an actioncommand to the actionlistener (this). The item that's being
  * edited is sent to the method doIt after that. The developer should implement
  * this method
+ * 
  * @author jaap.branderhorst@xs4all.nl
  * @since Jan 4, 2003
  * @deprecated in 0.31.5 by Bob Tarling. Property panel controls are now
- * internal to the property panel component
+ *             internal to the property panel component
  */
-public abstract class UMLEditableComboBox extends UMLComboBox2 implements
-        FocusListener {
+public abstract class UMLEditableComboBox extends UMLComboBox2 implements FocusListener {
 
-    private static final long serialVersionUID = 459886889626500076L;
+	private static final long serialVersionUID = 459886889626500076L;
 
 	/**
-     * The comboboxeditor for editable uml comboboxes. This has to be changed
-     * since it controls the rendering of the textfield where the user can edit
-     * the list elements. Setitem has to give the correct value. Furthermore,
-     * the standard comboboxeditor (BasicComboBoxEditor) does not support
-     * showing icons.
-     *
-     * @author jaap.branderhorst@xs4all.nl
-     * @since Jan 5, 2003
-     */
-    protected class UMLComboBoxEditor extends BasicComboBoxEditor {
+	 * The comboboxeditor for editable uml comboboxes. This has to be changed
+	 * since it controls the rendering of the textfield where the user can edit
+	 * the list elements. Setitem has to give the correct value. Furthermore,
+	 * the standard comboboxeditor (BasicComboBoxEditor) does not support
+	 * showing icons.
+	 *
+	 * @author jaap.branderhorst@xs4all.nl
+	 * @since Jan 5, 2003
+	 */
+	protected class UMLComboBoxEditor extends BasicComboBoxEditor {
 
-        /**
-         * A panel which helps us to show the editable textfield for this
-         * combobox (including the Icon).
-         *
-         * @author jaap.branderhorst@xs4all.nl
-         * @since Jan 5, 2003
-         */
-        private class UMLImagePanel extends JPanel {
+		/**
+		 * A panel which helps us to show the editable textfield for this
+		 * combobox (including the Icon).
+		 *
+		 * @author jaap.branderhorst@xs4all.nl
+		 * @since Jan 5, 2003
+		 */
+		private class UMLImagePanel extends JPanel {
 
-            private static final long serialVersionUID = -280186739747933900L;
+			private static final long serialVersionUID = -280186739747933900L;
 			/**
-             * The label that shows the icon.
-             */
-            private JLabel imageIconLabel = new JLabel();
-            /**
-             * The textfield the user can edit.
-             */
-            private JTextField theTextField;
+			 * The label that shows the icon.
+			 */
+			private JLabel imageIconLabel = new JLabel();
+			/**
+			 * The textfield the user can edit.
+			 */
+			private JTextField theTextField;
 
-            /**
-             * Constructs a UMLImagePanel
-             * @param textField The textfield the user can edit
-             * @param showIcon boolean which must be true if an icon is to be
-             * shown.
-             */
-            public UMLImagePanel(JTextField textField, boolean showIcon) {
-                setLayout(new BorderLayout());
-                theTextField = textField;
-                setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-                if (showIcon) {
-                    // we don't want to show some nasty gray background
-                    // color, now do we?
-                    imageIconLabel.setOpaque(true);
-                    imageIconLabel.setBackground(theTextField.getBackground());
-                    add(imageIconLabel, BorderLayout.WEST);
-                }
-                add(theTextField, BorderLayout.CENTER);
-                theTextField.addFocusListener(UMLEditableComboBox.this);
-            }
+			/**
+			 * Constructs a UMLImagePanel
+			 * 
+			 * @param textField
+			 *            The textfield the user can edit
+			 * @param showIcon
+			 *            boolean which must be true if an icon is to be shown.
+			 */
+			public UMLImagePanel(JTextField textField, boolean showIcon) {
+				setLayout(new BorderLayout());
+				theTextField = textField;
+				setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+				if (showIcon) {
+					// we don't want to show some nasty gray background
+					// color, now do we?
+					imageIconLabel.setOpaque(true);
+					imageIconLabel.setBackground(theTextField.getBackground());
+					add(imageIconLabel, BorderLayout.WEST);
+				}
+				add(theTextField, BorderLayout.CENTER);
+				theTextField.addFocusListener(UMLEditableComboBox.this);
+			}
 
-            public String getText() {
-                return theTextField.getText();
-            }
+			public String getText() {
+				return theTextField.getText();
+			}
 
-            /**
-             * Sets the icon. Calls repaint to redraw the panel
-             * @param i The icon to be shown.
-             */
-            public void setIcon(Icon i) {
-                if (i != null) {
-                    imageIconLabel.setIcon(i);
-                    // necessary to create distance between
-                    // the textfield and the icon.
-                    imageIconLabel.setBorder(BorderFactory
-                            .createEmptyBorder(0, 2, 0, 2));
+			/**
+			 * Sets the icon. Calls repaint to redraw the panel
+			 * 
+			 * @param i
+			 *            The icon to be shown.
+			 */
+			public void setIcon(Icon i) {
+				if (i != null) {
+					imageIconLabel.setIcon(i);
+					// necessary to create distance between
+					// the textfield and the icon.
+					imageIconLabel.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
-                } else {
-                    imageIconLabel.setIcon(null);
-                    imageIconLabel.setBorder(null);
-                }
-                imageIconLabel.invalidate();
-                validate();
-                repaint();
-            }
+				} else {
+					imageIconLabel.setIcon(null);
+					imageIconLabel.setBorder(null);
+				}
+				imageIconLabel.invalidate();
+				validate();
+				repaint();
+			}
 
-            public void addActionListener(ActionListener l) {
-                theTextField.addActionListener(l);
-            }
+			public void addActionListener(ActionListener l) {
+				theTextField.addActionListener(l);
+			}
 
-            public void removeActionListener(ActionListener l) {
-                theTextField.removeActionListener(l);
-            }
+			public void removeActionListener(ActionListener l) {
+				theTextField.removeActionListener(l);
+			}
 
-        }
+		}
 
-        private UMLImagePanel panel;
+		private UMLImagePanel panel;
 
-        /**
-         * True if an icon should be shown.
-         */
-        private boolean theShowIcon;
+		/**
+		 * True if an icon should be shown.
+		 */
+		private boolean theShowIcon;
 
+		/**
+		 * Constructor for UMLComboBoxEditor.
+		 *
+		 * @param showIcon
+		 *            true if an icon is to be shown
+		 */
+		public UMLComboBoxEditor(boolean showIcon) {
+			super();
+			panel = new UMLImagePanel(editor, showIcon);
+			setShowIcon(showIcon);
+		}
 
-        /**
-         * Constructor for UMLComboBoxEditor.
-         *
-         * @param showIcon true if an icon is to be shown
-         */
-        public UMLComboBoxEditor(boolean showIcon) {
-            super();
-            panel = new UMLImagePanel(editor, showIcon);
-            setShowIcon(showIcon);
-        }
+		/*
+		 * @see javax.swing.ComboBoxEditor#setItem(java.lang.Object)
+		 */
+		public void setItem(Object anObject) {
+			if (((UMLComboBoxModel2) getModel()).contains(anObject)) {
+				editor.setText(((UMLListCellRenderer2) getRenderer()).makeText(anObject));
+				if (theShowIcon && (anObject != null)) {
+					panel.setIcon(ResourceLoaderWrapper.getInstance().lookupIcon(anObject));
+				}
+			} else {
+				super.setItem(anObject);
+			}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#setItem(java.lang.Object)
-         */
-        public void setItem(Object anObject) {
-            if (((UMLComboBoxModel2) getModel()).contains(anObject)) {
-                editor.setText(((UMLListCellRenderer2) getRenderer())
-                        .makeText(anObject));
-                if (theShowIcon && (anObject != null)) {
-                    panel.setIcon(ResourceLoaderWrapper.getInstance()
-                            .lookupIcon(anObject));
-                }
-            } else {
-                super.setItem(anObject);
-            }
+		}
 
-        }
+		/**
+		 * Returns the showIcon.
+		 * 
+		 * @return boolean
+		 */
+		public boolean isShowIcon() {
+			return theShowIcon;
+		}
 
-        /**
-         * Returns the showIcon.
-         * @return boolean
-         */
-        public boolean isShowIcon() {
-            return theShowIcon;
-        }
+		/**
+		 * Sets the showIcon.
+		 * 
+		 * @param showIcon
+		 *            The showIcon to set
+		 */
+		public void setShowIcon(boolean showIcon) {
+			theShowIcon = showIcon;
+		}
 
-        /**
-         * Sets the showIcon.
-         * @param showIcon The showIcon to set
-         */
-        public void setShowIcon(boolean showIcon) {
-            theShowIcon = showIcon;
-        }
+		/*
+		 * @see javax.swing.ComboBoxEditor#getEditorComponent()
+		 */
+		public Component getEditorComponent() {
+			return panel;
+		}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#getEditorComponent()
-         */
-        public Component getEditorComponent() {
-            return panel;
-        }
+		/*
+		 * @see javax.swing.ComboBoxEditor#addActionListener(java.awt.event.
+		 * ActionListener)
+		 */
+		public void addActionListener(ActionListener l) {
+			panel.addActionListener(l);
+		}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#addActionListener(java.awt.event.ActionListener)
-         */
-        public void addActionListener(ActionListener l) {
-            panel.addActionListener(l);
-        }
+		/*
+		 * @see javax.swing.ComboBoxEditor#removeActionListener(java.awt.event.
+		 * ActionListener)
+		 */
+		public void removeActionListener(ActionListener l) {
+			panel.removeActionListener(l);
+		}
 
+		/*
+		 * @see javax.swing.ComboBoxEditor#selectAll()
+		 */
+		public void selectAll() {
+			super.selectAll();
+		}
 
+		/*
+		 * @see javax.swing.ComboBoxEditor#getItem()
+		 */
+		public Object getItem() {
+			return panel.getText();
+		}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#removeActionListener(java.awt.event.ActionListener)
-         */
-        public void removeActionListener(ActionListener l) {
-            panel.removeActionListener(l);
-        }
+	}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#selectAll()
-         */
-        public void selectAll() {
-            super.selectAll();
-        }
+	/*
+	 * @see org.argouml.uml.ui.UMLComboBox2#UMLComboBox2( UMLComboBoxModel2,
+	 * Action, boolean)
+	 */
+	public UMLEditableComboBox(UMLComboBoxModel2 model, Action selectAction, boolean showIcon) {
+		super(model, selectAction, showIcon);
+		setEditable(true);
+		setEditor(new UMLComboBoxEditor(showIcon));
+		getEditor().addActionListener(this);
+	}
 
-        /*
-         * @see javax.swing.ComboBoxEditor#getItem()
-         */
-        public Object getItem() {
-            return panel.getText();
-        }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * TODO: From ComboBox javadoc - "This method is public as an implementation
+	 * side effect. do not call or override." We should find some other way to
+	 * implement this.
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof JTextField) {
+			Object oldValue = getSelectedItem();
+			ComboBoxEditor editor = getEditor();
+			Object item = editor.getItem();
+			doOnEdit(item);
+			// next statement is necessary to update the textfield
+			// if the selection is equal to what was allready
+			// selected
+			if (oldValue == getSelectedItem()) {
+				getEditor().setItem(getSelectedItem());
+			}
+		}
+	}
 
-    }
+	/**
+	 * This method is called after the user has edited the editable textfield
+	 * and has press enter. ActionPerformed determines that the action is about
+	 * editing the textfield and calls this method afterwards.
+	 * 
+	 * @param item
+	 *            The item in the comboboxeditor. In this case it's the text of
+	 *            the editable textfield.
+	 */
+	protected abstract void doOnEdit(Object item);
 
-    /*
-     * @see org.argouml.uml.ui.UMLComboBox2#UMLComboBox2( UMLComboBoxModel2,
-     *      Action, boolean)
-     */
-    public UMLEditableComboBox(UMLComboBoxModel2 model, Action selectAction,
-            boolean showIcon) {
-        super(model, selectAction, showIcon);
-        setEditable(true);
-        setEditor(new UMLComboBoxEditor(showIcon));
-        getEditor().addActionListener(this);
-    }
+	/*
+	 * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
+	 */
+	public final void focusGained(FocusEvent arg0) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     * TODO: From ComboBox javadoc - "This method is public as an 
-     * implementation side effect. do not call or override."
-     * We should find some other way to implement this.
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof JTextField) {
-            Object oldValue = getSelectedItem();
-            ComboBoxEditor editor = getEditor();
-            Object item = editor.getItem();
-            doOnEdit(item);
-            // next statement is necessary to update the textfield
-            // if the selection is equal to what was allready
-            // selected
-            if (oldValue == getSelectedItem()) {
-                getEditor().setItem(getSelectedItem());
-            }
-        }
-    }
-
-    /**
-     * This method is called after the user has edited the editable textfield
-     * and has press enter. ActionPerformed determines that the action is about
-     * editing the textfield and calls this method afterwards.
-     * @param item The item in the comboboxeditor. In this case it's the text of
-     * the editable textfield.
-     */
-    protected abstract void doOnEdit(Object item);
-
-    /*
-     * @see java.awt.event.FocusListener#focusGained(java.awt.event.FocusEvent)
-     */
-    public final void focusGained(FocusEvent arg0) {
-        // ignored
-    }
-
-    /*
-     * TODO: This is a temporary method of making sure the model is updated
-     * on loss of focus of a combo box. In the long term we should attempt to
-     * update the model on each keypress.
-     * 
-     * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
-     */
-    public final void focusLost(FocusEvent arg0) {
-        doOnEdit(getEditor().getItem());
-    }
+	/*
+	 * TODO: This is a temporary method of making sure the model is updated on
+	 * loss of focus of a combo box. In the long term we should attempt to
+	 * update the model on each keypress.
+	 * 
+	 * @see java.awt.event.FocusListener#focusLost(java.awt.event.FocusEvent)
+	 */
+	public final void focusLost(FocusEvent arg0) {
+		doOnEdit(getEditor().getItem());
+	}
 }

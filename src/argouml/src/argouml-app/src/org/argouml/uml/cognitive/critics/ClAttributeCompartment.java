@@ -51,117 +51,118 @@ import org.argouml.uml.diagram.ui.FigCompartmentBox;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * Class that represents the clarifier (red wavy line)
- * for a attribute compartment.
+ * Class that represents the clarifier (red wavy line) for a attribute
+ * compartment.
  *
  */
 public class ClAttributeCompartment implements Clarifier {
 
-    private static ClAttributeCompartment theInstance =
-	new ClAttributeCompartment();
+	private static ClAttributeCompartment theInstance = new ClAttributeCompartment();
 
-    private static final int WAVE_LENGTH = 4;
-    private static final int WAVE_HEIGHT = 2;
+	private static final int WAVE_LENGTH = 4;
+	private static final int WAVE_HEIGHT = 2;
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
-    private Fig fig;
+	////////////////////////////////////////////////////////////////
+	// instance variables
+	private Fig fig;
 
-    /*
-     * @see org.argouml.ui.Clarifier#setFig(org.tigris.gef.presentation.Fig)
-     */
-    public void setFig(Fig f) { fig = f; }
-
-    /*
-     * @see org.argouml.ui.Clarifier#setToDoItem(org.argouml.cognitive.ToDoItem)
-     */
-    public void setToDoItem(ToDoItem i) { }
-
-    /*
-     * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics,
-     * int, int)
-     */
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        final Object modelElement = fig.getOwner();
-        if (Model.getUmlFactory().isContainmentValid(
-                Model.getMetaTypes().getAttribute(), modelElement)) {
-            FigCompartmentBox fcb = (FigCompartmentBox) fig;
-            FigCompartment fc =
-                fcb.getCompartment(Model.getMetaTypes().getAttribute());
-
-	    // added by Eric Lefevre 13 Mar 1999: we must check if the
-	    // FigText for attributes is drawn before drawing things
-	    // over it
-	    if (fc == null || !fc.isVisible()) {
-		fig = null;
-		return;
-	    }
-
-	    Rectangle fr = fc.getBounds();
-	    int left  = fr.x + 6;
-	    int height = fr.y + fr.height - 5;
-	    int right = fr.x + fr.width - 6;
-	    g.setColor(Color.red);
-	    int i = left;
-	    while (true) {
-		g.drawLine(i, height, i + WAVE_LENGTH, height + WAVE_HEIGHT);
-		i += WAVE_LENGTH;
-		if (i >= right) {
-		    break;
-		}
-		g.drawLine(i, height + WAVE_HEIGHT, i + WAVE_LENGTH, height);
-		i += WAVE_LENGTH;
-		if (i >= right) {
-		    break;
-		}
-		g.drawLine(i, height, i + WAVE_LENGTH,
-			   height + WAVE_HEIGHT / 2);
-		i += WAVE_LENGTH;
-		if (i >= right) {
-		    break;
-		}
-		g.drawLine(i, height + WAVE_HEIGHT / 2, i + WAVE_LENGTH,
-			   height);
-		i += WAVE_LENGTH;
-		if (i >= right) {
-		    break;
-		}
-	    }
-	    fig = null;
+	/*
+	 * @see org.argouml.ui.Clarifier#setFig(org.tigris.gef.presentation.Fig)
+	 */
+	public void setFig(Fig f) {
+		fig = f;
 	}
-    }
 
-    /*
-     * @see javax.swing.Icon#getIconWidth()
-     */
-    public int getIconWidth() { return 0; }
+	/*
+	 * @see org.argouml.ui.Clarifier#setToDoItem(org.argouml.cognitive.ToDoItem)
+	 */
+	public void setToDoItem(ToDoItem i) {
+	}
 
-    /*
-     * @see javax.swing.Icon#getIconHeight()
-     */
-    public int getIconHeight() { return 0; }
+	/*
+	 * @see javax.swing.Icon#paintIcon(java.awt.Component, java.awt.Graphics,
+	 * int, int)
+	 */
+	public void paintIcon(Component c, Graphics g, int x, int y) {
+		final Object modelElement = fig.getOwner();
+		if (Model.getUmlFactory().isContainmentValid(Model.getMetaTypes().getAttribute(), modelElement)) {
+			FigCompartmentBox fcb = (FigCompartmentBox) fig;
+			FigCompartment fc = fcb.getCompartment(Model.getMetaTypes().getAttribute());
 
-    /*
-     * @see org.argouml.ui.Clarifier#hit(int, int)
-     */
-    public boolean hit(int x, int y) {
-	final Object modelElement = fig.getOwner();
-        if (Model.getUmlFactory().isContainmentValid(
-                Model.getMetaTypes().getAttribute(), modelElement)) {
-            FigCompartmentBox fcb = (FigCompartmentBox) fig;
-            FigCompartment fc =
-                fcb.getCompartment(Model.getMetaTypes().getAttribute());
-            Rectangle fr = fc.getBounds();
-            fig = null;
-            return fr.contains(x, y);
-        }
-        return false;
-    }
-    /**
-     * @return Returns the theInstance.
-     */
-    public static ClAttributeCompartment getTheInstance() {
-        return theInstance;
-    }
+			// added by Eric Lefevre 13 Mar 1999: we must check if the
+			// FigText for attributes is drawn before drawing things
+			// over it
+			if (fc == null || !fc.isVisible()) {
+				fig = null;
+				return;
+			}
+
+			Rectangle fr = fc.getBounds();
+			int left = fr.x + 6;
+			int height = fr.y + fr.height - 5;
+			int right = fr.x + fr.width - 6;
+			g.setColor(Color.red);
+			int i = left;
+			while (true) {
+				g.drawLine(i, height, i + WAVE_LENGTH, height + WAVE_HEIGHT);
+				i += WAVE_LENGTH;
+				if (i >= right) {
+					break;
+				}
+				g.drawLine(i, height + WAVE_HEIGHT, i + WAVE_LENGTH, height);
+				i += WAVE_LENGTH;
+				if (i >= right) {
+					break;
+				}
+				g.drawLine(i, height, i + WAVE_LENGTH, height + WAVE_HEIGHT / 2);
+				i += WAVE_LENGTH;
+				if (i >= right) {
+					break;
+				}
+				g.drawLine(i, height + WAVE_HEIGHT / 2, i + WAVE_LENGTH, height);
+				i += WAVE_LENGTH;
+				if (i >= right) {
+					break;
+				}
+			}
+			fig = null;
+		}
+	}
+
+	/*
+	 * @see javax.swing.Icon#getIconWidth()
+	 */
+	public int getIconWidth() {
+		return 0;
+	}
+
+	/*
+	 * @see javax.swing.Icon#getIconHeight()
+	 */
+	public int getIconHeight() {
+		return 0;
+	}
+
+	/*
+	 * @see org.argouml.ui.Clarifier#hit(int, int)
+	 */
+	public boolean hit(int x, int y) {
+		final Object modelElement = fig.getOwner();
+		if (Model.getUmlFactory().isContainmentValid(Model.getMetaTypes().getAttribute(), modelElement)) {
+			FigCompartmentBox fcb = (FigCompartmentBox) fig;
+			FigCompartment fc = fcb.getCompartment(Model.getMetaTypes().getAttribute());
+			Rectangle fr = fc.getBounds();
+			fig = null;
+			return fr.contains(x, y);
+		}
+		return false;
+	}
+
+	/**
+	 * @return Returns the theInstance.
+	 */
+	public static ClAttributeCompartment getTheInstance() {
+		return theInstance;
+	}
 
 } /* end class ClAttributeCompartment */

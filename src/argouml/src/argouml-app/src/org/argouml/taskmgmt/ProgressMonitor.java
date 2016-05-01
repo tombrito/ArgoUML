@@ -38,77 +38,89 @@
 
 package org.argouml.taskmgmt;
 
-
 /**
- * This is a generic progress notifier. Can be used with any GUI progress bar
- * or any other progress GUI. It's this way to be independent of the GUI
+ * This is a generic progress notifier. Can be used with any GUI progress bar or
+ * any other progress GUI. It's this way to be independent of the GUI
  * implementation.
+ * 
  * @author Bogdan Pistol
  */
 public interface ProgressMonitor extends ProgressListener {
-    
-    /**
-     * Informs the progress tool that the total progress was updated.
-     * 
-     * @param progress the amount of progress done so far, this is the whole
-     * progress until now, not just the subtask's progress or the
-     * main task's progress
-     */
-    void updateProgress(int progress);
-    
-    /**
-     * Updates the subtask that is in progress.
-     * @param name the name of the subtask
-     */
-    void updateSubTask(String name);
-    
-    /**
-     * Updates the major task that is going on.
-     * @param name the new task
-     */
-    void updateMainTask(String name);
-    
-    /**
-     * Determines if the user wants to cancel the current action.
-     * If this happens the current action should be stopped.
-     * <p>
-     * So in a long running action, you should query this periodicaly to see
-     * if the user still wants to continue or he canceled the action.
-     * <p>
-     * NOTE: It appears to be some kind of Java tradition to misspell
-     * the name of this method, so we follow the Swing and Eclipse tradition
-     * of spelling it with a single "L".
-     * @return true if the user cancelled the action and false otherwise
-     */
-    boolean isCanceled();
-    
-    /**
-     * Determines the maximum amount of progress that can be reached.
-     * This should be set before the progress is updated.
-     * @param max the maximum progress value or -1 if the value is unknown
-     */
-    void setMaximumProgress(int max);
-    
-    /**
-     * This method notifies the GUI that the working thread determines that
-     * there are no actions that could be done for various reasons.
-     * The GUI should notify the user too.
-     */
-    void notifyNullAction();
-    
-    /**
-     * If something happens the user should be notified.
-     * @param title a title for the error/information/etc
-     * @param introduction a short message that will continue with the message
-     * @param message the actual message with all the details
-     */
-    void notifyMessage(String title, String introduction, String message);
 
-     /** 
-     * Indicate that the operation is complete.  This happens automatically
-     * when the value set by setProgress is >= max, but it may be called
-     * earlier if the operation ends early.
-     */
-    public void close();
+	/**
+	 * Informs the progress tool that the total progress was updated.
+	 * 
+	 * @param progress
+	 *            the amount of progress done so far, this is the whole progress
+	 *            until now, not just the subtask's progress or the main task's
+	 *            progress
+	 */
+	void updateProgress(int progress);
+
+	/**
+	 * Updates the subtask that is in progress.
+	 * 
+	 * @param name
+	 *            the name of the subtask
+	 */
+	void updateSubTask(String name);
+
+	/**
+	 * Updates the major task that is going on.
+	 * 
+	 * @param name
+	 *            the new task
+	 */
+	void updateMainTask(String name);
+
+	/**
+	 * Determines if the user wants to cancel the current action. If this
+	 * happens the current action should be stopped.
+	 * <p>
+	 * So in a long running action, you should query this periodicaly to see if
+	 * the user still wants to continue or he canceled the action.
+	 * <p>
+	 * NOTE: It appears to be some kind of Java tradition to misspell the name
+	 * of this method, so we follow the Swing and Eclipse tradition of spelling
+	 * it with a single "L".
+	 * 
+	 * @return true if the user cancelled the action and false otherwise
+	 */
+	boolean isCanceled();
+
+	/**
+	 * Determines the maximum amount of progress that can be reached. This
+	 * should be set before the progress is updated.
+	 * 
+	 * @param max
+	 *            the maximum progress value or -1 if the value is unknown
+	 */
+	void setMaximumProgress(int max);
+
+	/**
+	 * This method notifies the GUI that the working thread determines that
+	 * there are no actions that could be done for various reasons. The GUI
+	 * should notify the user too.
+	 */
+	void notifyNullAction();
+
+	/**
+	 * If something happens the user should be notified.
+	 * 
+	 * @param title
+	 *            a title for the error/information/etc
+	 * @param introduction
+	 *            a short message that will continue with the message
+	 * @param message
+	 *            the actual message with all the details
+	 */
+	void notifyMessage(String title, String introduction, String message);
+
+	/**
+	 * Indicate that the operation is complete. This happens automatically when
+	 * the value set by setProgress is >= max, but it may be called earlier if
+	 * the operation ends early.
+	 */
+	public void close();
 
 }

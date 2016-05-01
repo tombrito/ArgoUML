@@ -49,6 +49,6 @@ import java.awt.Graphics;
  */
 public interface Clarifiable {
 
-    void paintClarifiers(Graphics g);
+	void paintClarifiers(Graphics g);
 
 }

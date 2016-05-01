@@ -59,228 +59,228 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigObject extends FigNodeModelElement {
 
-    private static final long serialVersionUID = 4916096939495889854L;
+	private static final long serialVersionUID = 4916096939495889854L;
 	private FigRect cover;
 
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigRect(X0, Y0, 90, 50, DEBUG_COLOR, DEBUG_COLOR);
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigRect(X0, Y0, 90, 50, DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-    private void initFigs() {
-        cover = new FigRect(X0, Y0, 90, 50, LINE_COLOR, FILL_COLOR);
-        getNameFig().setLineWidth(0);
-        getNameFig().setFilled(false);
-        getNameFig().setUnderline(true);
-        Dimension nameMin = getNameFig().getMinimumSize();
-        getNameFig().setBounds(X0, Y0, nameMin.width + 20, nameMin.height);
+	private void initFigs() {
+		cover = new FigRect(X0, Y0, 90, 50, LINE_COLOR, FILL_COLOR);
+		getNameFig().setLineWidth(0);
+		getNameFig().setFilled(false);
+		getNameFig().setUnderline(true);
+		Dimension nameMin = getNameFig().getMinimumSize();
+		getNameFig().setBounds(X0, Y0, nameMin.width + 20, nameMin.height);
 
-        // add Figs to the FigNode in back-to-front order
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getNameFig());
+		// add Figs to the FigNode in back-to-front order
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getNameFig());
 
-        Rectangle r = getBounds();
-        setBounds(r.x, r.y, nameMin.width, nameMin.height);
-    }
+		Rectangle r = getBounds();
+		setBounds(r.x, r.y, nameMin.width, nameMin.height);
+	}
 
-    /**
-     * Construct a new FigObject.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigObject(Object owner, Rectangle bounds, DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-    }
-    
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#getNotationProviderType()
-     */
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_OBJECT;
-    }
+	/**
+	 * Construct a new FigObject.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigObject(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+	}
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-        FigObject figClone = (FigObject) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        figClone.cover = (FigRect) it.next();
-        figClone.setNameFig((FigText) it.next());
-        return figClone;
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#getNotationProviderType()
+	 */
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_OBJECT;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        cover.setLineColor(col);
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigObject figClone = (FigObject) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		figClone.cover = (FigRect) it.next();
+		figClone.setNameFig((FigText) it.next());
+		return figClone;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return cover.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		cover.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        cover.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return cover.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return cover.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		cover.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return cover.getFillColor();
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return cover.getLineWidth();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return cover.getLineWidth();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionObject(this);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionObject(this);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        Dimension nameMin = getNameFig().getMinimumSize();
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension nameMin = getNameFig().getMinimumSize();
 
-        int w = nameMin.width + 10;
-        int h = nameMin.height + 5;
-        
-        w = Math.max(60, w);
-        return new Dimension(w, h);
-    }
+		int w = nameMin.width + 10;
+		int h = nameMin.height + 5;
 
-    /**
-     * Override ancestor behaviour by always calling setBounds even if the
-     * size hasn't changed. Without this override the Package bounds draw
-     * incorrectly. This is not the best fix but is a workaround until the
-     * true cause is known. See issue 6135.
-     * 
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateBounds()
-     */
-    protected void updateBounds() {
-        if (!isCheckSize()) {
-            return;
-        }
-        Rectangle bbox = getBounds();
-        Dimension minSize = getMinimumSize();
-        bbox.width = Math.max(bbox.width, minSize.width);
-        bbox.height = Math.max(bbox.height, minSize.height);
-        setBounds(bbox.x, bbox.y, bbox.width, bbox.height);
-    }
+		w = Math.max(60, w);
+		return new Dimension(w, h);
+	}
 
-    /*
-     * Override setBounds to keep shapes looking right.
-     *
-     * @see org.tigris.gef.presentation.Fig#setBounds(int, int, int, int)
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        if (getNameFig() == null) {
-            return;
-        }
+	/**
+	 * Override ancestor behaviour by always calling setBounds even if the size
+	 * hasn't changed. Without this override the Package bounds draw
+	 * incorrectly. This is not the best fix but is a workaround until the true
+	 * cause is known. See issue 6135.
+	 * 
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateBounds()
+	 */
+	protected void updateBounds() {
+		if (!isCheckSize()) {
+			return;
+		}
+		Rectangle bbox = getBounds();
+		Dimension minSize = getMinimumSize();
+		bbox.width = Math.max(bbox.width, minSize.width);
+		bbox.height = Math.max(bbox.height, minSize.height);
+		setBounds(bbox.x, bbox.y, bbox.width, bbox.height);
+	}
 
-        Rectangle oldBounds = getBounds();
+	/*
+	 * Override setBounds to keep shapes looking right.
+	 *
+	 * @see org.tigris.gef.presentation.Fig#setBounds(int, int, int, int)
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
 
-        Dimension nameMin = getNameFig().getMinimumSize();
+		Rectangle oldBounds = getBounds();
 
-        getBigPort().setBounds(x, y, w, h);
-        cover.setBounds(x, y, w, h);
-        getNameFig().setBounds(x, y, nameMin.width + 10, nameMin.height + 4);
+		Dimension nameMin = getNameFig().getMinimumSize();
 
-        //_bigPort.setBounds(x+1, y+1, w-2, h-2);
-        _x = x; _y = y; _w = w; _h = h;
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y, w, h);
+		getNameFig().setBounds(x, y, nameMin.width + 10, nameMin.height + 4);
 
-        firePropChange("bounds", oldBounds, getBounds());
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-        updateEdges();
-    }
+		// _bigPort.setBounds(x+1, y+1, w-2, h-2);
+		_x = x;
+		_y = y;
+		_w = w;
+		_h = h;
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void setEnclosingFig(Fig encloser) {
+		firePropChange("bounds", oldBounds, getBounds());
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+	}
 
-        Object owner = getOwner();
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.
+	 * presentation.Fig)
+	 */
+	@Override
+	public void setEnclosingFig(Fig encloser) {
 
-        if (encloser != null
-                && (Model.getFacade()
-                        .isAComponentInstance(encloser.getOwner()))) {
-            Model.getCommonBehaviorHelper()
-                    .setComponentInstance(owner, encloser.getOwner());
-            super.setEnclosingFig(encloser);
+		Object owner = getOwner();
 
-        } else if (Model.getFacade().getUmlVersion().startsWith("1")
-                && Model.getFacade().getComponentInstance(owner) != null) {
-            Model.getCommonBehaviorHelper().setComponentInstance(owner, null);
-            super.setEnclosingFig(null);
-        }
-        
-        
-        if (encloser != null
-                && (Model.getFacade()
-                        .isAComponent(encloser.getOwner()))) {
+		if (encloser != null && (Model.getFacade().isAComponentInstance(encloser.getOwner()))) {
+			Model.getCommonBehaviorHelper().setComponentInstance(owner, encloser.getOwner());
+			super.setEnclosingFig(encloser);
 
-            moveIntoComponent(encloser);
-            super.setEnclosingFig(encloser);
-        } else if (encloser != null
-                && Model.getFacade().isANode(encloser.getOwner())) {
-            super.setEnclosingFig(encloser);
-        } else if (encloser == null) {
-            super.setEnclosingFig(null);
-        }
-    }
+		} else if (Model.getFacade().getUmlVersion().startsWith("1")
+				&& Model.getFacade().getComponentInstance(owner) != null) {
+			Model.getCommonBehaviorHelper().setComponentInstance(owner, null);
+			super.setEnclosingFig(null);
+		}
+
+		if (encloser != null && (Model.getFacade().isAComponent(encloser.getOwner()))) {
+
+			moveIntoComponent(encloser);
+			super.setEnclosingFig(encloser);
+		} else if (encloser != null && Model.getFacade().isANode(encloser.getOwner())) {
+			super.setEnclosingFig(encloser);
+		} else if (encloser == null) {
+			super.setEnclosingFig(null);
+		}
+	}
 
 }

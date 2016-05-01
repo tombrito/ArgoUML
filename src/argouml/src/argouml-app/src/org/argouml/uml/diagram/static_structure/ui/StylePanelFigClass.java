@@ -58,91 +58,85 @@ import org.argouml.uml.diagram.ui.FigCompartmentBox;
  */
 public class StylePanelFigClass extends StylePanelFigNodeModelElement {
 
-    private static final long serialVersionUID = 4587367369055254943L;
+	private static final long serialVersionUID = 4587367369055254943L;
 
-	private JCheckBox attrCheckBox =
-            new JCheckBox(Translator.localize("checkbox.attributes"));
+	private JCheckBox attrCheckBox = new JCheckBox(Translator.localize("checkbox.attributes"));
 
-    private JCheckBox operCheckBox =
-            new JCheckBox(Translator.localize("checkbox.operations"));
+	private JCheckBox operCheckBox = new JCheckBox(Translator.localize("checkbox.operations"));
 
-    /**
-     * Flag to indicate that a refresh is going on.
-     */
-    private boolean refreshTransaction;
+	/**
+	 * Flag to indicate that a refresh is going on.
+	 */
+	private boolean refreshTransaction;
 
-    ////////////////////////////////////////////////////////////////
-    // contructors
+	////////////////////////////////////////////////////////////////
+	// contructors
 
-    /**
-     * The constructor.
-     *
-     */
-    public StylePanelFigClass() {
-        super();
+	/**
+	 * The constructor.
+	 *
+	 */
+	public StylePanelFigClass() {
+		super();
 
-        addToDisplayPane(attrCheckBox);
-        addToDisplayPane(operCheckBox);
+		addToDisplayPane(attrCheckBox);
+		addToDisplayPane(operCheckBox);
 
-        attrCheckBox.setSelected(false);
-        operCheckBox.setSelected(false);
-        attrCheckBox.addItemListener(this);
-        operCheckBox.addItemListener(this);
-    }
+		attrCheckBox.setSelected(false);
+		operCheckBox.setSelected(false);
+		attrCheckBox.addItemListener(this);
+		operCheckBox.addItemListener(this);
+	}
 
-    /*
-     * Only refresh the tab if the bounds propertyChange event arrives.
-     *
-     * @see org.argouml.ui.StylePanel#refresh(java.beans.PropertyChangeEvent)
-     */
-    public void refresh(PropertyChangeEvent e) {
-        String propertyName = e.getPropertyName();
-        if (propertyName.equals("bounds")) {
-            refresh();
-        }
-    }
+	/*
+	 * Only refresh the tab if the bounds propertyChange event arrives.
+	 *
+	 * @see org.argouml.ui.StylePanel#refresh(java.beans.PropertyChangeEvent)
+	 */
+	public void refresh(PropertyChangeEvent e) {
+		String propertyName = e.getPropertyName();
+		if (propertyName.equals("bounds")) {
+			refresh();
+		}
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // accessors
+	////////////////////////////////////////////////////////////////
+	// accessors
 
-    /*
-     * @see org.argouml.ui.TabTarget#refresh()
-     */
-    public void refresh() {
-        refreshTransaction = true;
-        super.refresh();
-        final FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
-        FigCompartment compartment =
-            fcb.getCompartment(Model.getMetaTypes().getAttribute());
-        attrCheckBox.setSelected(compartment.isVisible());
-        compartment =
-            fcb.getCompartment(Model.getMetaTypes().getOperation());
-        operCheckBox.setSelected(compartment.isVisible());
-        refreshTransaction = false;
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#refresh()
+	 */
+	public void refresh() {
+		refreshTransaction = true;
+		super.refresh();
+		final FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
+		FigCompartment compartment = fcb.getCompartment(Model.getMetaTypes().getAttribute());
+		attrCheckBox.setSelected(compartment.isVisible());
+		compartment = fcb.getCompartment(Model.getMetaTypes().getOperation());
+		operCheckBox.setSelected(compartment.isVisible());
+		refreshTransaction = false;
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // event handling
+	////////////////////////////////////////////////////////////////
+	// event handling
 
-    /*
-     * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-     */
-    public void itemStateChanged(ItemEvent e) {
-        if (!refreshTransaction) {
-            Object src = e.getSource();
+	/*
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	public void itemStateChanged(ItemEvent e) {
+		if (!refreshTransaction) {
+			Object src = e.getSource();
 
-            if (src == attrCheckBox) {
-                FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
-                fcb.showCompartment(Model.getMetaTypes().getAttribute(), 
-                        attrCheckBox.isSelected());
-            } else if (src == operCheckBox) {
-                FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
-                fcb.showCompartment(Model.getMetaTypes().getOperation(),
-                        operCheckBox.isSelected());
-            } else {
-                super.itemStateChanged(e);
-            }
-        }
-    }
+			if (src == attrCheckBox) {
+				FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
+				fcb.showCompartment(Model.getMetaTypes().getAttribute(), attrCheckBox.isSelected());
+			} else if (src == operCheckBox) {
+				FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
+				fcb.showCompartment(Model.getMetaTypes().getOperation(), operCheckBox.isSelected());
+			} else {
+				super.itemStateChanged(e);
+			}
+		}
+	}
 } /* end class StylePanelFigClass */
-

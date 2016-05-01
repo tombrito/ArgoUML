@@ -56,108 +56,113 @@ import org.tigris.gef.base.Diagram;
  * @author alexb
  * @since 0.15.2, Created on 27 September 2003, 17:40
  */
-public class ExplorerTreeNode extends DefaultMutableTreeNode implements
-        PropertyChangeListener {
+public class ExplorerTreeNode extends DefaultMutableTreeNode implements PropertyChangeListener {
 
-    private static final long serialVersionUID = -6766504350537675845L;
-    private ExplorerTreeModel model;
-    private boolean expanded;
-    private boolean pending;
-    private Set modifySet = Collections.EMPTY_SET;
+	private static final long serialVersionUID = -6766504350537675845L;
+	private ExplorerTreeModel model;
+	private boolean expanded;
+	private boolean pending;
+	private Set modifySet = Collections.EMPTY_SET;
 
-    /**
-     * Creates a new instance of ExplorerTreeNode.
-     *
-     * @param userObj the object in the tree
-     * @param m the tree model
-     */
-    public ExplorerTreeNode(Object userObj, ExplorerTreeModel m) {
-        super(userObj);
-        this.model = m;
-        if (userObj instanceof Diagram) {
-            ((Diagram) userObj).addPropertyChangeListener(this);
-        }
-    }
-
-    /*
-     * @see javax.swing.tree.TreeNode#isLeaf()
-     */
-    @Override
-    public boolean isLeaf() {
-	if (!expanded) {
-	    model.updateChildren(new TreePath(model.getPathToRoot(this)));
-	    expanded = true;
+	/**
+	 * Creates a new instance of ExplorerTreeNode.
+	 *
+	 * @param userObj
+	 *            the object in the tree
+	 * @param m
+	 *            the tree model
+	 */
+	public ExplorerTreeNode(Object userObj, ExplorerTreeModel m) {
+		super(userObj);
+		this.model = m;
+		if (userObj instanceof Diagram) {
+			((Diagram) userObj).addPropertyChangeListener(this);
+		}
 	}
-	return super.isLeaf();
-    }
 
-    boolean getPending() {
-	return pending;
-    }
-
-    void setPending(boolean value) {
-	pending = value;
-    }
-
-    /**
-     * @param set the given set
-     */
-    public void setModifySet(Set set) {
-	if (set == null || set.size() == 0) {
-	    modifySet = Collections.EMPTY_SET;
-	} else {
-	    modifySet = set;
+	/*
+	 * @see javax.swing.tree.TreeNode#isLeaf()
+	 */
+	@Override
+	public boolean isLeaf() {
+		if (!expanded) {
+			model.updateChildren(new TreePath(model.getPathToRoot(this)));
+			expanded = true;
+		}
+		return super.isLeaf();
 	}
-    }
 
-    /**
-     * @param node the modified node in the tree
-     */
-    public void nodeModified(Object node) {
-	if (modifySet.contains(node)) {
-	    model.getNodeUpdater().schedule(this);
+	boolean getPending() {
+		return pending;
 	}
-	if (node == getUserObject()) {
-	    model.nodeChanged(this);
+
+	void setPending(boolean value) {
+		pending = value;
 	}
-    }
 
-    /**
-     * cleans up for gc.
-     */
-    public void remove() {
-	this.userObject = null;
-
-	if (children != null) {
-	    Iterator childrenIt = children.iterator();
-	    while (childrenIt.hasNext()) {
-		((ExplorerTreeNode) childrenIt.next()).remove();
-	    }
-
-	    children.clear();
-	    children = null;
+	/**
+	 * @param set
+	 *            the given set
+	 */
+	public void setModifySet(Set set) {
+		if (set == null || set.size() == 0) {
+			modifySet = Collections.EMPTY_SET;
+		} else {
+			modifySet = set;
+		}
 	}
-    }
-    
-    /*
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource() instanceof Diagram) {
-            if ("name".equals(evt.getPropertyName())) {
-                /* The name of the UMLDiagram 
-                 * represented by this node has changed. */
-                model.nodeChanged(this);
-            }
-            if ( "namespace".equals(evt.getPropertyName())) {
-                /* TODO: Update the old and new node above this!
-                 * This is issue 5079.
-                 * The old and new UML namespaces are in the event, but
-                 * how do we know which nodes to refresh?
-                 * And how to refresh? 
-                 * Not necessarily the namespaces, 
-                 * depending on the perspective. */
-            }
-        }
-    }
+
+	/**
+	 * @param node
+	 *            the modified node in the tree
+	 */
+	public void nodeModified(Object node) {
+		if (modifySet.contains(node)) {
+			model.getNodeUpdater().schedule(this);
+		}
+		if (node == getUserObject()) {
+			model.nodeChanged(this);
+		}
+	}
+
+	/**
+	 * cleans up for gc.
+	 */
+	public void remove() {
+		this.userObject = null;
+
+		if (children != null) {
+			Iterator childrenIt = children.iterator();
+			while (childrenIt.hasNext()) {
+				((ExplorerTreeNode) childrenIt.next()).remove();
+			}
+
+			children.clear();
+			children = null;
+		}
+	}
+
+	/*
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getSource() instanceof Diagram) {
+			if ("name".equals(evt.getPropertyName())) {
+				/*
+				 * The name of the UMLDiagram represented by this node has
+				 * changed.
+				 */
+				model.nodeChanged(this);
+			}
+			if ("namespace".equals(evt.getPropertyName())) {
+				/*
+				 * TODO: Update the old and new node above this! This is issue
+				 * 5079. The old and new UML namespaces are in the event, but
+				 * how do we know which nodes to refresh? And how to refresh?
+				 * Not necessarily the namespaces, depending on the perspective.
+				 */
+			}
+		}
+	}
 }

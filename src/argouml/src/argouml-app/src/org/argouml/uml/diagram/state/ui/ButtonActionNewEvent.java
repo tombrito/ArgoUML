@@ -54,55 +54,53 @@ import org.tigris.toolbar.toolbutton.ModalAction;
  * 
  * @author Michiel
  */
-abstract class ButtonActionNewEvent extends UndoableAction 
-    implements ModalAction, TargetListener {
+abstract class ButtonActionNewEvent extends UndoableAction implements ModalAction, TargetListener {
 
-    private static final long serialVersionUID = -7640922291093808487L;
+	private static final long serialVersionUID = -7640922291093808487L;
 
 	ButtonActionNewEvent() {
-        super();
-        putValue(NAME, getKeyName());
-        putValue(SHORT_DESCRIPTION, Translator.localize(getKeyName()));
-        Object icon = ResourceLoaderWrapper.lookupIconResource(getIconName());
-        putValue(SMALL_ICON, icon);
-        TargetManager.getInstance().addTargetListener(this);
-    }
+		super();
+		putValue(NAME, getKeyName());
+		putValue(SHORT_DESCRIPTION, Translator.localize(getKeyName()));
+		Object icon = ResourceLoaderWrapper.lookupIconResource(getIconName());
+		putValue(SMALL_ICON, icon);
+		TargetManager.getInstance().addTargetListener(this);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (!isEnabled()) {
-            return;
-        }
-        super.actionPerformed(e);
-        Object target = TargetManager.getInstance().getModelTarget();
-        Object model = Model.getFacade().getInnerContainingModel(target);
-        Object ns = Model.getStateMachinesHelper()
-                    .findNamespaceForEvent(target, model);
-        Object event = createEvent(ns);
-        Model.getStateMachinesHelper().setEventAsTrigger(target, event);
-        TargetManager.getInstance().setTarget(event);
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (!isEnabled()) {
+			return;
+		}
+		super.actionPerformed(e);
+		Object target = TargetManager.getInstance().getModelTarget();
+		Object model = Model.getFacade().getInnerContainingModel(target);
+		Object ns = Model.getStateMachinesHelper().findNamespaceForEvent(target, model);
+		Object event = createEvent(ns);
+		Model.getStateMachinesHelper().setEventAsTrigger(target, event);
+		TargetManager.getInstance().setTarget(event);
+	}
 
-    public boolean isEnabled() {
-        Object target = TargetManager.getInstance().getModelTarget();
-        return Model.getFacade().isATransition(target);
-    }
-    
-    protected abstract Object createEvent(Object ns);
-    
-    protected abstract String getKeyName();
-    protected abstract String getIconName();
+	public boolean isEnabled() {
+		Object target = TargetManager.getInstance().getModelTarget();
+		return Model.getFacade().isATransition(target);
+	}
 
-    
-    public void targetAdded(TargetEvent e) {
-        setEnabled(isEnabled());
-    }
+	protected abstract Object createEvent(Object ns);
 
-    public void targetRemoved(TargetEvent e) {
-        setEnabled(isEnabled());
-    }
+	protected abstract String getKeyName();
 
-    public void targetSet(TargetEvent e) {
-        setEnabled(isEnabled());
-    }
-    
+	protected abstract String getIconName();
+
+	public void targetAdded(TargetEvent e) {
+		setEnabled(isEnabled());
+	}
+
+	public void targetRemoved(TargetEvent e) {
+		setEnabled(isEnabled());
+	}
+
+	public void targetSet(TargetEvent e) {
+		setEnabled(isEnabled());
+	}
+
 }

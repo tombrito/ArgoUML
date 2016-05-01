@@ -42,21 +42,20 @@ import org.argouml.model.AbstractStateMachinesHelperDecorator;
 import org.argouml.model.StateMachinesHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoStateMachinesHelperDecorator
-	extends AbstractStateMachinesHelperDecorator {
+class UndoStateMachinesHelperDecorator extends AbstractStateMachinesHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoStateMachinesHelperDecorator(StateMachinesHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoStateMachinesHelperDecorator(StateMachinesHelper component) {
+		super(component);
+	}
 }
-

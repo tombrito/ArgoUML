@@ -46,134 +46,133 @@ import org.argouml.persistence.PersistenceManager;
  */
 public abstract class AbstractProjectMember implements ProjectMember {
 
-    private String uniqueName;
-    private Project project = null;
+	private String uniqueName;
+	private Project project = null;
 
-    /**
-     * The constructor.
-     *
-     * @param theUniqueName the name of the member, this must
-     *                      be different for all members. Note
-     *                      that for diagram members this is
-     *                      not the name of the diagram.
-     * @param theProject the owning project
-     */
-    public AbstractProjectMember(String theUniqueName, Project theProject) {
-        project = theProject;
-        makeUniqueName(theUniqueName);
-    }
-
-    /**
-     * In contrast to {@link #getZipName()} returns the member's
-     * name without the prepended name of the project
-     * (but with the extension). <p>
-     * 
-     * TODO: This is not used anywhere - shall we remove it?
-     *
-     * @author Steffen Zschaler
-     *
-     * @return the member's name without any prefix or suffix
-     */
-    public String getUniqueDiagramName() {
-        String s = uniqueName;
-
-        if (s != null) {
-            if (!s.endsWith (getZipFileExtension())) {
-                s += getZipFileExtension();
-            }
-        }
-
-        return s;
-    }
-
-    /**
-     * Returns a unique member's name for storage in a zipfile.
-     * The project's base name is prepended followed by an
-     * underscore '_'. The extension is appended.<p>
-     * 
-     * Used by "argo.tee".
-     *
-     * @return the name for zip file storage
-     */
-    public String getZipName() {
-        if (uniqueName == null) {
-	    return null;
+	/**
+	 * The constructor.
+	 *
+	 * @param theUniqueName
+	 *            the name of the member, this must be different for all
+	 *            members. Note that for diagram members this is not the name of
+	 *            the diagram.
+	 * @param theProject
+	 *            the owning project
+	 */
+	public AbstractProjectMember(String theUniqueName, Project theProject) {
+		project = theProject;
+		makeUniqueName(theUniqueName);
 	}
 
-        String s = PersistenceManager.getInstance().getProjectBaseName(project);
+	/**
+	 * In contrast to {@link #getZipName()} returns the member's name without
+	 * the prepended name of the project (but with the extension).
+	 * <p>
+	 * 
+	 * TODO: This is not used anywhere - shall we remove it?
+	 *
+	 * @author Steffen Zschaler
+	 *
+	 * @return the member's name without any prefix or suffix
+	 */
+	public String getUniqueDiagramName() {
+		String s = uniqueName;
 
-        if (uniqueName.length() > 0) {
-            s += "_" + uniqueName;
+		if (s != null) {
+			if (!s.endsWith(getZipFileExtension())) {
+				s += getZipFileExtension();
+			}
+		}
+
+		return s;
 	}
 
-        if (!s.endsWith(getZipFileExtension())) {
-            s += getZipFileExtension();
-        }
+	/**
+	 * Returns a unique member's name for storage in a zipfile. The project's
+	 * base name is prepended followed by an underscore '_'. The extension is
+	 * appended.
+	 * <p>
+	 * 
+	 * Used by "argo.tee".
+	 *
+	 * @return the name for zip file storage
+	 */
+	public String getZipName() {
+		if (uniqueName == null) {
+			return null;
+		}
 
-        return s;
-    }
+		String s = PersistenceManager.getInstance().getProjectBaseName(project);
 
-    /**
-     * Makes a unique name for this member.
-     * Note this is not the diagram name and this appears
-     * to be flawed.
-     * @param s a string which will make up part of this
-     *          unique name.
-     */
-    protected void makeUniqueName(String s) {
-        uniqueName = s;
+		if (uniqueName.length() > 0) {
+			s += "_" + uniqueName;
+		}
 
-        if (uniqueName == null) {
-            return;
-        }
+		if (!s.endsWith(getZipFileExtension())) {
+			s += getZipFileExtension();
+		}
 
-        String pbn = 
-            PersistenceManager.getInstance().getProjectBaseName(project); 
-        if (uniqueName.startsWith (pbn)) {
-            uniqueName = uniqueName.substring (pbn.length());
-            /* Skip leading underscores: */
-            int i = 0;
-            for (; i < uniqueName.length(); i++) {
-            	if (uniqueName.charAt(i) != '_') {
-            	    break;
-                }
-            }
-            if (i > 0) {
-                uniqueName = uniqueName.substring(i);
-            }
-        }
+		return s;
+	}
 
-        if (uniqueName.endsWith(getZipFileExtension())) {
-            uniqueName =
-                uniqueName.substring(0,
-                        uniqueName.length() - getZipFileExtension().length());
-        }
-    }
+	/**
+	 * Makes a unique name for this member. Note this is not the diagram name
+	 * and this appears to be flawed.
+	 * 
+	 * @param s
+	 *            a string which will make up part of this unique name.
+	 */
+	protected void makeUniqueName(String s) {
+		uniqueName = s;
 
-    /**
-     * Used by "argo.tee".
-     * 
-     * @return a short string defining the member type.
-     * Usually equals the file extension.
-     */
-    public abstract String getType();
+		if (uniqueName == null) {
+			return;
+		}
 
-    /**
-     * @return the file extension string
-     */
-    public String getZipFileExtension() {
-        return "." + getType();
-    }
+		String pbn = PersistenceManager.getInstance().getProjectBaseName(project);
+		if (uniqueName.startsWith(pbn)) {
+			uniqueName = uniqueName.substring(pbn.length());
+			/* Skip leading underscores: */
+			int i = 0;
+			for (; i < uniqueName.length(); i++) {
+				if (uniqueName.charAt(i) != '_') {
+					break;
+				}
+			}
+			if (i > 0) {
+				uniqueName = uniqueName.substring(i);
+			}
+		}
 
-    /**
-     * Remove this member from its project.
-     */
-    protected void remove() {
-        uniqueName = null;
-        project = null;
-    }
-    
-    public String toString() {
-        return getZipName();
-    }
+		if (uniqueName.endsWith(getZipFileExtension())) {
+			uniqueName = uniqueName.substring(0, uniqueName.length() - getZipFileExtension().length());
+		}
+	}
+
+	/**
+	 * Used by "argo.tee".
+	 * 
+	 * @return a short string defining the member type. Usually equals the file
+	 *         extension.
+	 */
+	public abstract String getType();
+
+	/**
+	 * @return the file extension string
+	 */
+	public String getZipFileExtension() {
+		return "." + getType();
+	}
+
+	/**
+	 * Remove this member from its project.
+	 */
+	protected void remove() {
+		uniqueName = null;
+		project = null;
+	}
+
+	public String toString() {
+		return getZipName();
+	}
 }

@@ -39,135 +39,143 @@
 package org.argouml.uml.generator;
 
 /**
- * Information about a source unit and its content, whether
- * it exists only in memory or it's stored in a file.
+ * Information about a source unit and its content, whether it exists only in
+ * memory or it's stored in a file.
  * 
- * TODO: Making this an interface instead of a class would allow 
- * more flexibility in dealing with non-file-based resources. - tfm
+ * TODO: Making this an interface instead of a class would allow more
+ * flexibility in dealing with non-file-based resources. - tfm
  * 
  * @author aslo
  */
 public class SourceUnit {
-    /**
-     * The file seperator for this operating system.
-     */
-    public static final String FILE_SEPARATOR =
-        System.getProperty("file.separator");
+	/**
+	 * The file seperator for this operating system.
+	 */
+	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
-    private Language language;
-    private String name;
-    private String basePath;
-    private String content;
+	private Language language;
+	private String name;
+	private String basePath;
+	private String content;
 
-    /**
-     * @param theName Name of the unit.
-     * @param path The path relative to the project source path.
-     * @param theContent The source code of the unit.
-     */
-    public SourceUnit(String theName, String path, String theContent) {
-        setName(theName);
-        setBasePath(path);
-        this.content = theContent;
-    }
+	/**
+	 * @param theName
+	 *            Name of the unit.
+	 * @param path
+	 *            The path relative to the project source path.
+	 * @param theContent
+	 *            The source code of the unit.
+	 */
+	public SourceUnit(String theName, String path, String theContent) {
+		setName(theName);
+		setBasePath(path);
+		this.content = theContent;
+	}
 
-    /**
-     * @param fullName Name with path relative to the project source path.
-     * @param theContent The source code of the unit.
-     */
-    public SourceUnit(String fullName, String theContent) {
-        setFullName(fullName);
-        content = theContent;
-    }
+	/**
+	 * @param fullName
+	 *            Name with path relative to the project source path.
+	 * @param theContent
+	 *            The source code of the unit.
+	 */
+	public SourceUnit(String fullName, String theContent) {
+		setFullName(fullName);
+		content = theContent;
+	}
 
-    /**
-     * @return Returns the source code of the unit.
-     */
-    public String getContent() {
-        return content;
-    }
+	/**
+	 * @return Returns the source code of the unit.
+	 */
+	public String getContent() {
+		return content;
+	}
 
-    /**
-     * @param theContent The source code for this unit.
-     */
-    public void setContent(String theContent) {
-        this.content = theContent;
-    }
+	/**
+	 * @param theContent
+	 *            The source code for this unit.
+	 */
+	public void setContent(String theContent) {
+		this.content = theContent;
+	}
 
-    /**
-     * @return Returns the file name of this unit, without path.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return Returns the file name of this unit, without path.
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param filename The file name of this unit, without path.
-     */
-    public void setName(String filename) {
-        int sep = filename.lastIndexOf(FILE_SEPARATOR);
-        if (sep >= 0) {
-            name = filename.substring(sep + FILE_SEPARATOR.length());
-        } else {
-            name = filename;
-        }
-    }
+	/**
+	 * @param filename
+	 *            The file name of this unit, without path.
+	 */
+	public void setName(String filename) {
+		int sep = filename.lastIndexOf(FILE_SEPARATOR);
+		if (sep >= 0) {
+			name = filename.substring(sep + FILE_SEPARATOR.length());
+		} else {
+			name = filename;
+		}
+	}
 
-    /**
-     * @return Returns The base path of the unit (relative to the
-     * project source path).
-     */
-    public String getBasePath() {
-        return basePath;
-    }
+	/**
+	 * @return Returns The base path of the unit (relative to the project source
+	 *         path).
+	 */
+	public String getBasePath() {
+		return basePath;
+	}
 
-    /**
-     * @param path The base path of the unit (relative to the
-     * project source path).
-     */
-    public void setBasePath(String path) {
-        if (path.endsWith(FILE_SEPARATOR)) {
-            basePath =
-                path.substring(0, path.length() - FILE_SEPARATOR.length());
-        } else {
-            basePath = path;
-        }
-    }
+	/**
+	 * @param path
+	 *            The base path of the unit (relative to the project source
+	 *            path).
+	 */
+	public void setBasePath(String path) {
+		if (path.endsWith(FILE_SEPARATOR)) {
+			basePath = path.substring(0, path.length() - FILE_SEPARATOR.length());
+		} else {
+			basePath = path;
+		}
+	}
 
-    /**
-     * @return Returns The name with path of the unit (relative to the
-     * project source path).
-     */
-    public String getFullName() {
-        return basePath + System.getProperty("file.separator") + name;
-    }
+	/**
+	 * @return Returns The name with path of the unit (relative to the project
+	 *         source path).
+	 */
+	public String getFullName() {
+		return basePath + System.getProperty("file.separator") + name;
+	}
 
-    /**
-     * @param path The full name (with path) of the unit, relative to the
-     * project source path.
-     */
-    public void setFullName(String path) {
-        int sep = path.lastIndexOf(FILE_SEPARATOR);
-        if (sep >= 0) {
-            basePath = path.substring(0, sep);
-            name = path.substring(sep + FILE_SEPARATOR.length());
-        } else {
-            basePath = "";
-            name = path;
-        }
-    }
+	/**
+	 * @param path
+	 *            The full name (with path) of the unit, relative to the project
+	 *            source path.
+	 */
+	public void setFullName(String path) {
+		int sep = path.lastIndexOf(FILE_SEPARATOR);
+		if (sep >= 0) {
+			basePath = path.substring(0, sep);
+			name = path.substring(sep + FILE_SEPARATOR.length());
+		} else {
+			basePath = "";
+			name = path;
+		}
+	}
 
-    /**
-     * @return Returns the language.
-     */
-    public Language getLanguage() {
-        return language;
-    }
+	/**
+	 * @return Returns the language.
+	 */
+	public Language getLanguage() {
+		return language;
+	}
 
-    /**
-     * @param lang The language to set.
-     */
-    public void setLanguage(Language lang) {
-        this.language = lang;
-    }
+	/**
+	 * @param lang
+	 *            The language to set.
+	 */
+	public void setLanguage(Language lang) {
+		this.language = lang;
+	}
 
 }

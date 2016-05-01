@@ -47,98 +47,100 @@ import org.argouml.model.InvalidElementException;
 
 /**
  * The <a href="http://en.wikipedia.org/wiki/Facade_pattern">Facade</a> of the
- * profile subsystem.
- * It provides a simplified interface to the subsystem, and access to objects
- * of the subsystem when the methods it provides directly aren't enough.
+ * profile subsystem. It provides a simplified interface to the subsystem, and
+ * access to objects of the subsystem when the methods it provides directly
+ * aren't enough.
  *
  * @author Luis Sergio Oliveira (euluis)
  * @since 0.25.4
  */
 public class ProfileFacade {
 
-    private static final Logger LOG =
-        Logger.getLogger(ProfileFacade.class.getName());
+	private static final Logger LOG = Logger.getLogger(ProfileFacade.class.getName());
 
-    /**
-     * Register a profile in the {@link ProfileManager}.
-     * @param profile the profile to be registered
-     */
-    public static void register(Profile profile) {
-        getManager().registerProfile(profile);
-    }
+	/**
+	 * Register a profile in the {@link ProfileManager}.
+	 * 
+	 * @param profile
+	 *            the profile to be registered
+	 */
+	public static void register(Profile profile) {
+		getManager().registerProfile(profile);
+	}
 
-    /**
-     * Remove or unregister the profile from the {@link ProfileManager}.
-     * @param profile the profile to be removed
-     */
-    public static void remove(Profile profile) {
-        getManager().removeProfile(profile);
-    }
+	/**
+	 * Remove or unregister the profile from the {@link ProfileManager}.
+	 * 
+	 * @param profile
+	 *            the profile to be removed
+	 */
+	public static void remove(Profile profile) {
+		getManager().removeProfile(profile);
+	}
 
-    /**
-     * @return the profile manager
-     */
-    public static ProfileManager getManager() {
-        if (manager == null) {
-            notInitialized("manager");
-        }
-        return manager;
-    }
+	/**
+	 * @return the profile manager
+	 */
+	public static ProfileManager getManager() {
+		if (manager == null) {
+			notInitialized("manager");
+		}
+		return manager;
+	}
 
-    private static void notInitialized(String string) {
-        throw new RuntimeException("ProfileFacade's " + string
-                + " isn't initialized!");
-    }
+	private static void notInitialized(String string) {
+		throw new RuntimeException("ProfileFacade's " + string + " isn't initialized!");
+	}
 
-    /**
-     * @param profileManager the manager of the profiles to be used
-     */
-    public static void setManager(ProfileManager profileManager) {
-        manager = profileManager;
-    }
+	/**
+	 * @param profileManager
+	 *            the manager of the profiles to be used
+	 */
+	public static void setManager(ProfileManager profileManager) {
+		manager = profileManager;
+	}
 
-    /**
-     * Remove all registered profiles.
-     */
-    static void removeAllProfiles() {
-        if (manager != null) {
-            Profile[] profiles = manager.getRegisteredProfiles().toArray(
-                    new Profile[0]);
-            for (Profile p : profiles) {
-                try {
-                    manager.removeProfile(p);
-                } catch (InvalidElementException e) {
-                    LOG.log(Level.FINE,
-                            "Attempted to delete extent twice.");
-                }
-            }
-        }
-    }
+	/**
+	 * Remove all registered profiles.
+	 */
+	static void removeAllProfiles() {
+		if (manager != null) {
+			Profile[] profiles = manager.getRegisteredProfiles().toArray(new Profile[0]);
+			for (Profile p : profiles) {
+				try {
+					manager.removeProfile(p);
+				} catch (InvalidElementException e) {
+					LOG.log(Level.FINE, "Attempted to delete extent twice.");
+				}
+			}
+		}
+	}
 
-    /**
-     * Reset profile subsystem to initial state (primarily for testing).
-     */
-    public static void reset() {
-        removeAllProfiles();
-        manager = null;
-    }
+	/**
+	 * Reset profile subsystem to initial state (primarily for testing).
+	 */
+	public static void reset() {
+		removeAllProfiles();
+		manager = null;
+	}
 
-    private static ProfileManager manager;
+	private static ProfileManager manager;
 
-    /**
-     * @return true is subsystem is initialized or false otherwise
-     */
-    public static boolean isInitiated() {
-        return manager != null;
-    }
+	/**
+	 * @return true is subsystem is initialized or false otherwise
+	 */
+	public static boolean isInitiated() {
+		return manager != null;
+	}
 
-    /**
-     * Applies the given ProfileConfiguration to ArgoUML
-     *
-     * @param pc the profile configuration
-     */
-    public static void applyConfiguration(ProfileConfiguration pc) {
-        getManager().applyConfiguration(pc);
-    }
+	/**
+	 * Applies the given ProfileConfiguration to ArgoUML
+	 *
+	 * @param pc
+	 *            the profile configuration
+	 */
+	public static void applyConfiguration(ProfileConfiguration pc) {
+		getManager().applyConfiguration(pc);
+	}
 
 }

@@ -57,152 +57,170 @@ import org.tigris.gef.base.SetModeAction;
  */
 public class ActionSetMode extends SetModeAction {
 
-    private static final long serialVersionUID = -1294161167744180258L;
-	private static final Logger LOG =
-        Logger.getLogger(ActionSetMode.class.getName());
+	private static final long serialVersionUID = -1294161167744180258L;
+	private static final Logger LOG = Logger.getLogger(ActionSetMode.class.getName());
 
-    /**
-     * The constructor.
-     *
-     * @param args arguments
-     */
-    public ActionSetMode(Properties args) {
-        super(args);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param args
+	 *            arguments
+	 */
+	public ActionSetMode(Properties args) {
+		super(args);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     */
-    public ActionSetMode(Class modeClass) {
-        super(modeClass);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 */
+	public ActionSetMode(Class modeClass) {
+		super(modeClass);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param name the name of the icon
-     */
-    public ActionSetMode(Class modeClass, String name) {
-        super(modeClass);
-        putToolTip(name);
-        putIcon(name);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param name
+	 *            the name of the icon
+	 */
+	public ActionSetMode(Class modeClass, String name) {
+		super(modeClass);
+		putToolTip(name);
+		putIcon(name);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param name the icon name
-     * @param tooltipkey The key for the tooltip text.
-     */
-    public ActionSetMode(Class modeClass, String name, String tooltipkey) {
-        super(modeClass, name);
-        putToolTip(tooltipkey);
-        putIcon(name);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param name
+	 *            the icon name
+	 * @param tooltipkey
+	 *            The key for the tooltip text.
+	 */
+	public ActionSetMode(Class modeClass, String name, String tooltipkey) {
+		super(modeClass, name);
+		putToolTip(tooltipkey);
+		putIcon(name);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param sticky the global sticky mode boolean allows the user
-     *               to place several nodes rapidly (in succession)
-     */
-    public ActionSetMode(Class modeClass, boolean sticky) {
-        super(modeClass, sticky);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param sticky
+	 *            the global sticky mode boolean allows the user to place
+	 *            several nodes rapidly (in succession)
+	 */
+	public ActionSetMode(Class modeClass, boolean sticky) {
+		super(modeClass, sticky);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param modeArgs arguments for the new mode
-     */
-    public ActionSetMode(Class modeClass, Hashtable modeArgs) {
-        super(modeClass, modeArgs);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param modeArgs
+	 *            arguments for the new mode
+	 */
+	public ActionSetMode(Class modeClass, Hashtable modeArgs) {
+		super(modeClass, modeArgs);
+	}
 
-    /**
-     * The constructor.
-     * TODO: The "name" parameter is used for the icon and for the tooltip.
-     * This makes i18n of the tooltip impossible.
-     *
-     * @param modeClass the next global editor mode
-     * @param modeArgs arguments for the new mode
-     * @param name the name of the command that is the tooltip text.
-     */
-    public ActionSetMode(Class modeClass, Hashtable modeArgs, String name) {
-    	super(modeClass);
-        this.modeArgs = modeArgs;
-        putToolTip(name);
-        putIcon(name);
-    }
+	/**
+	 * The constructor. TODO: The "name" parameter is used for the icon and for
+	 * the tooltip. This makes i18n of the tooltip impossible.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param modeArgs
+	 *            arguments for the new mode
+	 * @param name
+	 *            the name of the command that is the tooltip text.
+	 */
+	public ActionSetMode(Class modeClass, Hashtable modeArgs, String name) {
+		super(modeClass);
+		this.modeArgs = modeArgs;
+		putToolTip(name);
+		putIcon(name);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param arg the name of a new argument for the new mode
-     * @param value the value of a new argument for the new mode
-     */
-    public ActionSetMode(Class modeClass, String arg, Object value) {
-        super(modeClass, arg, value);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param arg
+	 *            the name of a new argument for the new mode
+	 * @param value
+	 *            the value of a new argument for the new mode
+	 */
+	public ActionSetMode(Class modeClass, String arg, Object value) {
+		super(modeClass, arg, value);
+	}
 
-    /**
-     * The constructor.
-     * TODO: The "name" parameter is used for the icon and for the tooltip.
-     * This makes i18n of the tooltip impossible.
-     *
-     * @param modeClass the next global editor mode
-     * @param arg the name of a new argument for the new mode
-     * @param value the value of a new argument for the new mode
-     * @param name the name of the command that is the tooltip text.
-     */
-    public ActionSetMode(Class modeClass, String arg, Object value,
-            String name) {
-        super(modeClass, arg, value);
-        putToolTip(name);
-        putIcon(name);
-    }
+	/**
+	 * The constructor. TODO: The "name" parameter is used for the icon and for
+	 * the tooltip. This makes i18n of the tooltip impossible.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param arg
+	 *            the name of a new argument for the new mode
+	 * @param value
+	 *            the value of a new argument for the new mode
+	 * @param name
+	 *            the name of the command that is the tooltip text.
+	 */
+	public ActionSetMode(Class modeClass, String arg, Object value, String name) {
+		super(modeClass, arg, value);
+		putToolTip(name);
+		putIcon(name);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param modeClass the next global editor mode
-     * @param arg the name of a new argument for the new mode
-     * @param value the value of a new argument for the new mode
-     * @param name the name of the command that is the tooltip text.
-     * @param icon the SMALL_ICON for the action
-     */
-    public ActionSetMode(
-        Class modeClass,
-        String arg,
-        Object value,
-        String name,
-        ImageIcon icon) {
-        super(modeClass, arg, value, name, icon);
-        putToolTip(name);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modeClass
+	 *            the next global editor mode
+	 * @param arg
+	 *            the name of a new argument for the new mode
+	 * @param value
+	 *            the value of a new argument for the new mode
+	 * @param name
+	 *            the name of the command that is the tooltip text.
+	 * @param icon
+	 *            the SMALL_ICON for the action
+	 */
+	public ActionSetMode(Class modeClass, String arg, Object value, String name, ImageIcon icon) {
+		super(modeClass, arg, value, name, icon);
+		putToolTip(name);
+	}
 
-    /**
-     * Adds tooltip text to the Action.
-     *
-     * @param key The key to be localized to become the tooltip.
-     */
-    private void putToolTip(String key) {
-        putValue(Action.SHORT_DESCRIPTION, Translator.localize(key));
-    }
+	/**
+	 * Adds tooltip text to the Action.
+	 *
+	 * @param key
+	 *            The key to be localized to become the tooltip.
+	 */
+	private void putToolTip(String key) {
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(key));
+	}
 
-    private void putIcon(String key) {
-        ImageIcon icon = ResourceLoaderWrapper.lookupIcon(key);
-        if (icon != null) {
-            putValue(Action.SMALL_ICON, icon);
-        } else {
-            LOG.log(Level.FINE, "Failed to find icon for key {0}", key);
-        }
-    }
+	private void putIcon(String key) {
+		ImageIcon icon = ResourceLoaderWrapper.lookupIcon(key);
+		if (icon != null) {
+			putValue(Action.SMALL_ICON, icon);
+		} else {
+			LOG.log(Level.FINE, "Failed to find icon for key {0}", key);
+		}
+	}
 }

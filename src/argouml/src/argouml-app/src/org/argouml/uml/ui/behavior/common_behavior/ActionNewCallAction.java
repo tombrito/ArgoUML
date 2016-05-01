@@ -54,58 +54,56 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewCallAction extends ActionNewAction {
 
-    private static final long serialVersionUID = 3511525444454693095L;
-	private static final ActionNewCallAction SINGLETON =
-        new ActionNewCallAction();
+	private static final long serialVersionUID = 3511525444454693095L;
+	private static final ActionNewCallAction SINGLETON = new ActionNewCallAction();
 
-    /**
-     * Constructor for ActionNewCallAction.
-     */
-    protected ActionNewCallAction() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-callaction"));
-    }
+	/**
+	 * Constructor for ActionNewCallAction.
+	 */
+	protected ActionNewCallAction() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-callaction"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createCallAction();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createCallAction();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewCallAction getInstance() {
+		return SINGLETON;
+	}
 
+	/**
+	 * @return an instanceof this class usable for a button
+	 */
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewCallAction() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewCallAction getInstance() {
-        return SINGLETON;
-    }
-
-    /**
-     * @return an instanceof this class usable for a button
-     */
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewCallAction() {
-
-            private static final long serialVersionUID = 2640027335612974649L;
+			private static final long serialVersionUID = 2640027335612974649L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = ResourceLoaderWrapper.lookupIconResource("CallAction");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("CallAction");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

@@ -51,116 +51,103 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.reveng.ImportInterface;
 import org.argouml.util.ArgoFrame;
 
-
 /**
  * Action to choose and set source path for model elements.
  */
 public class ActionSetSourcePath extends UndoableAction {
 
-    /**
-     * The constructor.
-     */
-    public ActionSetSourcePath() {
-        super(Translator.localize("action.set-source-path"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.set-source-path"));
-    }
-
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    	super.actionPerformed(e);
-	File f = getNewDirectory();
-	if (f != null) {
-	    Object obj = TargetManager.getInstance().getTarget();
-	    if (Model.getFacade().isAModelElement(obj)) {
-                Object tv =
-                        Model.getFacade().getTaggedValue(
-                                obj, ImportInterface.SOURCE_PATH_TAG);
-                if (tv == null) {
-                    Model.getExtensionMechanismsHelper().addTaggedValue(
-                            obj,
-                            Model.getExtensionMechanismsFactory()
-                                    .buildTaggedValue(
-                                            ImportInterface.SOURCE_PATH_TAG,
-                                            f.getPath()));
-                } else {
-                    Model.getExtensionMechanismsHelper().setValueOfTag(
-                            tv, f.getPath());
-                }
-	    }
-	}
-    }
-
-    /**
-     * @return the new source path directory
-     */
-    protected File getNewDirectory() {
-	Object obj = TargetManager.getInstance().getTarget();
-	String name = null;
-	String type = null;
-	String path = null;
-	if (Model.getFacade().isAModelElement(obj)) {
-	    name = Model.getFacade().getName(obj);
-            Object tv = Model.getFacade().getTaggedValue(obj,
-                    ImportInterface.SOURCE_PATH_TAG);
-            if (tv != null) {
-                path = Model.getFacade().getValueOfTag(tv);
-            }
-	    if (Model.getFacade().isAPackage(obj)) {
-                type = "Package";
-            } else if (Model.getFacade().isAClass(obj)) {
-                type = "Class";
-            }
-	    if (Model.getFacade().isAInterface(obj)) {
-                type = "Interface";
-            }
-	} else {
-	    return null;
+	/**
+	 * The constructor.
+	 */
+	public ActionSetSourcePath() {
+		super(Translator.localize("action.set-source-path"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.set-source-path"));
 	}
 
-	JFileChooser chooser = null;
-	File f = null;
-	if (path != null) {
-	    f = new File(path);
-	}
-	if ((f != null) && (f.getPath().length() > 0)) {
-	    chooser = new JFileChooser(f.getPath());
-	}
-	if (chooser == null) {
-	    chooser = new JFileChooser();
-	}
-	if (f != null) {
-	    chooser.setSelectedFile(f);
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		File f = getNewDirectory();
+		if (f != null) {
+			Object obj = TargetManager.getInstance().getTarget();
+			if (Model.getFacade().isAModelElement(obj)) {
+				Object tv = Model.getFacade().getTaggedValue(obj, ImportInterface.SOURCE_PATH_TAG);
+				if (tv == null) {
+					Model.getExtensionMechanismsHelper().addTaggedValue(obj, Model.getExtensionMechanismsFactory()
+							.buildTaggedValue(ImportInterface.SOURCE_PATH_TAG, f.getPath()));
+				} else {
+					Model.getExtensionMechanismsHelper().setValueOfTag(tv, f.getPath());
+				}
+			}
+		}
 	}
 
-	String sChooserTitle =
-	    Translator.localize("action.set-source-path");
-	if (type != null) {
-            sChooserTitle += ' ' + type;
-        }
-	if (name != null) {
-            sChooserTitle += ' ' + name;
-        }
-	chooser.setDialogTitle(sChooserTitle);
-	chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	/**
+	 * @return the new source path directory
+	 */
+	protected File getNewDirectory() {
+		Object obj = TargetManager.getInstance().getTarget();
+		String name = null;
+		String type = null;
+		String path = null;
+		if (Model.getFacade().isAModelElement(obj)) {
+			name = Model.getFacade().getName(obj);
+			Object tv = Model.getFacade().getTaggedValue(obj, ImportInterface.SOURCE_PATH_TAG);
+			if (tv != null) {
+				path = Model.getFacade().getValueOfTag(tv);
+			}
+			if (Model.getFacade().isAPackage(obj)) {
+				type = "Package";
+			} else if (Model.getFacade().isAClass(obj)) {
+				type = "Class";
+			}
+			if (Model.getFacade().isAInterface(obj)) {
+				type = "Interface";
+			}
+		} else {
+			return null;
+		}
 
-	int retval =
-            chooser.showDialog(ArgoFrame.getFrame(),
-                    Translator.localize("dialog.button.ok"));
-	if (retval == JFileChooser.APPROVE_OPTION) {
-	    return chooser.getSelectedFile();
-	} else {
-	    return null;
+		JFileChooser chooser = null;
+		File f = null;
+		if (path != null) {
+			f = new File(path);
+		}
+		if ((f != null) && (f.getPath().length() > 0)) {
+			chooser = new JFileChooser(f.getPath());
+		}
+		if (chooser == null) {
+			chooser = new JFileChooser();
+		}
+		if (f != null) {
+			chooser.setSelectedFile(f);
+		}
+
+		String sChooserTitle = Translator.localize("action.set-source-path");
+		if (type != null) {
+			sChooserTitle += ' ' + type;
+		}
+		if (name != null) {
+			sChooserTitle += ' ' + name;
+		}
+		chooser.setDialogTitle(sChooserTitle);
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		int retval = chooser.showDialog(ArgoFrame.getFrame(), Translator.localize("dialog.button.ok"));
+		if (retval == JFileChooser.APPROVE_OPTION) {
+			return chooser.getSelectedFile();
+		} else {
+			return null;
+		}
 	}
-    }
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -6455209886706784094L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -6455209886706784094L;
 }

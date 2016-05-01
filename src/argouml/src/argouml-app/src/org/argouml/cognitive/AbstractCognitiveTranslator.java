@@ -43,16 +43,19 @@ package org.argouml.cognitive;
  * @since 21.10.2004
  */
 public abstract class AbstractCognitiveTranslator {
-    /**
-     * @param key The key to localize.
-     * @return The localized value.
-     */
-    public abstract String i18nlocalize(String key);
+	/**
+	 * @param key
+	 *            The key to localize.
+	 * @return The localized value.
+	 */
+	public abstract String i18nlocalize(String key);
 
-    /**
-     * @param key The key to localize.
-     * @param args The array of arguments to format into the value.
-     * @return The localized and formatted value.
-     */
-    public abstract String i18nmessageFormat(String key, Object[] args);
+	/**
+	 * @param key
+	 *            The key to localize.
+	 * @param args
+	 *            The array of arguments to format into the value.
+	 * @return The localized and formatted value.
+	 */
+	public abstract String i18nmessageFormat(String key, Object[] args);
 }

@@ -44,40 +44,40 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the body of a state. Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the body of a state. Subclass this for all languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class StateBodyNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param state The state.
-     */
-    public StateBodyNotation(Object state) {
-        if (!Model.getFacade().isAState(state)) {
-            throw new IllegalArgumentException("This is not a State.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param state
+	 *            The state.
+	 */
+	public StateBodyNotation(Object state) {
+		if (!Model.getFacade().isAState(state)) {
+			throw new IllegalArgumentException("This is not a State.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement);
-        // register for internal transitions:
-        Iterator it =
-            Model.getFacade().getInternalTransitions(modelElement).iterator();
-        while (it.hasNext()) {
-            NotationUtilityProviders.addListenersForTransition(this, it.next());
-        }
-        // register for the doActivity etc.
-        Object doActivity = Model.getFacade().getDoActivity(modelElement);
-        NotationUtilityProviders.addListenersForAction(this, doActivity);
-        Object entryAction = Model.getFacade().getEntry(modelElement);
-        NotationUtilityProviders.addListenersForAction(this, entryAction);
-        Object exitAction = Model.getFacade().getExit(modelElement);
-        NotationUtilityProviders.addListenersForAction(this, exitAction);
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement);
+		// register for internal transitions:
+		Iterator it = Model.getFacade().getInternalTransitions(modelElement).iterator();
+		while (it.hasNext()) {
+			NotationUtilityProviders.addListenersForTransition(this, it.next());
+		}
+		// register for the doActivity etc.
+		Object doActivity = Model.getFacade().getDoActivity(modelElement);
+		NotationUtilityProviders.addListenersForAction(this, doActivity);
+		Object entryAction = Model.getFacade().getEntry(modelElement);
+		NotationUtilityProviders.addListenersForAction(this, entryAction);
+		Object exitAction = Model.getFacade().getExit(modelElement);
+		NotationUtilityProviders.addListenersForAction(this, exitAction);
+	}
 
 }

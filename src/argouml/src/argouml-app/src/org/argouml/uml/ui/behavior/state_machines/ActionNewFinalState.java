@@ -49,34 +49,34 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewFinalState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -4618148453653328918L;
+	private static final long serialVersionUID = -4618148453653328918L;
 	private static ActionNewFinalState singleton = new ActionNewFinalState();
 
-    /**
-     * Constructor for ActionNewFinalState.
-     */
-    protected ActionNewFinalState() {
-        super();
-        putValue(Action.NAME, Translator.localize("button.new-finalstate"));
-    }
+	/**
+	 * Constructor for ActionNewFinalState.
+	 */
+	protected ActionNewFinalState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-finalstate"));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getStateMachinesFactory().buildFinalState(getTarget());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getStateMachinesFactory().buildFinalState(getTarget());
+	}
 
-    /**
-     * @return Returns the singleton.
-     */
-    public static ActionNewFinalState getSingleton() {
-        return singleton;
-    }
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static ActionNewFinalState getSingleton() {
+		return singleton;
+	}
 
 }

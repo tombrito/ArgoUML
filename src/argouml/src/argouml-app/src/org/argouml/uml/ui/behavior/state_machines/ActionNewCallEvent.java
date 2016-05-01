@@ -47,29 +47,31 @@ import org.argouml.model.Model;
  */
 public class ActionNewCallEvent extends ActionNewEvent {
 
-    private static final long serialVersionUID = 9021120768448081398L;
+	private static final long serialVersionUID = 9021120768448081398L;
 	private static ActionNewCallEvent singleton = new ActionNewCallEvent();
 
-    /**
-     * Constructor for ActionNewCallEvent.
-     */
-    protected ActionNewCallEvent() {
-        super();
-        putValue(NAME, Translator.localize("button.new-callevent"));
-    }
+	/**
+	 * Constructor for ActionNewCallEvent.
+	 */
+	protected ActionNewCallEvent() {
+		super();
+		putValue(NAME, Translator.localize("button.new-callevent"));
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.state_machines.ActionNewEvent#createEvent(java.lang.Object)
-     */
-    protected Object createEvent(Object ns) {
-        return Model.getStateMachinesFactory().buildCallEvent(ns);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.state_machines.ActionNewEvent#createEvent(
+	 * java.lang.Object)
+	 */
+	protected Object createEvent(Object ns) {
+		return Model.getStateMachinesFactory().buildCallEvent(ns);
+	}
 
-    /**
-     * @return Returns the singleton.
-     */
-    public static ActionNewCallEvent getSingleton() {
-        return singleton;
-    }
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static ActionNewCallEvent getSingleton() {
+		return singleton;
+	}
 
 }

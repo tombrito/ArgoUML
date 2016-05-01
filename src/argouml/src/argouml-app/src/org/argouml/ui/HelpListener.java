@@ -42,30 +42,29 @@ import org.argouml.application.events.ArgoHelpEvent;
 import org.argouml.application.events.ArgoHelpEventListener;
 
 /**
- * This class listens to Help related events,
- * and decides what to do with them - i.e.
- * it is responsible for the method of reporting help messages. <p>
+ * This class listens to Help related events, and decides what to do with them -
+ * i.e. it is responsible for the method of reporting help messages.
+ * <p>
  * 
- * In this (admittingly simple) implementation, 
- * the text is shown in the given statusbar. 
- * See issue 4730 for a proposed other implementation.
+ * In this (admittingly simple) implementation, the text is shown in the given
+ * statusbar. See issue 4730 for a proposed other implementation.
  *
  * @author Michiel
  */
 public class HelpListener implements ArgoHelpEventListener {
 
-    private StatusBar myStatusBar;
+	private StatusBar myStatusBar;
 
-    public HelpListener(StatusBar bar) {
-        myStatusBar = bar;
-    }
+	public HelpListener(StatusBar bar) {
+		myStatusBar = bar;
+	}
 
-    public void helpChanged(ArgoHelpEvent e) {
-        myStatusBar.showStatus(e.getHelpText());
-    }
+	public void helpChanged(ArgoHelpEvent e) {
+		myStatusBar.showStatus(e.getHelpText());
+	}
 
-    public void helpRemoved(ArgoHelpEvent e) {
-        myStatusBar.showStatus("");
-    }
+	public void helpRemoved(ArgoHelpEvent e) {
+		myStatusBar.showStatus("");
+	}
 
 }

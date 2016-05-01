@@ -43,7 +43,6 @@
  */
 package org.argouml.uml.diagram.ui;
 
-
 import org.argouml.model.Model;
 
 /**
@@ -54,17 +53,16 @@ import org.argouml.model.Model;
 
 public class ActionSetAddAssociationClassMode extends ActionSetMode {
 
-    private static final long serialVersionUID = -884044085661992872L;
+	private static final long serialVersionUID = -884044085661992872L;
 
-    /**
-     * Construct a new ActionSetAddAssociationEndMode.<p>
-     *
-     * @param name the action description
-     */
-    public ActionSetAddAssociationClassMode(String name) {
-        super(ModeCreateAssociationClass.class, "edgeClass",
-              Model.getMetaTypes().getAssociationClass(), name);
-    }
+	/**
+	 * Construct a new ActionSetAddAssociationEndMode.
+	 * <p>
+	 *
+	 * @param name
+	 *            the action description
+	 */
+	public ActionSetAddAssociationClassMode(String name) {
+		super(ModeCreateAssociationClass.class, "edgeClass", Model.getMetaTypes().getAssociationClass(), name);
+	}
 }
-
-

@@ -59,139 +59,136 @@ import org.tigris.gef.presentation.Fig;
  * @author 5eichler
  */
 public class FigComponentInstance extends AbstractFigComponent {
-    
-    private static final long serialVersionUID = -8727413946167046897L;
+
+	private static final long serialVersionUID = -8727413946167046897L;
 
 	/**
-     * Construct a new FigComponentInstance.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigComponentInstance(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        getNameFig().setUnderline(true);
-    }
+	 * Construct a new FigComponentInstance.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigComponentInstance(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		getNameFig().setUnderline(true);
+	}
 
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_COMPONENTINSTANCE;
-    }
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_COMPONENTINSTANCE;
+	}
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-        FigComponentInstance figClone = (FigComponentInstance) super.clone();
-        // nothing extra to do currently
-        return figClone;
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigComponentInstance figClone = (FigComponentInstance) super.clone();
+		// nothing extra to do currently
+		return figClone;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateListeners(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        super.updateListeners(oldOwner, newOwner);
-        if (newOwner != null) {
-            for (Object classifier 
-                    : Model.getFacade().getClassifiers(newOwner)) {
-                addElementListener(classifier, "name");
-            }
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#updateListeners(java.lang.
+	 * Object, java.lang.Object)
+	 */
+	@Override
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+		super.updateListeners(oldOwner, newOwner);
+		if (newOwner != null) {
+			for (Object classifier : Model.getFacade().getClassifiers(newOwner)) {
+				addElementListener(classifier, "name");
+			}
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionComponentInstance(this);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionComponentInstance(this);
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mouseClicked(MouseEvent me) {
-        super.mouseClicked(me);
-        // TODO: What is this needed for? - tfm
-        setLineColor(LINE_COLOR);
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		super.mouseClicked(me);
+		// TODO: What is this needed for? - tfm
+		setLineColor(LINE_COLOR);
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mousePressed(MouseEvent me) {
-        super.mousePressed(me);
-        Editor ce = Globals.curEditor();
-        Selection sel = ce.getSelectionManager().findSelectionFor(this);
-        if (sel instanceof SelectionComponentInstance) {
-            ((SelectionComponentInstance) sel).hideButtons();
-        }
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mousePressed(MouseEvent me) {
+		super.mousePressed(me);
+		Editor ce = Globals.curEditor();
+		Selection sel = ce.getSelectionManager().findSelectionFor(this);
+		if (sel instanceof SelectionComponentInstance) {
+			((SelectionComponentInstance) sel).hideButtons();
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void setEnclosingFig(Fig encloser) {
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.
+	 * presentation.Fig)
+	 */
+	@Override
+	public void setEnclosingFig(Fig encloser) {
 
-        if (getOwner() != null) {
-            Object comp = getOwner();
-            if (encloser != null) {
-                Object nodeOrComp = encloser.getOwner();
-                if (Model.getFacade().isANodeInstance(nodeOrComp)) {
-                    if (Model.getFacade()
-                            .getNodeInstance(comp) != nodeOrComp) {
-                        Model.getCommonBehaviorHelper()
-                                .setNodeInstance(comp, nodeOrComp);
-                        super.setEnclosingFig(encloser);
-                    }
-                } else if (Model.getFacade().isAComponentInstance(nodeOrComp)) {
-                    if (Model.getFacade()
-                            .getComponentInstance(comp) != nodeOrComp) {
-                        Model.getCommonBehaviorHelper()
-                                .setComponentInstance(comp, nodeOrComp);
-                        super.setEnclosingFig(encloser);
-                    }
-                } else if (Model.getFacade().isANode(nodeOrComp)) {
-                    super.setEnclosingFig(encloser);
-                }
+		if (getOwner() != null) {
+			Object comp = getOwner();
+			if (encloser != null) {
+				Object nodeOrComp = encloser.getOwner();
+				if (Model.getFacade().isANodeInstance(nodeOrComp)) {
+					if (Model.getFacade().getNodeInstance(comp) != nodeOrComp) {
+						Model.getCommonBehaviorHelper().setNodeInstance(comp, nodeOrComp);
+						super.setEnclosingFig(encloser);
+					}
+				} else if (Model.getFacade().isAComponentInstance(nodeOrComp)) {
+					if (Model.getFacade().getComponentInstance(comp) != nodeOrComp) {
+						Model.getCommonBehaviorHelper().setComponentInstance(comp, nodeOrComp);
+						super.setEnclosingFig(encloser);
+					}
+				} else if (Model.getFacade().isANode(nodeOrComp)) {
+					super.setEnclosingFig(encloser);
+				}
 
-                if (getLayer() != null) {
-                    // elementOrdering(figures);
-                    List contents = new ArrayList(getLayer().getContents());
-                    Iterator it = contents.iterator();
-                    while (it.hasNext()) {
-                        Object o = it.next();
-                        if (o instanceof FigEdgeModelElement) {
-                            FigEdgeModelElement figedge =
-                                    (FigEdgeModelElement) o;
-                            figedge.getLayer().bringToFront(figedge);
-                        }
-                    }
-                }
-            } else if (isVisible()
-                    // If we are not visible most likely we're being deleted.
-                    // TODO: This indicates a more fundamental problem that 
-                    // should be investigated - tfm - 20061230
-                    && encloser == null && getEnclosingFig() != null) {
-                if (Model.getFacade().getNodeInstance(comp) != null) {
-                    Model.getCommonBehaviorHelper()
-                            .setNodeInstance(comp, null);
-                }
-                if (Model.getFacade().getComponentInstance(comp) != null) {
-                    Model.getCommonBehaviorHelper()
-                            .setComponentInstance(comp, null);
-                }
-                super.setEnclosingFig(encloser);
-            }
-        }
-    }
+				if (getLayer() != null) {
+					// elementOrdering(figures);
+					List contents = new ArrayList(getLayer().getContents());
+					Iterator it = contents.iterator();
+					while (it.hasNext()) {
+						Object o = it.next();
+						if (o instanceof FigEdgeModelElement) {
+							FigEdgeModelElement figedge = (FigEdgeModelElement) o;
+							figedge.getLayer().bringToFront(figedge);
+						}
+					}
+				}
+			} else if (isVisible()
+					// If we are not visible most likely we're being deleted.
+					// TODO: This indicates a more fundamental problem that
+					// should be investigated - tfm - 20061230
+					&& encloser == null && getEnclosingFig() != null) {
+				if (Model.getFacade().getNodeInstance(comp) != null) {
+					Model.getCommonBehaviorHelper().setNodeInstance(comp, null);
+				}
+				if (Model.getFacade().getComponentInstance(comp) != null) {
+					Model.getCommonBehaviorHelper().setComponentInstance(comp, null);
+				}
+				super.setEnclosingFig(encloser);
+			}
+		}
+	}
 
 }

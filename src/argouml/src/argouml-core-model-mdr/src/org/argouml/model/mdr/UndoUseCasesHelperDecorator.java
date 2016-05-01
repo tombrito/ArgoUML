@@ -42,21 +42,20 @@ import org.argouml.model.AbstractUseCasesHelperDecorator;
 import org.argouml.model.UseCasesHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoUseCasesHelperDecorator
-	extends AbstractUseCasesHelperDecorator {
+class UndoUseCasesHelperDecorator extends AbstractUseCasesHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoUseCasesHelperDecorator(UseCasesHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoUseCasesHelperDecorator(UseCasesHelper component) {
+		super(component);
+	}
 }
-

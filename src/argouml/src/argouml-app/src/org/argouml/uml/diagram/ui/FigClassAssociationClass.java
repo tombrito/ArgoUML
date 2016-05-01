@@ -52,32 +52,33 @@ import org.tigris.gef.presentation.Fig;
  */
 public class FigClassAssociationClass extends FigClass {
 
-    private static final long serialVersionUID = -4101337246957593739L;
-    
-    /**
-     * Construct the Class box piece of a complex association class fig.
-     * 
-     * @param owner owning model element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigClassAssociationClass(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        enableSizeChecking(true);
-    }
-    
-    protected Fig getRemoveDelegate() {
-        // Look for the dashed edge
-        for (Object fig : getFigEdges()) {
-            if (fig instanceof FigEdgeAssociationClass) {
-                // We have the dashed edge now find the opposite FigNode
-                FigEdgeAssociationClass dashedEdge =
-                    (FigEdgeAssociationClass) fig;
-                return dashedEdge.getRemoveDelegate();
-            }
-        }
-        return null;
-    }
+	private static final long serialVersionUID = -4101337246957593739L;
+
+	/**
+	 * Construct the Class box piece of a complex association class fig.
+	 * 
+	 * @param owner
+	 *            owning model element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigClassAssociationClass(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		enableSizeChecking(true);
+	}
+
+	protected Fig getRemoveDelegate() {
+		// Look for the dashed edge
+		for (Object fig : getFigEdges()) {
+			if (fig instanceof FigEdgeAssociationClass) {
+				// We have the dashed edge now find the opposite FigNode
+				FigEdgeAssociationClass dashedEdge = (FigEdgeAssociationClass) fig;
+				return dashedEdge.getRemoveDelegate();
+			}
+		}
+		return null;
+	}
 
 }

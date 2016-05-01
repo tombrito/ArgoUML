@@ -53,69 +53,66 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetChangeability extends UndoableAction {
 
-    private static final long serialVersionUID = -5905937772935927718L;
+	private static final long serialVersionUID = -5905937772935927718L;
 
-	private static final ActionSetChangeability SINGLETON =
-        new ActionSetChangeability();
+	private static final ActionSetChangeability SINGLETON = new ActionSetChangeability();
 
-    /**
-     * ADDONLY_COMMAND determines a changeability kind.
-     * TODO: Removed from UML 2.x.  Phase out of UI - tfm - 20070529
-     */
-    @Deprecated
-    public static final String ADDONLY_COMMAND = "addonly";
+	/**
+	 * ADDONLY_COMMAND determines a changeability kind. TODO: Removed from UML
+	 * 2.x. Phase out of UI - tfm - 20070529
+	 */
+	@Deprecated
+	public static final String ADDONLY_COMMAND = "addonly";
 
-    /**
-     * CHANGEABLE_COMMAND determines a changeability kind.
-     */
-    public static final String CHANGEABLE_COMMAND = "changeable";
+	/**
+	 * CHANGEABLE_COMMAND determines a changeability kind.
+	 */
+	public static final String CHANGEABLE_COMMAND = "changeable";
 
-    /**
-     * FROZEN_COMMAND determines a changeability kind.
-     */
-    public static final String FROZEN_COMMAND = "frozen";
+	/**
+	 * FROZEN_COMMAND determines a changeability kind.
+	 */
+	public static final String FROZEN_COMMAND = "frozen";
 
-    /**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    protected ActionSetChangeability() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	protected ActionSetChangeability() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof JRadioButton) {
-            JRadioButton source = (JRadioButton) e.getSource();
-            String actionCommand = source.getActionCommand();
-            Object target =
-                ((UMLRadioButtonPanel) source.getParent()).getTarget();
-            if (Model.getFacade().isAAssociationEnd(target)
-		|| Model.getFacade().isAAttribute(target)) {
-                Object m =  target;
-                if (actionCommand.equals(CHANGEABLE_COMMAND)) {
-                    Model.getCoreHelper().setReadOnly(m, false);
-                } else if (actionCommand.equals(ADDONLY_COMMAND)) {
-                    // TODO: Removed from UML 2.x - phase out usage - tfm 20070530
-                    Model.getCoreHelper().setChangeability(
-                            m, Model.getChangeableKind().getAddOnly());
-                } else {
-                    Model.getCoreHelper().setReadOnly(m, true);
-                }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof JRadioButton) {
+			JRadioButton source = (JRadioButton) e.getSource();
+			String actionCommand = source.getActionCommand();
+			Object target = ((UMLRadioButtonPanel) source.getParent()).getTarget();
+			if (Model.getFacade().isAAssociationEnd(target) || Model.getFacade().isAAttribute(target)) {
+				Object m = target;
+				if (actionCommand.equals(CHANGEABLE_COMMAND)) {
+					Model.getCoreHelper().setReadOnly(m, false);
+				} else if (actionCommand.equals(ADDONLY_COMMAND)) {
+					// TODO: Removed from UML 2.x - phase out usage - tfm
+					// 20070530
+					Model.getCoreHelper().setChangeability(m, Model.getChangeableKind().getAddOnly());
+				} else {
+					Model.getCoreHelper().setReadOnly(m, true);
+				}
 
-            }
-        }
-    }
+			}
+		}
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionSetChangeability getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionSetChangeability getInstance() {
+		return SINGLETON;
+	}
 }

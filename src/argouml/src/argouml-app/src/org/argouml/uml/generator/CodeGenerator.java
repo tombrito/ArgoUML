@@ -46,54 +46,60 @@ import java.util.Collection;
  * by ArgoUML as a code generator.
  * <p>
  * TODO: A GUI-independent mechanism to pass settings to the code generator is
- * needed similar to what we have for reverse engineering.  See
+ * needed similar to what we have for reverse engineering. See
  * {@link org.argouml.uml.reveng.ImportInterface#getImportSettings()} and
  * {@link org.argouml.uml.reveng.SettingsTypes}
  * 
  * @since 0.20 when it replaced the FileGenerator interface.
  */
 public interface CodeGenerator {
-    
-    /**
-     * The file separator for this operating system.
-     */
-    String FILE_SEPARATOR = System.getProperty("file.separator");
 
-    /**
-     * Generate code for the specified classifiers. If generation of
-     * dependencies is requested, then every file the specified elements
-     * depends on is generated too (e.g. if the class MyClass has an attribute
-     * of type OtherClass, then files for OtherClass are generated too).
-     *
-     * @param elements the UML model elements to generate code for.
-     * @param deps Recursively generate dependency files too.
-     * @return A collection of {@link SourceUnit} objects. The collection
-     *         may be empty if no file is generated.
-     */
-    Collection<SourceUnit> generate(Collection elements, boolean deps);
+	/**
+	 * The file separator for this operating system.
+	 */
+	String FILE_SEPARATOR = System.getProperty("file.separator");
 
-    /**
-     * Generate files for the specified classifiers.
-     * 
-     * @see #generate(Collection, boolean)
-     * @param elements the UML model elements to generate code for.
-     * @param path The source base path.
-     * @param deps Recursively generate dependency files too.
-     * @return The filenames (with relative path) as a collection of Strings.
-     *         The collection may be empty if no file will be generated.
-     */
-    Collection<String> generateFiles(Collection elements, String path, 
-            boolean deps);
+	/**
+	 * Generate code for the specified classifiers. If generation of
+	 * dependencies is requested, then every file the specified elements depends
+	 * on is generated too (e.g. if the class MyClass has an attribute of type
+	 * OtherClass, then files for OtherClass are generated too).
+	 *
+	 * @param elements
+	 *            the UML model elements to generate code for.
+	 * @param deps
+	 *            Recursively generate dependency files too.
+	 * @return A collection of {@link SourceUnit} objects. The collection may be
+	 *         empty if no file is generated.
+	 */
+	Collection<SourceUnit> generate(Collection elements, boolean deps);
 
-    /**
-     * Returns a list of files that will be generated from the specified
-     * modelelements.
-     * 
-     * @see #generate(Collection, boolean)
-     * @param elements the UML model elements to generate code for.
-     * @param deps Recursively generate dependency files too.
-     * @return The filenames (with relative path) as a collection of Strings.
-     *         The collection may be empty if no file will be generated.
-     */
-    Collection<String> generateFileList(Collection elements, boolean deps);
+	/**
+	 * Generate files for the specified classifiers.
+	 * 
+	 * @see #generate(Collection, boolean)
+	 * @param elements
+	 *            the UML model elements to generate code for.
+	 * @param path
+	 *            The source base path.
+	 * @param deps
+	 *            Recursively generate dependency files too.
+	 * @return The filenames (with relative path) as a collection of Strings.
+	 *         The collection may be empty if no file will be generated.
+	 */
+	Collection<String> generateFiles(Collection elements, String path, boolean deps);
+
+	/**
+	 * Returns a list of files that will be generated from the specified
+	 * modelelements.
+	 * 
+	 * @see #generate(Collection, boolean)
+	 * @param elements
+	 *            the UML model elements to generate code for.
+	 * @param deps
+	 *            Recursively generate dependency files too.
+	 * @return The filenames (with relative path) as a collection of Strings.
+	 *         The collection may be empty if no file will be generated.
+	 */
+	Collection<String> generateFileList(Collection elements, boolean deps);
 }

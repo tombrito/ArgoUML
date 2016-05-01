@@ -49,26 +49,25 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class UMLGeneralizableElementRootCheckBox extends UMLCheckBox2 {
 
-    private static final long serialVersionUID = 2674831960227239080L;
+	private static final long serialVersionUID = 2674831960227239080L;
 
 	/**
-     * Constructor for UMLGeneralizableElementRootCheckBox.
-     */
-    public UMLGeneralizableElementRootCheckBox() {
-        super(Translator.localize("checkbox.root-lc"),
-                ActionSetGeneralizableElementRoot.getInstance(), "isRoot");
-    }
+	 * Constructor for UMLGeneralizableElementRootCheckBox.
+	 */
+	public UMLGeneralizableElementRootCheckBox() {
+		super(Translator.localize("checkbox.root-lc"), ActionSetGeneralizableElementRoot.getInstance(), "isRoot");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
-     */
-    public void buildModel() {
-        Object target = getTarget();
-        if (target != null && Model.getFacade().isAUMLElement(target)) {
-            setSelected(Model.getFacade().isRoot(target));
-        } else {
-            setSelected(false);
-        }
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
+	 */
+	public void buildModel() {
+		Object target = getTarget();
+		if (target != null && Model.getFacade().isAUMLElement(target)) {
+			setSelected(Model.getFacade().isRoot(target));
+		} else {
+			setSelected(false);
+		}
+	}
 
 }

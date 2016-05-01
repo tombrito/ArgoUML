@@ -50,43 +50,44 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewPseudoState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -6498885236416964449L;
+	private static final long serialVersionUID = -6498885236416964449L;
 	private Object kind;
 
-    /**
-     * Constructor for ActionNewPseudoState.
-     */
-    public ActionNewPseudoState() {
-        super();
-        putValue(Action.NAME, Translator.localize("button.new-pseudostate"));
-    }
+	/**
+	 * Constructor for ActionNewPseudoState.
+	 */
+	public ActionNewPseudoState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-pseudostate"));
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param k the pseudostate kind
-     * @param n the to be localized name for the pseudostate kind
-     */
-    public ActionNewPseudoState(Object k, String n) {
-        super();
-        kind = k;
-        putValue(Action.NAME, Translator.localize(n));
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param k
+	 *            the pseudostate kind
+	 * @param n
+	 *            the to be localized name for the pseudostate kind
+	 */
+	public ActionNewPseudoState(Object k, String n) {
+		super();
+		kind = k;
+		putValue(Action.NAME, Translator.localize(n));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Object target = TargetManager.getInstance().getModelTarget();
-        Object ps =
-            Model.getStateMachinesFactory().buildPseudoState(target);
-        if (kind != null) {
-            Model.getCoreHelper().setKind(ps, kind);
-        }
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Object target = TargetManager.getInstance().getModelTarget();
+		Object ps = Model.getStateMachinesFactory().buildPseudoState(target);
+		if (kind != null) {
+			Model.getCoreHelper().setKind(ps, kind);
+		}
+	}
 }

@@ -46,38 +46,36 @@ package org.argouml.uml.reveng;
 
 public interface ImportSettingsInternal extends ImportSettings {
 
-    /**
-     * @return true if the directory tree should be descended recursively
-     *         importing all parseable files.
-     */
-    public boolean isDescendSelected();
+	/**
+	 * @return true if the directory tree should be descended recursively
+	 *         importing all parseable files.
+	 */
+	public boolean isDescendSelected();
 
-    /**
-     * @return true if user as requested that only sources files which have been
-     *         changed since the last import should be imported this time. If
-     *         false, all files should be imported, regardless of their
-     *         modification date.
-     */
-    public boolean isChangedOnlySelected();
-    
+	/**
+	 * @return true if user as requested that only sources files which have been
+	 *         changed since the last import should be imported this time. If
+	 *         false, all files should be imported, regardless of their
+	 *         modification date.
+	 */
+	public boolean isChangedOnlySelected();
 
-    /**
-     * @return true if the user has requested automatic layout for figures
-     *         placed on diagrams.
-     */
-    public boolean isDiagramLayoutSelected();
+	/**
+	 * @return true if the user has requested automatic layout for figures
+	 *         placed on diagrams.
+	 */
+	public boolean isDiagramLayoutSelected();
 
-    /**
-     * @return true if the user has request diagrams to be created for packages
-     *         contained in the imported source code.
-     */
-    public boolean isCreateDiagramsSelected();
-    
-    /**
-     * @return true, if user has requested that new figures placed in diagrams
-     *         should be minimized so they don't show internal compartments.
-     */
-    public boolean isMinimizeFigsSelected();
+	/**
+	 * @return true if the user has request diagrams to be created for packages
+	 *         contained in the imported source code.
+	 */
+	public boolean isCreateDiagramsSelected();
 
+	/**
+	 * @return true, if user has requested that new figures placed in diagrams
+	 *         should be minimized so they don't show internal compartments.
+	 */
+	public boolean isMinimizeFigsSelected();
 
 }

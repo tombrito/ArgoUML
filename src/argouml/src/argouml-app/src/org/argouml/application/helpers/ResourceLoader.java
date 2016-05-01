@@ -51,11 +51,11 @@ import javax.swing.ImageIcon;
  * Already loaded resources are cached. The resources can be searched in
  * different locations.
  * <p>
- * Derived from org.tigris.gef.util.ResourceLoader with formatting and
- * variable naming changed to conform to ArgoUML coding standard.
+ * Derived from org.tigris.gef.util.ResourceLoader with formatting and variable
+ * naming changed to conform to ArgoUML coding standard.
  * <p>
- * We use a local copy to reduce coupling to GEF and so that GEF isn't trying
- * to do uplevel accesses to the application resources (which won't work in
+ * We use a local copy to reduce coupling to GEF and so that GEF isn't trying to
+ * do uplevel accesses to the application resources (which won't work in
  * environments that enforce strict partitioning between projects eg Eclipse).
  * 
  * @author Original Author: Thorsten Sturm
@@ -63,195 +63,189 @@ import javax.swing.ImageIcon;
 
 // NOTE: This is package scope to force callers to use ResourceLoaderWrapper
 class ResourceLoader {
-    private static HashMap<String, Icon> resourceCache = 
-        new HashMap<String, Icon>();
-    private static List<String> resourceLocations = new ArrayList<String>();
-    private static List<String> resourceExtensions = new ArrayList<String>();
+	private static HashMap<String, Icon> resourceCache = new HashMap<String, Icon>();
+	private static List<String> resourceLocations = new ArrayList<String>();
+	private static List<String> resourceExtensions = new ArrayList<String>();
 
-    public static ImageIcon lookupIconResource(String resource) {
-        return lookupIconResource(resource, resource);
-    }
+	public static ImageIcon lookupIconResource(String resource) {
+		return lookupIconResource(resource, resource);
+	}
 
-    public static ImageIcon lookupIconResource(String resource, String desc) {
-        return lookupIconResource(resource, desc, null);
-    }
+	public static ImageIcon lookupIconResource(String resource, String desc) {
+		return lookupIconResource(resource, desc, null);
+	}
 
-    public static ImageIcon lookupIconResource(String resource,
-            ClassLoader loader) {
-        return lookupIconResource(resource, resource, loader);
-    }
+	public static ImageIcon lookupIconResource(String resource, ClassLoader loader) {
+		return lookupIconResource(resource, resource, loader);
+	}
 
-    /**
-     * This method tries to find an ImageIcon for the given name in all known
-     * locations. The file extension of the used image file can be any of the
-     * known extensions.
-     * 
-     * @param resource
-     *            Name of the image to be looked after.
-     * @param desc
-     *            A description for the ImageIcon.
-     * @param loader
-     *            The class loader that should be used for loading the resource.
-     * @return ImageIcon for the given name, null if no image could be found.
-     */
-    public static ImageIcon lookupIconResource(String resource, String desc,
-            ClassLoader loader) {
-        resource = toJavaIdentifier(resource);
-        if (isInCache(resource)) {
-            return (ImageIcon) resourceCache.get(resource);
-        }
-    
-        ImageIcon res = null;
-        java.net.URL imgURL = lookupIconUrl(resource, loader);
+	/**
+	 * This method tries to find an ImageIcon for the given name in all known
+	 * locations. The file extension of the used image file can be any of the
+	 * known extensions.
+	 * 
+	 * @param resource
+	 *            Name of the image to be looked after.
+	 * @param desc
+	 *            A description for the ImageIcon.
+	 * @param loader
+	 *            The class loader that should be used for loading the resource.
+	 * @return ImageIcon for the given name, null if no image could be found.
+	 */
+	public static ImageIcon lookupIconResource(String resource, String desc, ClassLoader loader) {
+		resource = toJavaIdentifier(resource);
+		if (isInCache(resource)) {
+			return (ImageIcon) resourceCache.get(resource);
+		}
 
-        if (imgURL != null) {
-            res = new ImageIcon(imgURL, desc);
-            synchronized (resourceCache) {
-                resourceCache.put(resource, res);
-            }
-        }
-        return res;
-    }
+		ImageIcon res = null;
+		java.net.URL imgURL = lookupIconUrl(resource, loader);
 
-    /**
-     * Search for the given resource with one of the registered extensions, in
-     * one of the registered locations. The URL of the first found is returned.
-     * 
-     * @param resource
-     *            base name of resource to search for
-     * @param loader
-     *            class loader to use
-     * @return URL representing first location the resource was found or null if
-     *         it was not found in any of the registered locations.
-     */
-    static java.net.URL lookupIconUrl(String resource, 
-            ClassLoader loader) {
-        java.net.URL imgURL = null;
-        for (Iterator extensions = resourceExtensions.iterator(); 
-                extensions.hasNext();) {
-            String tmpExt = (String) extensions.next();
-            for (Iterator locations = resourceLocations.iterator(); 
-                    locations.hasNext();) {
-                String imageName =
-                        locations.next() + "/" + resource + "." + tmpExt;
-// System.out.println("[ResourceLoader] try loading " + imageName);
-                if (loader == null) {
-                    imgURL = ResourceLoader.class.getResource(imageName);
-                } else {
-                    imgURL = loader.getResource(imageName);
-                }
-                if (imgURL != null) {
-                    break;
-                }
-            }
-            if (imgURL != null) {
-                break;
-            }
-        }
-        return imgURL;
-    }
+		if (imgURL != null) {
+			res = new ImageIcon(imgURL, desc);
+			synchronized (resourceCache) {
+				resourceCache.put(resource, res);
+			}
+		}
+		return res;
+	}
 
-    /**
-     * Adds a location (path) to the list of known locations. Locations are
-     * searched in the order they are added, so for best performance add the
-     * most likely locations first.
-     * 
-     * @param location
-     *            String representation of the new location.
-     */
-    public static void addResourceLocation(String location) {
-        if (!containsLocation(location)) {
-            resourceLocations.add(location);
-        }
-    }
+	/**
+	 * Search for the given resource with one of the registered extensions, in
+	 * one of the registered locations. The URL of the first found is returned.
+	 * 
+	 * @param resource
+	 *            base name of resource to search for
+	 * @param loader
+	 *            class loader to use
+	 * @return URL representing first location the resource was found or null if
+	 *         it was not found in any of the registered locations.
+	 */
+	static java.net.URL lookupIconUrl(String resource, ClassLoader loader) {
+		java.net.URL imgURL = null;
+		for (Iterator extensions = resourceExtensions.iterator(); extensions.hasNext();) {
+			String tmpExt = (String) extensions.next();
+			for (Iterator locations = resourceLocations.iterator(); locations.hasNext();) {
+				String imageName = locations.next() + "/" + resource + "." + tmpExt;
+				// System.out.println("[ResourceLoader] try loading " +
+				// imageName);
+				if (loader == null) {
+					imgURL = ResourceLoader.class.getResource(imageName);
+				} else {
+					imgURL = loader.getResource(imageName);
+				}
+				if (imgURL != null) {
+					break;
+				}
+			}
+			if (imgURL != null) {
+				break;
+			}
+		}
+		return imgURL;
+	}
 
-    /**
-     * Add an extension to the list of known extensions. Extensions are searched
-     * in the order they are added, so for best performance add the most likely
-     * extensions first.
-     * 
-     * @param extension
-     *            String representation of the new extension.
-     */
-    public static void addResourceExtension(String extension) {
-        if (!containsExtension(extension)) {
-            resourceExtensions.add(extension);
-        }
-    }
+	/**
+	 * Adds a location (path) to the list of known locations. Locations are
+	 * searched in the order they are added, so for best performance add the
+	 * most likely locations first.
+	 * 
+	 * @param location
+	 *            String representation of the new location.
+	 */
+	public static void addResourceLocation(String location) {
+		if (!containsLocation(location)) {
+			resourceLocations.add(location);
+		}
+	}
 
-    /**
-     * This method removes a location from the list of known locations.
-     * 
-     * @param location
-     *            String representation of the location to be removed.
-     */
-    public static void removeResourceLocation(String location) {
-        for (Iterator iter = resourceLocations.iterator(); iter.hasNext();) {
-            String loc = (String) iter.next();
-            if (loc.equals(location)) {
-                resourceLocations.remove(loc);
-                break;
-            }
-        }
-    }
+	/**
+	 * Add an extension to the list of known extensions. Extensions are searched
+	 * in the order they are added, so for best performance add the most likely
+	 * extensions first.
+	 * 
+	 * @param extension
+	 *            String representation of the new extension.
+	 */
+	public static void addResourceExtension(String extension) {
+		if (!containsExtension(extension)) {
+			resourceExtensions.add(extension);
+		}
+	}
 
-    /**
-     * This method removes a extension from the list of known extensions.
-     *
-     * @param extension String representation of the extension to be removed.
-     */
-    public static void removeResourceExtension(String extension) {
-        for (Iterator iter = resourceExtensions.iterator(); iter.hasNext();) {
-            String ext = (String) iter.next();
-            if (ext.equals(extension)) {
-                resourceExtensions.remove(ext);
-                break;
-            }
-        }
-    }
+	/**
+	 * This method removes a location from the list of known locations.
+	 * 
+	 * @param location
+	 *            String representation of the location to be removed.
+	 */
+	public static void removeResourceLocation(String location) {
+		for (Iterator iter = resourceLocations.iterator(); iter.hasNext();) {
+			String loc = (String) iter.next();
+			if (loc.equals(location)) {
+				resourceLocations.remove(loc);
+				break;
+			}
+		}
+	}
 
-    public static boolean containsExtension(String extension) {
-        return resourceExtensions.contains(extension);
-    }
+	/**
+	 * This method removes a extension from the list of known extensions.
+	 *
+	 * @param extension
+	 *            String representation of the extension to be removed.
+	 */
+	public static void removeResourceExtension(String extension) {
+		for (Iterator iter = resourceExtensions.iterator(); iter.hasNext();) {
+			String ext = (String) iter.next();
+			if (ext.equals(extension)) {
+				resourceExtensions.remove(ext);
+				break;
+			}
+		}
+	}
 
-    public static boolean containsLocation(String location) {
-        return resourceLocations.contains(location);
-    }
+	public static boolean containsExtension(String extension) {
+		return resourceExtensions.contains(extension);
+	}
 
-    public static boolean isInCache(String resource) {
-        return resourceCache.containsKey(resource);
-    }
-    
-    /*
-     * Strip all characters out of <var>s</var> that could not be part of a
-     * valid Java identifier. Return either the given string (if all characters
-     * were valid), or a new string with all invalid characters stripped out.
-     * This allows automatic conversion of strings containing punctuation and
-     * spaces to a resource name that can be looked up.
-     */
-    public static final String toJavaIdentifier(String s) {
-        int len = s.length();
-        int pos = 0;
-        for (int i = 0; i < len; i++, pos++) {
-            if (!Character.isJavaIdentifierPart(s.charAt(i))) {
-                break;
-            }
-        }
-        if (pos == len) {
-            return s;
-        }
+	public static boolean containsLocation(String location) {
+		return resourceLocations.contains(location);
+	}
 
-        StringBuffer buf = new StringBuffer(len);
-        buf.append(s.substring(0, pos));
+	public static boolean isInCache(String resource) {
+		return resourceCache.containsKey(resource);
+	}
 
-        // skip pos, we know it's not a valid char from above
-        for (int i = pos + 1; i < len; i++) {
-            char c = s.charAt(i);
-            if (Character.isJavaIdentifierPart(c)) {
-                buf.append(c);
-            }
-        }
-        return buf.toString();
-    }
+	/*
+	 * Strip all characters out of <var>s</var> that could not be part of a
+	 * valid Java identifier. Return either the given string (if all characters
+	 * were valid), or a new string with all invalid characters stripped out.
+	 * This allows automatic conversion of strings containing punctuation and
+	 * spaces to a resource name that can be looked up.
+	 */
+	public static final String toJavaIdentifier(String s) {
+		int len = s.length();
+		int pos = 0;
+		for (int i = 0; i < len; i++, pos++) {
+			if (!Character.isJavaIdentifierPart(s.charAt(i))) {
+				break;
+			}
+		}
+		if (pos == len) {
+			return s;
+		}
+
+		StringBuffer buf = new StringBuffer(len);
+		buf.append(s.substring(0, pos));
+
+		// skip pos, we know it's not a valid char from above
+		for (int i = pos + 1; i < len; i++) {
+			char c = s.charAt(i);
+			if (Character.isJavaIdentifierPart(c)) {
+				buf.append(c);
+			}
+		}
+		return buf.toString();
+	}
 } /* end class ResourceLoader */
-

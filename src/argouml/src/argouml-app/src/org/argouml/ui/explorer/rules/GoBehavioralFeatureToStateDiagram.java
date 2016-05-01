@@ -58,42 +58,41 @@ import org.argouml.uml.diagram.state.ui.UMLStateDiagram;
  */
 public class GoBehavioralFeatureToStateDiagram extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
 
-        if (Model.getFacade().isABehavioralFeature(parent)) {
-            Collection col = Model.getFacade().getBehaviors(parent);
-            Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
-            Project p = ProjectManager.getManager().getCurrentProject();
-            for (ArgoDiagram diagram : p.getDiagramList()) {
-                if (diagram instanceof UMLStateDiagram
-                    && col.contains(((UMLStateDiagram) diagram)
-                            .getStateMachine())) {
-                    ret.add(diagram);
-                }
+		if (Model.getFacade().isABehavioralFeature(parent)) {
+			Collection col = Model.getFacade().getBehaviors(parent);
+			Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
+			Project p = ProjectManager.getManager().getCurrentProject();
+			for (ArgoDiagram diagram : p.getDiagramList()) {
+				if (diagram instanceof UMLStateDiagram && col.contains(((UMLStateDiagram) diagram).getStateMachine())) {
+					ret.add(diagram);
+				}
 
-            }
-            return ret;
-        }
-        return Collections.EMPTY_SET;
-    }
+			}
+			return ret;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: what?
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: what?
+		return Collections.EMPTY_SET;
+	}
 
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize(
-                "misc.behavioral-feature.statechart-diagram");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.behavioral-feature.statechart-diagram");
+	}
 }

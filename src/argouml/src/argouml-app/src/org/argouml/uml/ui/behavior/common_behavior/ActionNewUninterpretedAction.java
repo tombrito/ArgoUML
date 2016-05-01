@@ -54,56 +54,53 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewUninterpretedAction extends ActionNewAction {
 
-    private static final long serialVersionUID = 7721276484163025462L;
-	private static final ActionNewUninterpretedAction SINGLETON =
-        new ActionNewUninterpretedAction();
+	private static final long serialVersionUID = 7721276484163025462L;
+	private static final ActionNewUninterpretedAction SINGLETON = new ActionNewUninterpretedAction();
 
-    /**
-     * Constructor for ActionNewUninterpretedAction.
-     */
-    protected ActionNewUninterpretedAction() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-uninterpretedaction"));
-    }
+	/**
+	 * Constructor for ActionNewUninterpretedAction.
+	 */
+	protected ActionNewUninterpretedAction() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-uninterpretedaction"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createUninterpretedAction();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createUninterpretedAction();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewUninterpretedAction getInstance() {
+		return SINGLETON;
+	}
 
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewUninterpretedAction() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewUninterpretedAction getInstance() {
-        return SINGLETON;
-    }
-
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewUninterpretedAction() {
-
-            private static final long serialVersionUID = -5037640733280670442L;
+			private static final long serialVersionUID = -5037640733280670442L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = 
-            ResourceLoaderWrapper.lookupIconResource("UninterpretedAction");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("UninterpretedAction");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

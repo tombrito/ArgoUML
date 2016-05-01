@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.cognitive;
 
 import java.util.ArrayList;
@@ -49,32 +48,31 @@ import java.util.List;
  */
 public class ToDoListEvent {
 
-    private final List<ToDoItem> items;
+	private final List<ToDoItem> items;
 
-    /**
-     * The constructor.
-     *
-     */
-    public ToDoListEvent() {
-        items = null;
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public ToDoListEvent() {
+		items = null;
+	}
 
-    /**
-     * The constructor. 
-     * Make a copy of the list to guarantee that it remains
-     * stable throughout the lifetime of this event.
-     *
-     * @param toDoItems the List of ToDoItems that were changed/added/removed 
-     */
-    public ToDoListEvent(final List<ToDoItem> toDoItems) {
-        items =
-            Collections.unmodifiableList(new ArrayList<ToDoItem>(toDoItems));
-    }
+	/**
+	 * The constructor. Make a copy of the list to guarantee that it remains
+	 * stable throughout the lifetime of this event.
+	 *
+	 * @param toDoItems
+	 *            the List of ToDoItems that were changed/added/removed
+	 */
+	public ToDoListEvent(final List<ToDoItem> toDoItems) {
+		items = Collections.unmodifiableList(new ArrayList<ToDoItem>(toDoItems));
+	}
 
-    /**
-     * @return the todo list events
-     */
-    public List<ToDoItem> getToDoItemList() {
-        return items;
-    }
+	/**
+	 * @return the todo list events
+	 */
+	public List<ToDoItem> getToDoItemList() {
+		return items;
+	}
 }

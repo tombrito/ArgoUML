@@ -58,53 +58,42 @@ import org.argouml.util.ArgoFrame;
  */
 public class ActionRevertToSaved extends AbstractAction {
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
+	////////////////////////////////////////////////////////////////
+	// constructors
 
-    private static final long serialVersionUID = 2811033510888904162L;
+	private static final long serialVersionUID = 2811033510888904162L;
 
 	/**
-     * Constructor.
-     */
-    public ActionRevertToSaved() {
-        super(Translator.localize("action.revert-to-saved"));
-    }
+	 * Constructor.
+	 */
+	public ActionRevertToSaved() {
+		super(Translator.localize("action.revert-to-saved"));
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
-    /**
-     * Performs the action.
-     *
-     * @param e an event
-     */
-    public void actionPerformed(ActionEvent e) {
-        Project p = ProjectManager.getManager().getCurrentProject();
+	/**
+	 * Performs the action.
+	 *
+	 * @param e
+	 *            an event
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Project p = ProjectManager.getManager().getCurrentProject();
 
-        if (p == null 
-                || !ProjectBrowser.getInstance().getSaveAction().isEnabled()) {
-            return;
-        }
+		if (p == null || !ProjectBrowser.getInstance().getSaveAction().isEnabled()) {
+			return;
+		}
 
-        String message =
-            MessageFormat.format(
-                    Translator.localize(
-                       "optionpane.revert-to-saved-confirm"),
-		    new Object[] {
-			p.getName(),
-		    });
+		String message = MessageFormat.format(Translator.localize("optionpane.revert-to-saved-confirm"),
+				new Object[] { p.getName(), });
 
-        int response =
-            JOptionPane.showConfirmDialog(
-                  ArgoFrame.getFrame(),
-                  message,
-                  Translator.localize(
-                      "optionpane.revert-to-saved-confirm-title"),
-                  JOptionPane.YES_NO_OPTION);
+		int response = JOptionPane.showConfirmDialog(ArgoFrame.getFrame(), message,
+				Translator.localize("optionpane.revert-to-saved-confirm-title"), JOptionPane.YES_NO_OPTION);
 
-        if (response == JOptionPane.YES_OPTION) {
-            ProjectBrowser.getInstance().loadProjectWithProgressMonitor(
-                    new File(p.getURI()), true);
-        }
-    }
+		if (response == JOptionPane.YES_OPTION) {
+			ProjectBrowser.getInstance().loadProjectWithProgressMonitor(new File(p.getURI()), true);
+		}
+	}
 }

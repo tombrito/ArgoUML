@@ -38,7 +38,6 @@
 
 package org.argouml.util;
 
-
 /**
  * A Predicate that always returns true. Based on GEF utility class of the same
  * name. This is implemented as a singleton with a private constructor.
@@ -47,20 +46,19 @@ package org.argouml.util;
  */
 public class PredicateTrue implements Predicate {
 
-    private PredicateTrue() {
-    }
+	private PredicateTrue() {
+	}
 
-    public boolean evaluate(Object obj) {
-        return true;
-    }
+	public boolean evaluate(Object obj) {
+		return true;
+	}
 
-    private static PredicateTrue theInstance = new PredicateTrue();
+	private static PredicateTrue theInstance = new PredicateTrue();
 
-    /**
-     * @return the instance
-     */
-    public static PredicateTrue getInstance() {
-        return theInstance;
-    }
+	/**
+	 * @return the instance
+	 */
+	public static PredicateTrue getInstance() {
+		return theInstance;
+	}
 }
-

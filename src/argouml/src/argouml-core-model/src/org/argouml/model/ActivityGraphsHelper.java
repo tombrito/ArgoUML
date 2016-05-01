@@ -41,134 +41,151 @@ package org.argouml.model;
 import java.util.Collection;
 
 /**
- * The interface for the helper for ActivityGraphs.<p>
+ * The interface for the helper for ActivityGraphs.
+ * <p>
  *
  * Created from the old ActivityGraphsHelper.
  */
 public interface ActivityGraphsHelper {
-    /**
-     * Finds the Classifier to which a given ObjectFlowState
-     * refers by its given name. This function may be used for when the user
-     * types the name of a classifier in the diagram, in an ObjectFlowState.
-     *
-     * @author MVW
-     * @param ofs the given ObjectFlowState
-     * @param s   the given String that represents
-     *            the name of the "type" Classifier
-     * @return    the found classifier or null
-     */
-    Object findClassifierByName(Object ofs, String s);
+	/**
+	 * Finds the Classifier to which a given ObjectFlowState refers by its given
+	 * name. This function may be used for when the user types the name of a
+	 * classifier in the diagram, in an ObjectFlowState.
+	 *
+	 * @author MVW
+	 * @param ofs
+	 *            the given ObjectFlowState
+	 * @param s
+	 *            the given String that represents the name of the "type"
+	 *            Classifier
+	 * @return the found classifier or null
+	 */
+	Object findClassifierByName(Object ofs, String s);
 
-    /**
-     * Find a state of a Classifier by its name.
-     * This routine is used to make the connection between
-     * a ClassifierInState and its State.
-     *
-     * @author mvw
-     * @param c the Classifier. If this is not a Classifier, then
-     *          IllegalArgumentException is thrown.
-     * @param s the string that represents the name of
-     *          the state we are looking for. If "" or null, then
-     *          null is returned straight away.
-     * @return  the State (as Object) or null, if not found.
-     */
-    Object findStateByName(Object c, String s);
+	/**
+	 * Find a state of a Classifier by its name. This routine is used to make
+	 * the connection between a ClassifierInState and its State.
+	 *
+	 * @author mvw
+	 * @param c
+	 *            the Classifier. If this is not a Classifier, then
+	 *            IllegalArgumentException is thrown.
+	 * @param s
+	 *            the string that represents the name of the state we are
+	 *            looking for. If "" or null, then null is returned straight
+	 *            away.
+	 * @return the State (as Object) or null, if not found.
+	 */
+	Object findStateByName(Object c, String s);
 
-    /**
-     * Returns true if an activitygraph may be added to the given
-     * context. To decouple ArgoUML as much as possible from the
-     * model implementation, the parameter of the method is of
-     * type Object.<p>
-     *
-     * An ActivityGraph specifies the dynamics of<ol>
-     * <li> a Package, or
-     * <li> a Classifier (including UseCase), or
-     * <li> a BehavioralFeature.
-     * </ol>
-     *
-     * @param context the given context
-     * @return boolean true if an activitygraph may be added
-     */
-    boolean isAddingActivityGraphAllowed(Object context);
+	/**
+	 * Returns true if an activitygraph may be added to the given context. To
+	 * decouple ArgoUML as much as possible from the model implementation, the
+	 * parameter of the method is of type Object.
+	 * <p>
+	 *
+	 * An ActivityGraph specifies the dynamics of
+	 * <ol>
+	 * <li>a Package, or
+	 * <li>a Classifier (including UseCase), or
+	 * <li>a BehavioralFeature.
+	 * </ol>
+	 *
+	 * @param context
+	 *            the given context
+	 * @return boolean true if an activitygraph may be added
+	 */
+	boolean isAddingActivityGraphAllowed(Object context);
 
-    /**
-     * @author mvw
-     * @param classifierInState the classifierInState
-     * @param state the state that will be linked
-     */
-    void addInState(Object classifierInState, Object state);
-    
-    
-    /**
-     * Replace the complete collection of states by the given new one. 
-     * This function only modifies the model for added or removed states.
-     * 
-     * @param classifierInState the ClassifierInState to be altered
-     * @param newStates the collection of states
-     */
-    void setInStates(Object classifierInState, Collection newStates);
-    
-    /**
-     * Replace the complete collection of the partition contents 
-     * by the given new one. 
-     * This function only modifies the model for added or removed modelelements.
-     * 
-     * @param partition the partition to be altered
-     * @param newContents the new contents of the partition (modelelements)
-     */
-    void setContents(Object partition, Collection newContents);
-    
-    /**
-     * Add a model element to a partition
-     * @param partition the partition to contain the model element
-     * @param modeElement the model element to place in the partition
-     */
-    void addContent(Object partition, Object modeElement);
-    
-    /**
-     * Remove a model element from a partition
-     * @param partition the partition currently containing the model element
-     * @param modeElement the model element to be removed from the partition
-     */
-    void removeContent(Object partition, Object modeElement);
+	/**
+	 * @author mvw
+	 * @param classifierInState
+	 *            the classifierInState
+	 * @param state
+	 *            the state that will be linked
+	 */
+	void addInState(Object classifierInState, Object state);
 
-    /**
-     * Set the isSynch attribute of an ObjectFlowState.
-     * 
-     * @param objectFlowState
-     *            the element for which to set the attribute
-     * @param isSynch
-     *            true if this ObjectFlowState is a synch state.
-     */
-    void setSynch(Object objectFlowState, boolean isSynch);
+	/**
+	 * Replace the complete collection of states by the given new one. This
+	 * function only modifies the model for added or removed states.
+	 * 
+	 * @param classifierInState
+	 *            the ClassifierInState to be altered
+	 * @param newStates
+	 *            the collection of states
+	 */
+	void setInStates(Object classifierInState, Collection newStates);
 
-    /**
-     * Add a Parameter to an ObjectFlowState.
-     * 
-     * @param objectFlowState
-     *            the ObjectFlowState
-     * @param parameter
-     *            the Parameter
-     */
-    void addParameter(Object objectFlowState, Object parameter);
+	/**
+	 * Replace the complete collection of the partition contents by the given
+	 * new one. This function only modifies the model for added or removed
+	 * modelelements.
+	 * 
+	 * @param partition
+	 *            the partition to be altered
+	 * @param newContents
+	 *            the new contents of the partition (modelelements)
+	 */
+	void setContents(Object partition, Collection newContents);
 
-    /**
-     * Remove Parameter from an ObjectFlowState.
-     * 
-     * @param objectFlowState
-     *            the ObjectFlowState
-     * @param parameter
-     *            the Parameter to remove
-     */
-    void removeParameter(Object objectFlowState, Object parameter);
+	/**
+	 * Add a model element to a partition
+	 * 
+	 * @param partition
+	 *            the partition to contain the model element
+	 * @param modeElement
+	 *            the model element to place in the partition
+	 */
+	void addContent(Object partition, Object modeElement);
 
-    /**
-     * @param objectFlowState
-     *            the ObjectFlowState.
-     * @param parameters
-     *            the collection of Parameters. Pass
-     *            {@link java.util.Collections#EMPTY_SET} if there are no
-     *            Parameters.
-     */
-    void setParameters(Object objectFlowState, Collection parameters);
+	/**
+	 * Remove a model element from a partition
+	 * 
+	 * @param partition
+	 *            the partition currently containing the model element
+	 * @param modeElement
+	 *            the model element to be removed from the partition
+	 */
+	void removeContent(Object partition, Object modeElement);
+
+	/**
+	 * Set the isSynch attribute of an ObjectFlowState.
+	 * 
+	 * @param objectFlowState
+	 *            the element for which to set the attribute
+	 * @param isSynch
+	 *            true if this ObjectFlowState is a synch state.
+	 */
+	void setSynch(Object objectFlowState, boolean isSynch);
+
+	/**
+	 * Add a Parameter to an ObjectFlowState.
+	 * 
+	 * @param objectFlowState
+	 *            the ObjectFlowState
+	 * @param parameter
+	 *            the Parameter
+	 */
+	void addParameter(Object objectFlowState, Object parameter);
+
+	/**
+	 * Remove Parameter from an ObjectFlowState.
+	 * 
+	 * @param objectFlowState
+	 *            the ObjectFlowState
+	 * @param parameter
+	 *            the Parameter to remove
+	 */
+	void removeParameter(Object objectFlowState, Object parameter);
+
+	/**
+	 * @param objectFlowState
+	 *            the ObjectFlowState.
+	 * @param parameters
+	 *            the collection of Parameters. Pass
+	 *            {@link java.util.Collections#EMPTY_SET} if there are no
+	 *            Parameters.
+	 */
+	void setParameters(Object objectFlowState, Collection parameters);
 }

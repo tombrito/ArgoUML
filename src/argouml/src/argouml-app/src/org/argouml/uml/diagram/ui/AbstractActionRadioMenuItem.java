@@ -49,81 +49,81 @@ import org.argouml.ui.UndoableAction;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * This class adds the common algorithms
- * for handling multiple targets
- * for a radio menuitem to the UMLAction.
+ * This class adds the common algorithms for handling multiple targets for a
+ * radio menuitem to the UMLAction.
  *
  * @author mvw@tigris.org
  */
 abstract class AbstractActionRadioMenuItem extends UndoableAction {
 
-    private static final long serialVersionUID = 4182711548724004867L;
+	private static final long serialVersionUID = 4182711548724004867L;
 
 	/**
-     * @param key the name to be localized
-     * @param hasIcon true if an icon should be shown
-     */
-    public AbstractActionRadioMenuItem(String key, boolean hasIcon) {
-        super(Translator.localize(key),
-        		hasIcon ? ResourceLoaderWrapper.lookupIcon(key) : null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(key));
-    }
+	 * @param key
+	 *            the name to be localized
+	 * @param hasIcon
+	 *            true if an icon should be shown
+	 */
+	public AbstractActionRadioMenuItem(String key, boolean hasIcon) {
+		super(Translator.localize(key), hasIcon ? ResourceLoaderWrapper.lookupIcon(key) : null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(key));
+	}
 
-    /**
-     * This action should be enabled when: <ul>
-     * <li>all targets are modelelements that support this radiobutton and
-     * <li>all targets have the radiobutton on the same item
-     *     (mixed is not yet supported, but could be if a tri-state
-     *     radiobutton is implemented).
-     * </ul>
-     */
-    public boolean isEnabled() {
-        boolean result = true;
-        Object commonValue = null; // only initialized to prevent warning
-        boolean first = true;
-        Iterator i = TargetManager.getInstance().getTargets().iterator();
-        while (i.hasNext() && result) {
-            Object t = i.next();
-            try {
-                Object value = valueOfTarget(t);
-                if (first) {
-                    commonValue = value;
-                    first = false;
-                }
-                result &= commonValue.equals(value);
-            } catch (IllegalArgumentException e) {
-                result = false; //not supported for this target
-            }
-        }
-        return result;
-    }
+	/**
+	 * This action should be enabled when:
+	 * <ul>
+	 * <li>all targets are modelelements that support this radiobutton and
+	 * <li>all targets have the radiobutton on the same item (mixed is not yet
+	 * supported, but could be if a tri-state radiobutton is implemented).
+	 * </ul>
+	 */
+	public boolean isEnabled() {
+		boolean result = true;
+		Object commonValue = null; // only initialized to prevent warning
+		boolean first = true;
+		Iterator i = TargetManager.getInstance().getTargets().iterator();
+		while (i.hasNext() && result) {
+			Object t = i.next();
+			try {
+				Object value = valueOfTarget(t);
+				if (first) {
+					commonValue = value;
+					first = false;
+				}
+				result &= commonValue.equals(value);
+			} catch (IllegalArgumentException e) {
+				result = false; // not supported for this target
+			}
+		}
+		return result;
+	}
 
-    /**
-     * @param t the target modelelement
-     * @return the UML element that represents the radiobutton
-     *         for this modelelement
-     */
-    abstract Object valueOfTarget(Object t);
+	/**
+	 * @param t
+	 *            the target modelelement
+	 * @return the UML element that represents the radiobutton for this
+	 *         modelelement
+	 */
+	abstract Object valueOfTarget(Object t);
 
-    /**
-     * This action is performed on ALL targets.
-     *
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public final void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Iterator i = TargetManager.getInstance().getTargets().iterator();
-        while (i.hasNext()) {
-            Object t = i.next();
-            toggleValueOfTarget(t);
-        }
-    }
+	/**
+	 * This action is performed on ALL targets.
+	 *
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public final void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Iterator i = TargetManager.getInstance().getTargets().iterator();
+		while (i.hasNext()) {
+			Object t = i.next();
+			toggleValueOfTarget(t);
+		}
+	}
 
-    /**
-     * @param t the target modelelement
-     */
-    abstract void toggleValueOfTarget(Object t);
+	/**
+	 * @param t
+	 *            the target modelelement
+	 */
+	abstract void toggleValueOfTarget(Object t);
 }
-

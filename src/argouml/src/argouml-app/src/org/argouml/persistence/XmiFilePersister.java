@@ -67,309 +67,309 @@ import org.xml.sax.InputSource;
  *
  * @author Bob Tarling
  */
-class XmiFilePersister extends AbstractFilePersister
-    implements XmiExtensionParser {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(XmiFilePersister.class.getName());
+class XmiFilePersister extends AbstractFilePersister implements XmiExtensionParser {
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(XmiFilePersister.class.getName());
 
-    private List<String> pgmlStrings = new ArrayList<String>();
+	private List<String> pgmlStrings = new ArrayList<String>();
 
-    private String todoString;
+	private String todoString;
 
-    private String argoString;
+	private String argoString;
 
-    /**
-     * The constructor.
-     */
-    public XmiFilePersister() {
-    }
+	/**
+	 * The constructor.
+	 */
+	public XmiFilePersister() {
+	}
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#getExtension()
-     */
-    public String getExtension() {
-        return "xmi";
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#getExtension()
+	 */
+	public String getExtension() {
+		return "xmi";
+	}
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#getDesc()
-     */
-    protected String getDesc() {
-        return Translator.localize("combobox.filefilter.xmi");
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#getDesc()
+	 */
+	protected String getDesc() {
+		return Translator.localize("combobox.filefilter.xmi");
+	}
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#isSaveEnabled()
-     */
-    public boolean isSaveEnabled() {
-        return false;
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#isSaveEnabled()
+	 */
+	public boolean isSaveEnabled() {
+		return false;
+	}
 
-    /**
-     * Save a project to a file in XMI format.
-     *
-     * @param project the project to save.
-     * @param file The file to write.
-     * @throws SaveException if anything goes wrong.
-     * @throws InterruptedException     if the thread is interrupted
-     */
-    public void doSave(Project project, File file)
-        throws SaveException, InterruptedException {
+	/**
+	 * Save a project to a file in XMI format.
+	 *
+	 * @param project
+	 *            the project to save.
+	 * @param file
+	 *            The file to write.
+	 * @throws SaveException
+	 *             if anything goes wrong.
+	 * @throws InterruptedException
+	 *             if the thread is interrupted
+	 */
+	public void doSave(Project project, File file) throws SaveException, InterruptedException {
 
-        /* Retain the previous project file even when the save operation
-         * crashes in the middle. Also create a backup file after saving. */
-        boolean doSafeSaves = useSafeSaves();
+		/*
+		 * Retain the previous project file even when the save operation crashes
+		 * in the middle. Also create a backup file after saving.
+		 */
+		boolean doSafeSaves = useSafeSaves();
 
-        ProgressMgr progressMgr = new ProgressMgr();
-        progressMgr.setNumberOfPhases(4);
-        progressMgr.nextPhase();
+		ProgressMgr progressMgr = new ProgressMgr();
+		progressMgr.setNumberOfPhases(4);
+		progressMgr.nextPhase();
 
-        File lastArchiveFile = new File(file.getAbsolutePath() + "~");
-        File tempFile = null;
+		File lastArchiveFile = new File(file.getAbsolutePath() + "~");
+		File tempFile = null;
 
-        if (doSafeSaves) {
-            try {
-                tempFile = createTempFile(file);
-            } catch (FileNotFoundException e) {
-                throw new SaveException(Translator.localize(
-                        "optionpane.save-project-exception-cause1"), e);
-            } catch (IOException e) {
-                throw new SaveException(Translator.localize(
-                        "optionpane.save-project-exception-cause2"), e);
-            }
-        }
+		if (doSafeSaves) {
+			try {
+				tempFile = createTempFile(file);
+			} catch (FileNotFoundException e) {
+				throw new SaveException(Translator.localize("optionpane.save-project-exception-cause1"), e);
+			} catch (IOException e) {
+				throw new SaveException(Translator.localize("optionpane.save-project-exception-cause2"), e);
+			}
+		}
 
-        OutputStream stream = null;
-        try {
-            stream = new FileOutputStream(file);
-            writeProject(project, stream, progressMgr);
-            stream.close();
+		OutputStream stream = null;
+		try {
+			stream = new FileOutputStream(file);
+			writeProject(project, stream, progressMgr);
+			stream.close();
 
-            if (doSafeSaves) {
-                // if save did not raise an exception
-                // and name+"#" exists move name+"#" to name+"~"
-                // this is the correct backup file
-                if (lastArchiveFile.exists()) {
-                    lastArchiveFile.delete();
-                }
-                if (tempFile.exists() && !lastArchiveFile.exists()) {
-                    tempFile.renameTo(lastArchiveFile);
-                }
-                if (tempFile.exists()) {
-                    tempFile.delete();
-                }
-            }
-        } catch (InterruptedException exc) {
-            try {
-                stream.close();
-            } catch (IOException ex) { }
-            throw exc;
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Exception occured during save attempt", e);
-            try {
-                stream.close();
-            } catch (IOException ex) { }
+			if (doSafeSaves) {
+				// if save did not raise an exception
+				// and name+"#" exists move name+"#" to name+"~"
+				// this is the correct backup file
+				if (lastArchiveFile.exists()) {
+					lastArchiveFile.delete();
+				}
+				if (tempFile.exists() && !lastArchiveFile.exists()) {
+					tempFile.renameTo(lastArchiveFile);
+				}
+				if (tempFile.exists()) {
+					tempFile.delete();
+				}
+			}
+		} catch (InterruptedException exc) {
+			try {
+				stream.close();
+			} catch (IOException ex) {
+			}
+			throw exc;
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Exception occured during save attempt", e);
+			try {
+				stream.close();
+			} catch (IOException ex) {
+			}
 
-            if (doSafeSaves) {
-                // frank: in case of exception
-                // delete name and mv name+"#" back to name if name+"#" exists
-                // this is the "rollback" to old file
-                file.delete();
-                tempFile.renameTo(file);
-            }
-            // we have to give a message to user and set the system to unsaved!
-            throw new SaveException(e);
-        }
-        progressMgr.nextPhase();
-    }
+			if (doSafeSaves) {
+				// frank: in case of exception
+				// delete name and mv name+"#" back to name if name+"#" exists
+				// this is the "rollback" to old file
+				file.delete();
+				tempFile.renameTo(file);
+			}
+			// we have to give a message to user and set the system to unsaved!
+			throw new SaveException(e);
+		}
+		progressMgr.nextPhase();
+	}
 
-    /**
-     * Write the output for a project on the given stream.
-     *
-     * @param project The project to output.
-     * @param stream The stream to write to.
-     * @param progressMgr The progress manager/monitor, if any.  If null, no
-     *                    progress will be reported.
-     * @throws SaveException If something goes wrong.
-     * @throws InterruptedException     if the thread is interrupted
-     */
-    void writeProject(Project project,
-            OutputStream stream,
-            ProgressMgr progressMgr) throws SaveException,
-            InterruptedException {
+	/**
+	 * Write the output for a project on the given stream.
+	 *
+	 * @param project
+	 *            The project to output.
+	 * @param stream
+	 *            The stream to write to.
+	 * @param progressMgr
+	 *            The progress manager/monitor, if any. If null, no progress
+	 *            will be reported.
+	 * @throws SaveException
+	 *             If something goes wrong.
+	 * @throws InterruptedException
+	 *             if the thread is interrupted
+	 */
+	void writeProject(Project project, OutputStream stream, ProgressMgr progressMgr)
+			throws SaveException, InterruptedException {
 
-        int size = project.getMembers().size();
-        for (int i = 0; i < size; i++) {
-            ProjectMember projectMember =
-                project.getMembers().get(i);
-            if (projectMember.getType().equalsIgnoreCase(getExtension())) {
-                if (LOG.isLoggable(Level.INFO)) {
-                    LOG.log(Level.INFO, "Saving member of type: {0}",
-                            projectMember.getType());
-                }
-                MemberFilePersister persister = new ModelMemberFilePersister();
-                persister.save(projectMember, stream);
-            }
-        }
+		int size = project.getMembers().size();
+		for (int i = 0; i < size; i++) {
+			ProjectMember projectMember = project.getMembers().get(i);
+			if (projectMember.getType().equalsIgnoreCase(getExtension())) {
+				if (LOG.isLoggable(Level.INFO)) {
+					LOG.log(Level.INFO, "Saving member of type: {0}", projectMember.getType());
+				}
+				MemberFilePersister persister = new ModelMemberFilePersister();
+				persister.save(projectMember, stream);
+			}
+		}
 
-        if (progressMgr != null) {
-            progressMgr.nextPhase();
-        }
+		if (progressMgr != null) {
+			progressMgr.nextPhase();
+		}
 
-    }
+	}
 
+	/**
+	 * This method creates a project from the specified URL
+	 *
+	 * Unlike the constructor which forces an .argo extension This method will
+	 * attempt to load a raw XMI file
+	 *
+	 * This method can fail in several different ways. Either by throwing an
+	 * exception or by having the ArgoParser.SINGLETON.getLastLoadStatus() set
+	 * to not true.
+	 *
+	 * @param file
+	 *            The file to load the project from.
+	 * @return The newly loaded project.
+	 * @throws OpenException
+	 *             if the file can not be opened
+	 * @throws InterruptedException
+	 *             if the thread is interrupted
+	 *
+	 * @see org.argouml.persistence.ProjectFilePersister#doLoad(java.io.File)
+	 */
+	public Project doLoad(File file) throws OpenException, InterruptedException {
 
-    /**
-     * This method creates a project from the specified URL
-     *
-     * Unlike the constructor which forces an .argo extension This
-     * method will attempt to load a raw XMI file
-     *
-     * This method can fail in several different ways. Either by
-     * throwing an exception or by having the
-     * ArgoParser.SINGLETON.getLastLoadStatus() set to not true.
-     *
-     * @param file The file to load the project from.
-     * @return The newly loaded project.
-     * @throws OpenException if the file can not be opened
-     * @throws InterruptedException     if the thread is interrupted
-     *
-     * @see org.argouml.persistence.ProjectFilePersister#doLoad(java.io.File)
-     */
-    public Project doLoad(File file)
-        throws OpenException, InterruptedException {
+		LOG.log(Level.INFO, "Loading with XMIFilePersister");
 
-        LOG.log(Level.INFO, "Loading with XMIFilePersister");
+		try {
+			Project p = ProjectFactory.getInstance().createProject();
 
-        try {
-            Project p = ProjectFactory.getInstance().createProject();
+			long length = file.length();
+			long phaseSpace = 100000;
+			int phases = (int) (length / phaseSpace);
+			if (phases < 10) {
+				phaseSpace = length / 10;
+				phases = 10;
+			}
+			LOG.log(Level.INFO, "File length is " + length + " phase space is " + phaseSpace + " phases is " + phases);
+			ProgressMgr progressMgr = new ProgressMgr();
+			progressMgr.setNumberOfPhases(phases);
+			ThreadUtils.checkIfInterrupted();
 
+			InputSource source = new InputSource(
+					new XmiInputStream(file.toURI().toURL().openStream(), this, phaseSpace, progressMgr));
+			source.setSystemId(file.toURI().toURL().toString());
 
-            long length = file.length();
-            long phaseSpace = 100000;
-            int phases = (int) (length / phaseSpace);
-            if (phases < 10) {
-                phaseSpace = length / 10;
-                phases = 10;
-            }
-            LOG.log(Level.INFO, "File length is " + length + " phase space is "
-                    + phaseSpace + " phases is " + phases);
-            ProgressMgr progressMgr = new ProgressMgr();
-            progressMgr.setNumberOfPhases(phases);
-            ThreadUtils.checkIfInterrupted();
+			ModelMemberFilePersister modelPersister = new ModelMemberFilePersister();
 
-            InputSource source = new InputSource(new XmiInputStream(file
-                    .toURI().toURL().openStream(), this, phaseSpace,
-                    progressMgr));
-            source.setSystemId(file.toURI().toURL().toString());
+			modelPersister.readModels(source);
+			Object model = modelPersister.getCurModel();
+			progressMgr.nextPhase();
+			Model.getUmlHelper().addListenersToModel(model);
+			p.setUUIDRefs(modelPersister.getUUIDRefs());
+			// TODO Handle multiple top level packages
+			p.addMember(model);
+			parseXmiExtensions(p);
+			modelPersister.registerDiagrams(p);
 
-            ModelMemberFilePersister modelPersister =
-                new ModelMemberFilePersister();
+			p.setRoot(model);
+			p.setRoots(modelPersister.getElementsRead());
+			p.updateRoots();
+			File defaultProjectFile = new File(file.getPath() + ".zargo");
+			// Make sure the file doesn't exist so the user will
+			// get prompted to choose a new name
+			for (int i = 0; i < 99; i++) {
+				if (!defaultProjectFile.exists()) {
+					break;
+				}
+				defaultProjectFile = new File(file.getPath() + "." + i + ".zargo");
+			}
+			PersistenceManager.getInstance().setProjectURI(defaultProjectFile.toURI(), p);
+			progressMgr.nextPhase();
+			ProjectManager.getManager().setSaveEnabled(false);
+			return p;
+		} catch (IOException e) {
+			throw new OpenException(e);
+		}
+	}
 
-            modelPersister.readModels(source);
-            Object model = modelPersister.getCurModel();
-            progressMgr.nextPhase();
-            Model.getUmlHelper().addListenersToModel(model);
-            p.setUUIDRefs(modelPersister.getUUIDRefs());
-            // TODO Handle multiple top level packages
-            p.addMember(model);
-            parseXmiExtensions(p);
-            modelPersister.registerDiagrams(p);
+	/**
+	 * Returns true. All Argo specific files have an icon.
+	 *
+	 * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
+	 */
+	public boolean hasAnIcon() {
+		return true;
+	}
 
-            p.setRoot(model);
-            p.setRoots(modelPersister.getElementsRead());
-            p.updateRoots();
-            File defaultProjectFile = new File(file.getPath() + ".zargo");
-            // Make sure the file doesn't exist so the user will
-            // get prompted to choose a new name
-            for (int i = 0; i < 99; i++) {
-                if (!defaultProjectFile.exists()) {
-                    break;
-                }
-                defaultProjectFile =
-                        new File(file.getPath() + "." + i + ".zargo");
-            }
-            PersistenceManager.getInstance().setProjectURI(
-                    defaultProjectFile.toURI(), p);
-            progressMgr.nextPhase();
-            ProjectManager.getManager().setSaveEnabled(false);
-            return p;
-        } catch (IOException e) {
-            throw new OpenException(e);
-        }
-    }
+	/**
+	 * Parse a string of XML that is the XMI.extension contents. This
+	 * implementation simply stores the xml strings to process in one hit after
+	 * all the standard XMI has been read.
+	 * 
+	 * @see org.argouml.persistence.XmiExtensionParser#parse(java.lang.String,
+	 *      java.lang.String)
+	 */
+	public void parse(String label, String xmiExtensionString) {
+		if (label.equals("pgml")) {
+			pgmlStrings.add(xmiExtensionString);
+		} else if (label.equals("argo")) {
+			argoString = xmiExtensionString;
+		} else if (label.equals("todo")) {
+			todoString = xmiExtensionString;
+		}
+	}
 
-    /**
-     * Returns true. All Argo specific files have an icon.
-     *
-     * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
-     */
-    public boolean hasAnIcon() {
-        return true;
-    }
+	/**
+	 * Parse all the extensions that were found when reading XMI
+	 *
+	 * @param project
+	 * @exception OpenException
+	 */
+	public void parseXmiExtensions(Project project) throws OpenException {
 
-    /**
-     * Parse a string of XML that is the XMI.extension contents.
-     * This implementation simply stores the xml strings to process
-     * in one hit after all the standard XMI has been read.
-     * @see org.argouml.persistence.XmiExtensionParser#parse(java.lang.String, java.lang.String)
-     */
-    public void parse(String label, String xmiExtensionString) {
-        if (label.equals("pgml")) {
-            pgmlStrings.add(xmiExtensionString);
-        } else if (label.equals("argo")) {
-            argoString = xmiExtensionString;
-        } else if (label.equals("todo")) {
-            todoString = xmiExtensionString;
-        }
-    }
+		if (argoString != null) {
+			LOG.log(Level.INFO, "Parsing argoString {0}", argoString.length());
 
-    /**
-     * Parse all the extensions that were found when reading XMI
-     *
-     * @param project
-     * @exception OpenException
-     */
-    public void parseXmiExtensions(Project project) throws OpenException {
+			StringReader inputStream = new StringReader(argoString);
+			ArgoParser parser = new ArgoParser();
+			try {
+				parser.readProject(project, inputStream);
+			} catch (Exception e) {
+				throw new OpenException("Exception caught", e);
+			}
+		} else {
+			project.addMember(new ProjectMemberTodoList("", project));
+		}
+		for (String pgml : pgmlStrings) {
+			LOG.log(Level.INFO, "Parsing pgml {0}", pgml.length());
 
-        if (argoString != null) {
-            LOG.log(Level.INFO, "Parsing argoString {0}", argoString.length());
+			InputStream inputStream = new ByteArrayInputStream(pgml.getBytes());
+			MemberFilePersister persister =
+					// TODO: Cyclic dependency between PersistanceManager and
+					// here
+					PersistenceManager.getInstance().getDiagramMemberFilePersister();
+			// possibly use the following instead
+			// MemberFilePersister persister = new DiagramMemberFilePersister();
+			persister.load(project, inputStream);
+		}
+		if (todoString != null) {
+			LOG.log(Level.INFO, "Parsing todoString {0}", todoString.length());
 
-            StringReader inputStream = new StringReader(argoString);
-            ArgoParser parser = new ArgoParser();
-            try {
-                parser.readProject(project, inputStream);
-            } catch (Exception e) {
-                throw new OpenException("Exception caught", e);
-            }
-        } else {
-            project.addMember(new ProjectMemberTodoList("", project));
-        }
-        for (String pgml : pgmlStrings) {
-            LOG.log(Level.INFO, "Parsing pgml {0}", pgml.length());
-
-            InputStream inputStream = new ByteArrayInputStream(pgml.getBytes());
-            MemberFilePersister persister =
-            // TODO: Cyclic dependency between PersistanceManager and here
-                PersistenceManager.getInstance()
-                        .getDiagramMemberFilePersister();
-            // possibly use the following instead
-//            MemberFilePersister persister = new DiagramMemberFilePersister();
-            persister.load(project, inputStream);
-        }
-        if (todoString != null) {
-            LOG.log(Level.INFO, "Parsing todoString {0}", todoString.length());
-
-            InputStream inputStream =
-                new ByteArrayInputStream(todoString.getBytes());
-            MemberFilePersister persister = null;
-            persister = new TodoListMemberFilePersister();
-            persister.load(project, inputStream);
-        } else {
-            project.addMember(new ProjectMemberTodoList("", project));
-        }
-    }
+			InputStream inputStream = new ByteArrayInputStream(todoString.getBytes());
+			MemberFilePersister persister = null;
+			persister = new TodoListMemberFilePersister();
+			persister.load(project, inputStream);
+		} else {
+			project.addMember(new ProjectMemberTodoList("", project));
+		}
+	}
 }

@@ -39,46 +39,46 @@
 package org.argouml.model.mdr;
 
 /**
- * Reference to an XMI element.  Value object containing a tuple
- * of the system ID (URI) and xmi.id within the given content.
+ * Reference to an XMI element. Value object containing a tuple of the system ID
+ * (URI) and xmi.id within the given content.
  * 
  * @author Tom Morris
  */
 class XmiReference {
-    private final String systemId;
+	private final String systemId;
 
-    private final String xmiId;
+	private final String xmiId;
 
-    /**
-     * Create a XMI id reference object.
-     * 
-     * @param system
-     *            system ID
-     * @param xmi
-     *            XMI id
-     */
-    XmiReference(String system, String xmi) {
-        systemId = system;
-        xmiId = xmi;
-    }
+	/**
+	 * Create a XMI id reference object.
+	 * 
+	 * @param system
+	 *            system ID
+	 * @param xmi
+	 *            XMI id
+	 */
+	XmiReference(String system, String xmi) {
+		systemId = system;
+		xmiId = xmi;
+	}
 
-    /**
-     * Get the system ID (typically a URI pointing to a file) for the given XMI
-     * reference.
-     * 
-     * @return the systemID value (string containing filename)
-     */
-    String getSystemId() {
-        return systemId;
-    }
+	/**
+	 * Get the system ID (typically a URI pointing to a file) for the given XMI
+	 * reference.
+	 * 
+	 * @return the systemID value (string containing filename)
+	 */
+	String getSystemId() {
+		return systemId;
+	}
 
-    /**
-     * Get the xmi.id for the reference. This must be unique within the given
-     * XMI file (system ID), but is not guaranteed to be globally unique.
-     * 
-     * @return the xmi.id value
-     */
-    String getXmiId() {
-        return xmiId;
-    }
+	/**
+	 * Get the xmi.id for the reference. This must be unique within the given
+	 * XMI file (system ID), but is not guaranteed to be globally unique.
+	 * 
+	 * @return the xmi.id value
+	 */
+	String getXmiId() {
+		return xmiId;
+	}
 }

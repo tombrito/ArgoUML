@@ -55,30 +55,27 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewReception extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -2468027167947633065L;
+	private static final long serialVersionUID = -2468027167947633065L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewReception() {
-        super("button.new-reception");
-        putValue(Action.NAME, Translator.localize("button.new-reception"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewReception() {
+		super("button.new-reception");
+		putValue(Action.NAME, Translator.localize("button.new-reception"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Object classifier =
-            TargetManager.getInstance().getModelTarget();
-        if (!Model.getFacade().isAClassifier(classifier)) {
-            throw new IllegalArgumentException(
-                    "Argument classifier is null or not a classifier. Got: "
-                    + classifier);
-        }
-        Object reception =
-            Model.getCommonBehaviorFactory().buildReception(classifier);
-        TargetManager.getInstance().setTarget(reception);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Object classifier = TargetManager.getInstance().getModelTarget();
+		if (!Model.getFacade().isAClassifier(classifier)) {
+			throw new IllegalArgumentException("Argument classifier is null or not a classifier. Got: " + classifier);
+		}
+		Object reception = Model.getCommonBehaviorFactory().buildReception(classifier);
+		TargetManager.getInstance().setTarget(reception);
+	}
 }

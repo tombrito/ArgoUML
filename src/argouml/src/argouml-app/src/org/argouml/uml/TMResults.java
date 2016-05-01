@@ -48,190 +48,186 @@ import org.argouml.uml.diagram.ui.UMLDiagram;
 import org.tigris.gef.base.Diagram;
 
 /**
- * TMResults (Table Model Results) implements a default table model
- * which is used by Find and Goto Operations in order to display search
- * results. It defines a default table model with columns and can
- * resolve found objects to strings.
+ * TMResults (Table Model Results) implements a default table model which is
+ * used by Find and Goto Operations in order to display search results. It
+ * defines a default table model with columns and can resolve found objects to
+ * strings.
  */
 public class TMResults extends AbstractTableModel {
 
-    private List rowObjects;
-    private List<UMLDiagram> diagrams;
-    private boolean showInDiagramColumn;
+	private List rowObjects;
+	private List<UMLDiagram> diagrams;
+	private boolean showInDiagramColumn;
 
-    /**
-     * The constructor.
-     *
-     */
-    public TMResults() {
-        showInDiagramColumn = true;
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public TMResults() {
+		showInDiagramColumn = true;
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param showTheInDiagramColumn true if the "In Diagram" column
-     *                               should be shown
-     */
-    public TMResults(boolean showTheInDiagramColumn) {
-        showInDiagramColumn = showTheInDiagramColumn;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param showTheInDiagramColumn
+	 *            true if the "In Diagram" column should be shown
+	 */
+	public TMResults(boolean showTheInDiagramColumn) {
+		showInDiagramColumn = showTheInDiagramColumn;
+	}
 
-    /**
-     * @param results the row objects
-     * @param theDiagrams the diagrams
-     */
-    public void setTarget(List results, List theDiagrams) {
-        rowObjects = results;
-        diagrams = theDiagrams;
-        fireTableStructureChanged();
-    }
-    
-    ////////////////
-    // TableModel implementation
+	/**
+	 * @param results
+	 *            the row objects
+	 * @param theDiagrams
+	 *            the diagrams
+	 */
+	public void setTarget(List results, List theDiagrams) {
+		rowObjects = results;
+		diagrams = theDiagrams;
+		fireTableStructureChanged();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
-    public int getColumnCount() {
-        return showInDiagramColumn ? 4 : 3;
-    }
+	////////////////
+	// TableModel implementation
 
-    /*
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    public int getRowCount() {
-        if (rowObjects == null) {
-            return 0;
-        }
-        return rowObjects.size();
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getColumnCount()
+	 */
+	public int getColumnCount() {
+		return showInDiagramColumn ? 4 : 3;
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getColumnName(int)
-     */
-    public String getColumnName(int c) {
-        if (c == 0) {
-            return Translator.localize("dialog.find.column-name.type");
-        }
-        if (c == 1) {
-            return Translator.localize("dialog.find.column-name.name");
-        }
-        if (c == 2) {
-            return Translator.localize(showInDiagramColumn
-                    ? "dialog.find.column-name.in-diagram"
-                    : "dialog.find.column-name.description");
-        }
-        if (c == 3) {
-            return Translator.localize("dialog.find.column-name.description");
-        }
-        return "XXX";
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getRowCount()
+	 */
+	public int getRowCount() {
+		if (rowObjects == null) {
+			return 0;
+		}
+		return rowObjects.size();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getColumnClass(int)
-     */
-    public Class getColumnClass(int c) {
-        return String.class;
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getColumnName(int)
+	 */
+	public String getColumnName(int c) {
+		if (c == 0) {
+			return Translator.localize("dialog.find.column-name.type");
+		}
+		if (c == 1) {
+			return Translator.localize("dialog.find.column-name.name");
+		}
+		if (c == 2) {
+			return Translator.localize(
+					showInDiagramColumn ? "dialog.find.column-name.in-diagram" : "dialog.find.column-name.description");
+		}
+		if (c == 3) {
+			return Translator.localize("dialog.find.column-name.description");
+		}
+		return "XXX";
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#isCellEditable(int, int)
-     */
-    public boolean isCellEditable(int row, int col) {
-        return false;
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getColumnClass(int)
+	 */
+	public Class getColumnClass(int c) {
+		return String.class;
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    public Object getValueAt(int row, int col) {
-        if (row < 0 || row >= rowObjects.size()) {
-            return "bad row!";
-        }
-        if (col < 0 || col >= (showInDiagramColumn ? 4 : 3)) {
-            return "bad col!";
-        }
-        Object rowObj = rowObjects.get(row);
-        if (rowObj instanceof Diagram) {
-            Diagram d = (Diagram) rowObj;
-            switch (col) {
-	    case 0 : // the name of this type of diagram
-		if (d instanceof UMLDiagram) {
-                    return ((UMLDiagram) d).getLabelName();
-                }
-		return null;
-	    case 1 : // the name of this instance of diagram
-		return d.getName();
-	    case 2 : // "N/A" or "x nodes and x edges"
-		return showInDiagramColumn
-		    ? Translator.localize("dialog.find.not-applicable")
-                    : countNodesAndEdges(d);
-	    case 3 : // "x nodes and x edges"
-		return countNodesAndEdges(d);
-	    default:
-            }
-        }
-        if (Model.getFacade().isAModelElement(rowObj)) {
-            Diagram d = null;
-            if (diagrams != null) {
-                d = diagrams.get(row);
-            }
-            switch (col) {
-	    case 0 : // the name of this type of ModelElement
-		return Model.getFacade().getUMLClassName(rowObj);
-	    case 1 : // the name of this instance of ModelElement
-		return Model.getFacade().getName(rowObj);
-	    case 2 : // the name of the parent diagram instance
-		return (d == null)
-		    ? Translator.localize("dialog.find.not-applicable")
-                    : d.getName();
-	    case 3 : // TODO: implement this - show some documentation?
-		return "docs";
-	    default:
-            }
-        }
-        switch (col) {
-	case 0 : // the name of this type of Object
-            if (rowObj == null) {
-                return "";
-            }
-	    String clsName = rowObj.getClass().getName();
-	    int lastDot = clsName.lastIndexOf(".");
-	    return clsName.substring(lastDot + 1);
-	case 1 :
-	    return "";
-	case 2 :
-	    return "??";
-	case 3 :
-	    return "docs";
-	default:
-        }
-        return "unknown!";
-    }
+	/*
+	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
+	 */
+	public boolean isCellEditable(int row, int col) {
+		return false;
+	}
 
-    /**
-     * @param d the diagram to count the nodes and edges of
-     * @return a string which says it all
-     */
-    private Object countNodesAndEdges(Diagram d) {
-        int numNodes = d.getNodes().size();
-        int numEdges = d.getEdges().size();
-        Object[] msgArgs = {Integer.valueOf(numNodes),
-                            Integer.valueOf(numEdges),
-	};
-        return Translator.messageFormat("dialog.nodes-and-edges", msgArgs);
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getValueAt(int, int)
+	 */
+	public Object getValueAt(int row, int col) {
+		if (row < 0 || row >= rowObjects.size()) {
+			return "bad row!";
+		}
+		if (col < 0 || col >= (showInDiagramColumn ? 4 : 3)) {
+			return "bad col!";
+		}
+		Object rowObj = rowObjects.get(row);
+		if (rowObj instanceof Diagram) {
+			Diagram d = (Diagram) rowObj;
+			switch (col) {
+			case 0: // the name of this type of diagram
+				if (d instanceof UMLDiagram) {
+					return ((UMLDiagram) d).getLabelName();
+				}
+				return null;
+			case 1: // the name of this instance of diagram
+				return d.getName();
+			case 2: // "N/A" or "x nodes and x edges"
+				return showInDiagramColumn ? Translator.localize("dialog.find.not-applicable") : countNodesAndEdges(d);
+			case 3: // "x nodes and x edges"
+				return countNodesAndEdges(d);
+			default:
+			}
+		}
+		if (Model.getFacade().isAModelElement(rowObj)) {
+			Diagram d = null;
+			if (diagrams != null) {
+				d = diagrams.get(row);
+			}
+			switch (col) {
+			case 0: // the name of this type of ModelElement
+				return Model.getFacade().getUMLClassName(rowObj);
+			case 1: // the name of this instance of ModelElement
+				return Model.getFacade().getName(rowObj);
+			case 2: // the name of the parent diagram instance
+				return (d == null) ? Translator.localize("dialog.find.not-applicable") : d.getName();
+			case 3: // TODO: implement this - show some documentation?
+				return "docs";
+			default:
+			}
+		}
+		switch (col) {
+		case 0: // the name of this type of Object
+			if (rowObj == null) {
+				return "";
+			}
+			String clsName = rowObj.getClass().getName();
+			int lastDot = clsName.lastIndexOf(".");
+			return clsName.substring(lastDot + 1);
+		case 1:
+			return "";
+		case 2:
+			return "??";
+		case 3:
+			return "docs";
+		default:
+		}
+		return "unknown!";
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
-     */
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-    }
+	/**
+	 * @param d
+	 *            the diagram to count the nodes and edges of
+	 * @return a string which says it all
+	 */
+	private Object countNodesAndEdges(Diagram d) {
+		int numNodes = d.getNodes().size();
+		int numEdges = d.getEdges().size();
+		Object[] msgArgs = { Integer.valueOf(numNodes), Integer.valueOf(numEdges), };
+		return Translator.messageFormat("dialog.nodes-and-edges", msgArgs);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1444599676429024575L;
+	/*
+	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
+	 */
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1444599676429024575L;
 }

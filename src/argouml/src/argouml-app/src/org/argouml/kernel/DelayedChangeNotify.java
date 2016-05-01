@@ -41,28 +41,31 @@ package org.argouml.kernel;
 import java.beans.PropertyChangeEvent;
 
 /**
- * This appears to be a gui specific class, therefore it does not belong in
- * the Kernel.
+ * This appears to be a gui specific class, therefore it does not belong in the
+ * Kernel.
  */
 public class DelayedChangeNotify implements Runnable {
-    private DelayedVChangeListener listener;
-    private PropertyChangeEvent pce;
+	private DelayedVChangeListener listener;
+	private PropertyChangeEvent pce;
 
-    /**
-     * The constructor.
-     *
-     * @param l the listener
-     * @param p the event
-     */
-    public DelayedChangeNotify(DelayedVChangeListener l,
-			       PropertyChangeEvent p) {
-	listener = l;
-	pce = p;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param l
+	 *            the listener
+	 * @param p
+	 *            the event
+	 */
+	public DelayedChangeNotify(DelayedVChangeListener l, PropertyChangeEvent p) {
+		listener = l;
+		pce = p;
+	}
 
-    /*
-     * @see java.lang.Runnable#run()
-     */
-    public void run() { listener.delayedVetoableChange(pce); }
+	/*
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
+		listener.delayedVetoableChange(pce);
+	}
 
 } /* end class DelayedChangeNotify */

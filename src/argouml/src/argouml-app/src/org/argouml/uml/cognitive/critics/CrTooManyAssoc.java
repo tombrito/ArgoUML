@@ -46,54 +46,56 @@ import org.argouml.cognitive.Designer;
 import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
-/** A critic to detect when a classifier has too many associations.
+/**
+ * A critic to detect when a classifier has too many associations.
  */
 public class CrTooManyAssoc extends AbstractCrTooMany {
 
-    private static final long serialVersionUID = 1951251057760874060L;
+	private static final long serialVersionUID = 1951251057760874060L;
 	/**
-     * The initial threshold.
-     */
-    private static final int ASSOCIATIONS_THRESHOLD = 7;
+	 * The initial threshold.
+	 */
+	private static final int ASSOCIATIONS_THRESHOLD = 7;
 
-    /**
-     * The constructor.
-     */
-    public CrTooManyAssoc() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.RELATIONSHIPS);
-	setThreshold(ASSOCIATIONS_THRESHOLD);
-	addTrigger("associationEnd");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAClassifier(dm))) {
-	    return NO_PROBLEM;
+	/**
+	 * The constructor.
+	 */
+	public CrTooManyAssoc() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		setThreshold(ASSOCIATIONS_THRESHOLD);
+		addTrigger("associationEnd");
 	}
 
-	// TODO: consider inherited associations?
-	// TODO: self loops are double counted
-	int threshold = getThreshold();
-	Collection aes = Model.getFacade().getAssociationEnds(dm);
-	if (aes == null || aes.size() <= threshold) {
-	    return NO_PROBLEM;
-	}
-	return PROBLEM_FOUND;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClassifier(dm))) {
+			return NO_PROBLEM;
+		}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
-    
+		// TODO: consider inherited associations?
+		// TODO: self loops are double counted
+		int threshold = getThreshold();
+		Collection aes = Model.getFacade().getAssociationEnds(dm);
+		if (aes == null || aes.size() <= threshold) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
+	}
+
 } /* end class CrTooManyAssoc */

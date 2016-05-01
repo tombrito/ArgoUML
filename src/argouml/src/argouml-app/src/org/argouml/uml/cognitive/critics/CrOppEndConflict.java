@@ -51,65 +51,67 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * Well-formedness rule [2] for MClassifier. See page 29 of UML 1.1
- * Semantics. OMG document ad/97-08-04.
+ * Well-formedness rule [2] for MClassifier. See page 29 of UML 1.1 Semantics.
+ * OMG document ad/97-08-04.
  *
- * Well-formedness rule [3] for Classifier. See page 55 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [3] for Classifier. See page 55 of UML 1.4 Semantics.
+ * OMG document UML 1.4.2 formal/04-07-02.
+ * 
  * @author jrobbins
  */
-//TODO: split into an inherited attr critic and a local
-//attr critic
+// TODO: split into an inherited attr critic and a local
+// attr critic
 public class CrOppEndConflict extends CrUML {
 
-    private static final long serialVersionUID = 3355540926158662853L;
+	private static final long serialVersionUID = 3355540926158662853L;
 
 	/**
-     * The constructor.
-     */
-    public CrOppEndConflict() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.INHERITANCE);
-        addSupportedDecision(UMLDecision.RELATIONSHIPS);
-        addSupportedDecision(UMLDecision.NAMING);
-        setKnowledgeTypes(Critic.KT_SYNTAX);
-        addTrigger("associationEnd");
-    }
+	 * The constructor.
+	 */
+	public CrOppEndConflict() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("associationEnd");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        boolean problem = NO_PROBLEM;
-        if (Model.getFacade().isAClassifier(dm)) {
-            Collection col = Model.getCoreHelper().getAssociations(dm);
-            List names = new ArrayList();
-            Iterator it = col.iterator();
-            String name = null;
-            while (it.hasNext()) {
-                name = Model.getFacade().getName(it.next());
-                if (name == null || name.equals("")) {
-                    continue;
-                }
-                if (names.contains(name)) {
-                    problem = PROBLEM_FOUND;
-                    break;
-                }
-            }
-        }
-        return problem;
-    }
-    
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAssociationEnd());
-        return ret;
-    }
-    
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		boolean problem = NO_PROBLEM;
+		if (Model.getFacade().isAClassifier(dm)) {
+			Collection col = Model.getCoreHelper().getAssociations(dm);
+			List names = new ArrayList();
+			Iterator it = col.iterator();
+			String name = null;
+			while (it.hasNext()) {
+				name = Model.getFacade().getName(it.next());
+				if (name == null || name.equals("")) {
+					continue;
+				}
+				if (names.contains(name)) {
+					problem = PROBLEM_FOUND;
+					break;
+				}
+			}
+		}
+		return problem;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAssociationEnd());
+		return ret;
+	}
+
 } /* end class CrOppEndConflict */

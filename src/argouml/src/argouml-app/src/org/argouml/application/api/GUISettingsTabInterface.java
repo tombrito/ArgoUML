@@ -41,18 +41,19 @@ package org.argouml.application.api;
 import javax.swing.JPanel;
 
 /**
- * An interface which must be implemented as the UI for
- * tabs used on the settings panel.<p>
+ * An interface which must be implemented as the UI for tabs used on the
+ * settings panel.
+ * <p>
  *
- * Tabs will only need to load data during {@link #handleSettingsTabRefresh}
- * and should only save data during {@link #handleSettingsTabSave}.
- * Changes can be made during editing of the tabs, but the tab must
- * be able to undo any change if requested
- * through {@link #handleSettingsTabCancel}.<p>
+ * Tabs will only need to load data during {@link #handleSettingsTabRefresh} and
+ * should only save data during {@link #handleSettingsTabSave}. Changes can be
+ * made during editing of the tabs, but the tab must be able to undo any change
+ * if requested through {@link #handleSettingsTabCancel}.
+ * <p>
  * 
- * Warning: Do not access the ProjectManager in the constructor 
- * of classes that implement this interface! This because the
- * SettingsTabs are created before an initial Project is created.
+ * Warning: Do not access the ProjectManager in the constructor of classes that
+ * implement this interface! This because the SettingsTabs are created before an
+ * initial Project is created.
  *
  * @author Thierry Lach
  * @since 0.9.4
@@ -61,43 +62,43 @@ import javax.swing.JPanel;
  */
 public interface GUISettingsTabInterface {
 
-    /**
-     * Save any fields changed.
-     */
-    void handleSettingsTabSave();
+	/**
+	 * Save any fields changed.
+	 */
+	void handleSettingsTabSave();
 
-    /**
-     * Cancel any changes.
-     */
-    void handleSettingsTabCancel();
+	/**
+	 * Cancel any changes.
+	 */
+	void handleSettingsTabCancel();
 
-    /**
-     * Load or reload field settings.
-     */
-    void handleSettingsTabRefresh();
-    
-    /**
-     * Reset the settings shown to the same settings with a broader scope.
-     * I.e. copy settings from wider scope to narrow scope. <p>
-     * 
-     * Remark:
-     * This shall only adapt the displayed value! 
-     * You need a save to make the actual change.
-     */
-    void handleResetToDefault();
-    
-    /**
-     * Gets the unlocalized settings tab name.
-     *
-     * @return the unlocalized settings tab name
-     */
-    String getTabKey();
+	/**
+	 * Load or reload field settings.
+	 */
+	void handleSettingsTabRefresh();
 
-    /**
-     * Gets the JPanel which implements the tab.
-     *
-     * @return the JPanel which implements the tab
-     */
-    JPanel getTabPanel();
+	/**
+	 * Reset the settings shown to the same settings with a broader scope. I.e.
+	 * copy settings from wider scope to narrow scope.
+	 * <p>
+	 * 
+	 * Remark: This shall only adapt the displayed value! You need a save to
+	 * make the actual change.
+	 */
+	void handleResetToDefault();
+
+	/**
+	 * Gets the unlocalized settings tab name.
+	 *
+	 * @return the unlocalized settings tab name
+	 */
+	String getTabKey();
+
+	/**
+	 * Gets the JPanel which implements the tab.
+	 *
+	 * @return the JPanel which implements the tab
+	 */
+	JPanel getTabPanel();
 
 } /* End interface GUISettingsTabInterface */

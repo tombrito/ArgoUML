@@ -25,8 +25,8 @@ package org.argouml.uml.diagram;
  */
 public interface SequenceDiagram extends ArgoDiagram {
 
-    /**
-     * @return the collaboration from the associated graph model
-     */
-    public Object getCollaboration();
+	/**
+	 * @return the collaboration from the associated graph model
+	 */
+	public Object getCollaboration();
 }

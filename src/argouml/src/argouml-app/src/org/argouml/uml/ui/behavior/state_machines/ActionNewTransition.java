@@ -46,59 +46,55 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
 /**
- * Action to create a new transition, either
- * an internal transition or a transition
- * between two states.
+ * Action to create a new transition, either an internal transition or a
+ * transition between two states.
+ * 
  * @since Dec 15, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewTransition extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 7767905011178519269L;
+	private static final long serialVersionUID = 7767905011178519269L;
 
 	/**
-     * Key used for storing the source of the transition.
-     * If this value is not set,
-     * the action assumes that an internal transition should be constructed.
-     */
-    public static final String SOURCE = "source";
+	 * Key used for storing the source of the transition. If this value is not
+	 * set, the action assumes that an internal transition should be
+	 * constructed.
+	 */
+	public static final String SOURCE = "source";
 
-     /**
-     * Key used for storing the destination of the transition.
-     * If this value is not set,
-     * the action assumes that an internal transition should be constructed.
-     */
-    public static final String DESTINATION = "destination";
+	/**
+	 * Key used for storing the destination of the transition. If this value is
+	 * not set, the action assumes that an internal transition should be
+	 * constructed.
+	 */
+	public static final String DESTINATION = "destination";
 
+	/**
+	 * Constructor for ActionNewTransition.
+	 */
+	public ActionNewTransition() {
+		super();
+	}
 
-    /**
-     * Constructor for ActionNewTransition.
-     */
-    public ActionNewTransition() {
-        super();
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (getValue(SOURCE) == null || getValue(DESTINATION) == null) {
+			Object target = TargetManager.getInstance().getModelTarget();
+			Model.getStateMachinesFactory().buildInternalTransition(target);
+		} else {
+			Model.getStateMachinesFactory().buildTransition(getValue(SOURCE), getValue(DESTINATION));
+		}
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (getValue(SOURCE) == null || getValue(DESTINATION) == null) {
-            Object target = TargetManager.getInstance().getModelTarget();
-            Model.getStateMachinesFactory()
-                .buildInternalTransition(target);
-        } else {
-            Model.getStateMachinesFactory()
-                .buildTransition(getValue(SOURCE), getValue(DESTINATION));
-        }
-    }
-
-    @Override
-    public boolean isEnabled() {
-        Object target = TargetManager.getInstance().getModelTarget();
-        return super.isEnabled() 
-            && !Model.getStateMachinesHelper().isTopState(target);
-    }
+	@Override
+	public boolean isEnabled() {
+		Object target = TargetManager.getInstance().getModelTarget();
+		return super.isEnabled() && !Model.getStateMachinesHelper().isTopState(target);
+	}
 
 }

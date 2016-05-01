@@ -45,33 +45,35 @@ import org.argouml.notation.NotationProviderFactory2;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * Fig with specific knowledge of Attribute display. <p>
+ * Fig with specific knowledge of Attribute display.
+ * <p>
  * 
- * This class does not contain any Attribute specific functionality. 
- * But since the Feature is an abstract class in the UML metamodel,
- * it seems more logical to follow this structure here, 
- * and keep FigFeature abstract, too.
+ * This class does not contain any Attribute specific functionality. But since
+ * the Feature is an abstract class in the UML metamodel, it seems more logical
+ * to follow this structure here, and keep FigFeature abstract, too.
  *
  * @author Michiel
  */
 public class FigAttribute extends FigFeature {
 
-    private static final long serialVersionUID = 3460407360354178284L;
+	private static final long serialVersionUID = 3460407360354178284L;
 
 	/**
-     * Construct an Attribute fig.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigAttribute(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
-    
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_ATTRIBUTE;
-    }
+	 * Construct an Attribute fig.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigAttribute(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
+
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_ATTRIBUTE;
+	}
 }

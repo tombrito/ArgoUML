@@ -44,16 +44,17 @@ package org.argouml.util;
  * @author niro
  */
 public class ThreadUtils {
-    
-    /**
-     * Checks if the current thread 
-     * 
-     * @throws InterruptedException	  if the current thread was interrupted
-     */
-    public static void checkIfInterrupted() throws InterruptedException {
-    	// make this thread interruptible, if called from SwingWorker
-    	if (Thread.interrupted()) {
-    	    throw new InterruptedException();
-    	}
-    }
+
+	/**
+	 * Checks if the current thread
+	 * 
+	 * @throws InterruptedException
+	 *             if the current thread was interrupted
+	 */
+	public static void checkIfInterrupted() throws InterruptedException {
+		// make this thread interruptible, if called from SwingWorker
+		if (Thread.interrupted()) {
+			throw new InterruptedException();
+		}
+	}
 }

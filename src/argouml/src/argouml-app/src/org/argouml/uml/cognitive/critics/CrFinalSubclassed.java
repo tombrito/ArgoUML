@@ -51,8 +51,8 @@ import org.argouml.uml.cognitive.UMLDecision;
  * Well-formedness rule [2] for GeneralizableElement. See page 31 of UML 1.1
  * Semantics. OMG document ad/97-08-04.
  * 
- * In UML 1.3 it is rule [2] in section 2.5.3.18 page 2-54.
- * Remove final keyword or remove subclasses
+ * In UML 1.3 it is rule [2] in section 2.5.3.18 page 2-54. Remove final keyword
+ * or remove subclasses
  *
  * Well-formedness rule [2] for GeneralizableElement. See page 59 of UML 1.4
  * Semantics. OMG document UML 1.4.2 formal/04-07-02.
@@ -61,47 +61,47 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrFinalSubclassed extends CrUML {
 
-    private static final long serialVersionUID = 3669362424472721847L;
+	private static final long serialVersionUID = 3669362424472721847L;
 
 	/**
-     * The constructor.
-     */
-    public CrFinalSubclassed() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	setKnowledgeTypes(Critic.KT_SEMANTICS);
-	addTrigger("specialization");
-	addTrigger("isLeaf");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!Model.getFacade().isAGeneralizableElement(dm)) {
-	    return NO_PROBLEM;
+	 * The constructor.
+	 */
+	public CrFinalSubclassed() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		setKnowledgeTypes(Critic.KT_SEMANTICS);
+		addTrigger("specialization");
+		addTrigger("isLeaf");
 	}
 
-	if (!Model.getFacade().isLeaf(dm)) {
-	    return NO_PROBLEM;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!Model.getFacade().isAGeneralizableElement(dm)) {
+			return NO_PROBLEM;
+		}
+
+		if (!Model.getFacade().isLeaf(dm)) {
+			return NO_PROBLEM;
+		}
+
+		Iterator specs = Model.getFacade().getSpecializations(dm).iterator();
+		return specs.hasNext() ? PROBLEM_FOUND : NO_PROBLEM;
 	}
 
-	Iterator specs = Model.getFacade().getSpecializations(dm).iterator();
-	return specs.hasNext() ? PROBLEM_FOUND : NO_PROBLEM;
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getClassifier());
+		ret.add(Model.getMetaTypes().getInterface());
+		return ret;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getClassifier());
-        ret.add(Model.getMetaTypes().getInterface());
-        return ret;
-    }
-    
 } /* end class CrFinalSubclassed */
-

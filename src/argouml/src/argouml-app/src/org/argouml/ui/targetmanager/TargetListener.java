@@ -46,22 +46,28 @@ import java.util.EventListener;
  */
 public interface TargetListener extends EventListener {
 
-    /**
-     * Fired when a total new set of targets is set
-     * @param e The targetevent, name will be TARGET_SET
-     */
-    public void targetSet(TargetEvent e);
+	/**
+	 * Fired when a total new set of targets is set
+	 * 
+	 * @param e
+	 *            The targetevent, name will be TARGET_SET
+	 */
+	public void targetSet(TargetEvent e);
 
-    /**
-     * Fired when a target is removed from the list of targets
-     * @param e The targetevent, name will be TARGET_REMOVED
-     */
-    public void targetRemoved(TargetEvent e);
+	/**
+	 * Fired when a target is removed from the list of targets
+	 * 
+	 * @param e
+	 *            The targetevent, name will be TARGET_REMOVED
+	 */
+	public void targetRemoved(TargetEvent e);
 
-    /**
-     * Fired when a target is added to the list of targets.
-     * @param e The targetevent, name will be TARGET_ADDED
-     */
-    public void targetAdded(TargetEvent e);
+	/**
+	 * Fired when a target is added to the list of targets.
+	 * 
+	 * @param e
+	 *            The targetevent, name will be TARGET_ADDED
+	 */
+	public void targetAdded(TargetEvent e);
 
 }

@@ -43,13 +43,14 @@ package org.argouml.model;
  *
  */
 public interface CopyHelper {
-    /**
-     * Copy an object.
-     *
-     * @param source The source.
-     * @param destination The destination where the new object goes
-     * (a Namespace).
-     * @return The newly created object.
-     */
-    Object copy(Object source, Object destination);
+	/**
+	 * Copy an object.
+	 *
+	 * @param source
+	 *            The source.
+	 * @param destination
+	 *            The destination where the new object goes (a Namespace).
+	 * @return The newly created object.
+	 */
+	Object copy(Object source, Object destination);
 }

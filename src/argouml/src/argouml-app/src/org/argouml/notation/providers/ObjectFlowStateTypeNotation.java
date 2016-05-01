@@ -42,34 +42,33 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the Classifier type name text shown in an ObjectFlowState. 
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the
+ * Classifier type name text shown in an ObjectFlowState. Subclass this for all
+ * languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class ObjectFlowStateTypeNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     * 
-     * @param objectflowstate the UML element
-     */
-    public ObjectFlowStateTypeNotation(Object objectflowstate) {
-        if (!Model.getFacade().isAObjectFlowState(objectflowstate)) {
-            throw new IllegalArgumentException(
-                    "This is not a ObjectFlowState.");
-        }
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param objectflowstate
+	 *            the UML element
+	 */
+	public ObjectFlowStateTypeNotation(Object objectflowstate) {
+		if (!Model.getFacade().isAObjectFlowState(objectflowstate)) {
+			throw new IllegalArgumentException("This is not a ObjectFlowState.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement);
-        Object classifier = Model.getFacade().getType(modelElement);
-        if (Model.getFacade().isAClassifier(classifier)) {
-            addElementListener(classifier,
-                    new String[] {"remove", "name"});
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement);
+		Object classifier = Model.getFacade().getType(modelElement);
+		if (Model.getFacade().isAClassifier(classifier)) {
+			addElementListener(classifier, new String[] { "remove", "name" });
+		}
+	}
 
 }

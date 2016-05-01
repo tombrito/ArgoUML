@@ -54,64 +54,65 @@ import org.argouml.i18n.Translator;
  */
 public class GoCriticsToCritic implements PerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.profile.critic");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.profile.critic");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(final Object parent) {
-        if (parent instanceof Collection) {
-            Collection v = (Collection) parent;
-            if (!v.isEmpty()) {
-                if (v.iterator().next() instanceof Critic) {
-                    Vector<Object> ret = new Vector<Object>();
-                    for (Object critic : v) {
-                        final Critic fc = (Critic) critic;
-                        if (critic instanceof CompoundCritic) {
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(final Object parent) {
+		if (parent instanceof Collection) {
+			Collection v = (Collection) parent;
+			if (!v.isEmpty()) {
+				if (v.iterator().next() instanceof Critic) {
+					Vector<Object> ret = new Vector<Object>();
+					for (Object critic : v) {
+						final Critic fc = (Critic) critic;
+						if (critic instanceof CompoundCritic) {
 
-                            Object compound = new Vector<Critic>() {
-                                private static final long serialVersionUID = 3035292287570822636L;
+							Object compound = new Vector<Critic>() {
+								private static final long serialVersionUID = 3035292287570822636L;
 
 								{
-                                    addAll(((CompoundCritic) fc)
-                                            .getCriticList());
-                                }
+									addAll(((CompoundCritic) fc).getCriticList());
+								}
 
-                                /*
-                                 * @see java.util.Vector#toString()
-                                 */
-                                public String toString() {
-                                    return Translator
-                                            .localize("misc.profile.explorer.compound");
-                                }
-                            };
+								/*
+								 * @see java.util.Vector#toString()
+								 */
+								public String toString() {
+									return Translator.localize("misc.profile.explorer.compound");
+								}
+							};
 
-                            ret.add(compound);
-                        } else {
-                            ret.add(critic);
-                        }
-                    }
-                    return ret;
-                } else {
-                    return (Collection) parent;
-                }
-            } else {
-                return Collections.EMPTY_SET;
-            }
-        }
-        return Collections.EMPTY_SET;
-    }
+							ret.add(compound);
+						} else {
+							ret.add(critic);
+						}
+					}
+					return ret;
+				} else {
+					return (Collection) parent;
+				}
+			} else {
+				return Collections.EMPTY_SET;
+			}
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.EMPTY_SET;
+	}
 }

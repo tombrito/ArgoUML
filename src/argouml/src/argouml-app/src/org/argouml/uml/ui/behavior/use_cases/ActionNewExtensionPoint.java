@@ -48,39 +48,36 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
 /**
- * The Action that creates a new Extension point for a UseCase.
- * Invoked by the "New Extension Point" toolbar button to create a new
- * extension point for this use case in the same namespace as the current
- * use case.
+ * The Action that creates a new Extension point for a UseCase. Invoked by the
+ * "New Extension Point" toolbar button to create a new extension point for this
+ * use case in the same namespace as the current use case.
  * 
  * @author michiel
  */
-class ActionNewExtensionPoint
-    extends AbstractActionNewModelElement {
+class ActionNewExtensionPoint extends AbstractActionNewModelElement {
 
-    /**
-     * The constructor.
-     */
-    public ActionNewExtensionPoint() {
-        super("button.new-extension-point");
-        putValue(Action.NAME,
-                Translator.localize("button.new-extension-point"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionNewExtensionPoint() {
+		super("button.new-extension-point");
+		putValue(Action.NAME, Translator.localize("button.new-extension-point"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAUseCase(target)) {
-            TargetManager.getInstance().setTarget(
-                Model.getUseCasesFactory().buildExtensionPoint(target));
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAUseCase(target)) {
+			TargetManager.getInstance().setTarget(Model.getUseCasesFactory().buildExtensionPoint(target));
+			super.actionPerformed(e);
+		}
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1556105736769814764L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1556105736769814764L;
 }

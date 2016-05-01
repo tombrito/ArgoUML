@@ -52,10 +52,11 @@ import org.argouml.ui.UndoableAction;
 // items on view menu
 
 /**
- * This action starts the Find dialog. <p>
+ * This action starts the Find dialog.
+ * <p>
  * 
- * It is present in the View menu, 
- * and has a tool on the toolbar. <p>
+ * It is present in the View menu, and has a tool on the toolbar.
+ * <p>
  * 
  * The Find function is never downlighted.
  * 
@@ -63,28 +64,28 @@ import org.argouml.ui.UndoableAction;
  */
 class ActionFind extends UndoableAction {
 
-    private static final long serialVersionUID = 207770345812177881L;
+	private static final long serialVersionUID = 207770345812177881L;
 	private String name;
-    
-    /**
-     * The constructor.
-     */
-    public ActionFind() {
-        // Set the name:
-        super(Translator.localize("action.find"));
-        name = "action.find";
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
-        // Set the icon:
-        Icon icon = ResourceLoaderWrapper.lookupIcon(name);
-        putValue(Action.SMALL_ICON, icon);
-    }
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-	FindDialog.getInstance().setVisible(true);
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionFind() {
+		// Set the name:
+		super(Translator.localize("action.find"));
+		name = "action.find";
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
+		// Set the icon:
+		Icon icon = ResourceLoaderWrapper.lookupIcon(name);
+		putValue(Action.SMALL_ICON, icon);
+	}
+
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		FindDialog.getInstance().setVisible(true);
+	}
 } /* end class ActionFind */
-

@@ -51,47 +51,46 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class UMLTimeExpressionModel extends UMLExpressionModel2 {
 
-    private static final Logger LOG =
-        Logger.getLogger(UMLTimeExpressionModel.class.getName());
+	private static final Logger LOG = Logger.getLogger(UMLTimeExpressionModel.class.getName());
 
-    /**
-     * The constructor.
-     *
-     * @param container the container of UML user interface components
-     * @param propertyName the name of the property
-     */
-    public UMLTimeExpressionModel(UMLUserInterfaceContainer container,
-            String propertyName) {
-        super(container, propertyName);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param container
+	 *            the container of UML user interface components
+	 * @param propertyName
+	 *            the name of the property
+	 */
+	public UMLTimeExpressionModel(UMLUserInterfaceContainer container, String propertyName) {
+		super(container, propertyName);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
-     */
-    public Object getExpression() {
-        return Model.getFacade().getWhen(
-                TargetManager.getInstance().getTarget());
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
+	 */
+	public Object getExpression() {
+		return Model.getFacade().getWhen(TargetManager.getInstance().getTarget());
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
-     */
-    public void setExpression(Object expression) {
-        Object target = TargetManager.getInstance().getTarget();
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
+	 */
+	public void setExpression(Object expression) {
+		Object target = TargetManager.getInstance().getTarget();
 
-        if (target == null) {
-            throw new IllegalStateException("There is no target for "
-                    + getContainer());
-        }
-        Model.getStateMachinesHelper().setWhen(target, expression);
-    }
+		if (target == null) {
+			throw new IllegalStateException("There is no target for " + getContainer());
+		}
+		Model.getStateMachinesHelper().setWhen(target, expression);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
-     */
-    public Object newExpression() {
-        LOG.log(Level.FINE, "new time expression");
-        return Model.getDataTypesFactory().createTimeExpression("", "");
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
+	 */
+	public Object newExpression() {
+		LOG.log(Level.FINE, "new time expression");
+		return Model.getDataTypesFactory().createTimeExpression("", "");
+	}
 
 }

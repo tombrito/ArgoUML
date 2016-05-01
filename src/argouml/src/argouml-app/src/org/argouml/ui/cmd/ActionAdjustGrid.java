@@ -61,7 +61,6 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.base.LayerGrid;
 
-
 /**
  * This action changes the grid shown on the diagram.
  * 
@@ -69,136 +68,136 @@ import org.tigris.gef.base.LayerGrid;
  */
 public class ActionAdjustGrid extends AbstractAction {
 
-    private static final long serialVersionUID = -7044785994708912040L;
+	private static final long serialVersionUID = -7044785994708912040L;
 	private final Map<String, Comparable> myMap;
-    private static final String DEFAULT_ID = "03";
-    private static ButtonGroup myGroup;
+	private static final String DEFAULT_ID = "03";
+	private static ButtonGroup myGroup;
 
-    private static final int DEFAULT_MASK = 
-        Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+	private static final int DEFAULT_MASK = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
-    /**
-     * @param map this map contains the values for 
-     *          the spacing, paintLines and paintDots. 
-     * @param name the name for this action
-     */
-    private ActionAdjustGrid(final Map<String, Comparable> map,
-            final String name) {
-        super();
-        myMap = map;
-        putValue(Action.NAME, name);
-    }
+	/**
+	 * @param map
+	 *            this map contains the values for the spacing, paintLines and
+	 *            paintDots.
+	 * @param name
+	 *            the name for this action
+	 */
+	private ActionAdjustGrid(final Map<String, Comparable> map, final String name) {
+		super();
+		myMap = map;
+		putValue(Action.NAME, name);
+	}
 
-    public void actionPerformed(final ActionEvent e) {
-        final Editor editor = Globals.curEditor();
-        if (editor != null) {
-            final Layer grid = editor.getLayerManager().findLayerNamed("Grid");
-            if (grid instanceof LayerGrid) {
-                if (myMap != null) {
-                    // Kludge required by GEF's use of HashMap in the API
-                    // TODO: This can be removed if they ever fix GEF to use
-                    // Maps
-                    if (myMap instanceof HashMap) {
-                        grid.adjust((HashMap<String, Comparable>) myMap);
-                    } else {
-                        grid.adjust(new HashMap<String, Comparable>(myMap));
-                    }
-                    Configuration.setString(Argo.KEY_GRID,
-                            (String) getValue("ID"));
-                }
-            }
-        }
-    }
-    
-    static void setGroup(final ButtonGroup group) {
-        myGroup = group;
-    }
-    
-    /**
-     * This executes one of the actions, 
-     * based on the stored ArgoUML configuration. 
-     * This function is intended for the initial setting 
-     * of the grid when ArgoUML is started. <p>
-     * 
-     * Additionally, the ButtonGroup is searched for the right Action, 
-     * and when found, the button's model initialised.
-     */
-    static void init() {
-        String id = Configuration.getString(Argo.KEY_GRID, DEFAULT_ID);
-        List<Action> actions = createAdjustGridActions(false);
-        for (Action a : actions) {
-            if (a.getValue("ID").equals(id)) {
-                a.actionPerformed(null);
+	public void actionPerformed(final ActionEvent e) {
+		final Editor editor = Globals.curEditor();
+		if (editor != null) {
+			final Layer grid = editor.getLayerManager().findLayerNamed("Grid");
+			if (grid instanceof LayerGrid) {
+				if (myMap != null) {
+					// Kludge required by GEF's use of HashMap in the API
+					// TODO: This can be removed if they ever fix GEF to use
+					// Maps
+					if (myMap instanceof HashMap) {
+						grid.adjust((HashMap<String, Comparable>) myMap);
+					} else {
+						grid.adjust(new HashMap<String, Comparable>(myMap));
+					}
+					Configuration.setString(Argo.KEY_GRID, (String) getValue("ID"));
+				}
+			}
+		}
+	}
 
-                if (myGroup != null) {
-                    for (Enumeration e = myGroup.getElements(); 
-                        e.hasMoreElements();) {
-                        AbstractButton ab = (AbstractButton) e.nextElement();
-                        Action action = ab.getAction();
-                        if (action instanceof ActionAdjustGrid) {
-                            String currentID = (String) action.getValue("ID"); 
-                            if (id.equals(currentID)) {
-                                myGroup.setSelected(ab.getModel(), true);
-                                return;
-                            }
-                        }
-                    }
-                }
-                return;
-            }
-        }
-    }
-    
-    /**
-     * This function is the one and only location 
-     * that defines the number of grid settings, and their content.
-     * 
-     * @constraint one of the actions should have the ID 'defaultID', 
-     *          since this is used in init().
-     * @param longStrings
-     * @return List of Actions which adjust the grid
-     */
-    static List<Action> createAdjustGridActions(final boolean longStrings) {
-        List<Action> result = new ArrayList<Action>();
+	static void setGroup(final ButtonGroup group) {
+		myGroup = group;
+	}
 
-        result.add(buildGridAction(longStrings ? "action.adjust-grid.lines-16"
-                : "menu.item.lines-16", 16, true, true, "01", KeyEvent.VK_1));
-        result.add(buildGridAction(longStrings ? "action.adjust-grid.lines-8"
-                : "menu.item.lines-8", 8, true, true, "02", KeyEvent.VK_2));
-        result.add(buildGridAction(longStrings ? "action.adjust-grid.dots-16"
-                : "menu.item.dots-16", 16, false, true, "03", KeyEvent.VK_3));
-        result.add(buildGridAction(longStrings ? "action.adjust-grid.dots-32"
-                : "menu.item.dots-32", 32, false, true, "04", KeyEvent.VK_4));
-        result.add(buildGridAction(
-                longStrings ? "action.adjust-grid.none"
-                        : "menu.item.none", 16, false, false, "05",
-                KeyEvent.VK_5));
-     
-        return result;
-    }
+	/**
+	 * This executes one of the actions, based on the stored ArgoUML
+	 * configuration. This function is intended for the initial setting of the
+	 * grid when ArgoUML is started.
+	 * <p>
+	 * 
+	 * Additionally, the ButtonGroup is searched for the right Action, and when
+	 * found, the button's model initialised.
+	 */
+	static void init() {
+		String id = Configuration.getString(Argo.KEY_GRID, DEFAULT_ID);
+		List<Action> actions = createAdjustGridActions(false);
+		for (Action a : actions) {
+			if (a.getValue("ID").equals(id)) {
+				a.actionPerformed(null);
 
-    /**
-     * @param property the name (not yet localised)
-     * @param spacing the spacing distance
-     * @param paintLines show lines
-     * @param paintDots show dots
-     * @param id identifier
-     * @param key keyCode
-     * @return the Action
-     */
-    public static Action buildGridAction(final String property,
-            final int spacing, final boolean paintLines,
-            final boolean paintDots, final String id, final int key) {
-        String name = Translator.localize(property);
-        HashMap<String, Comparable> map1 = new HashMap<String, Comparable>(4);
-        map1.put("spacing", Integer.valueOf(spacing));
-        map1.put("paintLines", Boolean.valueOf(paintLines));
-        map1.put("paintDots", Boolean.valueOf(paintDots));
-        Action action = new ActionAdjustGrid(map1, name);
-        action.putValue("ID", id);
-        action.putValue("shortcut", KeyStroke.getKeyStroke(
-                key, DEFAULT_MASK));
-        return action;
-    }
+				if (myGroup != null) {
+					for (Enumeration e = myGroup.getElements(); e.hasMoreElements();) {
+						AbstractButton ab = (AbstractButton) e.nextElement();
+						Action action = ab.getAction();
+						if (action instanceof ActionAdjustGrid) {
+							String currentID = (String) action.getValue("ID");
+							if (id.equals(currentID)) {
+								myGroup.setSelected(ab.getModel(), true);
+								return;
+							}
+						}
+					}
+				}
+				return;
+			}
+		}
+	}
+
+	/**
+	 * This function is the one and only location that defines the number of
+	 * grid settings, and their content.
+	 * 
+	 * @constraint one of the actions should have the ID 'defaultID', since this
+	 *             is used in init().
+	 * @param longStrings
+	 * @return List of Actions which adjust the grid
+	 */
+	static List<Action> createAdjustGridActions(final boolean longStrings) {
+		List<Action> result = new ArrayList<Action>();
+
+		result.add(buildGridAction(longStrings ? "action.adjust-grid.lines-16" : "menu.item.lines-16", 16, true, true,
+				"01", KeyEvent.VK_1));
+		result.add(buildGridAction(longStrings ? "action.adjust-grid.lines-8" : "menu.item.lines-8", 8, true, true,
+				"02", KeyEvent.VK_2));
+		result.add(buildGridAction(longStrings ? "action.adjust-grid.dots-16" : "menu.item.dots-16", 16, false, true,
+				"03", KeyEvent.VK_3));
+		result.add(buildGridAction(longStrings ? "action.adjust-grid.dots-32" : "menu.item.dots-32", 32, false, true,
+				"04", KeyEvent.VK_4));
+		result.add(buildGridAction(longStrings ? "action.adjust-grid.none" : "menu.item.none", 16, false, false, "05",
+				KeyEvent.VK_5));
+
+		return result;
+	}
+
+	/**
+	 * @param property
+	 *            the name (not yet localised)
+	 * @param spacing
+	 *            the spacing distance
+	 * @param paintLines
+	 *            show lines
+	 * @param paintDots
+	 *            show dots
+	 * @param id
+	 *            identifier
+	 * @param key
+	 *            keyCode
+	 * @return the Action
+	 */
+	public static Action buildGridAction(final String property, final int spacing, final boolean paintLines,
+			final boolean paintDots, final String id, final int key) {
+		String name = Translator.localize(property);
+		HashMap<String, Comparable> map1 = new HashMap<String, Comparable>(4);
+		map1.put("spacing", Integer.valueOf(spacing));
+		map1.put("paintLines", Boolean.valueOf(paintLines));
+		map1.put("paintDots", Boolean.valueOf(paintDots));
+		Action action = new ActionAdjustGrid(map1, name);
+		action.putValue("ID", id);
+		action.putValue("shortcut", KeyStroke.getKeyStroke(key, DEFAULT_MASK));
+		return action;
+	}
 
 }

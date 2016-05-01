@@ -52,60 +52,54 @@ import org.argouml.util.ArgoFrame;
 
 /**
  * Exports the xmi of a project to a file choosen by the user.
- * @author jaap.branderhorst@xs4all.nl
- * Jun 7, 2003
+ * 
+ * @author jaap.branderhorst@xs4all.nl Jun 7, 2003
  */
 public final class ActionExportXMI extends AbstractAction {
 
-    /**
-     * The constructor.
-     */
-    public ActionExportXMI() {
-        super(Translator.localize("action.export-project-as-xmi"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionExportXMI() {
+		super(Translator.localize("action.export-project-as-xmi"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        PersistenceManager pm = PersistenceManager.getInstance();
-        // show a chooser dialog for the file name, only xmi is allowed
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle(Translator.localize(
-				       "action.export-project-as-xmi"));
-        chooser.setFileView(ProjectFileView.getInstance());
-        chooser.setApproveButtonText(Translator.localize(
-					     "filechooser.export"));
-        chooser.setAcceptAllFileFilterUsed(true);
-        pm.setXmiFileChooserFilter(chooser);
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		PersistenceManager pm = PersistenceManager.getInstance();
+		// show a chooser dialog for the file name, only xmi is allowed
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle(Translator.localize("action.export-project-as-xmi"));
+		chooser.setFileView(ProjectFileView.getInstance());
+		chooser.setApproveButtonText(Translator.localize("filechooser.export"));
+		chooser.setAcceptAllFileFilterUsed(true);
+		pm.setXmiFileChooserFilter(chooser);
 
-        String fn =
-            Configuration.getString(
-                PersistenceManager.KEY_PROJECT_NAME_PATH);
-        if (fn.length() > 0) {
-            fn = PersistenceManager.getInstance().getBaseName(fn);
-            chooser.setSelectedFile(new File(fn));
-        }
+		String fn = Configuration.getString(PersistenceManager.KEY_PROJECT_NAME_PATH);
+		if (fn.length() > 0) {
+			fn = PersistenceManager.getInstance().getBaseName(fn);
+			chooser.setSelectedFile(new File(fn));
+		}
 
-        int result = chooser.showSaveDialog(ArgoFrame.getFrame());
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File theFile = chooser.getSelectedFile();
-            if (theFile != null) {
-                String name = theFile.getName();
-                Configuration.setString(
-                        PersistenceManager.KEY_PROJECT_NAME_PATH,
-                        PersistenceManager.getInstance().getBaseName(
-                                theFile.getPath()));
-                name = pm.fixXmiExtension(name);
-                theFile = new File(theFile.getParent(), name);
-                ProjectBrowser.getInstance().trySaveWithProgressMonitor(
-                        false, theFile, false);
-            }
-        }
-    }
+		int result = chooser.showSaveDialog(ArgoFrame.getFrame());
+		if (result == JFileChooser.APPROVE_OPTION) {
+			File theFile = chooser.getSelectedFile();
+			if (theFile != null) {
+				String name = theFile.getName();
+				Configuration.setString(PersistenceManager.KEY_PROJECT_NAME_PATH,
+						PersistenceManager.getInstance().getBaseName(theFile.getPath()));
+				name = pm.fixXmiExtension(name);
+				theFile = new File(theFile.getParent(), name);
+				ProjectBrowser.getInstance().trySaveWithProgressMonitor(false, theFile, false);
+			}
+		}
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3445739054369264482L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -3445739054369264482L;
 }

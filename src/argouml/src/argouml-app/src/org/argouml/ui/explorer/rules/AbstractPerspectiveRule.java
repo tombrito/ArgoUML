@@ -42,25 +42,26 @@ import java.util.Collection;
 
 /**
  *
- * @author  alexb
+ * @author alexb
  */
 public abstract class AbstractPerspectiveRule implements PerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public abstract String getRuleName();
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public abstract String getRuleName();
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public abstract Collection getChildren(Object parent);
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public abstract Collection getChildren(Object parent);
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        return getRuleName();
-    }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return getRuleName();
+	}
 
 }

@@ -54,22 +54,22 @@ import org.argouml.uml.ui.PropPanelFactoryManager;
  */
 public class InitActivityDiagram implements InitSubsystem {
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        return Collections.emptyList();
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public void init() {
-        /* Set up the property panels for activity diagrams: */
-        PropPanelFactory diagramFactory = new ActivityDiagramPropPanelFactory();
-        PropPanelFactoryManager.addPropPanelFactory(diagramFactory);
-    }
+	public void init() {
+		/* Set up the property panels for activity diagrams: */
+		PropPanelFactory diagramFactory = new ActivityDiagramPropPanelFactory();
+		PropPanelFactoryManager.addPropPanelFactory(diagramFactory);
+	}
 
 }

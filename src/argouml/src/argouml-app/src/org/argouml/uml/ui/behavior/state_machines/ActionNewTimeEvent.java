@@ -47,33 +47,34 @@ import org.argouml.model.Model;
  */
 public class ActionNewTimeEvent extends ActionNewEvent {
 
-    private static final long serialVersionUID = 4979988865482284187L;
+	private static final long serialVersionUID = 4979988865482284187L;
 	/**
-     * The instance.
-     */
-    private static ActionNewTimeEvent singleton = new ActionNewTimeEvent();
+	 * The instance.
+	 */
+	private static ActionNewTimeEvent singleton = new ActionNewTimeEvent();
 
-    /**
-     * Constructor for ActionNewTimeEvent.
-     */
-    protected ActionNewTimeEvent() {
-        super();
-        putValue(NAME, Translator.localize("button.new-timeevent"));
-    }
+	/**
+	 * Constructor for ActionNewTimeEvent.
+	 */
+	protected ActionNewTimeEvent() {
+		super();
+		putValue(NAME, Translator.localize("button.new-timeevent"));
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.state_machines.ActionNewEvent#createEvent(
-     *         java.lang.Object)
-     */
-    protected Object createEvent(Object ns) {
-        return Model.getStateMachinesFactory().buildTimeEvent(ns);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.state_machines.ActionNewEvent#createEvent(
+	 * java.lang.Object)
+	 */
+	protected Object createEvent(Object ns) {
+		return Model.getStateMachinesFactory().buildTimeEvent(ns);
+	}
 
-    /**
-     * @return Returns the singleton.
-     */
-    public static ActionNewTimeEvent getSingleton() {
-        return singleton;
-    }
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static ActionNewTimeEvent getSingleton() {
+		return singleton;
+	}
 
 }

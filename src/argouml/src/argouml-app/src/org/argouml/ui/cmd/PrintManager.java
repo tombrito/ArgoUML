@@ -47,39 +47,39 @@ import org.tigris.gef.base.PrintAction;
  */
 public class PrintManager {
 
-    private final PrintAction printCmd = new PrintAction();
+	private final PrintAction printCmd = new PrintAction();
 
-    private static final PrintManager INSTANCE = new PrintManager();
+	private static final PrintManager INSTANCE = new PrintManager();
 
-    /**
-     * @return the instance of the printmanager
-     */
-    public static PrintManager getInstance() {
-        return INSTANCE;
-    }
+	/**
+	 * @return the instance of the printmanager
+	 */
+	public static PrintManager getInstance() {
+		return INSTANCE;
+	}
 
-    /**
-     * The constructor.
-     */
-    private PrintManager() {
-        // instantiation not allowed
-    }
+	/**
+	 * The constructor.
+	 */
+	private PrintManager() {
+		// instantiation not allowed
+	}
 
-    /**
-     * Print the active diagram
-     */
-    public void print() {
+	/**
+	 * Print the active diagram
+	 */
+	public void print() {
 
-        Object target = DiagramUtils.getActiveDiagram();
-        if (target instanceof ArgoDiagram) {
-            printCmd.actionPerformed(null);
-        }
-    }
+		Object target = DiagramUtils.getActiveDiagram();
+		if (target instanceof ArgoDiagram) {
+			printCmd.actionPerformed(null);
+		}
+	}
 
-    /**
-     * Show the page setup dialog.
-     */
-    public void showPageSetupDialog() {
-        printCmd.doPageSetup();
-    }
+	/**
+	 * Show the page setup dialog.
+	 */
+	public void showPageSetupDialog() {
+		printCmd.doPageSetup();
+	}
 }

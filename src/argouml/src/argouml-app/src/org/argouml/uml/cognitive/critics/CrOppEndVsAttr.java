@@ -51,101 +51,102 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * Well-formedness rule [2] for Classifier. See page 29 of UML 1.1
- * Semantics. OMG document ad/97-08-04.
+ * Well-formedness rule [2] for Classifier. See page 29 of UML 1.1 Semantics.
+ * OMG document ad/97-08-04.
  *
- * Well-formedness rule [4] for Classifier. See page 55 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [4] for Classifier. See page 55 of UML 1.4 Semantics.
+ * OMG document UML 1.4.2 formal/04-07-02.
  * 
  * @author jrobbins
  */
-//TODO: split into one critic for inherited problems and
-//one for problems directly in this class.
+// TODO: split into one critic for inherited problems and
+// one for problems directly in this class.
 public class CrOppEndVsAttr extends CrUML {
 
-    /**
-     * The constructor.
-     */
-    public CrOppEndVsAttr() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.INHERITANCE);
-        addSupportedDecision(UMLDecision.RELATIONSHIPS);
-        addSupportedDecision(UMLDecision.NAMING);
-        setKnowledgeTypes(Critic.KT_SYNTAX);
-        addTrigger("associationEnd");
-        addTrigger("structuralFeature");
-    }
+	/**
+	 * The constructor.
+	 */
+	public CrOppEndVsAttr() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("associationEnd");
+		addTrigger("structuralFeature");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *         java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        if (!(Model.getFacade().isAClassifier(dm))) {
-            return NO_PROBLEM;
-        }
-        Object cls = /*(Classifier)*/ dm;
-        Collection<String> namesSeen = new ArrayList<String>();
-        Collection features = Model.getFacade().getFeatures(cls);
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClassifier(dm))) {
+			return NO_PROBLEM;
+		}
+		Object cls = /* (Classifier) */ dm;
+		Collection<String> namesSeen = new ArrayList<String>();
+		Collection features = Model.getFacade().getFeatures(cls);
 
-        // warn about inherited name conflicts, different critic?
-        for (Object feature : features) {
-            if (Model.getFacade().isAStructuralFeature(feature)) {
-                final String sfName = Model.getFacade().getName(feature);
-                if (sfName != null && !"".equals(sfName)) {
-                    namesSeen.add(sfName);
-                }
-            }
-        }
+		// warn about inherited name conflicts, different critic?
+		for (Object feature : features) {
+			if (Model.getFacade().isAStructuralFeature(feature)) {
+				final String sfName = Model.getFacade().getName(feature);
+				if (sfName != null && !"".equals(sfName)) {
+					namesSeen.add(sfName);
+				}
+			}
+		}
 
-        Collection assocEnds = Model.getFacade().getAssociationEnds(cls);
+		Collection assocEnds = Model.getFacade().getAssociationEnds(cls);
 
-        // warn about inherited name conflicts, different critic?
-        Iterator myEnds = assocEnds.iterator();
-        while (myEnds.hasNext()) {
-            Object myAe = /*(MAssociationEnd)*/ myEnds.next();
-            Object asc =
-                /*(MAssociation)*/
-                Model.getFacade().getAssociation(myAe);
-            Collection conn = Model.getFacade().getConnections(asc);
+		// warn about inherited name conflicts, different critic?
+		Iterator myEnds = assocEnds.iterator();
+		while (myEnds.hasNext()) {
+			Object myAe = /* (MAssociationEnd) */ myEnds.next();
+			Object asc =
+					/* (MAssociation) */
+					Model.getFacade().getAssociation(myAe);
+			Collection conn = Model.getFacade().getConnections(asc);
 
-            if (Model.getFacade().isAAssociationRole(asc)) {
-                conn = Model.getFacade().getConnections(asc);
-            }
-            if (conn == null) {
-                continue;
-            }
+			if (Model.getFacade().isAAssociationRole(asc)) {
+				conn = Model.getFacade().getConnections(asc);
+			}
+			if (conn == null) {
+				continue;
+			}
 
-            for (Object ae : conn) {
-                if (Model.getFacade().getType(ae) == cls) {
-                    continue;
-                }
-                final String aeName = Model.getFacade().getName(ae);
-                if (aeName==null || "".equals(aeName)) {
-                    continue;
-                }
+			for (Object ae : conn) {
+				if (Model.getFacade().getType(ae) == cls) {
+					continue;
+				}
+				final String aeName = Model.getFacade().getName(ae);
+				if (aeName == null || "".equals(aeName)) {
+					continue;
+				}
 
-                if (namesSeen.contains(aeName)) {
-                    return PROBLEM_FOUND;
-                }
-            }
-        }
-        return NO_PROBLEM;
-    }
+				if (namesSeen.contains(aeName)) {
+					return PROBLEM_FOUND;
+				}
+			}
+		}
+		return NO_PROBLEM;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getClassifier());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 5784567698177480475L;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getClassifier());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 5784567698177480475L;
 }

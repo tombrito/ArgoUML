@@ -42,33 +42,35 @@ import org.argouml.model.Model;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * The Selection Buttons for a CallState. 
- * Almost the same as for an ActionState.
+ * The Selection Buttons for a CallState. Almost the same as for an ActionState.
  * 
  * @author Michiel
  */
 public class SelectionCallState extends SelectionActionState {
 
-    private static final long serialVersionUID = 5287126071178891766L;
+	private static final long serialVersionUID = 5287126071178891766L;
 
 	/**
-     * @param f the fig that is selected
-     */
-    public SelectionCallState(Fig f) {
-        super(f);
-    }
-    
-    /*
-     * @see org.argouml.uml.diagram.activity.ui.SelectionActionState#getNewNodeType(int)
-     */
-    protected Object getNewNodeType(int buttonCode) {
-        return Model.getMetaTypes().getCallState();
-    }
+	 * @param f
+	 *            the fig that is selected
+	 */
+	public SelectionCallState(Fig f) {
+		super(f);
+	}
 
-    /*
-     * @see org.tigris.gef.base.SelectionButtons#getNewNode(int)
-     */
-    protected Object getNewNode(int buttonCode) {
-        return Model.getActivityGraphsFactory().createCallState();
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.activity.ui.SelectionActionState#getNewNodeType(
+	 * int)
+	 */
+	protected Object getNewNodeType(int buttonCode) {
+		return Model.getMetaTypes().getCallState();
+	}
+
+	/*
+	 * @see org.tigris.gef.base.SelectionButtons#getNewNode(int)
+	 */
+	protected Object getNewNode(int buttonCode) {
+		return Model.getActivityGraphsFactory().createCallState();
+	}
 }

@@ -62,250 +62,222 @@ import org.omg.uml.foundation.datatypes.TypeExpression;
 /**
  * Factory to create UML classes for the UML DataTypes package.
  * <p>
+ * 
  * @since ARGO0.19.5
  * @author Ludovic Ma&icirc;tre
- * @author Tom Morris
- * derived from NSUML implementation by:
+ * @author Tom Morris derived from NSUML implementation by:
  * @author Thierry Lach
  */
-class DataTypesFactoryMDRImpl extends AbstractUmlModelFactoryMDR
-        implements DataTypesFactory {
+class DataTypesFactoryMDRImpl extends AbstractUmlModelFactoryMDR implements DataTypesFactory {
 
-    private static final Logger LOG =
-        Logger.getLogger(DataTypesFactoryMDRImpl.class.getName());
-    /**
-     * The model implementation.
-     */
-    private MDRModelImplementation modelImpl;
+	private static final Logger LOG = Logger.getLogger(DataTypesFactoryMDRImpl.class.getName());
+	/**
+	 * The model implementation.
+	 */
+	private MDRModelImplementation modelImpl;
 
-    /**
-     * Constructor.
-     *
-     * @param implementation
-     *            To get other helpers and factories.
-     */
-    DataTypesFactoryMDRImpl(MDRModelImplementation implementation) {
-        this.modelImpl = implementation;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param implementation
+	 *            To get other helpers and factories.
+	 */
+	DataTypesFactoryMDRImpl(MDRModelImplementation implementation) {
+		this.modelImpl = implementation;
+	}
 
+	public ActionExpression createActionExpression(String language, String body) {
+		ActionExpression myActionExpression = modelImpl.getUmlPackage().getDataTypes().getActionExpression()
+				.createActionExpression(language, body);
+		super.initialize(myActionExpression);
+		return myActionExpression;
+	}
 
-    public ActionExpression createActionExpression(String language, String body) {
-        ActionExpression myActionExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getActionExpression()
-                .createActionExpression(language, body);
-        super.initialize(myActionExpression);
-        return myActionExpression;
-    }
+	public ArgListsExpression createArgListsExpression(String language, String body) {
+		ArgListsExpression myArgListsExpression = modelImpl.getUmlPackage().getDataTypes().getArgListsExpression()
+				.createArgListsExpression(language, body);
+		super.initialize(myArgListsExpression);
+		return myArgListsExpression;
+	}
 
+	public BooleanExpression createBooleanExpression(String language, String body) {
+		BooleanExpression myBooleanExpression = modelImpl.getUmlPackage().getDataTypes().getBooleanExpression()
+				.createBooleanExpression(language, body);
+		super.initialize(myBooleanExpression);
+		return myBooleanExpression;
+	}
 
-    public ArgListsExpression createArgListsExpression(String language, String body) {
-        ArgListsExpression myArgListsExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getArgListsExpression()
-                .createArgListsExpression(language, body);
-        super.initialize(myArgListsExpression);
-        return myArgListsExpression;
-    }
+	public Expression createExpression(String language, String body) {
+		Expression myExpression = modelImpl.getUmlPackage().getDataTypes().getExpression().createExpression(language,
+				body);
+		super.initialize(myExpression);
+		return myExpression;
+	}
 
+	public IterationExpression createIterationExpression(String language, String body) {
+		IterationExpression myIterationExpression = modelImpl.getUmlPackage().getDataTypes().getIterationExpression()
+				.createIterationExpression(language, body);
+		super.initialize(myIterationExpression);
+		return myIterationExpression;
+	}
 
-    public BooleanExpression createBooleanExpression(String language, String body) {
-        BooleanExpression myBooleanExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getBooleanExpression()
-                .createBooleanExpression(language, body);
-        super.initialize(myBooleanExpression);
-        return myBooleanExpression;
-    }
+	public MappingExpression createMappingExpression(String language, String body) {
+		MappingExpression myMappingExpression = modelImpl.getUmlPackage().getDataTypes().getMappingExpression()
+				.createMappingExpression(language, body);
+		super.initialize(myMappingExpression);
+		return myMappingExpression;
+	}
 
+	public ObjectSetExpression createObjectSetExpression(String language, String body) {
+		ObjectSetExpression myObjectSetExpression = modelImpl.getUmlPackage().getDataTypes().getObjectSetExpression()
+				.createObjectSetExpression(language, body);
+		super.initialize(myObjectSetExpression);
+		return myObjectSetExpression;
+	}
 
-    public Expression createExpression(String language, String body) {
-        Expression myExpression = modelImpl.getUmlPackage().getDataTypes()
-                .getExpression().createExpression(language, body);
-        super.initialize(myExpression);
-        return myExpression;
-    }
+	public ProcedureExpression createProcedureExpression(String language, String body) {
+		ProcedureExpression myProcedureExpression = modelImpl.getUmlPackage().getDataTypes().getProcedureExpression()
+				.createProcedureExpression(language, body);
+		super.initialize(myProcedureExpression);
+		return myProcedureExpression;
+	}
 
+	public TimeExpression createTimeExpression(String language, String body) {
+		TimeExpression myTimeExpression = modelImpl.getUmlPackage().getDataTypes().getTimeExpression()
+				.createTimeExpression(language, body);
+		super.initialize(myTimeExpression);
+		return myTimeExpression;
+	}
 
-    public IterationExpression createIterationExpression(String language, String body) {
-        IterationExpression myIterationExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getIterationExpression()
-                .createIterationExpression(language, body);
-        super.initialize(myIterationExpression);
-        return myIterationExpression;
-    }
+	public TypeExpression createTypeExpression(String language, String body) {
+		TypeExpression myTypeExpression = modelImpl.getUmlPackage().getDataTypes().getTypeExpression()
+				.createTypeExpression(language, body);
+		super.initialize(myTypeExpression);
+		return myTypeExpression;
+	}
 
+	@Deprecated
+	public Multiplicity createMultiplicity(int lower, int upper) {
+		return createMultiplicityInternal(lower, upper);
+	}
 
-    public MappingExpression createMappingExpression(String language, String body) {
-        MappingExpression myMappingExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getMappingExpression().createMappingExpression(
-                        language, body);
-        super.initialize(myMappingExpression);
-        return myMappingExpression;
-    }
+	Multiplicity createMultiplicityInternal(int lower, int upper) {
+		Multiplicity multiplicity = modelImpl.getUmlPackage().getDataTypes().getMultiplicity().createMultiplicity();
+		LOG.log(Level.FINE, "Multiplicity created for range {0}.. {1}", new Object[] { lower, upper });
+		multiplicity.getRange().add(createMultiplicityRange(lower, upper));
+		super.initialize(multiplicity);
+		return multiplicity;
+	}
 
+	/*
+	 * TODO: As currently implemented, this expects a list of
+	 * MultiplicityRanges. Is this an interface change from the NSUML
+	 * implementation? I suspect it used to accept a list of Integers. - tfm
+	 *
+	 * @see
+	 * org.argouml.model.DataTypesFactory#createMultiplicity(java.util.List)
+	 */
+	@Deprecated
+	public Multiplicity createMultiplicity(final List range) {
+		return createMultiplicityInternal(range);
+	}
 
-    public ObjectSetExpression createObjectSetExpression(String language, String body) {
-        ObjectSetExpression myObjectSetExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getObjectSetExpression()
-                .createObjectSetExpression(language, body);
-        super.initialize(myObjectSetExpression);
-        return myObjectSetExpression;
-    }
+	Multiplicity createMultiplicityInternal(final List<MultiplicityRange> range) {
+		Multiplicity multiplicity = modelImpl.getUmlPackage().getDataTypes().getMultiplicity().createMultiplicity();
+		LOG.log(Level.FINE, "Multiplicity created for list {0}", range);
+		multiplicity.getRange().addAll(range);
+		super.initialize(multiplicity);
+		return multiplicity;
+	}
 
+	@Deprecated
+	public Multiplicity createMultiplicity(final String str) {
+		return createMultiplicityInternal(str);
+	}
 
-    public ProcedureExpression createProcedureExpression(String language, String body) {
-        ProcedureExpression myProcedureExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getProcedureExpression()
-                .createProcedureExpression(language, body);
-        super.initialize(myProcedureExpression);
-        return myProcedureExpression;
-    }
+	Multiplicity createMultiplicityInternal(final String str) {
+		List<MultiplicityRange> ranges = Collections.unmodifiableList(parseRanges(str));
+		return createMultiplicity(ranges);
+	}
 
+	private List<MultiplicityRange> parseRanges(String str) {
+		List<MultiplicityRange> rc = new ArrayList<MultiplicityRange>();
+		// Return 1..1 multiplicity for empty string
+		if ("".equals(str)) {
+			rc.add(createMultiplicityRange("1..1"));
+			return rc;
+		}
+		StringTokenizer stk = new StringTokenizer(str, ",");
+		while (stk.hasMoreTokens()) {
+			rc.add(createMultiplicityRange(stk.nextToken()));
+		}
+		if (rc.size() > 1) {
+			LOG.log(Level.FINE, "UML 2.x does not support multiple multiplicity ranges {0}", str);
+		}
+		return rc;
+	}
 
-    public TimeExpression createTimeExpression(String language, String body) {
-        TimeExpression myTimeExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getTimeExpression()
-                .createTimeExpression(language, body);
-        super.initialize(myTimeExpression);
-        return myTimeExpression;
-    }
+	@Deprecated
+	public MultiplicityRange createMultiplicityRange(String str) {
+		StringTokenizer stk = new StringTokenizer(str, ". ");
+		if (!stk.hasMoreTokens()) {
+			throw new IllegalArgumentException("empty multiplicity range");
+		}
+		int lower = stringToBound(stk.nextToken());
+		int upper = 0;
+		if (!stk.hasMoreTokens()) {
+			upper = lower;
+			// Convert "*" to "0..*" instead of "*..*"
+			if (lower == -1) {
+				lower = 0;
+			}
+		} else {
+			upper = stringToBound(stk.nextToken());
+			if (stk.hasMoreTokens()) {
+				throw new IllegalArgumentException("illegal range specification");
+			}
+		}
+		return createMultiplicityRange(lower, upper);
+	}
 
+	@Deprecated
+	public MultiplicityRange createMultiplicityRange(final int lower, final int upper) {
+		MultiplicityRange range = modelImpl.getUmlPackage().getDataTypes().getMultiplicityRange()
+				.createMultiplicityRange(lower, upper);
+		return range;
+	}
 
-    public TypeExpression createTypeExpression(String language, String body) {
-        TypeExpression myTypeExpression = modelImpl.getUmlPackage()
-                .getDataTypes().getTypeExpression()
-                .createTypeExpression(language, body);
-        super.initialize(myTypeExpression);
-        return myTypeExpression;
-    }
+	/**
+	 * Convert an integer to a string using MultiplicityRange notation.
+	 *
+	 * @param i
+	 *            integer to convert
+	 * @return String version of integer or "*" for unlimited (-1)
+	 */
+	static String boundToString(int i) {
+		if (i == -1) {
+			return "*";
+		} else {
+			return "" + i;
+		}
+	}
 
-
-    @Deprecated
-    public Multiplicity createMultiplicity(int lower, int upper) {
-        return createMultiplicityInternal(lower, upper);
-    }
-
-    Multiplicity createMultiplicityInternal(int lower, int upper) {
-        Multiplicity multiplicity = modelImpl.getUmlPackage().getDataTypes()
-                .getMultiplicity().createMultiplicity();
-        LOG.log(Level.FINE, "Multiplicity created for range {0}.. {1}", new Object[]{lower, upper});
-        multiplicity.getRange().add(createMultiplicityRange(lower, upper));
-        super.initialize(multiplicity);
-        return multiplicity;
-    }
-
-    /*
-     * TODO: As currently implemented, this expects a list of
-     * MultiplicityRanges. Is this an interface change from the NSUML
-     * implementation? I suspect it used to accept a list of Integers. - tfm
-     *
-     * @see org.argouml.model.DataTypesFactory#createMultiplicity(java.util.List)
-     */
-    @Deprecated
-    public Multiplicity createMultiplicity(final List range) {
-        return createMultiplicityInternal(range);
-    }
-
-    Multiplicity createMultiplicityInternal(final List<MultiplicityRange> range) {
-        Multiplicity multiplicity = modelImpl.getUmlPackage().getDataTypes()
-                .getMultiplicity().createMultiplicity();
-        LOG.log(Level.FINE, "Multiplicity created for list {0}", range);
-        multiplicity.getRange().addAll(range);
-        super.initialize(multiplicity);
-        return multiplicity;
-    }
-
-    @Deprecated
-    public Multiplicity createMultiplicity(final String str) {
-        return createMultiplicityInternal(str);
-    }
-
-    Multiplicity createMultiplicityInternal(final String str) {
-        List<MultiplicityRange> ranges =
-            Collections.unmodifiableList(parseRanges(str));
-        return createMultiplicity(ranges);
-    }
-
-    private List<MultiplicityRange> parseRanges(String str) {
-        List<MultiplicityRange> rc = new ArrayList<MultiplicityRange>();
-        // Return 1..1 multiplicity for empty string
-        if ("".equals(str)) {
-            rc.add(createMultiplicityRange("1..1"));
-            return rc;
-        }
-        StringTokenizer stk = new StringTokenizer(str, ",");
-        while (stk.hasMoreTokens()) {
-            rc.add(createMultiplicityRange(stk.nextToken()));
-        }
-        if (rc.size() > 1) {
-            LOG.log(Level.FINE, "UML 2.x does not support multiple multiplicity ranges {0}", str);
-        }
-        return rc;
-    }
-
-
-    @Deprecated
-    public MultiplicityRange createMultiplicityRange(String str) {
-        StringTokenizer stk = new StringTokenizer(str, ". ");
-        if (!stk.hasMoreTokens()) {
-            throw new IllegalArgumentException("empty multiplicity range");
-        }
-        int lower = stringToBound(stk.nextToken());
-        int upper = 0;
-        if (!stk.hasMoreTokens()) {
-            upper = lower;
-            // Convert "*" to "0..*" instead of "*..*"
-            if (lower == -1) {
-                lower = 0;
-            }
-        } else {
-            upper = stringToBound(stk.nextToken());
-            if (stk.hasMoreTokens()) {
-                throw new IllegalArgumentException(
-                        "illegal range specification");
-            }
-        }
-        return createMultiplicityRange(lower, upper);
-    }
-
-
-    @Deprecated
-    public MultiplicityRange createMultiplicityRange(final int lower,
-            final int upper) {
-        MultiplicityRange range =
-            modelImpl.getUmlPackage().getDataTypes().getMultiplicityRange()
-                .createMultiplicityRange(lower, upper);
-        return range;
-    }
-
-    /**
-     * Convert an integer to a string using MultiplicityRange notation.
-     *
-     * @param i integer to convert
-     * @return String version of integer or "*" for unlimited (-1)
-     */
-    static String boundToString(int i) {
-        if (i == -1) {
-            return "*";
-        } else {
-            return "" + i;
-        }
-    }
-
-    /**
-     * Convert a MultiplicityRange bound string to an integer.
-     *
-     * @param b String containing a single MultiplicityRange bound
-     * @return integer representation
-     */
-    private static int stringToBound(String b) {
-        try {
-            if (b.equals("n") || b.equals("*")) {
-                return -1;
-            } else {
-                return Integer.parseInt(b);
-            }
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("illegal range bound : "
-                    + (b == null ? "null" : b));
-        }
-    }
+	/**
+	 * Convert a MultiplicityRange bound string to an integer.
+	 *
+	 * @param b
+	 *            String containing a single MultiplicityRange bound
+	 * @return integer representation
+	 */
+	private static int stringToBound(String b) {
+		try {
+			if (b.equals("n") || b.equals("*")) {
+				return -1;
+			} else {
+				return Integer.parseInt(b);
+			}
+		} catch (Exception ex) {
+			throw new IllegalArgumentException("illegal range bound : " + (b == null ? "null" : b));
+		}
+	}
 }

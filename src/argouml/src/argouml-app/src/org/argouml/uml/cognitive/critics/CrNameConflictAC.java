@@ -57,36 +57,36 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrNameConflictAC extends CrUML {
 
-    private static final long serialVersionUID = 7062778502947477726L;
+	private static final long serialVersionUID = 7062778502947477726L;
 
 	/**
-     * The constructor.
-     */
-    public CrNameConflictAC() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.NAMING);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-    }
+	 * The constructor.
+	 */
+	public CrNameConflictAC() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	// TODO: not implemented
-	return NO_PROBLEM;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		// TODO: not implemented
+		return NO_PROBLEM;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAssociationClass());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAssociationClass());
+		return ret;
+	}
+
 } /* end class CrNameConflictAC */
-

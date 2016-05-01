@@ -42,21 +42,20 @@ import org.argouml.model.AbstractActivityGraphsHelperDecorator;
 import org.argouml.model.ActivityGraphsHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoActivityGraphsHelperDecorator
-	extends AbstractActivityGraphsHelperDecorator {
+class UndoActivityGraphsHelperDecorator extends AbstractActivityGraphsHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoActivityGraphsHelperDecorator(ActivityGraphsHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoActivityGraphsHelperDecorator(ActivityGraphsHelper component) {
+		super(component);
+	}
 }
-

@@ -53,46 +53,39 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  */
 class ActionAddPackageImport extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = -7447656342740574501L;
-
+	private static final long serialVersionUID = -7447656342740574501L;
 
 	/**
-     * Constructor for ActionAddPackageImport.
-     */
-    ActionAddPackageImport() {
-        super();
-    }
+	 * Constructor for ActionAddPackageImport.
+	 */
+	ActionAddPackageImport() {
+		super();
+	}
 
+	protected List getChoices() {
+		List vec = new ArrayList();
+		/*
+		 * TODO: correctly implement next function in the model subsystem for
+		 * issue 1942:
+		 */
+		vec.addAll(Model.getModelManagementHelper().getAllPossibleImports(getTarget()));
+		return vec;
+	}
 
-    protected List getChoices() {
-        List vec = new ArrayList();
-        /* TODO: correctly implement next function 
-         * in the model subsystem for 
-         * issue 1942: */
-        vec.addAll(Model.getModelManagementHelper()
-                .getAllPossibleImports(getTarget()));
-        return vec;
-    }
+	protected List getSelected() {
+		List vec = new ArrayList();
+		vec.addAll(Model.getFacade().getImportedElements(getTarget()));
+		return vec;
+	}
 
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-imported-elements");
+	}
 
-    protected List getSelected() {
-        List vec = new ArrayList();
-        vec.addAll(Model.getFacade().getImportedElements(getTarget()));
-        return vec;
-    }
-
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-imported-elements");
-    }
-
-
-    @Override
-    protected void doIt(Collection selected) {
-        Object pack = getTarget();
-        Model.getModelManagementHelper().setImportedElements(pack, selected);
-    }
+	@Override
+	protected void doIt(Collection selected) {
+		Object pack = getTarget();
+		Model.getModelManagementHelper().setImportedElements(pack, selected);
+	}
 
 }
-
-

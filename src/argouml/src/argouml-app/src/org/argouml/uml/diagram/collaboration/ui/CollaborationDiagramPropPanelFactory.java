@@ -42,18 +42,18 @@ import org.argouml.uml.ui.PropPanel;
 import org.argouml.uml.ui.PropPanelFactory;
 
 /**
- * This factory creates the right PropPanelDiagram for a given 
- * Collaboration diagram.
+ * This factory creates the right PropPanelDiagram for a given Collaboration
+ * diagram.
  *
  * @author Michiel
  */
 public class CollaborationDiagramPropPanelFactory implements PropPanelFactory {
 
-    public PropPanel createPropPanel(Object object) {
-        if (object instanceof UMLCollaborationDiagram) {
-            return new PropPanelUMLCollaborationDiagram();
-        }
-        return null;
-    }
+	public PropPanel createPropPanel(Object object) {
+		if (object instanceof UMLCollaborationDiagram) {
+			return new PropPanelUMLCollaborationDiagram();
+		}
+		return null;
+	}
 
 }

@@ -55,204 +55,204 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * This critic checks whether a given name in the Model resembles or matches
- * a reserved UML keyword or java keyword.
+ * This critic checks whether a given name in the Model resembles or matches a
+ * reserved UML keyword or java keyword.
  */
 public class CrReservedName extends CrUML {
 
-    private static List<String> names;
-    
-    private static List<String> umlReserved = new ArrayList<String>();
+	private static List<String> names;
 
-    static {
-	umlReserved.add("none");
-	umlReserved.add("interface");
-	umlReserved.add("sequential");
-	umlReserved.add("guarded");
-	umlReserved.add("concurrent");
-	umlReserved.add("frozen");
-	umlReserved.add("aggregate");
-	umlReserved.add("composite");
-    }
+	private static List<String> umlReserved = new ArrayList<String>();
 
-    static {
-        // TODO: This could just work off the names in the UML profile
-        // TODO: It doesn't look like it matches what's in the UML 1.4 spec
-	umlReserved.add("becomes");
-	umlReserved.add("call");
-	umlReserved.add("component");
-	//umlReserved.add("copy");
-	//umlReserved.add("create");
-	umlReserved.add("deletion");
-	umlReserved.add("derived");
-	//umlReserved.add("document");
-	umlReserved.add("enumeration");
-	umlReserved.add("extends");
-    }
-
-    static {
-	umlReserved.add("facade");
-	//umlReserved.add("file");
-	umlReserved.add("framework");
-	umlReserved.add("friend");
-	umlReserved.add("import");
-	umlReserved.add("inherits");
-	umlReserved.add("instance");
-	umlReserved.add("invariant");
-	umlReserved.add("library");
-	//umlReserved.add("node");
-	umlReserved.add("metaclass");
-	umlReserved.add("powertype");
-	umlReserved.add("private");
-	umlReserved.add("process");
-	umlReserved.add("requirement");
-	//umlReserved.add("send");
-	umlReserved.add("stereotype");
-	umlReserved.add("stub");
-	umlReserved.add("subclass");
-	umlReserved.add("subtype");
-	umlReserved.add("system");
-	umlReserved.add("table");
-	umlReserved.add("thread");
-	umlReserved.add("type");
-    }
-
-    static {
-	umlReserved.add("useCaseModel");
-	umlReserved.add("uses");
-	umlReserved.add("utility");
-	//umlReserved.add("destroy");
-	umlReserved.add("implementationClass");
-	umlReserved.add("postcondition");
-	umlReserved.add("precondition");
-	umlReserved.add("topLevelPackage");
-	umlReserved.add("subtraction");
-
-	//     umlReserved.add("initial");
-	//     umlReserved.add("final");
-	//     umlReserved.add("fork");
-	//     umlReserved.add("join");
-	//     umlReserved.add("history");
-    }
-
-
-    /**
-     * Default constructor.  Builds a critic that checks UML reserved names.
-     */
-    public CrReservedName() {
-        this(umlReserved);
-    }
-    
-    /**
-     * Construct a critic that checks against the given list of reserved names.
-     * 
-     * @param reservedNames the list of reserved names to check against.
-     */
-    public CrReservedName(List<String> reservedNames) {
-        setupHeadAndDesc();
-        setPriority(ToDoItem.HIGH_PRIORITY);
-        addSupportedDecision(UMLDecision.NAMING);
-        setKnowledgeTypes(Critic.KT_SYNTAX);
-        addTrigger("name");
-        addTrigger("feature_name");
-        names = reservedNames;
-    }
-
-
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isPrimaryObject(dm))) {
-            return NO_PROBLEM;
-        }
-
-        if (!(Model.getFacade().isAModelElement(dm))) {
-            return NO_PROBLEM;
-        }
-        String meName = Model.getFacade().getName(dm);
-        if (meName == null || meName.equals("")) {
-            return NO_PROBLEM;
-        }
-        String nameStr = meName;
-        if (nameStr == null || nameStr.length() == 0) {
-            return NO_PROBLEM;
-        }
-
-	if (isBuiltin(nameStr)) {
-            return NO_PROBLEM;
-        }
-
-        for (String name : names) {
-            if (name.equalsIgnoreCase(nameStr)) {
-                return PROBLEM_FOUND;
-            }
-        }
-
-        return NO_PROBLEM;
-    }
-
-    /**
-     * Don't critique elements from the profile, they may have names
-     * which are nominally "reserved."
-     *
-     * @param name The name of the type to test.
-     * @return true if it is a builtin.
-     */
-    protected boolean isBuiltin(String name) {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        Object type = p.findTypeInDefaultModel(name);
-        return type != null;
-    }
-
-
-    /*
-     * @see org.argouml.cognitive.Poster#getClarifier()
-     */
-    @Override
-    public Icon getClarifier() {
-        return ClClassName.getTheInstance();
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#initWizard(
-     *         org.argouml.cognitive.ui.Wizard)
-     */
-    @Override
-    public void initWizard(Wizard w) {
-	if (w instanceof WizMEName) {
-	    ToDoItem item = (ToDoItem) w.getToDoItem();
-	    String sug =
-	        Model.getFacade().getName(item.getOffenders().get(0));
-	    String ins = super.getInstructions();
-	    ((WizMEName) w).setInstructions(ins);
-	    ((WizMEName) w).setSuggestion(sug);
-	    ((WizMEName) w).setMustEdit(true);
+	static {
+		umlReserved.add("none");
+		umlReserved.add("interface");
+		umlReserved.add("sequential");
+		umlReserved.add("guarded");
+		umlReserved.add("concurrent");
+		umlReserved.add("frozen");
+		umlReserved.add("aggregate");
+		umlReserved.add("composite");
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) {
-        return WizMEName.class;
-    }
+	static {
+		// TODO: This could just work off the names in the UML profile
+		// TODO: It doesn't look like it matches what's in the UML 1.4 spec
+		umlReserved.add("becomes");
+		umlReserved.add("call");
+		umlReserved.add("component");
+		// umlReserved.add("copy");
+		// umlReserved.add("create");
+		umlReserved.add("deletion");
+		umlReserved.add("derived");
+		// umlReserved.add("document");
+		umlReserved.add("enumeration");
+		umlReserved.add("extends");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getClassifier());
-        ret.add(Model.getMetaTypes().getOperation());
-        ret.add(Model.getMetaTypes().getState());
-        ret.add(Model.getMetaTypes().getAssociation());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -5839267391209851505L;
+	static {
+		umlReserved.add("facade");
+		// umlReserved.add("file");
+		umlReserved.add("framework");
+		umlReserved.add("friend");
+		umlReserved.add("import");
+		umlReserved.add("inherits");
+		umlReserved.add("instance");
+		umlReserved.add("invariant");
+		umlReserved.add("library");
+		// umlReserved.add("node");
+		umlReserved.add("metaclass");
+		umlReserved.add("powertype");
+		umlReserved.add("private");
+		umlReserved.add("process");
+		umlReserved.add("requirement");
+		// umlReserved.add("send");
+		umlReserved.add("stereotype");
+		umlReserved.add("stub");
+		umlReserved.add("subclass");
+		umlReserved.add("subtype");
+		umlReserved.add("system");
+		umlReserved.add("table");
+		umlReserved.add("thread");
+		umlReserved.add("type");
+	}
+
+	static {
+		umlReserved.add("useCaseModel");
+		umlReserved.add("uses");
+		umlReserved.add("utility");
+		// umlReserved.add("destroy");
+		umlReserved.add("implementationClass");
+		umlReserved.add("postcondition");
+		umlReserved.add("precondition");
+		umlReserved.add("topLevelPackage");
+		umlReserved.add("subtraction");
+
+		// umlReserved.add("initial");
+		// umlReserved.add("final");
+		// umlReserved.add("fork");
+		// umlReserved.add("join");
+		// umlReserved.add("history");
+	}
+
+	/**
+	 * Default constructor. Builds a critic that checks UML reserved names.
+	 */
+	public CrReservedName() {
+		this(umlReserved);
+	}
+
+	/**
+	 * Construct a critic that checks against the given list of reserved names.
+	 * 
+	 * @param reservedNames
+	 *            the list of reserved names to check against.
+	 */
+	public CrReservedName(List<String> reservedNames) {
+		setupHeadAndDesc();
+		setPriority(ToDoItem.HIGH_PRIORITY);
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("name");
+		addTrigger("feature_name");
+		names = reservedNames;
+	}
+
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isPrimaryObject(dm))) {
+			return NO_PROBLEM;
+		}
+
+		if (!(Model.getFacade().isAModelElement(dm))) {
+			return NO_PROBLEM;
+		}
+		String meName = Model.getFacade().getName(dm);
+		if (meName == null || meName.equals("")) {
+			return NO_PROBLEM;
+		}
+		String nameStr = meName;
+		if (nameStr == null || nameStr.length() == 0) {
+			return NO_PROBLEM;
+		}
+
+		if (isBuiltin(nameStr)) {
+			return NO_PROBLEM;
+		}
+
+		for (String name : names) {
+			if (name.equalsIgnoreCase(nameStr)) {
+				return PROBLEM_FOUND;
+			}
+		}
+
+		return NO_PROBLEM;
+	}
+
+	/**
+	 * Don't critique elements from the profile, they may have names which are
+	 * nominally "reserved."
+	 *
+	 * @param name
+	 *            The name of the type to test.
+	 * @return true if it is a builtin.
+	 */
+	protected boolean isBuiltin(String name) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		Object type = p.findTypeInDefaultModel(name);
+		return type != null;
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#getClarifier()
+	 */
+	@Override
+	public Icon getClarifier() {
+		return ClClassName.getTheInstance();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#initWizard(
+	 * org.argouml.cognitive.ui.Wizard)
+	 */
+	@Override
+	public void initWizard(Wizard w) {
+		if (w instanceof WizMEName) {
+			ToDoItem item = (ToDoItem) w.getToDoItem();
+			String sug = Model.getFacade().getName(item.getOffenders().get(0));
+			String ins = super.getInstructions();
+			((WizMEName) w).setInstructions(ins);
+			((WizMEName) w).setSuggestion(sug);
+			((WizMEName) w).setMustEdit(true);
+		}
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizMEName.class;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getClassifier());
+		ret.add(Model.getMetaTypes().getOperation());
+		ret.add(Model.getMetaTypes().getState());
+		ret.add(Model.getMetaTypes().getAssociation());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -5839267391209851505L;
 }
-

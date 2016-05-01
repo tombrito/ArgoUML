@@ -50,56 +50,55 @@ import org.argouml.application.helpers.ApplicationVersion;
 import org.argouml.application.helpers.ResourceLoaderWrapper;
 
 /**
- * This panel is used in the splash-screen and the aboutbox.
- * It contains an image and a version text.
+ * This panel is used in the splash-screen and the aboutbox. It contains an
+ * image and a version text.
  * 
  * @author mvw@tigris.org
  */
 class SplashPanel extends JPanel {
 
-    private static final long serialVersionUID = -1364073982638581104L;
+	private static final long serialVersionUID = -1364073982638581104L;
 	private ImageIcon splashImage = null;
-    
-    /**
-     * The constructor.
-     * 
-     * @param iconName the name of the image to be shown
-     */
-    public SplashPanel(String iconName) {
-	super();
-	splashImage =
-	    ResourceLoaderWrapper.lookupIconResource(iconName);
 
-	JLabel splashLabel = new JLabel("", SwingConstants.LEFT) {
+	/**
+	 * The constructor.
+	 * 
+	 * @param iconName
+	 *            the name of the image to be shown
+	 */
+	public SplashPanel(String iconName) {
+		super();
+		splashImage = ResourceLoaderWrapper.lookupIconResource(iconName);
 
-	    private static final long serialVersionUID = -9185188128909684037L;
+		JLabel splashLabel = new JLabel("", SwingConstants.LEFT) {
 
-		/**
-             * The following values were determined experimentally:
-             * left margin 10, top margin 18.
-             * 
-	     * @see javax.swing.JComponent#paint(java.awt.Graphics)
-	     */
-	    public void paint(Graphics g) {
-	        super.paint(g);
-	        g.drawString("v" + ApplicationVersion.getVersion(), 
-	                getInsets().left + 10, getInsets().top + 18);
-	    }
-	    
-        };
-        
-        if (splashImage != null) {
-	    splashLabel.setIcon(splashImage);
+			private static final long serialVersionUID = -9185188128909684037L;
+
+			/**
+			 * The following values were determined experimentally: left margin
+			 * 10, top margin 18.
+			 * 
+			 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+			 */
+			public void paint(Graphics g) {
+				super.paint(g);
+				g.drawString("v" + ApplicationVersion.getVersion(), getInsets().left + 10, getInsets().top + 18);
+			}
+
+		};
+
+		if (splashImage != null) {
+			splashLabel.setIcon(splashImage);
+		}
+		setLayout(new BorderLayout(0, 0));
+		add(splashLabel, BorderLayout.CENTER);
 	}
-	setLayout(new BorderLayout(0, 0));
-	add(splashLabel, BorderLayout.CENTER);
-    }
 
-    /**
-     * @return the image of the splash
-     */
-    public ImageIcon getImage() {
-	return splashImage;
-    }
+	/**
+	 * @return the image of the splash
+	 */
+	public ImageIcon getImage() {
+		return splashImage;
+	}
 
 } /* end class SplashPanel */

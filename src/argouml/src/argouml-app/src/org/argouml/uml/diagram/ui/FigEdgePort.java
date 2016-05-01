@@ -46,109 +46,107 @@ import org.tigris.gef.presentation.FigCircle;
 import org.tigris.gef.presentation.FigEdge;
 
 /**
- * This node cannot be dragged and manipulated in the same way as other
- * FigNodes in ArgoUML. It is actually an optional child fig (or more precisely
- * a path item) of a FigEdgeModelElement.
- * This allows the dashed edge of an association class to connect the
- * association edge and allows the dashed edge of a comment edge to attach a
- * comment to some other edge type.
- * GEF can only attach edges to nodes, by making this fig both a node and
- * containing it as a child of an edge we push the rules to allow edge to edge
- * connections.
- * TODO: We are inheriting a lot of functionality here that we don't really
- * require. We should attempt to make FigEdgePort extend FigNode.
+ * This node cannot be dragged and manipulated in the same way as other FigNodes
+ * in ArgoUML. It is actually an optional child fig (or more precisely a path
+ * item) of a FigEdgeModelElement. This allows the dashed edge of an association
+ * class to connect the association edge and allows the dashed edge of a comment
+ * edge to attach a comment to some other edge type. GEF can only attach edges
+ * to nodes, by making this fig both a node and containing it as a child of an
+ * edge we push the rules to allow edge to edge connections. TODO: We are
+ * inheriting a lot of functionality here that we don't really require. We
+ * should attempt to make FigEdgePort extend FigNode.
  *
  * @author Bob Tarling
  */
 public class FigEdgePort extends FigNodeModelElement {
-    private FigCircle bigPort;
+	private FigCircle bigPort;
 
-    private void initialize() {
-        invisibleAllowed = true;
-        bigPort = new FigCircle(0, 0, 1, 1, LINE_COLOR, FILL_COLOR);
-        addFig(bigPort);
-    }
-
-    /**
-     * @param owner owning uml element
-     * @param bounds ignored
-     * @param settings ignored
-     */
-    public FigEdgePort(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initialize();
-        bigPort.setOwner(owner);
-    }
-    
-    /*
-     * @see org.tigris.gef.presentation.Fig#hit(java.awt.Rectangle)
-     */
-    @Override
-    public boolean hit(Rectangle r) {
-        return false;
-    }
-    
-    @Override
-    public Object getOwner() {
-	if (super.getOwner() != null) {
-	    return super.getOwner();
+	private void initialize() {
+		invisibleAllowed = true;
+		bigPort = new FigCircle(0, 0, 1, 1, LINE_COLOR, FILL_COLOR);
+		addFig(bigPort);
 	}
-        Fig group = this;
-        while (group != null && !(group instanceof FigEdge)) {
-            group = group.getGroup();
-        }
-        if (group == null) {
-            return null;
-        } else {
-            return group.getOwner();
-        }
-    }
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#classNameAndBounds()
-     */
-    // USED BY PGML.tee
-    @Override
-    public String classNameAndBounds() {
-        return getClass().getName()
-            + "[" + getX() + ", " + getY() + ", "
-            + getWidth() + ", " + getHeight() + "]";
-    }
+	/**
+	 * @param owner
+	 *            owning uml element
+	 * @param bounds
+	 *            ignored
+	 * @param settings
+	 *            ignored
+	 */
+	public FigEdgePort(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initialize();
+		bigPort.setOwner(owner);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigNode#hitPort(int, int)
-     */
-    @Override
-    public Object hitPort(int x, int y) {
-        return null;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#hit(java.awt.Rectangle)
+	 */
+	@Override
+	public boolean hit(Rectangle r) {
+		return false;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigGroup#hitFig(java.awt.Rectangle)
-     */
-    @Override
-    public Fig hitFig(Rectangle r) {
-        return null;
-    }
+	@Override
+	public Object getOwner() {
+		if (super.getOwner() != null) {
+			return super.getOwner();
+		}
+		Fig group = this;
+		while (group != null && !(group instanceof FigEdge)) {
+			group = group.getGroup();
+		}
+		if (group == null) {
+			return null;
+		} else {
+			return group.getOwner();
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#isSelectable()
-     */
-    @Override
-    public boolean isSelectable() {
-        return false;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#classNameAndBounds()
+	 */
+	// USED BY PGML.tee
+	@Override
+	public String classNameAndBounds() {
+		return getClass().getName() + "[" + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + "]";
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigNode#getPortFig(java.lang.Object)
-     */
-    public Fig getPortFig(Object port) {
-        return bigPort;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.FigNode#hitPort(int, int)
+	 */
+	@Override
+	public Object hitPort(int x, int y) {
+		return null;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 3091219503512470458L;
+	/*
+	 * @see org.tigris.gef.presentation.FigGroup#hitFig(java.awt.Rectangle)
+	 */
+	@Override
+	public Fig hitFig(Rectangle r) {
+		return null;
+	}
+
+	/*
+	 * @see org.tigris.gef.presentation.Fig#isSelectable()
+	 */
+	@Override
+	public boolean isSelectable() {
+		return false;
+	}
+
+	/*
+	 * @see org.tigris.gef.presentation.FigNode#getPortFig(java.lang.Object)
+	 */
+	public Fig getPortFig(Object port) {
+		return bigPort;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 3091219503512470458L;
 }

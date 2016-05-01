@@ -83,364 +83,352 @@ import org.argouml.uml.util.SortedListModel;
  * </ol>
  * <p>
  * <em>NOTE:</em> An incompatible change to the API contract was made between
- * 0.24 and 0.26.  A number of internal methods which had public visibility
- * were made private.
+ * 0.24 and 0.26. A number of internal methods which had public visibility were
+ * made private.
  */
 public class UMLAddDialog extends JPanel implements ActionListener {
 
-    private static final long serialVersionUID = 1378697565255033800L;
+	private static final long serialVersionUID = 1378697565255033800L;
 
 	/**
-     * The GUI list for the choices
-     */
-    private JList choicesList = null;
+	 * The GUI list for the choices
+	 */
+	private JList choicesList = null;
 
-    /**
-     * The GUI list for the selected choices
-     */
-    private JList selectedList = null;
+	/**
+	 * The GUI list for the selected choices
+	 */
+	private JList selectedList = null;
 
-    private JButton addButton = null;
+	private JButton addButton = null;
 
-    private JButton removeButton = null;
+	private JButton removeButton = null;
 
-    private JButton okButton = null;
+	private JButton okButton = null;
 
-    private JButton cancelButton = null;
+	private JButton cancelButton = null;
 
-    private JDialog dialog = null;
+	private JDialog dialog = null;
 
-    private String title = null;
+	private String title = null;
 
-    private boolean multiSelectAllowed = false;
+	private boolean multiSelectAllowed = false;
 
-    /**
-     * The returnvalue of the method showDialog. Returnvalue can be either
-     * JOptionPane.OK_OPTION or JOptionPane.CANCEL_OPTION
-     */
-    private int returnValue;
+	/**
+	 * The returnvalue of the method showDialog. Returnvalue can be either
+	 * JOptionPane.OK_OPTION or JOptionPane.CANCEL_OPTION
+	 */
+	private int returnValue;
 
-    private boolean exclusive;
+	private boolean exclusive;
 
-    /**
-     * Constructs a UMLAddDialog with a UMLListCellRenderer. Modelelements are
-     * represented with their names in the choices list and the selected list.
-     *
-     * @param theChoices
-     *            A List containing the choices a user has.
-     * @param preselected
-     *            A List containing the preselected choices
-     * @param theTitle
-     *            The title of the dialog
-     * @param multiselectAllowed
-     *            True if the user may select multiple choices
-     * @param isExclusive
-     *            True if choices in the selected list may not appear in the
-     *            choices list. If true preselected choices are removed from the
-     *            choices list.
-     */
-    public UMLAddDialog(final List theChoices, final List preselected,
-            final String theTitle, final boolean multiselectAllowed,
-            final boolean isExclusive) {
-        this(theChoices, preselected, theTitle, new UMLListCellRenderer2(true),
-                multiselectAllowed, isExclusive);
-    }
+	/**
+	 * Constructs a UMLAddDialog with a UMLListCellRenderer. Modelelements are
+	 * represented with their names in the choices list and the selected list.
+	 *
+	 * @param theChoices
+	 *            A List containing the choices a user has.
+	 * @param preselected
+	 *            A List containing the preselected choices
+	 * @param theTitle
+	 *            The title of the dialog
+	 * @param multiselectAllowed
+	 *            True if the user may select multiple choices
+	 * @param isExclusive
+	 *            True if choices in the selected list may not appear in the
+	 *            choices list. If true preselected choices are removed from the
+	 *            choices list.
+	 */
+	public UMLAddDialog(final List theChoices, final List preselected, final String theTitle,
+			final boolean multiselectAllowed, final boolean isExclusive) {
+		this(theChoices, preselected, theTitle, new UMLListCellRenderer2(true), multiselectAllowed, isExclusive);
+	}
 
-    /**
-     * Constructs a UMLAddDialog with a given UMLListCellRenderer.
-     *
-     * @param theChoices
-     *            A List containing the choices a user has.
-     * @param preselected
-     *            A List containing the preselected choices
-     * @param theTitle
-     *            The title of the dialog
-     * @param renderer
-     *            The cellrenderer of the choices list and the selected list
-     * @param multiselectAllowed
-     *            True if the user may select multiple choices
-     * @param isExclusive
-     *            True if choices in the selected list may not appear in the
-     *            choices list. If true preselected choices are removed from the
-     *            choices list.
-     */
-    public UMLAddDialog(final List theChoices, final List preselected,
-            final String theTitle, final ListCellRenderer renderer,
-            final boolean multiselectAllowed, final boolean isExclusive) {
-        multiSelectAllowed = multiselectAllowed;
-        if (theChoices == null) {
-            throw new IllegalArgumentException(
-                    "There should always be choices in UMLAddDialog");
-        }
-        exclusive = isExclusive;
-        List choices = new ArrayList(theChoices);
-        if (isExclusive && preselected != null && !preselected.isEmpty()) {
-            choices.removeAll(preselected);
-        }
-        if (theTitle != null) {
-            title = theTitle;
-        } else {
-            title = "";
-        }
+	/**
+	 * Constructs a UMLAddDialog with a given UMLListCellRenderer.
+	 *
+	 * @param theChoices
+	 *            A List containing the choices a user has.
+	 * @param preselected
+	 *            A List containing the preselected choices
+	 * @param theTitle
+	 *            The title of the dialog
+	 * @param renderer
+	 *            The cellrenderer of the choices list and the selected list
+	 * @param multiselectAllowed
+	 *            True if the user may select multiple choices
+	 * @param isExclusive
+	 *            True if choices in the selected list may not appear in the
+	 *            choices list. If true preselected choices are removed from the
+	 *            choices list.
+	 */
+	public UMLAddDialog(final List theChoices, final List preselected, final String theTitle,
+			final ListCellRenderer renderer, final boolean multiselectAllowed, final boolean isExclusive) {
+		multiSelectAllowed = multiselectAllowed;
+		if (theChoices == null) {
+			throw new IllegalArgumentException("There should always be choices in UMLAddDialog");
+		}
+		exclusive = isExclusive;
+		List choices = new ArrayList(theChoices);
+		if (isExclusive && preselected != null && !preselected.isEmpty()) {
+			choices.removeAll(preselected);
+		}
+		if (theTitle != null) {
+			title = theTitle;
+		} else {
+			title = "";
+		}
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
-        JPanel upperPanel = new JPanel();
-        JPanel panelChoices = new JPanel(new BorderLayout());
-        JPanel panelSelected = new JPanel(new BorderLayout());
+		JPanel upperPanel = new JPanel();
+		JPanel panelChoices = new JPanel(new BorderLayout());
+		JPanel panelSelected = new JPanel(new BorderLayout());
 
-        choicesList = new JList(constructListModel(choices));
-        choicesList.setMinimumSize(new Dimension(150, 300));
-        if (renderer != null) {
-            choicesList.setCellRenderer(renderer);
-        }
-        if (multiselectAllowed) {
-            choicesList.setSelectionMode(
-                    ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        } else {
-            choicesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        }
-        choicesList.setVisibleRowCount(15);
-        JScrollPane choicesScroll = new JScrollPane(choicesList);
-        panelChoices.add(new JLabel(Translator.localize("label.choices")),
-                BorderLayout.NORTH);
-        panelChoices.add(choicesScroll, BorderLayout.CENTER);
+		choicesList = new JList(constructListModel(choices));
+		choicesList.setMinimumSize(new Dimension(150, 300));
+		if (renderer != null) {
+			choicesList.setCellRenderer(renderer);
+		}
+		if (multiselectAllowed) {
+			choicesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		} else {
+			choicesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		}
+		choicesList.setVisibleRowCount(15);
+		JScrollPane choicesScroll = new JScrollPane(choicesList);
+		panelChoices.add(new JLabel(Translator.localize("label.choices")), BorderLayout.NORTH);
+		panelChoices.add(choicesScroll, BorderLayout.CENTER);
 
-        addButton = new JButton(ResourceLoaderWrapper
-                .lookupIconResource("NavigateForward"));
-        addButton.addActionListener(this);
-        removeButton = new JButton(ResourceLoaderWrapper
-                .lookupIconResource("NavigateBack"));
-        removeButton.addActionListener(this);
-        Box buttonBox = Box.createVerticalBox();
-        // buttonBox.add(Box.createRigidArea(new Dimension(0, 20)));
-        buttonBox.add(addButton);
-        buttonBox.add(Box.createRigidArea(new Dimension(0, 5)));
-        buttonBox.add(removeButton);
+		addButton = new JButton(ResourceLoaderWrapper.lookupIconResource("NavigateForward"));
+		addButton.addActionListener(this);
+		removeButton = new JButton(ResourceLoaderWrapper.lookupIconResource("NavigateBack"));
+		removeButton.addActionListener(this);
+		Box buttonBox = Box.createVerticalBox();
+		// buttonBox.add(Box.createRigidArea(new Dimension(0, 20)));
+		buttonBox.add(addButton);
+		buttonBox.add(Box.createRigidArea(new Dimension(0, 5)));
+		buttonBox.add(removeButton);
 
-        selectedList = new JList(constructListModel(preselected));
-        selectedList.setMinimumSize(new Dimension(150, 300));
-        if (renderer != null) {
-            selectedList.setCellRenderer(renderer);
-        }
-        selectedList
-                .setSelectionMode(
-                        ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        selectedList.setVisibleRowCount(15);
-        JScrollPane selectedScroll = new JScrollPane(selectedList);
-        panelSelected.add(new JLabel(Translator.localize("label.selected")),
-                BorderLayout.NORTH);
-        panelSelected.add(selectedScroll, BorderLayout.CENTER);
+		selectedList = new JList(constructListModel(preselected));
+		selectedList.setMinimumSize(new Dimension(150, 300));
+		if (renderer != null) {
+			selectedList.setCellRenderer(renderer);
+		}
+		selectedList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		selectedList.setVisibleRowCount(15);
+		JScrollPane selectedScroll = new JScrollPane(selectedList);
+		panelSelected.add(new JLabel(Translator.localize("label.selected")), BorderLayout.NORTH);
+		panelSelected.add(selectedScroll, BorderLayout.CENTER);
 
-        upperPanel.add(panelChoices);
-        upperPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        upperPanel.add(buttonBox);
-        upperPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-        upperPanel.add(panelSelected);
-        // upperPanel.setBorder(BorderFactory.createEtchedBorder());
+		upperPanel.add(panelChoices);
+		upperPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		upperPanel.add(buttonBox);
+		upperPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		upperPanel.add(panelSelected);
+		// upperPanel.setBorder(BorderFactory.createEtchedBorder());
 
-        add(upperPanel, BorderLayout.NORTH);
+		add(upperPanel, BorderLayout.NORTH);
 
-        JPanel okCancelPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel okCancelPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        okButton = new JButton(Translator.localize("button.ok"));
-        okButton.addActionListener(this);
-        cancelButton = new JButton(Translator.localize("button.cancel"));
-        cancelButton.addActionListener(this);
-        okCancelPanel.add(okButton);
-        okCancelPanel.add(cancelButton);
-        okCancelPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 10));
+		okButton = new JButton(Translator.localize("button.ok"));
+		okButton.addActionListener(this);
+		cancelButton = new JButton(Translator.localize("button.cancel"));
+		cancelButton.addActionListener(this);
+		okCancelPanel.add(okButton);
+		okCancelPanel.add(cancelButton);
+		okCancelPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 10));
 
-        add(okCancelPanel, BorderLayout.SOUTH);
-        setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        update();
-    }
+		add(okCancelPanel, BorderLayout.SOUTH);
+		setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+		update();
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-        if (source.equals(addButton)) {
-            addSelection();
-            update();
-        }
-        if (source.equals(removeButton)) {
-            removeSelection();
-            update();
-        }
-        if (source.equals(okButton)) {
-            ok();
-        }
-        if (source.equals(cancelButton)) {
-            cancel();
-        }
-    }
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		if (source.equals(addButton)) {
+			addSelection();
+			update();
+		}
+		if (source.equals(removeButton)) {
+			removeSelection();
+			update();
+		}
+		if (source.equals(okButton)) {
+			ok();
+		}
+		if (source.equals(cancelButton)) {
+			cancel();
+		}
+	}
 
-    /**
-     * Updates the add and remove button (sets enabled/disabled). Called
-     * whenever the model is changed.
-     */
-    private void update() {
-        if (choicesList.getModel().getSize() == 0) {
-            addButton.setEnabled(false);
-        } else {
-            addButton.setEnabled(true);
-        }
-        if (selectedList.getModel().getSize() == 0) {
-            removeButton.setEnabled(false);
-        } else {
-            removeButton.setEnabled(true);
-        }
-        if (selectedList.getModel().getSize() > 1 && !multiSelectAllowed) {
-            addButton.setEnabled(false);
-            okButton.setEnabled(false);
-        }
-        else {
-            addButton.setEnabled(true);
-            okButton.setEnabled(true);
-        }
-    }
+	/**
+	 * Updates the add and remove button (sets enabled/disabled). Called
+	 * whenever the model is changed.
+	 */
+	private void update() {
+		if (choicesList.getModel().getSize() == 0) {
+			addButton.setEnabled(false);
+		} else {
+			addButton.setEnabled(true);
+		}
+		if (selectedList.getModel().getSize() == 0) {
+			removeButton.setEnabled(false);
+		} else {
+			removeButton.setEnabled(true);
+		}
+		if (selectedList.getModel().getSize() > 1 && !multiSelectAllowed) {
+			addButton.setEnabled(false);
+			okButton.setEnabled(false);
+		} else {
+			addButton.setEnabled(true);
+			okButton.setEnabled(true);
+		}
+	}
 
-    /**
-     * Utility method to construct a AbstractListModel from a List
-     * 
-     * @param list the given list
-     * @return AbstractListModel
-     */
-    protected AbstractListModel constructListModel(List list) {
-        SortedListModel model = new SortedListModel();
-        if (list != null) {
-            model.addAll(list);
-        }
-        return model;
-    }
+	/**
+	 * Utility method to construct a AbstractListModel from a List
+	 * 
+	 * @param list
+	 *            the given list
+	 * @return AbstractListModel
+	 */
+	protected AbstractListModel constructListModel(List list) {
+		SortedListModel model = new SortedListModel();
+		if (list != null) {
+			model.addAll(list);
+		}
+		return model;
+	}
 
-    /**
-     * Shows the dialog. First a dialog must be constructed using one of the
-     * constructors of this class. After that this method should be called to
-     * actually show the dialog. This method returns either
-     * JOptionPane.OK_OPTION if the user wants to select his choices or
-     * JOptionPane.CANCEL_OPTION if he does not want to.
-     *
-     * @param parent
-     *            The parent frame of this dialog.
-     * @return int The returnvalue, can be either JOptionPane.OK_OPTION or
-     *         JOptionPane.CANCEL_OPTION
-     */
-    public int showDialog(Component parent) {
-        Frame frame = parent instanceof Frame ? (Frame) parent
-                : (Frame) SwingUtilities
-                        .getAncestorOfClass(Frame.class, parent);
+	/**
+	 * Shows the dialog. First a dialog must be constructed using one of the
+	 * constructors of this class. After that this method should be called to
+	 * actually show the dialog. This method returns either
+	 * JOptionPane.OK_OPTION if the user wants to select his choices or
+	 * JOptionPane.CANCEL_OPTION if he does not want to.
+	 *
+	 * @param parent
+	 *            The parent frame of this dialog.
+	 * @return int The returnvalue, can be either JOptionPane.OK_OPTION or
+	 *         JOptionPane.CANCEL_OPTION
+	 */
+	public int showDialog(Component parent) {
+		Frame frame = parent instanceof Frame ? (Frame) parent
+				: (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
 
-        // String title = getUI().getDialogTitle(this);
+		// String title = getUI().getDialogTitle(this);
 
-        dialog = new JDialog(frame, title, true);
-        Container contentPane = dialog.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(this, BorderLayout.CENTER);
+		dialog = new JDialog(frame, title, true);
+		Container contentPane = dialog.getContentPane();
+		contentPane.setLayout(new BorderLayout());
+		contentPane.add(this, BorderLayout.CENTER);
 
-        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        dialog.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                cancel();
-            }
-        });
+		dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		dialog.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				cancel();
+			}
+		});
 
-        dialog.pack();
-        dialog.setLocationRelativeTo(parent);
+		dialog.pack();
+		dialog.setLocationRelativeTo(parent);
 
-        dialog.setVisible(true);
-        return returnValue;
-    }
+		dialog.setVisible(true);
+		return returnValue;
+	}
 
-    /**
-     * Returns the choices a user can make.
-     * @return List of choices
-     */
-    private List getChoices() {
-        List result = new ArrayList();
-        for (int index : choicesList.getSelectedIndices()) {
-            result.add(choicesList.getModel().getElementAt(index));
-        }
-        return result;
-    }
-    
-    /**
-     * Returns the selected elements in the selected list
-     *
-     * @return List
-     */
-    private List getSelectedChoices() {
-        List result = new ArrayList();
-        for (int index : selectedList.getSelectedIndices()) {
-            result.add(selectedList.getModel().getElementAt(index));
-        }
-        return result;
-    }
+	/**
+	 * Returns the choices a user can make.
+	 * 
+	 * @return List of choices
+	 */
+	private List getChoices() {
+		List result = new ArrayList();
+		for (int index : choicesList.getSelectedIndices()) {
+			result.add(choicesList.getModel().getElementAt(index));
+		}
+		return result;
+	}
 
-    /**
-     * Returns the elements of the right-hand "selected" list.  Note
-     * that these are not the elements selected (ie highlighted) in the
-     * Swing sense, but rather the entire contents of the list containing
-     * the user selections.
-     *
-     * @return a Vector of selected elements.
-     */
-    public Vector getSelected() {
-        Vector result = new Vector();
-        ListModel list = selectedList.getModel();
-        for (int i = 0; i < list.getSize(); i++) {
-            result.add(list.getElementAt(i));
-        }
-        return result;
-    }
-    
-    /**
-     * Adds the selected elements in the choices list to the selected list.
-     * 
-     */
-    private void addSelection() {
-        List theChoices = getChoices();
-        if (exclusive) {
-            ((SortedListModel) choicesList.getModel()).removeAll(theChoices);
-        }
-        ((SortedListModel) selectedList.getModel()).addAll(theChoices);
+	/**
+	 * Returns the selected elements in the selected list
+	 *
+	 * @return List
+	 */
+	private List getSelectedChoices() {
+		List result = new ArrayList();
+		for (int index : selectedList.getSelectedIndices()) {
+			result.add(selectedList.getModel().getElementAt(index));
+		}
+		return result;
+	}
 
-    }
+	/**
+	 * Returns the elements of the right-hand "selected" list. Note that these
+	 * are not the elements selected (ie highlighted) in the Swing sense, but
+	 * rather the entire contents of the list containing the user selections.
+	 *
+	 * @return a Vector of selected elements.
+	 */
+	public Vector getSelected() {
+		Vector result = new Vector();
+		ListModel list = selectedList.getModel();
+		for (int i = 0; i < list.getSize(); i++) {
+			result.add(list.getElementAt(i));
+		}
+		return result;
+	}
 
-    /**
-     * Removes the selected elements in the selected list and adds them to the
-     * choices list. The GUI will be updated by the ListModel listeners.
-     */
-    private void removeSelection() {
-        List theChoices = getSelectedChoices();
-        ((SortedListModel) selectedList.getModel()).removeAll(theChoices);
-        if (exclusive) {
-            ((SortedListModel) choicesList.getModel()).addAll(theChoices);
-        }
-    }
+	/**
+	 * Adds the selected elements in the choices list to the selected list.
+	 * 
+	 */
+	private void addSelection() {
+		List theChoices = getChoices();
+		if (exclusive) {
+			((SortedListModel) choicesList.getModel()).removeAll(theChoices);
+		}
+		((SortedListModel) selectedList.getModel()).addAll(theChoices);
 
-    /**
-     * Called when the OK button is pressed. Closes this dialog and sets the
-     * return value to JOptionPane.OK_OPTION.
-     */
-    private void ok() {
-        if (dialog != null) {
-            dialog.setVisible(false);
-            returnValue = JOptionPane.OK_OPTION;
-        }
-    }
+	}
 
-    /**
-     * Called when the cancel button is pressed. Closes this dialog and sets the
-     * returnvalue to JOptionPane.CANCEL_OPTION. The state of any selections
-     * is indeterminate after cancel is called.
-     */
-    private void cancel() {
-        if (dialog != null) {
-            dialog.setVisible(false);
-            returnValue = JOptionPane.CANCEL_OPTION;
-        }
-    }
+	/**
+	 * Removes the selected elements in the selected list and adds them to the
+	 * choices list. The GUI will be updated by the ListModel listeners.
+	 */
+	private void removeSelection() {
+		List theChoices = getSelectedChoices();
+		((SortedListModel) selectedList.getModel()).removeAll(theChoices);
+		if (exclusive) {
+			((SortedListModel) choicesList.getModel()).addAll(theChoices);
+		}
+	}
+
+	/**
+	 * Called when the OK button is pressed. Closes this dialog and sets the
+	 * return value to JOptionPane.OK_OPTION.
+	 */
+	private void ok() {
+		if (dialog != null) {
+			dialog.setVisible(false);
+			returnValue = JOptionPane.OK_OPTION;
+		}
+	}
+
+	/**
+	 * Called when the cancel button is pressed. Closes this dialog and sets the
+	 * returnvalue to JOptionPane.CANCEL_OPTION. The state of any selections is
+	 * indeterminate after cancel is called.
+	 */
+	private void cancel() {
+		if (dialog != null) {
+			dialog.setVisible(false);
+			returnValue = JOptionPane.CANCEL_OPTION;
+		}
+	}
 }

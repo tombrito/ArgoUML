@@ -44,15 +44,15 @@ import org.argouml.notation.NotationProviderFactory2;
 import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.base.Selection;
 
-
 /**
- * Class to display graphics for a UML CallState in a diagram.<p>
+ * Class to display graphics for a UML CallState in a diagram.
+ * <p>
  * 
- * The UML 1.3 standard does not contain a description of CallState
- * in the Notation Guide chapters. The later UML versions correct this omission.
- * So, for UML 1.3 it looks the same as an ActionState, and
- * the only difference with an ActionState is
- * the extra Well-Formedness rule for a CallState.<p>
+ * The UML 1.3 standard does not contain a description of CallState in the
+ * Notation Guide chapters. The later UML versions correct this omission. So,
+ * for UML 1.3 it looks the same as an ActionState, and the only difference with
+ * an ActionState is the extra Well-Formedness rule for a CallState.
+ * <p>
  * 
  * This Fig resembles the FigActionState very much!
  *
@@ -60,43 +60,46 @@ import org.tigris.gef.base.Selection;
  */
 public class FigCallState extends FigActionState {
 
-    private static final long serialVersionUID = -7787678019716460876L;
+	private static final long serialVersionUID = -7787678019716460876L;
 
 	/**
-     * Construct a new FigCallState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigCallState(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
+	 * Construct a new FigCallState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigCallState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.activity.ui.FigActionState#getNotationProviderType()
-     */
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_CALLSTATE;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.activity.ui.FigActionState#
+	 * getNotationProviderType()
+	 */
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_CALLSTATE;
+	}
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-        FigCallState figClone = (FigCallState) super.clone();
-        return figClone;
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigCallState figClone = (FigCallState) super.clone();
+		return figClone;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigStateVertex#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionCallState(this);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigStateVertex#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionCallState(this);
+	}
 
 }

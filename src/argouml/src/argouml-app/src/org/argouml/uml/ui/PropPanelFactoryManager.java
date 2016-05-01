@@ -43,41 +43,43 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Manager of factories registered in ArgoUML. <p>
+ * Manager of factories registered in ArgoUML.
+ * <p>
  * 
- * You can add and remove a PropPanelFactory instance 
- * to this central registry. The registered factories 
- * are then used when a new PropPanel has to be build.
+ * You can add and remove a PropPanelFactory instance to this central registry.
+ * The registered factories are then used when a new PropPanel has to be build.
  *
  * @author Michiel
  */
 public class PropPanelFactoryManager {
-    private static List<PropPanelFactory> ppfactories = 
-        new ArrayList<PropPanelFactory>();
-    
-    /**
-     * @param factory add the given factory
-     */
-    public static void addPropPanelFactory(PropPanelFactory factory) {
-        ppfactories.add(0, factory);
-    }
-    
-    /**
-     * For modules, it would be usefule to be able to remove their factories.<p>
-     * 
-     * TODO: The effect of this method is not yet tested!
-     * 
-     * @param factory the factory to remove
-     */
-    public static void removePropPanelFactory(PropPanelFactory factory) {
-        ppfactories.remove(factory);
-    }
-    
-    /**
-     * This method is not public since it is meant to be used 
-     * exclusively by TabProps.
-     */
-    static Collection<PropPanelFactory> getFactories() {
-        return ppfactories;
-    }
+	private static List<PropPanelFactory> ppfactories = new ArrayList<PropPanelFactory>();
+
+	/**
+	 * @param factory
+	 *            add the given factory
+	 */
+	public static void addPropPanelFactory(PropPanelFactory factory) {
+		ppfactories.add(0, factory);
+	}
+
+	/**
+	 * For modules, it would be usefule to be able to remove their factories.
+	 * <p>
+	 * 
+	 * TODO: The effect of this method is not yet tested!
+	 * 
+	 * @param factory
+	 *            the factory to remove
+	 */
+	public static void removePropPanelFactory(PropPanelFactory factory) {
+		ppfactories.remove(factory);
+	}
+
+	/**
+	 * This method is not public since it is meant to be used exclusively by
+	 * TabProps.
+	 */
+	static Collection<PropPanelFactory> getFactories() {
+		return ppfactories;
+	}
 }

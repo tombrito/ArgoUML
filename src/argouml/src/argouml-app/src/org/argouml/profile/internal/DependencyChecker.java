@@ -14,20 +14,22 @@
 package org.argouml.profile.internal;
 
 /**
- * An interface to be used to check if all dependencies of items are resolved
- * or not.
+ * An interface to be used to check if all dependencies of items are resolved or
+ * not.
+ * 
  * @author Luis Sergio Oliveira (euluis)
- * @param <T> the type of the items for which the dependencies are to be
+ * @param <T>
+ *            the type of the items for which the dependencies are to be
  *            checked.
  */
 interface DependencyChecker<T> {
-    /**
-     * Check if all dependencies of item are resolved.
-     *
-     * @param item the item for which to check if the dependencies are
-     *             resolved.
-     * @return true if the check if item dependencies are all resolved is
-     *         successful.
-     */
-    boolean check(T item);
+	/**
+	 * Check if all dependencies of item are resolved.
+	 *
+	 * @param item
+	 *            the item for which to check if the dependencies are resolved.
+	 * @return true if the check if item dependencies are all resolved is
+	 *         successful.
+	 */
+	boolean check(T item);
 }

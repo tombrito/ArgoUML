@@ -39,24 +39,24 @@
 package org.argouml.profile;
 
 /**
- * Using this strategy profiles can provide the default used when creating new 
+ * Using this strategy profiles can provide the default used when creating new
  * parameters, operations and attributes.
  *
  * @author maurelio1234
  */
 public interface DefaultTypeStrategy {
-    /**
-     * @return the default type used in new attributes
-     */
-    public Object getDefaultAttributeType();
+	/**
+	 * @return the default type used in new attributes
+	 */
+	public Object getDefaultAttributeType();
 
-    /**
-     * @return the default type used in new parameters
-     */
-    public Object getDefaultParameterType();
+	/**
+	 * @return the default type used in new parameters
+	 */
+	public Object getDefaultParameterType();
 
-    /**
-     * @return the default type used in new operations
-     */
-    public Object getDefaultReturnType();
+	/**
+	 * @return the default type used in new operations
+	 */
+	public Object getDefaultReturnType();
 }

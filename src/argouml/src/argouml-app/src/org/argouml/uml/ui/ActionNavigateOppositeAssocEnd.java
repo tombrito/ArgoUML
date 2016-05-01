@@ -54,38 +54,36 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNavigateOppositeAssocEnd extends AbstractActionNavigate {
 
-    /**
-     * The constructor.
-     */
-    public ActionNavigateOppositeAssocEnd() {
-        super("button.go-opposite", true);
-        putValue(Action.SMALL_ICON,
-                ResourceLoaderWrapper.lookupIconResource("AssociationEnd"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionNavigateOppositeAssocEnd() {
+		super("button.go-opposite", true);
+		putValue(Action.SMALL_ICON, ResourceLoaderWrapper.lookupIconResource("AssociationEnd"));
+	}
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
-     */
-    protected Object navigateTo(Object source) {
-        return Model.getFacade().getNextEnd(source);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
+	 */
+	protected Object navigateTo(Object source) {
+		return Model.getFacade().getNextEnd(source);
+	}
 
-    /*
-     * @see javax.swing.Action#isEnabled()
-     */
-    public boolean isEnabled() {
-        Object o = TargetManager.getInstance().getTarget();
-        if (o != null && Model.getFacade().isAAssociationEnd(o)) {
-            Collection ascEnds =
-                Model.getFacade().getConnections(
-                        Model.getFacade().getAssociation(o));
-            return !(ascEnds.size() > 2);
-        }
-        return false;
-    }
+	/*
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	public boolean isEnabled() {
+		Object o = TargetManager.getInstance().getTarget();
+		if (o != null && Model.getFacade().isAAssociationEnd(o)) {
+			Collection ascEnds = Model.getFacade().getConnections(Model.getFacade().getAssociation(o));
+			return !(ascEnds.size() > 2);
+		}
+		return false;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 7054600929513339932L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 7054600929513339932L;
 }

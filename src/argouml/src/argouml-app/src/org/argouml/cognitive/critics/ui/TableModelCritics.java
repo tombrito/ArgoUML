@@ -56,203 +56,203 @@ import org.argouml.cognitive.Critic;
 import org.argouml.cognitive.Translator;
 
 /**
- * The Table Model from the Critics Browser dialog. <p>
+ * The Table Model from the Critics Browser dialog.
+ * <p>
  *
- * This class used to be part of the CriticBrowserDialog.java file. <p>
+ * This class used to be part of the CriticBrowserDialog.java file.
+ * <p>
  *
- * In advanced mode, this model also handles
- * priority, supportedDecisions, knowledgeTypes.
+ * In advanced mode, this model also handles priority, supportedDecisions,
+ * knowledgeTypes.
  */
-class TableModelCritics extends AbstractTableModel
-    implements VetoableChangeListener {
+class TableModelCritics extends AbstractTableModel implements VetoableChangeListener {
 
-    private static final long serialVersionUID = -1591170525994116079L;
+	private static final long serialVersionUID = -1591170525994116079L;
 
-	private static final Logger LOG =
-        Logger.getLogger(TableModelCritics.class.getName());
+	private static final Logger LOG = Logger.getLogger(TableModelCritics.class.getName());
 
-    private List<Critic> critics;
-    private boolean advanced;
+	private List<Critic> critics;
+	private boolean advanced;
 
-    /**
-     * Constructor.
-     *
-     * @param advancedMode true if we show advanced columns
-     */
-    public TableModelCritics(boolean advancedMode) {
-        critics = new ArrayList<Critic>(Agency.getCriticList());
-        // Set initial sorting on Critic Headline
-        Collections.sort(critics, new Comparator<Critic>() {
-            public int compare(Critic o1, Critic o2) {
-                return o1.getHeadline().compareTo(o2.getHeadline());
-            }
-        });
-        advanced = advancedMode;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param advancedMode
+	 *            true if we show advanced columns
+	 */
+	public TableModelCritics(boolean advancedMode) {
+		critics = new ArrayList<Critic>(Agency.getCriticList());
+		// Set initial sorting on Critic Headline
+		Collections.sort(critics, new Comparator<Critic>() {
+			public int compare(Critic o1, Critic o2) {
+				return o1.getHeadline().compareTo(o2.getHeadline());
+			}
+		});
+		advanced = advancedMode;
+	}
 
-    /**
-     * @param row the selected row
-     * @return the Critic shown on that row
-     */
-    public Critic getCriticAtRow(int row) {
-        return critics.get(row);
-    }
+	/**
+	 * @param row
+	 *            the selected row
+	 * @return the Critic shown on that row
+	 */
+	public Critic getCriticAtRow(int row) {
+		return critics.get(row);
+	}
 
-    //  TableModel implemetation
-    /*
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
-    public int getColumnCount() {
-        return advanced ? 6 : 3;
-    }
+	// TableModel implemetation
+	/*
+	 * @see javax.swing.table.TableModel#getColumnCount()
+	 */
+	public int getColumnCount() {
+		return advanced ? 6 : 3;
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getColumnName(int)
-     */
-    public String getColumnName(int c) {
-        if (c == 0) {
-            return Translator.localize("dialog.browse.column-name.active");
-        }
-        if (c == 1) {
-            return Translator.localize("dialog.browse.column-name.headline");
-        }
-        if (c == 2) {
-            return Translator.localize("dialog.browse.column-name.snoozed");
-        }
-        if (c == 3) {
-            return Translator.localize("dialog.browse.column-name.priority");
-        }
-        if (c == 4) {
-            return Translator.localize(
-                    "dialog.browse.column-name.supported-decision");
-        }
-        if (c == 5) {
-            return Translator.localize(
-                    "dialog.browse.column-name.knowledge-type");
-        }
-        throw new IllegalArgumentException();
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getColumnName(int)
+	 */
+	public String getColumnName(int c) {
+		if (c == 0) {
+			return Translator.localize("dialog.browse.column-name.active");
+		}
+		if (c == 1) {
+			return Translator.localize("dialog.browse.column-name.headline");
+		}
+		if (c == 2) {
+			return Translator.localize("dialog.browse.column-name.snoozed");
+		}
+		if (c == 3) {
+			return Translator.localize("dialog.browse.column-name.priority");
+		}
+		if (c == 4) {
+			return Translator.localize("dialog.browse.column-name.supported-decision");
+		}
+		if (c == 5) {
+			return Translator.localize("dialog.browse.column-name.knowledge-type");
+		}
+		throw new IllegalArgumentException();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getColumnClass(int)
-     */
-    public Class< ? > getColumnClass(int c) {
-        if (c == 0) {
-            return Boolean.class;
-        }
-        if (c == 1) {
-            return String.class;
-        }
-        if (c == 2) {
-            return String.class;
-        }
-        if (c == 3) {
-            return Integer.class;
-        }
-        if (c == 4) {
-            return String.class;
-        }
-        if (c == 5) {
-            return String.class;
-        }
-        throw new IllegalArgumentException();
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getColumnClass(int)
+	 */
+	public Class<?> getColumnClass(int c) {
+		if (c == 0) {
+			return Boolean.class;
+		}
+		if (c == 1) {
+			return String.class;
+		}
+		if (c == 2) {
+			return String.class;
+		}
+		if (c == 3) {
+			return Integer.class;
+		}
+		if (c == 4) {
+			return String.class;
+		}
+		if (c == 5) {
+			return String.class;
+		}
+		throw new IllegalArgumentException();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#isCellEditable(int, int)
-     */
-    public boolean isCellEditable(int row, int col) {
-        return col == 0;
-    }
+	/*
+	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
+	 */
+	public boolean isCellEditable(int row, int col) {
+		return col == 0;
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
-    public int getRowCount() {
-        if (critics == null) {
-            return 0;
-        }
-        return critics.size();
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getRowCount()
+	 */
+	public int getRowCount() {
+		if (critics == null) {
+			return 0;
+		}
+		return critics.size();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
-    public Object getValueAt(int row, int col) {
-        Critic cr = critics.get(row);
-        if (col == 0) {
-            return cr.isEnabled() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        if (col == 1) {
-            return cr.getHeadline();
-        }
-        if (col == 2) {
-            return cr.isActive() ? "no" : "yes";
-        }
-        if (col == 3) {
-            return cr.getPriority();
-        }
-        if (col == 4) {
-            return listToString(cr.getSupportedDecisions());
-        }
-        if (col == 5) {
-            return listToString(cr.getKnowledgeTypes());
-        }
-        throw new IllegalArgumentException();
-    }
+	/*
+	 * @see javax.swing.table.TableModel#getValueAt(int, int)
+	 */
+	public Object getValueAt(int row, int col) {
+		Critic cr = critics.get(row);
+		if (col == 0) {
+			return cr.isEnabled() ? Boolean.TRUE : Boolean.FALSE;
+		}
+		if (col == 1) {
+			return cr.getHeadline();
+		}
+		if (col == 2) {
+			return cr.isActive() ? "no" : "yes";
+		}
+		if (col == 3) {
+			return cr.getPriority();
+		}
+		if (col == 4) {
+			return listToString(cr.getSupportedDecisions());
+		}
+		if (col == 5) {
+			return listToString(cr.getKnowledgeTypes());
+		}
+		throw new IllegalArgumentException();
+	}
 
-    private String listToString(List l) {
-        StringBuffer buf = new StringBuffer();
-        Iterator i = l.iterator();
-        boolean hasNext = i.hasNext();
-        while (hasNext) {
-            Object o = i.next();
-            buf.append(String.valueOf(o));
-            hasNext = i.hasNext();
-            if (hasNext) {
-                buf.append(", ");
-            }
-        }
-        return buf.toString();
-    }
+	private String listToString(List l) {
+		StringBuffer buf = new StringBuffer();
+		Iterator i = l.iterator();
+		boolean hasNext = i.hasNext();
+		while (hasNext) {
+			Object o = i.next();
+			buf.append(String.valueOf(o));
+			hasNext = i.hasNext();
+			if (hasNext) {
+				buf.append(", ");
+			}
+		}
+		return buf.toString();
+	}
 
-    /*
-     * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
-     */
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex)  {
-        LOG.log(Level.FINE,
-                "setting table value {0}, {1}",
-                new Object[]{rowIndex, columnIndex});
-        if (columnIndex != 0) {
-            return;
-        }
-        if (!(aValue instanceof Boolean)) {
-            return;
-        }
-        Boolean enable = (Boolean) aValue;
-        Critic cr = critics.get(rowIndex);
-        cr.setEnabled(enable.booleanValue());
-        fireTableRowsUpdated(rowIndex, rowIndex); //TODO:
-    }
+	/*
+	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
+	 */
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		LOG.log(Level.FINE, "setting table value {0}, {1}", new Object[] { rowIndex, columnIndex });
+		if (columnIndex != 0) {
+			return;
+		}
+		if (!(aValue instanceof Boolean)) {
+			return;
+		}
+		Boolean enable = (Boolean) aValue;
+		Critic cr = critics.get(rowIndex);
+		cr.setEnabled(enable.booleanValue());
+		fireTableRowsUpdated(rowIndex, rowIndex); // TODO:
+	}
 
-    /*
-     * TODO: Why is this here? Who is calling this?
-     *
-     * @see java.beans.VetoableChangeListener#vetoableChange(java.beans.PropertyChangeEvent)
-     */
-    public void vetoableChange(PropertyChangeEvent pce) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                fireTableStructureChanged();
-            }
-        });
-    }
+	/*
+	 * TODO: Why is this here? Who is calling this?
+	 *
+	 * @see java.beans.VetoableChangeListener#vetoableChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	public void vetoableChange(PropertyChangeEvent pce) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				fireTableStructureChanged();
+			}
+		});
+	}
 
-    /**
-     * @param advancedMode true causes advanced mode
-     */
-    void setAdvanced(boolean advancedMode) {
-        advanced = advancedMode;
-        fireTableStructureChanged();
-    }
+	/**
+	 * @param advancedMode
+	 *            true causes advanced mode
+	 */
+	void setAdvanced(boolean advancedMode) {
+		advanced = advancedMode;
+		fireTableStructureChanged();
+	}
 }

@@ -14,22 +14,25 @@
 package org.argouml.kernel;
 
 /**
- * An interface to be applied to any class interested in addition or removal of a diagram from a project
+ * An interface to be applied to any class interested in addition or removal of
+ * a diagram from a project
  *
  * @author Bob Tarling
  */
 public interface ProjectListener {
-    
-    /**
-     * Called when a diagram is added to a project
-     * @param event
-     */
-    void diagramAdded(ProjectEvent event);
-    
-    /**
-     * Called when a diagram is removed from a project
-     * @param event
-     */
-    void diagramRemoved(ProjectEvent event);
+
+	/**
+	 * Called when a diagram is added to a project
+	 * 
+	 * @param event
+	 */
+	void diagramAdded(ProjectEvent event);
+
+	/**
+	 * Called when a diagram is removed from a project
+	 * 
+	 * @param event
+	 */
+	void diagramRemoved(ProjectEvent event);
 
 }

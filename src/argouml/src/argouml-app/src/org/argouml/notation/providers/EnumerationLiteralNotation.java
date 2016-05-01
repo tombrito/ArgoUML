@@ -44,34 +44,33 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents an Enumeration Literal.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents an Enumeration Literal. Subclass this for
+ * all languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class EnumerationLiteralNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param enumLiteral the UML element
-     */
-    public EnumerationLiteralNotation(Object enumLiteral) {
-        if (!Model.getFacade().isAEnumerationLiteral(enumLiteral)) {
-            throw new IllegalArgumentException(
-                    "This is not an Enumeration Literal.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param enumLiteral
+	 *            the UML element
+	 */
+	public EnumerationLiteralNotation(Object enumLiteral) {
+		if (!Model.getFacade().isAEnumerationLiteral(enumLiteral)) {
+			throw new IllegalArgumentException("This is not an Enumeration Literal.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement, 
-                new String[] {"name", "remove", "stereotype"} );
-        Collection c = Model.getFacade().getStereotypes(modelElement);
-        for (Object st : c) {
-            addElementListener(st, new String[] {"name", "remove"});
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement, new String[] { "name", "remove", "stereotype" });
+		Collection c = Model.getFacade().getStereotypes(modelElement);
+		for (Object st : c) {
+			addElementListener(st, new String[] { "name", "remove" });
+		}
+	}
 
 }

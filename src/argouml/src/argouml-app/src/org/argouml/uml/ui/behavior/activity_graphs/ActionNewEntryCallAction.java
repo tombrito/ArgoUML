@@ -45,31 +45,32 @@ import org.argouml.ui.UndoableAction;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * This action creates a new CallAction as a Entry activity 
- * for the state that is the current target.
+ * This action creates a new CallAction as a Entry activity for the state that
+ * is the current target.
  * 
  * @author michiel
  */
 class ActionNewEntryCallAction extends UndoableAction {
 
-    private static final long serialVersionUID = 9203120180293672115L;
+	private static final long serialVersionUID = 9203120180293672115L;
 
 	/**
-     * Constructor for ActionNewEntryCallAction.
-     */
-    public ActionNewEntryCallAction() {
-        super();
-    }
+	 * Constructor for ActionNewEntryCallAction.
+	 */
+	public ActionNewEntryCallAction() {
+		super();
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Object t = TargetManager.getInstance().getModelTarget();
-        Object ca = Model.getCommonBehaviorFactory().createCallAction();
-        Model.getStateMachinesHelper().setEntry(t, ca);
-        TargetManager.getInstance().setTarget(ca);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Object t = TargetManager.getInstance().getModelTarget();
+		Object ca = Model.getCommonBehaviorFactory().createCallAction();
+		Model.getStateMachinesHelper().setEntry(t, ca);
+		TargetManager.getInstance().setTarget(ca);
+	}
 
 }

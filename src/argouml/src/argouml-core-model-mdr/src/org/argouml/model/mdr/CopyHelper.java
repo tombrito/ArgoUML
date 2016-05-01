@@ -59,97 +59,99 @@ import org.omg.uml.modelmanagement.UmlPackage;
  */
 final class CopyHelper implements org.argouml.model.CopyHelper {
 
-    /**
-     * The model implementation.
-     */
-    private MDRModelImplementation modelImpl;
+	/**
+	 * The model implementation.
+	 */
+	private MDRModelImplementation modelImpl;
 
-    /**
-     * Constructor to forbid creation of this object.
-     *
-     * @param implementation
-     *            To get other helpers and factories.
-     */
-    CopyHelper(MDRModelImplementation implementation) {
-        modelImpl = implementation;
-    }
+	/**
+	 * Constructor to forbid creation of this object.
+	 *
+	 * @param implementation
+	 *            To get other helpers and factories.
+	 */
+	CopyHelper(MDRModelImplementation implementation) {
+		modelImpl = implementation;
+	}
 
-    /**
-     * @see org.argouml.model.CopyHelper#copy(java.lang.Object, java.lang.Object)
-     *
-     * Make a copy of element in the given namespace.<p>
-     *
-     * This function is a dispatcher that calls the
-     * copyElement(Element,Namespace) function from XXXFactory.<p>
-     *
-     * This function may fail and return null for any of the following reasons:
-     * <ol>
-     * <li>No copy function is known for element's type.
-     * <li>The copy function fails or throws.
-     * </ol>
-     *
-     * @param anelement
-     *            is the element to copy.
-     * @param ans
-     *            the namespace
-     * @return a copy of element, or null.
-     *
-     * @throws IllegalArgumentException
-     *             if element is null.
-     */
-    public Object copy(Object anelement, Object ans) {
-        // Don't explicitly check if element is null
-        ModelElement element = (ModelElement) anelement;
-        Namespace ns = (Namespace) ans;
+	/**
+	 * @see org.argouml.model.CopyHelper#copy(java.lang.Object,
+	 *      java.lang.Object)
+	 *
+	 *      Make a copy of element in the given namespace.
+	 *      <p>
+	 *
+	 *      This function is a dispatcher that calls the
+	 *      copyElement(Element,Namespace) function from XXXFactory.
+	 *      <p>
+	 *
+	 *      This function may fail and return null for any of the following
+	 *      reasons:
+	 *      <ol>
+	 *      <li>No copy function is known for element's type.
+	 *      <li>The copy function fails or throws.
+	 *      </ol>
+	 *
+	 * @param anelement
+	 *            is the element to copy.
+	 * @param ans
+	 *            the namespace
+	 * @return a copy of element, or null.
+	 *
+	 * @throws IllegalArgumentException
+	 *             if element is null.
+	 */
+	public Object copy(Object anelement, Object ans) {
+		// Don't explicitly check if element is null
+		ModelElement element = (ModelElement) anelement;
+		Namespace ns = (Namespace) ans;
 
-        if (element instanceof UmlPackage) {
-            return modelImpl.getModelManagementFactory().copyPackage(element,
-                    ns);
-        }
-        if (element instanceof UmlClass) {
-            return modelImpl.getCoreFactory().copyClass(element, ns);
-        }
-        if (element instanceof DataType) {
-            return modelImpl.getCoreFactory().copyDataType(element, ns);
-        }
-        if (element instanceof Interface) {
-            return modelImpl.getCoreFactory().copyInterface(element, ns);
-        }
-        if (element instanceof Feature) {
-            return modelImpl.getCoreFactory().copyFeature(element, ns);
-        }
-        if (element instanceof Stereotype) {
-            return modelImpl.getExtensionMechanismsFactory().copyStereotype(
-                    element, ns);
-        }
-        if (element instanceof TagDefinition) {
-            return modelImpl.getExtensionMechanismsFactory().copyTagDefinition(
-                    element, ns);
-        }
-        throw new IllegalArgumentException("anelement:" + anelement + ", ans: "
-                + ans);
-    }
+		if (element instanceof UmlPackage) {
+			return modelImpl.getModelManagementFactory().copyPackage(element, ns);
+		}
+		if (element instanceof UmlClass) {
+			return modelImpl.getCoreFactory().copyClass(element, ns);
+		}
+		if (element instanceof DataType) {
+			return modelImpl.getCoreFactory().copyDataType(element, ns);
+		}
+		if (element instanceof Interface) {
+			return modelImpl.getCoreFactory().copyInterface(element, ns);
+		}
+		if (element instanceof Feature) {
+			return modelImpl.getCoreFactory().copyFeature(element, ns);
+		}
+		if (element instanceof Stereotype) {
+			return modelImpl.getExtensionMechanismsFactory().copyStereotype(element, ns);
+		}
+		if (element instanceof TagDefinition) {
+			return modelImpl.getExtensionMechanismsFactory().copyTagDefinition(element, ns);
+		}
+		throw new IllegalArgumentException("anelement:" + anelement + ", ans: " + ans);
+	}
 
-    /**
-     * Copy an element and its children into a namespace.
-     *
-     * @param anelement element to be copied
-     * @param ans namespace to copy into
-     * @return Object copy of given element and its children
-     */
-    Object fullCopy(Object anelement, Object ans) {
-        ModelElement copy = (ModelElement) copy(anelement, ans);
-        if (anelement instanceof Namespace) {
-            Collection children = ((Namespace) anelement).getOwnedElement();
-            if (!children.isEmpty()) {
-                Iterator it = children.iterator();
-                while (it.hasNext()) {
-                    Object childToCopy = it.next();
-                    fullCopy(childToCopy, copy);
-                }
-            }
-        }
-        return copy;
-    }
+	/**
+	 * Copy an element and its children into a namespace.
+	 *
+	 * @param anelement
+	 *            element to be copied
+	 * @param ans
+	 *            namespace to copy into
+	 * @return Object copy of given element and its children
+	 */
+	Object fullCopy(Object anelement, Object ans) {
+		ModelElement copy = (ModelElement) copy(anelement, ans);
+		if (anelement instanceof Namespace) {
+			Collection children = ((Namespace) anelement).getOwnedElement();
+			if (!children.isEmpty()) {
+				Iterator it = children.iterator();
+				while (it.hasNext()) {
+					Object childToCopy = it.next();
+					fullCopy(childToCopy, copy);
+				}
+			}
+		}
+		return copy;
+	}
 
 }

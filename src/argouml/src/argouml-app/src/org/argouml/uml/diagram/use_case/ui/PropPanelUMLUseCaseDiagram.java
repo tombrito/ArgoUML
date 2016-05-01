@@ -47,14 +47,13 @@ import org.argouml.uml.diagram.ui.PropPanelDiagram;
  */
 class PropPanelUMLUseCaseDiagram extends PropPanelDiagram {
 
-    private static final long serialVersionUID = 821943546345566476L;
+	private static final long serialVersionUID = 821943546345566476L;
 
 	/**
-     * Constructor for PropPanelUMLUseCaseDiagram.
-     */
-    public PropPanelUMLUseCaseDiagram() {
-        super(Translator.localize("label.usecase-diagram"),
-                lookupIcon("UseCaseDiagram"));
-    }
+	 * Constructor for PropPanelUMLUseCaseDiagram.
+	 */
+	public PropPanelUMLUseCaseDiagram() {
+		super(Translator.localize("label.usecase-diagram"), lookupIcon("UseCaseDiagram"));
+	}
 
 }

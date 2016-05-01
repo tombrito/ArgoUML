@@ -41,23 +41,24 @@ package org.argouml.uml.diagram.ui;
 import org.argouml.uml.diagram.DiagramSettings.StereotypeStyle;
 
 /**
- * An interface for figs which implement stereotype styles.  It exists
- * primarily to break a cyclic dependency on Fig*ModelElement.
+ * An interface for figs which implement stereotype styles. It exists primarily
+ * to break a cyclic dependency on Fig*ModelElement.
  * 
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public interface StereotypeStyled {
 
-    /**
-     * @return the rendering style for stereotypes
-     */
-    public abstract StereotypeStyle getStereotypeStyle();
+	/**
+	 * @return the rendering style for stereotypes
+	 */
+	public abstract StereotypeStyle getStereotypeStyle();
 
-    /**
-     * Set the stereotype style to be used for rendering this fig.
-     * 
-     * @param style the stereotype style to be set
-     */
-    public abstract void setStereotypeStyle(StereotypeStyle style);
+	/**
+	 * Set the stereotype style to be used for rendering this fig.
+	 * 
+	 * @param style
+	 *            the stereotype style to be set
+	 */
+	public abstract void setStereotypeStyle(StereotypeStyle style);
 
 }

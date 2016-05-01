@@ -40,26 +40,27 @@ package org.argouml.util;
 
 /**
  * A predicate which uses the Java equals operator to compare a pattern object
- * with a candidate object.  Based on the org.gef.util class of the same name.
+ * with a candidate object. Based on the org.gef.util class of the same name.
  */
 public class PredicateEquals implements Predicate {
 
-    private Object pattern;
+	private Object pattern;
 
-    /**
-     * Construct a new predicate which will test equality against the given
-     * pattern object using the Java equals method.
-     * 
-     * @param patternObject the object to test for equality with.
-     */
-    public PredicateEquals(Object patternObject) {
-        pattern = patternObject;
-    }
+	/**
+	 * Construct a new predicate which will test equality against the given
+	 * pattern object using the Java equals method.
+	 * 
+	 * @param patternObject
+	 *            the object to test for equality with.
+	 */
+	public PredicateEquals(Object patternObject) {
+		pattern = patternObject;
+	}
 
-    public boolean evaluate(Object object) {
-        if (pattern == null) {
-            return object == null;
-        }
-        return pattern.equals(object);
-    }
+	public boolean evaluate(Object object) {
+		if (pattern == null) {
+			return object == null;
+		}
+		return pattern.equals(object);
+	}
 }

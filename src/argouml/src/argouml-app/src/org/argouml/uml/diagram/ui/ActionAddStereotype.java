@@ -51,74 +51,71 @@ import org.argouml.model.Model;
 import org.argouml.notation.providers.uml.NotationUtilityUml;
 import org.argouml.ui.UndoableAction;
 
-
 /**
  * Action to add a stereotype to a model element.
  * 
  * TODO: Appears to be unused?
  * 
  * @author Bob Tarling
- * @deprecated for 0.27.2 by tfmorris.  Use 
- * {@link org.argouml.uml.ActionAddStereotype}.
+ * @deprecated for 0.27.2 by tfmorris. Use
+ *             {@link org.argouml.uml.ActionAddStereotype}.
  */
 @Deprecated
 @UmlModelMutator
 class ActionAddStereotype extends UndoableAction {
-    private static final long serialVersionUID = -900060300553166040L;
+	private static final long serialVersionUID = -900060300553166040L;
 	private Object modelElement;
-    private Object stereotype;
+	private Object stereotype;
 
-    /**
-     * Constructor.
-     *
-     * @param me The model element.
-     * @param st The stereotype.
-     */
-    public ActionAddStereotype(Object me, Object st) {
-        super(Translator.localize(buildString(st)),
-                null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(buildString(st)));
-        modelElement = me;
-        stereotype = st;
-    }
-    
-    private static String buildString(Object st) {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        ProjectSettings ps = p.getProjectSettings();
-        return NotationUtilityUml.generateStereotype(st, 
-                ps.getNotationSettings().isUseGuillemets());
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param me
+	 *            The model element.
+	 * @param st
+	 *            The stereotype.
+	 */
+	public ActionAddStereotype(Object me, Object st) {
+		super(Translator.localize(buildString(st)), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(buildString(st)));
+		modelElement = me;
+		stereotype = st;
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        if (Model.getFacade().getStereotypes(modelElement)
-                .contains(stereotype)) {
-            Model.getCoreHelper().removeStereotype(modelElement, stereotype);
-        } else {
-            Model.getCoreHelper().addStereotype(modelElement, stereotype);
-        }
-        ProjectManager.getManager().updateRoots();
-    }
+	private static String buildString(Object st) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		ProjectSettings ps = p.getProjectSettings();
+		return NotationUtilityUml.generateStereotype(st, ps.getNotationSettings().isUseGuillemets());
+	}
 
-    /*
-     * @see javax.swing.Action#getValue(java.lang.String)
-     */
-    @Override
-    public Object getValue(String key) {
-        if ("SELECTED".equals(key)) {
-            if (Model.getFacade().getStereotypes(modelElement).contains(
-                    stereotype)) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-        }
-        return super.getValue(key);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		if (Model.getFacade().getStereotypes(modelElement).contains(stereotype)) {
+			Model.getCoreHelper().removeStereotype(modelElement, stereotype);
+		} else {
+			Model.getCoreHelper().addStereotype(modelElement, stereotype);
+		}
+		ProjectManager.getManager().updateRoots();
+	}
+
+	/*
+	 * @see javax.swing.Action#getValue(java.lang.String)
+	 */
+	@Override
+	public Object getValue(String key) {
+		if ("SELECTED".equals(key)) {
+			if (Model.getFacade().getStereotypes(modelElement).contains(stereotype)) {
+				return Boolean.TRUE;
+			} else {
+				return Boolean.FALSE;
+			}
+		}
+		return super.getValue(key);
+	}
 }

@@ -61,113 +61,116 @@ import org.argouml.ui.explorer.TypeThenNameOrder;
 import org.tigris.toolbar.ToolBarFactory;
 
 /**
- * The upper-left pane of the main ArgoUML window, contains a tree view
- * of the UML model. Currently named "Explorer" instead of "Navigator".<p>
+ * The upper-left pane of the main ArgoUML window, contains a tree view of the
+ * UML model. Currently named "Explorer" instead of "Navigator".
+ * <p>
  *
- * The model can be viewed from different tree "Perspectives".<p>
+ * The model can be viewed from different tree "Perspectives".
+ * <p>
  *
- * Perspectives are now built in the Perspective Manager.<p>
+ * Perspectives are now built in the Perspective Manager.
+ * <p>
  */
-class NavigatorPane
-    extends JPanel {
+class NavigatorPane extends JPanel {
 
-    /**
-     * Constructs a new navigator panel.<p>
-     *
-     * This panel consists of a Combobox to select a navigation
-     * perspective, a combobox to select ordering,
-     * a JTree to display the UML model,
-     * and a configuration dialog to tailor the perspectives.
-     *
-     * @param splash The splash screen where to show progress.
-     * @deprecated for 0.31.7 by tfmorris.  
-     * Use {@link NavigatorPane#NavigatorPane(ProgressMonitor)}.
-     */
-    @Deprecated
-    public NavigatorPane(SplashScreen splash) {
-        this(splash, null);
-    }
+	/**
+	 * Constructs a new navigator panel.
+	 * <p>
+	 *
+	 * This panel consists of a Combobox to select a navigation perspective, a
+	 * combobox to select ordering, a JTree to display the UML model, and a
+	 * configuration dialog to tailor the perspectives.
+	 *
+	 * @param splash
+	 *            The splash screen where to show progress.
+	 * @deprecated for 0.31.7 by tfmorris. Use
+	 *             {@link NavigatorPane#NavigatorPane(ProgressMonitor)}.
+	 */
+	@Deprecated
+	public NavigatorPane(SplashScreen splash) {
+		this(splash, null);
+	}
 
-    /**
-     * Construct a new navigator panel.<p>
-     *
-     * This panel consists of a Combobox to select a navigation
-     * perspective, a combobox to select ordering,
-     * a JTree to display the UML model,
-     * and a configuration dialog to tailor the perspectives.
-     *
-     * @param pm ProgressMonitor to receive progress updates.  May be null.
-     */
-    @Deprecated
-    public NavigatorPane(ProgressMonitor pm) {
-        this(null, pm);
-    }
-    
-    /**
-     * Constructs a new navigator panel.<p>
-     *
-     * This panel consists of a Combobox to select a navigation
-     * perspective, a combobox to select ordering,
-     * a JTree to display the UML model,
-     * and a configuration dialog to tailor the perspectives.
-     *
-     * @param splash The splash screen where to show progress.
-     */
-    private NavigatorPane(SplashScreen splash, ProgressMonitor pm) {
+	/**
+	 * Construct a new navigator panel.
+	 * <p>
+	 *
+	 * This panel consists of a Combobox to select a navigation perspective, a
+	 * combobox to select ordering, a JTree to display the UML model, and a
+	 * configuration dialog to tailor the perspectives.
+	 *
+	 * @param pm
+	 *            ProgressMonitor to receive progress updates. May be null.
+	 */
+	@Deprecated
+	public NavigatorPane(ProgressMonitor pm) {
+		this(null, pm);
+	}
 
-        JComboBox perspectiveCombo = new PerspectiveComboBox();
-        JComboBox orderByCombo = new JComboBox();
-        ExplorerTree tree = new DnDExplorerTree();
+	/**
+	 * Constructs a new navigator panel.
+	 * <p>
+	 *
+	 * This panel consists of a Combobox to select a navigation perspective, a
+	 * combobox to select ordering, a JTree to display the UML model, and a
+	 * configuration dialog to tailor the perspectives.
+	 *
+	 * @param splash
+	 *            The splash screen where to show progress.
+	 */
+	private NavigatorPane(SplashScreen splash, ProgressMonitor pm) {
 
-        Collection<Object> toolbarTools = new ArrayList<Object>();
-        toolbarTools.add(new ActionPerspectiveConfig());
-        toolbarTools.add(perspectiveCombo);
-        JToolBar toolbar = (new ToolBarFactory(toolbarTools)).createToolBar();
-        toolbar.setFloatable(false);
+		JComboBox perspectiveCombo = new PerspectiveComboBox();
+		JComboBox orderByCombo = new JComboBox();
+		ExplorerTree tree = new DnDExplorerTree();
 
-        orderByCombo.addItem(new TypeThenNameOrder());
-        orderByCombo.addItem(new NameOrder());
+		Collection<Object> toolbarTools = new ArrayList<Object>();
+		toolbarTools.add(new ActionPerspectiveConfig());
+		toolbarTools.add(perspectiveCombo);
+		JToolBar toolbar = (new ToolBarFactory(toolbarTools)).createToolBar();
+		toolbar.setFloatable(false);
 
-        Collection<Object> toolbarTools2 = new ArrayList<Object>();
-        toolbarTools2.add(orderByCombo);
-        JToolBar toolbar2 = (new ToolBarFactory(toolbarTools2)).createToolBar();
-        toolbar2.setFloatable(false);
+		orderByCombo.addItem(new TypeThenNameOrder());
+		orderByCombo.addItem(new NameOrder());
 
-        JPanel toolbarpanel = new JPanel();
-        toolbarpanel.setLayout(new BorderLayout());
-        toolbarpanel.add(toolbar, BorderLayout.NORTH);
-        toolbarpanel.add(toolbar2, BorderLayout.SOUTH);
+		Collection<Object> toolbarTools2 = new ArrayList<Object>();
+		toolbarTools2.add(orderByCombo);
+		JToolBar toolbar2 = (new ToolBarFactory(toolbarTools2)).createToolBar();
+		toolbar2.setFloatable(false);
 
-        setLayout(new BorderLayout());
-        add(toolbarpanel, BorderLayout.NORTH);
-        add(new JScrollPane(tree), BorderLayout.CENTER);
+		JPanel toolbarpanel = new JPanel();
+		toolbarpanel.setLayout(new BorderLayout());
+		toolbarpanel.add(toolbar, BorderLayout.NORTH);
+		toolbarpanel.add(toolbar2, BorderLayout.SOUTH);
 
-        if (splash != null) {
-            splash.getStatusBar().showStatus(Translator.localize(
-		    "statusmsg.bar.making-navigator-pane-perspectives"));
-            splash.getStatusBar().showProgress(25);
-        } else if (pm != null) {
-            pm.updateSubTask(Translator.localize(
-                    "statusmsg.bar.making-navigator-pane-perspectives"));
-            pm.updateProgress(25);
-        }
+		setLayout(new BorderLayout());
+		add(toolbarpanel, BorderLayout.NORTH);
+		add(new JScrollPane(tree), BorderLayout.CENTER);
 
-        perspectiveCombo.addItemListener((ExplorerTreeModel) tree.getModel());
-        orderByCombo.addItemListener((ExplorerTreeModel) tree.getModel());
-        PerspectiveManager.getInstance().loadUserPerspectives();
-    }
+		if (splash != null) {
+			splash.getStatusBar().showStatus(Translator.localize("statusmsg.bar.making-navigator-pane-perspectives"));
+			splash.getStatusBar().showProgress(25);
+		} else if (pm != null) {
+			pm.updateSubTask(Translator.localize("statusmsg.bar.making-navigator-pane-perspectives"));
+			pm.updateProgress(25);
+		}
 
-    /*
-     * @see java.awt.Component#getMinimumSize()
-     *
-     * sets minimum size to 120,100
-     */
-    public Dimension getMinimumSize() {
-        return new Dimension(120, 100);
-    }
+		perspectiveCombo.addItemListener((ExplorerTreeModel) tree.getModel());
+		orderByCombo.addItemListener((ExplorerTreeModel) tree.getModel());
+		PerspectiveManager.getInstance().loadUserPerspectives();
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 8403903607517813289L;
+	/*
+	 * @see java.awt.Component#getMinimumSize()
+	 *
+	 * sets minimum size to 120,100
+	 */
+	public Dimension getMinimumSize() {
+		return new Dimension(120, 100);
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 8403903607517813289L;
 } /* end class NavigatorPane */

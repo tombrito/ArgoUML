@@ -38,53 +38,56 @@
 
 package org.argouml.model;
 
-
 /**
- * Exception for external reference problems with XMI files.  This is a
+ * Exception for external reference problems with XMI files. This is a
  * {@link RuntimeException}, so that it can be thrown from specific model
  * implementation internals.
  * 
  * @author Tom Morris
  */
 public class XmiReferenceRuntimeException extends RuntimeException {
-    
-    private static final long serialVersionUID = -3203365299583612504L;
+
+	private static final long serialVersionUID = -3203365299583612504L;
 	private String reference;
-    
-    /**
-     * Construct an XmiReferenceRuntimeException with the given message.
-     * 
-     * @param message the message
-     */
-    public XmiReferenceRuntimeException(String message) {
-        super(message);
-    }
 
-    /**
-     * Construct an XmiReferenceRuntimeException for the given reference
-     * 
-     * @param href the reference that caused the error
-     * @param cause the nested exception if available
-     */
-    public XmiReferenceRuntimeException(String href, Throwable cause) {
-        super(href, cause);
-        reference = href;
-    }
+	/**
+	 * Construct an XmiReferenceRuntimeException with the given message.
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public XmiReferenceRuntimeException(String message) {
+		super(message);
+	}
 
-    /**
-     * @return the external reference (href) that caused the exception
-     */
-    public String getReference() {
-        return reference;
-    }
+	/**
+	 * Construct an XmiReferenceRuntimeException for the given reference
+	 * 
+	 * @param href
+	 *            the reference that caused the error
+	 * @param cause
+	 *            the nested exception if available
+	 */
+	public XmiReferenceRuntimeException(String href, Throwable cause) {
+		super(href, cause);
+		reference = href;
+	}
 
-    /**
-     * Construct an exception with a causing exception.
-     *
-     * @param c the cause of the exception
-     */
-    public XmiReferenceRuntimeException(Throwable c) {
-        super(c);
-    }
+	/**
+	 * @return the external reference (href) that caused the exception
+	 */
+	public String getReference() {
+		return reference;
+	}
+
+	/**
+	 * Construct an exception with a causing exception.
+	 *
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public XmiReferenceRuntimeException(Throwable c) {
+		super(c);
+	}
 
 }

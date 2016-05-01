@@ -58,569 +58,558 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigRect;
 
 /**
- * Presentation logic for a UML List Compartment. <p>
+ * Presentation logic for a UML List Compartment.
+ * <p>
  *
- * The UML defines a Name Compartment, and a List Compartment.
- * This class implements the latter.<p>
+ * The UML defines a Name Compartment, and a List Compartment. This class
+ * implements the latter.
+ * <p>
  *
- * A List Compartment is a boxed compartment,
- * containing vertically stacked figs,
- * which is common to e.g. an operations
- * compartment and an attributes compartment.<p>
+ * A List Compartment is a boxed compartment, containing vertically stacked
+ * figs, which is common to e.g. an operations compartment and an attributes
+ * compartment.
+ * <p>
  *
- * The bigPort is filled with a border. All other figs contained
- * in this group may not be filled.<p>
+ * The bigPort is filled with a border. All other figs contained in this group
+ * may not be filled.
+ * <p>
  *
- * The size calculation done here supports vertically
- * stacked sub-figs of this group and supports all
- * compartment specializations.
+ * The size calculation done here supports vertically stacked sub-figs of this
+ * group and supports all compartment specializations.
  *
  * @author Bob Tarling
  */
 public abstract class FigCompartment extends ArgoFigGroup {
 
-    private static final long serialVersionUID = -4372396526957531695L;
+	private static final long serialVersionUID = -4372396526957531695L;
 
-	private static final Logger LOG =
-        Logger.getLogger(FigCompartment.class.getName());
+	private static final Logger LOG = Logger.getLogger(FigCompartment.class.getName());
 
-    private Fig bigPort;
+	private Fig bigPort;
 
-    private static final int MIN_HEIGHT = FigNodeModelElement.NAME_FIG_HEIGHT;
+	private static final int MIN_HEIGHT = FigNodeModelElement.NAME_FIG_HEIGHT;
 
-    /**
-     * A separator line that may be wider than the compartment.
-     */
-    private Fig externalSeparatorFig = new FigSeparator(X0, Y0, 11, LINE_WIDTH);
+	/**
+	 * A separator line that may be wider than the compartment.
+	 */
+	private Fig externalSeparatorFig = new FigSeparator(X0, Y0, 11, LINE_WIDTH);
 
-    /**
-     * If true the last element will be editable when
-     * the populate method completes.
-     */
-    private boolean editOnRedraw;
+	/**
+	 * If true the last element will be editable when the populate method
+	 * completes.
+	 */
+	private boolean editOnRedraw;
 
-    private void constructFigs(int x, int y, int w, int h) {
-        bigPort = new FigPort(X0, Y0, w, h);
-        bigPort.setFilled(false);
-        bigPort.setLineWidth(0);
+	private void constructFigs(int x, int y, int w, int h) {
+		bigPort = new FigPort(X0, Y0, w, h);
+		bigPort.setFilled(false);
+		bigPort.setLineWidth(0);
 
-        addFig(bigPort);
-    }
+		addFig(bigPort);
+	}
 
-    /**
-     * Construct a new FigCompartment.
-     *
-     * @param owner owning UML element
-     * @param bounds rectangle describing bounds of compartment
-     * @param settings render settings
-     */
-    public FigCompartment(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, settings);
-        constructFigs(bounds.x, bounds.y, bounds.width, bounds.height);
-    }
+	/**
+	 * Construct a new FigCompartment.
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            rectangle describing bounds of compartment
+	 * @param settings
+	 *            render settings
+	 */
+	public FigCompartment(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, settings);
+		constructFigs(bounds.x, bounds.y, bounds.width, bounds.height);
+	}
 
-    /**
-     * If a boxed compartment is set to invisible then remove all its
-     * children.
-     * This is to save on resources and increase efficiency as multiple
-     * figs need not exist and be resized, moved etc if they are not visible.
-     * If a compartment is later made visible then its child figs are rebuilt
-     * from the model.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setVisible(boolean visible) {
-        if (isVisible() == visible) {
-            return;
-        }
-        super.setVisible(visible);
-        if (externalSeparatorFig != null) {
-            externalSeparatorFig.setVisible(visible);
-        }
-        if (visible) {
-            populate();
-        } else {
-            for (int i = getFigs().size() - 1; i >= 0; --i) {
-                Fig f = getFigAt(i);
-                if (f instanceof CompartmentFigText) {
-                    removeFig(f);
-                }
-            }
-        }
-    }
+	/**
+	 * If a boxed compartment is set to invisible then remove all its children.
+	 * This is to save on resources and increase efficiency as multiple figs
+	 * need not exist and be resized, moved etc if they are not visible. If a
+	 * compartment is later made visible then its child figs are rebuilt from
+	 * the model. {@inheritDoc}
+	 */
+	@Override
+	public void setVisible(boolean visible) {
+		if (isVisible() == visible) {
+			return;
+		}
+		super.setVisible(visible);
+		if (externalSeparatorFig != null) {
+			externalSeparatorFig.setVisible(visible);
+		}
+		if (visible) {
+			populate();
+		} else {
+			for (int i = getFigs().size() - 1; i >= 0; --i) {
+				Fig f = getFigAt(i);
+				if (f instanceof CompartmentFigText) {
+					removeFig(f);
+				}
+			}
+		}
+	}
 
-    @Override
-    public void addFig(Fig fig) {
-        if (fig != getBigPort()
-                && !(fig instanceof CompartmentFigText)
-                && !(fig instanceof FigSeparator)) {
-            LOG.log(Level.SEVERE, "Illegal Fig added to a FigEditableCompartment");
-            throw new IllegalArgumentException(
-                    "A FigEditableCompartment can only "
-                    + "contain CompartmentFigTexts, "
-                    + "received a " + fig.getClass().getName());
-        }
-        super.addFig(fig);
-    }
+	@Override
+	public void addFig(Fig fig) {
+		if (fig != getBigPort() && !(fig instanceof CompartmentFigText) && !(fig instanceof FigSeparator)) {
+			LOG.log(Level.SEVERE, "Illegal Fig added to a FigEditableCompartment");
+			throw new IllegalArgumentException("A FigEditableCompartment can only " + "contain CompartmentFigTexts, "
+					+ "received a " + fig.getClass().getName());
+		}
+		super.addFig(fig);
+	}
 
+	/**
+	 * @return the bigPort
+	 */
+	public Fig getBigPort() {
+		return bigPort;
+	}
 
+	/**
+	 * The minimum width is the minimum width of the child with the widest
+	 * minimum width. The minimum height is the total minimum height of all
+	 * child figs.
+	 * 
+	 * @return the minimum width
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		int minWidth = 0;
+		int minHeight = 0;
+		for (Fig fig : (Collection<Fig>) getFigs()) {
+			if (fig.isVisible() && fig != getBigPort()) {
+				int fw = fig.getMinimumSize().width;
+				if (fw > minWidth) {
+					minWidth = fw;
+				}
+				minHeight += fig.getMinimumSize().height;
+			}
+		}
 
-    /**
-     * @return the bigPort
-     */
-    public Fig getBigPort() {
-        return bigPort;
-    }
+		minHeight += 2; // 2 Pixel padding after compartment
 
-    /**
-     * The minimum width is the minimum width of the child with the widest
-     * minimum width.
-     * The minimum height is the total minimum height of all child figs.
-     * @return the minimum width
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        int minWidth = 0;
-        int minHeight = 0;
-        for (Fig fig : (Collection<Fig>) getFigs()) {
-            if (fig.isVisible() && fig != getBigPort()) {
-                int fw = fig.getMinimumSize().width;
-                if (fw > minWidth) {
-                    minWidth = fw;
-                }
-                minHeight += fig.getMinimumSize().height;
-            }
-        }
+		minHeight = Math.max(minHeight, MIN_HEIGHT);
 
-        minHeight += 2; // 2 Pixel padding after compartment
+		return new Dimension(minWidth, minHeight);
+	}
 
-        minHeight = Math.max(minHeight, MIN_HEIGHT);
+	@Override
+	protected void setBoundsImpl(int x, int y, int w, int h) {
+		Rectangle oldBounds = getBounds();
 
-        return new Dimension(minWidth, minHeight);
-    }
+		Dimension minimumSize = getMinimumSize();
+		int newW = Math.max(w, minimumSize.width);
+		int newH = Math.max(h, minimumSize.height);
 
-    @Override
-    protected void setBoundsImpl(int x, int y, int w, int h) {
-        Rectangle oldBounds = getBounds();
+		int currentHeight = 0;
 
-        Dimension minimumSize = getMinimumSize();
-        int newW = Math.max(w, minimumSize.width);
-        int newH = Math.max(h, minimumSize.height);
+		for (Fig fig : getFigs()) {
+			if (fig.isVisible() && fig != getBigPort()) {
+				int fh = fig.getMinimumSize().height;
 
-        int currentHeight = 0;
+				fig.setBounds(x, y + currentHeight, newW, fh);
+				currentHeight += fh;
+			}
+		}
+		getBigPort().setBounds(x, y, newW, newH);
+		calcBounds();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-        for  (Fig fig : getFigs()) {
-            if (fig.isVisible() && fig != getBigPort()) {
-                int fh = fig.getMinimumSize().height;
+	/**
+	 * Create a new model element for the compartment.
+	 */
+	protected void createModelElement() {
+		Project project = getProject();
+		Defaults defaults = project.getDefaults();
+		Object attr = Model.getUmlFactory().buildNode(getCompartmentType(), getOwner(), null, defaults);
+		TargetManager.getInstance().setTarget(attr);
+	}
 
-                fig.setBounds(x, y + currentHeight, newW, fh);
-                currentHeight += fh;
-            }
-        }
-        getBigPort().setBounds(x, y, newW, newH);
-        calcBounds();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+	@Override
+	public void setFilled(boolean f) {
+		// Only the bigPort may be filled
+		super.setFilled(false);
+		// bigPort.setFilled(f);
+	}
 
-    /**
-     * Create a new model element for the compartment.
-     */
-    protected void createModelElement() {
-        Project project = getProject();
-        Defaults defaults = project.getDefaults();
-        Object attr =
-            Model.getUmlFactory().buildNode(
-                    getCompartmentType(),
-                    getOwner(),
-                    null,
-                    defaults);
-        TargetManager.getInstance().setTarget(attr);
-    }
+	@Deprecated // see parent
+	@Override
+	public boolean getFilled() {
+		return isFilled();
+	}
 
-    @Override
-    public void setFilled(boolean f) {
-        // Only the bigPort may be filled
-        super.setFilled(false);
-//        bigPort.setFilled(f);
-    }
+	@Override
+	public boolean isFilled() {
+		return bigPort.isFilled();
+	}
 
-    @Deprecated //see parent
-    @Override
-    public boolean getFilled() {
-        return isFilled();
-    }
+	/**
+	 * This operation shall return a name unique for this type of compartment.
+	 * Potential use: show at the top in the compartment as described in the
+	 * UML, or as an identification string for the compartment type.
+	 * <p>
+	 * See UML 1.4.2 OMG, chapter 5.24.1.2: Compartment name.
+	 *
+	 * @return the name of the compartment
+	 */
+	public abstract String getName();
 
-    @Override
-    public boolean isFilled() {
-        return bigPort.isFilled();
-    }
+	/**
+	 * Implemented in the subclass to indicate the primary type of model element
+	 * the compartment is designed to hold.
+	 * 
+	 * @return a model element type
+	 */
+	public abstract Object getCompartmentType();
 
-    /**
-     * This operation shall return a name unique for this type of
-     * compartment. Potential use: show at the top in the compartment
-     * as described in the UML, or as an identification string for
-     * the compartment type. <p>
-     * See UML 1.4.2 OMG, chapter 5.24.1.2: Compartment name.
-     *
-     * @return the name of the compartment
-     */
-    public abstract String getName();
+	/**
+	 * @return the collection of UML objects on which this compartment is based
+	 */
+	protected abstract Collection getUmlCollection();
 
-    /**
-     * Implemented in the subclass to indicate the primary type of model element
-     * the compartment is designed to hold.
-     * @return a model element type
-     */
-    public abstract Object getCompartmentType();
+	/**
+	 * @return the type of the notationProvider used to handle the text in the
+	 *         compartment
+	 */
+	protected abstract int getNotationType();
 
-    /**
-     * @return the collection of UML objects
-     *              on which this compartment is based
-     */
-    protected abstract Collection getUmlCollection();
+	/**
+	 * Fills the Fig by adding all figs within.
+	 */
+	public void populate() {
+		if (!isVisible()) {
+			return;
+		}
 
-    /**
-     * @return the type of the notationProvider
-     *              used to handle the text in the compartment
-     */
-    protected abstract int getNotationType();
+		int xpos = bigPort.getX();
+		int ypos = bigPort.getY();
 
-    /**
-     * Fills the Fig by adding all figs within.
-     */
-    public void populate() {
-        if (!isVisible()) {
-            return;
-        }
+		List<CompartmentFigText> figs = getElementFigs();
+		// We remove all of them:
+		for (Fig f : figs) {
+			removeFig(f);
+		}
 
-        int xpos = bigPort.getX();
-        int ypos = bigPort.getY();
+		// We are going to add the ones still valid & new ones
+		// in the right sequence:
+		FigSingleLineTextWithNotation comp = null;
+		try {
+			int acounter = -1;
+			for (Object umlObject : getUmlCollection()) {
+				comp = findCompartmentFig(figs, umlObject);
+				acounter++;
 
-        List<CompartmentFigText> figs = getElementFigs();
-        // We remove all of them:
-        for (Fig f : figs) {
-            removeFig(f);
-        }
+				// TODO: Some of these magic numbers probably assume a line
+				// width of 1. Replace with appropriate constants/variables.
 
-        // We are going to add the ones still valid & new ones
-        // in the right sequence:
-        FigSingleLineTextWithNotation comp = null;
-        try {
-            int acounter = -1;
-            for (Object umlObject : getUmlCollection()) {
-                comp = findCompartmentFig(figs, umlObject);
-                acounter++;
+				// If we don't have a fig for this UML object, we'll need to add
+				// one. We set the bounds, but they will be reset later.
+				if (comp == null) {
+					comp = createFigText(umlObject,
+							new Rectangle(xpos + 1 /* ?LINE_WIDTH? */,
+									ypos + 1 /* ?LINE_WIDTH? */ + acounter * ROWHEIGHT, 0,
+									ROWHEIGHT - 2 /* ? 2*LINE_WIDTH? */),
+							getSettings());
+				} else {
+					/* This one is still usable, so let's retain it, */
+					/* but its position may have been changed: */
+					Rectangle b = comp.getBounds();
+					b.y = ypos + 1 /* ?LINE_WIDTH? */ + acounter * ROWHEIGHT;
+					// bounds not relevant here, but I am perfectionist...
+					comp.setBounds(b);
+				}
+				/*
+				 * We need to set a new notationprovider, since the Notation
+				 * language may have been changed:
+				 */
+				comp.initNotationProviders();
+				addFig(comp); // add it again (but now in the right sequence)
 
-                // TODO: Some of these magic numbers probably assume a line
-                // width of 1.  Replace with appropriate constants/variables.
+				// Now put the text in
+				// We must handle the case where the text is null
+				String ftText = comp.getNotationProvider().toString(umlObject, comp.getNotationSettings());
+				if (ftText == null) {
+					ftText = "";
+				}
+				comp.setText(ftText);
 
-                // If we don't have a fig for this UML object, we'll need to add
-                // one. We set the bounds, but they will be reset later.
-                if (comp == null) {
-                    comp = createFigText(umlObject, new Rectangle(
-                            xpos + 1 /*?LINE_WIDTH?*/,
-                            ypos + 1 /*?LINE_WIDTH?*/ + acounter
-                            * ROWHEIGHT,
-                            0,
-                            ROWHEIGHT - 2 /*? 2*LINE_WIDTH? */),
-                            getSettings());
-                } else {
-                    /* This one is still usable, so let's retain it, */
-                    /* but its position may have been changed: */
-                    Rectangle b = comp.getBounds();
-                    b.y = ypos + 1 /*?LINE_WIDTH?*/ + acounter * ROWHEIGHT;
-                    // bounds not relevant here, but I am perfectionist...
-                    comp.setBounds(b);
-                }
-                /* We need to set a new notationprovider, since
-                 * the Notation language may have been changed:  */
-                comp.initNotationProviders();
-                addFig(comp); // add it again (but now in the right sequence)
+				comp.setBotMargin(0);
+			}
+		} catch (InvalidElementException e) {
+			// TODO: It would be better here to continue the loop and try to
+			// build the rest of the compartment. Hence try/catch should be
+			// internal to the loop.
+			LOG.log(Level.FINE,
+					"Attempted to populate a FigEditableCompartment" + " using a deleted model element - aborting", e);
+		}
 
-                // Now put the text in
-                // We must handle the case where the text is null
-                String ftText = comp.getNotationProvider().toString(umlObject,
-                        comp.getNotationSettings());
-                if (ftText == null) {
-                    ftText = "";
-                }
-                comp.setText(ftText);
+		if (comp != null) {
+			comp.setBotMargin(6); // the last one needs extra space below it
 
-                comp.setBotMargin(0);
-            }
-        } catch (InvalidElementException e) {
-            // TODO: It would be better here to continue the loop and try to
-            // build the rest of the compartment. Hence try/catch should be
-            // internal to the loop.
-            LOG.log(Level.FINE, "Attempted to populate a FigEditableCompartment"
-                    + " using a deleted model element - aborting", e);
-        }
+			if (editOnRedraw) {
+				comp.startTextEditor(null);
+				editOnRedraw = false;
+			}
+		}
+	}
 
-        if (comp != null) {
-            comp.setBotMargin(6); // the last one needs extra space below it
+	/**
+	 * Set the editOnRedraw state. When this mode is turned on the compartment
+	 * will place the last element in edit mode the next time the component
+	 * draws (typically as the result of some event such as having a new item
+	 * added)
+	 *
+	 * @param editOnRedraw
+	 */
+	public void setEditOnRedraw(final boolean editOnRedraw) {
+		this.editOnRedraw = editOnRedraw;
+	}
 
-            if (editOnRedraw) {
-                comp.startTextEditor(null);
-                editOnRedraw = false;
-            }
-        }
-    }
+	/**
+	 * @return null
+	 * @deprecated for 0.27.3 by tfmorris. Subclasses must implement
+	 *             {@link #createFigText(Object, Rectangle, DiagramSettings, NotationProvider)}
+	 *             which will become abstract in the future when this deprecated
+	 *             method is removed.
+	 */
+	@Deprecated
+	protected FigSingleLineTextWithNotation createFigText(int x, int y, int w, int h, Fig aFig, NotationProvider np) {
+		// No longer abstract to allow subclasses to remove, so we provide a
+		// null default implementation
+		return null;
+	}
 
-    /**
-     * Set the editOnRedraw state. When this mode is turned on the compartment
-     * will place the last element in edit mode the next time the component
-     * draws (typically as the result of some event such as having a new item
-     * added)
-     *
-     * @param editOnRedraw
-     */
-    public void setEditOnRedraw(final boolean editOnRedraw) {
-        this.editOnRedraw = editOnRedraw;
-    }
+	/**
+	 * Factory method to create a FigSingleLineTextWithNotation which must be
+	 * implemented by all subclasses. It will become abstract after the release
+	 * of 0.28 to enforce this requirement.
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @param np
+	 *            notation provider
+	 * @return a FigSingleLineText which can be used to display the text.
+	 */
+	@SuppressWarnings("deprecation")
+	protected FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds, DiagramSettings settings,
+			NotationProvider np) {
 
+		// If this is not overridden it will revert to the old behavior
+		// All internal subclasses have been updated, but this if for
+		// compatibility of non-ArgoUML extensions.
+		FigSingleLineTextWithNotation comp = createFigText(bounds.x, bounds.y, bounds.width, bounds.height,
+				this.getBigPort(), np);
+		comp.setOwner(owner);
+		return comp;
+	}
 
-    /**
-     * @return null
-     * @deprecated for 0.27.3 by tfmorris.  Subclasses must implement
-     * {@link #createFigText(Object, Rectangle, DiagramSettings,
-     * NotationProvider)}
-     * which will become abstract in the future when this deprecated method is
-     * removed.
-     */
-    @Deprecated
-    protected FigSingleLineTextWithNotation createFigText(
-            int x, int y, int w, int h, Fig aFig, NotationProvider np) {
-        // No longer abstract to allow subclasses to remove, so we provide a
-        // null default implementation
-        return null;
-    }
+	/**
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            the render settings
+	 * @return a FigSingleLineText with notation provider which can be used to
+	 *         display the text
+	 */
+	abstract FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds, DiagramSettings settings);
 
-    /**
-     * Factory method to create a FigSingleLineTextWithNotation
-     * which must be implemented by all subclasses.
-     * It will become abstract after the release of 0.28 to
-     * enforce this requirement.
-     *
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @param np notation provider
-     * @return a FigSingleLineText which can be used to display the text.
-     */
-    @SuppressWarnings("deprecation")
-    protected FigSingleLineTextWithNotation createFigText(Object owner,
-            Rectangle bounds,
-            DiagramSettings settings,
-            NotationProvider np) {
+	/**
+	 * Returns the new size of the FigGroup (e.g. attributes or operations)
+	 * after calculation new bounds for all sub-figs, considering their minimal
+	 * sizes; FigGroup need not be displayed; no update event is fired.
+	 * <p>
+	 *
+	 * This method has side effects that are sometimes used.
+	 *
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param w
+	 *            w
+	 * @param h
+	 *            h
+	 * @return the new dimension
+	 */
+	public Dimension updateFigGroupSize(int x, int y, int w, int h, boolean checkSize, int rowHeight) {
+		return getMinimumSize();
+	}
 
-        // If this is not overridden it will revert to the old behavior
-        // All internal subclasses have been updated, but this if for
-        // compatibility of non-ArgoUML extensions.
-        FigSingleLineTextWithNotation comp = createFigText(
-                    bounds.x,
-                    bounds.y,
-                    bounds.width,
-                    bounds.height,
-                    this.getBigPort(),
-                    np);
-        comp.setOwner(owner);
-        return comp;
-    }
+	/* Find the compartment fig for this umlObject: */
+	private CompartmentFigText findCompartmentFig(List<CompartmentFigText> figs, Object umlObject) {
+		for (CompartmentFigText fig : figs) {
+			if (fig.getOwner() == umlObject) {
+				return fig;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings the render settings
-     * @return a FigSingleLineText with notation provider
-     *                  which can be used to display the text
-     */
-    abstract FigSingleLineTextWithNotation createFigText(Object owner,
-            Rectangle bounds,
-            DiagramSettings settings);
+	private List<CompartmentFigText> getElementFigs() {
+		final List<CompartmentFigText> figs = new ArrayList<CompartmentFigText>(getFigs().size());
 
-    /**
-     * Returns the new size of the FigGroup (e.g. attributes or
-     * operations) after calculation new bounds for all sub-figs,
-     * considering their minimal sizes; FigGroup need not be
-     * displayed; no update event is fired.<p>
-     *
-     * This method has side effects that are sometimes used.
-     *
-     * @param x x
-     * @param y y
-     * @param w w
-     * @param h h
-     * @return the new dimension
-     */
-    public Dimension updateFigGroupSize(
-                       int x,
-                       int y,
-                       int w,
-                       int h,
-                       boolean checkSize,
-                       int rowHeight) {
-        return getMinimumSize();
-    }
+		for (Object f : getFigs()) {
+			if (f instanceof CompartmentFigText) {
+				figs.add((CompartmentFigText) f);
+			}
+		}
+		return figs;
+	}
 
-    /* Find the compartment fig for this umlObject: */
-    private CompartmentFigText findCompartmentFig(
-            List<CompartmentFigText> figs,
-            Object umlObject) {
-        for (CompartmentFigText fig : figs) {
-            if (fig.getOwner() == umlObject) {
-                return fig;
-            }
-        }
-        return null;
-    }
+	@Override
+	public void setLineColor(Color col) {
+		super.setLineColor(col);
+		externalSeparatorFig.setFillColor(col);
+	}
 
-    private List<CompartmentFigText> getElementFigs() {
-        final List<CompartmentFigText> figs =
-            new ArrayList<CompartmentFigText>(getFigs().size());
+	@Override
+	public void setLineWidth(int w) {
+		super.setLineWidth(0);
+		bigPort.setLineWidth(0);
+		externalSeparatorFig.setHeight(w);
+	}
 
-        for (Object f : getFigs()) {
-            if (f instanceof CompartmentFigText) {
-                figs.add((CompartmentFigText) f);
-            }
-        }
-        return figs;
-    }
+	@Override
+	public void setFillColor(Color col) {
+		super.setFillColor(col);
+		externalSeparatorFig.setFillColor(getLineColor());
+	}
 
-    @Override
-    public void setLineColor(Color col) {
-        super.setLineColor(col);
-        externalSeparatorFig.setFillColor(col);
-    }
+	/**
+	 * Set new bounds for the external separator line (if it exists).
+	 *
+	 * @param r
+	 *            the new bounds
+	 */
+	public void setExternalSeparatorFigBounds(Rectangle r) {
+		externalSeparatorFig.setBounds(r);
+	}
 
-    @Override
-    public void setLineWidth(int w) {
-        super.setLineWidth(0);
-        bigPort.setLineWidth(0);
-        externalSeparatorFig.setHeight(w);
-    }
+	/**
+	 * @return separator figure
+	 */
+	public Fig getSeparatorFig() {
+		return externalSeparatorFig;
+	}
 
-    @Override
-    public void setFillColor(Color col) {
-        super.setFillColor(col);
-        externalSeparatorFig.setFillColor(getLineColor());
-    }
-
-    /**
-     * Set new bounds for the external separator line (if it exists).
-     *
-     * @param r the new bounds
-     */
-    public void setExternalSeparatorFigBounds(Rectangle r) {
-        externalSeparatorFig.setBounds(r);
-    }
-
-    /**
-     * @return separator figure
-     */
-    public Fig getSeparatorFig() {
-        return externalSeparatorFig;
-    }
-
-    /**
-     * Fig representing a horizontal line separator for compartment. <p>
-     *
-     * This is a horizontal line, but implemented as a rectangle
-     * filled with the line color, since using a FigLine would draw the line
-     * around the start and end coordinates with a line width > 1.
-     */
-    private static class FigSeparator extends FigRect {
-        private static final long serialVersionUID = 624225002648352177L;
+	/**
+	 * Fig representing a horizontal line separator for compartment.
+	 * <p>
+	 *
+	 * This is a horizontal line, but implemented as a rectangle filled with the
+	 * line color, since using a FigLine would draw the line around the start
+	 * and end coordinates with a line width > 1.
+	 */
+	private static class FigSeparator extends FigRect {
+		private static final long serialVersionUID = 624225002648352177L;
 
 		/**
-         * Constructor.
-         *
-         * @param x coordinate
-         * @param y coordinate
-         * @param len length of the line
-         */
-        FigSeparator(int x, int y, int len, int lineWidth) {
-            super(x, y, len, lineWidth);
-            setLineWidth(0);
-            super.setFilled(true);
-        }
+		 * Constructor.
+		 *
+		 * @param x
+		 *            coordinate
+		 * @param y
+		 *            coordinate
+		 * @param len
+		 *            length of the line
+		 */
+		FigSeparator(int x, int y, int len, int lineWidth) {
+			super(x, y, len, lineWidth);
+			setLineWidth(0);
+			super.setFilled(true);
+		}
 
-        @Override
-        public void setFilled(boolean filled) {
-            // Override superclass to do nothing.
-            // Fill property cannot be changed.
-        }
+		@Override
+		public void setFilled(boolean filled) {
+			// Override superclass to do nothing.
+			// Fill property cannot be changed.
+		}
 
-        @Override
-        public void setLineWidth(int width) {
-            // Override superclass to do nothing.
-            // Line width cannot be changed.
-        }
+		@Override
+		public void setLineWidth(int width) {
+			// Override superclass to do nothing.
+			// Line width cannot be changed.
+		}
 
-    }
+	}
 
-    /**
-     * Fig representing a horizontal line separator for compartment. <p>
-     *
-     * This is a horizontal line, but implemented as a rectangle
-     * filled with the line color, since using a FigLine would draw the line
-     * around the start and end coordinates with a line width > 1.
-     */
-    private static class FigPort extends FigRect {
-        private static final long serialVersionUID = 4974531165768005775L;
+	/**
+	 * Fig representing a horizontal line separator for compartment.
+	 * <p>
+	 *
+	 * This is a horizontal line, but implemented as a rectangle filled with the
+	 * line color, since using a FigLine would draw the line around the start
+	 * and end coordinates with a line width > 1.
+	 */
+	private static class FigPort extends FigRect {
+		private static final long serialVersionUID = 4974531165768005775L;
 
 		/**
-         * Constructor.
-         *
-         * @param x coordinate
-         * @param y coordinate
-         * @param len length of the line
-         */
-        FigPort(int x, int y, int len, int lineWidth) {
-            super(x, y, len, lineWidth);
-            super.setLineWidth(0);
-            super.setFillColor(null);
-            super.setFilled(false);
-        }
+		 * Constructor.
+		 *
+		 * @param x
+		 *            coordinate
+		 * @param y
+		 *            coordinate
+		 * @param len
+		 *            length of the line
+		 */
+		FigPort(int x, int y, int len, int lineWidth) {
+			super(x, y, len, lineWidth);
+			super.setLineWidth(0);
+			super.setFillColor(null);
+			super.setFilled(false);
+		}
 
-        @Override
-        public void setFilled(boolean filled) {
-            // Override superclass to do nothing.
-            // Fill property cannot be changed.
-        }
-        @Override
-        public void setFillColor(Color color) {
-            // Override superclass to do nothing.
-            // Fill property cannot be changed.
-        }
-        @Override
-        public void setLineWidth(int width) {
-            // Override superclass to do nothing.
-            // Line width property cannot be changed.
-        }
+		@Override
+		public void setFilled(boolean filled) {
+			// Override superclass to do nothing.
+			// Fill property cannot be changed.
+		}
 
-        /**
-         * The hit method in GEF {Fig.hit(Rectangle)} does not register a hit
-         * inside the Fig if the FIg is not filled. When not filled only a hit
-         * on the border is registered.
-         *
-         * This override is a workaround until GEF is fixed.
-         *
-         * We require GEF to all a Fig to be set so that filled = true but
-         * have fill color as null (transparent). That way the base
-         * functionality will work for us.
-         *
-         * @param r
-         *                the rectangular hit area
-         * @return true if the hit rectangle strikes this fig
-         */
-        public boolean hit(Rectangle r) {
-            if (!isVisible() || !isSelectable()) {
-                return false;
-            }
-            final int cornersHit =
-                countCornersContained(r.x, r.y, r.width, r.height);
-            return cornersHit > 0;
-        }
-    }
+		@Override
+		public void setFillColor(Color color) {
+			// Override superclass to do nothing.
+			// Fill property cannot be changed.
+		}
+
+		@Override
+		public void setLineWidth(int width) {
+			// Override superclass to do nothing.
+			// Line width property cannot be changed.
+		}
+
+		/**
+		 * The hit method in GEF {Fig.hit(Rectangle)} does not register a hit
+		 * inside the Fig if the FIg is not filled. When not filled only a hit
+		 * on the border is registered.
+		 *
+		 * This override is a workaround until GEF is fixed.
+		 *
+		 * We require GEF to all a Fig to be set so that filled = true but have
+		 * fill color as null (transparent). That way the base functionality
+		 * will work for us.
+		 *
+		 * @param r
+		 *            the rectangular hit area
+		 * @return true if the hit rectangle strikes this fig
+		 */
+		public boolean hit(Rectangle r) {
+			if (!isVisible() || !isSelectable()) {
+				return false;
+			}
+			final int cornersHit = countCornersContained(r.x, r.y, r.width, r.height);
+			return cornersHit > 0;
+		}
+	}
 }

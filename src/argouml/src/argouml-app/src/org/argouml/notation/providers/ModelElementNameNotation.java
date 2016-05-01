@@ -42,37 +42,36 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents the name of the modelelement.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents the name of the modelelement. Subclass this
+ * for all languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class ModelElementNameNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param modelElement  The modelelement we represent.
-     */
-    public ModelElementNameNotation(Object modelElement) {
-        if (!Model.getFacade().isAModelElement(modelElement)) {
-            throw new IllegalArgumentException("This is not a ModelElement.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modelElement
+	 *            The modelelement we represent.
+	 */
+	public ModelElementNameNotation(Object modelElement) {
+		if (!Model.getFacade().isAModelElement(modelElement)) {
+			throw new IllegalArgumentException("This is not a ModelElement.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        /* Listen to the modelelement itself: */
-        addElementListener(modelElement, 
-                new String[] {"name", "visibility"});
-        /* Listen to name changes in the path (useful for e.g. Package): */
-        Object ns = Model.getFacade().getNamespace(modelElement);
-        while (ns != null && !Model.getFacade().isAModel(ns)) {
-            addElementListener(ns,
-                new String[] {"name", "namespace"});
-            ns = Model.getFacade().getNamespace(ns);
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		/* Listen to the modelelement itself: */
+		addElementListener(modelElement, new String[] { "name", "visibility" });
+		/* Listen to name changes in the path (useful for e.g. Package): */
+		Object ns = Model.getFacade().getNamespace(modelElement);
+		while (ns != null && !Model.getFacade().isAModel(ns)) {
+			addElementListener(ns, new String[] { "name", "namespace" });
+			ns = Model.getFacade().getNamespace(ns);
+		}
+	}
 
 }

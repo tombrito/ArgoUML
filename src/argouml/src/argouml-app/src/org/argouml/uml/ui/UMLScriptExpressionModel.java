@@ -48,38 +48,38 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class UMLScriptExpressionModel extends UMLExpressionModel2 {
 
-    /**
-     * The constructor.
-     *
-     * @param container the container of UML user interface components
-     * @param propertyName the name of the property
-     */
-    public UMLScriptExpressionModel(UMLUserInterfaceContainer container,
-            String propertyName) {
-        super(container, propertyName);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param container
+	 *            the container of UML user interface components
+	 * @param propertyName
+	 *            the name of the property
+	 */
+	public UMLScriptExpressionModel(UMLUserInterfaceContainer container, String propertyName) {
+		super(container, propertyName);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
-     */
-    public Object getExpression() {
-        return Model.getFacade().getScript(
-                TargetManager.getInstance().getTarget());
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
+	 */
+	public Object getExpression() {
+		return Model.getFacade().getScript(TargetManager.getInstance().getTarget());
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
-     */
-    public void setExpression(Object expression) {
-        Model.getCommonBehaviorHelper()
-        	.setScript(TargetManager.getInstance().getTarget(), expression);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
+	 */
+	public void setExpression(Object expression) {
+		Model.getCommonBehaviorHelper().setScript(TargetManager.getInstance().getTarget(), expression);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
-     */
-    public Object newExpression() {
-        return Model.getDataTypesFactory().createActionExpression("", "");
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
+	 */
+	public Object newExpression() {
+		return Model.getDataTypesFactory().createActionExpression("", "");
+	}
 
 }

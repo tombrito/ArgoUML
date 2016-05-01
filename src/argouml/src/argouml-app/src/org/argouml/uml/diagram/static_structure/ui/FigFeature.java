@@ -46,84 +46,88 @@ import org.argouml.uml.diagram.DiagramSettings;
 import org.argouml.uml.diagram.ui.CompartmentFigText;
 
 /**
- * Fig to show features in class or interface like attributes or operations.<p>
+ * Fig to show features in class or interface like attributes or operations.
+ * <p>
  * 
- * This class is responsible to listen to "ownerScope" 
- * changes in the model, so that the text can be shown underlined 
- * if the ownerScope becomes "classifier" iso "instance". <p>
+ * This class is responsible to listen to "ownerScope" changes in the model, so
+ * that the text can be shown underlined if the ownerScope becomes "classifier"
+ * iso "instance".
+ * <p>
  * 
- * This class is abstract, since its corresponding class in the
- * UML metamodel is, too.
+ * This class is abstract, since its corresponding class in the UML metamodel
+ * is, too.
  *
  * @since Dec 1, 2002
  * @author jaap.branderhorst@xs4all.nl
  */
 public abstract class FigFeature extends CompartmentFigText {
 
-    private static final long serialVersionUID = -8547397650016998800L;
+	private static final long serialVersionUID = -8547397650016998800L;
 	// TODO: for UML 2.x this is isStatic
-    private static final String EVENT_NAME = "ownerScope";
-    
-    /**
-     * Construct a Feature fig
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigFeature(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        updateOwnerScope(Model.getFacade().isStatic(owner));
-        Model.getPump().addModelEventListener(this, owner, EVENT_NAME);
-    }
+	private static final String EVENT_NAME = "ownerScope";
 
+	/**
+	 * Construct a Feature fig
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigFeature(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		updateOwnerScope(Model.getFacade().isStatic(owner));
+		Model.getPump().addModelEventListener(this, owner, EVENT_NAME);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
-     */
-    @Override
-    public void removeFromDiagram() {
-        Model.getPump().removeModelEventListener(this, getOwner(), 
-                EVENT_NAME);
-        super.removeFromDiagram();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
+	 */
+	@Override
+	public void removeFromDiagram() {
+		Model.getPump().removeModelEventListener(this, getOwner(), EVENT_NAME);
+		super.removeFromDiagram();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigSingleLineText#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        super.propertyChange(pce);
-        if (EVENT_NAME.equals(pce.getPropertyName())) {
-            // TODO: This needs to be modified for UML 2.x
-            updateOwnerScope(Model.getScopeKind().getClassifier().equals(
-                    pce.getNewValue()));    
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigSingleLineText#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent pce) {
+		super.propertyChange(pce);
+		if (EVENT_NAME.equals(pce.getPropertyName())) {
+			// TODO: This needs to be modified for UML 2.x
+			updateOwnerScope(Model.getScopeKind().getClassifier().equals(pce.getNewValue()));
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigText#setTextFilled(boolean)
-     */
-    @Override
-    public void setTextFilled(boolean filled) {
-        super.setTextFilled(false);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.FigText#setTextFilled(boolean)
+	 */
+	@Override
+	public void setTextFilled(boolean filled) {
+		super.setTextFilled(false);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean filled) {
-        super.setFilled(false);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean filled) {
+		super.setFilled(false);
+	}
 
-    /**
-     * Underline if the scope is Classifier.
-     * 
-     * @param isClassifier true will cause underlining
-     */
-    protected void updateOwnerScope(boolean isClassifier) {
-        setUnderline(isClassifier);
-    }
+	/**
+	 * Underline if the scope is Classifier.
+	 * 
+	 * @param isClassifier
+	 *            true will cause underlining
+	 */
+	protected void updateOwnerScope(boolean isClassifier) {
+		setUnderline(isClassifier);
+	}
 }

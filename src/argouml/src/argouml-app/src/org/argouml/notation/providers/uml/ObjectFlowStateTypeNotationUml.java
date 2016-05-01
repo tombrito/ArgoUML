@@ -51,104 +51,104 @@ import org.argouml.notation.providers.ObjectFlowStateTypeNotation;
 /**
  * @author Michiel
  */
-public class ObjectFlowStateTypeNotationUml
-    extends ObjectFlowStateTypeNotation {
+public class ObjectFlowStateTypeNotationUml extends ObjectFlowStateTypeNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param objectflowstate the ObjectFlowState represented by this notation
-     */
-    public ObjectFlowStateTypeNotationUml(Object objectflowstate) {
-        super(objectflowstate);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param objectflowstate
+	 *            the ObjectFlowState represented by this notation
+	 */
+	public ObjectFlowStateTypeNotationUml(Object objectflowstate) {
+		super(objectflowstate);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        try {
-            parseObjectFlowState1(modelElement, text);
-        } catch (ParseException pe) {
-            String msg = "statusmsg.bar.error.parsing.objectflowstate";
-            Object[] args = {
-                pe.getLocalizedMessage(),
-                Integer.valueOf(pe.getErrorOffset()),
-            };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                    Translator.messageFormat(msg, args)));
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		try {
+			parseObjectFlowState1(modelElement, text);
+		} catch (ParseException pe) {
+			String msg = "statusmsg.bar.error.parsing.objectflowstate";
+			Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-    /**
-     * Do the actual parsing. <p>
-     * 
-     * This method does create a Class 
-     * if a Classifier with the given name is not encountered. 
-     * See for explanation issue 4382.
-     *
-     * @param objectFlowState the given element to be altered
-     * @param s the new string
-     * @return the altered ObjectFlowState
-     * @throws ParseException when the given text was rejected
-     */
-    protected Object parseObjectFlowState1(Object objectFlowState, String s)
-        throws ParseException {
-        Object c =
-            Model.getActivityGraphsHelper()
-                    .findClassifierByName(objectFlowState, s);
-        if (c != null) {
-            /* Great! The class already existed - just use it. */
-            Model.getCoreHelper().setType(objectFlowState, c);
-            return objectFlowState;
-        } 
-        /* Let's create a class with the given name, otherwise
-         * the user will not understand why we refuse his input! */
-        if (s != null && s.length() > 0) {
-            Object topState = Model.getFacade().getContainer(objectFlowState);
-            if (topState != null) {
-                Object machine = Model.getFacade().getStateMachine(topState);
-                if (machine != null) {
-                    Object ns = Model.getFacade().getNamespace(machine);
-                    if (ns != null) {
-                        Object clazz = Model.getCoreFactory().buildClass(s, ns);
-                        Model.getCoreHelper().setType(objectFlowState, clazz);
-                        return objectFlowState;
-                    } 
-                }
-            }
-        }
-        String msg = "parsing.error.object-flow-type.classifier-not-found";
-        Object[] args = {s};
-        throw new ParseException(Translator.localize(msg, args), 0);
-    }
+	/**
+	 * Do the actual parsing.
+	 * <p>
+	 * 
+	 * This method does create a Class if a Classifier with the given name is
+	 * not encountered. See for explanation issue 4382.
+	 *
+	 * @param objectFlowState
+	 *            the given element to be altered
+	 * @param s
+	 *            the new string
+	 * @return the altered ObjectFlowState
+	 * @throws ParseException
+	 *             when the given text was rejected
+	 */
+	protected Object parseObjectFlowState1(Object objectFlowState, String s) throws ParseException {
+		Object c = Model.getActivityGraphsHelper().findClassifierByName(objectFlowState, s);
+		if (c != null) {
+			/* Great! The class already existed - just use it. */
+			Model.getCoreHelper().setType(objectFlowState, c);
+			return objectFlowState;
+		}
+		/*
+		 * Let's create a class with the given name, otherwise the user will not
+		 * understand why we refuse his input!
+		 */
+		if (s != null && s.length() > 0) {
+			Object topState = Model.getFacade().getContainer(objectFlowState);
+			if (topState != null) {
+				Object machine = Model.getFacade().getStateMachine(topState);
+				if (machine != null) {
+					Object ns = Model.getFacade().getNamespace(machine);
+					if (ns != null) {
+						Object clazz = Model.getCoreFactory().buildClass(s, ns);
+						Model.getCoreHelper().setType(objectFlowState, clazz);
+						return objectFlowState;
+					}
+				}
+			}
+		}
+		String msg = "parsing.error.object-flow-type.classifier-not-found";
+		Object[] args = { s };
+		throw new ParseException(Translator.localize(msg, args), 0);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-objectflowstate1";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-objectflowstate1";
+	}
 
-    private String toString(Object modelElement) {
-        Object classifier = Model.getFacade().getType(modelElement);
-        if (Model.getFacade().isAClassifierInState(classifier)) {
-            classifier = Model.getFacade().getType(classifier);
-        }
-        if (classifier == null) {
-            return "";
-        }
-        String name = Model.getFacade().getName(classifier);
-        if (name == null) {
-            name = "";
-        }
-        return name;
-    }
+	private String toString(Object modelElement) {
+		Object classifier = Model.getFacade().getType(modelElement);
+		if (Model.getFacade().isAClassifierInState(classifier)) {
+			classifier = Model.getFacade().getType(classifier);
+		}
+		if (classifier == null) {
+			return "";
+		}
+		String name = Model.getFacade().getName(classifier);
+		if (name == null) {
+			name = "";
+		}
+		return name;
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

@@ -54,26 +54,24 @@ import org.argouml.application.api.InitSubsystem;
  */
 public class InitNotationUI implements InitSubsystem {
 
-    public void init() {
+	public void init() {
 
-    }
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        List<GUISettingsTabInterface> result = 
-            new ArrayList<GUISettingsTabInterface>();
-        result.add(new SettingsTabNotation(Argo.SCOPE_PROJECT));
-        return result;
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		List<GUISettingsTabInterface> result = new ArrayList<GUISettingsTabInterface>();
+		result.add(new SettingsTabNotation(Argo.SCOPE_PROJECT));
+		return result;
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        List<GUISettingsTabInterface> result = 
-            new ArrayList<GUISettingsTabInterface>();
-        result.add(new SettingsTabNotation(Argo.SCOPE_APPLICATION));
-        return result;
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		List<GUISettingsTabInterface> result = new ArrayList<GUISettingsTabInterface>();
+		result.add(new SettingsTabNotation(Argo.SCOPE_APPLICATION));
+		return result;
+	}
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        return Collections.emptyList();
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		return Collections.emptyList();
+	}
 
 }

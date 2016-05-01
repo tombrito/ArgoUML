@@ -53,31 +53,30 @@ import org.argouml.i18n.Translator;
  */
 public class ActionProjectSettings extends AbstractAction {
 
-    private static final long serialVersionUID = 576303400524596964L;
+	private static final long serialVersionUID = 576303400524596964L;
 	/**
-     * The settings dialog.
-     */
-    private static ProjectSettingsDialog dialog;
+	 * The settings dialog.
+	 */
+	private static ProjectSettingsDialog dialog;
 
-    /**
-     * Constructor.
-     */
-    public ActionProjectSettings() {
-        super(Translator.localize("action.properties"),
-                ResourceLoaderWrapper.lookupIcon("action.properties"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.properties"));
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionProjectSettings() {
+		super(Translator.localize("action.properties"), ResourceLoaderWrapper.lookupIcon("action.properties"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.properties"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (dialog == null) {
-            dialog = new ProjectSettingsDialog();
-        }
-        dialog.showDialog();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (dialog == null) {
+			dialog = new ProjectSettingsDialog();
+		}
+		dialog.showDialog();
+	}
 
 }

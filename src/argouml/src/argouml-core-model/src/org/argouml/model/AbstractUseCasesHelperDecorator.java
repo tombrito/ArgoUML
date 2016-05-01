@@ -45,124 +45,123 @@ import java.util.Collection;
  *
  * @author Bob Tarling
  */
-public abstract class AbstractUseCasesHelperDecorator
-	implements UseCasesHelper {
+public abstract class AbstractUseCasesHelperDecorator implements UseCasesHelper {
 
-    /**
-     * The component.
-     */
-    private UseCasesHelper impl;
+	/**
+	 * The component.
+	 */
+	private UseCasesHelper impl;
 
-    /**
-     * @param component The component to decorate.
-     */
-    protected AbstractUseCasesHelperDecorator(UseCasesHelper component) {
-        impl = component;
-    }
+	/**
+	 * @param component
+	 *            The component to decorate.
+	 */
+	protected AbstractUseCasesHelperDecorator(UseCasesHelper component) {
+		impl = component;
+	}
 
-    /**
-     * The component we are decorating.
-     *
-     * @return Returns the component.
-     */
-    protected UseCasesHelper getComponent() {
-        return impl;
-    }
+	/**
+	 * The component we are decorating.
+	 *
+	 * @return Returns the component.
+	 */
+	protected UseCasesHelper getComponent() {
+		return impl;
+	}
 
-    public Collection getExtensionPoints(Object useCase) {
-        return Model.getFacade().getExtensionPoints(useCase);
-    }
+	public Collection getExtensionPoints(Object useCase) {
+		return Model.getFacade().getExtensionPoints(useCase);
+	}
 
-    /*
-     * @see org.argouml.model.UseCasesHelper#getAllUseCases(java.lang.Object)
-     */
-    public Collection getAllUseCases(Object ns) {
-        return impl.getAllUseCases(ns);
-    }
+	/*
+	 * @see org.argouml.model.UseCasesHelper#getAllUseCases(java.lang.Object)
+	 */
+	public Collection getAllUseCases(Object ns) {
+		return impl.getAllUseCases(ns);
+	}
 
-    public Collection getAllActors(Object ns) {
-        return impl.getAllActors(ns);
-    }
+	public Collection getAllActors(Object ns) {
+		return impl.getAllActors(ns);
+	}
 
-    public Collection getExtendedUseCases(Object ausecase) {
-        return impl.getExtendedUseCases(ausecase);
-    }
+	public Collection getExtendedUseCases(Object ausecase) {
+		return impl.getExtendedUseCases(ausecase);
+	}
 
-    public Object getExtends(Object abase, Object anextension) {
-        return impl.getExtends(abase, anextension);
-    }
+	public Object getExtends(Object abase, Object anextension) {
+		return impl.getExtends(abase, anextension);
+	}
 
-    public Collection getIncludedUseCases(Object ausecase) {
-        return impl.getIncludedUseCases(ausecase);
-    }
+	public Collection getIncludedUseCases(Object ausecase) {
+		return impl.getIncludedUseCases(ausecase);
+	}
 
-    public Object getIncludes(Object abase, Object aninclusion) {
-        return impl.getIncludes(abase, aninclusion);
-    }
+	public Object getIncludes(Object abase, Object aninclusion) {
+		return impl.getIncludes(abase, aninclusion);
+	}
 
-    public Collection getSpecificationPath(Object ausecase) {
-        return impl.getSpecificationPath(ausecase);
-    }
+	public Collection getSpecificationPath(Object ausecase) {
+		return impl.getSpecificationPath(ausecase);
+	}
 
-    public void setBase(Object extend, Object base) {
-        impl.setBase(extend, base);
-    }
+	public void setBase(Object extend, Object base) {
+		impl.setBase(extend, base);
+	}
 
-    public void removeExtend(Object elem, Object extend) {
-        impl.removeExtend(elem, extend);
-    }
+	public void removeExtend(Object elem, Object extend) {
+		impl.removeExtend(elem, extend);
+	}
 
-    public void removeExtensionPoint(Object elem, Object ep) {
-        impl.removeExtensionPoint(elem, ep);
-    }
+	public void removeExtensionPoint(Object elem, Object ep) {
+		impl.removeExtensionPoint(elem, ep);
+	}
 
-    public void removeInclude(Object usecase, Object include) {
-        impl.removeInclude(usecase, include);
-    }
+	public void removeInclude(Object usecase, Object include) {
+		impl.removeInclude(usecase, include);
+	}
 
-    public void addExtend(Object elem, Object extend) {
-        impl.addExtend(elem, extend);
-    }
+	public void addExtend(Object elem, Object extend) {
+		impl.addExtend(elem, extend);
+	}
 
-    public void addExtensionPoint(Object handle, Object extensionPoint) {
-        impl.addExtensionPoint(handle, extensionPoint);
-    }
+	public void addExtensionPoint(Object handle, Object extensionPoint) {
+		impl.addExtensionPoint(handle, extensionPoint);
+	}
 
-    public void addExtensionPoint(Object handle, int position, 
-            Object extensionPoint) {
-        impl.addExtensionPoint(handle, position, extensionPoint);
-    }
+	public void addExtensionPoint(Object handle, int position, Object extensionPoint) {
+		impl.addExtensionPoint(handle, position, extensionPoint);
+	}
 
-    public void addInclude(Object usecase, Object include) {
-        impl.addInclude(usecase, include);
-    }
+	public void addInclude(Object usecase, Object include) {
+		impl.addInclude(usecase, include);
+	}
 
-    public void setAddition(Object handle, Object useCase) {
-        impl.setAddition(handle, useCase);
-    }
+	public void setAddition(Object handle, Object useCase) {
+		impl.setAddition(handle, useCase);
+	}
 
-    public void setCondition(Object handle, Object booleanExpression) {
-        impl.setCondition(handle, booleanExpression);
-    }
+	public void setCondition(Object handle, Object booleanExpression) {
+		impl.setCondition(handle, booleanExpression);
+	}
 
-    public void setExtension(Object handle, Object ext) {
-        impl.setExtension(handle, ext);
-    }
+	public void setExtension(Object handle, Object ext) {
+		impl.setExtension(handle, ext);
+	}
 
-    public void setExtensionPoints(Object handle, Collection extensionPoints) {
-        impl.setExtensionPoints(handle, extensionPoints);
-    }
+	public void setExtensionPoints(Object handle, Collection extensionPoints) {
+		impl.setExtensionPoints(handle, extensionPoints);
+	}
 
-    public void setIncludes(Object handle, Collection includes) {
-        impl.setIncludes(handle, includes);
-    }
+	public void setIncludes(Object handle, Collection includes) {
+		impl.setIncludes(handle, includes);
+	}
 
-    public void setLocation(Object handle, String loc) {
-        impl.setLocation(handle, loc);
-    }
+	public void setLocation(Object handle, String loc) {
+		impl.setLocation(handle, loc);
+	}
 
-    public void setUseCase(Object elem, Object usecase) {
-        impl.setUseCase(elem, usecase);
-    }
+	public void setUseCase(Object elem, Object usecase) {
+		impl.setUseCase(elem, usecase);
+	}
 
 }

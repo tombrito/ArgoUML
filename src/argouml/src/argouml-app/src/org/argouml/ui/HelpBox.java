@@ -62,101 +62,92 @@ import org.argouml.cognitive.Translator;
  */
 public class HelpBox extends JFrame implements HyperlinkListener {
 
-    private static final Logger LOG =
-        Logger.getLogger(HelpBox.class.getName());
+	private static final Logger LOG = Logger.getLogger(HelpBox.class.getName());
 
-    /**
-     * A tabbed pane to display several pages simultaneously.
-     */
-    private JTabbedPane tabs = new JTabbedPane();
+	/**
+	 * A tabbed pane to display several pages simultaneously.
+	 */
+	private JTabbedPane tabs = new JTabbedPane();
 
-    /**
-     * The panes to display the various help pages.
-     */
-    private JEditorPane[] panes = null;
+	/**
+	 * The panes to display the various help pages.
+	 */
+	private JEditorPane[] panes = null;
 
-    /**
-     * The names and URLs for the pages.
-     */
-    private String pages[][] = {
-        {
-            Translator.localize("tab.help.manual"),
-            (Translator.localize("tab.help.path.manual")
-                + "manual-" + ApplicationVersion.getStableVersion()
-                + "/"),
-             Translator.localize("tab.help.tip.manual")
-        },
-        {
-            Translator.localize("tab.help.support"),
-            Translator.localize("tab.help.path.support"),
-            Translator.localize("tab.help.tip.support")
-        }
-    };
+	/**
+	 * The names and URLs for the pages.
+	 */
+	private String pages[][] = {
+			{ Translator.localize("tab.help.manual"),
+					(Translator.localize("tab.help.path.manual") + "manual-" + ApplicationVersion.getStableVersion()
+							+ "/"),
+					Translator.localize("tab.help.tip.manual") },
+			{ Translator.localize("tab.help.support"), Translator.localize("tab.help.path.support"),
+					Translator.localize("tab.help.tip.support") } };
 
+	/**
+	 * Class constructor.
+	 *
+	 * @param title
+	 *            the title of the help window.
+	 */
+	public HelpBox(String title) {
+		super(title);
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
-    /**
-    * Class constructor.
-    *
-    * @param title      the title of the help window.
-    */
-    public HelpBox( String title) {
-	super( title);
-	Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-	setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		setSize(800, 600);
 
-	getContentPane().setLayout(new BorderLayout(0, 0));
-	setSize( 800, 600);
+		panes = new JEditorPane[pages.length];
+		for (int i = 0; i < pages.length; i++) {
+			panes[i] = new JEditorPane();
+			panes[i].setEditable(false);
+			panes[i].setSize(780, 580);
+			panes[i].addHyperlinkListener(this);
 
-	panes = new JEditorPane [ pages.length];
-	for ( int i = 0; i < pages.length; i++) {
-            panes[i] = new JEditorPane();
-            panes[i].setEditable( false);
-            panes[i].setSize( 780, 580);
-            panes[i].addHyperlinkListener( this);
+			URL paneURL = null;
+			try {
+				paneURL = new URL(pages[i][1]);
+			} catch (MalformedURLException e) {
+				LOG.log(Level.WARNING, pages[i][0] + " URL malformed: " + pages[i][1]);
+			}
 
-	    URL paneURL = null;
-            try {
-                paneURL = new URL( pages[i][1]);
-            } catch ( MalformedURLException e) {
-                LOG.log(Level.WARNING, pages[i][0] + " URL malformed: " + pages[i][1]);
-            }
+			if (paneURL != null) {
+				try {
+					panes[i].setPage(paneURL);
+				} catch (IOException e) {
+					LOG.log(Level.WARNING, "Attempted to read a bad URL: " + paneURL);
+				}
+			} else {
+				LOG.log(Level.WARNING, "Couldn't find " + pages[i][0]);
+			}
 
-            if ( paneURL != null) {
-                try {
-                    panes[i].setPage( paneURL);
-                } catch ( IOException e) {
-                    LOG.log(Level.WARNING, "Attempted to read a bad URL: " + paneURL);
-                }
-            } else {
-                LOG.log(Level.WARNING, "Couldn't find " + pages[i][0]);
-            }
+			// Put the current pane in a scroll pane.
+			JScrollPane paneScrollPane = new JScrollPane(panes[i]);
+			paneScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			paneScrollPane.setPreferredSize(new Dimension(800, 600));
+			paneScrollPane.setMinimumSize(new Dimension(400, 300));
 
-            // Put the current pane in a scroll pane.
-            JScrollPane paneScrollPane = new JScrollPane( panes[i]);
-            paneScrollPane.setVerticalScrollBarPolicy(
-                    JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-            paneScrollPane.setPreferredSize(new Dimension(800, 600));
-            paneScrollPane.setMinimumSize(new Dimension(400, 300));
-
-	    tabs.addTab( pages[i][0], null, paneScrollPane, pages[i][2]);
-        }
-        getContentPane().add( tabs, BorderLayout.CENTER);
-    }
-
-    public void hyperlinkUpdate(HyperlinkEvent event) {
-	if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-	    JEditorPane pane = (JEditorPane) event.getSource();
-            try {
-                pane.setPage(event.getURL());
-            } catch (IOException ioe) {
-                LOG.log(Level.WARNING, "Could not fetch requested URL");
-            }
+			tabs.addTab(pages[i][0], null, paneScrollPane, pages[i][2]);
+		}
+		getContentPane().add(tabs, BorderLayout.CENTER);
 	}
-    }
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 0L;
+	public void hyperlinkUpdate(HyperlinkEvent event) {
+		if (event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+			JEditorPane pane = (JEditorPane) event.getSource();
+			try {
+				pane.setPage(event.getURL());
+			} catch (IOException ioe) {
+				LOG.log(Level.WARNING, "Could not fetch requested URL");
+			}
+		}
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 0L;
 
 }

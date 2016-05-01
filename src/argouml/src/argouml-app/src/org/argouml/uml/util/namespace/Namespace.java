@@ -49,96 +49,95 @@ import java.util.Iterator;
  */
 public interface Namespace {
 
-    /**
-     * the scope token for java.
-     */
-    public static final String JAVA_NS_TOKEN = ".";
+	/**
+	 * the scope token for java.
+	 */
+	public static final String JAVA_NS_TOKEN = ".";
 
-    /**
-     * the scope token for uml.
-     */
-    public static final String UML_NS_TOKEN = "::";
+	/**
+	 * the scope token for uml.
+	 */
+	public static final String UML_NS_TOKEN = "::";
 
-    /**
-     * the scope token for c++.
-     */
-    public static final String CPP_NS_TOKEN = "::";
+	/**
+	 * the scope token for c++.
+	 */
+	public static final String CPP_NS_TOKEN = "::";
 
-    /**
-     * returns the namespace which is common to both namespaces, e.g.
-     * <code>org.argouml.model</code>
-     * and <code>org.argouml.util</code> have <code>org.argouml</code> in
-     * common.
-     *
-     * @param namespace
-     *            a namespace
-     * @return the common or empty namespace
-     */
-    Namespace getCommonNamespace(Namespace namespace);
+	/**
+	 * returns the namespace which is common to both namespaces, e.g.
+	 * <code>org.argouml.model</code> and <code>org.argouml.util</code> have
+	 * <code>org.argouml</code> in common.
+	 *
+	 * @param namespace
+	 *            a namespace
+	 * @return the common or empty namespace
+	 */
+	Namespace getCommonNamespace(Namespace namespace);
 
-    /**
-     * returns the base of a namespace, e.g. the base of
-     * <code>org.argouml.util</code>
-     * is <code>org.argouml</code>.
-     *
-     * @return base namespace
-     */
-    Namespace getBaseNamespace();
+	/**
+	 * returns the base of a namespace, e.g. the base of
+	 * <code>org.argouml.util</code> is <code>org.argouml</code>.
+	 *
+	 * @return base namespace
+	 */
+	Namespace getBaseNamespace();
 
-    /**
-     * add another element to a namespace.
-     *
-     * @param element the element to add
-     */
-    void pushNamespaceElement(NamespaceElement element);
+	/**
+	 * add another element to a namespace.
+	 *
+	 * @param element
+	 *            the element to add
+	 */
+	void pushNamespaceElement(NamespaceElement element);
 
-    /**
-     * reduces the innermost namespace element,
-     * e.g. <code>org.argouml.model</code>
-     * will return <code>model</code>, and change the namespace
-     * to <code>org.argouml</code>.
-     *
-     * @return the popped element.
-     */
-    NamespaceElement popNamespaceElement();
+	/**
+	 * reduces the innermost namespace element, e.g.
+	 * <code>org.argouml.model</code> will return <code>model</code>, and change
+	 * the namespace to <code>org.argouml</code>.
+	 *
+	 * @return the popped element.
+	 */
+	NamespaceElement popNamespaceElement();
 
-    /**
-     * return the innermost namespace element without removing it.
-     *
-     * @return the innermost namespace element
-     */
-    NamespaceElement peekNamespaceElement();
+	/**
+	 * return the innermost namespace element without removing it.
+	 *
+	 * @return the innermost namespace element
+	 */
+	NamespaceElement peekNamespaceElement();
 
-    /**
-     * namespaces usually have a scope operator when used in representational
-     * form. see also the predifined constants.
-     *
-     * @param token
-     *            the token to use from now on.
-     */
-    void setDefaultScopeToken(String token);
+	/**
+	 * namespaces usually have a scope operator when used in representational
+	 * form. see also the predifined constants.
+	 *
+	 * @param token
+	 *            the token to use from now on.
+	 */
+	void setDefaultScopeToken(String token);
 
-    /**
-     * return an iterator to the namespace elements.
-     *
-     * @return an iterator of NamespaceElements.
-     */
-    Iterator iterator();
+	/**
+	 * return an iterator to the namespace elements.
+	 *
+	 * @return an iterator of NamespaceElements.
+	 */
+	Iterator iterator();
 
-    /**
-     * check if the namespace is empty.
-     *
-     * @return true if empty
-     */
-    boolean isEmpty();
+	/**
+	 * check if the namespace is empty.
+	 *
+	 * @return true if empty
+	 */
+	boolean isEmpty();
 
-    /**
-     * return a string representation of the namespace with the given token.
-     * The existence of the method implies that classes also must implement
-     * toString() in a reasonable manner using the default token.
-     *
-     * @param token the token to be converted
-     * @return a string representation of the namespace
-     */
-    String toString(String token);
+	/**
+	 * return a string representation of the namespace with the given token. The
+	 * existence of the method implies that classes also must implement
+	 * toString() in a reasonable manner using the default token.
+	 *
+	 * @param token
+	 *            the token to be converted
+	 * @return a string representation of the namespace
+	 */
+	String toString(String token);
 }

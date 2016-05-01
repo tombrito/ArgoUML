@@ -54,60 +54,56 @@ import org.argouml.util.ChildGenerator;
  * @see org.argouml.uml.cognitive.critics.CrCircularComposition
  * @stereotype singleton
  */
-public class GenCompositeClasses2 implements
-        ChildGenerator {
+public class GenCompositeClasses2 implements ChildGenerator {
 
-    /**
-     * This SINGLETON is used in CrCircularComposition.
-     *
-     */
-    private static final GenCompositeClasses2 SINGLETON =
-        new GenCompositeClasses2();
+	/**
+	 * This SINGLETON is used in CrCircularComposition.
+	 *
+	 */
+	private static final GenCompositeClasses2 SINGLETON = new GenCompositeClasses2();
 
-    /**
-     * @return Return the singleton
-     */
-    public static GenCompositeClasses2 getInstance() {
-        return SINGLETON;
-    }
-    
-    public Iterator childIterator(Object parent) {
-        return collectChildren(parent).iterator();
-    }
+	/**
+	 * @return Return the singleton
+	 */
+	public static GenCompositeClasses2 getInstance() {
+		return SINGLETON;
+	}
 
-    /**
-     * Collect children.<p>
-     *
-     * @param o the parent element
-     * @return a collection of children.
-     */
-    protected Collection collectChildren(Object o) {
-        List res = new ArrayList();
-        if (!(Model.getFacade().isAClassifier(o))) {
-            return res;
-        }
-        Object cls = o;
-        List ends = new ArrayList(Model.getFacade().getAssociationEnds(cls));
-        Iterator assocEnds = ends.iterator();
-        while (assocEnds.hasNext()) {
-            Object ae = assocEnds.next();
-            if (Model.getAggregationKind().getComposite().equals(
-                    Model.getFacade().getAggregation1(ae))) {
-                Object asc = Model.getFacade().getAssociation(ae);
-                ArrayList conn =
-                    new ArrayList(Model.getFacade().getConnections(asc));
-                if (conn == null || conn.size() != 2) {
-                    continue;
-                }
-                Object otherEnd =
-                    (ae == conn.get(0)) ? conn.get(1) : conn.get(0);
-                if (Model.getFacade().getType(ae)
-                        != Model.getFacade().getType(otherEnd)) {
-                    res.add(Model.getFacade().getType(otherEnd));
-                }
-            }
-        }
-        return res;
-    }
+	public Iterator childIterator(Object parent) {
+		return collectChildren(parent).iterator();
+	}
+
+	/**
+	 * Collect children.
+	 * <p>
+	 *
+	 * @param o
+	 *            the parent element
+	 * @return a collection of children.
+	 */
+	protected Collection collectChildren(Object o) {
+		List res = new ArrayList();
+		if (!(Model.getFacade().isAClassifier(o))) {
+			return res;
+		}
+		Object cls = o;
+		List ends = new ArrayList(Model.getFacade().getAssociationEnds(cls));
+		Iterator assocEnds = ends.iterator();
+		while (assocEnds.hasNext()) {
+			Object ae = assocEnds.next();
+			if (Model.getAggregationKind().getComposite().equals(Model.getFacade().getAggregation1(ae))) {
+				Object asc = Model.getFacade().getAssociation(ae);
+				ArrayList conn = new ArrayList(Model.getFacade().getConnections(asc));
+				if (conn == null || conn.size() != 2) {
+					continue;
+				}
+				Object otherEnd = (ae == conn.get(0)) ? conn.get(1) : conn.get(0);
+				if (Model.getFacade().getType(ae) != Model.getFacade().getType(otherEnd)) {
+					res.add(Model.getFacade().getType(otherEnd));
+				}
+			}
+		}
+		return res;
+	}
 
 }

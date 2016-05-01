@@ -60,111 +60,110 @@ import org.tigris.gef.presentation.FigRect;
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class ArgoFigUtil {
-    
-    /**
-     * Find the Project that contains a given figure.  Because we don't have
-     * a single reliable way to do this, we try a bunch of different approaches.
-     * 
-     * @param fig the Fig to return the project of
-     * @return the project containing the given fig
-     */
-    public static Project getProject(ArgoFig fig) {
-        if (fig instanceof Fig) {
-            Fig f = (Fig) fig;
-            LayerPerspective layer = (LayerPerspective) f.getLayer();
-            if (layer == null) {
-                /* TODO: Without this, we fail to draw e.g. a Class.
-                 * But is this a good solution? 
-                 * Why is the Layer not set in the constructor? */
-                Editor editor = Globals.curEditor();
-                if (editor == null) {
-                    // TODO: The above doesn't work reliably in a constructor.
-                    // We need a better way of getting default fig settings 
-                    // for the owning project rather than using the 
-                    // project manager singleton. - tfm
-                    return ProjectManager.getManager().getCurrentProject();
-                }
-                Layer lay = editor.getLayerManager().getActiveLayer();
-                if (lay instanceof LayerPerspective) {
-                    layer = (LayerPerspective) lay;
-                }
-            }
-            if (layer == null) {
-                return ProjectManager.getManager().getCurrentProject();
-            }
-            GraphModel gm = layer.getGraphModel();
-            if (gm instanceof UMLMutableGraphSupport) {
-                Project project = ((UMLMutableGraphSupport) gm).getProject();
-                if (project != null) {
-                    return project;
-                }
-            }
-            return ProjectManager.getManager().getCurrentProject();
-        }
-        return null;
-    }
 
+	/**
+	 * Find the Project that contains a given figure. Because we don't have a
+	 * single reliable way to do this, we try a bunch of different approaches.
+	 * 
+	 * @param fig
+	 *            the Fig to return the project of
+	 * @return the project containing the given fig
+	 */
+	public static Project getProject(ArgoFig fig) {
+		if (fig instanceof Fig) {
+			Fig f = (Fig) fig;
+			LayerPerspective layer = (LayerPerspective) f.getLayer();
+			if (layer == null) {
+				/*
+				 * TODO: Without this, we fail to draw e.g. a Class. But is this
+				 * a good solution? Why is the Layer not set in the constructor?
+				 */
+				Editor editor = Globals.curEditor();
+				if (editor == null) {
+					// TODO: The above doesn't work reliably in a constructor.
+					// We need a better way of getting default fig settings
+					// for the owning project rather than using the
+					// project manager singleton. - tfm
+					return ProjectManager.getManager().getCurrentProject();
+				}
+				Layer lay = editor.getLayerManager().getActiveLayer();
+				if (lay instanceof LayerPerspective) {
+					layer = (LayerPerspective) lay;
+				}
+			}
+			if (layer == null) {
+				return ProjectManager.getManager().getCurrentProject();
+			}
+			GraphModel gm = layer.getGraphModel();
+			if (gm instanceof UMLMutableGraphSupport) {
+				Project project = ((UMLMutableGraphSupport) gm).getProject();
+				if (project != null) {
+					return project;
+				}
+			}
+			return ProjectManager.getManager().getCurrentProject();
+		}
+		return null;
+	}
 
-    /**
-     * Add pretty little markers for debugging purposes. We use three markers so
-     * you can see the anchor, the computed target position, and how collision
-     * detection affects a largish box.
-     */
-    @SuppressWarnings("unused")
-	static void markPosition(FigEdge fe, 
-            int pct, int delta, int angle, int offset,
-            Color color) {
-        // set this to true on to enable debugging figs
-        if (false) {
-            Fig f;
-            f = new FigCircle(0, 0, 5, 5, color, Color.red);
-            // anchor position
-            fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle, 
-                    0));
-            f = new FigRect(0, 0, 100, 20, color, Color.red);
-            f.setFilled(false);
-            fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle,
-                    offset));
-            f = new FigCircle(0, 0, 5, 5, color, Color.blue);
-            fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle,
-                    offset));
-        }
-    }
+	/**
+	 * Add pretty little markers for debugging purposes. We use three markers so
+	 * you can see the anchor, the computed target position, and how collision
+	 * detection affects a largish box.
+	 */
+	@SuppressWarnings("unused")
+	static void markPosition(FigEdge fe, int pct, int delta, int angle, int offset, Color color) {
+		// set this to true on to enable debugging figs
+		if (false) {
+			Fig f;
+			f = new FigCircle(0, 0, 5, 5, color, Color.red);
+			// anchor position
+			fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle, 0));
+			f = new FigRect(0, 0, 100, 20, color, Color.red);
+			f.setFilled(false);
+			fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle, offset));
+			f = new FigCircle(0, 0, 5, 5, color, Color.blue);
+			fe.addPathItem(f, new PathItemPlacement(fe, f, pct, delta, angle, offset));
+		}
+	}
 
-    /**
-     * This utility adds the size of a child component to an overall size. The
-     * width is maximized with child's width and the child's height is added to
-     * the overall height. If the child figure is not visible or not yet
-     * created, it's size is not added.
-     * 
-     * @param size current dimensions - modified with the result
-     * @param child child figure
-     * @return new Dimension with child size added
-     */
-    public static Dimension addChildDimensions(Dimension size, Fig child) {
-        if (child != null && child.isVisible()) {
-            Dimension childSize = child.getMinimumSize();
-            size.width = Math.max(size.width, childSize.width);
-            size.height += childSize.height;
-        }
-        return size;
-    }
+	/**
+	 * This utility adds the size of a child component to an overall size. The
+	 * width is maximized with child's width and the child's height is added to
+	 * the overall height. If the child figure is not visible or not yet
+	 * created, it's size is not added.
+	 * 
+	 * @param size
+	 *            current dimensions - modified with the result
+	 * @param child
+	 *            child figure
+	 * @return new Dimension with child size added
+	 */
+	public static Dimension addChildDimensions(Dimension size, Fig child) {
+		if (child != null && child.isVisible()) {
+			Dimension childSize = child.getMinimumSize();
+			size.width = Math.max(size.width, childSize.width);
+			size.height += childSize.height;
+		}
+		return size;
+	}
 
-
-    /**
-     * This utility adds the width of a child component to an overall size. The
-     * width is maximized with child's width and the child's height is ignored.
-     * If the child figure is not visible, it's size is not added.
-     * 
-     * @param size current dimensions - modified with the result
-     * @param child child figure
-     * @return new Dimension with child width added
-     */
-    public static Dimension addChildWidth(Dimension size, Fig child) {
-        if (child.isVisible()) {
-            Dimension childSize = child.getMinimumSize();
-            size.width = Math.max(size.width, childSize.width);
-        }
-        return size;
-    }
+	/**
+	 * This utility adds the width of a child component to an overall size. The
+	 * width is maximized with child's width and the child's height is ignored.
+	 * If the child figure is not visible, it's size is not added.
+	 * 
+	 * @param size
+	 *            current dimensions - modified with the result
+	 * @param child
+	 *            child figure
+	 * @return new Dimension with child width added
+	 */
+	public static Dimension addChildWidth(Dimension size, Fig child) {
+		if (child.isVisible()) {
+			Dimension childSize = child.getMinimumSize();
+			size.width = Math.max(size.width, childSize.width);
+		}
+		return size;
+	}
 }

@@ -48,11 +48,11 @@ import org.argouml.uml.ui.PropPanelFactory;
  */
 public class UseCaseDiagramPropPanelFactory implements PropPanelFactory {
 
-    public PropPanel createPropPanel(Object object) {
-        if (object instanceof UMLUseCaseDiagram) {
-            return new PropPanelUMLUseCaseDiagram();
-        }
-        return null;
-    }
+	public PropPanel createPropPanel(Object object) {
+		if (object instanceof UMLUseCaseDiagram) {
+			return new PropPanelUMLUseCaseDiagram();
+		}
+		return null;
+	}
 
 }

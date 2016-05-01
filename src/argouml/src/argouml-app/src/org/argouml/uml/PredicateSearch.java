@@ -45,70 +45,74 @@ import org.argouml.util.PredicateTrue;
 
 /**
  * Class to find out if a given object fulfills certain given predicates. This
- * replaces {@link PredicateFind} by 1sturm with an implementation using the
- * new GEF-free interfaces.
+ * replaces {@link PredicateFind} by 1sturm with an implementation using the new
+ * GEF-free interfaces.
  * 
  * @author 1sturm
  * @author Tom Morris
  */
 public class PredicateSearch implements Predicate {
 
-    private Predicate elementName;
-    private Predicate packageName;
-    private Predicate diagramName;
-    private Predicate theType;
+	private Predicate elementName;
+	private Predicate packageName;
+	private Predicate diagramName;
+	private Predicate theType;
 
-    private Predicate specific = PredicateTrue.getInstance();
+	private Predicate specific = PredicateTrue.getInstance();
 
-    /**
-     * The constructor.
-     *
-     * @param elementNamePredicate Predicate for the element name
-     * @param packageNamePredicate Predicate for the package name
-     * @param diagramNamePredicate Predicate for the diagram name
-     * @param typePredicate Predicate for the type
-     */
-    public PredicateSearch(Predicate elementNamePredicate,
-            Predicate packageNamePredicate, Predicate diagramNamePredicate,
-            Predicate typePredicate) {
-        elementName = elementNamePredicate;
-        packageName = packageNamePredicate;
-        diagramName = diagramNamePredicate;
-        theType = typePredicate;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param elementNamePredicate
+	 *            Predicate for the element name
+	 * @param packageNamePredicate
+	 *            Predicate for the package name
+	 * @param diagramNamePredicate
+	 *            Predicate for the diagram name
+	 * @param typePredicate
+	 *            Predicate for the type
+	 */
+	public PredicateSearch(Predicate elementNamePredicate, Predicate packageNamePredicate,
+			Predicate diagramNamePredicate, Predicate typePredicate) {
+		elementName = elementNamePredicate;
+		packageName = packageNamePredicate;
+		diagramName = diagramNamePredicate;
+		theType = typePredicate;
+	}
 
-    /**
-     * @param diagram the given diagram
-     * @return true if the name of the given diagram equals
-     */
-    public boolean matchDiagram(ArgoDiagram diagram) {
-        return matchDiagram(diagram.getName());
-    }
+	/**
+	 * @param diagram
+	 *            the given diagram
+	 * @return true if the name of the given diagram equals
+	 */
+	public boolean matchDiagram(ArgoDiagram diagram) {
+		return matchDiagram(diagram.getName());
+	}
 
-    
-    /**
-     * @param name the name to match
-     * @return true if the name of the given diagram equals
-     */
-    public boolean matchDiagram(String name) {
-        return diagramName.evaluate(name);
-    }
+	/**
+	 * @param name
+	 *            the name to match
+	 * @return true if the name of the given diagram equals
+	 */
+	public boolean matchDiagram(String name) {
+		return diagramName.evaluate(name);
+	}
 
-    /**
-     * @param pkg the given package
-     * @return true if the name of the given package is equal
-     */
-    public boolean matchPackage(Object pkg) {
-	boolean res = packageName.evaluate(Model.getFacade().getName(pkg));
-	return res;
-    }
+	/**
+	 * @param pkg
+	 *            the given package
+	 * @return true if the name of the given package is equal
+	 */
+	public boolean matchPackage(Object pkg) {
+		boolean res = packageName.evaluate(Model.getFacade().getName(pkg));
+		return res;
+	}
 
-    public boolean evaluate(Object element) {
-	if (!(Model.getFacade().isAUMLElement(element))) {
-            return false;
-        }
-	Object me = element;
-	return theType.evaluate(me) && specific.evaluate(me)
-	    && elementName.evaluate(Model.getFacade().getName(me));
-    }
+	public boolean evaluate(Object element) {
+		if (!(Model.getFacade().isAUMLElement(element))) {
+			return false;
+		}
+		Object me = element;
+		return theType.evaluate(me) && specific.evaluate(me) && elementName.evaluate(Model.getFacade().getName(me));
+	}
 }

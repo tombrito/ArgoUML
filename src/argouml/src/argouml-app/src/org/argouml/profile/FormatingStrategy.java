@@ -47,28 +47,28 @@ import java.util.Iterator;
  * @author Marcos Aurélio
  */
 public interface FormatingStrategy {
-    
-    /**
-     * Produce a string that represents the specific model element in the
-     * context of the specified namespace.
-     * 
-     * @param element
-     *                element to represent.
-     * @param namespace
-     *                context namespace (may be null).
-     * @return a string representing the model element
-     */
-    String formatElement(Object element, Object namespace);
 
-    /**
-     * Produce a string the represents the collection of model elements in the
-     * context of the specified namespace.
-     * 
-     * @param iter
-     *                iterator over collection
-     * @param namespace
-     *                context namespace (may be null).
-     * @return a string representing the collection
-     */
-    String formatCollection(Iterator iter, Object namespace);
+	/**
+	 * Produce a string that represents the specific model element in the
+	 * context of the specified namespace.
+	 * 
+	 * @param element
+	 *            element to represent.
+	 * @param namespace
+	 *            context namespace (may be null).
+	 * @return a string representing the model element
+	 */
+	String formatElement(Object element, Object namespace);
+
+	/**
+	 * Produce a string the represents the collection of model elements in the
+	 * context of the specified namespace.
+	 * 
+	 * @param iter
+	 *            iterator over collection
+	 * @param namespace
+	 *            context namespace (may be null).
+	 * @return a string representing the collection
+	 */
+	String formatCollection(Iterator iter, Object namespace);
 }

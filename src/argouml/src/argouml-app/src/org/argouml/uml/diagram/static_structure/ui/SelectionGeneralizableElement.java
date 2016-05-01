@@ -56,90 +56,73 @@ import org.tigris.gef.presentation.Fig;
  * 
  * @author Tom Morris
  */
-public abstract class SelectionGeneralizableElement extends
-        SelectionClassifierBox {
+public abstract class SelectionGeneralizableElement extends SelectionClassifierBox {
 
-    private static final long serialVersionUID = 3308483049791987643L;
+	private static final long serialVersionUID = 3308483049791987643L;
 
-	private static Icon inherit =
-            ResourceLoaderWrapper.lookupIconResource("Generalization");
+	private static Icon inherit = ResourceLoaderWrapper.lookupIconResource("Generalization");
 
-    private static Icon[] icons = 
-    {inherit,
-     inherit,
-     null,
-     null,
-     null,
-    };
+	private static Icon[] icons = { inherit, inherit, null, null, null, };
 
-    private static String[] instructions = 
-    {"Add a supertype",
-     "Add a subtype",
-     null,
-     null,
-     null,
-     "Move object(s)",
-    };
+	private static String[] instructions = { "Add a supertype", "Add a subtype", null, null, null, "Move object(s)", };
 
-    
-    private boolean useComposite;
+	private boolean useComposite;
 
-    /**
-     * Construct a SelectionGeneralizableElement
-     * 
-     * @param f
-     *            Fig for which to construct the selection object
-     */
-    public SelectionGeneralizableElement(Fig f) {
-        super(f);
-    }
+	/**
+	 * Construct a SelectionGeneralizableElement
+	 * 
+	 * @param f
+	 *            Fig for which to construct the selection object
+	 */
+	public SelectionGeneralizableElement(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        Editor ce = Globals.curEditor();
-        GraphModel gm = ce.getGraphModel();
-    
-        // No generalizations in Deployment Diagrams
-        if (gm instanceof DeploymentDiagramGraphModel) {
-            return null;
-        }
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, inherit, null, null, null };
-        }
-        return icons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		Editor ce = Globals.curEditor();
+		GraphModel gm = ce.getGraphModel();
 
-    @Override
-    protected String getInstructions(int i) {
-        return instructions[ i - BASE];
-    }
-    
-    @Override
-    protected Object getNewEdgeType(int i) {
-        if (i == TOP || i == BOTTOM) {
-            return Model.getMetaTypes().getGeneralization();
-        }
-        return null;
-    }
-    
-    @Override
-    protected boolean isReverseEdge(int i) {
-        if (i == BOTTOM) {
-            return true;
-        }
-        return false;
-    }
+		// No generalizations in Deployment Diagrams
+		if (gm instanceof DeploymentDiagramGraphModel) {
+			return null;
+		}
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, inherit, null, null, null };
+		}
+		return icons;
+	}
 
-    @Override
-    protected boolean isEdgePostProcessRequested() {
-        return useComposite;
-    }
+	@Override
+	protected String getInstructions(int i) {
+		return instructions[i - BASE];
+	}
 
-    @Override
-    public void mouseEntered(MouseEvent me) {
-        super.mouseEntered(me);
-        useComposite = me.isShiftDown();
-    }
+	@Override
+	protected Object getNewEdgeType(int i) {
+		if (i == TOP || i == BOTTOM) {
+			return Model.getMetaTypes().getGeneralization();
+		}
+		return null;
+	}
+
+	@Override
+	protected boolean isReverseEdge(int i) {
+		if (i == BOTTOM) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean isEdgePostProcessRequested() {
+		return useComposite;
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent me) {
+		super.mouseEntered(me);
+		useComposite = me.isShiftDown();
+	}
 
 }

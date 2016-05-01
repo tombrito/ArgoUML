@@ -54,81 +54,77 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  *
  * @author Michiel
  */
-public class ActionAddSupplierDependencyAction extends
-        AbstractActionAddModelElement2 {
+public class ActionAddSupplierDependencyAction extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = -4721618163073413695L;
+	private static final long serialVersionUID = -4721618163073413695L;
 
 	/**
-     * The constructor.
-     */
-    public ActionAddSupplierDependencyAction() {
-        super();
-        setMultiSelect(true);
-    }
+	 * The constructor.
+	 */
+	public ActionAddSupplierDependencyAction() {
+		super();
+		setMultiSelect(true);
+	}
 
-    /*
-     * Constraint: This code only deals with 1 supplier per dependency!
-     * TODO: Do we need more?
-     * 
-     * @see org.argouml.uml.ui.AbstractActionAddModelElement#doIt(java.util.List)
-     */
-    protected void doIt(Collection selected) {
-        Set oldSet = new HashSet(getSelected());
-        for (Object supplier : oldSet) {
-            if (oldSet.contains(supplier)) {
-                oldSet.remove(supplier); //to be able to remove dep's later
-            } else {
-                Model.getCoreFactory().buildDependency(supplier, getTarget());
-            }
-        }
+	/*
+	 * Constraint: This code only deals with 1 supplier per dependency! TODO: Do
+	 * we need more?
+	 * 
+	 * @see
+	 * org.argouml.uml.ui.AbstractActionAddModelElement#doIt(java.util.List)
+	 */
+	protected void doIt(Collection selected) {
+		Set oldSet = new HashSet(getSelected());
+		for (Object supplier : oldSet) {
+			if (oldSet.contains(supplier)) {
+				oldSet.remove(supplier); // to be able to remove dep's later
+			} else {
+				Model.getCoreFactory().buildDependency(supplier, getTarget());
+			}
+		}
 
-        Collection toBeDeleted = new ArrayList();
-        Collection c =  Model.getFacade().getSupplierDependencies(getTarget());
-        for (Object dependency : c) {
-            if (oldSet.containsAll(
-                    Model.getFacade().getClients(dependency))) {
-                toBeDeleted.add(dependency);
-            }
-        }
-        ProjectManager.getManager().getCurrentProject()
-                .moveToTrash(toBeDeleted);
-    }
+		Collection toBeDeleted = new ArrayList();
+		Collection c = Model.getFacade().getSupplierDependencies(getTarget());
+		for (Object dependency : c) {
+			if (oldSet.containsAll(Model.getFacade().getClients(dependency))) {
+				toBeDeleted.add(dependency);
+			}
+		}
+		ProjectManager.getManager().getCurrentProject().moveToTrash(toBeDeleted);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionAddModelElement#getChoices()
-     */
-    protected List getChoices() {
-        List ret = new ArrayList();
-        Object model =
-            ProjectManager.getManager().getCurrentProject().getModel();
-        if (getTarget() != null) {
-            Object modelElementType = Model.getMetaTypes().getModelElement();
-            
-            ret.addAll(Model.getModelManagementHelper()
-                    .getAllModelElementsOfKind(model, modelElementType));
-            ret.remove(getTarget());
-        }
-        return ret;
-    }
+	/*
+	 * @see org.argouml.uml.ui.AbstractActionAddModelElement#getChoices()
+	 */
+	protected List getChoices() {
+		List ret = new ArrayList();
+		Object model = ProjectManager.getManager().getCurrentProject().getModel();
+		if (getTarget() != null) {
+			Object modelElementType = Model.getMetaTypes().getModelElement();
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionAddModelElement#getDialogTitle()
-     */
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-supplier-dependency");
-    }
+			ret.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(model, modelElementType));
+			ret.remove(getTarget());
+		}
+		return ret;
+	}
 
-    /*
-     * @see org.argouml.uml.ui.AbstractActionAddModelElement#getSelected()
-     */
-    protected List getSelected() {
-        List v = new ArrayList();
-        Collection c =  Model.getFacade().getSupplierDependencies(getTarget());
-        for (Object supplierDependency : c) {
-            v.addAll(Model.getFacade().getClients(supplierDependency));
-        }
-        return v;
-    }
+	/*
+	 * @see org.argouml.uml.ui.AbstractActionAddModelElement#getDialogTitle()
+	 */
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-supplier-dependency");
+	}
+
+	/*
+	 * @see org.argouml.uml.ui.AbstractActionAddModelElement#getSelected()
+	 */
+	protected List getSelected() {
+		List v = new ArrayList();
+		Collection c = Model.getFacade().getSupplierDependencies(getTarget());
+		for (Object supplierDependency : c) {
+			v.addAll(Model.getFacade().getClients(supplierDependency));
+		}
+		return v;
+	}
 
 }

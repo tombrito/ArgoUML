@@ -51,85 +51,83 @@ import javax.swing.table.TableModel;
 import org.argouml.cognitive.Critic;
 
 /**
- * This class represents the table shown in the Critics Browser dialog. <p>
+ * This class represents the table shown in the Critics Browser dialog.
+ * <p>
  * 
- * This is a seperate class so that 
- * the CriticsBrowser does not need to know 
- * what the table contains, i.e. how many columns it has, etc. 
+ * This is a seperate class so that the CriticsBrowser does not need to know
+ * what the table contains, i.e. how many columns it has, etc.
  *
  * @author Michiel
  */
 class TableCritics extends JTable {
 
-    private static final long serialVersionUID = -1009571079528141952L;
+	private static final long serialVersionUID = -1009571079528141952L;
 	private boolean initialised;
-    private static final String DESC_WIDTH_TEXT =
-        "This is Sample Text for determining Column Width";
+	private static final String DESC_WIDTH_TEXT = "This is Sample Text for determining Column Width";
 
-    public TableCritics(TableModel model, 
-            ListSelectionListener lsl, TableModelListener tml) {
-        super(model);
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setShowVerticalLines(false);
-        getSelectionModel().addListSelectionListener(lsl);
-        getModel().addTableModelListener(tml);
-        setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+	public TableCritics(TableModel model, ListSelectionListener lsl, TableModelListener tml) {
+		super(model);
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setShowVerticalLines(false);
+		getSelectionModel().addListSelectionListener(lsl);
+		getModel().addTableModelListener(tml);
+		setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
-        initialised = true;
-        setColumnWidths();
-    }
+		initialised = true;
+		setColumnWidths();
+	}
 
-    private void setColumnWidths() {
-        if (!initialised) {
-            return;
-        }
-        TableColumn checkCol = getColumnModel().getColumn(0);
-        TableColumn descCol = getColumnModel().getColumn(1);
-        TableColumn actCol = getColumnModel().getColumn(2);
-        checkCol.setMinWidth(35);
-        checkCol.setMaxWidth(35);
-        checkCol.setWidth(30);
-        int descWidth = getFontMetrics(getFont())
-                .stringWidth(DESC_WIDTH_TEXT);
-        descCol.setMinWidth(descWidth);
-        descCol.setWidth(descWidth); // no maximum set, so it will stretch...
-        actCol.setMinWidth(50);
-        actCol.setMaxWidth(55);
-        actCol.setWidth(55);
-        /* and for advanced mode: */
-        if (getColumnModel().getColumnCount() > 3) {
-            descCol.setMinWidth(descWidth / 2);
-            TableColumn prioCol = getColumnModel().getColumn(3);
-            prioCol.setMinWidth(45);
-            prioCol.setMaxWidth(50);
-            prioCol.setWidth(50);
-        }
-    }
-    
-    public Critic getCriticAtRow(int row) {
-        TableModelCritics model = (TableModelCritics) getModel();
-        return model.getCriticAtRow(row);
-    }
+	private void setColumnWidths() {
+		if (!initialised) {
+			return;
+		}
+		TableColumn checkCol = getColumnModel().getColumn(0);
+		TableColumn descCol = getColumnModel().getColumn(1);
+		TableColumn actCol = getColumnModel().getColumn(2);
+		checkCol.setMinWidth(35);
+		checkCol.setMaxWidth(35);
+		checkCol.setWidth(30);
+		int descWidth = getFontMetrics(getFont()).stringWidth(DESC_WIDTH_TEXT);
+		descCol.setMinWidth(descWidth);
+		descCol.setWidth(descWidth); // no maximum set, so it will stretch...
+		actCol.setMinWidth(50);
+		actCol.setMaxWidth(55);
+		actCol.setWidth(55);
+		/* and for advanced mode: */
+		if (getColumnModel().getColumnCount() > 3) {
+			descCol.setMinWidth(descWidth / 2);
+			TableColumn prioCol = getColumnModel().getColumn(3);
+			prioCol.setMinWidth(45);
+			prioCol.setMaxWidth(50);
+			prioCol.setWidth(50);
+		}
+	}
 
-    public Dimension getInitialSize() {
-        return new Dimension(getColumnModel().getTotalColumnWidth() + 20, 0);
-    }
-    
-    public void setAdvanced(boolean mode) {
-        TableModelCritics model = (TableModelCritics) getModel();
-        model.setAdvanced(mode);
-    }
+	public Critic getCriticAtRow(int row) {
+		TableModelCritics model = (TableModelCritics) getModel();
+		return model.getCriticAtRow(row);
+	}
 
-    /**
-     * @see javax.swing.JTable#tableChanged(javax.swing.event.TableModelEvent)
-     */
-    @Override
-    public void tableChanged(TableModelEvent e) {
-        super.tableChanged(e);
-        /* This changes the complete structure of the table, 
-         * so we need to set the column widths again. */
-        setColumnWidths();
-    }
+	public Dimension getInitialSize() {
+		return new Dimension(getColumnModel().getTotalColumnWidth() + 20, 0);
+	}
 
-    
+	public void setAdvanced(boolean mode) {
+		TableModelCritics model = (TableModelCritics) getModel();
+		model.setAdvanced(mode);
+	}
+
+	/**
+	 * @see javax.swing.JTable#tableChanged(javax.swing.event.TableModelEvent)
+	 */
+	@Override
+	public void tableChanged(TableModelEvent e) {
+		super.tableChanged(e);
+		/*
+		 * This changes the complete structure of the table, so we need to set
+		 * the column widths again.
+		 */
+		setColumnWidths();
+	}
+
 }

@@ -42,21 +42,20 @@ import org.argouml.model.AbstractCommonBehaviorHelperDecorator;
 import org.argouml.model.CommonBehaviorHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoCommonBehaviorHelperDecorator
-	extends AbstractCommonBehaviorHelperDecorator {
+class UndoCommonBehaviorHelperDecorator extends AbstractCommonBehaviorHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoCommonBehaviorHelperDecorator(CommonBehaviorHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoCommonBehaviorHelperDecorator(CommonBehaviorHelper component) {
+		super(component);
+	}
 }
-

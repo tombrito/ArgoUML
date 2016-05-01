@@ -54,43 +54,46 @@ import org.argouml.profile.Profile;
  */
 public class GoProfileToCritics extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.profile.critics");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.profile.critics");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(final Object parent) {
-        if (parent instanceof Profile) {
-            Object critics = new ArrayList<Critic>() {
-                private static final long serialVersionUID = 7223769568113185329L;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(final Object parent) {
+		if (parent instanceof Profile) {
+			Object critics = new ArrayList<Critic>() {
+				private static final long serialVersionUID = 7223769568113185329L;
 
 				{
-                    addAll(((Profile) parent).getCritics());
-                }
+					addAll(((Profile) parent).getCritics());
+				}
 
-                @Override
-                public String toString() {
-                    return Translator.localize("misc.profile.explorer.critic");
-                }
-            };
-            
-            Collection ret = new ArrayList<Object>();
-            ret.add(critics);
-            return ret;
-        }
-        return Collections.emptySet();
-    }
+				@Override
+				public String toString() {
+					return Translator.localize("misc.profile.explorer.critic");
+				}
+			};
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-        return Collections.emptySet();
-    }
+			Collection ret = new ArrayList<Object>();
+			ret.add(critics);
+			return ret;
+		}
+		return Collections.emptySet();
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.emptySet();
+	}
 }

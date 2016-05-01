@@ -14,23 +14,30 @@
 package org.argouml.model;
 
 /**
- * Contains information on what default properties should be applied to a newly created
- * model element.
+ * Contains information on what default properties should be applied to a newly
+ * created model element.
+ * 
  * @author Bob Tarling
  */
 public interface UmlFactoryDefaults {
-    
-    /**
-     * Get the default type to apply when creating on object of the given meta type.
-     * @param metaType that is to be created
-     * @return the type instance to apply to the newly created object
-     */
-    Object getDefaultType(Object metaType);
-    
-    /**
-     * Get the default name to apply when creating on object of the given meta type.
-     * @param metaType that is to be created
-     * @return the name to apply to the newly created object
-     */
-    String getDefaultName(Object metaType);
+
+	/**
+	 * Get the default type to apply when creating on object of the given meta
+	 * type.
+	 * 
+	 * @param metaType
+	 *            that is to be created
+	 * @return the type instance to apply to the newly created object
+	 */
+	Object getDefaultType(Object metaType);
+
+	/**
+	 * Get the default name to apply when creating on object of the given meta
+	 * type.
+	 * 
+	 * @param metaType
+	 *            that is to be created
+	 * @return the name to apply to the newly created object
+	 */
+	String getDefaultName(Object metaType);
 }

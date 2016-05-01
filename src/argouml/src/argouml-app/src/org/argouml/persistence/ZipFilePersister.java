@@ -68,218 +68,202 @@ import org.xml.sax.InputSource;
  * @author Ludovic Ma&icirc;tre
  */
 class ZipFilePersister extends XmiFilePersister {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ZipFilePersister.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ZipFilePersister.class.getName());
 
-    /**
-     * The constructor.
-     */
-    public ZipFilePersister() {
-    }
+	/**
+	 * The constructor.
+	 */
+	public ZipFilePersister() {
+	}
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#getExtension()
-     */
-    public String getExtension() {
-        return "zip";
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#getExtension()
+	 */
+	public String getExtension() {
+		return "zip";
+	}
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#getDesc()
-     */
-    protected String getDesc() {
-        return Translator.localize("combobox.filefilter.zip");
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#getDesc()
+	 */
+	protected String getDesc() {
+		return Translator.localize("combobox.filefilter.zip");
+	}
 
-    /*
-     * @see org.argouml.persistence.XmiFilePersister#isSaveEnabled()
-     */
-    public boolean isSaveEnabled() {
-        return true;
-    }
+	/*
+	 * @see org.argouml.persistence.XmiFilePersister#isSaveEnabled()
+	 */
+	public boolean isSaveEnabled() {
+		return true;
+	}
 
-    /**
-     * Save the project in ZIP format.
-     *
-     * @param file
-     *            The file to write.
-     * @param project
-     *            the project to save
-     * @throws SaveException
-     *             when anything goes wrong
-     *
-     * @see org.argouml.persistence.ProjectFilePersister#save(
-     *      org.argouml.kernel.Project, java.io.File)
-     */
-    public void doSave(Project project, File file) throws SaveException {
+	/**
+	 * Save the project in ZIP format.
+	 *
+	 * @param file
+	 *            The file to write.
+	 * @param project
+	 *            the project to save
+	 * @throws SaveException
+	 *             when anything goes wrong
+	 *
+	 * @see org.argouml.persistence.ProjectFilePersister#save(
+	 *      org.argouml.kernel.Project, java.io.File)
+	 */
+	public void doSave(Project project, File file) throws SaveException {
 
-        LOG.log(Level.INFO, "Receiving file {0}", file.getName());
+		LOG.log(Level.INFO, "Receiving file {0}", file.getName());
 
-        /* Retain the previous project file even when the save operation
-         * crashes in the middle. Also create a backup file after saving. */
-        boolean doSafeSaves = useSafeSaves();
+		/*
+		 * Retain the previous project file even when the save operation crashes
+		 * in the middle. Also create a backup file after saving.
+		 */
+		boolean doSafeSaves = useSafeSaves();
 
-        File lastArchiveFile = new File(file.getAbsolutePath() + "~");
-        File tempFile = null;
+		File lastArchiveFile = new File(file.getAbsolutePath() + "~");
+		File tempFile = null;
 
-        if (doSafeSaves) {
-            try {
-                tempFile = createTempFile(file);
-            } catch (FileNotFoundException e) {
-                throw new SaveException(Translator.localize(
-                        "optionpane.save-project-exception-cause1"), e);
-            } catch (IOException e) {
-                throw new SaveException(Translator.localize(
-                        "optionpane.save-project-exception-cause2"), e);
-            }
-        }
+		if (doSafeSaves) {
+			try {
+				tempFile = createTempFile(file);
+			} catch (FileNotFoundException e) {
+				throw new SaveException(Translator.localize("optionpane.save-project-exception-cause1"), e);
+			} catch (IOException e) {
+				throw new SaveException(Translator.localize("optionpane.save-project-exception-cause2"), e);
+			}
+		}
 
-        OutputStream bufferedStream = null;
-        try {
-            //project.setFile(file);
+		OutputStream bufferedStream = null;
+		try {
+			// project.setFile(file);
 
-            ZipOutputStream stream =
-                new ZipOutputStream(new FileOutputStream(file));
-            String fileName = file.getName();
-            ZipEntry xmiEntry =
-                new ZipEntry(fileName.substring(0, fileName.lastIndexOf(".")));
-            stream.putNextEntry(xmiEntry);
-            bufferedStream = new BufferedOutputStream(stream);
+			ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(file));
+			String fileName = file.getName();
+			ZipEntry xmiEntry = new ZipEntry(fileName.substring(0, fileName.lastIndexOf(".")));
+			stream.putNextEntry(xmiEntry);
+			bufferedStream = new BufferedOutputStream(stream);
 
-            int size = project.getMembers().size();
-            for (int i = 0; i < size; i++) {
-                ProjectMember projectMember =
-                    project.getMembers().get(i);
-                if (projectMember.getType().equalsIgnoreCase("xmi")) {
-                    LOG.log(Level.FINE,
-                            "Saving member of type: {0}",
-                            projectMember.getType());
+			int size = project.getMembers().size();
+			for (int i = 0; i < size; i++) {
+				ProjectMember projectMember = project.getMembers().get(i);
+				if (projectMember.getType().equalsIgnoreCase("xmi")) {
+					LOG.log(Level.FINE, "Saving member of type: {0}", projectMember.getType());
 
-                    MemberFilePersister persister
-                        = new ModelMemberFilePersister();
-                    persister.save(projectMember, bufferedStream);
-                }
-            }
-            stream.close();
+					MemberFilePersister persister = new ModelMemberFilePersister();
+					persister.save(projectMember, bufferedStream);
+				}
+			}
+			stream.close();
 
-            if (doSafeSaves) {
-                // if save did not raise an exception
-                // and name+"#" exists move name+"#" to name+"~"
-                // this is the correct backup file
-                if (lastArchiveFile.exists()) {
-                    lastArchiveFile.delete();
-                }
-                if (tempFile.exists() && !lastArchiveFile.exists()) {
-                    tempFile.renameTo(lastArchiveFile);
-                }
-                if (tempFile.exists()) {
-                    tempFile.delete();
-                }
-            }
-        } catch (Exception e) {
-            LOG.log(Level.SEVERE, "Exception occured during save attempt", e);
-            try {
-                bufferedStream.close();
-            } catch (IOException ex) {
-                // If we get a 2nd error, just ignore it
-            }
+			if (doSafeSaves) {
+				// if save did not raise an exception
+				// and name+"#" exists move name+"#" to name+"~"
+				// this is the correct backup file
+				if (lastArchiveFile.exists()) {
+					lastArchiveFile.delete();
+				}
+				if (tempFile.exists() && !lastArchiveFile.exists()) {
+					tempFile.renameTo(lastArchiveFile);
+				}
+				if (tempFile.exists()) {
+					tempFile.delete();
+				}
+			}
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Exception occured during save attempt", e);
+			try {
+				bufferedStream.close();
+			} catch (IOException ex) {
+				// If we get a 2nd error, just ignore it
+			}
 
-            if (doSafeSaves) {
-                // frank: in case of exception
-                // delete name and mv name+"#" back to name if name+"#" exists
-                // this is the "rollback" to old file
-                file.delete();
-                tempFile.renameTo(file);
-            }
-            // we have to give a message to user and set the system to unsaved!
-            throw new SaveException(e);
-        }
+			if (doSafeSaves) {
+				// frank: in case of exception
+				// delete name and mv name+"#" back to name if name+"#" exists
+				// this is the "rollback" to old file
+				file.delete();
+				tempFile.renameTo(file);
+			}
+			// we have to give a message to user and set the system to unsaved!
+			throw new SaveException(e);
+		}
 
-        try {
-            bufferedStream.close();
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, "Failed to close save output writer", ex);
-        }
-    }
+		try {
+			bufferedStream.close();
+		} catch (IOException ex) {
+			LOG.log(Level.SEVERE, "Failed to close save output writer", ex);
+		}
+	}
 
-    /*
-     * @see org.argouml.persistence.ProjectFilePersister#doLoad(java.io.File)
-     */
-    public Project doLoad(File file)
-        throws OpenException {
+	/*
+	 * @see org.argouml.persistence.ProjectFilePersister#doLoad(java.io.File)
+	 */
+	public Project doLoad(File file) throws OpenException {
 
-        LOG.log(Level.INFO, "Receiving file {0}", file.getName());
+		LOG.log(Level.INFO, "Receiving file {0}", file.getName());
 
-        try {
-            Project p = ProjectFactory.getInstance().createProject();
-            String fileName = file.getName();
-            String extension =
-                fileName.substring(
-                        fileName.indexOf('.'),
-                        fileName.lastIndexOf('.'));
-            InputStream stream = openZipStreamAt(file.toURI().toURL(),
-                    extension);
+		try {
+			Project p = ProjectFactory.getInstance().createProject();
+			String fileName = file.getName();
+			String extension = fileName.substring(fileName.indexOf('.'), fileName.lastIndexOf('.'));
+			InputStream stream = openZipStreamAt(file.toURI().toURL(), extension);
 
-            // TODO: What progressMgr is to be used here? Where does
-            //       it come from?
-            InputSource is =
-                new InputSource(
-                    new XmiInputStream(stream, this, 100000, null));
-            is.setSystemId(file.toURI().toURL().toExternalForm());
+			// TODO: What progressMgr is to be used here? Where does
+			// it come from?
+			InputSource is = new InputSource(new XmiInputStream(stream, this, 100000, null));
+			is.setSystemId(file.toURI().toURL().toExternalForm());
 
-            ModelMemberFilePersister modelPersister =
-                new ModelMemberFilePersister();
+			ModelMemberFilePersister modelPersister = new ModelMemberFilePersister();
 
-            modelPersister.readModels(is);
-            // TODO Handle multiple top level packages
-            Object model = modelPersister.getCurModel();
-            Model.getUmlHelper().addListenersToModel(model);
-            p.setUUIDRefs(modelPersister.getUUIDRefs());
-            p.addMember(model);
-            parseXmiExtensions(p);
-            modelPersister.registerDiagrams(p);
+			modelPersister.readModels(is);
+			// TODO Handle multiple top level packages
+			Object model = modelPersister.getCurModel();
+			Model.getUmlHelper().addListenersToModel(model);
+			p.setUUIDRefs(modelPersister.getUUIDRefs());
+			p.addMember(model);
+			parseXmiExtensions(p);
+			modelPersister.registerDiagrams(p);
 
-            p.setRoot(model);
-            p.setRoots(modelPersister.getElementsRead());
-            ProjectManager.getManager().setSaveEnabled(false);
-            return p;
-        } catch (IOException e) {
-            throw new OpenException(e);
-        }
+			p.setRoot(model);
+			p.setRoots(modelPersister.getElementsRead());
+			ProjectManager.getManager().setSaveEnabled(false);
+			return p;
+		} catch (IOException e) {
+			throw new OpenException(e);
+		}
 
-    }
+	}
 
-    /**
-     * Open a ZipInputStream to the first file found with a given extension.
-     *
-     * @param url
-     *            The URL of the zip file.
-     * @param ext
-     *            The required extension.
-     * @return the zip stream positioned at the required location.
-     * @throws IOException
-     *             if there is a problem opening the file.
-     */
-    private ZipInputStream openZipStreamAt(URL url, String ext)
-        throws IOException {
-        ZipInputStream zis = new ZipInputStream(url.openStream());
-        ZipEntry entry = zis.getNextEntry();
-        while (entry != null && !entry.getName().endsWith(ext)) {
-            entry = zis.getNextEntry();
-        }
-        return zis;
-    }
+	/**
+	 * Open a ZipInputStream to the first file found with a given extension.
+	 *
+	 * @param url
+	 *            The URL of the zip file.
+	 * @param ext
+	 *            The required extension.
+	 * @return the zip stream positioned at the required location.
+	 * @throws IOException
+	 *             if there is a problem opening the file.
+	 */
+	private ZipInputStream openZipStreamAt(URL url, String ext) throws IOException {
+		ZipInputStream zis = new ZipInputStream(url.openStream());
+		ZipEntry entry = zis.getNextEntry();
+		while (entry != null && !entry.getName().endsWith(ext)) {
+			entry = zis.getNextEntry();
+		}
+		return zis;
+	}
 
-    /**
-     * Returns false. Only Argo specific files have an icon.
-     *
-     * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
-     */
-    @Override
-    public boolean hasAnIcon() {
-        return false;
-    }
+	/**
+	 * Returns false. Only Argo specific files have an icon.
+	 *
+	 * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
+	 */
+	@Override
+	public boolean hasAnIcon() {
+		return false;
+	}
 }

@@ -51,22 +51,24 @@ import org.argouml.uml.diagram.ui.CompartmentFigText;
  */
 public class FigExtensionPoint extends CompartmentFigText {
 
-    private static final long serialVersionUID = 1326026230677319655L;
+	private static final long serialVersionUID = 1326026230677319655L;
 
 	/**
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigExtensionPoint(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigExtensionPoint(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
 
-    }
-    
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_EXTENSION_POINT;
-    }
-    
+	}
+
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_EXTENSION_POINT;
+	}
+
 }

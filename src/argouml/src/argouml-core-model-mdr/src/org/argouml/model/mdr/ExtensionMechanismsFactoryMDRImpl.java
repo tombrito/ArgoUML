@@ -52,393 +52,353 @@ import org.omg.uml.foundation.core.TagDefinition;
 import org.omg.uml.foundation.core.TaggedValue;
 
 /**
- * Factory to create UML classes for the UML ExtensionMechanisms
- * package.<p>
+ * Factory to create UML classes for the UML ExtensionMechanisms package.
+ * <p>
  * 
  * @since ARGO0.19.5
  * @author Ludovic Ma&icirc;tre
  * @author Tom Morris
- * <p>
- * derived from NSUML implementation by:
+ *         <p>
+ *         derived from NSUML implementation by:
  * @author Thierry Lach
  */
-class ExtensionMechanismsFactoryMDRImpl extends
-        AbstractUmlModelFactoryMDR implements ExtensionMechanismsFactory {
+class ExtensionMechanismsFactoryMDRImpl extends AbstractUmlModelFactoryMDR implements ExtensionMechanismsFactory {
 
-    /**
-     * The model implementation.
-     */
-    private MDRModelImplementation modelImpl;
+	/**
+	 * The model implementation.
+	 */
+	private MDRModelImplementation modelImpl;
 
-    /**
-     * The extension mechanism helper.
-     */
-    private ExtensionMechanismsHelper extensionHelper;
+	/**
+	 * The extension mechanism helper.
+	 */
+	private ExtensionMechanismsHelper extensionHelper;
 
-    /**
-     * Don't allow instantiation.
-     * 
-     * @param implementation
-     *            To get other helpers and factories.
-     */
-    ExtensionMechanismsFactoryMDRImpl(MDRModelImplementation implementation) {
-        modelImpl = implementation;
-        extensionHelper = implementation.getExtensionMechanismsHelper();
-    }
+	/**
+	 * Don't allow instantiation.
+	 * 
+	 * @param implementation
+	 *            To get other helpers and factories.
+	 */
+	ExtensionMechanismsFactoryMDRImpl(MDRModelImplementation implementation) {
+		modelImpl = implementation;
+		extensionHelper = implementation.getExtensionMechanismsHelper();
+	}
 
-    /*
-     * @see org.argouml.model.ExtensionMechanismsFactory#createTaggedValue()
-     */
-    public TaggedValue createTaggedValue() {
-        TaggedValue tv = modelImpl.getUmlPackage().getCore().getTaggedValue().
-                createTaggedValue();
-        super.initialize(tv);
-        return tv;
-    }
+	/*
+	 * @see org.argouml.model.ExtensionMechanismsFactory#createTaggedValue()
+	 */
+	public TaggedValue createTaggedValue() {
+		TaggedValue tv = modelImpl.getUmlPackage().getCore().getTaggedValue().createTaggedValue();
+		super.initialize(tv);
+		return tv;
+	}
 
-    /**
-     * Get an instance of a UML TagDefinition.
-     * 
-     * @param tagName The name of the TagDefinition to create/retrieve
-     * @return an initialized UML TaggedValue instance.
-     */
-    TagDefinition getTagDefinition(String tagName) {
-        if (tagName == null) {
-            throw new IllegalArgumentException("Argument may not be null");
-        }
-        
-        // Look for a TagDefinition matching the given name
-        for (Iterator i = modelImpl.getUmlPackage().getCore().getTagDefinition()
-                .refAllOfClass().iterator(); i.hasNext();) {
-            TagDefinition td = (TagDefinition) i.next();
-            if (tagName.equals(td.getName())) {
-                return td;
-            }
-        }
-        
-        // Create a new TagDefinition if none found
-        Object rootModel = modelImpl.getModelManagementFactory().getRootModel();
-        TagDefinition td = buildTagDefinition(tagName, null, rootModel);
+	/**
+	 * Get an instance of a UML TagDefinition.
+	 * 
+	 * @param tagName
+	 *            The name of the TagDefinition to create/retrieve
+	 * @return an initialized UML TaggedValue instance.
+	 */
+	TagDefinition getTagDefinition(String tagName) {
+		if (tagName == null) {
+			throw new IllegalArgumentException("Argument may not be null");
+		}
 
-        super.initialize(td);
-        return td;
-    }
+		// Look for a TagDefinition matching the given name
+		for (Iterator i = modelImpl.getUmlPackage().getCore().getTagDefinition().refAllOfClass().iterator(); i
+				.hasNext();) {
+			TagDefinition td = (TagDefinition) i.next();
+			if (tagName.equals(td.getName())) {
+				return td;
+			}
+		}
 
-    /*
-     * TODO: MVW: This needs rethinking/rework! I have the following questions:
-     * Why does it not search for a stereotype in the namespace using properties
-     * and only create a new stereotype if it will actually be used? Ie, why is
-     * there not a getStereotype(String name, String baseClass)? (edited by
-     * d00mst)  <these comments imported from NSUML implementation - tfm>
-     * 
-     * @see org.argouml.model.ExtensionMechanismsFactory#buildStereotype(java.lang.Object, java.lang.Object, java.lang.Object)
-     */
-    public Stereotype buildStereotype(
-            Object theModelElementObject,
-            Object theName,
-            Object theNamespaceObject) {
-        
-        if (theModelElementObject == null || theName == null
-                || theNamespaceObject == null) {
-            throw new IllegalArgumentException(
-                    "one of the arguments is null: modelElement="
-                    + theModelElementObject
-                    + " name=" + theName
-                    + " namespace=" + theNamespaceObject);
-        }
-        
-        ModelElement me = (ModelElement) theModelElementObject;
-        
-        String text = (String) theName;
-        Namespace ns = (Namespace) theNamespaceObject;
-        Stereotype stereo = buildStereotype(text);
-        stereo.getBaseClass().add(modelImpl.getMetaTypes().getName(me));
-        // TODO: this doesn't look right - review - tfm
-        Stereotype stereo2 = (Stereotype) extensionHelper.getStereotype(ns,
-                stereo);
-        if (stereo2 != null) {
-            me.getStereotype().add(stereo2);
-            modelImpl.getUmlFactory().delete(stereo);
-            return stereo2;
-        }
-        stereo.setNamespace(ns);
-        me.getStereotype().add(stereo);
-        return stereo;
-    }
+		// Create a new TagDefinition if none found
+		Object rootModel = modelImpl.getModelManagementFactory().getRootModel();
+		TagDefinition td = buildTagDefinition(tagName, null, rootModel);
 
+		super.initialize(td);
+		return td;
+	}
 
-    public Stereotype buildStereotype(
-            Object theModelElementObject,
-            String theName,
-            Object model,
-            Collection models) {
-        
-        ModelElement me = (ModelElement) theModelElementObject;
+	/*
+	 * TODO: MVW: This needs rethinking/rework! I have the following questions:
+	 * Why does it not search for a stereotype in the namespace using properties
+	 * and only create a new stereotype if it will actually be used? Ie, why is
+	 * there not a getStereotype(String name, String baseClass)? (edited by
+	 * d00mst) <these comments imported from NSUML implementation - tfm>
+	 * 
+	 * @see
+	 * org.argouml.model.ExtensionMechanismsFactory#buildStereotype(java.lang.
+	 * Object, java.lang.Object, java.lang.Object)
+	 */
+	public Stereotype buildStereotype(Object theModelElementObject, Object theName, Object theNamespaceObject) {
 
-        Stereotype stereo = buildStereotype(theName);
-        stereo.getBaseClass().add(modelImpl.getMetaTypes().getName(me));
-        Stereotype stereo2 = (Stereotype) extensionHelper.getStereotype(models,
-                stereo);
-        if (stereo2 != null) {
-            me.getStereotype().add(stereo2);
-            modelImpl.getUmlFactory().delete(stereo);
-            return stereo2;
-        }
-        stereo.setNamespace((org.omg.uml.modelmanagement.Model) model);
-        if (me != null) {
-            me.getStereotype().add(stereo);
-        }
-        return stereo;
-    }
+		if (theModelElementObject == null || theName == null || theNamespaceObject == null) {
+			throw new IllegalArgumentException("one of the arguments is null: modelElement=" + theModelElementObject
+					+ " name=" + theName + " namespace=" + theNamespaceObject);
+		}
 
-    /*
-     * Builds an initialized stereotype with no namespace. A stereotype must
-     * have a namespace so this method is unsafe. Use buildStereotype(String,
-     * Object).
-     * 
-     * @param text
-     *            is the name of the stereotype
-     * @return an initialized stereotype.
-     */
-    private Stereotype buildStereotype(String text) {
-        Stereotype stereotype = modelImpl.getUmlPackage().getCore().
-                getStereotype().createStereotype();
-        super.initialize(stereotype);
-        stereotype.setName(text);
-        return stereotype;
-    }
+		ModelElement me = (ModelElement) theModelElementObject;
 
+		String text = (String) theName;
+		Namespace ns = (Namespace) theNamespaceObject;
+		Stereotype stereo = buildStereotype(text);
+		stereo.getBaseClass().add(modelImpl.getMetaTypes().getName(me));
+		// TODO: this doesn't look right - review - tfm
+		Stereotype stereo2 = (Stereotype) extensionHelper.getStereotype(ns, stereo);
+		if (stereo2 != null) {
+			me.getStereotype().add(stereo2);
+			modelImpl.getUmlFactory().delete(stereo);
+			return stereo2;
+		}
+		stereo.setNamespace(ns);
+		me.getStereotype().add(stereo);
+		return stereo;
+	}
 
-    public Stereotype buildStereotype(String text, Object namespace) {
-        if (!(namespace instanceof Namespace)) {
-            throw new IllegalArgumentException(
-                    "Namespace is wrong type - text:" + text + ",ns:"
-                            + namespace);
-        }
-        Namespace ns = (Namespace) namespace;
-        org.omg.uml.UmlPackage umlPkg = ((org.omg.uml.UmlPackage) ns
-                .refOutermostPackage());
-        Stereotype stereotype = umlPkg.getCore().getStereotype()
-                .createStereotype();
-        super.initialize(stereotype);
-        stereotype.setName(text);
-        stereotype.setNamespace(ns);
-        return stereotype;
-    }
+	public Stereotype buildStereotype(Object theModelElementObject, String theName, Object model, Collection models) {
 
+		ModelElement me = (ModelElement) theModelElementObject;
 
-    @Deprecated
-    public TaggedValue buildTaggedValue(String tag, String value) {
-        TaggedValue tv = buildTaggedValue(getTagDefinition(tag));
-        if (value != null) {
-            tv.getDataValue().add(value);
-        }
-        return tv;
-    }
+		Stereotype stereo = buildStereotype(theName);
+		stereo.getBaseClass().add(modelImpl.getMetaTypes().getName(me));
+		Stereotype stereo2 = (Stereotype) extensionHelper.getStereotype(models, stereo);
+		if (stereo2 != null) {
+			me.getStereotype().add(stereo2);
+			modelImpl.getUmlFactory().delete(stereo);
+			return stereo2;
+		}
+		stereo.setNamespace((org.omg.uml.modelmanagement.Model) model);
+		if (me != null) {
+			me.getStereotype().add(stereo);
+		}
+		return stereo;
+	}
 
-    private TaggedValue buildTaggedValue(TagDefinition type) {
-        TaggedValue tv = createTaggedValue();
-        tv.setType(type);
-        return tv;
-    }
-    
-    public TaggedValue buildTaggedValue(Object type, String[] values) {
-        if (!(type instanceof TagDefinition)) {
-            throw new IllegalArgumentException(
-                    "TagDefinition required, received - " + type);
-        }
-        TaggedValue tv = buildTaggedValue((TagDefinition) type);
-        for (String value : values) {
-            tv.getDataValue().add(value);
-        }
-        return tv;
-    }
+	/*
+	 * Builds an initialized stereotype with no namespace. A stereotype must
+	 * have a namespace so this method is unsafe. Use buildStereotype(String,
+	 * Object).
+	 * 
+	 * @param text is the name of the stereotype
+	 * 
+	 * @return an initialized stereotype.
+	 */
+	private Stereotype buildStereotype(String text) {
+		Stereotype stereotype = modelImpl.getUmlPackage().getCore().getStereotype().createStereotype();
+		super.initialize(stereotype);
+		stereotype.setName(text);
+		return stereotype;
+	}
 
+	public Stereotype buildStereotype(String text, Object namespace) {
+		if (!(namespace instanceof Namespace)) {
+			throw new IllegalArgumentException("Namespace is wrong type - text:" + text + ",ns:" + namespace);
+		}
+		Namespace ns = (Namespace) namespace;
+		org.omg.uml.UmlPackage umlPkg = ((org.omg.uml.UmlPackage) ns.refOutermostPackage());
+		Stereotype stereotype = umlPkg.getCore().getStereotype().createStereotype();
+		super.initialize(stereotype);
+		stereotype.setName(text);
+		stereotype.setNamespace(ns);
+		return stereotype;
+	}
 
-    public void copyTaggedValues(Object source, Object target) {    
-        if (!(source instanceof ModelElement)
-                || !(target instanceof ModelElement)) {
-            throw new IllegalArgumentException();
-        }
+	@Deprecated
+	public TaggedValue buildTaggedValue(String tag, String value) {
+		TaggedValue tv = buildTaggedValue(getTagDefinition(tag));
+		if (value != null) {
+			tv.getDataValue().add(value);
+		}
+		return tv;
+	}
 
-        Iterator it = ((ModelElement) source).getTaggedValue().iterator();
-        Collection taggedValues = ((ModelElement) target).getTaggedValue();
-        // Clear target so that multiple copies have no effect 
-        // (other than inefficiency)
-        taggedValues.clear();
-        while (it.hasNext()) {
-            taggedValues.add(copyTaggedValue((TaggedValue) it.next()));
-        }
-    }
-    
-    /**
-     * Copy a single TaggedValue and return the copy.
-     * 
-     * @param source the TaggedValue to copy
-     * @return the newly cloned copy
-     */
-    private Object copyTaggedValue(TaggedValue source) {
-        TaggedValue tv = createTaggedValue();
-        tv.setType(source.getType());
-        tv.getDataValue().addAll(source.getDataValue());
-        tv.getReferenceValue().addAll(source.getReferenceValue());
-        return tv;
-    }
+	private TaggedValue buildTaggedValue(TagDefinition type) {
+		TaggedValue tv = createTaggedValue();
+		tv.setType(type);
+		return tv;
+	}
 
-    /**
-     * @param elem
-     *            the stereotype
-     */
-    void deleteStereotype(Object elem) {
-        if (!(elem instanceof Stereotype)) {
-            throw new IllegalArgumentException();
-        }
-        modelImpl.getUmlHelper().deleteCollection(
-                ((Stereotype) elem).getDefinedTag());
-        modelImpl.getUmlHelper().deleteCollection(
-                ((Stereotype) elem).getStereotypeConstraint());
-    }
+	public TaggedValue buildTaggedValue(Object type, String[] values) {
+		if (!(type instanceof TagDefinition)) {
+			throw new IllegalArgumentException("TagDefinition required, received - " + type);
+		}
+		TaggedValue tv = buildTaggedValue((TagDefinition) type);
+		for (String value : values) {
+			tv.getDataValue().add(value);
+		}
+		return tv;
+	}
 
-    /**
-     * @param elem
-     *            the taggedvalue
-     */
-    void deleteTaggedValue(Object elem) {
-        if (!(elem instanceof TaggedValue)) {
-            throw new IllegalArgumentException();
-        }
-    }
+	public void copyTaggedValues(Object source, Object target) {
+		if (!(source instanceof ModelElement) || !(target instanceof ModelElement)) {
+			throw new IllegalArgumentException();
+		}
 
-    /**
-     * Delete a TagDefinition.
-     * 
-     * @param elem the element to be deleted
-     */
-    void deleteTagDefinition(Object elem) {
-        if (!(elem instanceof TagDefinition)) {
-            throw new IllegalArgumentException();
-        }
-        // Delete all TaggedValues with this type
-        TagDefinition td = (TagDefinition) elem;
-        modelImpl.getUmlHelper().deleteCollection(
-                ((org.omg.uml.UmlPackage) td.refOutermostPackage()).getCore()
-                        .getATypeTypedValue().getTypedValue(td));
-    }
+		Iterator it = ((ModelElement) source).getTaggedValue().iterator();
+		Collection taggedValues = ((ModelElement) target).getTaggedValue();
+		// Clear target so that multiple copies have no effect
+		// (other than inefficiency)
+		taggedValues.clear();
+		while (it.hasNext()) {
+			taggedValues.add(copyTaggedValue((TaggedValue) it.next()));
+		}
+	}
 
+	/**
+	 * Copy a single TaggedValue and return the copy.
+	 * 
+	 * @param source
+	 *            the TaggedValue to copy
+	 * @return the newly cloned copy
+	 */
+	private Object copyTaggedValue(TaggedValue source) {
+		TaggedValue tv = createTaggedValue();
+		tv.setType(source.getType());
+		tv.getDataValue().addAll(source.getDataValue());
+		tv.getReferenceValue().addAll(source.getReferenceValue());
+		return tv;
+	}
 
-    public Object copyStereotype(Object source, Object ns) {
-        if (!(source instanceof Stereotype)) {
-            throw new IllegalArgumentException("source");
-        }
-        if (!(ns instanceof Namespace)) {
-            throw new IllegalArgumentException("namespace");
-        }
+	/**
+	 * @param elem
+	 *            the stereotype
+	 */
+	void deleteStereotype(Object elem) {
+		if (!(elem instanceof Stereotype)) {
+			throw new IllegalArgumentException();
+		}
+		modelImpl.getUmlHelper().deleteCollection(((Stereotype) elem).getDefinedTag());
+		modelImpl.getUmlHelper().deleteCollection(((Stereotype) elem).getStereotypeConstraint());
+	}
 
-        Stereotype st = buildStereotype(null, ns);
-        doCopyStereotype((Stereotype) source, st);
-        return st;
-    }
+	/**
+	 * @param elem
+	 *            the taggedvalue
+	 */
+	void deleteTaggedValue(Object elem) {
+		if (!(elem instanceof TaggedValue)) {
+			throw new IllegalArgumentException();
+		}
+	}
 
-    /*
-     * Used by the copy functions. Do not call this function directly.
-     * 
-     * @param source
-     *            The stereotype to copy from.
-     * @param target
-     *            The object becoming a copy.
-     */
-    private void doCopyStereotype(Stereotype source, Stereotype target) {
-        ((CoreFactoryMDRImpl) modelImpl.getCoreFactory())
-                .doCopyGeneralizableElement(source, target);
-        target.getBaseClass().clear();
-        target.getBaseClass().addAll(source.getBaseClass());
-        target.setIcon(source.getIcon());
-        // TODO: constraints
-        // TODO: required tags
-    }
+	/**
+	 * Delete a TagDefinition.
+	 * 
+	 * @param elem
+	 *            the element to be deleted
+	 */
+	void deleteTagDefinition(Object elem) {
+		if (!(elem instanceof TagDefinition)) {
+			throw new IllegalArgumentException();
+		}
+		// Delete all TaggedValues with this type
+		TagDefinition td = (TagDefinition) elem;
+		modelImpl.getUmlHelper().deleteCollection(
+				((org.omg.uml.UmlPackage) td.refOutermostPackage()).getCore().getATypeTypedValue().getTypedValue(td));
+	}
 
-    public TagDefinition buildTagDefinition(String name, Object owner, 
-            Object namespace) {
-        return buildTagDefinition(name, owner, namespace, null); // "Element");
-    }
+	public Object copyStereotype(Object source, Object ns) {
+		if (!(source instanceof Stereotype)) {
+			throw new IllegalArgumentException("source");
+		}
+		if (!(ns instanceof Namespace)) {
+			throw new IllegalArgumentException("namespace");
+		}
 
-    public TagDefinition buildTagDefinition(String name, Object owner, 
-            Object ns, String tagType) {
-        if (owner != null) {
-            if (!(owner instanceof Stereotype)) {
-                throw new IllegalArgumentException("owner: " + owner);
-            }
-            if (ns != null) {
-                throw new IllegalArgumentException(
-                        "only one of owner & namespace may be specified");
-            }
-        } else if (!(ns instanceof Namespace)) {
-            throw new IllegalArgumentException("namespace: " + ns);
-        }
-        TagDefinition td = (TagDefinition) createTagDefinition();
-        CoreHelper coreHelper = org.argouml.model.Model.getCoreHelper();
-        if (owner != null) {
-            coreHelper.setOwner(td, owner);
-        } else {
-            coreHelper.setNamespace(td, ns);
-        }
-        coreHelper.setName(td, name);
-        coreHelper.setMultiplicity(td, 0, 1);
-        td.setTagType(tagType);
-        return td;
-    }
+		Stereotype st = buildStereotype(null, ns);
+		doCopyStereotype((Stereotype) source, st);
+		return st;
+	}
 
+	/*
+	 * Used by the copy functions. Do not call this function directly.
+	 * 
+	 * @param source The stereotype to copy from.
+	 * 
+	 * @param target The object becoming a copy.
+	 */
+	private void doCopyStereotype(Stereotype source, Stereotype target) {
+		((CoreFactoryMDRImpl) modelImpl.getCoreFactory()).doCopyGeneralizableElement(source, target);
+		target.getBaseClass().clear();
+		target.getBaseClass().addAll(source.getBaseClass());
+		target.setIcon(source.getIcon());
+		// TODO: constraints
+		// TODO: required tags
+	}
 
-    public Object createTagDefinition() {
-        TagDefinition td = modelImpl.getUmlPackage().getCore()
-                .getTagDefinition().createTagDefinition();
-        super.initialize(td);
-        return td;
-    }
-    
+	public TagDefinition buildTagDefinition(String name, Object owner, Object namespace) {
+		return buildTagDefinition(name, owner, namespace, null); // "Element");
+	}
 
-    public Object createStereotype() {
-        Stereotype st = modelImpl.getUmlPackage().getCore().getStereotype()
-            .createStereotype();
-        super.initialize(st);
-        return st;
-    }
+	public TagDefinition buildTagDefinition(String name, Object owner, Object ns, String tagType) {
+		if (owner != null) {
+			if (!(owner instanceof Stereotype)) {
+				throw new IllegalArgumentException("owner: " + owner);
+			}
+			if (ns != null) {
+				throw new IllegalArgumentException("only one of owner & namespace may be specified");
+			}
+		} else if (!(ns instanceof Namespace)) {
+			throw new IllegalArgumentException("namespace: " + ns);
+		}
+		TagDefinition td = (TagDefinition) createTagDefinition();
+		CoreHelper coreHelper = org.argouml.model.Model.getCoreHelper();
+		if (owner != null) {
+			coreHelper.setOwner(td, owner);
+		} else {
+			coreHelper.setNamespace(td, ns);
+		}
+		coreHelper.setName(td, name);
+		coreHelper.setMultiplicity(td, 0, 1);
+		td.setTagType(tagType);
+		return td;
+	}
 
+	public Object createTagDefinition() {
+		TagDefinition td = modelImpl.getUmlPackage().getCore().getTagDefinition().createTagDefinition();
+		super.initialize(td);
+		return td;
+	}
 
-    public Object copyTagDefinition(Object anElement, Object aNs) {
-        if (!(anElement instanceof TagDefinition)) {
-            throw new IllegalArgumentException("source: " + anElement);
-        }
-        if (!(aNs instanceof Namespace || aNs instanceof Stereotype)) {
-            throw new IllegalArgumentException("namespace: " + aNs);
-        }
-        TagDefinition source = (TagDefinition) anElement;
-        TagDefinition td = (TagDefinition) createTagDefinition();
-        if (aNs instanceof Namespace) {
-            td.setNamespace((Namespace) aNs);
-        } else {
-            td.setOwner((Stereotype) aNs);
-        }
-        doCopyTagDefinition(source, td);
-        return td;
-    }
-    
-    /*
-     * Used by the copy functions. Do not call this function directly.
-     * 
-     * @param source
-     *            The stereotype to copy from.
-     * @param target
-     *            The object becoming a copy.
-     */
-    private void doCopyTagDefinition(TagDefinition source, 
-            TagDefinition target) {
-        ((CoreFactoryMDRImpl) modelImpl.getCoreFactory())
-                .doCopyModelElement(source, target);
-        target.setTagType(source.getTagType());
-        String srcMult = org.argouml.model.Model.getFacade().toString(
-                source.getMultiplicity());
-        target.setMultiplicity(modelImpl.getDataTypesFactoryInternal()
-                .createMultiplicityInternal(srcMult));
-    }    
+	public Object createStereotype() {
+		Stereotype st = modelImpl.getUmlPackage().getCore().getStereotype().createStereotype();
+		super.initialize(st);
+		return st;
+	}
+
+	public Object copyTagDefinition(Object anElement, Object aNs) {
+		if (!(anElement instanceof TagDefinition)) {
+			throw new IllegalArgumentException("source: " + anElement);
+		}
+		if (!(aNs instanceof Namespace || aNs instanceof Stereotype)) {
+			throw new IllegalArgumentException("namespace: " + aNs);
+		}
+		TagDefinition source = (TagDefinition) anElement;
+		TagDefinition td = (TagDefinition) createTagDefinition();
+		if (aNs instanceof Namespace) {
+			td.setNamespace((Namespace) aNs);
+		} else {
+			td.setOwner((Stereotype) aNs);
+		}
+		doCopyTagDefinition(source, td);
+		return td;
+	}
+
+	/*
+	 * Used by the copy functions. Do not call this function directly.
+	 * 
+	 * @param source The stereotype to copy from.
+	 * 
+	 * @param target The object becoming a copy.
+	 */
+	private void doCopyTagDefinition(TagDefinition source, TagDefinition target) {
+		((CoreFactoryMDRImpl) modelImpl.getCoreFactory()).doCopyModelElement(source, target);
+		target.setTagType(source.getTagType());
+		String srcMult = org.argouml.model.Model.getFacade().toString(source.getMultiplicity());
+		target.setMultiplicity(modelImpl.getDataTypesFactoryInternal().createMultiplicityInternal(srcMult));
+	}
 }

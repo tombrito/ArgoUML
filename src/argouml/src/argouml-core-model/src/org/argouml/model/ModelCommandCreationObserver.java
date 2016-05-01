@@ -39,17 +39,19 @@
 package org.argouml.model;
 
 /**
- * An interface to be implemented by the class responsible for managing
- * or delegating commands reform the model interface.
+ * An interface to be implemented by the class responsible for managing or
+ * delegating commands reform the model interface.
  *
  * @author Bob Tarling
  */
 public interface ModelCommandCreationObserver {
-    
-    /**
-     * Called whenever a command is created by the model subsystem
-     * to execute it and store it for undo
-     * @param command the command.
-     */
-    Object execute(ModelCommand command);
+
+	/**
+	 * Called whenever a command is created by the model subsystem to execute it
+	 * and store it for undo
+	 * 
+	 * @param command
+	 *            the command.
+	 */
+	Object execute(ModelCommand command);
 }

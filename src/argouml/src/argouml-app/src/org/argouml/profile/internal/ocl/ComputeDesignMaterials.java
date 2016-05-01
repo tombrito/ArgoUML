@@ -57,43 +57,43 @@ import tudresden.ocl.parser.node.AClassifierContext;
  */
 public class ComputeDesignMaterials extends DepthFirstAdapter {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ComputeDesignMaterials.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ComputeDesignMaterials.class.getName());
 
-    private Set<Object> dms = new HashSet<Object>();
+	private Set<Object> dms = new HashSet<Object>();
 
-    /*
-     * @see tudresden.ocl.parser.analysis.DepthFirstAdapter#caseAClassifierContext(tudresden.ocl.parser.node.AClassifierContext)
-     */
-    @Override
-    public void caseAClassifierContext(AClassifierContext node) {
-        String str = ("" + node.getPathTypeName()).trim();
+	/*
+	 * @see
+	 * tudresden.ocl.parser.analysis.DepthFirstAdapter#caseAClassifierContext(
+	 * tudresden.ocl.parser.node.AClassifierContext)
+	 */
+	@Override
+	public void caseAClassifierContext(AClassifierContext node) {
+		String str = ("" + node.getPathTypeName()).trim();
 
-        // TODO: This appears unused.  If it's needed, the Model API should
-        // be enhanced to provide a method that does this directly.
-        if (str.equals("Class")) {
-            dms.add(Model.getMetaTypes().getUMLClass());
-        } else {
-            try {
-                Method m = MetaTypes.class.getDeclaredMethod("get" + str,
-                        new Class[0]);
-                if (m != null) {
-                    dms.add(m.invoke(Model.getMetaTypes(), new Object[0]));
-                }
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Metaclass not found: " + str, e);
-            }
-        }
-    }
+		// TODO: This appears unused. If it's needed, the Model API should
+		// be enhanced to provide a method that does this directly.
+		if (str.equals("Class")) {
+			dms.add(Model.getMetaTypes().getUMLClass());
+		} else {
+			try {
+				Method m = MetaTypes.class.getDeclaredMethod("get" + str, new Class[0]);
+				if (m != null) {
+					dms.add(m.invoke(Model.getMetaTypes(), new Object[0]));
+				}
+			} catch (Exception e) {
+				LOG.log(Level.SEVERE, "Metaclass not found: " + str, e);
+			}
+		}
+	}
 
-    /**
-     * @return the criticized design materials
-     */
-    public Set<Object> getCriticizedDesignMaterials() {
-        return dms;
-    }
+	/**
+	 * @return the criticized design materials
+	 */
+	public Set<Object> getCriticizedDesignMaterials() {
+		return dms;
+	}
 
 }

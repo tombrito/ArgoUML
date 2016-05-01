@@ -23,39 +23,40 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionCompartmentText extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = 1904102483544047521L;
+	private static final long serialVersionUID = 1904102483544047521L;
 
 	/**
-     * Construct a new SelectionClass for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionCompartmentText(Fig f) { 
-        super(f);
-    }
+	 * Construct a new SelectionClass for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionCompartmentText(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        return null;
-    }
-    
-    @Override
-    protected String getInstructions(int index) {
-        return "";
-    }
+	@Override
+	protected Icon[] getIcons() {
+		return null;
+	}
 
-    @Override
-    protected Object getNewNodeType(int i) {
-        return null;
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return "";
+	}
 
-    @Override
-    protected Object getNewEdgeType(int i) {
-        return null;
-    }
+	@Override
+	protected Object getNewNodeType(int i) {
+		return null;
+	}
 
-    @Override
-    protected boolean isDraggableHandle(int index) {
-        return false;
-    }
+	@Override
+	protected Object getNewEdgeType(int i) {
+		return null;
+	}
+
+	@Override
+	protected boolean isDraggableHandle(int index) {
+		return false;
+	}
 }

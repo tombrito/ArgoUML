@@ -56,208 +56,190 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSimpleState extends FigState {
 
-    private static final long serialVersionUID = -4171389097142018642L;
+	private static final long serialVersionUID = -4171389097142018642L;
 	private FigRect cover;
-    private FigLine divider;
+	private FigLine divider;
 
-    /**
-     * Constructor used by PGML parser.
-     * 
-     * @param owner the owning UML element
-     * @param bounds rectangle describing bounds
-     * @param settings rendering settings
-     */
-    public FigSimpleState(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initializeSimpleState();
-    }
-
-    private void initializeSimpleState() {
-        cover =
-            new FigRRect(getInitialX(), getInitialY(),
-                         getInitialWidth(), getInitialHeight(),
-                         LINE_COLOR, FILL_COLOR);
-
-        getBigPort().setLineWidth(0);
-
-        divider =
-            new FigLine(getInitialX(),
-                        getInitialY() + 2 + getNameFig().getBounds().height + 1,
-                        getInitialWidth() - 1,
-                        getInitialY() + 2 + getNameFig().getBounds().height + 1,
-                        LINE_COLOR);
-
-        // add Figs to the FigNode in back-to-front order
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getNameFig());
-        addFig(divider);
-        addFig(getInternal());
-
-        //setBlinkPorts(false); //make port invisble unless mouse enters
-        Rectangle r = getBounds();
-        setBounds(r.x, r.y, r.width, r.height);
-    }
-
-    @Override
-    public Object clone() {
-	FigSimpleState figClone = (FigSimpleState) super.clone();
-	Iterator it = figClone.getFigs().iterator();
-	figClone.setBigPort((FigRRect) it.next());
-	figClone.cover = (FigRect) it.next();
-	figClone.setNameFig((FigText) it.next());
-	figClone.divider = (FigLine) it.next();
-	figClone.setInternal((FigText) it.next());
-	return figClone;
-    }
-
-    /*
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-	Dimension nameDim = getNameFig().getMinimumSize();
-	Dimension internalDim = getInternal().getMinimumSize();
-
-	int h = SPACE_TOP + nameDim.height
-            + SPACE_MIDDLE + internalDim.height
-            + SPACE_BOTTOM;
-	int w = Math.max(nameDim.width + 2 * MARGIN,
-                internalDim.width + 2 * MARGIN);
-	return new Dimension(w, h);
-    }
-
-    /**
-     * Override setBounds to keep shapes looking right.
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-	if (getNameFig() == null) {
-	    return;
+	/**
+	 * Constructor used by PGML parser.
+	 * 
+	 * @param owner
+	 *            the owning UML element
+	 * @param bounds
+	 *            rectangle describing bounds
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigSimpleState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initializeSimpleState();
 	}
-	Rectangle oldBounds = getBounds();
-	Dimension nameDim = getNameFig().getMinimumSize();
 
-	getNameFig().setBounds(x + MARGIN,
-                y + SPACE_TOP,
-                w - 2 * MARGIN,
-                nameDim.height);
-	divider.setShape(x,
-                y + DIVIDER_Y + nameDim.height,
-                x + w - 1,
-                y + DIVIDER_Y + nameDim.height);
+	private void initializeSimpleState() {
+		cover = new FigRRect(getInitialX(), getInitialY(), getInitialWidth(), getInitialHeight(), LINE_COLOR,
+				FILL_COLOR);
 
-	getInternal().setBounds(
-                x + MARGIN,
-	        y + SPACE_TOP + nameDim.height + SPACE_MIDDLE,
-	        w - 2 * MARGIN,
-	        h - SPACE_TOP - nameDim.height - SPACE_MIDDLE - SPACE_BOTTOM);
+		getBigPort().setLineWidth(0);
 
-	getBigPort().setBounds(x, y, w, h);
-	cover.setBounds(x, y, w, h);
+		divider = new FigLine(getInitialX(), getInitialY() + 2 + getNameFig().getBounds().height + 1,
+				getInitialWidth() - 1, getInitialY() + 2 + getNameFig().getBounds().height + 1, LINE_COLOR);
 
-	calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-	updateEdges();
-	firePropChange("bounds", oldBounds, getBounds());
-    }
+		// add Figs to the FigNode in back-to-front order
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getNameFig());
+		addFig(divider);
+		addFig(getInternal());
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        cover.setLineColor(col);
-        divider.setLineColor(col);
-    }
+		// setBlinkPorts(false); //make port invisble unless mouse enters
+		Rectangle r = getBounds();
+		setBounds(r.x, r.y, r.width, r.height);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return cover.getLineColor();
-    }
+	@Override
+	public Object clone() {
+		FigSimpleState figClone = (FigSimpleState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRRect) it.next());
+		figClone.cover = (FigRect) it.next();
+		figClone.setNameFig((FigText) it.next());
+		figClone.divider = (FigLine) it.next();
+		figClone.setInternal((FigText) it.next());
+		return figClone;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        cover.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension nameDim = getNameFig().getMinimumSize();
+		Dimension internalDim = getInternal().getMinimumSize();
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return cover.getFillColor();
-    }
+		int h = SPACE_TOP + nameDim.height + SPACE_MIDDLE + internalDim.height + SPACE_BOTTOM;
+		int w = Math.max(nameDim.width + 2 * MARGIN, internalDim.width + 2 * MARGIN);
+		return new Dimension(w, h);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-        getBigPort().setFilled(f);
-    }
+	/**
+	 * Override setBounds to keep shapes looking right. {@inheritDoc}
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
+		Dimension nameDim = getNameFig().getMinimumSize();
 
+		getNameFig().setBounds(x + MARGIN, y + SPACE_TOP, w - 2 * MARGIN, nameDim.height);
+		divider.setShape(x, y + DIVIDER_Y + nameDim.height, x + w - 1, y + DIVIDER_Y + nameDim.height);
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+		getInternal().setBounds(x + MARGIN, y + SPACE_TOP + nameDim.height + SPACE_MIDDLE, w - 2 * MARGIN,
+				h - SPACE_TOP - nameDim.height - SPACE_MIDDLE - SPACE_BOTTOM);
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-        divider.setLineWidth(w);
-    }
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y, w, h);
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return cover.getLineWidth();
-    }
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialHeight()
-     */
-    @Override
-    protected int getInitialHeight() {
-        return 40;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		cover.setLineColor(col);
+		divider.setLineColor(col);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialWidth()
-     */
-    @Override
-    protected int getInitialWidth() {
-        return 70;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return cover.getLineColor();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialX()
-     */
-    @Override
-    protected int getInitialX() {
-        return 0;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		cover.setFillColor(col);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialY()
-     */
-    @Override
-    protected int getInitialY() {
-        return 0;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return cover.getFillColor();
+	}
 
-} 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+		getBigPort().setFilled(f);
+	}
+
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
+
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+		divider.setLineWidth(w);
+	}
+
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return cover.getLineWidth();
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialHeight()
+	 */
+	@Override
+	protected int getInitialHeight() {
+		return 40;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialWidth()
+	 */
+	@Override
+	protected int getInitialWidth() {
+		return 70;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialX()
+	 */
+	@Override
+	protected int getInitialX() {
+		return 0;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialY()
+	 */
+	@Override
+	protected int getInitialY() {
+		return 0;
+	}
+
+}

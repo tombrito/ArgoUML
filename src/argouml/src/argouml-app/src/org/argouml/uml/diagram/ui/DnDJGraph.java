@@ -75,193 +75,184 @@ import org.tigris.gef.presentation.FigNode;
  *
  * @author mvw
  */
-class DnDJGraph
-    extends JGraph
-    implements DropTargetListener {
+class DnDJGraph extends JGraph implements DropTargetListener {
 
-    private static final Logger LOG =
-        Logger.getLogger(DnDJGraph.class.getName());
+	private static final Logger LOG = Logger.getLogger(DnDJGraph.class.getName());
 
-    /**
-     * The constructor.
-     *
-     */
-    public DnDJGraph() {
-        super();
-        makeDropTarget();
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public DnDJGraph() {
+		super();
+		makeDropTarget();
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param cc The ConnectionConstrainer.
-     */
-    public DnDJGraph(ConnectionConstrainer cc) {
-        super(cc);
-        makeDropTarget();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param cc
+	 *            The ConnectionConstrainer.
+	 */
+	public DnDJGraph(ConnectionConstrainer cc) {
+		super(cc);
+		makeDropTarget();
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param d The Diagram.
-     */
-    public DnDJGraph(Diagram d) {
-        super(d);
-        makeDropTarget();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param d
+	 *            The Diagram.
+	 */
+	public DnDJGraph(Diagram d) {
+		super(d);
+		makeDropTarget();
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param gm The GraphModel.
-     */
-    public DnDJGraph(GraphModel gm) {
-        super(gm);
-        makeDropTarget();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param gm
+	 *            The GraphModel.
+	 */
+	public DnDJGraph(GraphModel gm) {
+		super(gm);
+		makeDropTarget();
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param ed The Editor.
-     */
-    public DnDJGraph(Editor ed) {
-        super(ed);
-        makeDropTarget();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param ed
+	 *            The Editor.
+	 */
+	public DnDJGraph(Editor ed) {
+		super(ed);
+		makeDropTarget();
+	}
 
-    private void makeDropTarget() {
-        new DropTarget(this,
-                DnDConstants.ACTION_COPY_OR_MOVE,
-                this);
-    }
+	private void makeDropTarget() {
+		new DropTarget(this, DnDConstants.ACTION_COPY_OR_MOVE, this);
+	}
 
-    /*
-     * @see java.awt.dnd.DropTargetListener#dragEnter(
-     *         java.awt.dnd.DropTargetDragEvent)
-     */
-    public void dragEnter(DropTargetDragEvent dtde) {
-    	try {
-    	    if (dtde.isDataFlavorSupported(
-    	            TransferableModelElements.UML_COLLECTION_FLAVOR)) {
-    	        dtde.acceptDrag(dtde.getDropAction());
-    	        return;
-    	    }
-    	} catch (NullPointerException e) {
-//			System.err.println("NullPointerException ignored.");
-    	}
-    	dtde.rejectDrag();
-    }
+	/*
+	 * @see java.awt.dnd.DropTargetListener#dragEnter(
+	 * java.awt.dnd.DropTargetDragEvent)
+	 */
+	public void dragEnter(DropTargetDragEvent dtde) {
+		try {
+			if (dtde.isDataFlavorSupported(TransferableModelElements.UML_COLLECTION_FLAVOR)) {
+				dtde.acceptDrag(dtde.getDropAction());
+				return;
+			}
+		} catch (NullPointerException e) {
+			// System.err.println("NullPointerException ignored.");
+		}
+		dtde.rejectDrag();
+	}
 
-    /*
-     * @see java.awt.dnd.DropTargetListener#dragOver(
-     *         java.awt.dnd.DropTargetDragEvent)
-     */
-    public void dragOver(DropTargetDragEvent dtde) {
-    	try {
-    	    ArgoDiagram dia = DiagramUtils.getActiveDiagram();
-    	    if (dia instanceof UMLDiagram
-                /*&& ((UMLDiagram) dia).doesAccept(dtde.getSource())*/) {
-    	        dtde.acceptDrag(dtde.getDropAction());
-    	        return;
-    	    }
-    	    if (dtde.isDataFlavorSupported(
-    	            TransferableModelElements.UML_COLLECTION_FLAVOR)) {
-    	        dtde.acceptDrag(dtde.getDropAction());
-    	        return;
-    	    }
-    	} catch (NullPointerException e) {
-//    		System.err.println("NullPointerException ignored.");
-    	}
-    	dtde.rejectDrag();
-    }
+	/*
+	 * @see java.awt.dnd.DropTargetListener#dragOver(
+	 * java.awt.dnd.DropTargetDragEvent)
+	 */
+	public void dragOver(DropTargetDragEvent dtde) {
+		try {
+			ArgoDiagram dia = DiagramUtils.getActiveDiagram();
+			if (dia instanceof UMLDiagram
+			/* && ((UMLDiagram) dia).doesAccept(dtde.getSource()) */) {
+				dtde.acceptDrag(dtde.getDropAction());
+				return;
+			}
+			if (dtde.isDataFlavorSupported(TransferableModelElements.UML_COLLECTION_FLAVOR)) {
+				dtde.acceptDrag(dtde.getDropAction());
+				return;
+			}
+		} catch (NullPointerException e) {
+			// System.err.println("NullPointerException ignored.");
+		}
+		dtde.rejectDrag();
+	}
 
-    /*
-     * @see java.awt.dnd.DropTargetListener#dropActionChanged(
-     *         java.awt.dnd.DropTargetDragEvent)
-     */
-    public void dropActionChanged(DropTargetDragEvent dtde) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.dnd.DropTargetListener#dropActionChanged(
+	 * java.awt.dnd.DropTargetDragEvent)
+	 */
+	public void dropActionChanged(DropTargetDragEvent dtde) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.dnd.DropTargetListener#dragExit(
-     *         java.awt.dnd.DropTargetEvent)
-     */
-    public void dragExit(DropTargetEvent dte) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.dnd.DropTargetListener#dragExit(
+	 * java.awt.dnd.DropTargetEvent)
+	 */
+	public void dragExit(DropTargetEvent dte) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.dnd.DropTargetListener#drop(
-     *         java.awt.dnd.DropTargetDropEvent)
-     */
-    public void drop(DropTargetDropEvent dropTargetDropEvent) {
+	/*
+	 * @see java.awt.dnd.DropTargetListener#drop(
+	 * java.awt.dnd.DropTargetDropEvent)
+	 */
+	public void drop(DropTargetDropEvent dropTargetDropEvent) {
 
-        Transferable tr = dropTargetDropEvent.getTransferable();
-        if (!tr.isDataFlavorSupported(
-                     TransferableModelElements.UML_COLLECTION_FLAVOR)) {
-            dropTargetDropEvent.rejectDrop();
-            return;
-        }
+		Transferable tr = dropTargetDropEvent.getTransferable();
+		if (!tr.isDataFlavorSupported(TransferableModelElements.UML_COLLECTION_FLAVOR)) {
+			dropTargetDropEvent.rejectDrop();
+			return;
+		}
 
-        dropTargetDropEvent.acceptDrop(dropTargetDropEvent.getDropAction());
-        try {
-            final UMLDiagram diagram =
-                (UMLDiagram) DiagramUtils.getActiveDiagram();
-            final Editor editor = Globals.curEditor();
-            final Layer layer = editor.getLayerManager().getActiveLayer();
-            final MutableGraphModel gm =
-                (MutableGraphModel) diagram.getGraphModel();
-            final Point point = dropTargetDropEvent.getLocation();
-            final double scale = editor.getScale();
+		dropTargetDropEvent.acceptDrop(dropTargetDropEvent.getDropAction());
+		try {
+			final UMLDiagram diagram = (UMLDiagram) DiagramUtils.getActiveDiagram();
+			final Editor editor = Globals.curEditor();
+			final Layer layer = editor.getLayerManager().getActiveLayer();
+			final MutableGraphModel gm = (MutableGraphModel) diagram.getGraphModel();
+			final Point point = dropTargetDropEvent.getLocation();
+			final double scale = editor.getScale();
 
-            int dx = getViewPosition().x;
-            int dy = getViewPosition().y;
-            point.translate(dx, dy);
+			int dx = getViewPosition().x;
+			int dy = getViewPosition().y;
+			point.translate(dx, dy);
 
-            double xp = point.getX();
-            double yp = point.getY();
-            point.translate(
-                    (int) Math.round((xp / scale) - point.x),
-                    (int) Math.round((yp / scale) - point.y));
+			double xp = point.getX();
+			double yp = point.getY();
+			point.translate((int) Math.round((xp / scale) - point.x), (int) Math.round((yp / scale) - point.y));
 
-            //get the model elements that are being transfered.
-            Collection modelElements =
-                (Collection) tr.getTransferData(
-                    TransferableModelElements.UML_COLLECTION_FLAVOR);
+			// get the model elements that are being transfered.
+			Collection modelElements = (Collection) tr.getTransferData(TransferableModelElements.UML_COLLECTION_FLAVOR);
 
-            Iterator i = modelElements.iterator();
-            while (i.hasNext()) {
-                /* TODO: Why not call UMLDiagram.doesAccept() first,
-                 * like in ClassDiagramRenderer?  */
-                final DiagramElement figNode = diagram.drop(i.next(), point);
+			Iterator i = modelElements.iterator();
+			while (i.hasNext()) {
+				/*
+				 * TODO: Why not call UMLDiagram.doesAccept() first, like in
+				 * ClassDiagramRenderer?
+				 */
+				final DiagramElement figNode = diagram.drop(i.next(), point);
 
-                if (figNode != null && figNode instanceof Owned) {
-                    Object owner = ((Owned) figNode).getOwner();
-                    if (!gm.getNodes().contains(owner)) {
-                        gm.getNodes().add(owner);
-                    }
+				if (figNode != null && figNode instanceof Owned) {
+					Object owner = ((Owned) figNode).getOwner();
+					if (!gm.getNodes().contains(owner)) {
+						gm.getNodes().add(owner);
+					}
 
-                    layer.add((Fig) figNode);
-                    if (figNode instanceof FigNode && figNode instanceof Owned) {
-                        gm.addNodeRelatedEdges(((Owned) figNode).getOwner());
-                    }
-                }
-            }
+					layer.add((Fig) figNode);
+					if (figNode instanceof FigNode && figNode instanceof Owned) {
+						gm.addNodeRelatedEdges(((Owned) figNode).getOwner());
+					}
+				}
+			}
 
-            dropTargetDropEvent.getDropTargetContext().dropComplete(true);
-        } catch (UnsupportedFlavorException e) {
-            LOG.log(Level.SEVERE, "Exception caught", e);
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Exception caught", e);
-        }
-    }
+			dropTargetDropEvent.getDropTargetContext().dropComplete(true);
+		} catch (UnsupportedFlavorException e) {
+			LOG.log(Level.SEVERE, "Exception caught", e);
+		} catch (IOException e) {
+			LOG.log(Level.SEVERE, "Exception caught", e);
+		}
+	}
 
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -5753683239435014182L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -5753683239435014182L;
 }

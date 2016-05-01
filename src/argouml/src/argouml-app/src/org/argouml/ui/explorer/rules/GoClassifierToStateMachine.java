@@ -47,40 +47,42 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * PerspectiveRule to navigate from behavioral
- * feature to statemachine.  Causes statemachine to be shown as child
- * of behavioral feature.
+ * PerspectiveRule to navigate from behavioral feature to statemachine. Causes
+ * statemachine to be shown as child of behavioral feature.
  *
  * @author jaap.branderhorst@xs4all.nl
  */
 public class GoClassifierToStateMachine extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.classifier.statemachine");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (Model.getFacade().isAClassifier(parent)) {
-	    return Model.getFacade().getBehaviors(parent);
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.classifier.statemachine");
 	}
-	return Collections.EMPTY_SET;
-    }
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAClassifier(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAClassifier(parent)) {
+			return Model.getFacade().getBehaviors(parent);
+		}
+		return Collections.EMPTY_SET;
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAClassifier(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

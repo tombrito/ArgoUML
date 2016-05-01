@@ -50,37 +50,39 @@ package org.argouml.ui;
  *             after 0.28 is released using the current numbering scheme).
  */
 @Deprecated
-public abstract class AbstractArgoJPanel extends
-        org.argouml.application.api.AbstractArgoJPanel {
-    private static final long serialVersionUID = -3304642239537812120L;
+public abstract class AbstractArgoJPanel extends org.argouml.application.api.AbstractArgoJPanel {
+	private static final long serialVersionUID = -3304642239537812120L;
 
 	/**
-     * The constructor.
-     *
-     */
-    @Deprecated
-    public AbstractArgoJPanel() {
-        super();
-    }
+	 * The constructor.
+	 *
+	 */
+	@Deprecated
+	public AbstractArgoJPanel() {
+		super();
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param title The name as a localized string.
-     */
-    @Deprecated
-    public AbstractArgoJPanel(String title) {
-        super(title);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param title
+	 *            The name as a localized string.
+	 */
+	@Deprecated
+	public AbstractArgoJPanel(String title) {
+		super(title);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param title The name (a localized string).
-     * @param t if true, remove tab from parent JTabbedPane
-     */
-    @Deprecated
-    public AbstractArgoJPanel(String title, boolean t) {
-        super(title, t);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param title
+	 *            The name (a localized string).
+	 * @param t
+	 *            if true, remove tab from parent JTabbedPane
+	 */
+	@Deprecated
+	public AbstractArgoJPanel(String title, boolean t) {
+		super(title, t);
+	}
 }

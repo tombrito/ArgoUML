@@ -37,34 +37,42 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.application.events;
+
 import org.argouml.application.api.ArgoEventListener;
 
-/** An interface that objects interested in GeneratorEvent
- *  notifications must extend.
+/**
+ * An interface that objects interested in GeneratorEvent notifications must
+ * extend.
  *
- *  @author Thierry Lach
- *  @since 0.9.4
+ * @author Thierry Lach
+ * @since 0.9.4
  */
 
 public interface ArgoGeneratorEventListener extends ArgoEventListener {
 
-    /**
-     * Invoked when any aspect of the generator has been changed.
-     * @param e <code>ArgoGeneratorEvent</code> describing the change.
-     */
-    public void generatorChanged(ArgoGeneratorEvent e);
+	/**
+	 * Invoked when any aspect of the generator has been changed.
+	 * 
+	 * @param e
+	 *            <code>ArgoGeneratorEvent</code> describing the change.
+	 */
+	public void generatorChanged(ArgoGeneratorEvent e);
 
-    /**
-     * Invoked when a CodeGenerator has been added.
-     * @param e <code>ArgoGeneratorEvent</code> describing the added notation.
-     */
-    public void generatorAdded(ArgoGeneratorEvent e);
+	/**
+	 * Invoked when a CodeGenerator has been added.
+	 * 
+	 * @param e
+	 *            <code>ArgoGeneratorEvent</code> describing the added notation.
+	 */
+	public void generatorAdded(ArgoGeneratorEvent e);
 
-    /**
-     * Invoked when a CodeGenerator has been removed.
-     * @param e <code>ArgoGeneratorEvent</code> describing the removed notation.
-     */
-    public void generatorRemoved(ArgoGeneratorEvent e);
+	/**
+	 * Invoked when a CodeGenerator has been removed.
+	 * 
+	 * @param e
+	 *            <code>ArgoGeneratorEvent</code> describing the removed
+	 *            notation.
+	 */
+	public void generatorRemoved(ArgoGeneratorEvent e);
 
 }
-

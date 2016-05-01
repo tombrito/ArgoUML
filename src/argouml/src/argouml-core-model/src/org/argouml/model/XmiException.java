@@ -38,163 +38,174 @@
 
 package org.argouml.model;
 
-
 /**
  * Exception for problems with XMI files.
  * 
  * @author Tom Morris
  */
 public class XmiException extends UmlException {
-    
 
-    private static final long serialVersionUID = 2750529962768007727L;
+	private static final long serialVersionUID = 2750529962768007727L;
 
 	private String publicId;
 
-    private String systemId;
+	private String systemId;
 
-    private int lineNumber;
+	private int lineNumber;
 
-    private int columnNumber;
+	private int columnNumber;
 
-    /**
-     * Construct an XmiException with the given message.
-     * 
-     * @param message the message
-     */
-    public XmiException(String message) {
-        super(message);
-    }
+	/**
+	 * Construct an XmiException with the given message.
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public XmiException(String message) {
+		super(message);
+	}
 
-    /**
-     * Construct an exception with a message and a causing exception.
-     *
-     * @param message the message
-     * @param c the cause of the exception
-     */
-    public XmiException(String message, Throwable c) {
-        super(message, c);
-    }
+	/**
+	 * Construct an exception with a message and a causing exception.
+	 *
+	 * @param message
+	 *            the message
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public XmiException(String message, Throwable c) {
+		super(message, c);
+	}
 
-    /**
-     * Construct an exception with a causing exception.
-     *
-     * @param c the cause of the exception
-     */
-    public XmiException(Throwable c) {
-        super(c);
-    }
-    
-    /**
-     * Create a new XmiException.
-     *
-     * @param message The error or warning message.
-     * @param pubId The public identifier of the entity that generated
-     *              the error or warning.
-     * @param sysId The system identifier of the entity that generated
-     *              the error or warning.
-     * @param line The line number of the end of the text that
-     *             caused the error or warning.
-     * @param column The column number of the end of the text that
-     *               cause the error or warning.
-     */
-    public XmiException(String message, String pubId, String sysId,
-            int line, int column) {
-        super(message);
-        init(pubId, sysId, line, column);
-    }
-    
-    
-    /**
-     * Create a new XmiException with an embedded exception.
-     * 
-     * @param message The error or warning message, or null to use the message
-     *                from the embedded exception.
-     * @param pubId The public identifier of the entity that generated the
-     *              error or warning.
-     * @param sysId The system identifier of the entity that generated the
-     *              error or warning.
-     * @param line The line number of the end of the text that caused the
-     *             error or warning.
-     * @param column The column number of the end of the text that cause
-     *               the error or warning.
-     * @param e Another exception to embed in this one.
-     */
-    public XmiException(String message, String pubId, String sysId,
-            int line, int column, Exception e) {
-        super(message, e);
-        init(pubId, sysId, line, column);
-    }
+	/**
+	 * Construct an exception with a causing exception.
+	 *
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public XmiException(Throwable c) {
+		super(c);
+	}
 
+	/**
+	 * Create a new XmiException.
+	 *
+	 * @param message
+	 *            The error or warning message.
+	 * @param pubId
+	 *            The public identifier of the entity that generated the error
+	 *            or warning.
+	 * @param sysId
+	 *            The system identifier of the entity that generated the error
+	 *            or warning.
+	 * @param line
+	 *            The line number of the end of the text that caused the error
+	 *            or warning.
+	 * @param column
+	 *            The column number of the end of the text that cause the error
+	 *            or warning.
+	 */
+	public XmiException(String message, String pubId, String sysId, int line, int column) {
+		super(message);
+		init(pubId, sysId, line, column);
+	}
 
-    /**
-     * Internal initialization method.
-     * 
-     * @param pubId The public identifier of the entity which generated the
-     *              exception, or null.
-     * @param sysId The system identifier of the entity which generated the
-     *              exception, or null.
-     * @param line The line number of the error, or -1.
-     * @param column The column number of the error, or -1.
-     */
-    private void init(String pubId, String sysId, int line,
-            int column) {
-        this.publicId = pubId;
-        this.systemId = sysId;
-        lineNumber = line;
-        columnNumber = column;
-    }
-    
-    
-    /**
-     * Get the public identifier of the entity where the exception occurred.
-     * 
-     * @return A string containing the public identifier, or null if none is
-     *         available.
-     */
-    public String getPublicId() {
-        return this.publicId;
-    }
-    
-    
-    /**
-     * Get the system identifier of the entity where the exception occurred.
-     * <p>
-     * If the system identifier is a URL, it will have been resolved fully.
-     * </p>
-     * 
-     * @return A string containing the system identifier, or null if none is
-     *         available.
-     */
-    public String getSystemId() {
-        return this.systemId;
-    }
-    
-    
-    /**
-     * The line number of the end of the text where the exception occurred.
-     *
-     * <p>The first line is line 1.</p>
-     *
-     * @return An integer representing the line number, or -1
-     *         if none is available.
-     */
-    public int getLineNumber() {
-        return this.lineNumber;
-    }
-    
-    
-    /**
-     * The column number of the end of the text where the exception occurred.
-     *
-     * <p>The first column in a line is position 1.</p>
-     *
-     * @return An integer representing the column number, or -1
-     *         if none is available.
-     */
-    public int getColumnNumber() {
-        return this.columnNumber;
-    }
+	/**
+	 * Create a new XmiException with an embedded exception.
+	 * 
+	 * @param message
+	 *            The error or warning message, or null to use the message from
+	 *            the embedded exception.
+	 * @param pubId
+	 *            The public identifier of the entity that generated the error
+	 *            or warning.
+	 * @param sysId
+	 *            The system identifier of the entity that generated the error
+	 *            or warning.
+	 * @param line
+	 *            The line number of the end of the text that caused the error
+	 *            or warning.
+	 * @param column
+	 *            The column number of the end of the text that cause the error
+	 *            or warning.
+	 * @param e
+	 *            Another exception to embed in this one.
+	 */
+	public XmiException(String message, String pubId, String sysId, int line, int column, Exception e) {
+		super(message, e);
+		init(pubId, sysId, line, column);
+	}
 
+	/**
+	 * Internal initialization method.
+	 * 
+	 * @param pubId
+	 *            The public identifier of the entity which generated the
+	 *            exception, or null.
+	 * @param sysId
+	 *            The system identifier of the entity which generated the
+	 *            exception, or null.
+	 * @param line
+	 *            The line number of the error, or -1.
+	 * @param column
+	 *            The column number of the error, or -1.
+	 */
+	private void init(String pubId, String sysId, int line, int column) {
+		this.publicId = pubId;
+		this.systemId = sysId;
+		lineNumber = line;
+		columnNumber = column;
+	}
+
+	/**
+	 * Get the public identifier of the entity where the exception occurred.
+	 * 
+	 * @return A string containing the public identifier, or null if none is
+	 *         available.
+	 */
+	public String getPublicId() {
+		return this.publicId;
+	}
+
+	/**
+	 * Get the system identifier of the entity where the exception occurred.
+	 * <p>
+	 * If the system identifier is a URL, it will have been resolved fully.
+	 * </p>
+	 * 
+	 * @return A string containing the system identifier, or null if none is
+	 *         available.
+	 */
+	public String getSystemId() {
+		return this.systemId;
+	}
+
+	/**
+	 * The line number of the end of the text where the exception occurred.
+	 *
+	 * <p>
+	 * The first line is line 1.
+	 * </p>
+	 *
+	 * @return An integer representing the line number, or -1 if none is
+	 *         available.
+	 */
+	public int getLineNumber() {
+		return this.lineNumber;
+	}
+
+	/**
+	 * The column number of the end of the text where the exception occurred.
+	 *
+	 * <p>
+	 * The first column in a line is position 1.
+	 * </p>
+	 *
+	 * @return An integer representing the column number, or -1 if none is
+	 *         available.
+	 */
+	public int getColumnNumber() {
+		return this.columnNumber;
+	}
 
 }

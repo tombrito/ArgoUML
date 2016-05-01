@@ -57,41 +57,43 @@ import org.argouml.uml.diagram.SequenceDiagram;
  */
 public class GoClassifierToSequenceDiagram extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.classifier.sequence-diagram");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (Model.getFacade().isAClassifier(parent)) {
-	    Collection col = Model.getFacade().getCollaborations(parent);
-	    Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
-	    Project p = ProjectManager.getManager().getCurrentProject();
-            
-            for (ArgoDiagram diagram : p.getDiagramList()) {
-		if (diagram instanceof SequenceDiagram
-		    && col.contains(
-		            ((SequenceDiagram) diagram).getCollaboration())) {
-		    ret.add(diagram);
-		}
-	    }
-
-	    return ret;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.classifier.sequence-diagram");
 	}
 
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAClassifier(parent)) {
+			Collection col = Model.getFacade().getCollaborations(parent);
+			Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
+			Project p = ProjectManager.getManager().getCurrentProject();
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        // TODO: What?
-	return Collections.EMPTY_SET;
-    }
+			for (ArgoDiagram diagram : p.getDiagramList()) {
+				if (diagram instanceof SequenceDiagram
+						&& col.contains(((SequenceDiagram) diagram).getCollaboration())) {
+					ret.add(diagram);
+				}
+			}
+
+			return ret;
+		}
+
+		return Collections.EMPTY_SET;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		// TODO: What?
+		return Collections.EMPTY_SET;
+	}
 }

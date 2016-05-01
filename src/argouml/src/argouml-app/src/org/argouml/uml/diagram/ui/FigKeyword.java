@@ -45,71 +45,72 @@ import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Fig to show a keyword within a FigStereotypesGroup,
- * which resembles a stereotype, but isn't one. 
- * E.g. <<interface>>. 
+ * Fig to show a keyword within a FigStereotypesGroup, which resembles a
+ * stereotype, but isn't one. E.g. <<interface>>.
  * <p>
- * The keyword is not editable on the fig, hence we
- * do not use a Notation Provider. <p>
- * This Fig does not need to listen to model changes 
- * and is frozen.<p>
+ * The keyword is not editable on the fig, hence we do not use a Notation
+ * Provider.
+ * <p>
+ * This Fig does not need to listen to model changes and is frozen.
+ * <p>
  * 
- * This Fig only supports updates of the text 
- * for changes in guillemet style.
+ * This Fig only supports updates of the text for changes in guillemet style.
  *
  * @author Michiel
  */
 public class FigKeyword extends FigSingleLineText {
 
-    private static final long serialVersionUID = 9112882227316485601L;
+	private static final long serialVersionUID = 9112882227316485601L;
 	private final String keywordText;
 
-    /**
-     * @param keyword the text to show
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigKeyword(String keyword, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(bounds, settings, true);
-        initialize();
-        keywordText = keyword;
-        setText(keyword);
-    }
-    
-    private void initialize() {
-        setEditable(false);
-        setTextColor(TEXT_COLOR);
-        setTextFilled(false);
-        setJustification(FigText.JUSTIFY_CENTER);
-        setRightMargin(3);
-        setLeftMargin(3);
-        super.setLineWidth(0);
-    }
-    
-    /* Force the line-width to 0, since the FigGroup that contains the 
-     * stereotype may want to show a border, but we don't. */
-    @Override
-    public void setLineWidth(int w) {
-        super.setLineWidth(0);
-    }
+	/**
+	 * @param keyword
+	 *            the text to show
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigKeyword(String keyword, Rectangle bounds, DiagramSettings settings) {
+		super(bounds, settings, true);
+		initialize();
+		keywordText = keyword;
+		setText(keyword);
+	}
 
-    /**
-     * This is needed for updating the guillemet style.
-     */
-    @Override
-    protected void setText() {
-        setText(keywordText);
-    }
+	private void initialize() {
+		setEditable(false);
+		setTextColor(TEXT_COLOR);
+		setTextFilled(false);
+		setJustification(FigText.JUSTIFY_CENTER);
+		setRightMargin(3);
+		setLeftMargin(3);
+		super.setLineWidth(0);
+	}
 
-    /**
-     * Add guillemets to any text set to this Fig.
-     * {@inheritDoc}
-     */
-    @Override
-    public void setText(String text) {
-        assert keywordText.equals(text);
-        super.setText(NotationUtilityUml.formatStereotype(text,
-                getSettings().getNotationSettings().isUseGuillemets()));
-    }
+	/*
+	 * Force the line-width to 0, since the FigGroup that contains the
+	 * stereotype may want to show a border, but we don't.
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		super.setLineWidth(0);
+	}
+
+	/**
+	 * This is needed for updating the guillemet style.
+	 */
+	@Override
+	protected void setText() {
+		setText(keywordText);
+	}
+
+	/**
+	 * Add guillemets to any text set to this Fig. {@inheritDoc}
+	 */
+	@Override
+	public void setText(String text) {
+		assert keywordText.equals(text);
+		super.setText(NotationUtilityUml.formatStereotype(text, getSettings().getNotationSettings().isUseGuillemets()));
+	}
 }

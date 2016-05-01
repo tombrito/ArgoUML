@@ -55,49 +55,47 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrAlreadyRealizes extends CrUML {
 
-    /**
-     * Constructor.
-     */
-    public CrAlreadyRealizes() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	setKnowledgeTypes(Critic.KT_SEMANTICS, Critic.KT_PRESENTATION);
-	addTrigger("generalization");
-	addTrigger("realization");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	boolean problem = NO_PROBLEM;
-	if (Model.getFacade().isAClass(dm)) {
-	    Collection col =
-		Model.getCoreHelper().getAllRealizedInterfaces(dm);
-	    Set set = new HashSet();
-	    set.addAll(col);
-	    if (set.size() < col.size()) {
-		problem = PROBLEM_FOUND;
-	    }
+	/**
+	 * Constructor.
+	 */
+	public CrAlreadyRealizes() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		setKnowledgeTypes(Critic.KT_SEMANTICS, Critic.KT_PRESENTATION);
+		addTrigger("generalization");
+		addTrigger("realization");
 	}
-	return problem;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedMetatypes()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -8264991005828634274L;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		boolean problem = NO_PROBLEM;
+		if (Model.getFacade().isAClass(dm)) {
+			Collection col = Model.getCoreHelper().getAllRealizedInterfaces(dm);
+			Set set = new HashSet();
+			set.addAll(col);
+			if (set.size() < col.size()) {
+				problem = PROBLEM_FOUND;
+			}
+		}
+		return problem;
+	}
+
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedMetatypes()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -8264991005828634274L;
 } /* end class CrAlreadyRealizes */
-

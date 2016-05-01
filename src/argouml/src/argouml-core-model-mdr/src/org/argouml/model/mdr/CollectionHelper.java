@@ -49,43 +49,43 @@ import java.util.Iterator;
  */
 public class CollectionHelper {
 
-    /**
-     * Update a collection using a minimal update strategy and updating the
-     * collection in place. This can be used with the JMI "live" semantic
-     * collections to update the model in place. Order of processing is to first
-     * remove all obsolete elements from the collection and then add all new
-     * elements.
-     * 
-     * @param base
-     *            the base collection to be updated
-     * @param updates
-     *            desired end state of collection
-     */
-    static void update(Collection base, Collection updates) {
-        if (updates == null) {
-            base.clear();
-            return;
-        }
-        Collection toBeRemoved = new ArrayList();
-        Collection toBeAdded = new ArrayList();
+	/**
+	 * Update a collection using a minimal update strategy and updating the
+	 * collection in place. This can be used with the JMI "live" semantic
+	 * collections to update the model in place. Order of processing is to first
+	 * remove all obsolete elements from the collection and then add all new
+	 * elements.
+	 * 
+	 * @param base
+	 *            the base collection to be updated
+	 * @param updates
+	 *            desired end state of collection
+	 */
+	static void update(Collection base, Collection updates) {
+		if (updates == null) {
+			base.clear();
+			return;
+		}
+		Collection toBeRemoved = new ArrayList();
+		Collection toBeAdded = new ArrayList();
 
-        Iterator oldIt = base.iterator();
-        while (oldIt.hasNext()) {
-            Object obj = oldIt.next();
-            if (!updates.contains(obj)) {
-                toBeRemoved.add(obj);
-            }
-        }
-        Iterator newIt = updates.iterator();
-        while (newIt.hasNext()) {
-            Object obj = newIt.next();
-            if (!base.contains(obj)) {
-                toBeAdded.add(obj);
-            }
-        }
-        
-        base.removeAll(toBeRemoved);
-        base.addAll(toBeAdded);
-    }
+		Iterator oldIt = base.iterator();
+		while (oldIt.hasNext()) {
+			Object obj = oldIt.next();
+			if (!updates.contains(obj)) {
+				toBeRemoved.add(obj);
+			}
+		}
+		Iterator newIt = updates.iterator();
+		while (newIt.hasNext()) {
+			Object obj = newIt.next();
+			if (!base.contains(obj)) {
+				toBeAdded.add(obj);
+			}
+		}
+
+		base.removeAll(toBeRemoved);
+		base.addAll(toBeAdded);
+	}
 
 }

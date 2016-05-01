@@ -40,31 +40,29 @@ package org.argouml.model.mdr;
 
 import org.argouml.model.AbstractModelFactory;
 
-
 /**
- * Abstract Class that every model package factory should implement
- * to share the initialize() method.
+ * Abstract Class that every model package factory should implement to share the
+ * initialize() method.
  *
- * @since ARGO0.19.5
- * based on NSUML implementation by:
+ * @since ARGO0.19.5 based on NSUML implementation by:
  * @author Thierry Lach
  */
-public abstract class AbstractUmlModelFactoryMDR implements
-        AbstractModelFactory {
+public abstract class AbstractUmlModelFactoryMDR implements AbstractModelFactory {
 
-    /**
-     * Default constructor.
-     */
-    protected AbstractUmlModelFactoryMDR() {
-        // do nothing
-    }
+	/**
+	 * Default constructor.
+	 */
+	protected AbstractUmlModelFactoryMDR() {
+		// do nothing
+	}
 
-    /**
-     * Initialized some new modelelement o.
-     *
-     * @param o The new modelelement
-     */
-    protected void initialize(Object o) {
-        // No initialization currently
-    }
+	/**
+	 * Initialized some new modelelement o.
+	 *
+	 * @param o
+	 *            The new modelelement
+	 */
+	protected void initialize(Object o) {
+		// No initialization currently
+	}
 }

@@ -55,19 +55,22 @@ import org.argouml.notation.providers.ClassifierRoleNotation;
 import org.argouml.util.MyTokenizer;
 
 /**
- * The UML notation for a ClassifierRole. <p>
+ * The UML notation for a ClassifierRole.
+ * <p>
  * 
- * The following is supported: <p>
+ * The following is supported:
+ * <p>
  * 
  * <pre>
  * baselist := [base] [, base]*
  * classifierRole := [name] [/ role] [: baselist]
  * </pre>
  *
- * The <code>role </code> and <code>baselist</code> can be given in
- * any order.<p>
+ * The <code>role </code> and <code>baselist</code> can be given in any order.
+ * <p>
  * 
- * The <code>name</code> is the Instance name, not used for a ClassifierRole.<p>
+ * The <code>name</code> is the Instance name, not used for a ClassifierRole.
+ * <p>
  *
  * This syntax is compatible with the UML 1.3 and 1.4 specification.
  * 
@@ -75,225 +78,218 @@ import org.argouml.util.MyTokenizer;
  */
 public class ClassifierRoleNotationUml extends ClassifierRoleNotation {
 
+	/**
+	 * The Constructor.
+	 * 
+	 * @param classifierRole
+	 *            the UML ClassifierRole
+	 */
+	public ClassifierRoleNotationUml(Object classifierRole) {
+		super(classifierRole);
+	}
 
-    /**
-     * The Constructor.
-     * 
-     * @param classifierRole the UML ClassifierRole
-     */
-    public ClassifierRoleNotationUml(Object classifierRole) {
-        super(classifierRole);
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-classifierrole";
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-classifierrole";
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		try {
+			parseClassifierRole(modelElement, text);
+		} catch (ParseException pe) {
+			String msg = "statusmsg.bar.error.parsing.classifierrole";
+			Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        try {
-            parseClassifierRole(modelElement, text);
-        } catch (ParseException pe) {
-            String msg = "statusmsg.bar.error.parsing.classifierrole";
-            Object[] args = {pe.getLocalizedMessage(),
-                             Integer.valueOf(pe.getErrorOffset()), };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                    Translator.messageFormat(msg, args)));
-        }
-    }
-    
-    /**
-     * Parses a ClassifierRole represented by the following line of the format:
-     *
-     * <pre>
-     * baselist := [base] [, base]*
-     * classifierRole := [name] [/ role] [: baselist]
-     * </pre>
-     *
-     * <code>role </code> and <code>baselist</code> can be given in
-     * any order.<p>
-     *
-     * This syntax is compatible with the UML 1.3 specification.
-     *
-     * (formerly: "name: base" )
-     *
-     * @param cls the classifier role to apply any changes to
-     * @param s the String to parse
-     * @return the classifier role with the applied changes
-     * @throws ParseException when it detects an error in the attribute string. 
-     *                  See also ParseError.getErrorOffset().
-     */
-    protected Object parseClassifierRole(Object cls, String s)
-        throws ParseException {
-        
-        String name = null;
-        String token;
-        String role = null;
-        String base = null;
-        List<String> bases = null;
-        boolean hasColon = false;
-        boolean hasSlash = false;
+	/**
+	 * Parses a ClassifierRole represented by the following line of the format:
+	 *
+	 * <pre>
+	 * baselist := [base] [, base]*
+	 * classifierRole := [name] [/ role] [: baselist]
+	 * </pre>
+	 *
+	 * <code>role </code> and <code>baselist</code> can be given in any order.
+	 * <p>
+	 *
+	 * This syntax is compatible with the UML 1.3 specification.
+	 *
+	 * (formerly: "name: base" )
+	 *
+	 * @param cls
+	 *            the classifier role to apply any changes to
+	 * @param s
+	 *            the String to parse
+	 * @return the classifier role with the applied changes
+	 * @throws ParseException
+	 *             when it detects an error in the attribute string. See also
+	 *             ParseError.getErrorOffset().
+	 */
+	protected Object parseClassifierRole(Object cls, String s) throws ParseException {
 
-        try {
-            MyTokenizer st = new MyTokenizer(s, " ,\t,/,:,\\,");
+		String name = null;
+		String token;
+		String role = null;
+		String base = null;
+		List<String> bases = null;
+		boolean hasColon = false;
+		boolean hasSlash = false;
 
-            while (st.hasMoreTokens()) {
-                token = st.nextToken();
-                if (" ".equals(token) || "\t".equals(token)) {
-                    /* Do nothing. */
-                } else if ("/".equals(token)) {
-                    hasSlash = true;
-                    hasColon = false;
+		try {
+			MyTokenizer st = new MyTokenizer(s, " ,\t,/,:,\\,");
 
-                    if (base != null) {
-                        if (bases == null) {
-                            bases = new ArrayList<String>();
-                        }
-                        bases.add(base);
-                    }
-                    base = null;
-                } else if (":".equals(token)) {
-                    hasColon = true;
-                    hasSlash = false;
+			while (st.hasMoreTokens()) {
+				token = st.nextToken();
+				if (" ".equals(token) || "\t".equals(token)) {
+					/* Do nothing. */
+				} else if ("/".equals(token)) {
+					hasSlash = true;
+					hasColon = false;
 
-                    if (bases == null) {
-                        bases = new ArrayList<String>();
-                    }
-                    if (base != null) {
-                        bases.add(base);
-                    }
-                    base = null;
-                } else if (",".equals(token)) {
-                    if (base != null) {
-                        if (bases == null) {
-                            bases = new ArrayList<String>();
-                        }
-                        bases.add(base);
-                    }
-                    base = null;
-                } else if (hasColon) {
-                    if (base != null) {
-                    	String msg = "parsing.error.classifier.extra-test";
-                        throw new ParseException(
-                                Translator.localize(msg), 
-                                st.getTokenIndex());
-                    }
+					if (base != null) {
+						if (bases == null) {
+							bases = new ArrayList<String>();
+						}
+						bases.add(base);
+					}
+					base = null;
+				} else if (":".equals(token)) {
+					hasColon = true;
+					hasSlash = false;
 
-                    base = token;
-                } else if (hasSlash) {
-                    if (role != null) {
-                    	String msg = "parsing.error.classifier.extra-test";
-                        throw new ParseException(
-                                Translator.localize(msg), 
-                                st.getTokenIndex());
-                    }
+					if (bases == null) {
+						bases = new ArrayList<String>();
+					}
+					if (base != null) {
+						bases.add(base);
+					}
+					base = null;
+				} else if (",".equals(token)) {
+					if (base != null) {
+						if (bases == null) {
+							bases = new ArrayList<String>();
+						}
+						bases.add(base);
+					}
+					base = null;
+				} else if (hasColon) {
+					if (base != null) {
+						String msg = "parsing.error.classifier.extra-test";
+						throw new ParseException(Translator.localize(msg), st.getTokenIndex());
+					}
 
-                    role = token;
-                } else {
-                    if (name != null) {
-                    	String msg = "parsing.error.classifier.extra-test";
-                        throw new ParseException(
-                                Translator.localize(msg), 
-                                st.getTokenIndex());
-                    }
+					base = token;
+				} else if (hasSlash) {
+					if (role != null) {
+						String msg = "parsing.error.classifier.extra-test";
+						throw new ParseException(Translator.localize(msg), st.getTokenIndex());
+					}
 
-                    name = token;
-                }
-            }
-        } catch (NoSuchElementException nsee) {
-            String msg = "parsing.error.classifier.unexpected-end-attribute";
-            throw new ParseException(Translator.localize(msg), s.length());
-        }
+					role = token;
+				} else {
+					if (name != null) {
+						String msg = "parsing.error.classifier.extra-test";
+						throw new ParseException(Translator.localize(msg), st.getTokenIndex());
+					}
 
-        if (base != null) {
-            if (bases == null) {
-                bases = new ArrayList<String>();
-            }
-            bases.add(base);
-        }
+					name = token;
+				}
+			}
+		} catch (NoSuchElementException nsee) {
+			String msg = "parsing.error.classifier.unexpected-end-attribute";
+			throw new ParseException(Translator.localize(msg), s.length());
+		}
 
-        // TODO: What to do about object name???
-        //    if (name != null)
-        //      ;
+		if (base != null) {
+			if (bases == null) {
+				bases = new ArrayList<String>();
+			}
+			bases.add(base);
+		}
 
-        if (role != null) {
-            Model.getCoreHelper().setName(cls, role.trim());
-        }
+		// TODO: What to do about object name???
+		// if (name != null)
+		// ;
 
-        if (bases != null) {
-            // Remove bases that aren't there anymore
+		if (role != null) {
+			Model.getCoreHelper().setName(cls, role.trim());
+		}
 
-            // copy - can't iterate modify live collection while iterating it
-            Collection b = new ArrayList(Model.getFacade().getBases(cls));
-            Iterator it = b.iterator();
-            Object c;
-            Object ns = Model.getFacade().getNamespace(cls);
-            if (ns != null && Model.getFacade().getNamespace(ns) != null) {
-                ns = Model.getFacade().getNamespace(ns);
-            } else {
-                ns = Model.getFacade().getRoot(cls);
-            }
+		if (bases != null) {
+			// Remove bases that aren't there anymore
 
-            while (it.hasNext()) {
-                c = it.next();
-                if (!bases.contains(Model.getFacade().getName(c))) {
-                    Model.getCollaborationsHelper().removeBase(cls, c);
-                }
-            }
+			// copy - can't iterate modify live collection while iterating it
+			Collection b = new ArrayList(Model.getFacade().getBases(cls));
+			Iterator it = b.iterator();
+			Object c;
+			Object ns = Model.getFacade().getNamespace(cls);
+			if (ns != null && Model.getFacade().getNamespace(ns) != null) {
+				ns = Model.getFacade().getNamespace(ns);
+			} else {
+				ns = Model.getFacade().getRoot(cls);
+			}
 
-            it = bases.iterator();
-        addBases:
-            while (it.hasNext()) {
-                String d = ((String) it.next()).trim();
+			while (it.hasNext()) {
+				c = it.next();
+				if (!bases.contains(Model.getFacade().getName(c))) {
+					Model.getCollaborationsHelper().removeBase(cls, c);
+				}
+			}
 
-                Iterator it2 = b.iterator();
-                while (it2.hasNext()) {
-                    c = it2.next();
-                    if (d.equals(Model.getFacade().getName(c))) {
-                        continue addBases;
-                    }
-                }
-                c = NotationUtilityUml.getType(d, ns);
-                if (Model.getFacade().isACollaboration(
-                        Model.getFacade().getNamespace(c))) {
-                    Model.getCoreHelper().setNamespace(c, ns);
-                }
-                Model.getCollaborationsHelper().addBase(cls, c);
-            }
-        }
-        
-        return cls;
-    }
+			it = bases.iterator();
+			addBases: while (it.hasNext()) {
+				String d = ((String) it.next()).trim();
 
-    private String toString(Object modelElement) {
-        String nameString = Model.getFacade().getName(modelElement);
-        if (nameString == null) { 
-            nameString = "";
-        }
-        nameString = nameString.trim();
-        // Loop through all base classes, building a comma separated list
-        StringBuilder baseString = NotationUtilityUml.formatNameList(
-                Model.getFacade().getBases(modelElement));
-        baseString = new StringBuilder(baseString.toString().trim());       
-        // Build the final string
-        if (nameString.length() != 0) {
-            nameString = "/" + nameString;
-        }
-        if (baseString.length() != 0) {
-            baseString = baseString.insert(0, ":");
-        }
-        return nameString + baseString.toString();
-    }
+				Iterator it2 = b.iterator();
+				while (it2.hasNext()) {
+					c = it2.next();
+					if (d.equals(Model.getFacade().getName(c))) {
+						continue addBases;
+					}
+				}
+				c = NotationUtilityUml.getType(d, ns);
+				if (Model.getFacade().isACollaboration(Model.getFacade().getNamespace(c))) {
+					Model.getCoreHelper().setNamespace(c, ns);
+				}
+				Model.getCollaborationsHelper().addBase(cls, c);
+			}
+		}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+		return cls;
+	}
+
+	private String toString(Object modelElement) {
+		String nameString = Model.getFacade().getName(modelElement);
+		if (nameString == null) {
+			nameString = "";
+		}
+		nameString = nameString.trim();
+		// Loop through all base classes, building a comma separated list
+		StringBuilder baseString = NotationUtilityUml.formatNameList(Model.getFacade().getBases(modelElement));
+		baseString = new StringBuilder(baseString.toString().trim());
+		// Build the final string
+		if (nameString.length() != 0) {
+			nameString = "/" + nameString;
+		}
+		if (baseString.length() != 0) {
+			baseString = baseString.insert(0, ":");
+		}
+		return nameString + baseString.toString();
+	}
+
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

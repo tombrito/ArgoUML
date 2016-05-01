@@ -51,9 +51,8 @@ import org.tigris.gef.ui.IStatusBar;
  */
 public class StatusBarAdapter implements IStatusBar {
 
-    public void showStatus(String statusText) {
-        ArgoEventPump.fireEvent(new ArgoStatusEvent(ArgoEventTypes.STATUS_TEXT,
-                this, statusText));
-    }
+	public void showStatus(String statusText) {
+		ArgoEventPump.fireEvent(new ArgoStatusEvent(ArgoEventTypes.STATUS_TEXT, this, statusText));
+	}
 
 }

@@ -55,62 +55,55 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  */
 public class ActionAddEventAsTrigger extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = 6472724134137733235L;
+	private static final long serialVersionUID = 6472724134137733235L;
 	/**
-     * The one and only instance of this class.
-     */
-    public static final ActionAddEventAsTrigger SINGLETON =
-        new ActionAddEventAsTrigger();
+	 * The one and only instance of this class.
+	 */
+	public static final ActionAddEventAsTrigger SINGLETON = new ActionAddEventAsTrigger();
 
-    /**
-     * Constructor for ActionAddClassifierRoleBase.
-     */
-    protected ActionAddEventAsTrigger() {
-        super();
-        setMultiSelect(false);
-    }
+	/**
+	 * Constructor for ActionAddClassifierRoleBase.
+	 */
+	protected ActionAddEventAsTrigger() {
+		super();
+		setMultiSelect(false);
+	}
 
+	protected List getChoices() {
+		List vec = new ArrayList();
+		// TODO: the namespace of enlisted events is currently the model.
+		// I think this is wrong, they should be
+		// in the namespace of the activitygraph!
+		// vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(
+		// Model.getFacade().getNamespace(getTarget()),
+		// Model.getMetaTypes().getEvent()));
+		vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(Model.getFacade().getRoot(getTarget()),
+				Model.getMetaTypes().getEvent()));
 
-    protected List getChoices() {
-        List vec = new ArrayList();
-        // TODO: the namespace of enlisted events is currently the model. 
-        // I think this is wrong, they should be
-        // in the namespace of the activitygraph!
-//        vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(
-//                Model.getFacade().getNamespace(getTarget()),
-//                Model.getMetaTypes().getEvent()));
-        vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(
-                Model.getFacade().getRoot(getTarget()),
-                Model.getMetaTypes().getEvent()));
+		return vec;
+	}
 
-        return vec;
-    }
+	protected List getSelected() {
+		List vec = new ArrayList();
+		Object trigger = Model.getFacade().getTrigger(getTarget());
+		if (trigger != null) {
+			vec.add(trigger);
+		}
+		return vec;
+	}
 
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-events");
+	}
 
-    protected List getSelected() {
-        List vec = new ArrayList();
-        Object trigger = Model.getFacade().getTrigger(getTarget());
-        if (trigger != null) {
-            vec.add(trigger);
-        }
-        return vec;
-    }
-
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-events");
-    }
-
-
-    @Override
-    protected void doIt(Collection selected) {
-        Object trans = getTarget();
-        if (selected == null || selected.size() == 0) {
-            Model.getStateMachinesHelper().setEventAsTrigger(trans, null);
-        } else {
-            Model.getStateMachinesHelper().setEventAsTrigger(trans,
-                    selected.iterator().next());
-        }
-    }
+	@Override
+	protected void doIt(Collection selected) {
+		Object trans = getTarget();
+		if (selected == null || selected.size() == 0) {
+			Model.getStateMachinesHelper().setEventAsTrigger(trans, null);
+		} else {
+			Model.getStateMachinesHelper().setEventAsTrigger(trans, selected.iterator().next());
+		}
+	}
 
 }

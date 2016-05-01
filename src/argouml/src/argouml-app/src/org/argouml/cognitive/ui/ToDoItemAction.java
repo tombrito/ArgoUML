@@ -51,47 +51,48 @@ import org.argouml.ui.UndoableAction;
  */
 public abstract class ToDoItemAction extends UndoableAction {
 
-    private static final long serialVersionUID = 1858465640164017310L;
+	private static final long serialVersionUID = 1858465640164017310L;
 	private Object rememberedTarget = null;
 
-    /**
-     * @param name to be localized
-     * @param hasIcon true if an icon is to be shown
-     */
-    public ToDoItemAction(String name, boolean hasIcon) {
-        super(Translator.localize(name),
-                hasIcon ? ResourceLoaderWrapper.lookupIcon(name) : null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(name));
-    }
-
-    /**
-     * @return returns the rememberedTarget
-     */
-    protected Object getRememberedTarget() {
-        return rememberedTarget;
-    }
-
-    /**
-     * @param target the target
-     */
-    public void updateEnabled(Object target) {
-	if (target == null) {
-	    setEnabled(false);
-	    return;
+	/**
+	 * @param name
+	 *            to be localized
+	 * @param hasIcon
+	 *            true if an icon is to be shown
+	 */
+	public ToDoItemAction(String name, boolean hasIcon) {
+		super(Translator.localize(name), hasIcon ? ResourceLoaderWrapper.lookupIcon(name) : null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
 	}
 
-	rememberedTarget = target;
-	setEnabled(isEnabled(target));
-    }
+	/**
+	 * @return returns the rememberedTarget
+	 */
+	protected Object getRememberedTarget() {
+		return rememberedTarget;
+	}
 
-    /**
-     * @param target the current target
-     * @return true if the action icon should be enabled (i.e. not downlighted)
-     */
-    public boolean isEnabled(Object target) {
-	return target instanceof ToDoItem;
-    }
+	/**
+	 * @param target
+	 *            the target
+	 */
+	public void updateEnabled(Object target) {
+		if (target == null) {
+			setEnabled(false);
+			return;
+		}
+
+		rememberedTarget = target;
+		setEnabled(isEnabled(target));
+	}
+
+	/**
+	 * @param target
+	 *            the current target
+	 * @return true if the action icon should be enabled (i.e. not downlighted)
+	 */
+	public boolean isEnabled(Object target) {
+		return target instanceof ToDoItem;
+	}
 }
-

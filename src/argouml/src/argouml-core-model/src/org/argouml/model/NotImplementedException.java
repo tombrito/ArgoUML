@@ -45,26 +45,26 @@ package org.argouml.model;
  * @author Tom Morris
  */
 public class NotImplementedException extends RuntimeException {
-    /**
-     * The version UID.
-     */
-    private static final long serialVersionUID = -3782492193881615900L;
+	/**
+	 * The version UID.
+	 */
+	private static final long serialVersionUID = -3782492193881615900L;
 
-    /**
-     * Constructor for new unimplemented exception.
-     */
-    public NotImplementedException() {
-        super();
-    }
-    
-    /**
-     * Constructor the exception with a message.
-     * 
-     * @param message
-     *            the message
-     */
-    public NotImplementedException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructor for new unimplemented exception.
+	 */
+	public NotImplementedException() {
+		super();
+	}
+
+	/**
+	 * Constructor the exception with a message.
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public NotImplementedException(String message) {
+		super(message);
+	}
 
 }

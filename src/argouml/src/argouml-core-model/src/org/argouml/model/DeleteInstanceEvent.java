@@ -46,24 +46,28 @@ import java.util.EventObject;
  * @author Bob Tarling
  */
 public class DeleteInstanceEvent extends UmlChangeEvent {
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     */
-    public DeleteInstanceEvent(Object source, String propertyName,
-            Object oldValue, Object newValue, EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, originalEvent);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 */
+	public DeleteInstanceEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, originalEvent);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 650590690953566827L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 650590690953566827L;
 }

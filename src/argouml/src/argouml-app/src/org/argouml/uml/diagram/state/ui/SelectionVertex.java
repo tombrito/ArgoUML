@@ -18,28 +18,28 @@ import java.awt.Graphics;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * A selection for a vertex (which can be an orthogonal state).
- * This acts the same as its superclass unless the vertex is in fact an
- * orthogonal state in which case extra handles are painted for moving
- * the region separators.
+ * A selection for a vertex (which can be an orthogonal state). This acts the
+ * same as its superclass unless the vertex is in fact an orthogonal state in
+ * which case extra handles are painted for moving the region separators.
  *
  * @author Bob Tarling
  */
 public class SelectionVertex extends SelectionState {
 
-    private static final long serialVersionUID = 2772054826265794643L;
+	private static final long serialVersionUID = 2772054826265794643L;
 
 	/**
-     * Construct a new SelectionState for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionVertex(Fig f) {
-	super(f);
-    }
+	 * Construct a new SelectionState for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionVertex(Fig f) {
+		super(f);
+	}
 
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-    }
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+	}
 }

@@ -46,81 +46,88 @@ import org.argouml.ui.explorer.rules.PerspectiveRule;
 
 /**
  * Represents a perspective (or view) of the uml model for display in the
- * explorer.<p>
+ * explorer.
+ * <p>
  *
- * This class replaces the old NavPerspective class. This is much simpler.<p>
+ * This class replaces the old NavPerspective class. This is much simpler.
+ * <p>
  *
- * The rules in the perspective generate child nodes for any given parent
- * node in the explorer tree view. Those nodes are then stored as user objects
- * in the ExplorerTreeModel for efficient rendering.
+ * The rules in the perspective generate child nodes for any given parent node
+ * in the explorer tree view. Those nodes are then stored as user objects in the
+ * ExplorerTreeModel for efficient rendering.
  *
- * @author  alexb
+ * @author alexb
  * @since 0.15.2, Created on 27 September 2003, 09:32
  */
 public class ExplorerPerspective {
 
-    private List<PerspectiveRule> rules;
-    private String name;
+	private List<PerspectiveRule> rules;
+	private String name;
 
-    /**
-     * Creates a new instance of ExplorerPerspective.
-     *
-     * @param newName the to be localized name for the perspective
-     */
-    public ExplorerPerspective(String newName) {
-        name = Translator.localize(newName);
-        rules = new ArrayList<PerspectiveRule>();
-    }
+	/**
+	 * Creates a new instance of ExplorerPerspective.
+	 *
+	 * @param newName
+	 *            the to be localized name for the perspective
+	 */
+	public ExplorerPerspective(String newName) {
+		name = Translator.localize(newName);
+		rules = new ArrayList<PerspectiveRule>();
+	}
 
-    /**
-     * @param rule the rule to add
-     */
-    public void addRule(PerspectiveRule rule) {
-        rules.add(rule);
-    }
+	/**
+	 * @param rule
+	 *            the rule to add
+	 */
+	public void addRule(PerspectiveRule rule) {
+		rules.add(rule);
+	}
 
-    /**
-     * @param rule the rule to remove
-     */
-    public void removeRule(PerspectiveRule rule) {
-        rules.remove(rule);
-    }
+	/**
+	 * @param rule
+	 *            the rule to remove
+	 */
+	public void removeRule(PerspectiveRule rule) {
+		rules.remove(rule);
+	}
 
-    /**
-     * @return the array with all the rules
-     */
-    public Object[] getRulesArray() {
-        return rules.toArray();
-    }
+	/**
+	 * @return the array with all the rules
+	 */
+	public Object[] getRulesArray() {
+		return rules.toArray();
+	}
 
-    /**
-     * @return the List with all the rules
-     */
-    public List<PerspectiveRule> getList() {
-        return rules;
-    }
+	/**
+	 * @return the List with all the rules
+	 */
+	public List<PerspectiveRule> getList() {
+		return rules;
+	}
 
+	@Override
+	public String toString() {
+		return name;
+	}
 
-    @Override
-    public String toString() {
-        return name;
-    }
+	/**
+	 * Make a clone of this ExplorerPerspective with a different given name.
+	 * 
+	 * @param newName
+	 *            the given name
+	 * @return the new ExplorerPerspective
+	 */
+	public ExplorerPerspective makeNamedClone(String newName) {
+		ExplorerPerspective ep = new ExplorerPerspective(newName);
+		ep.rules.addAll(rules);
+		return ep;
+	}
 
-    /**
-     * Make a clone of this ExplorerPerspective with a different given name.
-     * @param newName the given name
-     * @return the new ExplorerPerspective
-     */
-    public ExplorerPerspective makeNamedClone(String newName) {
-        ExplorerPerspective ep = new ExplorerPerspective(newName);
-        ep.rules.addAll(rules);
-        return ep;
-    }
-    
-    /**
-     * @param theNewName the new name for the ExplorerPerspective
-     */
-    protected void setName(String theNewName) {
-        this.name = theNewName;
-    }
+	/**
+	 * @param theNewName
+	 *            the new name for the ExplorerPerspective
+	 */
+	protected void setName(String theNewName) {
+		this.name = theNewName;
+	}
 }

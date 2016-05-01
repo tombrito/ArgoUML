@@ -47,62 +47,64 @@ import org.argouml.notation.NotationProviderFactory2;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * Fig with specific knowledge of Operation and Reception display. 
- * Makes the text italic in case the Operation or Reception is abstract.
+ * Fig with specific knowledge of Operation and Reception display. Makes the
+ * text italic in case the Operation or Reception is abstract.
  *
  * @since 0.23.5
  * @author Bob Tarling
  */
 public class FigOperation extends FigFeature {
 
-    private static final long serialVersionUID = 527378272296569668L;
+	private static final long serialVersionUID = 527378272296569668L;
 
 	/**
-     * Construct a fig for a UML Operation
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigOperation(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        Model.getPump().addModelEventListener(this, owner, "isAbstract");
-    }    
+	 * Construct a fig for a UML Operation
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigOperation(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		Model.getPump().addModelEventListener(this, owner, "isAbstract");
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
-     */
-    @Override
-    public void removeFromDiagram() {
-        Model.getPump().removeModelEventListener(this, getOwner(), 
-                "isAbstract");
-        super.removeFromDiagram();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigSingleLineText#removeFromDiagram()
+	 */
+	@Override
+	public void removeFromDiagram() {
+		Model.getPump().removeModelEventListener(this, getOwner(), "isAbstract");
+		super.removeFromDiagram();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigSingleLineText#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        super.propertyChange(pce);
-        if ("isAbstract".equals(pce.getPropertyName())) {
-            renderingChanged();    
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigSingleLineText#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent pce) {
+		super.propertyChange(pce);
+		if ("isAbstract".equals(pce.getPropertyName())) {
+			renderingChanged();
+		}
+	}
 
-    /*
-     * If the Operation/Reception is abstract, 
-     * then the text will be set to italics.
-     */
-    @Override
-    protected int getFigFontStyle() {
-        return Model.getFacade().isAbstract(getOwner()) 
-            ? Font.ITALIC : Font.PLAIN;
-    }
+	/*
+	 * If the Operation/Reception is abstract, then the text will be set to
+	 * italics.
+	 */
+	@Override
+	protected int getFigFontStyle() {
+		return Model.getFacade().isAbstract(getOwner()) ? Font.ITALIC : Font.PLAIN;
+	}
 
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_OPERATION;
-    }
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_OPERATION;
+	}
 }

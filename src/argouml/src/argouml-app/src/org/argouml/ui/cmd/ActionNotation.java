@@ -54,93 +54,94 @@ import org.argouml.notation.Notation;
 import org.argouml.notation.NotationName;
 import org.argouml.ui.UndoableAction;
 
-
 /**
  * Allows selection of the notation used in the current project.
  *
  * @author Thierry Lach
- * @since  ARGO0.9.4
+ * @since ARGO0.9.4
  */
-public class ActionNotation extends UndoableAction
-    implements MenuListener {
+public class ActionNotation extends UndoableAction implements MenuListener {
 
-    /**
-     * The popup menu with all notations. It gets filled
-     * every time the menu is opened 
-     * (see {@link #menuSelected(MenuEvent me)}),
-     * since it depends on the current project,
-     * and notation languages may be added or removed
-     * by plugins.
-     */
-    private JMenu menu;
+	/**
+	 * The popup menu with all notations. It gets filled every time the menu is
+	 * opened (see {@link #menuSelected(MenuEvent me)}), since it depends on the
+	 * current project, and notation languages may be added or removed by
+	 * plugins.
+	 */
+	private JMenu menu;
 
-    /**
-     * Constructor - adds the Notation menu.
-     */
-    public ActionNotation() {
-	    super(Translator.localize("menu.notation"), 
-	            null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("menu.notation"));
-        menu = new JMenu(Translator.localize("menu.notation"));
-        menu.add(this);
-        menu.addMenuListener(this);
-    }
+	/**
+	 * Constructor - adds the Notation menu.
+	 */
+	public ActionNotation() {
+		super(Translator.localize("menu.notation"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("menu.notation"));
+		menu = new JMenu(Translator.localize("menu.notation"));
+		menu.add(this);
+		menu.addMenuListener(this);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        String key = ae.getActionCommand();
-        for (NotationName nn : Notation.getAvailableNotations()) {
-            if (key.equals(nn.getTitle())) {
-                Project p = ProjectManager.getManager().getCurrentProject();
-                p.getProjectSettings().setNotationLanguage(nn);
-                break;
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		String key = ae.getActionCommand();
+		for (NotationName nn : Notation.getAvailableNotations()) {
+			if (key.equals(nn.getTitle())) {
+				Project p = ProjectManager.getManager().getCurrentProject();
+				p.getProjectSettings().setNotationLanguage(nn);
+				break;
+			}
+		}
+	}
 
-    /**
-     * @return The menu for the notation.
-     */
-    public JMenu getMenu() { return menu; }
+	/**
+	 * @return The menu for the notation.
+	 */
+	public JMenu getMenu() {
+		return menu;
+	}
 
-    /*
-     * @see javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
-     */
-    public void menuSelected(MenuEvent me) {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        NotationName current = p.getProjectSettings().getNotationName();
-        menu.removeAll();
-        ButtonGroup b = new ButtonGroup();
-        for (NotationName nn : Notation.getAvailableNotations()) {
-            JRadioButtonMenuItem mi =
-                new JRadioButtonMenuItem(nn.getTitle());
-            if (nn.getIcon() != null) {
-                mi.setIcon(nn.getIcon());
-            }
-            mi.addActionListener(this);
-            b.add(mi);
-            mi.setSelected(current.sameNotationAs(nn));
-            menu.add(mi);
-        }
-    }
+	/*
+	 * @see
+	 * javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
+	 */
+	public void menuSelected(MenuEvent me) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		NotationName current = p.getProjectSettings().getNotationName();
+		menu.removeAll();
+		ButtonGroup b = new ButtonGroup();
+		for (NotationName nn : Notation.getAvailableNotations()) {
+			JRadioButtonMenuItem mi = new JRadioButtonMenuItem(nn.getTitle());
+			if (nn.getIcon() != null) {
+				mi.setIcon(nn.getIcon());
+			}
+			mi.addActionListener(this);
+			b.add(mi);
+			mi.setSelected(current.sameNotationAs(nn));
+			menu.add(mi);
+		}
+	}
 
-    /*
-     * @see javax.swing.event.MenuListener#menuDeselected(javax.swing.event.MenuEvent)
-     */
-    public void menuDeselected(MenuEvent me) { }
+	/*
+	 * @see javax.swing.event.MenuListener#menuDeselected(javax.swing.event.
+	 * MenuEvent)
+	 */
+	public void menuDeselected(MenuEvent me) {
+	}
 
-    /*
-     * @see javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
-     */
-    public void menuCanceled(MenuEvent me) { }
+	/*
+	 * @see
+	 * javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
+	 */
+	public void menuCanceled(MenuEvent me) {
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1364283215100616618L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1364283215100616618L;
 }

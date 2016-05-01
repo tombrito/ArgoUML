@@ -38,7 +38,6 @@
 
 package org.argouml.persistence;
 
-
 /**
  * XMI file persister which allows .xml extension.
  *
@@ -46,22 +45,22 @@ package org.argouml.persistence;
  */
 class XmlFilePersister extends XmiFilePersister {
 
-    /*
-     * @see org.argouml.persistence.AbstractFilePersister#getExtension()
-     */
-    @Override
-    public String getExtension() {
-        return "xml";
-    }
+	/*
+	 * @see org.argouml.persistence.AbstractFilePersister#getExtension()
+	 */
+	@Override
+	public String getExtension() {
+		return "xml";
+	}
 
-    /**
-     * Returns false. Only Argo specific files have an icon.
-     * 
-     * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
-     */
-    @Override
-    public boolean hasAnIcon() {
-        return false;
-    }
+	/**
+	 * Returns false. Only Argo specific files have an icon.
+	 * 
+	 * @see org.argouml.persistence.AbstractFilePersister#hasAnIcon()
+	 */
+	@Override
+	public boolean hasAnIcon() {
+		return false;
+	}
 
 }

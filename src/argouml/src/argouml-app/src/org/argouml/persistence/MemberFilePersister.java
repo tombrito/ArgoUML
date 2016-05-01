@@ -56,96 +56,98 @@ import org.xml.sax.InputSource;
 
 /**
  * A base class file persister for project members.
+ * 
  * @author Bob Tarling
  */
 abstract class MemberFilePersister {
-    /**
-     * Load a project member from an InputStream.
-     *
-     * @param project the project to persist
-     * @param inputStream the inputStream to parse to load the member.
-     * @throws OpenException on any parsing errors.
-     */
-    public abstract void load(Project project, InputStream inputStream)
-        throws OpenException;
+	/**
+	 * Load a project member from an InputStream.
+	 *
+	 * @param project
+	 *            the project to persist
+	 * @param inputStream
+	 *            the inputStream to parse to load the member.
+	 * @throws OpenException
+	 *             on any parsing errors.
+	 */
+	public abstract void load(Project project, InputStream inputStream) throws OpenException;
 
-    /**
-     * Load a project member from a URL.
-     *
-     * @param project the project to persist
-     * @param url the URL to open and parse to load the member.
-     * @throws OpenException on any parsing errors.
-     */
-    public abstract void load(Project project, URL url)
-        throws OpenException;
+	/**
+	 * Load a project member from a URL.
+	 *
+	 * @param project
+	 *            the project to persist
+	 * @param url
+	 *            the URL to open and parse to load the member.
+	 * @throws OpenException
+	 *             on any parsing errors.
+	 */
+	public abstract void load(Project project, URL url) throws OpenException;
 
-    /**
-     * Load a project member from a SAX InputSource.
-     *
-     * @param project the project to persist
-     * @param inputSource the InputSource to load from
-     * @throws OpenException on any parsing errors.
-     * @since 0.29.1
-     */
-    public abstract void load(Project project, InputSource inputSource)
-        throws OpenException;
-    
-    
-    /**
-     * Gets the tag name which is the root tag for this member.
-     * @return tag name.
-     */
-    public abstract String getMainTag();
+	/**
+	 * Load a project member from a SAX InputSource.
+	 *
+	 * @param project
+	 *            the project to persist
+	 * @param inputSource
+	 *            the InputSource to load from
+	 * @throws OpenException
+	 *             on any parsing errors.
+	 * @since 0.29.1
+	 */
+	public abstract void load(Project project, InputSource inputSource) throws OpenException;
 
+	/**
+	 * Gets the tag name which is the root tag for this member.
+	 * 
+	 * @return tag name.
+	 */
+	public abstract String getMainTag();
 
-    /**
-     * Save the project member as XML to the given output stream.
-     * 
-     * @param member
-     *            The project member to save.
-     * @param stream
-     *            The OutputStream to write the contents to.
-     * @throws SaveException
-     *             if the save fails
-     * @since 0.25.4
-     */
-    public abstract void save(
-            ProjectMember member,
-            OutputStream stream) throws SaveException;
-    
-    
-    /**
-     * Send an existing file of XML to the PrintWriter.
-     * @param writer the PrintWriter.
-     * @param file the File
-     * @throws SaveException on any errors.
-     */
-    protected void addXmlFileToWriter(PrintWriter writer, File file)
-        throws SaveException {
-        try {
-            BufferedReader reader =
-                new BufferedReader(
-                        new InputStreamReader(
-                                new FileInputStream(file), 
-                                Argo.getEncoding()));
+	/**
+	 * Save the project member as XML to the given output stream.
+	 * 
+	 * @param member
+	 *            The project member to save.
+	 * @param stream
+	 *            The OutputStream to write the contents to.
+	 * @throws SaveException
+	 *             if the save fails
+	 * @since 0.25.4
+	 */
+	public abstract void save(ProjectMember member, OutputStream stream) throws SaveException;
 
-            // Skip the <?xml... first line
-            String line = reader.readLine();
-            while (line != null && (line.startsWith("<?xml ")
-                    || line.startsWith("<!DOCTYPE "))) {
-                line = reader.readLine();
-            }
+	/**
+	 * Send an existing file of XML to the PrintWriter.
+	 * 
+	 * @param writer
+	 *            the PrintWriter.
+	 * @param file
+	 *            the File
+	 * @throws SaveException
+	 *             on any errors.
+	 */
+	protected void addXmlFileToWriter(PrintWriter writer, File file) throws SaveException {
+		try {
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(new FileInputStream(file), Argo.getEncoding()));
 
-            while (line != null) {
-                (writer).println(line);
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            throw new SaveException(e);
-        } catch (IOException e) {
-            throw new SaveException(e);
-        }
-    }
+			// Skip the <?xml... first line
+			String line = reader.readLine();
+			while (line != null && (line.startsWith("<?xml ") || line.startsWith("<!DOCTYPE "))) {
+				line = reader.readLine();
+			}
+
+			while (line != null) {
+				(writer).println(line);
+				line = reader.readLine();
+			}
+			reader.close();
+		} catch (FileNotFoundException e) {
+			throw new SaveException(e);
+		} catch (IOException e) {
+			throw new SaveException(e);
+		}
+	}
 
 }

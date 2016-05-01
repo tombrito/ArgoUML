@@ -54,11 +54,12 @@ import org.argouml.ui.targetmanager.TargettableModelView;
 /**
  * A JList for display stereotypes to the user.
  * 
- * This implements 'jump' behaviour. As soon as the user
- * doubleclicks on an element in the list, that element is selected in
- * argouml. <p>
+ * This implements 'jump' behaviour. As soon as the user doubleclicks on an
+ * element in the list, that element is selected in argouml.
+ * <p>
  *
- * Also, it allows showing an icon with the text items in the list.<p>
+ * Also, it allows showing an icon with the text items in the list.
+ * <p>
  *
  * And, in case the listed item has no name, a default name is generated.
  *
@@ -67,70 +68,74 @@ import org.argouml.ui.targetmanager.TargettableModelView;
  */
 class UMLStereotypeList extends JList implements TargettableModelView {
 
-
-    private static final long serialVersionUID = -5581329604439695110L;
+	private static final long serialVersionUID = -5581329604439695110L;
 
 	/**
-     * Constructor for UMLLinkedList.
-     *
-     * @param dataModel the data model
-     * @param showIcon true if an icon should be shown
-     * @param showPath true if containment path should be shown
-     */
-    public UMLStereotypeList(ListModel dataModel, boolean showIcon, boolean showPath) {
-        super(dataModel);
-        //
-        ListCellRenderer renderer = new UMLLinkedListCellRenderer(showIcon, showPath);
-        setDoubleBuffered(true);
-        if (renderer != null) {
-            setCellRenderer(renderer);
-        }
-        setFont(LookAndFeelMgr.getInstance().getStandardFont());
-        
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
-        // TODO: Can we find a better way to do this than hard coding colour?
-        setForeground(Color.blue);
-        setSelectionForeground(Color.blue.darker());
-        
-        UMLLinkMouseListener mouseListener = new UMLLinkMouseListener(this);
-        addMouseListener(mouseListener);
-    }
-    
+	 * Constructor for UMLLinkedList.
+	 *
+	 * @param dataModel
+	 *            the data model
+	 * @param showIcon
+	 *            true if an icon should be shown
+	 * @param showPath
+	 *            true if containment path should be shown
+	 */
+	public UMLStereotypeList(ListModel dataModel, boolean showIcon, boolean showPath) {
+		super(dataModel);
+		//
+		ListCellRenderer renderer = new UMLLinkedListCellRenderer(showIcon, showPath);
+		setDoubleBuffered(true);
+		if (renderer != null) {
+			setCellRenderer(renderer);
+		}
+		setFont(LookAndFeelMgr.getInstance().getStandardFont());
 
-    /**
-     * The constructor.
-     *
-     * @param dataModel the data model
-     */
-    public UMLStereotypeList(ListModel dataModel) {
-        this(dataModel, true);
-    }
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-    /**
-     * Constructor for UMLLinkedList.
-     *
-     * @param dataModel the data model
-     * @param showIcon true if an icon should be shown
-     */
-    public UMLStereotypeList(ListModel dataModel,
-            boolean showIcon) {
-        this(dataModel, showIcon, true);
-    }
-    
-    /**
-     * Getter for the target. First approach to get rid of the container.
-     * @return Object
-     */
-    public Object getTarget() {
-        
-        return ((UMLStereotypeListModel) getModel()).getTarget();
-    }
-    
-    /*
-     * @see TargettableModelView#getTargettableModel()
-     */
-    public TargetListener getTargettableModel() {
-        return (TargetListener) getModel();
-    }
+		// TODO: Can we find a better way to do this than hard coding colour?
+		setForeground(Color.blue);
+		setSelectionForeground(Color.blue.darker());
+
+		UMLLinkMouseListener mouseListener = new UMLLinkMouseListener(this);
+		addMouseListener(mouseListener);
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param dataModel
+	 *            the data model
+	 */
+	public UMLStereotypeList(ListModel dataModel) {
+		this(dataModel, true);
+	}
+
+	/**
+	 * Constructor for UMLLinkedList.
+	 *
+	 * @param dataModel
+	 *            the data model
+	 * @param showIcon
+	 *            true if an icon should be shown
+	 */
+	public UMLStereotypeList(ListModel dataModel, boolean showIcon) {
+		this(dataModel, showIcon, true);
+	}
+
+	/**
+	 * Getter for the target. First approach to get rid of the container.
+	 * 
+	 * @return Object
+	 */
+	public Object getTarget() {
+
+		return ((UMLStereotypeListModel) getModel()).getTarget();
+	}
+
+	/*
+	 * @see TargettableModelView#getTargettableModel()
+	 */
+	public TargetListener getTargettableModel() {
+		return (TargetListener) getModel();
+	}
 }

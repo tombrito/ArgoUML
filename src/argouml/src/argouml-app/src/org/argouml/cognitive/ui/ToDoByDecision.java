@@ -51,176 +51,173 @@ import org.argouml.cognitive.ToDoListListener;
 /**
  * Represents a perspective for ToDo items: grouping by decision type.
  */
-public class ToDoByDecision extends ToDoPerspective
-    implements ToDoListListener {
-    private static final Logger LOG =
-        Logger.getLogger(ToDoByDecision.class.getName());
+public class ToDoByDecision extends ToDoPerspective implements ToDoListListener {
+	private static final Logger LOG = Logger.getLogger(ToDoByDecision.class.getName());
 
-
-    /**
-     * The constructor.
-     *
-     */
-    public ToDoByDecision() {
-	super("combobox.todo-perspective-decision");
-	addSubTreeModel(new GoListToDecisionsToItems());
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // ToDoListListener implementation
-
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsChanged(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemChanged");
-        List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
-
-        for (Decision dec : Designer.theDesigner().getDecisionModel()
-                .getDecisionList()) {
-	    int nMatchingItems = 0;
-	    path[1] = dec;
-	    for (ToDoItem item : items) {
-		if (!item.supports(dec)) {
-                    continue;
-                }
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-                continue;
-            }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.supports(dec)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(dec, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesChanged(this, path, childIndices, children);
+	/**
+	 * The constructor.
+	 *
+	 */
+	public ToDoByDecision() {
+		super("combobox.todo-perspective-decision");
+		addSubTreeModel(new GoListToDecisionsToItems());
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsAdded(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemAdded");
-	List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	////////////////////////////////////////////////////////////////
+	// ToDoListListener implementation
 
-        for (Decision dec : Designer.theDesigner().getDecisionModel()
-                .getDecisionList()) {
-	    int nMatchingItems = 0;
-	    path[1] = dec;
-            for (ToDoItem item : items) {
-		if (!item.supports(dec)) {
-                    continue;
-                }
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-                continue;
-            }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.supports(dec)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(dec, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesInserted(this, path, childIndices, children);
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsChanged(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemChanged");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
+
+		for (Decision dec : Designer.theDesigner().getDecisionModel().getDecisionList()) {
+			int nMatchingItems = 0;
+			path[1] = dec;
+			for (ToDoItem item : items) {
+				if (!item.supports(dec)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.supports(dec)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(dec, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesChanged(this, path, childIndices, children);
+		}
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsRemoved(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemRemoved");
-	List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsAdded(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemAdded");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
 
-        for (Decision dec : Designer.theDesigner().getDecisionModel()
-                .getDecisionList()) {
-            LOG.log(Level.FINE, "toDoItemRemoved updating decision node!");
-	    boolean anyInDec = false;
-            for (ToDoItem item : items) {
-		if (item.supports(dec)) {
-                    anyInDec = true;
-                }
-	    }
-	    if (!anyInDec) {
-                continue;
-            }
-	    path[1] = dec;
-	    //fireTreeNodesChanged(this, path, childIndices, children);
-	    fireTreeStructureChanged(path);
+		for (Decision dec : Designer.theDesigner().getDecisionModel().getDecisionList()) {
+			int nMatchingItems = 0;
+			path[1] = dec;
+			for (ToDoItem item : items) {
+				if (!item.supports(dec)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.supports(dec)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(dec, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesInserted(this, path, childIndices, children);
+		}
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoListChanged(ToDoListEvent tde) { }
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsRemoved(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemRemoved");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
 
+		for (Decision dec : Designer.theDesigner().getDecisionModel().getDecisionList()) {
+			LOG.log(Level.FINE, "toDoItemRemoved updating decision node!");
+			boolean anyInDec = false;
+			for (ToDoItem item : items) {
+				if (item.supports(dec)) {
+					anyInDec = true;
+				}
+			}
+			if (!anyInDec) {
+				continue;
+			}
+			path[1] = dec;
+			// fireTreeNodesChanged(this, path, childIndices, children);
+			fireTreeStructureChanged(path);
+		}
+	}
 
-    //   public static Decision decisionUNCATEGORIZED =
-    //   new Decision("Uncategorized", 1);
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoListChanged(ToDoListEvent tde) {
+	}
 
-    //   protected boolean isNeeded(ToDoPseudoNode node) {
-    //     PredicateDecision pd = (PredicateDecision) node.getPredicate();
-    //     Decision d = pd.getDecision();
-    //     Enumeration items = _root.elements();
-    //     while (items.hasMoreElements()) {
-    //       ToDoItem item = (ToDoItem) items.nextElement();
-    //       if (item.getPoster().supports(d)) return true;
-    //     }
-    //     return false;
-    //   }
+	// public static Decision decisionUNCATEGORIZED =
+	// new Decision("Uncategorized", 1);
 
-    //   protected Vector addNewPseudoNodes(ToDoItem item) {
-    //     Vector newNodes = new Vector();
-    //     Vector decs = item.getPoster().getSupportedDecisions();
-    //     if (decs == null) {
-    //       addNodeIfNeeded(Decision.UNSPEC, newNodes);
-    //     }
-    //     else {
-    //       Enumeration elems = decs.elements();
-    //       while (elems.hasMoreElements()) {
-    // 	Decision itemDec = (Decision) elems.nextElement();
-    // 	addNodeIfNeeded(itemDec, newNodes);
-    //       }
-    //     }
-    //     return newNodes;
-    //   }
+	// protected boolean isNeeded(ToDoPseudoNode node) {
+	// PredicateDecision pd = (PredicateDecision) node.getPredicate();
+	// Decision d = pd.getDecision();
+	// Enumeration items = _root.elements();
+	// while (items.hasMoreElements()) {
+	// ToDoItem item = (ToDoItem) items.nextElement();
+	// if (item.getPoster().supports(d)) return true;
+	// }
+	// return false;
+	// }
 
+	// protected Vector addNewPseudoNodes(ToDoItem item) {
+	// Vector newNodes = new Vector();
+	// Vector decs = item.getPoster().getSupportedDecisions();
+	// if (decs == null) {
+	// addNodeIfNeeded(Decision.UNSPEC, newNodes);
+	// }
+	// else {
+	// Enumeration elems = decs.elements();
+	// while (elems.hasMoreElements()) {
+	// Decision itemDec = (Decision) elems.nextElement();
+	// addNodeIfNeeded(itemDec, newNodes);
+	// }
+	// }
+	// return newNodes;
+	// }
 
-    //   protected void addNodeIfNeeded(Decision itemDec, Vector newNodes) {
-    //     Enumeration elems = _pseudoNodes.elements();
-    //     while (elems.hasMoreElements()) {
-    //       ToDoPseudoNode node = (ToDoPseudoNode) elems.nextElement();
-    //       PredicateDecision pd = (PredicateDecision) node.getPredicate();
-    //       Decision nodeDec = pd.getDecision();
-    //       //if (nodeDec.getName().equals(itemDec.getName())) return;
-    //       if (nodeDec == itemDec) return;
-    //     }
-    //     PredicateDecision pred = new PredicateDecision(itemDec);
-    //     ToDoPseudoNode newNode = new ToDoPseudoNode(_root, pred);
-    //     newNode.setLabel(itemDec.getName());
-    //     _pseudoNodes.addElement(newNode);
-    //     newNodes.addElement(newNode);
-    //   }
+	// protected void addNodeIfNeeded(Decision itemDec, Vector newNodes) {
+	// Enumeration elems = _pseudoNodes.elements();
+	// while (elems.hasMoreElements()) {
+	// ToDoPseudoNode node = (ToDoPseudoNode) elems.nextElement();
+	// PredicateDecision pd = (PredicateDecision) node.getPredicate();
+	// Decision nodeDec = pd.getDecision();
+	// //if (nodeDec.getName().equals(itemDec.getName())) return;
+	// if (nodeDec == itemDec) return;
+	// }
+	// PredicateDecision pred = new PredicateDecision(itemDec);
+	// ToDoPseudoNode newNode = new ToDoPseudoNode(_root, pred);
+	// newNode.setLabel(itemDec.getName());
+	// _pseudoNodes.addElement(newNode);
+	// newNodes.addElement(newNode);
+	// }
 
 } /* end class ToDoByDecision */

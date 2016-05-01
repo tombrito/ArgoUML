@@ -46,17 +46,15 @@ import java.util.Set;
 import javax.swing.Icon;
 
 /**
- * A CompoundCritic acts like a regular critic in that it checks the
- * design and produces design feedback.  However, a CompoundCritic is
- * composed of several regular critics that are applied in order.
- * The first one that produces feedback ends the application.  This is
- * useful when criticism can be ordered from specific to general:
- * general feedback should not be produced if specific feedback is
- * available.  For example, one critic might check for the legality
- * of the name of a design element, and another might check for the
- * presence of any name.  If a given design element has no name, both
- * critics could produce feedback, but it would be more useful if
- * only the first one did.
+ * A CompoundCritic acts like a regular critic in that it checks the design and
+ * produces design feedback. However, a CompoundCritic is composed of several
+ * regular critics that are applied in order. The first one that produces
+ * feedback ends the application. This is useful when criticism can be ordered
+ * from specific to general: general feedback should not be produced if specific
+ * feedback is available. For example, one critic might check for the legality
+ * of the name of a design element, and another might check for the presence of
+ * any name. If a given design element has no name, both critics could produce
+ * feedback, but it would be more useful if only the first one did.
  *
  * @author Jason Robbins
  */
@@ -65,278 +63,291 @@ import javax.swing.Icon;
 
 public class CompoundCritic extends Critic {
 
+	////////////////////////////////////////////////////////////////
+	// instance variables
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
-
-    private static final long serialVersionUID = -2552510639003633546L;
+	private static final long serialVersionUID = -2552510639003633546L;
 
 	/**
-     * The sub-critics that make up this CompoundCritic.
-     */
-    private List<Critic> critics = new ArrayList<Critic>();
+	 * The sub-critics that make up this CompoundCritic.
+	 */
+	private List<Critic> critics = new ArrayList<Critic>();
 
-    /**
-     * The extra design materials to be returned along with 
-     * {@link #getCriticizedDesignMaterials()}
-     */
-    private Set<Object> extraDesignMaterials = new HashSet<Object>();
-    
-    ////////////////////////////////////////////////////////////////
-    // constructor
+	/**
+	 * The extra design materials to be returned along with
+	 * {@link #getCriticizedDesignMaterials()}
+	 */
+	private Set<Object> extraDesignMaterials = new HashSet<Object>();
 
-    /**
-     * The constructor of a compound critic.
-     *
-     */
-    public CompoundCritic() {
-    }
+	////////////////////////////////////////////////////////////////
+	// constructor
 
-    /**
-     * The constructor.
-     *
-     * @param c1 the first critic that makes up the compound critic
-     * @param c2 the 2nd critic that makes up the compound critic
-     */
-    public CompoundCritic(Critic c1, Critic c2) {
-	this();
-	critics.add(c1);
-	critics.add(c2);
-    }
-
-    /**
-     * The constructor.
-     *
-     * @param c1 the first critic that makes up the compound critic
-     * @param c2 the 2nd critic that makes up the compound critic
-     * @param c3 the 3rd critic that makes up the compound critic
-     */
-    public CompoundCritic(Critic c1, Critic c2, Critic c3) {
-	this(c1, c2);
-	critics.add(c3);
-    }
-
-    /**
-     * The constructor.
-     *
-     * @param c1 the first critic that makes up the compound critic
-     * @param c2 the 2nd critic that makes up the compound critic
-     * @param c3 the 3rd critic that makes up the compound critic
-     * @param c4 the 4th critic that makes up the compound critic
-     */
-    public CompoundCritic(Critic c1, Critic c2, Critic c3, Critic c4) {
-	this(c1, c2, c3);
-	critics.add(c4);
-    }
-
-    /**
-     * @param c the new list of critics that completely
-     *                replaces the old list
-     */
-    public void setCritics(List<Critic> c) {
-        critics = c;
-    }
-
-
-    /**
-     * @return the complete list of critics
-     */
-    public List<Critic> getCriticList() {
-        return critics;
-    }
-
-    
-    /**
-     * @param c the critic to be added at the end of the current list
-     */
-    public void addCritic(Critic c) {
-        critics.add(c);
-    }
-
-    /**
-     * @param c the critic to be removed
-     */
-    public void removeCritic(Critic c) {
-        critics.remove(c);
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // critiquing
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#critique(java.lang.Object,
-     * org.argouml.cognitive.Designer)
-     */
-    @Override
-    public void critique(Object dm, Designer dsgr) {
-	for (Critic c : critics) {
-	    if (c.isActive() && c.predicate(dm, dsgr)) {
-		ToDoItem item = c.toDoItem(dm, dsgr);
-		postItem(item, dm, dsgr);
-		return; // once one criticism is found, exit
-	    }
+	/**
+	 * The constructor of a compound critic.
+	 *
+	 */
+	public CompoundCritic() {
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.Poster#supports(org.argouml.cognitive.Decision)
-     */
-    @Override
-    public boolean supports(Decision d) {
-        for (Critic c : critics) {
-	    if (c.supports(d)) {
+	/**
+	 * The constructor.
+	 *
+	 * @param c1
+	 *            the first critic that makes up the compound critic
+	 * @param c2
+	 *            the 2nd critic that makes up the compound critic
+	 */
+	public CompoundCritic(Critic c1, Critic c2) {
+		this();
+		critics.add(c1);
+		critics.add(c2);
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param c1
+	 *            the first critic that makes up the compound critic
+	 * @param c2
+	 *            the 2nd critic that makes up the compound critic
+	 * @param c3
+	 *            the 3rd critic that makes up the compound critic
+	 */
+	public CompoundCritic(Critic c1, Critic c2, Critic c3) {
+		this(c1, c2);
+		critics.add(c3);
+	}
+
+	/**
+	 * The constructor.
+	 *
+	 * @param c1
+	 *            the first critic that makes up the compound critic
+	 * @param c2
+	 *            the 2nd critic that makes up the compound critic
+	 * @param c3
+	 *            the 3rd critic that makes up the compound critic
+	 * @param c4
+	 *            the 4th critic that makes up the compound critic
+	 */
+	public CompoundCritic(Critic c1, Critic c2, Critic c3, Critic c4) {
+		this(c1, c2, c3);
+		critics.add(c4);
+	}
+
+	/**
+	 * @param c
+	 *            the new list of critics that completely replaces the old list
+	 */
+	public void setCritics(List<Critic> c) {
+		critics = c;
+	}
+
+	/**
+	 * @return the complete list of critics
+	 */
+	public List<Critic> getCriticList() {
+		return critics;
+	}
+
+	/**
+	 * @param c
+	 *            the critic to be added at the end of the current list
+	 */
+	public void addCritic(Critic c) {
+		critics.add(c);
+	}
+
+	/**
+	 * @param c
+	 *            the critic to be removed
+	 */
+	public void removeCritic(Critic c) {
+		critics.remove(c);
+	}
+
+	////////////////////////////////////////////////////////////////
+	// critiquing
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#critique(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public void critique(Object dm, Designer dsgr) {
+		for (Critic c : critics) {
+			if (c.isActive() && c.predicate(dm, dsgr)) {
+				ToDoItem item = c.toDoItem(dm, dsgr);
+				postItem(item, dm, dsgr);
+				return; // once one criticism is found, exit
+			}
+		}
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.Poster#supports(org.argouml.cognitive.Decision)
+	 */
+	@Override
+	public boolean supports(Decision d) {
+		for (Critic c : critics) {
+			if (c.supports(d)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#getSupportedDecisions()
+	 */
+	@Override
+	public List<Decision> getSupportedDecisions() {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#addSupportedDecision(org.argouml.
+	 * cognitive.Decision)
+	 */
+	@Override
+	public void addSupportedDecision(Decision d) {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#supports(org.argouml.cognitive.Goal)
+	 */
+	@Override
+	public boolean supports(Goal g) {
+		for (Critic c : critics) {
+			if (c.supports(g)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#getSupportedGoals()
+	 */
+	@Override
+	public List<Goal> getSupportedGoals() {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#addSupportedGoal(org.argouml.
+	 * cognitive.Goal)
+	 */
+	@Override
+	public void addSupportedGoal(Goal g) {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#containsKnowledgeType(java.lang.String)
+	 */
+	@Override
+	public boolean containsKnowledgeType(String type) {
+		for (Critic c : critics) {
+			if (c.containsKnowledgeType(type)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#addKnowledgeType(java.lang.String)
+	 */
+	@Override
+	public void addKnowledgeType(String type) {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#expand(java.lang.String, ListSet)
+	 */
+	@Override
+	public String expand(String desc, ListSet offs) {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#getClarifier()
+	 */
+	@Override
+	public Icon getClarifier() {
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#isActive()
+	 */
+	@Override
+	public boolean isActive() {
+		for (Critic c : critics) {
+			if (c.isActive()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// criticism control
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
 		return true;
-	    }
 	}
-	return false;
-    }
 
-    /*
-     * @see org.argouml.cognitive.Poster#getSupportedDecisions()
-     */
-    @Override
-    public List<Decision> getSupportedDecisions() {
-	throw new UnsupportedOperationException();
-    }
+	////////////////////////////////////////////////////////////////
+	// design feedback
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#addSupportedDecision(org.argouml.cognitive.Decision)
-     */
-    @Override
-    public void addSupportedDecision(Decision d) {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#supports(org.argouml.cognitive.Goal)
-     */
-    @Override
-    public boolean supports(Goal g) {
-        for (Critic c : critics) {
-	    if (c.supports(g)) {
-		return true;
-	    }
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		throw new UnsupportedOperationException();
 	}
-	return false;
-    }
 
-    /*
-     * @see org.argouml.cognitive.Poster#getSupportedGoals()
-     */
-    @Override
-    public List<Goal> getSupportedGoals() {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#addSupportedGoal(org.argouml.cognitive.Goal)
-     */
-    @Override
-    public void addSupportedGoal(Goal g) {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#containsKnowledgeType(java.lang.String)
-     */
-    @Override
-    public boolean containsKnowledgeType(String type) {
-        for (Critic c : critics) {
-	    if (c.containsKnowledgeType(type)) {
-		return true;
-	    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedMetatypes()
+	 */
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		for (Critic cr : this.critics) {
+			ret.addAll(cr.getCriticizedDesignMaterials());
+		}
+		ret.addAll(extraDesignMaterials);
+		return ret;
 	}
-	return false;
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#addKnowledgeType(java.lang.String)
-     */
-    @Override
-    public void addKnowledgeType(String type) {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#expand(java.lang.String, ListSet)
-     */
-    @Override
-    public String expand(String desc, ListSet offs) {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#getClarifier()
-     */
-    @Override
-    public Icon getClarifier() {
-	throw new UnsupportedOperationException();
-    }
-
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#isActive()
-     */
-    @Override
-    public boolean isActive() {
-        for (Critic c : critics) {
-	    if (c.isActive()) {
-		return true;
-	    }
+	/**
+	 * Extra criticized design material to be added to the list returned by
+	 * {@link #getCriticizedDesignMaterials()}
+	 * 
+	 * @param dm
+	 *            extra design material
+	 */
+	public void addExtraCriticizedDesignMaterial(Object dm) {
+		this.extraDesignMaterials.add(dm);
 	}
-	return false;
-    }
 
-    ////////////////////////////////////////////////////////////////
-    // criticism control
+	/*
+	 * @see org.argouml.cognitive.Critic#toString()
+	 */
+	public String toString() {
+		return critics.toString();
+	}
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-	return true;
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // design feedback
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
-     * org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	throw new UnsupportedOperationException();
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedMetatypes()
-     */
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        for (Critic cr : this.critics) {
-            ret.addAll(cr.getCriticizedDesignMaterials());
-        }
-        ret.addAll(extraDesignMaterials);
-        return ret;
-    }
-
-    /**
-     * Extra criticized design material to be added to the list returned by 
-     * {@link #getCriticizedDesignMaterials()}
-     * 
-     * @param dm extra design material
-     */
-    public void addExtraCriticizedDesignMaterial(Object dm) {
-        this.extraDesignMaterials.add(dm);
-    }
-    
-    /*
-     * @see org.argouml.cognitive.Critic#toString()
-     */
-    public String toString() {
-        return critics.toString(); 
-    }
-    
 }

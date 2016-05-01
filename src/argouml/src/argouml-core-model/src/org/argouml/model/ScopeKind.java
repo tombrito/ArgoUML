@@ -46,16 +46,16 @@ package org.argouml.model;
  */
 @Deprecated
 public interface ScopeKind {
-    
-    /**
-     * @return Returns the Classifier ScopeKind.
-     */
-    @Deprecated
-    Object getClassifier();
 
-    /**
-     * @return Returns the Instance ScopeKind.
-     */
-    @Deprecated
-    Object getInstance();
+	/**
+	 * @return Returns the Classifier ScopeKind.
+	 */
+	@Deprecated
+	Object getClassifier();
+
+	/**
+	 * @return Returns the Instance ScopeKind.
+	 */
+	@Deprecated
+	Object getInstance();
 }

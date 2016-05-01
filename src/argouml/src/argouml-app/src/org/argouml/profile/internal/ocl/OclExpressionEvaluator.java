@@ -46,16 +46,19 @@ import java.util.Map;
  * @author maurelio1234
  */
 public interface OclExpressionEvaluator {
-    /**
-     * Interprets the given ocl expression under the given variable table
-     * and model interpreter
-     * 
-     * @param vt variable table
-     * @param mi model interpreter
-     * @param ocl ocl expression
-     * @return the return value
-     * @throws InvalidOclException if the ocl expression is not valid
-     */
-    Object evaluate(Map<String, Object> vt, ModelInterpreter mi, String ocl)
-        throws InvalidOclException;
+	/**
+	 * Interprets the given ocl expression under the given variable table and
+	 * model interpreter
+	 * 
+	 * @param vt
+	 *            variable table
+	 * @param mi
+	 *            model interpreter
+	 * @param ocl
+	 *            ocl expression
+	 * @return the return value
+	 * @throws InvalidOclException
+	 *             if the ocl expression is not valid
+	 */
+	Object evaluate(Map<String, Object> vt, ModelInterpreter mi, String ocl) throws InvalidOclException;
 }

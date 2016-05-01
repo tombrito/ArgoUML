@@ -63,29 +63,35 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
-
 /**
- * Class to display graphics for a UML ObjectFlowState in a diagram.<p>
+ * Class to display graphics for a UML ObjectFlowState in a diagram.
+ * <p>
  *
  * The Fig of this modelElement may either represent the following UMLelements:
  * <p>
- * (1) an ObjectFlowState with a Classifier as type, or <p>
- * (2) an ObjectFlowState with a ClassifierInState as type. <p>
+ * (1) an ObjectFlowState with a Classifier as type, or
+ * <p>
+ * (2) an ObjectFlowState with a ClassifierInState as type.
+ * <p>
  *
- * In both cases (1) and (2), the Fig shows
- * the underlined name of the Classifier,
- * and in the latter case (2), it shows also the names of the states
- * of the ClassifierInState. <p>
+ * In both cases (1) and (2), the Fig shows the underlined name of the
+ * Classifier, and in the latter case (2), it shows also the names of the states
+ * of the ClassifierInState.
+ * <p>
  *
- * In the examples in the UML standard, this is written like<pre>
- *      PurchaseOrder
- *       [approved]
+ * In the examples in the UML standard, this is written like
+ * 
+ * <pre>
+ * PurchaseOrder[approved]
  * </pre>
- * i.e. in 2 lines. The first line is underlined,
- * to indicate that it is an instance (object).<p>
+ * 
+ * i.e. in 2 lines. The first line is underlined, to indicate that it is an
+ * instance (object).
+ * <p>
  *
- * The fact that the first line is underlined, and the 2nd not, is the
- * reason to implement them in 2 separate Figs.<p>
+ * The fact that the first line is underlined, and the 2nd not, is the reason to
+ * implement them in 2 separate Figs.
+ * <p>
  *
  * TODO: Allow stereotypes to be shown.
  *
@@ -93,325 +99,322 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigObjectFlowState extends FigNodeModelElement {
 
-    private static final long serialVersionUID = 5531288635671112413L;
+	private static final long serialVersionUID = 5531288635671112413L;
 	private static final int PADDING = 8;
-    private static final int OFS_WIDTH = 70;
-    private static final int HEIGHT = 50;
-    private static final int STATE_HEIGHT = NAME_FIG_HEIGHT;
+	private static final int OFS_WIDTH = 70;
+	private static final int HEIGHT = 50;
+	private static final int STATE_HEIGHT = NAME_FIG_HEIGHT;
 
-    private NotationProvider notationProviderState;
-    
-    private FigRect cover;
-    private FigText state;      // the state name
+	private NotationProvider notationProviderState;
 
-    
-    /**
-     * Construct a new FigObjectFlowState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigObjectFlowState(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        state = new FigSingleLineText(owner, new Rectangle(X0, Y0, OFS_WIDTH,
-                STATE_HEIGHT), settings, true);
-        initFigs(bounds);
-    }
+	private FigRect cover;
+	private FigText state; // the state name
 
-    private void initFigs(Rectangle bounds) {
-        cover =
-            new FigRect(X0, Y0, OFS_WIDTH, HEIGHT,
-                    LINE_COLOR, FILL_COLOR);
+	/**
+	 * Construct a new FigObjectFlowState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigObjectFlowState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		state = new FigSingleLineText(owner, new Rectangle(X0, Y0, OFS_WIDTH, STATE_HEIGHT), settings, true);
+		initFigs(bounds);
+	}
 
-        getNameFig().setUnderline(true);
-        getNameFig().setLineWidth(0);
+	private void initFigs(Rectangle bounds) {
+		cover = new FigRect(X0, Y0, OFS_WIDTH, HEIGHT, LINE_COLOR, FILL_COLOR);
 
-        // add Figs to the FigNode in back-to-front order
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getNameFig());
-        addFig(state);
+		getNameFig().setUnderline(true);
+		getNameFig().setLineWidth(0);
 
-        enableSizeChecking(false);
+		// add Figs to the FigNode in back-to-front order
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getNameFig());
+		addFig(state);
 
-        /* Set the drop location in the case of D&D: */
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
+		enableSizeChecking(false);
 
-        renderingChanged();
-        setSuppressCalcBounds(false);
-        setBounds(getBounds());
-        enableSizeChecking(true);
-    }
+		/* Set the drop location in the case of D&D: */
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#initNotationProviders(java.lang.Object)
-     */
-    @Override
-    protected void initNotationProviders(Object own) {
-        super.initNotationProviders(own);
-        if (Model.getFacade().isAModelElement(own)) {
-            NotationName notationName = Notation
-                    .findNotation(getNotationSettings().getNotationLanguage());
-            notationProviderState =
-                NotationProviderFactory2.getInstance().getNotationProvider(
-                        NotationProviderFactory2.TYPE_OBJECTFLOWSTATE_STATE,
-                        own, this, notationName);
-        }
-    }
-    
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_OBJECTFLOWSTATE_TYPE;
-    }
+		renderingChanged();
+		setSuppressCalcBounds(false);
+		setBounds(getBounds());
+		enableSizeChecking(true);
+	}
 
-    @Override
-    protected void modelChanged(PropertyChangeEvent mee) {
-        super.modelChanged(mee);
-        // TODO: Rather than specifically ignore some item maybe it would be better
-        // to specifically state what items are of interest. Otherwise we may still
-        // be acting on other events we don't need
-        if (!Model.getFacade().isATransition(mee.getNewValue())) {
-            renderingChanged();
-            updateListeners(getOwner(), getOwner());
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#initNotationProviders(java
+	 * .lang.Object)
+	 */
+	@Override
+	protected void initNotationProviders(Object own) {
+		super.initNotationProviders(own);
+		if (Model.getFacade().isAModelElement(own)) {
+			NotationName notationName = Notation.findNotation(getNotationSettings().getNotationLanguage());
+			notationProviderState = NotationProviderFactory2.getInstance()
+					.getNotationProvider(NotationProviderFactory2.TYPE_OBJECTFLOWSTATE_STATE, own, this, notationName);
+		}
+	}
 
-    @Override
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        Set<Object[]> l = new HashSet<Object[]>();
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_OBJECTFLOWSTATE_TYPE;
+	}
 
-        if (newOwner != null) {
-            /* Don't listen to all property names
-             * We only need to listen to its "type", and "remove". */
-            l.add(new Object[] {newOwner, new String[] {"type", "remove"}});
-            // register for events from the type
-            Object type = Model.getFacade().getType(newOwner);
-            if (Model.getFacade().isAClassifier(type)) {
-                if (Model.getFacade().isAClassifierInState(type)) {
-                    Object classifier = Model.getFacade().getType(type);
-                    l.add(new Object[] {classifier, "name"});
-                    l.add(new Object[] {type, "inState"});
-                    Collection states = Model.getFacade().getInStates(type);
-                    Iterator i = states.iterator();
-                    while (i.hasNext()) {
-                        l.add(new Object[] {i.next(), "name"});
-                    }
-                } else {
-                    l.add(new Object[] {type, "name"});
-                }
-            }
-        }
+	@Override
+	protected void modelChanged(PropertyChangeEvent mee) {
+		super.modelChanged(mee);
+		// TODO: Rather than specifically ignore some item maybe it would be
+		// better
+		// to specifically state what items are of interest. Otherwise we may
+		// still
+		// be acting on other events we don't need
+		if (!Model.getFacade().isATransition(mee.getNewValue())) {
+			renderingChanged();
+			updateListeners(getOwner(), getOwner());
+		}
+	}
 
-        updateElementListeners(l);
-    }
+	@Override
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+		Set<Object[]> l = new HashSet<Object[]>();
 
-    @Override
-    public Object clone() {
-        FigObjectFlowState figClone = (FigObjectFlowState) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        figClone.cover = (FigRect) it.next();
-        figClone.setNameFig((FigText) it.next());
-        figClone.state = (FigText) it.next();
-        return figClone;
-    }
+		if (newOwner != null) {
+			/*
+			 * Don't listen to all property names We only need to listen to its
+			 * "type", and "remove".
+			 */
+			l.add(new Object[] { newOwner, new String[] { "type", "remove" } });
+			// register for events from the type
+			Object type = Model.getFacade().getType(newOwner);
+			if (Model.getFacade().isAClassifier(type)) {
+				if (Model.getFacade().isAClassifierInState(type)) {
+					Object classifier = Model.getFacade().getType(type);
+					l.add(new Object[] { classifier, "name" });
+					l.add(new Object[] { type, "inState" });
+					Collection states = Model.getFacade().getInStates(type);
+					Iterator i = states.iterator();
+					while (i.hasNext()) {
+						l.add(new Object[] { i.next(), "name" });
+					}
+				} else {
+					l.add(new Object[] { type, "name" });
+				}
+			}
+		}
 
-    @Override
-    public void setEnclosingFig(Fig encloser) {
-        LayerPerspective layer = (LayerPerspective) getLayer();
-        // If the layer is null, then most likely we are being deleted.
-        if (layer == null) {
-            return;
-        }
+		updateElementListeners(l);
+	}
 
-        super.setEnclosingFig(encloser);
-    }
+	@Override
+	public Object clone() {
+		FigObjectFlowState figClone = (FigObjectFlowState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		figClone.cover = (FigRect) it.next();
+		figClone.setNameFig((FigText) it.next());
+		figClone.state = (FigText) it.next();
+		return figClone;
+	}
 
-    /*
-     * The space between the 2 text figs is: PADDING.
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        Dimension tempDim = getNameFig().getMinimumSize();
-        int w = tempDim.width + PADDING * 2;
-        int h = tempDim.height + PADDING;
-        tempDim = state.getMinimumSize();
-        w = Math.max(w, tempDim.width + PADDING * 2);
-        h = h + PADDING + tempDim.height + PADDING;
+	@Override
+	public void setEnclosingFig(Fig encloser) {
+		LayerPerspective layer = (LayerPerspective) getLayer();
+		// If the layer is null, then most likely we are being deleted.
+		if (layer == null) {
+			return;
+		}
 
-        return new Dimension(Math.max(w, OFS_WIDTH / 2), Math.max(h, HEIGHT / 2));
-    }
+		super.setEnclosingFig(encloser);
+	}
 
-    /*
-     * Override setBounds to keep shapes looking right.
-     * The classifier and state Figs are nicely centered vertically,
-     * and stretched out over the full width,
-     * to allow easy selection with the mouse.
-     * The Fig can only be shrunk to half its original size - so that
-     * it is not reducible to a few pixels only.
-     *
-     * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        Rectangle oldBounds = getBounds();
+	/*
+	 * The space between the 2 text figs is: PADDING.
+	 * 
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension tempDim = getNameFig().getMinimumSize();
+		int w = tempDim.width + PADDING * 2;
+		int h = tempDim.height + PADDING;
+		tempDim = state.getMinimumSize();
+		w = Math.max(w, tempDim.width + PADDING * 2);
+		h = h + PADDING + tempDim.height + PADDING;
 
-        Dimension classDim = getNameFig().getMinimumSize();
-        Dimension stateDim = state.getMinimumSize();
-        /* the height of the blank space above and below the text figs: */
-        int blank = (h - PADDING - classDim.height - stateDim.height) / 2;
-        getNameFig().setBounds(x + PADDING,
-                y + blank,
-                w - PADDING * 2,
-                classDim.height);
-        state.setBounds(x + PADDING,
-                y + blank + classDim.height + PADDING,
-                w - PADDING * 2,
-                stateDim.height);
+		return new Dimension(Math.max(w, OFS_WIDTH / 2), Math.max(h, HEIGHT / 2));
+	}
 
-        getBigPort().setBounds(x, y, w, h);
-        cover.setBounds(x, y, w, h);
+	/*
+	 * Override setBounds to keep shapes looking right. The classifier and state
+	 * Figs are nicely centered vertically, and stretched out over the full
+	 * width, to allow easy selection with the mouse. The Fig can only be shrunk
+	 * to half its original size - so that it is not reducible to a few pixels
+	 * only.
+	 *
+	 * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		Rectangle oldBounds = getBounds();
 
-        calcBounds();
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+		Dimension classDim = getNameFig().getMinimumSize();
+		Dimension stateDim = state.getMinimumSize();
+		/* the height of the blank space above and below the text figs: */
+		int blank = (h - PADDING - classDim.height - stateDim.height) / 2;
+		getNameFig().setBounds(x + PADDING, y + blank, w - PADDING * 2, classDim.height);
+		state.setBounds(x + PADDING, y + blank + classDim.height + PADDING, w - PADDING * 2, stateDim.height);
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#renderingChanged()
-     */
-    @Override
-    public void renderingChanged() {
-        super.renderingChanged();
-        updateStateText();
-        updateBounds();
-        damage();
-    }
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y, w, h);
 
-    /**
-     * Updates the text of the state FigText.
-     */
-    private void updateStateText() {
-        if (isReadyToEdit()) {
-            state.setText(notationProviderState.toString(getOwner(), 
-                    getNotationSettings()));
-        }
-    }
+		calcBounds();
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        cover.setLineColor(col);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#renderingChanged()
+	 */
+	@Override
+	public void renderingChanged() {
+		super.renderingChanged();
+		updateStateText();
+		updateBounds();
+		damage();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return cover.getLineColor();
-    }
+	/**
+	 * Updates the text of the state FigText.
+	 */
+	private void updateStateText() {
+		if (isReadyToEdit()) {
+			state.setText(notationProviderState.toString(getOwner(), getNotationSettings()));
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        cover.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		cover.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return cover.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return cover.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		cover.setFillColor(col);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return cover.getFillColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return cover.getLineWidth();
-    }
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#textEdited(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    protected void textEdited(FigText ft) throws PropertyVetoException {
-        super.textEdited(ft);
-        if (ft == state) {
-            notationProviderState.parse(getOwner(), ft.getText());
-            ft.setText(notationProviderState.toString(getOwner(),
-                    getNotationSettings()));
-        }
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#textEditStarted(org.tigris.gef.presentation.FigText)
-     */
-    @Override
-    protected void textEditStarted(FigText ft) {
-        super.textEditStarted(ft);
-        if (ft == state) {
-            showHelp(notationProviderState.getParsingHelp());
-        }
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return cover.getLineWidth();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionActionState(this);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#textEdited(org.tigris.gef.
+	 * presentation.FigText)
+	 */
+	@Override
+	protected void textEdited(FigText ft) throws PropertyVetoException {
+		super.textEdited(ft);
+		if (ft == state) {
+			notationProviderState.parse(getOwner(), ft.getText());
+			ft.setText(notationProviderState.toString(getOwner(), getNotationSettings()));
+		}
+	}
 
-    public void notationRenderingChanged(NotationProvider np, String rendering) {
-        super.notationRenderingChanged(np, rendering);
-        if (notationProviderState == np) {
-            state.setText(rendering);
-            updateBounds();
-            damage();
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#textEditStarted(org.tigris
+	 * .gef.presentation.FigText)
+	 */
+	@Override
+	protected void textEditStarted(FigText ft) {
+		super.textEditStarted(ft);
+		if (ft == state) {
+			showHelp(notationProviderState.getParsingHelp());
+		}
+	}
 
-    public NotationSettings getNotationSettings(NotationProvider np) {
-        // both have the same settings
-        return getNotationSettings();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionActionState(this);
+	}
 
-    public Object getOwner(NotationProvider np) {
-        // both have the same owner
-        return getOwner();
-    }
+	public void notationRenderingChanged(NotationProvider np, String rendering) {
+		super.notationRenderingChanged(np, rendering);
+		if (notationProviderState == np) {
+			state.setText(rendering);
+			updateBounds();
+			damage();
+		}
+	}
+
+	public NotationSettings getNotationSettings(NotationProvider np) {
+		// both have the same settings
+		return getNotationSettings();
+	}
+
+	public Object getOwner(NotationProvider np) {
+		// both have the same owner
+		return getOwner();
+	}
 
 }

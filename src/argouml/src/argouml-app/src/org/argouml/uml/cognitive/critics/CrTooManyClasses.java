@@ -52,58 +52,58 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrTooManyClasses extends AbstractCrTooMany {
 
-    /**
-     * The initial threshold.
-     */
-    private static final int CLASS_THRESHOLD = 20;
+	/**
+	 * The initial threshold.
+	 */
+	private static final int CLASS_THRESHOLD = 20;
 
-    /**
-     * The constructor.
-      */
-    public CrTooManyClasses() {
-	setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.CLASS_SELECTION);
-	setThreshold(CLASS_THRESHOLD);
-        addTrigger("ownedElement");
-    }
+	/**
+	 * The constructor.
+	 */
+	public CrTooManyClasses() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.CLASS_SELECTION);
+		setThreshold(CLASS_THRESHOLD);
+		addTrigger("ownedElement");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        if (!(Model.getFacade().isANamespace(dm))) {
-            return NO_PROBLEM;
-        }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isANamespace(dm))) {
+			return NO_PROBLEM;
+		}
 
-        Collection subs = Model.getFacade().getOwnedElements(dm);
-        Collection<Object> classes = new ArrayList<Object>();
-        for (Object me : subs) {
-            if (Model.getFacade().isAClass(me)) {
-                classes.add(me);
-            }
-        }
-        if (classes.size() <= getThreshold()) {
-            return NO_PROBLEM;
-        }
-	return PROBLEM_FOUND;
-    }
+		Collection subs = Model.getFacade().getOwnedElements(dm);
+		Collection<Object> classes = new ArrayList<Object>();
+		for (Object me : subs) {
+			if (Model.getFacade().isAClass(me)) {
+				classes.add(me);
+			}
+		}
+		if (classes.size() <= getThreshold()) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getNamespace());
-        return ret;
-    }    
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3270186791825482658L;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getNamespace());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -3270186791825482658L;
 
 } /* end class CrTooManyClasses */
-

@@ -56,29 +56,28 @@ import org.argouml.util.ChildGenerator;
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class ChildGenSearch implements ChildGenerator {
-    
-    /**
-     * Reply a Collection of the children of the given Object
-     * {@inheritDoc}
-     */
-    public Iterator childIterator(Object o) {
-        // TODO: This could be made more efficient by working with iterators
-        // directly and creating a composite iterator made up of all the 
-        // various sub iterators.
-        List res = new ArrayList();
-        if (o instanceof Project) {
-            Project p = (Project) o;
-            res.addAll(p.getUserDefinedModelList());
-            res.addAll(p.getDiagramList());
-        } else if (o instanceof ArgoDiagram) {
-            ArgoDiagram d = (ArgoDiagram) o;
-            res.addAll(d.getGraphModel().getNodes());
-            res.addAll(d.getGraphModel().getEdges());
-        } else if (Model.getFacade().isAModelElement(o)) {
-            res.addAll(Model.getFacade().getModelElementContents(o));
-        }
-        
-	return res.iterator();
-    }
+
+	/**
+	 * Reply a Collection of the children of the given Object {@inheritDoc}
+	 */
+	public Iterator childIterator(Object o) {
+		// TODO: This could be made more efficient by working with iterators
+		// directly and creating a composite iterator made up of all the
+		// various sub iterators.
+		List res = new ArrayList();
+		if (o instanceof Project) {
+			Project p = (Project) o;
+			res.addAll(p.getUserDefinedModelList());
+			res.addAll(p.getDiagramList());
+		} else if (o instanceof ArgoDiagram) {
+			ArgoDiagram d = (ArgoDiagram) o;
+			res.addAll(d.getGraphModel().getNodes());
+			res.addAll(d.getGraphModel().getEdges());
+		} else if (Model.getFacade().isAModelElement(o)) {
+			res.addAll(Model.getFacade().getModelElementContents(o));
+		}
+
+		return res.iterator();
+	}
 
 }

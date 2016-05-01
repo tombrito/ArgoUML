@@ -54,260 +54,238 @@ import org.omg.uml.foundation.core.Namespace;
  * Factory to create UML classes for the UML BehaviorialElements::UseCases
  * package.
  * <p>
+ * 
  * @since ARGO0.19.3
  * @author Thierry Lach & Bob Tarling
  * @author Ludovic Ma&icirc;tre
  * @author Tom Morris
  */
-class UseCasesFactoryMDRImpl extends AbstractUmlModelFactoryMDR
-        implements UseCasesFactory {
+class UseCasesFactoryMDRImpl extends AbstractUmlModelFactoryMDR implements UseCasesFactory {
 
-    /**
-     * The model implementation.
-     */
-    private MDRModelImplementation modelImpl;
+	/**
+	 * The model implementation.
+	 */
+	private MDRModelImplementation modelImpl;
 
-    /**
-     * Don't allow instantiation.
-     * 
-     * @param implementation
-     *            To get other helpers and factories.
-     */
-    UseCasesFactoryMDRImpl(MDRModelImplementation implementation) {
-        modelImpl = implementation;
-    }
+	/**
+	 * Don't allow instantiation.
+	 * 
+	 * @param implementation
+	 *            To get other helpers and factories.
+	 */
+	UseCasesFactoryMDRImpl(MDRModelImplementation implementation) {
+		modelImpl = implementation;
+	}
 
+	public Extend createExtend() {
+		Extend myExtend = modelImpl.getUmlPackage().getUseCases().getExtend().createExtend();
+		super.initialize(myExtend);
+		return myExtend;
+	}
 
-    public Extend createExtend() {
-        Extend myExtend = modelImpl.getUmlPackage().getUseCases().getExtend().
-            createExtend();
-        super.initialize(myExtend);
-        return myExtend;
-    }
+	public ExtensionPoint createExtensionPoint() {
+		ExtensionPoint myExtensionPoint = modelImpl.getUmlPackage().getUseCases().getExtensionPoint()
+				.createExtensionPoint();
+		super.initialize(myExtensionPoint);
+		return myExtensionPoint;
+	}
 
+	public Actor createActor() {
+		Actor myActor = modelImpl.getUmlPackage().getUseCases().getActor().createActor();
+		super.initialize(myActor);
+		return myActor;
+	}
 
-    public ExtensionPoint createExtensionPoint() {
-        ExtensionPoint myExtensionPoint = modelImpl.getUmlPackage().
-            getUseCases().getExtensionPoint().createExtensionPoint();
-        super.initialize(myExtensionPoint);
-        return myExtensionPoint;
-    }
+	public Include createInclude() {
+		Include myInclude = modelImpl.getUmlPackage().getUseCases().getInclude().createInclude();
+		super.initialize(myInclude);
+		return myInclude;
+	}
 
+	public UseCase createUseCase() {
+		UseCase myUseCase = modelImpl.getUmlPackage().getUseCases().getUseCase().createUseCase();
+		super.initialize(myUseCase);
+		return myUseCase;
 
-    public Actor createActor() {
-        Actor myActor = modelImpl.getUmlPackage().getUseCases().getActor().
-            createActor();
-        super.initialize(myActor);
-        return myActor;
-    }
+	}
 
+	public Extend buildExtend(Object abase, Object anextension) {
+		return buildExtend(abase, anextension, null);
+	}
 
-    public Include createInclude() {
-        Include myInclude = modelImpl.getUmlPackage().getUseCases()
-                .getInclude().createInclude();
-        super.initialize(myInclude);
-        return myInclude;
-    }
+	public Extend buildExtend(Object abase, Object anextension, Object apoint) {
+		UseCase base = (UseCase) abase;
+		UseCase extension = (UseCase) anextension;
+		ExtensionPoint point = (ExtensionPoint) apoint;
+		if (base == null || extension == null) {
+			throw new IllegalArgumentException("Either the base usecase or " + "the extension usecase is " + "null");
+		}
+		if (base.equals(extension)) {
+			throw new IllegalArgumentException("The base usecase and " + "the extension usecase must be different");
+		}
+		if (point != null) {
+			if (!base.getExtensionPoint().contains(point)) {
+				throw new IllegalArgumentException("The extensionpoint is not " + "part of the base " + "usecase");
+			}
+		} else {
+			point = buildExtensionPoint(base);
+		}
+		Extend extend = createExtend();
+		extend.setBase(base);
+		extend.setExtension(extension);
+		extend.getExtensionPoint().add(point);
+		return extend;
+	}
 
+	public ExtensionPoint buildExtensionPoint(Object modelElement) {
+		final ExtensionPoint extensionPoint;
+		if (modelElement instanceof UseCase) {
+			UseCase useCase = (UseCase) modelElement;
+			extensionPoint = createExtensionPoint();
+			extensionPoint.setUseCase(useCase);
+		} else if (modelElement instanceof Extend) {
+			Extend extend = (Extend) modelElement;
+			extensionPoint = createExtensionPoint();
+			extend.getExtensionPoint().add(extensionPoint);
+		} else {
+			throw new IllegalArgumentException("An extension point can only " + "be built on a use case or an Extend");
+		}
 
-    public UseCase createUseCase() {
-        UseCase myUseCase = modelImpl.getUmlPackage().getUseCases()
-                .getUseCase().createUseCase();
-        super.initialize(myUseCase);
-        return myUseCase;
+		// For consistency with attribute and operation, give it a default
+		// name and location
+		extensionPoint.setName("newEP");
+		extensionPoint.setLocation("loc");
+		return extensionPoint;
+	}
 
-    }
+	public Include buildInclude(Object abase, Object anaddition) {
+		UseCase base = (UseCase) abase;
+		UseCase addition = (UseCase) anaddition;
+		Include include = createInclude();
 
+		include.setAddition(addition);
+		include.setBase(base);
 
-    public Extend buildExtend(Object abase, Object anextension) {
-        return buildExtend(abase, anextension, null);
-    }
+		// Set the namespace to that of the base as first choice, or that of
+		// the addition as second choice.
 
+		if (base.getNamespace() != null) {
+			include.setNamespace(base.getNamespace());
+		} else if (addition.getNamespace() != null) {
+			include.setNamespace(addition.getNamespace());
+		}
+		return include;
+	}
 
-    public Extend buildExtend(Object abase, Object anextension, Object apoint) {
-        UseCase base = (UseCase) abase;
-        UseCase extension = (UseCase) anextension;
-        ExtensionPoint point = (ExtensionPoint) apoint;
-        if (base == null || extension == null) {
-            throw new IllegalArgumentException("Either the base usecase or "
-                    + "the extension usecase is " + "null");
-        }
-        if (base.equals(extension)) {
-            throw new IllegalArgumentException("The base usecase and "
-                    + "the extension usecase must be different");
-        }
-        if (point != null) {
-            if (!base.getExtensionPoint().contains(point)) {
-                throw new IllegalArgumentException("The extensionpoint is not "
-                        + "part of the base " + "usecase");
-            }
-        } else {
-            point = buildExtensionPoint(base);
-        }
-        Extend extend = createExtend();
-        extend.setBase(base);
-        extend.setExtension(extension);
-        extend.getExtensionPoint().add(point);
-        return extend;
-    }
+	/**
+	 * Builds an actor in the given namespace.
+	 * 
+	 * @param ns
+	 *            the given namespace
+	 * @param model
+	 *            model to use for namespace if namespace is null
+	 * @return The newly build Actor.
+	 */
+	private Actor buildActor(Namespace ns, Object model) {
+		if (ns == null) {
+			ns = (Namespace) model;
+		}
+		Actor actor = createActor();
+		actor.setNamespace(ns);
+		actor.setLeaf(false);
+		actor.setRoot(false);
+		return actor;
+	}
 
+	public Actor buildActor(Object actor, Object model) {
+		if (actor instanceof Actor) {
+			return buildActor(((Actor) actor).getNamespace(), model);
+		}
+		throw new IllegalArgumentException();
+	}
 
-    public ExtensionPoint buildExtensionPoint(Object modelElement) {
-        final ExtensionPoint extensionPoint;
-        if (modelElement instanceof UseCase) {
-            UseCase useCase = (UseCase) modelElement;
-            extensionPoint = createExtensionPoint();
-            extensionPoint.setUseCase(useCase);
-        } else if (modelElement instanceof Extend) {
-            Extend extend = (Extend) modelElement;
-            extensionPoint = createExtensionPoint();
-            extend.getExtensionPoint().add(extensionPoint);
-        } else {
-            throw new IllegalArgumentException("An extension point can only "
-                    + "be built on a use case or an Extend");
-        }
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteActor(Object elem) {
+		if (!(elem instanceof Actor)) {
+			throw new IllegalArgumentException();
+		}
 
-        // For consistency with attribute and operation, give it a default
-        // name and location
-        extensionPoint.setName("newEP");
-        extensionPoint.setLocation("loc");
-        return extensionPoint;
-    }
+	}
 
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteExtend(Object elem) {
+		if (!(elem instanceof Extend)) {
+			throw new IllegalArgumentException();
+		}
 
-    public Include buildInclude(Object abase, Object anaddition) {
-        UseCase base = (UseCase) abase;
-        UseCase addition = (UseCase) anaddition;
-        Include include = createInclude();
+		modelImpl.getUmlHelper().deleteCollection(((Extend) elem).getExtensionPoint());
+	}
 
-        include.setAddition(addition);
-        include.setBase(base);
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteExtensionPoint(Object elem) {
+		if (!(elem instanceof ExtensionPoint)) {
+			throw new IllegalArgumentException();
+		}
+		// Delete Extends which have this as their only ExtensionPoint
+		ExtensionPoint ep = (ExtensionPoint) elem;
+		Collection xtends = ((org.omg.uml.UmlPackage) ep.refOutermostPackage()).getUseCases().getAExtensionPointExtend()
+				.getExtend(ep);
+		for (Iterator it = xtends.iterator(); it.hasNext();) {
+			Extend extend = (Extend) it.next();
+			Collection eps = extend.getExtensionPoint();
+			if (eps.size() == 1 && eps.contains(elem)) {
+				modelImpl.getUmlFactory().delete(extend);
+			}
+		}
+	}
 
-        // Set the namespace to that of the base as first choice, or that of
-        // the addition as second choice.
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteInclude(Object elem) {
+		if (!(elem instanceof Include)) {
+			throw new IllegalArgumentException();
+		}
 
-        if (base.getNamespace() != null) {
-            include.setNamespace(base.getNamespace());
-        } else if (addition.getNamespace() != null) {
-            include.setNamespace(addition.getNamespace());
-        }
-        return include;
-    }
+	}
 
-    /**
-     * Builds an actor in the given namespace.
-     * 
-     * @param ns
-     *            the given namespace
-     * @param model
-     *            model to use for namespace if namespace is null
-     * @return The newly build Actor.
-     */
-    private Actor buildActor(Namespace ns, Object model) {
-        if (ns == null) {
-            ns = (Namespace) model;
-        }
-        Actor actor = createActor();
-        actor.setNamespace(ns);
-        actor.setLeaf(false);
-        actor.setRoot(false);
-        return actor;
-    }
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteUseCase(Object elem) {
+		if (!(elem instanceof UseCase)) {
+			throw new IllegalArgumentException();
+		}
 
+		UseCase useCase = ((UseCase) elem);
+		modelImpl.getUmlHelper().deleteCollection(useCase.getExtend());
+		modelImpl.getUmlHelper().deleteCollection(useCase.getInclude());
+		// delete Extends where this is the base
+		modelImpl.getUmlHelper().deleteCollection(((org.omg.uml.UmlPackage) useCase.refOutermostPackage()).getUseCases()
+				.getABaseExtender().getExtender(useCase));
+		// delete Includes where this is the addition
+		modelImpl.getUmlHelper().deleteCollection(((org.omg.uml.UmlPackage) useCase.refOutermostPackage()).getUseCases()
+				.getAIncluderAddition().getIncluder(useCase));
+	}
 
-    public Actor buildActor(Object actor, Object model) {
-        if (actor instanceof Actor) {
-            return buildActor(((Actor) actor).getNamespace(), model);
-        }
-        throw new IllegalArgumentException();
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteActor(Object elem) {
-        if (!(elem instanceof Actor)) {
-            throw new IllegalArgumentException();
-        }
-
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteExtend(Object elem) {
-        if (!(elem instanceof Extend)) {
-            throw new IllegalArgumentException();
-        }
-
-        modelImpl.getUmlHelper().deleteCollection(
-                ((Extend) elem).getExtensionPoint());
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteExtensionPoint(Object elem) {
-        if (!(elem instanceof ExtensionPoint)) {
-            throw new IllegalArgumentException();
-        }
-        // Delete Extends which have this as their only ExtensionPoint
-        ExtensionPoint ep = (ExtensionPoint) elem;
-        Collection xtends = ((org.omg.uml.UmlPackage) ep.refOutermostPackage())
-                .getUseCases().getAExtensionPointExtend().getExtend(ep);
-        for (Iterator it = xtends.iterator(); it.hasNext(); ) {
-            Extend extend = (Extend) it.next();
-            Collection eps = extend.getExtensionPoint();
-            if (eps.size() == 1 && eps.contains(elem)) {
-                modelImpl.getUmlFactory().delete(extend);
-            }
-        }
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteInclude(Object elem) {
-        if (!(elem instanceof Include)) {
-            throw new IllegalArgumentException();
-        }
-
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteUseCase(Object elem) {
-        if (!(elem instanceof UseCase)) {
-            throw new IllegalArgumentException();
-        }
-
-        UseCase useCase = ((UseCase) elem);
-        modelImpl.getUmlHelper().deleteCollection(useCase.getExtend());
-        modelImpl.getUmlHelper().deleteCollection(useCase.getInclude());
-        // delete Extends where this is the base
-        modelImpl.getUmlHelper().deleteCollection(
-                ((org.omg.uml.UmlPackage) useCase.refOutermostPackage())
-                        .getUseCases().getABaseExtender().getExtender(useCase));
-        // delete Includes where this is the addition
-        modelImpl.getUmlHelper().deleteCollection(
-                ((org.omg.uml.UmlPackage) useCase.refOutermostPackage())
-                        .getUseCases().getAIncluderAddition().getIncluder(
-                                useCase));
-    }
-
-    /**
-     * @param elem
-     *            the UML element to be deleted
-     */
-    void deleteUseCaseInstance(Object elem) {
-        if (!(elem instanceof UseCaseInstance)) {
-            throw new IllegalArgumentException();
-        }
-    }
+	/**
+	 * @param elem
+	 *            the UML element to be deleted
+	 */
+	void deleteUseCaseInstance(Object elem) {
+		if (!(elem instanceof UseCaseInstance)) {
+			throw new IllegalArgumentException();
+		}
+	}
 }

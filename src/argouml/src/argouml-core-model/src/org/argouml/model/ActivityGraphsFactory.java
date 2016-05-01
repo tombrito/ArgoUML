@@ -44,83 +44,88 @@ import java.util.Collection;
  * The interface for the factory for ActivityGraphs.
  */
 public interface ActivityGraphsFactory extends Factory {
-    /**
-     * Create an empty but initialized instance of a UML ActionState.
-     *
-     * @return an initialized UML ActionState instance.
-     */
-    Object createActionState();
+	/**
+	 * Create an empty but initialized instance of a UML ActionState.
+	 *
+	 * @return an initialized UML ActionState instance.
+	 */
+	Object createActionState();
 
-    /**
-     * Create an empty but initialized instance of a UML ActivityGraph.
-     *
-     * @return an initialized UML ActivityGraph instance.
-     */
-    Object createActivityGraph();
+	/**
+	 * Create an empty but initialized instance of a UML ActivityGraph.
+	 *
+	 * @return an initialized UML ActivityGraph instance.
+	 */
+	Object createActivityGraph();
 
-    /**
-     * Create an empty but initialized instance of a UML CallState.
-     *
-     * @return an initialized UML CallState instance.
-     */
-    Object createCallState();
+	/**
+	 * Create an empty but initialized instance of a UML CallState.
+	 *
+	 * @return an initialized UML CallState instance.
+	 */
+	Object createCallState();
 
-    /**
-     * Create an empty but initialized instance of a UML ClassifierInState.
-     *
-     * @return an initialized UML ClassifierInState instance.
-     */
-    Object createClassifierInState();
+	/**
+	 * Create an empty but initialized instance of a UML ClassifierInState.
+	 *
+	 * @return an initialized UML ClassifierInState instance.
+	 */
+	Object createClassifierInState();
 
-    /**
-     * Create an empty but initialized instance of a UML ObjectFlowState.
-     *
-     * @return an initialized UML ObjectFlowState instance.
-     */
-    Object createObjectFlowState();
+	/**
+	 * Create an empty but initialized instance of a UML ObjectFlowState.
+	 *
+	 * @return an initialized UML ObjectFlowState instance.
+	 */
+	Object createObjectFlowState();
 
-    /**
-     * Create an empty but initialized instance of a UML Partition.
-     *
-     * @return an initialized UML Partition instance.
-     */
-    Object createPartition();
+	/**
+	 * Create an empty but initialized instance of a UML Partition.
+	 *
+	 * @return an initialized UML Partition instance.
+	 */
+	Object createPartition();
 
-    /**
-     * Create an empty but initialized instance of a UML SubactivityState.
-     *
-     * @return an initialized UML SubactivityState instance.
-     */
-    Object createSubactivityState();
+	/**
+	 * Create an empty but initialized instance of a UML SubactivityState.
+	 *
+	 * @return an initialized UML SubactivityState instance.
+	 */
+	Object createSubactivityState();
 
-    /**
-     * Builds an activity graph owned by the given context.<p>
-     *
-     * @param theContext is a ModelElement that will own the graph.
-     * @return the new ActivityGraph as Object
-     */
-    Object buildActivityGraph(Object theContext);
+	/**
+	 * Builds an activity graph owned by the given context.
+	 * <p>
+	 *
+	 * @param theContext
+	 *            is a ModelElement that will own the graph.
+	 * @return the new ActivityGraph as Object
+	 */
+	Object buildActivityGraph(Object theContext);
 
-    /**
-     * Builds an ObjectFlowState. The ObjectFlowState will be a subvertex of
-     * the given compositestate. The parameter compositeState is of
-     * type Object to decouple the factory and model implementation as much as
-     * possible from the rest of ArgoUML.
-     *
-     * @author MVW
-     * @param compositeState the given compositestate
-     * @return Object the newly build objectflow state.
-     */
-    Object buildObjectFlowState(Object compositeState);
+	/**
+	 * Builds an ObjectFlowState. The ObjectFlowState will be a subvertex of the
+	 * given compositestate. The parameter compositeState is of type Object to
+	 * decouple the factory and model implementation as much as possible from
+	 * the rest of ArgoUML.
+	 *
+	 * @author MVW
+	 * @param compositeState
+	 *            the given compositestate
+	 * @return Object the newly build objectflow state.
+	 */
+	Object buildObjectFlowState(Object compositeState);
 
-    /**
-     * Builds a ClassifierInState. Links it to the 2 required objects:
-     * the classifier that forms the type of this classifierInState,
-     * and a collection of one or more states.
-     *
-     * @param classifier the classifier (type)
-     * @param state the collection of states (inState)
-     * @return the newly build classifierInState
-     */
-    Object buildClassifierInState(Object classifier, Collection state);
+	/**
+	 * Builds a ClassifierInState. Links it to the 2 required objects: the
+	 * classifier that forms the type of this classifierInState, and a
+	 * collection of one or more states.
+	 *
+	 * @param classifier
+	 *            the classifier (type)
+	 * @param state
+	 *            the collection of states (inState)
+	 * @return the newly build classifierInState
+	 */
+	Object buildClassifierInState(Object classifier, Collection state);
 }

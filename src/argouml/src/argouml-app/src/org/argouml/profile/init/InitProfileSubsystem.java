@@ -50,26 +50,25 @@ import org.argouml.uml.ui.PropPanelFactoryManager;
  */
 public class InitProfileSubsystem {
 
-    /**
-     * Initialize the Profiles subsystem by binding the 2 packages together.
-     */
-    public void init() {
-        // TODO: There are tests which depend on being able to reinitialize
-        // the Profile subsystem multiple times.
-//        if (!ProfileFacade.isInitiated()) {
-//            ProfileFacade.setManager(
-//                    new org.argouml.profile.internal.ProfileManagerImpl());
-//        }
-        ProfileFacade.reset();
-        ProfileFacade.setManager(
-                new org.argouml.profile.internal.ProfileManagerImpl());
+	/**
+	 * Initialize the Profiles subsystem by binding the 2 packages together.
+	 */
+	public void init() {
+		// TODO: There are tests which depend on being able to reinitialize
+		// the Profile subsystem multiple times.
+		// if (!ProfileFacade.isInitiated()) {
+		// ProfileFacade.setManager(
+		// new org.argouml.profile.internal.ProfileManagerImpl());
+		// }
+		ProfileFacade.reset();
+		ProfileFacade.setManager(new org.argouml.profile.internal.ProfileManagerImpl());
 
-        /* Set up the property panels for critics: */
-        PropPanelFactory factory = new ProfilePropPanelFactory();
-        PropPanelFactoryManager.addPropPanelFactory(factory);    
-        
-        /* init profiles defined in jar files */
-        new ProfileLoader().doLoad();
-    }
+		/* Set up the property panels for critics: */
+		PropPanelFactory factory = new ProfilePropPanelFactory();
+		PropPanelFactoryManager.addPropPanelFactory(factory);
+
+		/* init profiles defined in jar files */
+		new ProfileLoader().doLoad();
+	}
 
 }

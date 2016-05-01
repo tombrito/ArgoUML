@@ -46,95 +46,104 @@ package org.argouml.moduleloader;
  * @since 0.17.1
  */
 public interface ModuleInterface {
-    /**
-     * Method to enable the module.<p>
-     *
-     * If it cannot enable the module because some other module is
-     * not enabled it can return <code>false</code>.
-     * In that case the module loader will defer this attempt until
-     * all other modules are loaded (or until some more of ArgoUML is loaded
-     * if at startup). Eventually it is only this and some other modules
-     * that is not loaded and they will then be listed as having problems.
-     *
-     * @return true if all went well
-     */
-    boolean enable();
+	/**
+	 * Method to enable the module.
+	 * <p>
+	 *
+	 * If it cannot enable the module because some other module is not enabled
+	 * it can return <code>false</code>. In that case the module loader will
+	 * defer this attempt until all other modules are loaded (or until some more
+	 * of ArgoUML is loaded if at startup). Eventually it is only this and some
+	 * other modules that is not loaded and they will then be listed as having
+	 * problems.
+	 *
+	 * @return true if all went well
+	 */
+	boolean enable();
 
-    /**
-     * Method to disable the module.<p>
-     *
-     * If we cannot disable the module because some other module relies
-     * on it, we return false. This will then make it impossible to turn off.
-     * (An error is signalled at the attempt).
-     *
-     * @return true if all went well.
-     */
-    boolean disable();
+	/**
+	 * Method to disable the module.
+	 * <p>
+	 *
+	 * If we cannot disable the module because some other module relies on it,
+	 * we return false. This will then make it impossible to turn off. (An error
+	 * is signalled at the attempt).
+	 *
+	 * @return true if all went well.
+	 */
+	boolean disable();
 
-    /**
-     * The name of the module.<p>
-     *
-     * This should be a short string. For the purpose of having the GUI
-     * that turns on and off the module look nice there is no whitespace in
-     * this string (no spaces, tabs or newlines).<p>
-     *
-     * This name is also used as the key internally when modules checks for
-     * other modules, if they are available.
-     *
-     * @return the name (A String).
-     */
-    String getName();
+	/**
+	 * The name of the module.
+	 * <p>
+	 *
+	 * This should be a short string. For the purpose of having the GUI that
+	 * turns on and off the module look nice there is no whitespace in this
+	 * string (no spaces, tabs or newlines).
+	 * <p>
+	 *
+	 * This name is also used as the key internally when modules checks for
+	 * other modules, if they are available.
+	 *
+	 * @return the name (A String).
+	 */
+	String getName();
 
-    /**
-     * The info about the module.<p>
-     *
-     * This returns texts with information about the module.<p>
-     *
-     * The possible informations are retrieved by giving any of the
-     * arguments:<ul>
-     * <li>{@link #DESCRIPTION}
-     * <li>{@link #AUTHOR}
-     * <li>{@link #VERSION}
-     * <li>{@link #DOWNLOADSITE}
-     * </ul>
-     *
-     * If a module does not provide a specific piece of information,
-     * <code>null</code> can be returned. Hence the normal implementation
-     * should be:<pre>
-     * public String getInfo(int type) {
-     *     switch (type) {
-     *     case DESCRIPTION:
-     *         return "This module does ...";
-     *     case AUTHOR:
-     *         return "Annie Coder";
-     *     default:
-     *         return null;
-     * }
-     * </pre>
-     *
-     * @param type The type of information.
-     * @return The description. A String.
-     */
-    String getInfo(int type);
+	/**
+	 * The info about the module.
+	 * <p>
+	 *
+	 * This returns texts with information about the module.
+	 * <p>
+	 *
+	 * The possible informations are retrieved by giving any of the arguments:
+	 * <ul>
+	 * <li>{@link #DESCRIPTION}
+	 * <li>{@link #AUTHOR}
+	 * <li>{@link #VERSION}
+	 * <li>{@link #DOWNLOADSITE}
+	 * </ul>
+	 *
+	 * If a module does not provide a specific piece of information,
+	 * <code>null</code> can be returned. Hence the normal implementation should
+	 * be:
+	 * 
+	 * <pre>
+	 * public String getInfo(int type) {
+	 *     switch (type) {
+	 *     case DESCRIPTION:
+	 *         return "This module does ...";
+	 *     case AUTHOR:
+	 *         return "Annie Coder";
+	 *     default:
+	 *         return null;
+	 * }
+	 * </pre>
+	 *
+	 * @param type
+	 *            The type of information.
+	 * @return The description. A String.
+	 */
+	String getInfo(int type);
 
-    /**
-     * The description of the module.
-     */
-    int DESCRIPTION = 0;
+	/**
+	 * The description of the module.
+	 */
+	int DESCRIPTION = 0;
 
-    /**
-     * The author of the module.
-     */
-    int AUTHOR = 1;
+	/**
+	 * The author of the module.
+	 */
+	int AUTHOR = 1;
 
-    /**
-     * The version of the module.
-     */
-    int VERSION = 2;
+	/**
+	 * The version of the module.
+	 */
+	int VERSION = 2;
 
-    /**
-     * The URL of the website stating information on where to download the
-     * module.
-     */
-    int DOWNLOADSITE = 3;
+	/**
+	 * The URL of the website stating information on where to download the
+	 * module.
+	 */
+	int DOWNLOADSITE = 3;
 }

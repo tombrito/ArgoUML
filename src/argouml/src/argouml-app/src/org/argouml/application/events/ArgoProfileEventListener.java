@@ -41,21 +41,25 @@ package org.argouml.application.events;
 import org.argouml.application.api.ArgoEventListener;
 
 /**
- * An interface that all objects interested in ProfileEvent 
- * notifications shall implement.
+ * An interface that all objects interested in ProfileEvent notifications shall
+ * implement.
  *
  * @author Michiel
  */
 public interface ArgoProfileEventListener extends ArgoEventListener {
-    /**
-     * Invoked when a profile has been added.
-     * @param e <code>ArgoProfileEvent</code> describing the added notation.
-     */
-    public void profileAdded(ArgoProfileEvent e);
+	/**
+	 * Invoked when a profile has been added.
+	 * 
+	 * @param e
+	 *            <code>ArgoProfileEvent</code> describing the added notation.
+	 */
+	public void profileAdded(ArgoProfileEvent e);
 
-    /**
-     * Invoked when a profile has been removed.
-     * @param e <code>ArgoProfileEvent</code> describing the removed notation.
-     */
-    public void profileRemoved(ArgoProfileEvent e);
+	/**
+	 * Invoked when a profile has been removed.
+	 * 
+	 * @param e
+	 *            <code>ArgoProfileEvent</code> describing the removed notation.
+	 */
+	public void profileRemoved(ArgoProfileEvent e);
 }

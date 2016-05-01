@@ -57,54 +57,51 @@ import org.argouml.util.UIUtils;
  * Action that shows an XML dump of the current project contents.
  */
 public class ActionShowXMLDump extends AbstractAction {
-    
-    private static final long serialVersionUID = -7942597779499060380L;
 
-    /**
-     * Insets in pixels.
-     */
-    private static final int INSET_PX = 3;
+	private static final long serialVersionUID = -7942597779499060380L;
 
-    /**
-     * Constructor.
-     */
-    public ActionShowXMLDump() {
-        super(Translator.localize("action.show-saved"));
-    }
+	/**
+	 * Insets in pixels.
+	 */
+	private static final int INSET_PX = 3;
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-	Project project = ProjectManager.getManager().getCurrentProject();
+	/**
+	 * Constructor.
+	 */
+	public ActionShowXMLDump() {
+		super(Translator.localize("action.show-saved"));
+	}
 
-	String data =
-	    PersistenceManager.getInstance().getQuickViewDump(project);
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Project project = ProjectManager.getManager().getCurrentProject();
 
-	JDialog pw = new JDialog(ArgoFrame.getFrame(), 
-                Translator.localize("action.show-saved"), 
-                false);
+		String data = PersistenceManager.getInstance().getQuickViewDump(project);
 
-	JTextArea a = new JTextArea(data, 50, 80);
-	a.setEditable(false);
-	a.setLineWrap(true);
-	a.setWrapStyleWord(true);
-	a.setMargin(new Insets(INSET_PX, INSET_PX, INSET_PX, INSET_PX));
-	a.setCaretPosition(0);
+		JDialog pw = new JDialog(ArgoFrame.getFrame(), Translator.localize("action.show-saved"), false);
 
-	pw.getContentPane().add(new JScrollPane(a));
+		JTextArea a = new JTextArea(data, 50, 80);
+		a.setEditable(false);
+		a.setLineWrap(true);
+		a.setWrapStyleWord(true);
+		a.setMargin(new Insets(INSET_PX, INSET_PX, INSET_PX, INSET_PX));
+		a.setCaretPosition(0);
 
-	pw.setSize(1000, 500);
+		pw.getContentPane().add(new JScrollPane(a));
 
-	pw.setLocationRelativeTo(ArgoFrame.getFrame());
-        
-        init(pw);
-        
-	pw.setVisible(true);
-    }
+		pw.setSize(1000, 500);
 
-    private void init(JDialog pw) {
-        UIUtils.loadCommonKeyMap(pw);
-    }
+		pw.setLocationRelativeTo(ArgoFrame.getFrame());
+
+		init(pw);
+
+		pw.setVisible(true);
+	}
+
+	private void init(JDialog pw) {
+		UIUtils.loadCommonKeyMap(pw);
+	}
 }
-

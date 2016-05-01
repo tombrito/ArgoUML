@@ -53,72 +53,58 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionComment extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = 2821153191290662619L;
+	private static final long serialVersionUID = 2821153191290662619L;
 
-	private static Icon linkIcon =
-        ResourceLoaderWrapper.lookupIconResource("CommentLink");
+	private static Icon linkIcon = ResourceLoaderWrapper.lookupIconResource("CommentLink");
 
-    private static Icon icons[] =
-    {linkIcon,
-     linkIcon,
-     linkIcon,
-     linkIcon,
-     null,
-    };
+	private static Icon icons[] = { linkIcon, linkIcon, linkIcon, linkIcon, null, };
 
-    // TODO: I18N required
-    private static String instructions[] =
-    {"Link this comment",
-     "Link this comment",
-     "Link this comment",
-     "Link this comment",
-     null,
-     "Move object(s)",
-    };
+	// TODO: I18N required
+	private static String instructions[] = { "Link this comment", "Link this comment", "Link this comment",
+			"Link this comment", null, "Move object(s)", };
 
-    /**
-     * Construct a new SelectionComment for the given Fig.
-     *
-     * @param f the given Fig
-     */
-    public SelectionComment(Fig f) {
-        super(f);
-    }
+	/**
+	 * Construct a new SelectionComment for the given Fig.
+	 *
+	 * @param f
+	 *            the given Fig
+	 */
+	public SelectionComment(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return null;
-        }
-        return icons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return null;
+		}
+		return icons;
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return CommentEdge.class;
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return CommentEdge.class;
+	}
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getComment();
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getComment();
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        /* Alternatively, we could just return null here, 
-         * so that you can not create a comment just 
-         * linked to a comment this way - which is a bit uncommon,
-         * but not illegal, so for consistency, we better allow it. 
-         */
-//        return null;
-        return Model.getCoreFactory().createComment();
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		/*
+		 * Alternatively, we could just return null here, so that you can not
+		 * create a comment just linked to a comment this way - which is a bit
+		 * uncommon, but not illegal, so for consistency, we better allow it.
+		 */
+		// return null;
+		return Model.getCoreFactory().createComment();
+	}
 
 }
-

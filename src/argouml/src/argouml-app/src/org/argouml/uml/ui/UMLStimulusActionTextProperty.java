@@ -46,81 +46,76 @@ import org.argouml.model.Model;
  * TODO: this class should be moved to package
  * org.argouml.uml.ui.behavior.common_behavior.
  */
-public class UMLStimulusActionTextProperty  {
+public class UMLStimulusActionTextProperty {
 
+	private String thePropertyName;
 
-    private String thePropertyName;
+	/**
+	 * The constructor.
+	 *
+	 * @param propertyName
+	 *            the name of the property
+	 */
+	public UMLStimulusActionTextProperty(String propertyName) {
+		thePropertyName = propertyName;
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param propertyName the name of the property
-     */
-    public UMLStimulusActionTextProperty(String propertyName) {
-        thePropertyName = propertyName;
-    }
+	/**
+	 * @param container
+	 *            the container of UML user interface components
+	 * @param newValue
+	 *            the new value of the property
+	 */
+	public void setProperty(UMLUserInterfaceContainer container, String newValue) {
+		Object stimulus = container.getTarget();
+		if (stimulus != null) {
 
-
-    /**
-     * @param container the container of UML user interface components
-     * @param newValue the new value of the property
-     */
-    public void setProperty(UMLUserInterfaceContainer container,
-            String newValue) {
-	Object stimulus = container.getTarget();
-	if (stimulus != null) {
-
-	    String oldValue = getProperty(container);
-	    //
-	    //  if one or the other is null or they are not equal
-	    if (newValue == null
-                || oldValue == null
-                || !newValue.equals(oldValue)) {
-		//
-		//  as long as they aren't both null
-		//   (or a really rare identical string pointer)
-		if (newValue != oldValue) {
-		    // Object[] args = { newValue };
-		    Object action =
-		        Model.getFacade().getDispatchAction(stimulus);
-		    Model.getCoreHelper().setName(action, newValue);
-		    // to rupdate the diagram set the stimulus name again
-                    // TODO: Explain that this really works also in the
-                    // MDR case. Linus is a sceptic.
-		    String dummyStr = Model.getFacade().getName(stimulus);
-		    Model.getCoreHelper().setName(stimulus, dummyStr);
+			String oldValue = getProperty(container);
+			//
+			// if one or the other is null or they are not equal
+			if (newValue == null || oldValue == null || !newValue.equals(oldValue)) {
+				//
+				// as long as they aren't both null
+				// (or a really rare identical string pointer)
+				if (newValue != oldValue) {
+					// Object[] args = { newValue };
+					Object action = Model.getFacade().getDispatchAction(stimulus);
+					Model.getCoreHelper().setName(action, newValue);
+					// to rupdate the diagram set the stimulus name again
+					// TODO: Explain that this really works also in the
+					// MDR case. Linus is a sceptic.
+					String dummyStr = Model.getFacade().getName(stimulus);
+					Model.getCoreHelper().setName(stimulus, dummyStr);
+				}
+			}
 		}
-	    }
 	}
-    }
 
-    /**
-     * @param container the container of UML user interface components
-     * @return the property
-     */
-    public String getProperty(UMLUserInterfaceContainer container) {
-        String value = null;
-	Object stimulus = container.getTarget();
-	if (stimulus != null) {
-	    Object action = Model.getFacade().getDispatchAction(stimulus);
-	    if (action != null) {
-                value = Model.getFacade().getName(action);
-            }
+	/**
+	 * @param container
+	 *            the container of UML user interface components
+	 * @return the property
+	 */
+	public String getProperty(UMLUserInterfaceContainer container) {
+		String value = null;
+		Object stimulus = container.getTarget();
+		if (stimulus != null) {
+			Object action = Model.getFacade().getDispatchAction(stimulus);
+			if (action != null) {
+				value = Model.getFacade().getName(action);
+			}
+		}
+		return value;
 	}
-        return value;
-    }
 
-    boolean isAffected(PropertyChangeEvent event) {
-        String sourceName = event.getPropertyName();
-        return (thePropertyName == null
-                || sourceName == null
-                || sourceName.equals(thePropertyName));
-    }
+	boolean isAffected(PropertyChangeEvent event) {
+		String sourceName = event.getPropertyName();
+		return (thePropertyName == null || sourceName == null || sourceName.equals(thePropertyName));
+	}
 
-    /**
-     * Called when the target has changed.
-     */
-    void targetChanged() {
-    }
+	/**
+	 * Called when the target has changed.
+	 */
+	void targetChanged() {
+	}
 }
-

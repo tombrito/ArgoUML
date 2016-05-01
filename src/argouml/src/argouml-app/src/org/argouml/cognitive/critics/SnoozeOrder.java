@@ -44,126 +44,127 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A Critic can be disabled for a certain amount of time by giving it
- * the snooze command.  Whereas most ControlMech's activate or deactivate
- * Critic's based on evidence of the Designer's state of mind, this
- * command allows the Designer to disable Critic's without stating any
- * reason.  However, after a period of time, the critic may become
- * active again.  We think this will often be convienent because
- * Designer's have a lot of tacit knowledge about their own state of
+ * A Critic can be disabled for a certain amount of time by giving it the snooze
+ * command. Whereas most ControlMech's activate or deactivate Critic's based on
+ * evidence of the Designer's state of mind, this command allows the Designer to
+ * disable Critic's without stating any reason. However, after a period of time,
+ * the critic may become active again. We think this will often be convienent
+ * because Designer's have a lot of tacit knowledge about their own state of
  * mind that is not worth making explicit.
  *
  * @author Jason Robbins
  */
 public class SnoozeOrder implements Serializable {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(SnoozeOrder.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(SnoozeOrder.class.getName());
 
-    ////////////////////////////////////////////////////////////////
-    // constants
-    /**
-     * The initial sleeping time.
-     *
-     * Ten minutes.
-     */
-    private static final long INITIAL_INTERVAL_MS = 1000 * 60 * 10;
+	////////////////////////////////////////////////////////////////
+	// constants
+	/**
+	 * The initial sleeping time.
+	 *
+	 * Ten minutes.
+	 */
+	private static final long INITIAL_INTERVAL_MS = 1000 * 60 * 10;
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
+	////////////////////////////////////////////////////////////////
+	// instance variables
 
-    /**
-     * Critic should sleep until this time.
-     */
-    private Date snoozeUntil;
+	/**
+	 * Critic should sleep until this time.
+	 */
+	private Date snoozeUntil;
 
-    /**
-     * If the designer snoozees the critics again before this time, then
-     * go to sleep for even longer.
-     */
-    private Date snoozeAgain;
+	/**
+	 * If the designer snoozees the critics again before this time, then go to
+	 * sleep for even longer.
+	 */
+	private Date snoozeAgain;
 
-    /**
-     * The sleeping time, including the effects of repeated snoozeing.
-     */
-    private long interval;
+	/**
+	 * The sleeping time, including the effects of repeated snoozeing.
+	 */
+	private long interval;
 
-    private Date now = new Date();
-    private Date getNow() {
-	now.setTime(System.currentTimeMillis());
-	return now;
-    }
+	private Date now = new Date();
 
-    /**
-     * The constructor.
-     *
-     */
-    public SnoozeOrder() {
-	/* in the past, 0 milliseconds after January 1, 1970, 00:00:00 GMT. */
-	snoozeUntil =  new Date(0);
-	snoozeAgain =  new Date(0);
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // accessors
-
-    /**
-     * @return true if snoozed
-     */
-    public boolean getSnoozed() {
-	return snoozeUntil.after(getNow());
-    }
-
-    /**
-     * @param h if true, then snooze, else unsnooze
-     */
-    public void setSnoozed(boolean h) {
-	if (h) {
-	    snooze();
-	} else {
-	    unsnooze();
+	private Date getNow() {
+		now.setTime(System.currentTimeMillis());
+		return now;
 	}
-    }
 
-    ////////////////////////////////////////////////////////////////
-    // criticism control
-
-    /**
-     * Snooze the critic.
-     */
-    public void snooze() {
-	if (snoozeAgain.after(getNow())) {
-	    interval = nextInterval(interval);
-	} else {
-	    interval = INITIAL_INTERVAL_MS;
+	/**
+	 * The constructor.
+	 *
+	 */
+	public SnoozeOrder() {
+		/* in the past, 0 milliseconds after January 1, 1970, 00:00:00 GMT. */
+		snoozeUntil = new Date(0);
+		snoozeAgain = new Date(0);
 	}
-	long n = (getNow()).getTime();
-	snoozeUntil.setTime(n + interval);
-	snoozeAgain.setTime(n + interval + INITIAL_INTERVAL_MS);
-	LOG.log(Level.INFO, "Setting snooze order to: {0}", snoozeUntil);
-    }
 
-    /**
-     * Unsnooze the critic.
-     */
-    public void unsnooze() {
-	/* in the past, 0 milliseconds after January 1, 1970, 00:00:00 GMT. */
-	snoozeUntil =  new Date(0);
-    }
+	////////////////////////////////////////////////////////////////
+	// accessors
 
-    /**
-     * @param last the previous interval
-     * @return the next longer interval
-     */
-    protected long nextInterval(long last) {
-	/* by default, double the snooze interval each time */
-	return last * 2;
-    }
+	/**
+	 * @return true if snoozed
+	 */
+	public boolean getSnoozed() {
+		return snoozeUntil.after(getNow());
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -7133285313405407967L;
+	/**
+	 * @param h
+	 *            if true, then snooze, else unsnooze
+	 */
+	public void setSnoozed(boolean h) {
+		if (h) {
+			snooze();
+		} else {
+			unsnooze();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////
+	// criticism control
+
+	/**
+	 * Snooze the critic.
+	 */
+	public void snooze() {
+		if (snoozeAgain.after(getNow())) {
+			interval = nextInterval(interval);
+		} else {
+			interval = INITIAL_INTERVAL_MS;
+		}
+		long n = (getNow()).getTime();
+		snoozeUntil.setTime(n + interval);
+		snoozeAgain.setTime(n + interval + INITIAL_INTERVAL_MS);
+		LOG.log(Level.INFO, "Setting snooze order to: {0}", snoozeUntil);
+	}
+
+	/**
+	 * Unsnooze the critic.
+	 */
+	public void unsnooze() {
+		/* in the past, 0 milliseconds after January 1, 1970, 00:00:00 GMT. */
+		snoozeUntil = new Date(0);
+	}
+
+	/**
+	 * @param last
+	 *            the previous interval
+	 * @return the next longer interval
+	 */
+	protected long nextInterval(long last) {
+		/* by default, double the snooze interval each time */
+		return last * 2;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -7133285313405407967L;
 } /* end class SnoozeOrder */

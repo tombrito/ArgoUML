@@ -13,22 +13,24 @@
 
 package org.argouml.model;
 
-
 /**
- * An interface to be implemented by those classes wishing to listen for addition and removal
- * of model events.
+ * An interface to be implemented by those classes wishing to listen for
+ * addition and removal of model events.
  *
  * @author Bob Tarling
  */
 public interface AssociationChangeListener extends UmlChangeListener {
-    /**
-     * Called when model element has been added to another
-     * @param evt
-     */
-    void elementAdded(AddAssociationEvent evt);
-    /**
-     * Called when model element has been removed from another
-     * @param evt
-     */
-    void elementRemoved(RemoveAssociationEvent evt);
+	/**
+	 * Called when model element has been added to another
+	 * 
+	 * @param evt
+	 */
+	void elementAdded(AddAssociationEvent evt);
+
+	/**
+	 * Called when model element has been removed from another
+	 * 
+	 * @param evt
+	 */
+	void elementRemoved(RemoveAssociationEvent evt);
 }

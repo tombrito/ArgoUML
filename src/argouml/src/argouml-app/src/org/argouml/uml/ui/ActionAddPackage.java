@@ -46,32 +46,30 @@ import org.argouml.ui.UndoableAction;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * Action to add a package to the selected model element in the
- * explorer. This is a shortcut that helps build model
- * structures quickly.
+ * Action to add a package to the selected model element in the explorer. This
+ * is a shortcut that helps build model structures quickly.
  *
  * @author alexb@tigris.org
  */
-public class ActionAddPackage  extends UndoableAction {
+public class ActionAddPackage extends UndoableAction {
 
-    private static final long serialVersionUID = 3751332956804844520L;
+	private static final long serialVersionUID = 3751332956804844520L;
 
 	/**
-     * Creates a new instance of ActionAddPackage.
-     */
-    public ActionAddPackage() {
-        super(Translator.localize("action.add-package"));
-    }
+	 * Creates a new instance of ActionAddPackage.
+	 */
+	public ActionAddPackage() {
+		super(Translator.localize("action.add-package"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Object namespace =
-            TargetManager.getInstance().getModelTarget();
-        Model.getCoreHelper().addOwnedElement(namespace,
-                Model.getModelManagementFactory().createPackage());
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Object namespace = TargetManager.getInstance().getModelTarget();
+		Model.getCoreHelper().addOwnedElement(namespace, Model.getModelManagementFactory().createPackage());
+	}
 
 }

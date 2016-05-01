@@ -38,50 +38,51 @@
 
 package org.argouml.application.helpers;
 
-
 /**
  * Receives the version of the application at initialization time.
  *
  * @author Michiel
  */
 public class ApplicationVersion {
-    /**
-     * Version number.
-     */
-    private static String version;
-    private static String stableVersion;
+	/**
+	 * Version number.
+	 */
+	private static String version;
+	private static String stableVersion;
 
-    /**
-     * Retrieve the version number of the application.
-     *
-     * @return the version number.
-     */
-    public static String getVersion() {
-        return version;
-    }
-    
-    /**
-     * @return the version number of the stable version
-     * for pointers to documentation.
-     */
-    public static String getStableVersion() {
-        return stableVersion;
-    }
+	/**
+	 * Retrieve the version number of the application.
+	 *
+	 * @return the version number.
+	 */
+	public static String getVersion() {
+		return version;
+	}
 
-    /**
-     * Don't allow instantiation.
-     */
-    private ApplicationVersion() {
-    }
+	/**
+	 * @return the version number of the stable version for pointers to
+	 *         documentation.
+	 */
+	public static String getStableVersion() {
+		return stableVersion;
+	}
 
-    /**
-     * @param v The version to set.
-     * @param sv The stable version to set.
-     */
-    public static void init(String v, String sv) {
-        assert version == null;
-        version = v;
-        assert stableVersion == null;
-        stableVersion = sv;
-    }
+	/**
+	 * Don't allow instantiation.
+	 */
+	private ApplicationVersion() {
+	}
+
+	/**
+	 * @param v
+	 *            The version to set.
+	 * @param sv
+	 *            The stable version to set.
+	 */
+	public static void init(String v, String sv) {
+		assert version == null;
+		version = v;
+		assert stableVersion == null;
+		stableVersion = sv;
+	}
 }

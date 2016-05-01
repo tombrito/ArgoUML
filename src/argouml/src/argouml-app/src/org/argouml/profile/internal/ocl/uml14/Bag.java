@@ -44,16 +44,18 @@ import java.util.Collection;
  * Represent OCL bags (sets which allow repeated elements).
  * 
  * @author maurelio1234
- * @param <E> the type
+ * @param <E>
+ *            the type
  */
 public interface Bag<E> extends Collection<E> {
 
-    /**
-     * Counts the number of repetitions of E in this Bag, if E is not present
-     * return 0
-     * 
-     * @param element the element
-     * @return the number of occurrences of E in this bag
-     */
-    int count(E element);
+	/**
+	 * Counts the number of repetitions of E in this Bag, if E is not present
+	 * return 0
+	 * 
+	 * @param element
+	 *            the element
+	 * @return the number of occurrences of E in this bag
+	 */
+	int count(E element);
 }

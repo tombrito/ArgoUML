@@ -55,12 +55,13 @@ import java.util.Iterator;
  */
 public interface ChildGenerator {
 
-   /**
-     * Get an Iterator which iterates through the children of the given object
-     * 
-     * @param parent the parent of the children to be iterated through
-     * @return an iterator for the children of the given parent
-     */
-    public Iterator childIterator(Object parent);
+	/**
+	 * Get an Iterator which iterates through the children of the given object
+	 * 
+	 * @param parent
+	 *            the parent of the children to be iterated through
+	 * @return an iterator for the children of the given parent
+	 */
+	public Iterator childIterator(Object parent);
 
 }

@@ -54,54 +54,53 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewDestroyAction extends ActionNewAction {
 
-    private static final long serialVersionUID = -3958638479919007028L;
-	private static final ActionNewDestroyAction SINGLETON =
-        new ActionNewDestroyAction();
+	private static final long serialVersionUID = -3958638479919007028L;
+	private static final ActionNewDestroyAction SINGLETON = new ActionNewDestroyAction();
 
-    /**
-     * Constructor for ActionNewDestroyAction.
-     */
-    protected ActionNewDestroyAction() {
-        super();
-        putValue(Action.NAME, Translator.localize("button.new-destroyaction"));
-    }
+	/**
+	 * Constructor for ActionNewDestroyAction.
+	 */
+	protected ActionNewDestroyAction() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-destroyaction"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createDestroyAction();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createDestroyAction();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewDestroyAction getInstance() {
+		return SINGLETON;
+	}
 
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewDestroyAction() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewDestroyAction getInstance() {
-        return SINGLETON;
-    }
-
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewDestroyAction() {
-
-            private static final long serialVersionUID = -3879885663053048817L;
+			private static final long serialVersionUID = -3879885663053048817L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = ResourceLoaderWrapper.lookupIconResource("DestroyAction");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("DestroyAction");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

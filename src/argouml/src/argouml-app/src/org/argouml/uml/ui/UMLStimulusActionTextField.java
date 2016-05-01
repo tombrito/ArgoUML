@@ -37,6 +37,7 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.uml.ui;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -49,98 +50,96 @@ import javax.swing.event.DocumentListener;
  * org.argouml.uml.ui.behavior.common_behavior
  */
 public class UMLStimulusActionTextField extends JTextField
-    implements DocumentListener, UMLUserInterfaceComponent, 
-    PropertyChangeListener {
+		implements DocumentListener, UMLUserInterfaceComponent, PropertyChangeListener {
 
-    private static final long serialVersionUID = 7758146816646053322L;
+	private static final long serialVersionUID = 7758146816646053322L;
 	private UMLUserInterfaceContainer theContainer;
-    private UMLStimulusActionTextProperty theProperty;
+	private UMLStimulusActionTextProperty theProperty;
 
-    /**
-     * Creates new BooleanChangeListener.
-     *
-     * @param container the container of UML user interface components
-     * @param property the property
-     */
-    public UMLStimulusActionTextField(UMLUserInterfaceContainer container,
-            UMLStimulusActionTextProperty property) {
-        theContainer = container;
-        theProperty = property;
-        getDocument().addDocumentListener(this);
-        update();
-    }
+	/**
+	 * Creates new BooleanChangeListener.
+	 *
+	 * @param container
+	 *            the container of UML user interface components
+	 * @param property
+	 *            the property
+	 */
+	public UMLStimulusActionTextField(UMLUserInterfaceContainer container, UMLStimulusActionTextProperty property) {
+		theContainer = container;
+		theProperty = property;
+		getDocument().addDocumentListener(this);
+		update();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetChanged()
-     */
-    public void targetChanged() {
-        theProperty.targetChanged();
-        update();
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetChanged()
+	 */
+	public void targetChanged() {
+		theProperty.targetChanged();
+		update();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetReasserted()
-     */
-    public void targetReasserted() {
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceComponent#targetReasserted()
+	 */
+	public void targetReasserted() {
+	}
 
-    public void propertyChange(PropertyChangeEvent event) {
-        if (theProperty.isAffected(event)) {
-            //
-            //   check the possibility that this is a promiscuous event
-            Object eventSource = event.getSource();
-            Object target = theContainer.getTarget();
-            //
-            //    if event source is unknown or
-            //       the event source is the container's target
-            //          then update the field
-            if (eventSource == null || eventSource == target) {
-                update();
-            }
-        }
-    }
+	public void propertyChange(PropertyChangeEvent event) {
+		if (theProperty.isAffected(event)) {
+			//
+			// check the possibility that this is a promiscuous event
+			Object eventSource = event.getSource();
+			Object target = theContainer.getTarget();
+			//
+			// if event source is unknown or
+			// the event source is the container's target
+			// then update the field
+			if (eventSource == null || eventSource == target) {
+				update();
+			}
+		}
+	}
 
-    private void update() {
+	private void update() {
 
-        String oldText = getText();
+		String oldText = getText();
 
-        String newText = theProperty.getProperty(theContainer);
+		String newText = theProperty.getProperty(theContainer);
 
-        if (oldText == null || newText == null || !oldText.equals(newText)) {
-            if (oldText != newText) {
-                setText(newText);
-            }
-        }
-    }
+		if (oldText == null || newText == null || !oldText.equals(newText)) {
+			if (oldText != newText) {
+				setText(newText);
+			}
+		}
+	}
 
-    /*
-     * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void changedUpdate(final DocumentEvent p1) {
+	/*
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void changedUpdate(final DocumentEvent p1) {
 
-        theProperty.setProperty(theContainer, getText());
-    }
+		theProperty.setProperty(theContainer, getText());
+	}
 
-    /*
-     * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void removeUpdate(final DocumentEvent p1) {
+	/*
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void removeUpdate(final DocumentEvent p1) {
 
-        theProperty.setProperty(theContainer, getText());
-    }
+		theProperty.setProperty(theContainer, getText());
+	}
 
-    /*
-     * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void insertUpdate(final DocumentEvent p1) {
+	/*
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void insertUpdate(final DocumentEvent p1) {
 
+		theProperty.setProperty(theContainer, getText());
 
-        theProperty.setProperty(theContainer, getText());
-
-    }
-
-
-
-
+	}
 
 }

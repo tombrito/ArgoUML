@@ -43,23 +43,24 @@ import org.argouml.ui.cmd.GenericArgoMenuBar;
 
 /**
  * A factory to create the menu bar for the application
+ * 
  * @since 0.29.2
  */
 class MenuBarFactory {
-    
-    /**
-     * Build the menu "Create" and the toolbar for diagram creation. These are
-     * build together to guarantee that the same items are present in both, and
-     * in the same sequence.
-     * <p>
-     * 
-     * The sequence of these items was determined by issue 1821.
-     */
-    static GenericArgoMenuBar createApplicationMenuBar() {
-        if (Model.getFacade().getUmlVersion().charAt(0) == '2') {
-            return new MenuBar2();
-        } else {
-            return new MenuBar14();
-        }
-    }
+
+	/**
+	 * Build the menu "Create" and the toolbar for diagram creation. These are
+	 * build together to guarantee that the same items are present in both, and
+	 * in the same sequence.
+	 * <p>
+	 * 
+	 * The sequence of these items was determined by issue 1821.
+	 */
+	static GenericArgoMenuBar createApplicationMenuBar() {
+		if (Model.getFacade().getUmlVersion().charAt(0) == '2') {
+			return new MenuBar2();
+		} else {
+			return new MenuBar14();
+		}
+	}
 }

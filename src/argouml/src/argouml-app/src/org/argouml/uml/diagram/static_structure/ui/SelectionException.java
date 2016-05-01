@@ -46,24 +46,25 @@ import org.tigris.gef.presentation.Fig;
  */
 class SelectionException extends SelectionGeneralizableElement {
 
-    private static final long serialVersionUID = 5709687466904159104L;
+	private static final long serialVersionUID = 5709687466904159104L;
 
 	/**
-     * Construct a new SelectionClass for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionException(Fig f) { 
-        super(f);
-    }
+	 * Construct a new SelectionClass for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionException(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Object getNewNode(int buttonCode) {
-        return Model.getCommonBehaviorFactory().createException();
-    }
+	@Override
+	protected Object getNewNode(int buttonCode) {
+		return Model.getCommonBehaviorFactory().createException();
+	}
 
-    @Override
-    protected Object getNewNodeType(int buttonCode) {
-        return Model.getMetaTypes().getException();
-    }
+	@Override
+	protected Object getNewNodeType(int buttonCode) {
+		return Model.getMetaTypes().getException();
+	}
 }

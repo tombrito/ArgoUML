@@ -47,39 +47,42 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * PerspectiveRule to navigate from a modelelement (the context)
- * to its behavior (statemachine or activitygraph).  
+ * PerspectiveRule to navigate from a modelelement (the context) to its behavior
+ * (statemachine or activitygraph).
  * 
  * @author mvw
  */
 public class GoModelElementToBehavior extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.model-element.behavior");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.model-element.behavior");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAModelElement(parent)) {
-            return Model.getFacade().getBehaviors(parent);
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAModelElement(parent)) {
+			return Model.getFacade().getBehaviors(parent);
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAModelElement(parent)) {
-            Set set = new HashSet();
-            set.add(parent);
-            return set;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAModelElement(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

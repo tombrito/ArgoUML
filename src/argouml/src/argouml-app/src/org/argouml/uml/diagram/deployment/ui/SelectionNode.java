@@ -50,70 +50,57 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionNode extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -8780373771475242491L;
+	private static final long serialVersionUID = -8780373771475242491L;
 
-	private static Icon associationIcon =
-            ResourceLoaderWrapper.lookupIconResource("Association");
+	private static Icon associationIcon = ResourceLoaderWrapper.lookupIconResource("Association");
 
-    private static Icon icons[] = 
-    {associationIcon,
-     associationIcon,
-     associationIcon,
-     associationIcon,
-     null,
-    };
-    
-    // TODO: I18N required
-    private static String instructions[] = 
-    {"Add a node",
-     "Add a node",
-     "Add a node",
-     "Add a node",
-     null,
-     "Move object(s)",
-    };
+	private static Icon icons[] = { associationIcon, associationIcon, associationIcon, associationIcon, null, };
 
-    /**
-     * Construct a new SelectionNode for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionNode(Fig f) {
-        super(f);
-    }
+	// TODO: I18N required
+	private static String instructions[] = { "Add a node", "Add a node", "Add a node", "Add a node", null,
+			"Move object(s)", };
 
-    @Override
-    protected Icon[] getIcons() {
-        return icons;
-    }
+	/**
+	 * Construct a new SelectionNode for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionNode(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected Icon[] getIcons() {
+		return icons;
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return Model.getMetaTypes().getAssociation();
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        return Model.getCoreFactory().createNode();
-    }
-    
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getNode();
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return Model.getMetaTypes().getAssociation();
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == BOTTOM || index == LEFT) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		return Model.getCoreFactory().createNode();
+	}
+
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getNode();
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == BOTTOM || index == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
 }
-

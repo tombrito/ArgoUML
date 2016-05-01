@@ -47,42 +47,44 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Rule for Summary->Attribute.
- * This class is a Go Rule for the "Class - centric" Navigation perspective.
+ * Rule for Summary->Attribute. This class is a Go Rule for the
+ * "Class - centric" Navigation perspective.
  *
- * @author  alexb, d00mst
+ * @author alexb, d00mst
  * @since argo 0.13.4, Created on 21 March 2003, 23:18
  */
 public class GoSummaryToAttribute extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.summary.attribute");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (parent instanceof AttributesNode) {
-	    return Model.getFacade().getAttributes(((AttributesNode) parent)
-					     .getParent());
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.summary.attribute");
 	}
-	return Collections.EMPTY_SET;
-    }
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (parent instanceof AttributesNode) {
-	    Set set = new HashSet();
-	    set.add(((AttributesNode) parent).getParent());
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (parent instanceof AttributesNode) {
+			return Model.getFacade().getAttributes(((AttributesNode) parent).getParent());
+		}
+		return Collections.EMPTY_SET;
 	}
-	return Collections.EMPTY_SET;
-    }
-    
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (parent instanceof AttributesNode) {
+			Set set = new HashSet();
+			set.add(((AttributesNode) parent).getParent());
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
+
 }

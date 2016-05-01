@@ -42,201 +42,197 @@ package org.argouml.application.events;
  * Definitions of Argo Event types.
  *
  * @author Thierry Lach
- * @since  ARGO0.9.4
+ * @since ARGO0.9.4
  */
 public interface ArgoEventTypes {
 
-    /**
-     * Id which matches any event.
-     */
-    int ANY_EVENT                 =  1000;
+	/**
+	 * Id which matches any event.
+	 */
+	int ANY_EVENT = 1000;
 
-    /**
-     * Id which matches any module event.
-     */
-    int ANY_MODULE_EVENT          =  1100;
+	/**
+	 * Id which matches any module event.
+	 */
+	int ANY_MODULE_EVENT = 1100;
 
-    /**
-     * Id indicating a module was loaded.
-     */
-    int MODULE_LOADED             =  1101;
+	/**
+	 * Id indicating a module was loaded.
+	 */
+	int MODULE_LOADED = 1101;
 
-    /**
-     * Id indicating a module was unloaded.
-     */
-    int MODULE_UNLOADED           =  1102;
+	/**
+	 * Id indicating a module was unloaded.
+	 */
+	int MODULE_UNLOADED = 1102;
 
-    /**
-     * Id indicating a module was enabled.
-     */
-    int MODULE_ENABLED            =  1103;
+	/**
+	 * Id indicating a module was enabled.
+	 */
+	int MODULE_ENABLED = 1103;
 
-    /**
-     * Id indicating a module was disabled.
-     */
-    int MODULE_DISABLED           =  1104;
+	/**
+	 * Id indicating a module was disabled.
+	 */
+	int MODULE_DISABLED = 1104;
 
-    /**
-     * Last module event.
-     */
-    int LAST_MODULE_EVENT         =  1199;
+	/**
+	 * Last module event.
+	 */
+	int LAST_MODULE_EVENT = 1199;
 
+	/**
+	 * Id indicating any notation event.
+	 */
+	int ANY_NOTATION_EVENT = 1200;
 
-    /**
-     * Id indicating any notation event.
-     */
-    int ANY_NOTATION_EVENT        =  1200;
+	/**
+	 * Id indicating the default notation was changed.
+	 */
+	int NOTATION_CHANGED = 1201;
 
-    /**
-     * Id indicating the default notation was changed.
-     */
-    int NOTATION_CHANGED          =  1201;
+	/**
+	 * Id indicating a notation was added.
+	 */
+	int NOTATION_ADDED = 1202;
 
-    /**
-     * Id indicating a notation was added.
-     */
-    int NOTATION_ADDED            =  1202;
+	/**
+	 * Id indicating a notation was removed.
+	 */
+	int NOTATION_REMOVED = 1203;
 
-    /**
-     * Id indicating a notation was removed.
-     */
-    int NOTATION_REMOVED          =  1203;
+	/**
+	 * Id indicating a notation provider was added.
+	 */
+	int NOTATION_PROVIDER_ADDED = 1204;
 
-    /**
-     * Id indicating a notation provider was added.
-     */
-    int NOTATION_PROVIDER_ADDED   =  1204;
+	/**
+	 * Id indicating a notation provider was removed.
+	 */
+	int NOTATION_PROVIDER_REMOVED = 1205;
 
-    /**
-     * Id indicating a notation provider was removed.
-     */
-    int NOTATION_PROVIDER_REMOVED =  1205;
+	/**
+	 * Last module event.
+	 */
+	int LAST_NOTATION_EVENT = 1299;
 
-    /**
-     * Last module event.
-     */
-    int LAST_NOTATION_EVENT       =  1299;
+	/**
+	 * Id indicating any GENERATION event.
+	 */
+	int ANY_GENERATOR_EVENT = 1300;
 
+	/**
+	 * Id indicating the default GENERATION was changed.
+	 */
+	int GENERATOR_CHANGED = 1301;
 
-    /**
-     * Id indicating any GENERATION event.
-     */
-    int ANY_GENERATOR_EVENT        =  1300;
+	/**
+	 * Id indicating a GENERATION was added.
+	 */
+	int GENERATOR_ADDED = 1302;
 
-    /**
-     * Id indicating the default GENERATION was changed.
-     */
-    int GENERATOR_CHANGED          =  1301;
+	/**
+	 * Id indicating a GENERATION was removed.
+	 */
+	int GENERATOR_REMOVED = 1303;
 
-    /**
-     * Id indicating a GENERATION was added.
-     */
-    int GENERATOR_ADDED            =  1302;
+	/**
+	 * Last generation event.
+	 */
+	int LAST_GENERATOR_EVENT = 1399;
 
-    /**
-     * Id indicating a GENERATION was removed.
-     */
-    int GENERATOR_REMOVED          =  1303;
+	/**
+	 * Id indicating any HELP event.
+	 */
+	int ANY_HELP_EVENT = 1400;
 
-    /**
-     * Last generation event.
-     */
-    int LAST_GENERATOR_EVENT       =  1399;
+	/**
+	 * Id indicating the help text was changed.
+	 */
+	int HELP_CHANGED = 1401;
 
+	/**
+	 * Id indicating a help text was removed.
+	 */
+	int HELP_REMOVED = 1403;
 
-    /**
-     * Id indicating any HELP event.
-     */
-    int ANY_HELP_EVENT        =  1400;
+	/**
+	 * Last help event.
+	 */
+	int LAST_HELP_EVENT = 1499;
 
-    /**
-     * Id indicating the help text was changed.
-     */
-    int HELP_CHANGED          =  1401;
+	/**
+	 * Id indicating any STATUS event.
+	 */
+	int ANY_STATUS_EVENT = 1500;
 
-    /**
-     * Id indicating a help text was removed.
-     */
-    int HELP_REMOVED          =  1403;
+	/**
+	 * Id indicating the status text was changed.
+	 */
+	int STATUS_TEXT = 1501;
 
-    /**
-     * Last help event.
-     */
-    int LAST_HELP_EVENT       =  1499;
+	/**
+	 * Id indicating that there is no current status text.
+	 */
+	int STATUS_CLEARED = 1503;
 
+	/**
+	 * Id indicating that a project was saved.
+	 */
+	int STATUS_PROJECT_SAVED = 1504;
 
-    /**
-     * Id indicating any STATUS event.
-     */
-    int ANY_STATUS_EVENT        =  1500;
+	/**
+	 * Id indicating that a project was loaded.
+	 */
+	int STATUS_PROJECT_LOADED = 1505;
 
-    /**
-     * Id indicating the status text was changed.
-     */
-    int STATUS_TEXT          =  1501;
+	/**
+	 * Id indicating that a project was modified.
+	 */
+	int STATUS_PROJECT_MODIFIED = 1506;
 
-    /**
-     * Id indicating that there is no current status text.
-     */
-    int STATUS_CLEARED          =  1503;
+	/**
+	 * Last help event.
+	 */
+	int LAST_STATUS_EVENT = 1599;
 
-    /**
-     * Id indicating that a project was saved.
-     */
-    int STATUS_PROJECT_SAVED          =  1504;
+	/**
+	 * Indicating any diagram appearance event.
+	 */
+	int ANY_DIAGRAM_APPEARANCE_EVENT = 1600;
 
-    /**
-     * Id indicating that a project was loaded.
-     */
-    int STATUS_PROJECT_LOADED         =  1505;
+	/**
+	 * Indicating that appearance is changed.
+	 */
+	int DIAGRAM_FONT_CHANGED = 1601;
 
-    /**
-     * Id indicating that a project was modified.
-     */
-    int STATUS_PROJECT_MODIFIED        =  1506;
-    
-    /**
-     * Last help event.
-     */
-    int LAST_STATUS_EVENT       =  1599;
+	/**
+	 * Last diagram appearance event.
+	 */
+	int LAST_DIAGRAM_APPEARANCE_EVENT = 1699;
 
-    /**
-     * Indicating any diagram appearance event.
-     */
-    int ANY_DIAGRAM_APPEARANCE_EVENT = 1600;
+	/**
+	 * Indicating any profile event.
+	 */
+	int ANY_PROFILE_EVENT = 1700;
 
-    /**
-     * Indicating that appearance is changed.
-     */
-    int DIAGRAM_FONT_CHANGED = 1601;
+	/**
+	 * Indicating that a profile has been added.
+	 */
+	int PROFILE_ADDED = 1701;
 
-    /**
-     * Last diagram appearance event.
-     */
-    int LAST_DIAGRAM_APPEARANCE_EVENT = 1699;
+	/**
+	 * Indicating that a profile has been removed.
+	 */
+	int PROFILE_REMOVED = 1702;
 
-    /**
-     * Indicating any profile event.
-     */
-    int ANY_PROFILE_EVENT = 1700;
+	/**
+	 * Last profile event.
+	 */
+	int LAST_PROFILE_EVENT = 1799;
 
-    /**
-     * Indicating that a profile has been added.
-     */
-    int PROFILE_ADDED = 1701;
-
-    /**
-     * Indicating that a profile has been removed.
-     */
-    int PROFILE_REMOVED = 1702;
-
-    /**
-     * Last profile event.
-     */
-    int LAST_PROFILE_EVENT = 1799;
-
-    /**
-     * Id marker for the last Argo event.
-     */
-    int ARGO_EVENT_END            = 99999;
+	/**
+	 * Id marker for the last Argo event.
+	 */
+	int ARGO_EVENT_END = 99999;
 }

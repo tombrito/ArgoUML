@@ -49,51 +49,48 @@ import org.argouml.model.XmiReader;
 import org.xml.sax.InputSource;
 
 /**
- * TODO: this doesn't need a full ProfileReference since it uses the
- * reader handed in the constructor. It doesn't make much sense to make
- * its callers init the path to some name which it doesn't need...
+ * TODO: this doesn't need a full ProfileReference since it uses the reader
+ * handed in the constructor. It doesn't make much sense to make its callers
+ * init the path to some name which it doesn't need...
  *
  * @author Luis Sergio Oliveira (euluis)
  */
 public class ReaderModelLoader implements ProfileModelLoader {
 
-    private static final Logger LOG =
-        Logger.getLogger(ReaderModelLoader.class.getName());
+	private static final Logger LOG = Logger.getLogger(ReaderModelLoader.class.getName());
 
-    private Reader reader;
+	private Reader reader;
 
-    /**
-     * Create a ModelLoader that will load the model from the given reader.
-     *
-     * @param theReader Reader from which the model will be loaded.
-     */
-    public ReaderModelLoader(Reader theReader) {
-        this.reader = theReader;
-    }
+	/**
+	 * Create a ModelLoader that will load the model from the given reader.
+	 *
+	 * @param theReader
+	 *            Reader from which the model will be loaded.
+	 */
+	public ReaderModelLoader(Reader theReader) {
+		this.reader = theReader;
+	}
 
+	/*
+	 * @see ProfileModelLoader#loadModel(ProfileReference)
+	 */
+	public Collection loadModel(ProfileReference reference) throws ProfileException {
 
-    /*
-     * @see ProfileModelLoader#loadModel(ProfileReference)
-     */
-    public Collection loadModel(ProfileReference reference)
-        throws ProfileException {
+		if (reader == null) {
+			LOG.log(Level.SEVERE, "Profile not found");
+			throw new ProfileException("Profile not found!");
+		}
 
-        if (reader == null) {
-            LOG.log(Level.SEVERE, "Profile not found");
-            throw new ProfileException("Profile not found!");
-        }
-
-        try {
-            XmiReader xmiReader = Model.getXmiReader();
-            InputSource inputSource = new InputSource(reader);
-            inputSource.setSystemId(reference.getPath());
-            inputSource.setPublicId(
-                    reference.getPublicReference().toString());
-            Collection elements = xmiReader.parse(inputSource, true);
-            return elements;
-        } catch (UmlException e) {
-            throw new ProfileException("Invalid XMI data!", e);
-        }
-    }
+		try {
+			XmiReader xmiReader = Model.getXmiReader();
+			InputSource inputSource = new InputSource(reader);
+			inputSource.setSystemId(reference.getPath());
+			inputSource.setPublicId(reference.getPublicReference().toString());
+			Collection elements = xmiReader.parse(inputSource, true);
+			return elements;
+		} catch (UmlException e) {
+			throw new ProfileException("Invalid XMI data!", e);
+		}
+	}
 
 }

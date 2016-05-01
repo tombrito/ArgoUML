@@ -46,71 +46,65 @@ import org.argouml.cognitive.Designer;
 import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
-
 /**
- * Critic that fires when there is no guard for a transition
- * that originates in a Choice pseudostate.
+ * Critic that fires when there is no guard for a transition that originates in
+ * a Choice pseudostate.
  *
  * @author jrobbins
  */
 public class CrNoGuard extends CrUML {
 
-    private static final long serialVersionUID = -8039340813809999413L;
+	private static final long serialVersionUID = -8039340813809999413L;
 
 	/**
-     * The constructor.
-     */
-    public CrNoGuard() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	setKnowledgeTypes(Critic.KT_COMPLETENESS);
-	addTrigger("guard");
-    }
+	 * The constructor.
+	 */
+	public CrNoGuard() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		setKnowledgeTypes(Critic.KT_COMPLETENESS);
+		addTrigger("guard");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isATransition(dm))) {
-	    return NO_PROBLEM;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isATransition(dm))) {
+			return NO_PROBLEM;
+		}
+		/* dm is a transition */
+		Object sourceVertex = Model.getFacade().getSource(dm);
+		if (!(Model.getFacade().isAPseudostate(sourceVertex))) {
+			return NO_PROBLEM;
+		}
+		/* the source of the transition is a pseudostate */
+		if (!Model.getFacade().equalsPseudostateKind(Model.getFacade().getKind(sourceVertex),
+				Model.getPseudostateKind().getChoice())) {
+			return NO_PROBLEM;
+		}
+		/* the source of the transition is a choice */
+		Object guard = Model.getFacade().getGuard(dm);
+		boolean noGuard = (guard == null || Model.getFacade().getExpression(guard) == null
+				|| Model.getFacade().getBody(Model.getFacade().getExpression(guard)) == null
+				|| ((String) Model.getFacade().getBody(Model.getFacade().getExpression(guard))).length() == 0);
+		if (noGuard) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-        /* dm is a transition */
-	Object sourceVertex = Model.getFacade().getSource(dm);
-	if (!(Model.getFacade().isAPseudostate(sourceVertex))) {
-	    return NO_PROBLEM;
-	}
-        /* the source of the transition is a pseudostate */
-	if (!Model.getFacade().equalsPseudostateKind(
-	        Model.getFacade().getKind(sourceVertex),
-	        Model.getPseudostateKind().getChoice())) {
-	    return NO_PROBLEM;
-	}
-        /* the source of the transition is a choice */
-	Object guard = Model.getFacade().getGuard(dm);
-	boolean noGuard =
-	    (guard == null
-            || Model.getFacade().getExpression(guard) == null
-            || Model.getFacade().getBody(
-                    Model.getFacade().getExpression(guard)) == null
-            || ((String) Model.getFacade().getBody(
-                    Model.getFacade().getExpression(guard)))
-                    	.length() == 0);
-	if (noGuard) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getTransition());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getTransition());
+		return ret;
+	}
+
 }

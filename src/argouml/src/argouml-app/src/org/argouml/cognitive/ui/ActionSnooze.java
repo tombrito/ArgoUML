@@ -49,29 +49,29 @@ import org.argouml.cognitive.ToDoItem;
  */
 public class ActionSnooze extends ToDoItemAction {
 
-    private static final long serialVersionUID = -4758700846492016814L;
+	private static final long serialVersionUID = -4758700846492016814L;
 
 	/**
-     * The constructor.
-     */
-    public ActionSnooze() {
-        super("action.snooze-critic", true);
-    }
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	if (!(getRememberedTarget() instanceof ToDoItem)) {
-	    return;
+	 * The constructor.
+	 */
+	public ActionSnooze() {
+		super("action.snooze-critic", true);
 	}
 
-	ToDoItem item = (ToDoItem) getRememberedTarget();
-	Poster p = item.getPoster();
-	p.snooze();
-	TabToDo.incrementNumHushes();
-    }
-}
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		if (!(getRememberedTarget() instanceof ToDoItem)) {
+			return;
+		}
 
+		ToDoItem item = (ToDoItem) getRememberedTarget();
+		Poster p = item.getPoster();
+		p.snooze();
+		TabToDo.incrementNumHushes();
+	}
+}

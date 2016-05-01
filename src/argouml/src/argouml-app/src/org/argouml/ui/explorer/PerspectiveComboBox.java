@@ -44,35 +44,38 @@ import javax.swing.JComboBox;
  * Listens to updates from the Perspective manager. This class should be
  * refactored so that this functionality is done via the combobox model.
  *
- * @author  alexb
+ * @author alexb
  * @since 0.15.2
  */
-public class PerspectiveComboBox
-    extends JComboBox
-    implements PerspectiveManagerListener {
+public class PerspectiveComboBox extends JComboBox implements PerspectiveManagerListener {
 
-    private static final long serialVersionUID = -7245314921584964767L;
+	private static final long serialVersionUID = -7245314921584964767L;
 
 	/** Creates a new instance of PerspectiveCombobox */
-    public PerspectiveComboBox() {
-        /* The default nr of rows is 8, 
-         * but since we have 9 perspectives by default now, 
-         * setting to 9 is nicer. */
-        this.setMaximumRowCount(9);
-        PerspectiveManager.getInstance().addListener(this);
-    }
+	public PerspectiveComboBox() {
+		/*
+		 * The default nr of rows is 8, but since we have 9 perspectives by
+		 * default now, setting to 9 is nicer.
+		 */
+		this.setMaximumRowCount(9);
+		PerspectiveManager.getInstance().addListener(this);
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.PerspectiveManagerListener#addPerspective(java.lang.Object)
-     */
-    public void addPerspective(Object perspective) {
-        addItem(perspective);
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.PerspectiveManagerListener#addPerspective(java.
+	 * lang.Object)
+	 */
+	public void addPerspective(Object perspective) {
+		addItem(perspective);
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.PerspectiveManagerListener#removePerspective(java.lang.Object)
-     */
-    public void removePerspective(Object perspective) {
-        removeItem(perspective);
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.PerspectiveManagerListener#removePerspective(java
+	 * .lang.Object)
+	 */
+	public void removePerspective(Object perspective) {
+		removeItem(perspective);
+	}
 }

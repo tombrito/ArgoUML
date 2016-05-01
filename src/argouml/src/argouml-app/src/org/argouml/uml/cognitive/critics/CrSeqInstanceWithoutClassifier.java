@@ -51,100 +51,101 @@ import org.argouml.uml.diagram.SequenceDiagram;
 import org.argouml.uml.diagram.ui.FigNodeModelElement;
 
 /**
- * A critic to detect when an object in a deployment-diagram
- * is not inside a component or a component-instance.
+ * A critic to detect when an object in a deployment-diagram is not inside a
+ * component or a component-instance.
  *
  * @author 5eichler
  */
 public class CrSeqInstanceWithoutClassifier extends CrUML {
 
-    private static final long serialVersionUID = -4096806290094913170L;
+	private static final long serialVersionUID = -4096806290094913170L;
 
 	/**
-     * The constructor.
-     */
-    public CrSeqInstanceWithoutClassifier() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.PATTERNS);
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(dm instanceof SequenceDiagram)) {
-            return NO_PROBLEM;
-        }
-	ListSet offs = computeOffenders((SequenceDiagram) dm);
-	if (offs == null) {
-	    return NO_PROBLEM;
+	 * The constructor.
+	 */
+	public CrSeqInstanceWithoutClassifier() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.PATTERNS);
 	}
-	return PROBLEM_FOUND;
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	SequenceDiagram sd = (SequenceDiagram) dm;
-	ListSet offs = computeOffenders(sd);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-            return false;
-        }
-	ListSet offs = i.getOffenders();
-	SequenceDiagram sd = (SequenceDiagram) offs.get(0);
-	//if (!predicate(dm, dsgr)) return false;
-	ListSet newOffs = computeOffenders(sd);
-	boolean res = offs.equals(newOffs);
-	return res;
-    }
-
-    /**
-     * If there are instances that have no classifiers they belong to
-     * the returned vector-set is not null. Then in the vector-set
-     * are the UMLSequenceDiagram and all FigObjects, FigComponentInstances
-     * and FigMNodeInstances with no classifier.
-     *
-     * @param sd the diagram to check
-     * @return the set of offenders
-     */
-    public ListSet computeOffenders(ArgoDiagram sd) {
-	Collection figs = sd.getLayer().getContents();
-	ListSet offs = null;
-        for (Object obj : figs) {
-	    if (!(obj instanceof FigNodeModelElement)) {
-                continue;
-            }
-	    FigNodeModelElement fn = (FigNodeModelElement) obj;
-	    if (fn != null && (Model.getFacade().isAInstance(fn.getOwner()))) {
-		Object minst = fn.getOwner();
-		if (minst != null) {
-		    Collection col = Model.getFacade().getClassifiers(minst);
-		    if (col.size() > 0) {
-                        continue;
-                    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(dm instanceof SequenceDiagram)) {
+			return NO_PROBLEM;
 		}
+		ListSet offs = computeOffenders((SequenceDiagram) dm);
 		if (offs == null) {
-		    offs = new ListSet();
-		    offs.add(sd);
+			return NO_PROBLEM;
 		}
-		offs.add(fn);
-	    }
+		return PROBLEM_FOUND;
 	}
-	return offs;
-    }
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		SequenceDiagram sd = (SequenceDiagram) dm;
+		ListSet offs = computeOffenders(sd);
+		return new UMLToDoItem(this, offs, dsgr);
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		SequenceDiagram sd = (SequenceDiagram) offs.get(0);
+		// if (!predicate(dm, dsgr)) return false;
+		ListSet newOffs = computeOffenders(sd);
+		boolean res = offs.equals(newOffs);
+		return res;
+	}
+
+	/**
+	 * If there are instances that have no classifiers they belong to the
+	 * returned vector-set is not null. Then in the vector-set are the
+	 * UMLSequenceDiagram and all FigObjects, FigComponentInstances and
+	 * FigMNodeInstances with no classifier.
+	 *
+	 * @param sd
+	 *            the diagram to check
+	 * @return the set of offenders
+	 */
+	public ListSet computeOffenders(ArgoDiagram sd) {
+		Collection figs = sd.getLayer().getContents();
+		ListSet offs = null;
+		for (Object obj : figs) {
+			if (!(obj instanceof FigNodeModelElement)) {
+				continue;
+			}
+			FigNodeModelElement fn = (FigNodeModelElement) obj;
+			if (fn != null && (Model.getFacade().isAInstance(fn.getOwner()))) {
+				Object minst = fn.getOwner();
+				if (minst != null) {
+					Collection col = Model.getFacade().getClassifiers(minst);
+					if (col.size() > 0) {
+						continue;
+					}
+				}
+				if (offs == null) {
+					offs = new ListSet();
+					offs.add(sd);
+				}
+				offs.add(fn);
+			}
+		}
+		return offs;
+	}
 
 }

@@ -50,15 +50,16 @@ package org.argouml.cognitive;
  */
 public interface Offender {
 
-    /**
-     * When a poster produces a ToDoItem, both the Designer and the "offending"
-     * DesignMaterial's are notified. Subclasses may, for example, visually
-     * change their appearance to indicate the presence of an error. One paper
-     * called this 'clarifiers'.<p>
-     *
-     * @param item
-     *            the todo item
-     */
-    void inform(ToDoItem item);
+	/**
+	 * When a poster produces a ToDoItem, both the Designer and the "offending"
+	 * DesignMaterial's are notified. Subclasses may, for example, visually
+	 * change their appearance to indicate the presence of an error. One paper
+	 * called this 'clarifiers'.
+	 * <p>
+	 *
+	 * @param item
+	 *            the todo item
+	 */
+	void inform(ToDoItem item);
 
 }

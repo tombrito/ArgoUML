@@ -43,8 +43,8 @@ package org.argouml.uml.diagram.layout;
  */
 public interface LayoutedEdge extends LayoutedObject {
 
-    /**
-     * Abstract method to layout the edge.
-     */
-    public void layout();
+	/**
+	 * Abstract method to layout the edge.
+	 */
+	public void layout();
 }

@@ -41,18 +41,16 @@ package org.argouml.cognitive;
 /**
  * Thrown to indicate a failure to resolve a critic.
  */
-public class UnresolvableException extends Exception
-{
-    private static final long serialVersionUID = -4761420288616508694L;
+public class UnresolvableException extends Exception {
+	private static final long serialVersionUID = -4761420288616508694L;
 
 	/**
-     * Creates a new UnresolvableException with message msg.
-     *
-     * @param	msg	A message describing what caused the exception.
-     */
-    public UnresolvableException(String msg)
-    {
-	super(msg);
-    }
+	 * Creates a new UnresolvableException with message msg.
+	 *
+	 * @param msg
+	 *            A message describing what caused the exception.
+	 */
+	public UnresolvableException(String msg) {
+		super(msg);
+	}
 }
-

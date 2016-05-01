@@ -50,7 +50,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.UndoableAction;
 import org.argouml.ui.targetmanager.TargetManager;
 
-
 /**
  * This action creates a new TagDefinition in the current Model or Stereotype or
  * Package.
@@ -60,52 +59,50 @@ import org.argouml.ui.targetmanager.TargetManager;
 @UmlModelMutator
 public class ActionNewTagDefinition extends UndoableAction {
 
-    private static final long serialVersionUID = 7889861893551404801L;
+	private static final long serialVersionUID = 7889861893551404801L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewTagDefinition() {
-        super(Translator.localize("button.new-tagdefinition"),
-                ResourceLoaderWrapper.lookupIcon("button.new-tagdefinition"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("button.new-tagdefinition"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewTagDefinition() {
+		super(Translator.localize("button.new-tagdefinition"),
+				ResourceLoaderWrapper.lookupIcon("button.new-tagdefinition"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("button.new-tagdefinition"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(
-     *      java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Object t = TargetManager.getInstance().getModelTarget();
-        Object owner = null;
-        Object namespace = null;
-        if (Model.getFacade().isAStereotype(t)) {
-            owner = t;
-        } else if (Model.getFacade().isAPackage(t)) {
-            namespace = t;
-        } else {
-            namespace = Model.getFacade().getInnerContainingModel(t);
-        }
-        Object newTagDefinition = null;
-        if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
-            newTagDefinition = Model.getExtensionMechanismsFactory()
-                .buildTagDefinition((String) null, owner, namespace);
-        } else {
-            Object type = null;
-            for (Object aType : Model.getExtensionMechanismsHelper()
-                    .getCommonTaggedValueTypes()) {
-                if ("String".equals(Model.getFacade().getName(aType))) {
-                    type = aType;
-                    break;
-                }
-            }
-            newTagDefinition = Model.getCoreFactory().buildAttribute2(t, type);
-        }
-        TargetManager.getInstance().setTarget(newTagDefinition);
-        super.actionPerformed(e);
-    }
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(
+	 * java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Object t = TargetManager.getInstance().getModelTarget();
+		Object owner = null;
+		Object namespace = null;
+		if (Model.getFacade().isAStereotype(t)) {
+			owner = t;
+		} else if (Model.getFacade().isAPackage(t)) {
+			namespace = t;
+		} else {
+			namespace = Model.getFacade().getInnerContainingModel(t);
+		}
+		Object newTagDefinition = null;
+		if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
+			newTagDefinition = Model.getExtensionMechanismsFactory().buildTagDefinition((String) null, owner,
+					namespace);
+		} else {
+			Object type = null;
+			for (Object aType : Model.getExtensionMechanismsHelper().getCommonTaggedValueTypes()) {
+				if ("String".equals(Model.getFacade().getName(aType))) {
+					type = aType;
+					break;
+				}
+			}
+			newTagDefinition = Model.getCoreFactory().buildAttribute2(t, type);
+		}
+		TargetManager.getInstance().setTarget(newTagDefinition);
+		super.actionPerformed(e);
+	}
 
 }

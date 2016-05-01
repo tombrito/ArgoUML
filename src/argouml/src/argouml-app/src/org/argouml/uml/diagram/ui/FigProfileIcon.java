@@ -54,69 +54,72 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigProfileIcon extends FigNode {
 
-    private static final long serialVersionUID = 1938117401571423760L;
+	private static final long serialVersionUID = 1938117401571423760L;
 
 	private FigImage image = null;
-    
-    private FigText  label = null;
-    
-    private static final int GAP = 2;
 
-    /**
-     * Default constructor.
-     * 
-     * @param settings diagram settings
-     * @param icon the icon
-     * @param str the default name
-     */
-    public FigProfileIcon(DiagramSettings settings, Image icon, String str) {
-	image = new FigImage(0, 0, icon);
-	Rectangle bounds = new Rectangle(0, image.getHeight() + GAP, 0, 0);
-	label = new FigSingleLineText(bounds, settings, true);
-	label.setText(str);
-	label.calcBounds();
-	
-	addFig(image);
-	addFig(label);
+	private FigText label = null;
 
-	image.setResizable(false);
-	image.setLocked(true);
-    }
-    
+	private static final int GAP = 2;
 
-    @Override
-    protected void setBoundsImpl(int x, int y, int w, int h) {
-	int width = Math.max(image.getWidth(), label.getWidth());
+	/**
+	 * Default constructor.
+	 * 
+	 * @param settings
+	 *            diagram settings
+	 * @param icon
+	 *            the icon
+	 * @param str
+	 *            the default name
+	 */
+	public FigProfileIcon(DiagramSettings settings, Image icon, String str) {
+		image = new FigImage(0, 0, icon);
+		Rectangle bounds = new Rectangle(0, image.getHeight() + GAP, 0, 0);
+		label = new FigSingleLineText(bounds, settings, true);
+		label.setText(str);
+		label.calcBounds();
 
-	image.setLocation(x + (width - image.getWidth()) / 2, y);
-	label.setLocation(x + (width - label.getWidth()) / 2, y
-		+ image.getHeight() + GAP);
+		addFig(image);
+		addFig(label);
 
-	calcBounds();
-	updateEdges();
-    }
+		image.setResizable(false);
+		image.setLocked(true);
+	}
 
-    /**
-     * @return the FigText that contains the icon name
-     */
-    public FigText getLabelFig() {
-        return label;
-    }
-    
-    /**
-     * @return the label of the label fig
-     */
-    public String getLabel() {
-        return label.getText();
-    }
+	@Override
+	protected void setBoundsImpl(int x, int y, int w, int h) {
+		int width = Math.max(image.getWidth(), label.getWidth());
 
-    /**
-     * Sets the label and updates the figure bounds
-     * @param txt the label to set
-     */
-    public void setLabel(String txt) {
-        this.label.setText(txt);
-	this.label.calcBounds();
-	this.calcBounds();
-    }       
+		image.setLocation(x + (width - image.getWidth()) / 2, y);
+		label.setLocation(x + (width - label.getWidth()) / 2, y + image.getHeight() + GAP);
+
+		calcBounds();
+		updateEdges();
+	}
+
+	/**
+	 * @return the FigText that contains the icon name
+	 */
+	public FigText getLabelFig() {
+		return label;
+	}
+
+	/**
+	 * @return the label of the label fig
+	 */
+	public String getLabel() {
+		return label.getText();
+	}
+
+	/**
+	 * Sets the label and updates the figure bounds
+	 * 
+	 * @param txt
+	 *            the label to set
+	 */
+	public void setLabel(String txt) {
+		this.label.setText(txt);
+		this.label.calcBounds();
+		this.calcBounds();
+	}
 }

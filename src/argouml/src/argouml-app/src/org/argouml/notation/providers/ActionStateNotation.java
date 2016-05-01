@@ -45,39 +45,39 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents the ActionState.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents the ActionState. Subclass this for all
+ * languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class ActionStateNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param actionState the uml element
-     */
-    public ActionStateNotation(Object actionState) {
-        if (!Model.getFacade().isAActionState(actionState)) {
-            throw new IllegalArgumentException("This is not an ActionState.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param actionState
+	 *            the uml element
+	 */
+	public ActionStateNotation(Object actionState) {
+		if (!Model.getFacade().isAActionState(actionState)) {
+			throw new IllegalArgumentException("This is not an ActionState.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement, 
-                new String[] {"entry", "remove", "stereotype"} );
-        Object entry = Model.getFacade().getEntry(modelElement);
-        if (entry != null) {
-            addElementListener(entry, "script");
-        }
-        Collection c = Model.getFacade().getStereotypes(modelElement);
-        Iterator i = c.iterator();
-        while (i.hasNext()) {
-            Object st = i.next();
-            addElementListener(st, "name");
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement, new String[] { "entry", "remove", "stereotype" });
+		Object entry = Model.getFacade().getEntry(modelElement);
+		if (entry != null) {
+			addElementListener(entry, "script");
+		}
+		Collection c = Model.getFacade().getStereotypes(modelElement);
+		Iterator i = c.iterator();
+		while (i.hasNext()) {
+			Object st = i.next();
+			addElementListener(st, "name");
+		}
+	}
 
 }

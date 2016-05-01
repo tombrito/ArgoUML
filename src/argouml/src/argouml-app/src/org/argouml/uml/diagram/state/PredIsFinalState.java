@@ -47,26 +47,27 @@ import org.tigris.gef.util.Predicate;
  */
 public class PredIsFinalState implements Predicate {
 
-    private static final long serialVersionUID = 7935954685451090350L;
+	private static final long serialVersionUID = 7935954685451090350L;
 	/**
-     * TheInstance is the singleton.
-     */
-    private static PredIsFinalState theInstance = new PredIsFinalState();
+	 * TheInstance is the singleton.
+	 */
+	private static PredIsFinalState theInstance = new PredIsFinalState();
 
-    private PredIsFinalState() { }
+	private PredIsFinalState() {
+	}
 
-    /*
-     * @see org.tigris.gef.util.Predicate#predicate(java.lang.Object)
-     */
-    public boolean predicate(Object obj) {
-	return (Model.getFacade().isAFinalState(obj));
-    }
+	/*
+	 * @see org.tigris.gef.util.Predicate#predicate(java.lang.Object)
+	 */
+	public boolean predicate(Object obj) {
+		return (Model.getFacade().isAFinalState(obj));
+	}
 
-    /**
-     * @return the instance
-     */
-    public static PredIsFinalState getTheInstance() {
-        return theInstance;
-    }
+	/**
+	 * @return the instance
+	 */
+	public static PredIsFinalState getTheInstance() {
+		return theInstance;
+	}
 
 } /* end class PredIsFinalState */

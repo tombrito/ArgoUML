@@ -58,78 +58,79 @@ import org.argouml.ui.ProjectBrowser;
  */
 public class ActionSaveProject extends AbstractAction {
 
-    private static final long serialVersionUID = -5579548202585774293L;
+	private static final long serialVersionUID = -5579548202585774293L;
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ActionSaveProject.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ActionSaveProject.class.getName());
 
-    /**
-     * The constructor.
-     */
-    public ActionSaveProject() {
-        super(Translator.localize("action.save-project"),
-                ResourceLoaderWrapper.lookupIcon("action.save-project"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.save-project"));
-        super.setEnabled(false);
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionSaveProject() {
+		super(Translator.localize("action.save-project"), ResourceLoaderWrapper.lookupIcon("action.save-project"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.save-project"));
+		super.setEnabled(false);
+	}
 
-    /**
-     * The constructor.
-     * @param name the name of the action.
-     * @param icon the icon to represent this action graphically.
-     */
-    protected ActionSaveProject(String name, Icon icon) {
-        super(name, icon);
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param name
+	 *            the name of the action.
+	 * @param icon
+	 *            the icon to represent this action graphically.
+	 */
+	protected ActionSaveProject(String name, Icon icon) {
+		super(name, icon);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        LOG.log(Level.INFO, "Performing save action");
-        ProjectBrowser.getInstance().trySave(
-                ProjectManager.getManager().getCurrentProject() != null
-                        && ProjectManager.getManager().getCurrentProject()
-                                .getURI() != null);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		LOG.log(Level.INFO, "Performing save action");
+		ProjectBrowser.getInstance().trySave(ProjectManager.getManager().getCurrentProject() != null
+				&& ProjectManager.getManager().getCurrentProject().getURI() != null);
+	}
 
-    /**
-     * Set the enabled state of the save action. When we become enabled inform
-     * the user by highlighting the title bar with an asterisk. This method is
-     * undoable.  This method is synchronized so that it can be used from any
-     * thread without external synchronization.
-     *
-     * @param isEnabled new state for save command
-     */
-    @Override
-    public synchronized void setEnabled(final boolean isEnabled) {
-        if (isEnabled == this.enabled) {
-            return;
-        }
-        if (LOG.isLoggable(Level.FINE)) {
-            if (!enabled && isEnabled) {
-                Throwable throwable = new Throwable();
-                throwable.fillInStackTrace();
-                LOG.log(Level.FINE, "Save action enabled by  ", throwable);
-            } else {
-                LOG.log(Level.FINE, "Save state changed from " + enabled + " to "
-                        + isEnabled);
-            }
-        }
-        internalSetEnabled(isEnabled);
-    }
+	/**
+	 * Set the enabled state of the save action. When we become enabled inform
+	 * the user by highlighting the title bar with an asterisk. This method is
+	 * undoable. This method is synchronized so that it can be used from any
+	 * thread without external synchronization.
+	 *
+	 * @param isEnabled
+	 *            new state for save command
+	 */
+	@Override
+	public synchronized void setEnabled(final boolean isEnabled) {
+		if (isEnabled == this.enabled) {
+			return;
+		}
+		if (LOG.isLoggable(Level.FINE)) {
+			if (!enabled && isEnabled) {
+				Throwable throwable = new Throwable();
+				throwable.fillInStackTrace();
+				LOG.log(Level.FINE, "Save action enabled by  ", throwable);
+			} else {
+				LOG.log(Level.FINE, "Save state changed from " + enabled + " to " + isEnabled);
+			}
+		}
+		internalSetEnabled(isEnabled);
+	}
 
-    /**
-     * Set the enabled state of this action and displays the save indicator
-     * @param isEnabled true to enable the action
-     */
-    private void internalSetEnabled(boolean isEnabled) {
-        super.setEnabled(isEnabled);
-        ProjectBrowser.getInstance().showSaveIndicator();
-    }
+	/**
+	 * Set the enabled state of this action and displays the save indicator
+	 * 
+	 * @param isEnabled
+	 *            true to enable the action
+	 */
+	private void internalSetEnabled(boolean isEnabled) {
+		super.setEnabled(isEnabled);
+		ProjectBrowser.getInstance().showSaveIndicator();
+	}
 
 }

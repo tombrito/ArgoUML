@@ -42,21 +42,20 @@ import org.argouml.application.api.GUISettingsTabInterface;
 import org.argouml.kernel.Project;
 
 /**
- * An interface for UI tabs on the settings panel that
- * adjust project related settings. <p>
+ * An interface for UI tabs on the settings panel that adjust project related
+ * settings.
+ * <p>
  * 
- * The system shall guarantee that the function 
- * {@link #setProject(Project)} will be called BEFORE
- * one of the data related functions are called.
+ * The system shall guarantee that the function {@link #setProject(Project)}
+ * will be called BEFORE one of the data related functions are called.
  *
  * @author michiel
  */
-public interface GUIProjectSettingsTabInterface 
-    extends GUISettingsTabInterface {
+public interface GUIProjectSettingsTabInterface extends GUISettingsTabInterface {
 
-    /**
-     * @param project the project to change settings for
-     * This p shall never be null.
-     */
-    void setProject(Project project);
+	/**
+	 * @param project
+	 *            the project to change settings for This p shall never be null.
+	 */
+	void setProject(Project project);
 }

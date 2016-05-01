@@ -50,84 +50,77 @@ import org.argouml.uml.diagram.DiagramFactory;
  */
 public class ActionDeploymentDiagram extends ActionAddDiagram {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ActionDeploymentDiagram.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ActionDeploymentDiagram.class.getName());
 
-    /**
-     * Constructor.
-     */
-    public ActionDeploymentDiagram() {
-        super("action.deployment-diagram");
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionDeploymentDiagram() {
+		super("action.deployment-diagram");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
-     */
-    public ArgoDiagram createDiagram(Object namespace) {
-        // a deployment diagram shows something about the whole model
-        // according to the UML spec, but we rely on the caller to enforce
-        // that if desired.
-        if (!Model.getFacade().isANamespace(namespace)) {
-            LOG.log(Level.SEVERE, "No namespace as argument {0}",namespace);
-            
-            throw new IllegalArgumentException(
-					       "The argument " + namespace
-					       + "is not a namespace.");
-        }
-        return DiagramFactory.getInstance().createDiagram(
-                DiagramFactory.DiagramType.Deployment,
-                namespace,
-                null);
-    }
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
+	 */
+	public ArgoDiagram createDiagram(Object namespace) {
+		// a deployment diagram shows something about the whole model
+		// according to the UML spec, but we rely on the caller to enforce
+		// that if desired.
+		if (!Model.getFacade().isANamespace(namespace)) {
+			LOG.log(Level.SEVERE, "No namespace as argument {0}", namespace);
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
-     */
-    public boolean isValidNamespace(Object namespace) {
-        // a deployment diagram shows something about the whole model
-        // according to the uml spec
-        if (!Model.getFacade().isANamespace(namespace)) {
-            LOG.log(Level.SEVERE, "No namespace as argument {0}",namespace);
-            
-            throw new IllegalArgumentException("The argument " + namespace
-					       + "is not a namespace.");
-        }
-        // may only occur as child of the model or in a package
-        if (Model.getFacade().isAPackage(namespace)) {
-            return true;
-        }
-        return false;
-    }
+			throw new IllegalArgumentException("The argument " + namespace + "is not a namespace.");
+		}
+		return DiagramFactory.getInstance().createDiagram(DiagramFactory.DiagramType.Deployment, namespace, null);
+	}
 
-    /*
-     * For a deployment diagram, not just any
-     * namespace will do - we need a package.
-     */
-    @Override
-    protected Object findNamespace() {
-        Object ns = super.findNamespace();
-        if (ns == null) {
-            return ns;
-        }
-        if (!Model.getFacade().isANamespace(ns)) {
-            return ns;
-        }
-        while (!Model.getFacade().isAPackage(ns)) {
-            // ns is a namespace, but not a package
-            Object candidate = Model.getFacade().getNamespace(ns);
-            if (!Model.getFacade().isANamespace(candidate)) {
-                return null;
-            }
-            ns = candidate;
-        }
-        return ns;
-    }
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
+	 */
+	public boolean isValidNamespace(Object namespace) {
+		// a deployment diagram shows something about the whole model
+		// according to the uml spec
+		if (!Model.getFacade().isANamespace(namespace)) {
+			LOG.log(Level.SEVERE, "No namespace as argument {0}", namespace);
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 9027235104963895167L;
+			throw new IllegalArgumentException("The argument " + namespace + "is not a namespace.");
+		}
+		// may only occur as child of the model or in a package
+		if (Model.getFacade().isAPackage(namespace)) {
+			return true;
+		}
+		return false;
+	}
+
+	/*
+	 * For a deployment diagram, not just any namespace will do - we need a
+	 * package.
+	 */
+	@Override
+	protected Object findNamespace() {
+		Object ns = super.findNamespace();
+		if (ns == null) {
+			return ns;
+		}
+		if (!Model.getFacade().isANamespace(ns)) {
+			return ns;
+		}
+		while (!Model.getFacade().isAPackage(ns)) {
+			// ns is a namespace, but not a package
+			Object candidate = Model.getFacade().getNamespace(ns);
+			if (!Model.getFacade().isANamespace(candidate)) {
+				return null;
+			}
+			ns = candidate;
+		}
+		return ns;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 9027235104963895167L;
 }

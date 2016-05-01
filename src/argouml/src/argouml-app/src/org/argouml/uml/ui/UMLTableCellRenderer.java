@@ -46,26 +46,26 @@ import org.argouml.model.Model;
  */
 public class UMLTableCellRenderer extends DefaultTableCellRenderer {
 
-    private static final long serialVersionUID = -8204518656072625195L;
+	private static final long serialVersionUID = -8204518656072625195L;
 
 	/**
-     * Construct a TableCellRender which uses the name of a UML element.
-     */
-    public UMLTableCellRenderer() {
-        super();
-    }
+	 * Construct a TableCellRender which uses the name of a UML element.
+	 */
+	public UMLTableCellRenderer() {
+		super();
+	}
 
-    @Override
-    public void setValue(Object value) {
-        if (Model.getFacade().isAModelElement(value)) {
-            String name = Model.getFacade().getName(value);
-            setText(name);
-        } else {
-            if (value instanceof String) {
-                setText((String) value);
-            } else {
-                setText("");
-            }
-        }
-    }
+	@Override
+	public void setValue(Object value) {
+		if (Model.getFacade().isAModelElement(value)) {
+			String name = Model.getFacade().getName(value);
+			setText(name);
+		} else {
+			if (value instanceof String) {
+				setText((String) value);
+			} else {
+				setText("");
+			}
+		}
+	}
 }

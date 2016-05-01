@@ -48,66 +48,61 @@ import org.argouml.kernel.ProjectManager;
 import org.argouml.model.Model;
 import org.argouml.uml.ui.AbstractActionAddModelElement2;
 
-
 /**
- * This action binds Instances to one or more Classifiers,
- * which declare its structure and behaviour.
- * An Object is defined as an instance of a Class, which explains why
- * the type of Classifier is parameter to one of this action's constructors.
+ * This action binds Instances to one or more Classifiers, which declare its
+ * structure and behaviour. An Object is defined as an instance of a Class,
+ * which explains why the type of Classifier is parameter to one of this
+ * action's constructors.
  *
  */
 public class ActionAddInstanceClassifier extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = -6475347975525794134L;
+	private static final long serialVersionUID = -6475347975525794134L;
 	private Object choiceClass = Model.getMetaTypes().getClassifier();
 
-    /**
-     * The constructor for ActionAddExtendExtensionPoint.
-     */
-    public ActionAddInstanceClassifier() {
-        super();
-    }
+	/**
+	 * The constructor for ActionAddExtendExtensionPoint.
+	 */
+	public ActionAddInstanceClassifier() {
+		super();
+	}
 
-    /**
-     * Construct Add Classifier action for an instance.  When used with a UML
-     * Object (an instance of a UML Class), the argument <code>choice</code>
-     * will be UMLClass instead of Classifier to further restrict the 
-     * available choices.
-     *
-     * @param choice the classifier type we are adding
-     */
-    public ActionAddInstanceClassifier(Object choice) {
-        super();
-        choiceClass = choice;
-    }
+	/**
+	 * Construct Add Classifier action for an instance. When used with a UML
+	 * Object (an instance of a UML Class), the argument <code>choice</code>
+	 * will be UMLClass instead of Classifier to further restrict the available
+	 * choices.
+	 *
+	 * @param choice
+	 *            the classifier type we are adding
+	 */
+	public ActionAddInstanceClassifier(Object choice) {
+		super();
+		choiceClass = choice;
+	}
 
+	@Override
+	protected void doIt(Collection selected) {
+		Model.getCommonBehaviorHelper().setClassifiers(getTarget(), selected);
+	}
 
-    @Override
-    protected void doIt(Collection selected) {
-        Model.getCommonBehaviorHelper().setClassifiers(getTarget(), selected);
-    }
+	protected List getChoices() {
+		List ret = new ArrayList();
+		if (getTarget() != null) {
+			Project p = ProjectManager.getManager().getCurrentProject();
+			Object model = p.getRoot();
+			ret.addAll(Model.getModelManagementHelper().getAllModelElementsOfKindWithModel(model, choiceClass));
+		}
+		return ret;
+	}
 
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-specifications");
+	}
 
-    protected List getChoices() {
-        List ret = new ArrayList();
-        if (getTarget() != null) {
-            Project p = ProjectManager.getManager().getCurrentProject();
-            Object model = p.getRoot();
-            ret.addAll(Model.getModelManagementHelper()
-                    .getAllModelElementsOfKindWithModel(model, choiceClass));
-        }
-        return ret;
-    }
-
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-specifications");
-    }
-
-
-    protected List getSelected() {
-        List ret = new ArrayList();
-        ret.addAll(Model.getFacade().getClassifiers(getTarget()));
-        return ret;
-    }
+	protected List getSelected() {
+		List ret = new ArrayList();
+		ret.addAll(Model.getFacade().getClassifiers(getTarget()));
+		return ret;
+	}
 }

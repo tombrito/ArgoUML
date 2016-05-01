@@ -59,415 +59,402 @@ import org.tigris.gef.presentation.FigText;
 
 /**
  * A Fig designed to be the child of some FigNode or FigEdge to display the
- * stereotypes of the model element represented by the parent Fig.
- * Currently, multiple stereotypes are shown stacked one on top of the other,
- * each enclosed by guillemets.<p>
+ * stereotypes of the model element represented by the parent Fig. Currently,
+ * multiple stereotypes are shown stacked one on top of the other, each enclosed
+ * by guillemets.
+ * <p>
  *
- * The minimum width of this fig is the largest minimum width of its child
- * figs. The minimum height of this fig is the total minimum height of its child
- * figs.<p>
+ * The minimum width of this fig is the largest minimum width of its child figs.
+ * The minimum height of this fig is the total minimum height of its child figs.
+ * <p>
  *
- * The owner of this Fig is the UML element that is extended
- * with the stereotypes. We are listening to changes to the model:
- * addition and removal of stereotypes. <p>
+ * The owner of this Fig is the UML element that is extended with the
+ * stereotypes. We are listening to changes to the model: addition and removal
+ * of stereotypes.
+ * <p>
  *
- * This fig supports showing one keyword
- * as the first "stereotype" in the list. <p>
+ * This fig supports showing one keyword as the first "stereotype" in the list.
+ * <p>
  *
- * There is no way to remove a keyword fig, once added. <p>
+ * There is no way to remove a keyword fig, once added.
+ * <p>
  *
- * TODO: Allow for UML2 style display where all stereotypes are displayed in
- * the same guillemet pair and are delimited by commas. The style should be
+ * TODO: Allow for UML2 style display where all stereotypes are displayed in the
+ * same guillemet pair and are delimited by commas. The style should be
  * changeable by calling getOrientation(Orientation). The swidget Orientation
  * class can be used for this.
+ * 
  * @author Bob Tarling
  */
 public class FigStereotypesGroup extends ArgoFigGroup {
 
-    private static final long serialVersionUID = 4650490538622085123L;
+	private static final long serialVersionUID = 4650490538622085123L;
 
 	private Fig bigPort;
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(FigStereotypesGroup.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(FigStereotypesGroup.class.getName());
 
-    /**
-     * One UML keyword is allowed. These are not strictly stereotypes but are
-     * displayed as such. e.g. &lt;&lt;interface&gt;&gt;
-     */
-    private String keyword;
+	/**
+	 * One UML keyword is allowed. These are not strictly stereotypes but are
+	 * displayed as such. e.g. &lt;&lt;interface&gt;&gt;
+	 */
+	private String keyword;
 
-    private int stereotypeCount = 0;
+	private int stereotypeCount = 0;
 
-    private boolean hidingStereotypesWithIcon = false;
+	private boolean hidingStereotypesWithIcon = false;
 
-    private void constructFigs(int x, int y, int w, int h) {
-        bigPort = new FigRect(x, y, w, h, LINE_COLOR, FILL_COLOR);
-        addFig(bigPort);
-        bigPort.setFilled(false);
+	private void constructFigs(int x, int y, int w, int h) {
+		bigPort = new FigRect(x, y, w, h, LINE_COLOR, FILL_COLOR);
+		addFig(bigPort);
+		bigPort.setFilled(false);
 
-        /* Do not show border line, make transparent: */
-        setLineWidth(0);
-        setFilled(false);
-    }
+		/* Do not show border line, make transparent: */
+		setLineWidth(0);
+		setFilled(false);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigStereotypesGroup(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, settings);
-        constructFigs(bounds.x, bounds.y, bounds.width, bounds.height);
-        Model.getPump().addModelEventListener(this, owner, "stereotype");
-        populate();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigStereotypesGroup(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, settings);
+		constructFigs(bounds.x, bounds.y, bounds.width, bounds.height);
+		Model.getPump().addModelEventListener(this, owner, "stereotype");
+		populate();
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
+	 */
+	@Override
+	public void removeFromDiagram() {
+		/*
+		 * Remove all items in the group, otherwise the model event listeners
+		 * remain: TODO: Why does a FigGroup not do this?
+		 */
+		for (Object f : getFigs()) {
+			((Fig) f).removeFromDiagram();
+		}
+		super.removeFromDiagram();
+		Model.getPump().removeModelEventListener(this, getOwner(), "stereotype");
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
-     */
-    @Override
-    public void removeFromDiagram() {
-        /* Remove all items in the group,
-         * otherwise the model event listeners remain:
-         * TODO: Why does a FigGroup not do this? */
-        for (Object f : getFigs()) {
-            ((Fig) f).removeFromDiagram();
-        }
-        super.removeFromDiagram();
-        Model.getPump()
-                .removeModelEventListener(this, getOwner(), "stereotype");
-    }
+	/**
+	 * @return the bigport
+	 * @deprecated for 0.27.2. For backward compatibility only. The visibility
+	 *             of this method will be changed to private in the next release
+	 *             when FigStereotypesCompartment is removed.
+	 */
+	@Deprecated
+	protected Fig getBigPort() {
+		return bigPort;
+	}
 
-    /**
-     * @return the bigport
-     * @deprecated for 0.27.2. For backward compatibility only. The visibility
-     *             of this method will be changed to private in the next release
-     *             when FigStereotypesCompartment is removed.
-     */
-    @Deprecated
-    protected Fig getBigPort() {
-        return bigPort;
-    }
+	@Override
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event instanceof AddAssociationEvent) {
+			AddAssociationEvent aae = (AddAssociationEvent) event;
+			if (event.getPropertyName().equals("stereotype")) {
+				Object stereotype = aae.getChangedValue();
+				if (findFig(stereotype) == null) {
+					FigText stereotypeTextFig = new FigStereotype(stereotype, getBoundsForNextStereotype(),
+							getSettings());
+					stereotypeCount++;
+					addFig(stereotypeTextFig);
+					reorderStereotypeFigs();
+					damage();
+				}
+			} else {
+				LOG.log(Level.WARNING, "Unexpected property " + event.getPropertyName());
+			}
+		}
+		if (event instanceof RemoveAssociationEvent) {
+			if (event.getPropertyName().equals("stereotype")) {
+				RemoveAssociationEvent rae = (RemoveAssociationEvent) event;
+				Object stereotype = rae.getChangedValue();
+				Fig f = findFig(stereotype);
+				if (f != null) {
+					removeFig(f);
+					f.removeFromDiagram(); // or vice versa?
+					--stereotypeCount;
+				}
+			} else {
+				LOG.log(Level.WARNING, "Unexpected property " + event.getPropertyName());
+			}
+		}
+	}
 
-    @Override
-    public void propertyChange(PropertyChangeEvent event) {
-        if (event instanceof AddAssociationEvent) {
-            AddAssociationEvent aae = (AddAssociationEvent) event;
-            if (event.getPropertyName().equals("stereotype")) {
-                Object stereotype = aae.getChangedValue();
-                if (findFig(stereotype) == null) {
-                    FigText stereotypeTextFig =
-                        new FigStereotype(stereotype,
-                                getBoundsForNextStereotype(),
-                                getSettings());
-                    stereotypeCount++;
-                    addFig(stereotypeTextFig);
-                    reorderStereotypeFigs();
-                    damage();
-                }
-            } else {
-                LOG.log(Level.WARNING, "Unexpected property " + event.getPropertyName());
-            }
-        }
-        if (event instanceof RemoveAssociationEvent) {
-            if (event.getPropertyName().equals("stereotype")) {
-                RemoveAssociationEvent rae = (RemoveAssociationEvent) event;
-                Object stereotype = rae.getChangedValue();
-                Fig f = findFig(stereotype);
-                if (f != null) {
-                    removeFig(f);
-                    f.removeFromDiagram(); // or vice versa?
-                    --stereotypeCount;
-                }
-            } else {
-                LOG.log(Level.WARNING, "Unexpected property " + event.getPropertyName());
-            }
-        }
-    }
+	/**
+	 * Keep the Figs which are likely invisible at the end of the list.
+	 */
+	private void reorderStereotypeFigs() {
+		List<Fig> allFigs = getFigs();
+		List<Fig> figsWithIcon = new ArrayList<Fig>();
+		List<Fig> figsWithOutIcon = new ArrayList<Fig>();
+		List<Fig> others = new ArrayList<Fig>();
 
-    /**
-     * Keep the Figs which are likely invisible at the end of the list.
-     */
-    private void reorderStereotypeFigs() {
-	List<Fig> allFigs = getFigs();
-	List<Fig> figsWithIcon = new ArrayList<Fig>();
-	List<Fig> figsWithOutIcon = new ArrayList<Fig>();
-	List<Fig> others = new ArrayList<Fig>();
+		// TODO: This doesn't do anything special with keywords.
+		// They should probably go first.
+		for (Fig f : allFigs) {
+			if (f instanceof FigStereotype) {
+				FigStereotype s = (FigStereotype) f;
+				if (getIconForStereotype(s) != null) {
+					figsWithIcon.add(s);
+				} else {
+					figsWithOutIcon.add(s);
+				}
+			} else {
+				others.add(f);
+			}
+		}
 
-	// TODO: This doesn't do anything special with keywords.
-	// They should probably go first.
-	for (Fig f : allFigs) {
-            if (f instanceof FigStereotype) {
-                FigStereotype s = (FigStereotype) f;
-                if (getIconForStereotype(s) != null) {
-                    figsWithIcon.add(s);
-                } else {
-                    figsWithOutIcon.add(s);
-                }
-            } else {
-                others.add(f);
-            }
-        }
+		List<Fig> n = new ArrayList<Fig>();
 
-	List<Fig> n = new ArrayList<Fig>();
+		n.addAll(others);
+		n.addAll(figsWithOutIcon);
+		n.addAll(figsWithIcon);
 
-	n.addAll(others);
-	n.addAll(figsWithOutIcon);
-	n.addAll(figsWithIcon);
+		setFigs(n);
+	}
 
-	setFigs(n);
-    }
+	private FigStereotype findFig(Object stereotype) {
+		for (Object f : getFigs()) {
+			if (f instanceof FigStereotype) {
+				FigStereotype fs = (FigStereotype) f;
+				if (fs.getOwner() == stereotype) {
+					return fs;
+				}
+			}
+		}
+		return null;
+	}
 
-    private FigStereotype findFig(Object stereotype) {
-        for (Object f : getFigs()) {
-            if (f instanceof FigStereotype) {
-                FigStereotype fs = (FigStereotype) f;
-                if (fs.getOwner() == stereotype) {
-                    return fs;
-                }
-            }
-        }
-        return null;
-    }
+	/**
+	 * Get all the child figs that represent the individual stereotypes
+	 * 
+	 * @return a List of the stereotype Figs
+	 */
+	List<FigStereotype> getStereotypeFigs() {
+		final List<FigStereotype> stereotypeFigs = new ArrayList<FigStereotype>();
+		for (Object f : getFigs()) {
+			if (f instanceof FigStereotype) {
+				FigStereotype fs = (FigStereotype) f;
+				stereotypeFigs.add(fs);
+			}
+		}
+		return stereotypeFigs;
+	}
 
-    /**
-     * Get all the child figs that represent the individual stereotypes
-     * @return a List of the stereotype Figs
-     */
-    List<FigStereotype> getStereotypeFigs() {
-        final List<FigStereotype> stereotypeFigs =
-            new ArrayList<FigStereotype>();
-        for (Object f : getFigs()) {
-            if (f instanceof FigStereotype) {
-                FigStereotype fs = (FigStereotype) f;
-                stereotypeFigs.add(fs);
-            }
-        }
-        return stereotypeFigs;
-    }
+	private FigKeyword findFigKeyword() {
+		for (Object f : getFigs()) {
+			if (f instanceof FigKeyword) {
+				return (FigKeyword) f;
+			}
+		}
+		return null;
+	}
 
-    private FigKeyword findFigKeyword() {
-        for (Object f : getFigs()) {
-            if (f instanceof FigKeyword) {
-                return (FigKeyword) f;
-            }
-        }
-        return null;
-    }
+	/**
+	 * TODO: This should become private and only called from constructor
+	 *
+	 * @see org.argouml.uml.diagram.ui.FigCompartment#populate()
+	 */
+	public void populate() {
 
-    /**
-     * TODO: This should become private and only called from constructor
-     *
-     * @see org.argouml.uml.diagram.ui.FigCompartment#populate()
-     */
-    public void populate() {
+		stereotypeCount = 0;
+		Object modelElement = getOwner();
+		if (modelElement == null) {
+			// TODO: This block can be removed after issue 4075 is tackled
+			LOG.log(Level.FINE, "Cannot populate the stereotype compartment " + "unless the parent has an owner.");
+			return;
+		}
 
-        stereotypeCount = 0;
-        Object modelElement = getOwner();
-        if (modelElement == null) {
-            // TODO: This block can be removed after issue 4075 is tackled
-            LOG.log(Level.FINE, "Cannot populate the stereotype compartment "
-                     + "unless the parent has an owner.");
-            return;
-        }
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.log(Level.FINE, "Populating stereotypes compartment for {0}", Model.getFacade().getName(modelElement));
+		}
 
-        if (LOG.isLoggable(Level.FINE)) {
-            LOG.log(Level.FINE, "Populating stereotypes compartment for {0}",
-                    Model.getFacade().getName(modelElement));
-        }
+		/* This will contain the Figs that we do not need anymore: */
+		Collection<Fig> removeCollection = new ArrayList<Fig>(getFigs());
 
-        /* This will contain the Figs that we do not need anymore: */
-        Collection<Fig> removeCollection = new ArrayList<Fig>(getFigs());
+		// There is one fig more in the group than (stereotypes + keyword):
+		if (keyword != null) {
+			FigKeyword keywordFig = findFigKeyword();
+			if (keywordFig == null) {
+				// The keyword fig does not exist yet.
+				// Let's create one:
+				keywordFig = new FigKeyword(keyword, getBoundsForNextStereotype(), getSettings());
+				// bounds not relevant here
+				addFig(keywordFig);
+			} else {
+				// The keyword fig already exists.
+				removeCollection.remove(keywordFig);
+			}
+			++stereotypeCount;
+		}
 
-        //There is one fig more in the group than (stereotypes + keyword):
-        if (keyword != null) {
-            FigKeyword keywordFig = findFigKeyword();
-            if (keywordFig == null) {
-                // The keyword fig does not exist yet.
-                // Let's create one:
-                keywordFig =
-                    new FigKeyword(keyword,
-                            getBoundsForNextStereotype(),
-                            getSettings());
-                // bounds not relevant here
-                addFig(keywordFig);
-            } else {
-                // The keyword fig already exists.
-                removeCollection.remove(keywordFig);
-            }
-            ++stereotypeCount;
-        }
+		for (Object stereo : Model.getFacade().getStereotypes(modelElement)) {
+			FigStereotype stereotypeTextFig = findFig(stereo);
+			if (stereotypeTextFig == null) {
+				stereotypeTextFig = new FigStereotype(stereo, getBoundsForNextStereotype(), getSettings());
+				// bounds not relevant here
+				addFig(stereotypeTextFig);
+			} else {
+				// The stereotype fig already exists.
+				removeCollection.remove(stereotypeTextFig);
+			}
+			++stereotypeCount;
+		}
 
-        for (Object stereo : Model.getFacade().getStereotypes(modelElement)) {
-            FigStereotype stereotypeTextFig = findFig(stereo);
-            if (stereotypeTextFig == null) {
-                stereotypeTextFig =
-                    new FigStereotype(stereo,
-                            getBoundsForNextStereotype(),
-                            getSettings());
-                // bounds not relevant here
-                addFig(stereotypeTextFig);
-            } else {
-             // The stereotype fig already exists.
-                removeCollection.remove(stereotypeTextFig);
-            }
-            ++stereotypeCount;
-        }
+		// cleanup of unused FigText's
+		for (Fig f : removeCollection) {
+			if (f instanceof FigStereotype || f instanceof FigKeyword) {
+				removeFig(f);
+			}
+		}
 
-        //cleanup of unused FigText's
-        for (Fig f : removeCollection) {
-            if (f instanceof FigStereotype || f instanceof FigKeyword) {
-                removeFig(f);
-            }
-        }
+		reorderStereotypeFigs();
 
-        reorderStereotypeFigs();
+		// remove all stereotypes that have a graphical icon
+		updateHiddenStereotypes();
 
-        // remove all stereotypes that have a graphical icon
-        updateHiddenStereotypes();
+	}
 
-    }
+	/**
+	 * Get the number of stereotypes contained in this group
+	 * 
+	 * @return the number of stereotypes in this group
+	 */
+	public int getStereotypeCount() {
+		return stereotypeCount;
+	}
 
-    /**
-     * Get the number of stereotypes contained in this group
-     * @return the number of stereotypes in this group
-     */
-    public int getStereotypeCount() {
-        return stereotypeCount;
-    }
+	private Rectangle getBoundsForNextStereotype() {
+		return new Rectangle(bigPort.getX() + 1, bigPort.getY() + 1 + (stereotypeCount * ROWHEIGHT), 0, ROWHEIGHT - 2);
+	}
 
-    private Rectangle getBoundsForNextStereotype() {
-        return new Rectangle(
-                bigPort.getX() + 1,
-                bigPort.getY() + 1
-                + (stereotypeCount
-                * ROWHEIGHT),
-                0,
-                ROWHEIGHT - 2);
-    }
+	private void updateHiddenStereotypes() {
+		List<Fig> figs = getFigs();
+		for (Fig f : figs) {
+			if (f instanceof FigStereotype) {
+				FigStereotype fs = (FigStereotype) f;
+				fs.setVisible(getIconForStereotype(fs) == null || !isHidingStereotypesWithIcon());
+			}
+		}
+	}
 
-    private void updateHiddenStereotypes() {
-        List<Fig> figs = getFigs();
-        for (Fig f : figs) {
-            if (f instanceof FigStereotype) {
-                FigStereotype fs = (FigStereotype) f;
-                fs.setVisible(getIconForStereotype(fs) == null
-                        || !isHidingStereotypesWithIcon());
-            }
-        }
-    }
+	private Image getIconForStereotype(FigStereotype fs) {
+		// TODO: Find a way to replace this dependency on Project
+		Project project = getProject();
+		if (project == null) {
+			LOG.log(Level.WARNING, "getProject() returned null");
+			return null;
+		}
+		Object owner = fs.getOwner();
+		if (owner == null) {
+			// keywords which look like a stereotype (e.g. <<interface>>) have
+			// no owner
+			return null;
+		} else {
+			return project.getProfileConfiguration().getFigNodeStrategy().getIconForStereotype(owner);
+		}
+	}
 
-    private Image getIconForStereotype(FigStereotype fs) {
-        // TODO: Find a way to replace this dependency on Project
-        Project project = getProject();
-        if (project == null) {
-            LOG.log(Level.WARNING, "getProject() returned null");
-            return null;
-        }
-        Object owner = fs.getOwner();
-        if (owner == null) {
-            // keywords which look like a stereotype (e.g. <<interface>>) have
-            // no owner
-            return null;
-        } else {
-            return project.getProfileConfiguration().getFigNodeStrategy()
-                    .getIconForStereotype(owner);
-        }
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
+	 */
+	@Override
+	protected void setBoundsImpl(int x, int y, int w, int h) {
+		Rectangle oldBounds = getBounds();
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
-     */
-    @Override
-    protected void setBoundsImpl(int x, int y, int w, int h) {
-        Rectangle oldBounds = getBounds();
+		Dimension minimumSize = getMinimumSize();
+		int newW = Math.max(w, minimumSize.width);
+		int newH = Math.max(h, minimumSize.height);
 
-        Dimension minimumSize = getMinimumSize();
-        int newW = Math.max(w, minimumSize.width);
-        int newH = Math.max(h, minimumSize.height);
+		int yy = y;
+		for (Fig fig : (Collection<Fig>) getFigs()) {
+			if (fig != bigPort) {
+				fig.setBounds(x, yy, newW, fig.getMinimumSize().height);
+				yy += fig.getMinimumSize().height;
+			}
+		}
+		bigPort.setBounds(x, y, newW, newH);
+		calcBounds();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-        int yy = y;
-        for  (Fig fig : (Collection<Fig>) getFigs()) {
-            if (fig != bigPort) {
-                fig.setBounds(x, yy, newW,
-                              fig.getMinimumSize().height);
-                yy += fig.getMinimumSize().height;
-            }
-        }
-        bigPort.setBounds(x, y, newW, newH);
-        calcBounds();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+	/**
+	 * Allows a parent Fig to specify some keyword text to display amongst the
+	 * stereotypes. An example of this usage is to display
+	 * &lt;&lt;interface&gt;&gt; on FigInterface.
+	 * 
+	 * @param word
+	 *            the text of the pseudo stereotype
+	 */
+	public void setKeyword(String word) {
+		keyword = word;
+		populate();
+	}
 
-    /**
-     * Allows a parent Fig to specify some keyword text to display amongst the
-     * stereotypes.
-     * An example of this usage is to display &lt;&lt;interface&gt;&gt;
-     * on FigInterface.
-     * @param word the text of the pseudo stereotype
-     */
-    public void setKeyword(String word) {
-        keyword = word;
-        populate();
-    }
+	/**
+	 * @return true if textual stereotypes are being hidden in preference to
+	 *         displaying icon.
+	 */
+	public boolean isHidingStereotypesWithIcon() {
+		return hidingStereotypesWithIcon;
+	}
 
-    /**
-     * @return true if textual stereotypes are being hidden in preference to
-     *         displaying icon.
-     */
-    public boolean isHidingStereotypesWithIcon() {
-        return hidingStereotypesWithIcon;
-    }
+	/**
+	 * Turn on/off textual stereotype display in preference to icon.
+	 *
+	 * @param hideStereotypesWithIcon
+	 *            true to hide textual stereotypes and show icon instead.
+	 */
+	public void setHidingStereotypesWithIcon(boolean hideStereotypesWithIcon) {
+		this.hidingStereotypesWithIcon = hideStereotypesWithIcon;
+		updateHiddenStereotypes();
+	}
 
-    /**
-     * Turn on/off textual stereotype display in preference to icon.
-     *
-     * @param hideStereotypesWithIcon true to hide textual stereotypes and
-     *                show icon instead.
-     */
-    public void setHidingStereotypesWithIcon(boolean hideStereotypesWithIcon) {
-        this.hidingStereotypesWithIcon = hideStereotypesWithIcon;
-        updateHiddenStereotypes();
-    }
+	@Override
+	public Dimension getMinimumSize() {
+		// if there are no stereotypes, we return (0,0), preventing
+		// double lines in the class (see issue 4939)
+		Dimension dim = null;
+		Object modelElement = getOwner();
 
-    @Override
-    public Dimension getMinimumSize() {
-        // if there are no stereotypes, we return (0,0), preventing
-        // double lines in the class (see issue 4939)
-        Dimension dim = null;
-        Object modelElement = getOwner();
+		if (modelElement != null) {
+			List<FigStereotype> stereos = getStereotypeFigs();
+			if (stereos.size() > 0 || keyword != null) {
+				int minWidth = 0;
+				int minHeight = 0;
+				// set new bounds for all included figs
+				for (Fig fig : (Collection<Fig>) getFigs()) {
+					if (fig.isVisible() && fig != bigPort) {
+						int fw = fig.getMinimumSize().width;
+						if (fw > minWidth) {
+							minWidth = fw;
+						}
+						minHeight += fig.getMinimumSize().height;
+					}
+				}
 
-        if (modelElement != null) {
-            List<FigStereotype> stereos = getStereotypeFigs();
-            if (stereos.size() > 0 || keyword != null) {
-                int minWidth = 0;
-                int minHeight = 0;
-                //set new bounds for all included figs
-                for (Fig fig : (Collection<Fig>) getFigs()) {
-                    if (fig.isVisible() && fig != bigPort) {
-                        int fw = fig.getMinimumSize().width;
-                        if (fw > minWidth) {
-                            minWidth = fw;
-                        }
-                        minHeight += fig.getMinimumSize().height;
-                    }
-                }
-
-                minHeight += 2; // 2 Pixel padding after compartment
-                dim = new Dimension(minWidth, minHeight);
-            }
-        }
-        if (dim == null) {
-            dim = new Dimension(0, 0);
-        }
-        return dim;
-    }
+				minHeight += 2; // 2 Pixel padding after compartment
+				dim = new Dimension(minWidth, minHeight);
+			}
+		}
+		if (dim == null) {
+			dim = new Dimension(0, 0);
+		}
+		return dim;
+	}
 }

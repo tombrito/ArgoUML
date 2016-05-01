@@ -55,121 +55,127 @@ import org.argouml.uml.cognitive.critics.CrUML;
  */
 public class CrOCL extends CrUML {
 
-    private static final long serialVersionUID = 7275228965409823164L;
+	private static final long serialVersionUID = 7275228965409823164L;
 
 	/**
-     * the OCL Interpreter
-     */
-    private OclInterpreter interpreter = null;
+	 * the OCL Interpreter
+	 */
+	private OclInterpreter interpreter = null;
 
-    /**
-     * the OCL string
-     */
-    private String ocl = null;
+	/**
+	 * the OCL string
+	 */
+	private String ocl = null;
 
-    /**
-     * the design materials to be criticized
-     */
-    private Set<Object> designMaterials;
-    
-    /**
-     * Creates a new OCL critic
-     * 
-     * @param oclConstraint ocl expression
-     * @param headline headline
-     * @param description description
-     * @param moreInfoURL the info url
-     * @param knowledgeTypes the knowledge types
-     * @param supportedDecisions the decisions
-     * @param priority the priority
-     * @throws InvalidOclException if the ocl is not valid
-     * 
-     * TODO: Do these need to be Lists or can they be simple Collections?
-     */
-    public CrOCL(String oclConstraint, String headline, String description,
-            Integer priority, List<Decision> supportedDecisions,
-            List<String> knowledgeTypes, String moreInfoURL)
-        throws InvalidOclException {
-        interpreter = 
-            new OclInterpreter(oclConstraint, new Uml14ModelInterpreter());
-        this.ocl = oclConstraint;
-        
-        addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
-        setPriority(ToDoItem.HIGH_PRIORITY);
+	/**
+	 * the design materials to be criticized
+	 */
+	private Set<Object> designMaterials;
 
-        List<String> triggers = interpreter.getTriggers();
-        designMaterials = interpreter.getCriticizedDesignMaterials();
-        
-        for (String string : triggers) {
-            addTrigger(string);
-        }
+	/**
+	 * Creates a new OCL critic
+	 * 
+	 * @param oclConstraint
+	 *            ocl expression
+	 * @param headline
+	 *            headline
+	 * @param description
+	 *            description
+	 * @param moreInfoURL
+	 *            the info url
+	 * @param knowledgeTypes
+	 *            the knowledge types
+	 * @param supportedDecisions
+	 *            the decisions
+	 * @param priority
+	 *            the priority
+	 * @throws InvalidOclException
+	 *             if the ocl is not valid
+	 * 
+	 *             TODO: Do these need to be Lists or can they be simple
+	 *             Collections?
+	 */
+	public CrOCL(String oclConstraint, String headline, String description, Integer priority,
+			List<Decision> supportedDecisions, List<String> knowledgeTypes, String moreInfoURL)
+			throws InvalidOclException {
+		interpreter = new OclInterpreter(oclConstraint, new Uml14ModelInterpreter());
+		this.ocl = oclConstraint;
 
-        if (headline == null) {
-            super.setHeadline("OCL Expression");
-        } else {
-            super.setHeadline(headline);
-        }
+		addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
+		setPriority(ToDoItem.HIGH_PRIORITY);
 
-        if (description == null) {
-            super.setDescription("");
-        } else {
-            super.setDescription(description);
-        }
+		List<String> triggers = interpreter.getTriggers();
+		designMaterials = interpreter.getCriticizedDesignMaterials();
 
-        if (priority == null) {
-            setPriority(ToDoItem.HIGH_PRIORITY);
-        } else {
-            setPriority(priority);
-        }
+		for (String string : triggers) {
+			addTrigger(string);
+		}
 
-        if (supportedDecisions != null) {
-            for (Decision d : supportedDecisions) {
-                addSupportedDecision(d);
-            }
-        }
+		if (headline == null) {
+			super.setHeadline("OCL Expression");
+		} else {
+			super.setHeadline(headline);
+		}
 
-        if (knowledgeTypes != null) {
-            for (String k : knowledgeTypes) {
-                addKnowledgeType(k);
-            }
-        }
+		if (description == null) {
+			super.setDescription("");
+		} else {
+			super.setDescription(description);
+		}
 
-        if (moreInfoURL != null) {
-            setMoreInfoURL(moreInfoURL);
-        }
-    }
-    
+		if (priority == null) {
+			setPriority(ToDoItem.HIGH_PRIORITY);
+		} else {
+			setPriority(priority);
+		}
 
-    /*
-     * @see org.argouml.cognitive.Critic#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        return designMaterials;
-    }
+		if (supportedDecisions != null) {
+			for (Decision d : supportedDecisions) {
+				addSupportedDecision(d);
+			}
+		}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        if (!interpreter.applicable(dm)) {
-            return NO_PROBLEM;
-        } else {
-            if (interpreter.check(dm)) {
-                return NO_PROBLEM;
-            } else {
-                return PROBLEM_FOUND;
-            }
-        }
-    }
+		if (knowledgeTypes != null) {
+			for (String k : knowledgeTypes) {
+				addKnowledgeType(k);
+			}
+		}
 
-    /**
-     * @return the ocl constraint
-     */
-    public String getOCL() {
-        return ocl;
-    }
+		if (moreInfoURL != null) {
+			setMoreInfoURL(moreInfoURL);
+		}
+	}
+
+	/*
+	 * @see org.argouml.cognitive.Critic#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		return designMaterials;
+	}
+
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!interpreter.applicable(dm)) {
+			return NO_PROBLEM;
+		} else {
+			if (interpreter.check(dm)) {
+				return NO_PROBLEM;
+			} else {
+				return PROBLEM_FOUND;
+			}
+		}
+	}
+
+	/**
+	 * @return the ocl constraint
+	 */
+	public String getOCL() {
+		return ocl;
+	}
 
 }

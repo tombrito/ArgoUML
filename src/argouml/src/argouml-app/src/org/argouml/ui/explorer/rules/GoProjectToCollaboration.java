@@ -54,37 +54,39 @@ import org.argouml.model.Model;
  */
 public class GoProjectToCollaboration extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.project.collaboration");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	Collection col = new ArrayList();
-        if (parent instanceof Project) {
-            for (Object model : ((Project) parent).getUserDefinedModelList()) {
-                col.addAll(Model.getModelManagementHelper()
-                        .getAllModelElementsOfKind(model,
-                                Model.getMetaTypes().getCollaboration()));
-            }
-        }
-	return col;
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (parent instanceof Project) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.project.collaboration");
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		Collection col = new ArrayList();
+		if (parent instanceof Project) {
+			for (Object model : ((Project) parent).getUserDefinedModelList()) {
+				col.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(model,
+						Model.getMetaTypes().getCollaboration()));
+			}
+		}
+		return col;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (parent instanceof Project) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

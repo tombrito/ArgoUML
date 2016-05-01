@@ -45,31 +45,29 @@ import javax.swing.Action;
 import org.argouml.i18n.Translator;
 import org.argouml.ui.UndoableAction;
 
-
 /**
  * Action to open the Goals dialog.
  */
 public class ActionOpenGoals extends UndoableAction {
 
-    private static final long serialVersionUID = 3612788232238959602L;
+	private static final long serialVersionUID = 3612788232238959602L;
 
 	/**
-     * The constructor.
-     */
-    public ActionOpenGoals() {
-        super(Translator.localize("action.design-goals"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.design-goals"));
-    }
+	 * The constructor.
+	 */
+	public ActionOpenGoals() {
+		super(Translator.localize("action.design-goals"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.design-goals"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	GoalsDialog d = new GoalsDialog();
-	d.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		GoalsDialog d = new GoalsDialog();
+		d.setVisible(true);
+	}
 } /* end class ActionOpenGoals */
-

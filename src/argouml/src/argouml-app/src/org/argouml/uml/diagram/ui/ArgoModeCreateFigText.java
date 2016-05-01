@@ -47,29 +47,28 @@ import org.tigris.gef.base.ModeCreateFigText;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * A Mode to interpret user input while creating a FigText. All of
- * the actual event handling is inherited from ModeCreate. This class
- * just implements the differences needed to make it specific to
- * text.
+ * A Mode to interpret user input while creating a FigText. All of the actual
+ * event handling is inherited from ModeCreate. This class just implements the
+ * differences needed to make it specific to text.
  *
  * @author Michiel
  */
 public class ArgoModeCreateFigText extends ModeCreateFigText {
-    
-    private static final long serialVersionUID = -2888858151513812276L;
+
+	private static final long serialVersionUID = -2888858151513812276L;
 
 	@Override
-    public String instructions() {
-        return Translator.localize("statusmsg.help.create.text");
-    }
+	public String instructions() {
+		return Translator.localize("statusmsg.help.create.text");
+	}
 
-    /*
-     * Create a new FigText instance based on the given mouse down
-     * event and the state of the parent Editor. 
-     */
-    @Override
-    public Fig createNewItem(MouseEvent e, int snapX, int snapY) {
-        return new ArgoFigText(null, new Rectangle(snapX, snapY, 0, 0), 
-                DiagramUtils.getActiveDiagram().getDiagramSettings(), true);
-    }
+	/*
+	 * Create a new FigText instance based on the given mouse down event and the
+	 * state of the parent Editor.
+	 */
+	@Override
+	public Fig createNewItem(MouseEvent e, int snapX, int snapY) {
+		return new ArgoFigText(null, new Rectangle(snapX, snapY, 0, 0),
+				DiagramUtils.getActiveDiagram().getDiagramSettings(), true);
+	}
 }

@@ -58,107 +58,99 @@ import org.argouml.uml.reveng.ImporterManager;
 import org.argouml.uml.reveng.ui.ImportStatusScreen;
 import org.argouml.util.ArgoFrame;
 
-
-/** Action to trigger importing from sources.
+/**
+ * Action to trigger importing from sources.
+ * 
  * @stereotype singleton
  */
-public class ActionImportFromSources extends UndoableAction
-        implements CommandLineInterface {
+public class ActionImportFromSources extends UndoableAction implements CommandLineInterface {
 
-    private static final long serialVersionUID = -9009287502738869576L;
+	private static final long serialVersionUID = -9009287502738869576L;
 
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ActionImportFromSources.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ActionImportFromSources.class.getName());
 
-    /**
-     * The singleton.
-     */
-    private static final ActionImportFromSources SINGLETON =
-        new ActionImportFromSources();
+	/**
+	 * The singleton.
+	 */
+	private static final ActionImportFromSources SINGLETON = new ActionImportFromSources();
 
-    /**
-     *  The constructor.
-     */
-    public ActionImportFromSources() {
-        // this is never downlighted...
-        super(Translator.localize("action.import-sources"),
-                ResourceLoaderWrapper.lookupIcon("action.import-sources"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.import-sources"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionImportFromSources() {
+		// this is never downlighted...
+		super(Translator.localize("action.import-sources"), ResourceLoaderWrapper.lookupIcon("action.import-sources"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.import-sources"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent event) {
-    	super.actionPerformed(event);
-    	if (ImporterManager.getInstance().hasImporters()) {
-            new Import(ArgoFrame.getFrame());
-    	} else {
-            LOG.log(Level.INFO,
-                    "Import sources dialog not shown: no importers!");
-            ExceptionDialog ed = new ExceptionDialog(ArgoFrame.getFrame(),
-                Translator.localize("dialog.title.problem"),
-                Translator.localize("dialog.import.no-importers.intro"),
-                Translator.localize("dialog.import.no-importers.message"));
-            ed.setModal(true);
-            ed.setVisible(true);
-    	}
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent event) {
+		super.actionPerformed(event);
+		if (ImporterManager.getInstance().hasImporters()) {
+			new Import(ArgoFrame.getFrame());
+		} else {
+			LOG.log(Level.INFO, "Import sources dialog not shown: no importers!");
+			ExceptionDialog ed = new ExceptionDialog(ArgoFrame.getFrame(), Translator.localize("dialog.title.problem"),
+					Translator.localize("dialog.import.no-importers.intro"),
+					Translator.localize("dialog.import.no-importers.message"));
+			ed.setModal(true);
+			ed.setVisible(true);
+		}
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionImportFromSources getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionImportFromSources getInstance() {
+		return SINGLETON;
+	}
 
-    /**
-     * Command line command for importing a directory or file.
-     *
-     * @param argument Formatted string (<importmodule>:<importpath>)
-     * @return true if the command was performed successfully.
-*/
-    public boolean doCommand(String argument) {
-        if (argument == null) {
-            LOG.log(Level.SEVERE, "An argument has to be provided.");
-            return false;
-        }
-        int index = argument.indexOf(':');
-        if (index == -1 || argument.length() <= index) {
-            LOG.log(Level.SEVERE,
-                    "Argument must be <importmodule>:<importpath>");
-            return false;
-        }
-        Import imp = new Import(null);
-        Collection languages = imp.getLanguages();
-        if (languages == null || languages.isEmpty()) {
-            LOG.log(Level.SEVERE, "No importers available.");
-            return false;
-        }
-        String importerName = argument.substring(0, index);
-        ImportInterface importer = imp.getImporter(importerName);
-        if (importer == null) {
-            LOG.log(Level.SEVERE,
-                    "No import support for language " + importerName);
-            return false;
-        }
-        imp.setCurrentModule(importer);
-        File file = new File(argument.substring(index + 1));
-        if (!file.exists()) {
-            LOG.log(Level.SEVERE,
-                    "The specified file/directory doesn't exist.");
-            return false;
-        }
-        imp.setFiles(new File[]{file});
-        ImportStatusScreen iss =
-            new ImportStatusScreen(new JFrame(), "Importing", "Splash");
-        imp.doImport(iss);
-        return true;
-    }
+	/**
+	 * Command line command for importing a directory or file.
+	 *
+	 * @param argument
+	 *            Formatted string (<importmodule>:<importpath>)
+	 * @return true if the command was performed successfully.
+	 */
+	public boolean doCommand(String argument) {
+		if (argument == null) {
+			LOG.log(Level.SEVERE, "An argument has to be provided.");
+			return false;
+		}
+		int index = argument.indexOf(':');
+		if (index == -1 || argument.length() <= index) {
+			LOG.log(Level.SEVERE, "Argument must be <importmodule>:<importpath>");
+			return false;
+		}
+		Import imp = new Import(null);
+		Collection languages = imp.getLanguages();
+		if (languages == null || languages.isEmpty()) {
+			LOG.log(Level.SEVERE, "No importers available.");
+			return false;
+		}
+		String importerName = argument.substring(0, index);
+		ImportInterface importer = imp.getImporter(importerName);
+		if (importer == null) {
+			LOG.log(Level.SEVERE, "No import support for language " + importerName);
+			return false;
+		}
+		imp.setCurrentModule(importer);
+		File file = new File(argument.substring(index + 1));
+		if (!file.exists()) {
+			LOG.log(Level.SEVERE, "The specified file/directory doesn't exist.");
+			return false;
+		}
+		imp.setFiles(new File[] { file });
+		ImportStatusScreen iss = new ImportStatusScreen(new JFrame(), "Importing", "Splash");
+		imp.doImport(iss);
+		return true;
+	}
 }
 /* end class ActionImportFromSources */

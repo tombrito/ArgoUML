@@ -61,137 +61,136 @@ import org.tigris.gef.ui.ColorRenderer;
  * shadow width, the path checkbox.
  *
  */
-public class StylePanelFigNodeModelElement
-    extends StylePanelFig
-    implements ItemListener, FocusListener, KeyListener, 
-    PropertyChangeListener {
+public class StylePanelFigNodeModelElement extends StylePanelFig
+		implements ItemListener, FocusListener, KeyListener, PropertyChangeListener {
 
-    private static final long serialVersionUID = -3087986553413785736L;
+	private static final long serialVersionUID = -3087986553413785736L;
 
 	/**
-     * Flag to indicate that a refresh is going on.
-     */
-    private boolean refreshTransaction;
+	 * Flag to indicate that a refresh is going on.
+	 */
+	private boolean refreshTransaction;
 
-    private JLabel displayLabel = new JLabel(
-            Translator.localize("label.stylepane.display"));
+	private JLabel displayLabel = new JLabel(Translator.localize("label.stylepane.display"));
 
-    private JCheckBox pathCheckBox = new JCheckBox(
-            Translator.localize("label.stylepane.path"));
+	private JCheckBox pathCheckBox = new JCheckBox(Translator.localize("label.stylepane.path"));
 
-    private JPanel displayPane;
+	private JPanel displayPane;
 
-    /**
-     * The constructor.
-     *
-     */
-    public StylePanelFigNodeModelElement() {
-        super();
+	/**
+	 * The constructor.
+	 *
+	 */
+	public StylePanelFigNodeModelElement() {
+		super();
 
-        getFillField().setRenderer(new ColorRenderer());
-        getLineField().setRenderer(new ColorRenderer());
+		getFillField().setRenderer(new ColorRenderer());
+		getLineField().setRenderer(new ColorRenderer());
 
-        displayPane = new JPanel();
-        displayPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-        addToDisplayPane(pathCheckBox);
+		displayPane = new JPanel();
+		displayPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+		addToDisplayPane(pathCheckBox);
 
-        displayLabel.setLabelFor(displayPane);
-        add(displayPane, 0); // add in front of the others
-        add(displayLabel, 0); // add the label in front of the "pane"
+		displayLabel.setLabelFor(displayPane);
+		add(displayPane, 0); // add in front of the others
+		add(displayLabel, 0); // add the label in front of the "pane"
 
-        //This instead of the label ???
-        //displayPane.setBorder(new TitledBorder(
-        //    Translator.localize("Display: ")));
+		// This instead of the label ???
+		// displayPane.setBorder(new TitledBorder(
+		// Translator.localize("Display: ")));
 
-        pathCheckBox.addItemListener(this);
-    }
+		pathCheckBox.addItemListener(this);
+	}
 
-    /**
-     * Add a given checkbox to the panel.
-     * 
-     * @param cb the given checkbox
-     */
-    public void addToDisplayPane(JCheckBox cb) {
-        displayPane.add(cb);
-    }
+	/**
+	 * Add a given checkbox to the panel.
+	 * 
+	 * @param cb
+	 *            the given checkbox
+	 */
+	public void addToDisplayPane(JCheckBox cb) {
+		displayPane.add(cb);
+	}
 
-    @Override
-    public void setTarget(Object t) {
-        Fig oldTarget = getPanelTarget();
-        if (oldTarget != null) {
-            oldTarget.removePropertyChangeListener(this);
-        }
-        super.setTarget(t);
-        Fig newTarget = getPanelTarget();
-        if (newTarget != null) {
-            newTarget.addPropertyChangeListener(this);
-        }
-    }
+	@Override
+	public void setTarget(Object t) {
+		Fig oldTarget = getPanelTarget();
+		if (oldTarget != null) {
+			oldTarget.removePropertyChangeListener(this);
+		}
+		super.setTarget(t);
+		Fig newTarget = getPanelTarget();
+		if (newTarget != null) {
+			newTarget.addPropertyChangeListener(this);
+		}
+	}
 
-    /*
-     * @see org.argouml.ui.TabTarget#refresh()
-     */
-    public void refresh() {
-        if (TargetManager.getInstance().getTargets().size() > 1) {
-            // See issue 6109 - if we have multiple targets this method
-            // can result in a feedback problem where selecting a target
-            // changes the selection colour in the combo and as a result
-            // that trigger a change of colour of all selected Figs
-            return;
-        }
-        refreshTransaction = true;
-        // Let the parent do its refresh.
-        super.refresh();
-        Object target = getPanelTarget();
-        // TODO: Why is this code even getting called for a FigGeneralization?
-        if (target instanceof PathContainer) {
-            PathContainer pc = (PathContainer) getPanelTarget();
-            pathCheckBox.setSelected(pc.isPathVisible());
-        }
-        refreshTransaction = false;
+	/*
+	 * @see org.argouml.ui.TabTarget#refresh()
+	 */
+	public void refresh() {
+		if (TargetManager.getInstance().getTargets().size() > 1) {
+			// See issue 6109 - if we have multiple targets this method
+			// can result in a feedback problem where selecting a target
+			// changes the selection colour in the combo and as a result
+			// that trigger a change of colour of all selected Figs
+			return;
+		}
+		refreshTransaction = true;
+		// Let the parent do its refresh.
+		super.refresh();
+		Object target = getPanelTarget();
+		// TODO: Why is this code even getting called for a FigGeneralization?
+		if (target instanceof PathContainer) {
+			PathContainer pc = (PathContainer) getPanelTarget();
+			pathCheckBox.setSelected(pc.isPathVisible());
+		}
+		refreshTransaction = false;
 
-        // lets redraw the box
-        setTargetBBox();
-    }
+		// lets redraw the box
+		setTargetBBox();
+	}
 
-    /*
-     * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-     */
-    public void itemStateChanged(ItemEvent e) {
-        if (!refreshTransaction) {
-            Object src = e.getSource();
-            if (src == pathCheckBox) {
-                PathContainer pc = (PathContainer) getPanelTarget();
-                pc.setPathVisible(pathCheckBox.isSelected());
-            } else {
-                super.itemStateChanged(e);
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	public void itemStateChanged(ItemEvent e) {
+		if (!refreshTransaction) {
+			Object src = e.getSource();
+			if (src == pathCheckBox) {
+				PathContainer pc = (PathContainer) getPanelTarget();
+				pc.setPathVisible(pathCheckBox.isSelected());
+			} else {
+				super.itemStateChanged(e);
+			}
+		}
+	}
 
-    /**
-     * This function is called when the Fig property is changed from
-     * outside this Panel, e.g. when the Fig is relocated or when one of
-     * its properties change. <p>
-     * 
-     * We currently only need to react on the property
-     * that indicates that the "pathVisible" is changed. See
-     * the FigNodeModelElement for when this event is triggered. <p>
-     * 
-     * When the user toggles the visibility of the path in
-     * the Fig's pop-up menu, then this function
-     * updates the Presentation panel checkbox.
-     *
-     * @param evt the event
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("pathVisible".equals(evt.getPropertyName())) {
-            refreshTransaction = true;
-            pathCheckBox.setSelected((Boolean) evt.getNewValue());
-            refreshTransaction = false;
-        }
-    }
+	/**
+	 * This function is called when the Fig property is changed from outside
+	 * this Panel, e.g. when the Fig is relocated or when one of its properties
+	 * change.
+	 * <p>
+	 * 
+	 * We currently only need to react on the property that indicates that the
+	 * "pathVisible" is changed. See the FigNodeModelElement for when this event
+	 * is triggered.
+	 * <p>
+	 * 
+	 * When the user toggles the visibility of the path in the Fig's pop-up
+	 * menu, then this function updates the Presentation panel checkbox.
+	 *
+	 * @param evt
+	 *            the event
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		if ("pathVisible".equals(evt.getPropertyName())) {
+			refreshTransaction = true;
+			pathCheckBox.setSelected((Boolean) evt.getNewValue());
+			refreshTransaction = false;
+		}
+	}
 
 }
-

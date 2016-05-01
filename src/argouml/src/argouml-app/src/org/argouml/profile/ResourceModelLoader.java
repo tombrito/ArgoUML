@@ -49,37 +49,35 @@ import java.util.logging.Logger;
  */
 public class ResourceModelLoader extends URLModelLoader {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG = Logger.getLogger(ResourceModelLoader.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ResourceModelLoader.class.getName());
 
-    private Class clazz;
+	private Class clazz;
 
-    /**
-     * The default constructor for this class. Loads resources from the same
-     * ClassLoader that loaded this class.
-     */
-    public ResourceModelLoader() {
-        this.clazz = this.getClass();
-    }
+	/**
+	 * The default constructor for this class. Loads resources from the same
+	 * ClassLoader that loaded this class.
+	 */
+	public ResourceModelLoader() {
+		this.clazz = this.getClass();
+	}
 
-    /**
-     * Loads resources from the ClassLoader that loaded the given class
-     *
-     * @param c the reference class
-     */
-    public ResourceModelLoader(Class c) {
-        clazz = c;
-    }
+	/**
+	 * Loads resources from the ClassLoader that loaded the given class
+	 *
+	 * @param c
+	 *            the reference class
+	 */
+	public ResourceModelLoader(Class c) {
+		clazz = c;
+	}
 
+	public Collection loadModel(ProfileReference reference) throws ProfileException {
+		LOG.log(Level.INFO, "Loading profile from resource {0}", reference.getPath());
 
-    public Collection loadModel(ProfileReference reference)
-        throws ProfileException {
-        LOG.log(Level.INFO, "Loading profile from resource {0}", reference.getPath());
-
-        return super.loadModel(clazz.getResource(reference.getPath()),
-            reference.getPublicReference());
-    }
+		return super.loadModel(clazz.getResource(reference.getPath()), reference.getPublicReference());
+	}
 
 }

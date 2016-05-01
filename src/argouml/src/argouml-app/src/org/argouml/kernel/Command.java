@@ -45,26 +45,29 @@ package org.argouml.kernel;
  */
 public interface Command {
 
-    /**
-     * Execute the command to redo an instruction.
-     * @return any result object created by the command
-     */
-    public abstract Object execute();
-    
-    /**
-     * Perform undo an an undoable command that is in an undoable state
-     */
-    abstract void undo();
-    
-    /**
-     * Returns true if the command can be undone.
-     * @return true if the command is undoable
-     */
-    abstract boolean isUndoable();
-    
-    /**
-     * Returns true if the command can be redone once undone
-     * @return true if the command is redoable
-     */
-    abstract boolean isRedoable();
+	/**
+	 * Execute the command to redo an instruction.
+	 * 
+	 * @return any result object created by the command
+	 */
+	public abstract Object execute();
+
+	/**
+	 * Perform undo an an undoable command that is in an undoable state
+	 */
+	abstract void undo();
+
+	/**
+	 * Returns true if the command can be undone.
+	 * 
+	 * @return true if the command is undoable
+	 */
+	abstract boolean isUndoable();
+
+	/**
+	 * Returns true if the command can be redone once undone
+	 * 
+	 * @return true if the command is redoable
+	 */
+	abstract boolean isRedoable();
 }

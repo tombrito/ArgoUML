@@ -48,8 +48,8 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * Well-formedness rule [2] for MAssociationEnd. See page 2-45 of UML
- * chapter 2: Semantics. OMG document UML V1.3 June 1999.
+ * Well-formedness rule [2] for MAssociationEnd. See page 2-45 of UML chapter 2:
+ * Semantics. OMG document UML V1.3 June 1999.
  *
  * Well-formedness rule [1] for AssociationEnd. See page 53 of UML 1.4
  * Semantics. OMG document UML 1.4.2 formal/04-07-02.
@@ -58,52 +58,55 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrMultiComposite extends CrUML {
 
-    private static final long serialVersionUID = -1806420591738641858L;
+	private static final long serialVersionUID = -1806420591738641858L;
 
 	/**
-     * The constructor.
-     */
-    public CrMultiComposite() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.CONTAINMENT);
-        setKnowledgeTypes(Critic.KT_SEMANTICS);
-        addTrigger("aggregation");
-        addTrigger("multiplicity");
-    }
+	 * The constructor.
+	 */
+	public CrMultiComposite() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.CONTAINMENT);
+		setKnowledgeTypes(Critic.KT_SEMANTICS);
+		addTrigger("aggregation");
+		addTrigger("multiplicity");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        boolean problem = NO_PROBLEM;
-        if (Model.getFacade().isAAssociationEnd(dm)) {
-            if (Model.getFacade().isComposite(dm)) {
-                if (Model.getFacade().getUpper(dm) > 1) {
-                    problem = PROBLEM_FOUND;
-                }
-            }
-        }
-        return problem;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		boolean problem = NO_PROBLEM;
+		if (Model.getFacade().isAAssociationEnd(dm)) {
+			if (Model.getFacade().isComposite(dm)) {
+				if (Model.getFacade().getUpper(dm) > 1) {
+					problem = PROBLEM_FOUND;
+				}
+			}
+		}
+		return problem;
+	}
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) {
-        return WizAssocComposite.class;
-    }
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizAssocComposite.class;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAssociationEnd());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAssociationEnd());
+		return ret;
+	}
+
 } /* end class CrMultiComposite */

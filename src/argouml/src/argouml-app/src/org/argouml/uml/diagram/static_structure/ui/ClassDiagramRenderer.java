@@ -54,9 +54,9 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigNode;
 
 /**
- * This class defines a renderer object for UML Class Diagrams. In a
- * Class Diagram the following UML objects are displayed with the
- * following Figs: <p>
+ * This class defines a renderer object for UML Class Diagrams. In a Class
+ * Diagram the following UML objects are displayed with the following Figs:
+ * <p>
  *
  * <pre>
  *  UML Object       ---  Fig
@@ -86,87 +86,73 @@ import org.tigris.gef.presentation.FigNode;
  */
 public class ClassDiagramRenderer extends UmlDiagramRenderer {
 
-    /**
-     * The UID.
-     */
-    static final long serialVersionUID = 675407719309039112L;
+	/**
+	 * The UID.
+	 */
+	static final long serialVersionUID = 675407719309039112L;
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ClassDiagramRenderer.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ClassDiagramRenderer.class.getName());
 
-    /*
-     * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
-     *         org.tigris.gef.graph.GraphModel,
-     *         org.tigris.gef.base.Layer, java.lang.Object, java.util.Map)
-     */
-    public FigNode getFigNodeFor(GraphModel gm, Layer lay,
-				 Object node, Map styleAttributes) {
+	/*
+	 * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
+	 * org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
+	 * java.lang.Object, java.util.Map)
+	 */
+	public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node, Map styleAttributes) {
 
-        FigNodeModelElement figNode = null;
+		FigNodeModelElement figNode = null;
 
-        if (node == null) {
-            throw new IllegalArgumentException("A node must be supplied");
-        }
-        // Although not generally true for GEF, for Argo we know that the layer
-        // is a LayerPerspective which knows the associated diagram
-        Diagram diag = ((LayerPerspective) lay).getDiagram();
-        if (diag instanceof UMLDiagram
-                && ((UMLDiagram) diag).doesAccept(node)) {
-            figNode = (FigNodeModelElement) ((UMLDiagram) diag)
-                    .drop(node, null);
-        } else {
-            LOG.log(Level.SEVERE, "TODO: ClassDiagramRenderer getFigNodeFor " + node);
-            throw new IllegalArgumentException(
-                    "Node is not a recognised type. Received "
-                    + node.getClass().getName());
-        }
+		if (node == null) {
+			throw new IllegalArgumentException("A node must be supplied");
+		}
+		// Although not generally true for GEF, for Argo we know that the layer
+		// is a LayerPerspective which knows the associated diagram
+		Diagram diag = ((LayerPerspective) lay).getDiagram();
+		if (diag instanceof UMLDiagram && ((UMLDiagram) diag).doesAccept(node)) {
+			figNode = (FigNodeModelElement) ((UMLDiagram) diag).drop(node, null);
+		} else {
+			LOG.log(Level.SEVERE, "TODO: ClassDiagramRenderer getFigNodeFor " + node);
+			throw new IllegalArgumentException("Node is not a recognised type. Received " + node.getClass().getName());
+		}
 
-        lay.add(figNode);
-        figNode.setDiElement(
-                GraphChangeAdapter.getInstance().createElement(gm, node));
+		lay.add(figNode);
+		figNode.setDiElement(GraphChangeAdapter.getInstance().createElement(gm, node));
 
+		return figNode;
 
-        return figNode;
+	}
 
-    }
+	/**
+	 * Return a Fig that can be used to represent the given edge. Throws
+	 * IllegalArgumentException if the edge is not of an expected type. Throws
+	 * IllegalStateException if the edge generated has no source or dest port.
+	 * {@inheritDoc}
+	 */
+	public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge, Map styleAttribute) {
+		LOG.log(Level.FINE, "making figedge for {0}", edge);
 
-    /**
-     * Return a Fig that can be used to represent the given edge.
-     * Throws IllegalArgumentException if the edge is not of an expected type.
-     * Throws IllegalStateException if the edge generated has no source
-     *                               or dest port.
-     * {@inheritDoc}
-     */
-    public FigEdge getFigEdgeFor(GraphModel gm, Layer lay,
-				 Object edge, Map styleAttribute) {
-        LOG.log(Level.FINE, "making figedge for {0}", edge);
-        
-        if (edge == null) {
-            throw new IllegalArgumentException("A model edge must be supplied");
-        }
+		if (edge == null) {
+			throw new IllegalArgumentException("A model edge must be supplied");
+		}
 
-        assert lay instanceof LayerPerspective;
+		assert lay instanceof LayerPerspective;
 
-        final FigEdge newEdge;
+		final FigEdge newEdge;
 
-        // Although not generally true for GEF, for Argo we know that the layer
-        // is a LayerPerspective which knows the associated diagram
-        Diagram diag = ((LayerPerspective) lay).getDiagram();
-        if (diag instanceof UMLDiagram
-                && ((UMLDiagram) diag).doesAccept(edge)) {
-            newEdge = (FigEdge) ((UMLDiagram) diag)
-                    .drop(edge, null);
-        } else {
-            LOG.log(Level.SEVERE, "TODO: ClassDiagramRenderer getFigEdgeFor " + edge);
-            throw new IllegalArgumentException(
-                    "Edge is not a recognised type. Received "
-                    + edge.getClass().getName());
-        }
+		// Although not generally true for GEF, for Argo we know that the layer
+		// is a LayerPerspective which knows the associated diagram
+		Diagram diag = ((LayerPerspective) lay).getDiagram();
+		if (diag instanceof UMLDiagram && ((UMLDiagram) diag).doesAccept(edge)) {
+			newEdge = (FigEdge) ((UMLDiagram) diag).drop(edge, null);
+		} else {
+			LOG.log(Level.SEVERE, "TODO: ClassDiagramRenderer getFigEdgeFor " + edge);
+			throw new IllegalArgumentException("Edge is not a recognised type. Received " + edge.getClass().getName());
+		}
 
-        addEdge(lay, newEdge, edge);
-        return newEdge;
-    }
+		addEdge(lay, newEdge, edge);
+		return newEdge;
+	}
 }

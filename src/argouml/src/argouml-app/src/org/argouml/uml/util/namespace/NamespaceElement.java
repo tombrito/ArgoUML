@@ -39,16 +39,16 @@
 package org.argouml.uml.util.namespace;
 
 /**
- * A NamespaceElement wraps any kind of object around a NamespaceElement so
- * that namespaces can be constructed using these elements.
+ * A NamespaceElement wraps any kind of object around a NamespaceElement so that
+ * namespaces can be constructed using these elements.
  *
  * @author mkl
  *
  */
 public interface NamespaceElement {
 
-    /**
-     * @return the wrapped NamespaceElement
-     */
-    Object getNamespaceElement();
+	/**
+	 * @return the wrapped NamespaceElement
+	 */
+	Object getNamespaceElement();
 }

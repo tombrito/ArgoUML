@@ -59,158 +59,140 @@ import org.omg.uml.modelmanagement.UmlPackage;
 
 /**
  * Class to implement ActivityGraphsHelper.
+ * 
  * @since ARGO0.19.5
- * @author Ludovic Ma&icirc;tre
- * Derived from NSUML implementation
+ * @author Ludovic Ma&icirc;tre Derived from NSUML implementation
  */
 class ActivityGraphsHelperMDRImpl implements ActivityGraphsHelper {
 
-    /**
-     * Constructor.
-     */
-    public ActivityGraphsHelperMDRImpl() {
-        super();
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActivityGraphsHelperMDRImpl() {
+		super();
+	}
 
-    /*
-     * @see org.argouml.model.ActivityGraphsHelper#findClassifierByName(
-     *         java.lang.Object, java.lang.String)
-     */
-    public Object findClassifierByName(Object ofs, String s) {
-        if (!(ofs instanceof ObjectFlowState)) {
-            throw new IllegalArgumentException();
-        }
+	/*
+	 * @see org.argouml.model.ActivityGraphsHelper#findClassifierByName(
+	 * java.lang.Object, java.lang.String)
+	 */
+	public Object findClassifierByName(Object ofs, String s) {
+		if (!(ofs instanceof ObjectFlowState)) {
+			throw new IllegalArgumentException();
+		}
 
-        CompositeState cs = ((ObjectFlowState) ofs).getContainer();
-        StateMachine sm = cs.getStateMachine();
-        ModelElement ns = sm.getContext();
-        if (ns == null) {
-            return null;
-        }
-        if (!(ns instanceof Namespace)) {
-            ns = ns.getNamespace();
-        }
-        if (ns != null) {
-            Collection c =
-                Model.getModelManagementHelper().getAllModelElementsOfKind(
-                    ns, Model.getMetaTypes().getClassifier());
-            Iterator i = c.iterator();
-            while (i.hasNext()) {
-                ModelElement classifier = (ModelElement) i.next();
-                String cn = classifier.getName();
-                if (cn != null && cn.equals(s)) {
-                    return classifier;
-                }
-            }
-        } else {
-            throw new IllegalArgumentException();
-        }
-        return null;
-    }
+		CompositeState cs = ((ObjectFlowState) ofs).getContainer();
+		StateMachine sm = cs.getStateMachine();
+		ModelElement ns = sm.getContext();
+		if (ns == null) {
+			return null;
+		}
+		if (!(ns instanceof Namespace)) {
+			ns = ns.getNamespace();
+		}
+		if (ns != null) {
+			Collection c = Model.getModelManagementHelper().getAllModelElementsOfKind(ns,
+					Model.getMetaTypes().getClassifier());
+			Iterator i = c.iterator();
+			while (i.hasNext()) {
+				ModelElement classifier = (ModelElement) i.next();
+				String cn = classifier.getName();
+				if (cn != null && cn.equals(s)) {
+					return classifier;
+				}
+			}
+		} else {
+			throw new IllegalArgumentException();
+		}
+		return null;
+	}
 
+	public Object findStateByName(Object c, String s) {
+		if (!(c instanceof Classifier)) {
+			throw new IllegalArgumentException();
+		}
 
-    public Object findStateByName(Object c, String s) {
-        if (!(c instanceof Classifier)) {
-            throw new IllegalArgumentException();
-        }
+		if ((s == null) || (s.equals(""))) {
+			return null;
+		}
 
-        if ((s == null) || (s.equals(""))) {
-            return null;
-        }
+		Collection allStatemachines = Model.getFacade().getBehaviors(c);
+		Iterator i = allStatemachines.iterator();
+		while (i.hasNext()) {
+			StateMachine statemachine = (StateMachine) i.next();
+			State top = statemachine.getTop();
+			Collection allStates = Model.getStateMachinesHelper().getAllSubStates(top);
+			Iterator ii = allStates.iterator();
+			while (ii.hasNext()) {
+				StateVertex state = (StateVertex) ii.next();
 
-        Collection allStatemachines = Model.getFacade().getBehaviors(c);
-        Iterator i = allStatemachines.iterator();
-        while (i.hasNext()) {
-            StateMachine statemachine = (StateMachine) i.next();
-            State top = statemachine.getTop();
-            Collection allStates =
-                Model.getStateMachinesHelper().getAllSubStates(top);
-            Iterator ii = allStates.iterator();
-            while (ii.hasNext()) {
-                StateVertex state = (StateVertex) ii.next();
+				String statename = state.getName();
+				if (statename != null) {
+					if (statename.equals(s)) {
+						return state;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-                String statename = state.getName();
-                if (statename != null) {
-                    if (statename.equals(s)) {
-                        return state;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+	public boolean isAddingActivityGraphAllowed(Object context) {
+		return context instanceof BehavioralFeature || context instanceof Classifier || context instanceof UmlPackage;
+	}
 
+	public void addInState(Object classifierInState, Object state) {
+		if (classifierInState instanceof ClassifierInState && state instanceof State) {
+			((ClassifierInState) classifierInState).getInState().add((State) state);
+		} else {
+			throw new IllegalArgumentException("classifierInState: " + classifierInState + " or state: " + state);
+		}
+	}
 
-    public boolean isAddingActivityGraphAllowed(Object context) {
-        return context instanceof BehavioralFeature
-            || context instanceof Classifier
-            || context instanceof UmlPackage;
-    }
+	public void setInStates(Object classifierInState, Collection newStates) {
+		if (classifierInState instanceof ClassifierInState) {
+			ClassifierInState cis = (ClassifierInState) classifierInState;
+			CollectionHelper.update(cis.getInState(), newStates);
+		} else {
+			throw new IllegalArgumentException("classifierInState: " + classifierInState);
+		}
+	}
 
+	public void setContents(Object partition, Collection contents) {
+		if (partition instanceof Partition) {
+			Partition p = (Partition) partition;
+			CollectionHelper.update(p.getContents(), contents);
+		} else {
+			throw new IllegalArgumentException("Partition: " + partition);
+		}
+	}
 
-    public void addInState(Object classifierInState, Object state) {
-        if (classifierInState instanceof ClassifierInState
-                && state instanceof State) {
-            ((ClassifierInState) classifierInState).getInState().add(
-                    (State) state);
-        } else {
-            throw new IllegalArgumentException(
-                    "classifierInState: " + classifierInState
-                    + " or state: " + state);
-        }
-    }
+	public void addContent(Object partition, Object modelElement) {
+		Partition p = (Partition) partition;
+		p.getContents().add((ModelElement) modelElement);
+	}
 
+	public void removeContent(Object partition, Object modelElement) {
+		Partition p = (Partition) partition;
+		p.getContents().remove(modelElement);
+	}
 
-    public void setInStates(Object classifierInState, Collection newStates) {
-        if (classifierInState instanceof ClassifierInState) {
-            ClassifierInState cis = (ClassifierInState) classifierInState;
-            CollectionHelper.update(cis.getInState(), newStates);
-        } else {
-            throw new IllegalArgumentException(
-                    "classifierInState: " + classifierInState);
-        }
-    }
-    
+	public void setSynch(Object objectFlowState, boolean isSynch) {
+		((ObjectFlowState) objectFlowState).setSynch(isSynch);
+	}
 
-    public void setContents(Object partition, Collection contents) {
-        if (partition instanceof Partition) {
-            Partition p = (Partition) partition;
-            CollectionHelper.update(p.getContents(), contents);
-        } else {
-            throw new IllegalArgumentException(
-                    "Partition: " + partition);
-        }
-    }
-    
-    public void addContent(Object partition, Object modelElement) {
-        Partition p = (Partition) partition;
-        p.getContents().add((ModelElement) modelElement);
-    }
+	public void addParameter(Object objectFlowState, Object parameter) {
+		((ObjectFlowState) objectFlowState).getParameter().add((Parameter) parameter);
+	}
 
-    public void removeContent(Object partition, Object modelElement) {
-        Partition p = (Partition) partition;
-        p.getContents().remove(modelElement);
-    }
+	public void removeParameter(Object objectFlowState, Object parameter) {
+		((ObjectFlowState) objectFlowState).getParameter().remove(parameter);
+	}
 
-    public void setSynch(Object objectFlowState, boolean isSynch) {
-        ((ObjectFlowState) objectFlowState).setSynch(isSynch);
-    }
-
-    public void addParameter(Object objectFlowState, Object parameter) {
-        ((ObjectFlowState) objectFlowState).getParameter().add(
-                (Parameter) parameter);
-    }
-
-    public void removeParameter(Object objectFlowState, Object parameter) {
-        ((ObjectFlowState) objectFlowState).getParameter().remove(parameter);
-    }
-
-    public void setParameters(Object objectFlowState, Collection parameters) {
-        Collection params = ((ObjectFlowState) objectFlowState).getParameter();
-        params.clear();
-        params.addAll(parameters);
-    }
-
+	public void setParameters(Object objectFlowState, Collection parameters) {
+		Collection params = ((ObjectFlowState) objectFlowState).getParameter();
+		params.clear();
+		params.addAll(parameters);
+	}
 
 }
-

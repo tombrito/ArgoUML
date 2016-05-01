@@ -47,7 +47,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
-
 /**
  * Action to create a new Package inside a package.
  *
@@ -55,27 +54,27 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 class ActionAddPackage extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 1422043656554518987L;
+	private static final long serialVersionUID = 1422043656554518987L;
 
 	/**
-     * The constructor.
-     */
-    public ActionAddPackage() {
-        super("button.new-package");
-        putValue(Action.NAME, Translator.localize("button.new-package"));
-    }
+	 * The constructor.
+	 */
+	public ActionAddPackage() {
+		super("button.new-package");
+		putValue(Action.NAME, Translator.localize("button.new-package"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAPackage(target)) {
-            Object newPackage =
-                Model.getModelManagementFactory().createPackage();
-            Model.getCoreHelper().addOwnedElement(target, newPackage);
-            TargetManager.getInstance().setTarget(newPackage);
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAPackage(target)) {
+			Object newPackage = Model.getModelManagementFactory().createPackage();
+			Model.getCoreHelper().addOwnedElement(target, newPackage);
+			TargetManager.getInstance().setTarget(newPackage);
+			super.actionPerformed(e);
+		}
+	}
 }

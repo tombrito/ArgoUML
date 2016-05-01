@@ -44,32 +44,33 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents the ClassifierRole.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents the ClassifierRole. Subclass this for all
+ * languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class ClassifierRoleNotation extends NotationProvider {
-    
-    /**
-     * The Constructor. 
-     *
-     * @param classifierRole the UML element
-     */
-    public ClassifierRoleNotation(Object classifierRole) {
-        if (!Model.getFacade().isAClassifierRole(classifierRole)) {
-            throw new IllegalArgumentException("This is not a ClassifierRole.");
-        }
-    }
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        super.initialiseListener(modelElement);
-        Collection classifiers = Model.getFacade().getBases(modelElement);
-        for (Object c : classifiers) {
-            addElementListener(c, "name");
-        }
-    }
+	/**
+	 * The Constructor.
+	 *
+	 * @param classifierRole
+	 *            the UML element
+	 */
+	public ClassifierRoleNotation(Object classifierRole) {
+		if (!Model.getFacade().isAClassifierRole(classifierRole)) {
+			throw new IllegalArgumentException("This is not a ClassifierRole.");
+		}
+	}
+
+	@Override
+	public void initialiseListener(Object modelElement) {
+		super.initialiseListener(modelElement);
+		Collection classifiers = Model.getFacade().getBases(modelElement);
+		for (Object c : classifiers) {
+			addElementListener(c, "name");
+		}
+	}
 
 }

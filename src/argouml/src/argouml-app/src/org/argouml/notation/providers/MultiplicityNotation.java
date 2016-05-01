@@ -43,33 +43,36 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents a Multiplicity.
- * Subclass this for all languages. <p>
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents a Multiplicity. Subclass this for all
+ * languages.
+ * <p>
  * 
- * This NotationProvider is a bit special, in that it does not 
- * generate for the given UML element, but for its multiplicity.
+ * This NotationProvider is a bit special, in that it does not generate for the
+ * given UML element, but for its multiplicity.
  *
  * @author Michiel
  */
 public abstract class MultiplicityNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param multiplicityOwner the UML element that has a Multiplicity
-     */
-    public MultiplicityNotation(Object multiplicityOwner) {
-        // If this fails, then there is a problem...
-        // dthompson 29/12/2008: It seems that the returned value is 
-        // irrelevant here, so I assume that the purpose of this call
-        // is just to throw an exception in case of a problem.
-        /* mvw: Indeed. The intention of the constructor parameter is to prove
-         * that there is a valid UML object to bind the notation to. 
-         * So, the next statement should fail on a null parameter, 
-         * and on anything that is not an object of which 
-         * we can retrieve the multiplicity. */
-        Model.getFacade().getMultiplicity(multiplicityOwner);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param multiplicityOwner
+	 *            the UML element that has a Multiplicity
+	 */
+	public MultiplicityNotation(Object multiplicityOwner) {
+		// If this fails, then there is a problem...
+		// dthompson 29/12/2008: It seems that the returned value is
+		// irrelevant here, so I assume that the purpose of this call
+		// is just to throw an exception in case of a problem.
+		/*
+		 * mvw: Indeed. The intention of the constructor parameter is to prove
+		 * that there is a valid UML object to bind the notation to. So, the
+		 * next statement should fail on a null parameter, and on anything that
+		 * is not an object of which we can retrieve the multiplicity.
+		 */
+		Model.getFacade().getMultiplicity(multiplicityOwner);
+	}
 
 }

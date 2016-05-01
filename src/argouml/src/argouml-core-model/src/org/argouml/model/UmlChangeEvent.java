@@ -48,44 +48,45 @@ import java.util.EventObject;
  */
 public abstract class UmlChangeEvent extends PropertyChangeEvent {
 
-    private static final long serialVersionUID = 4222939479575242639L;
+	private static final long serialVersionUID = 4222939479575242639L;
 	/**
-     * The original event that caused this event to be propogated.
-     * Useful for debugging purposes. Not to be made available to the
-     * client code as this is implementation specific.
-     */
-    private EventObject originalEvent;
+	 * The original event that caused this event to be propogated. Useful for
+	 * debugging purposes. Not to be made available to the client code as this
+	 * is implementation specific.
+	 */
+	private EventObject originalEvent;
 
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *	      that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param theOriginalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     */
-    public UmlChangeEvent(Object source, String propertyName, Object oldValue,
-            Object newValue, EventObject theOriginalEvent) {
-        super(source, propertyName, oldValue, newValue);
-        originalEvent = theOriginalEvent;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param theOriginalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 */
+	public UmlChangeEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			EventObject theOriginalEvent) {
+		super(source, propertyName, oldValue, newValue);
+		originalEvent = theOriginalEvent;
+	}
 
-    /**
-     * @return Returns the originalEvent.
-     */
-    protected EventObject getOriginalEvent() {
-        return originalEvent;
-    }
+	/**
+	 * @return Returns the originalEvent.
+	 */
+	protected EventObject getOriginalEvent() {
+		return originalEvent;
+	}
 
-    @Override
-    public String toString() {
-        return getClass().getName() + "{"
-               +"source = " + getSource()
-               +"old = " + getOldValue()
-               +"name = " + getPropertyName()
-               + ": " + originalEvent + "}";
-    }
+	@Override
+	public String toString() {
+		return getClass().getName() + "{" + "source = " + getSource() + "old = " + getOldValue() + "name = "
+				+ getPropertyName() + ": " + originalEvent + "}";
+	}
 }

@@ -48,87 +48,87 @@ import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.base.Selection;
 
 /**
- * Class to display graphics for a UML Enumeration in a diagram.
- * It depends on FigDataType for most of its behavior.<p>
+ * Class to display graphics for a UML Enumeration in a diagram. It depends on
+ * FigDataType for most of its behavior.
+ * <p>
  * 
- * The Fig for an Enumeration has a compartment for Literals 
- * above the Operations compartment.
+ * The Fig for an Enumeration has a compartment for Literals above the
+ * Operations compartment.
  */
 public class FigEnumeration extends FigDataType {
 
-    private static final long serialVersionUID = -5046323386264348L;
+	private static final long serialVersionUID = -5046323386264348L;
 
 	/**
-     * Constructor.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigEnumeration(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
+	 * Constructor.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigEnumeration(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
 
-    }
+	}
 
-    @Override
-    protected String getKeyword() {
-        return "enumeration";
-    }
+	@Override
+	protected String getKeyword() {
+		return "enumeration";
+	}
 
-    @Override
-    public void renderingChanged() {
-        super.renderingChanged();
+	@Override
+	public void renderingChanged() {
+		super.renderingChanged();
 
-        if (isCompartmentVisible(Model.getMetaTypes().getEnumerationLiteral())) {
-            updateCompartment(Model.getMetaTypes().getEnumerationLiteral());
-        }
-    }
+		if (isCompartmentVisible(Model.getMetaTypes().getEnumerationLiteral())) {
+			updateCompartment(Model.getMetaTypes().getEnumerationLiteral());
+		}
+	}
 
-    @Override
-    public Selection makeSelection() {
-        return new SelectionEnumeration(this);
-    }
+	@Override
+	public Selection makeSelection() {
+		return new SelectionEnumeration(this);
+	}
 
-    @Override
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        Set<Object[]> lst = new HashSet<Object[]>();
-        if (newOwner != null) {
-            // add the listeners to the newOwner
-            lst.add(new Object[] {newOwner, null});
-            // and its stereotypes
-            for (Object stereo : Model.getFacade().getStereotypes(newOwner)) {
-                lst.add(new Object[] {stereo, null});                
-            }
-            // and its features
-            for (Object feat : Model.getFacade().getFeatures(newOwner)) {
-                lst.add(new Object[] {feat, null});
-                // and the stereotypes of its features
-                for (Object stereo : Model.getFacade().getStereotypes(feat)) {
-                    lst.add(new Object[] {stereo, null});
-                }
-            }
-            // and its enumerationLiterals
-            for (Object literal : Model.getFacade().getEnumerationLiterals(
-                    newOwner)) {
-                lst.add(new Object[] {literal, null});
-            }
-        }
-        // And now add listeners to them all:
-        updateElementListeners(lst);
+	@Override
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+		Set<Object[]> lst = new HashSet<Object[]>();
+		if (newOwner != null) {
+			// add the listeners to the newOwner
+			lst.add(new Object[] { newOwner, null });
+			// and its stereotypes
+			for (Object stereo : Model.getFacade().getStereotypes(newOwner)) {
+				lst.add(new Object[] { stereo, null });
+			}
+			// and its features
+			for (Object feat : Model.getFacade().getFeatures(newOwner)) {
+				lst.add(new Object[] { feat, null });
+				// and the stereotypes of its features
+				for (Object stereo : Model.getFacade().getStereotypes(feat)) {
+					lst.add(new Object[] { stereo, null });
+				}
+			}
+			// and its enumerationLiterals
+			for (Object literal : Model.getFacade().getEnumerationLiterals(newOwner)) {
+				lst.add(new Object[] { literal, null });
+			}
+		}
+		// And now add listeners to them all:
+		updateElementListeners(lst);
 
-    }
+	}
 
-    /**
-     * USED BY PGML.tee.
-     * @return the class name and bounds together with compartment
-     * visibility.
-     */
-    @Override
-    public String classNameAndBounds() {
-        return super.classNameAndBounds()
-                + "enumerationLiteralsVisible="
-                + isCompartmentVisible(
-                        Model.getMetaTypes().getEnumerationLiteral());
-    }
-} 
+	/**
+	 * USED BY PGML.tee.
+	 * 
+	 * @return the class name and bounds together with compartment visibility.
+	 */
+	@Override
+	public String classNameAndBounds() {
+		return super.classNameAndBounds() + "enumerationLiteralsVisible="
+				+ isCompartmentVisible(Model.getMetaTypes().getEnumerationLiteral());
+	}
+}

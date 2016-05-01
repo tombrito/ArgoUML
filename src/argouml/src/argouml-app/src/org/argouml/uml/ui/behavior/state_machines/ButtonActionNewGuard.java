@@ -49,48 +49,47 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.tigris.toolbar.toolbutton.ModalAction;
 
 /**
- * This is an Action to be used for Buttons to create a guard.
- * If a guard already exists, then navigate to it.
+ * This is an Action to be used for Buttons to create a guard. If a guard
+ * already exists, then navigate to it.
  * 
  * @author Michiel
  */
 @UmlModelMutator
-public class ButtonActionNewGuard extends UndoableAction 
-    implements ModalAction {
+public class ButtonActionNewGuard extends UndoableAction implements ModalAction {
 
-    private static final long serialVersionUID = 6896668298554746950L;
+	private static final long serialVersionUID = 6896668298554746950L;
 
 	public ButtonActionNewGuard() {
-        super();
-        putValue(NAME, getKeyName());
-        putValue(SHORT_DESCRIPTION, Translator.localize(getKeyName()));
-        Object icon = ResourceLoaderWrapper.lookupIconResource(getIconName());
-        putValue(SMALL_ICON, icon);
-    }
+		super();
+		putValue(NAME, getKeyName());
+		putValue(SHORT_DESCRIPTION, Translator.localize(getKeyName()));
+		Object icon = ResourceLoaderWrapper.lookupIconResource(getIconName());
+		putValue(SMALL_ICON, icon);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (!isEnabled()) {
-            return;
-        }
-        super.actionPerformed(e);
-        Object target = TargetManager.getInstance().getModelTarget();
-        Object guard = Model.getFacade().getGuard(target);
-        if (guard == null) {
-            guard = Model.getStateMachinesFactory().buildGuard(target);
-        }
-        TargetManager.getInstance().setTarget(guard);
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (!isEnabled()) {
+			return;
+		}
+		super.actionPerformed(e);
+		Object target = TargetManager.getInstance().getModelTarget();
+		Object guard = Model.getFacade().getGuard(target);
+		if (guard == null) {
+			guard = Model.getStateMachinesFactory().buildGuard(target);
+		}
+		TargetManager.getInstance().setTarget(guard);
+	}
 
-    public boolean isEnabled() {
-        Object target = TargetManager.getInstance().getModelTarget();
-        return Model.getFacade().isATransition(target);
-    }
+	public boolean isEnabled() {
+		Object target = TargetManager.getInstance().getModelTarget();
+		return Model.getFacade().isATransition(target);
+	}
 
-    protected String getKeyName() {
-        return "button.new-guard";
-    }
+	protected String getKeyName() {
+		return "button.new-guard";
+	}
 
-    protected String getIconName() {
-        return "Guard";
-    }
+	protected String getIconName() {
+		return "Guard";
+	}
 }

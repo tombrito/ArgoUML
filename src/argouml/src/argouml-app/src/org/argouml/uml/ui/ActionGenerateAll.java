@@ -58,110 +58,97 @@ import org.argouml.uml.generator.ui.ClassGenerationDialog;
 /**
  * Action to trigger code generation for one or more classes.
  * <p>
- * In fact, only all named classes and interfaces
- * on the active diagram are generated.
- * Or, if this delivers an empty collection, all selected classes, interfaces
- * and the contents of selected packages are generated
- * (independent if they are named or not). <p>
+ * In fact, only all named classes and interfaces on the active diagram are
+ * generated. Or, if this delivers an empty collection, all selected classes,
+ * interfaces and the contents of selected packages are generated (independent
+ * if they are named or not).
+ * <p>
  * TODO: Implement a more logical behaviour.
  */
 public class ActionGenerateAll extends UndoableAction {
 
-
-    private static final long serialVersionUID = 4881111037554641667L;
+	private static final long serialVersionUID = 4881111037554641667L;
 
 	/**
-     * Constructor.
-     */
-    public ActionGenerateAll() {
-        super(Translator.localize("action.generate-code"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.generate-code"));
-    }
-
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	ArgoDiagram activeDiagram = DiagramUtils.getActiveDiagram();
-	if (!(activeDiagram instanceof UMLClassDiagram)) {
-	    return;
+	 * Constructor.
+	 */
+	public ActionGenerateAll() {
+		super(Translator.localize("action.generate-code"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.generate-code"));
 	}
 
-	UMLClassDiagram d = (UMLClassDiagram) activeDiagram;
-	List classes = new ArrayList();
-	List nodes = d.getNodes();
-	for (Object owner : nodes) {
-	    if (!Model.getFacade().isAClass(owner)
-                    && !Model.getFacade().isAInterface(owner)
-                    && !Model.getFacade().isAEnumeration(owner)) {
-                continue;
-            }
-	    String name = Model.getFacade().getName(owner);
-	    if (name == null
-		|| name.length() == 0
-		|| Character.isDigit(name.charAt(0))) {
-
-		continue;
-
-	    }
-            classes.add(owner);
-	}
-
-	if (classes.size() == 0) {
-
-            Collection selectedObjects =
-                TargetManager.getInstance().getTargets();
-            for (Object selected : selectedObjects) {
-		if (Model.getFacade().isAPackage(selected)) {
-		    addCollection(Model.getModelManagementHelper()
-				  .getAllModelElementsOfKind(
-                                      selected,
-		                      Model.getMetaTypes().getUMLClass()),
-				  classes);
-		    addCollection(Model.getModelManagementHelper()
-				  .getAllModelElementsOfKind(
-                                      selected,
-			              Model.getMetaTypes().getInterface()),
-				  classes);
-		} else if (Model.getFacade().isAClass(selected)
-			   || Model.getFacade().isAInterface(selected)
-                           || Model.getFacade().isAEnumeration(selected)) {
-		    if (!classes.contains(selected)) {
-		        classes.add(selected);
-		    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		ArgoDiagram activeDiagram = DiagramUtils.getActiveDiagram();
+		if (!(activeDiagram instanceof UMLClassDiagram)) {
+			return;
 		}
-	    }
+
+		UMLClassDiagram d = (UMLClassDiagram) activeDiagram;
+		List classes = new ArrayList();
+		List nodes = d.getNodes();
+		for (Object owner : nodes) {
+			if (!Model.getFacade().isAClass(owner) && !Model.getFacade().isAInterface(owner)
+					&& !Model.getFacade().isAEnumeration(owner)) {
+				continue;
+			}
+			String name = Model.getFacade().getName(owner);
+			if (name == null || name.length() == 0 || Character.isDigit(name.charAt(0))) {
+
+				continue;
+
+			}
+			classes.add(owner);
+		}
+
+		if (classes.size() == 0) {
+
+			Collection selectedObjects = TargetManager.getInstance().getTargets();
+			for (Object selected : selectedObjects) {
+				if (Model.getFacade().isAPackage(selected)) {
+					addCollection(Model.getModelManagementHelper().getAllModelElementsOfKind(selected,
+							Model.getMetaTypes().getUMLClass()), classes);
+					addCollection(Model.getModelManagementHelper().getAllModelElementsOfKind(selected,
+							Model.getMetaTypes().getInterface()), classes);
+				} else if (Model.getFacade().isAClass(selected) || Model.getFacade().isAInterface(selected)
+						|| Model.getFacade().isAEnumeration(selected)) {
+					if (!classes.contains(selected)) {
+						classes.add(selected);
+					}
+				}
+			}
+		}
+		ClassGenerationDialog cgd = new ClassGenerationDialog(classes);
+		cgd.setVisible(true);
 	}
-	ClassGenerationDialog cgd = new ClassGenerationDialog(classes);
-	cgd.setVisible(true);
-    }
 
-    /**
-     * @return true if the action is enabled and the active diagram is a class
-     *         diagram
-     * @see org.tigris.gef.undo.UndoableAction#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-        // TODO: this seems to be called at startup only so no check so far
-        return true;
-	//ArgoDiagram activeDiagram = DiagramUtils.getActiveDiagram();
-	//return (activeDiagram instanceof UMLClassDiagram);
-    }
+	/**
+	 * @return true if the action is enabled and the active diagram is a class
+	 *         diagram
+	 * @see org.tigris.gef.undo.UndoableAction#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		// TODO: this seems to be called at startup only so no check so far
+		return true;
+		// ArgoDiagram activeDiagram = DiagramUtils.getActiveDiagram();
+		// return (activeDiagram instanceof UMLClassDiagram);
+	}
 
-    /**
-     * Adds elements from collection without duplicates.
-     */
-    private void addCollection(Collection c, Collection v) {
-        for (Object o : c) {
-            if (!v.contains(o)) {
-                v.add(o);
-            }
-        }
-    }
+	/**
+	 * Adds elements from collection without duplicates.
+	 */
+	private void addCollection(Collection c, Collection v) {
+		for (Object o : c) {
+			if (!v.contains(o)) {
+				v.add(o);
+			}
+		}
+	}
 }

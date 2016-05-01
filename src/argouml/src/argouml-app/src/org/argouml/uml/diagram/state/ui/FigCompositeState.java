@@ -66,378 +66,341 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigCompositeState extends FigState {
 
-    private static final long serialVersionUID = 5781297078884348809L;
+	private static final long serialVersionUID = 5781297078884348809L;
 	private FigRect cover;
-    private FigLine divider;
+	private FigLine divider;
 
-    
-    /**
-     * Construct a new FigStubState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigCompositeState(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-        updateNameText();
-    }
+	/**
+	 * Construct a new FigStubState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigCompositeState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+		updateNameText();
+	}
 
-    private void initFigs() {
-        cover =
-            new FigRRect(getInitialX(), getInitialY(),
-			      getInitialWidth(), getInitialHeight(),
-			      LINE_COLOR, FILL_COLOR);
+	private void initFigs() {
+		cover = new FigRRect(getInitialX(), getInitialY(), getInitialWidth(), getInitialHeight(), LINE_COLOR,
+				FILL_COLOR);
 
-        getBigPort().setLineWidth(0);
+		getBigPort().setLineWidth(0);
 
-        divider =
-	    new FigLine(getInitialX(),
-			getInitialY() + 2 + getNameFig().getBounds().height + 1,
-			getInitialWidth() - 1,
-			getInitialY() + 2 + getNameFig().getBounds().height + 1,
-			LINE_COLOR);
+		divider = new FigLine(getInitialX(), getInitialY() + 2 + getNameFig().getBounds().height + 1,
+				getInitialWidth() - 1, getInitialY() + 2 + getNameFig().getBounds().height + 1, LINE_COLOR);
 
-        // add Figs to the FigNode in back-to-front order
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getNameFig());
-        addFig(divider);
-        addFig(getInternal());
+		// add Figs to the FigNode in back-to-front order
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getNameFig());
+		addFig(divider);
+		addFig(getInternal());
 
-        setBounds(getBounds());
-    }
+		setBounds(getBounds());
+	}
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    public Object clone() {
-        FigCompositeState figClone = (FigCompositeState) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRRect) it.next());
-        figClone.cover = (FigRect) it.next();
-        figClone.setNameFig((FigText) it.next());
-        figClone.divider = (FigLine) it.next();
-        figClone.setInternal((FigText) it.next());
-        return figClone;
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	public Object clone() {
+		FigCompositeState figClone = (FigCompositeState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRRect) it.next());
+		figClone.cover = (FigRect) it.next();
+		figClone.setNameFig((FigText) it.next());
+		figClone.divider = (FigLine) it.next();
+		figClone.setInternal((FigText) it.next());
+		return figClone;
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // accessors
+	////////////////////////////////////////////////////////////////
+	// accessors
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    public Dimension getMinimumSize() {
-        Dimension nameDim = getNameFig().getMinimumSize();
-        Dimension internalDim = getInternal().getMinimumSize();
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	public Dimension getMinimumSize() {
+		Dimension nameDim = getNameFig().getMinimumSize();
+		Dimension internalDim = getInternal().getMinimumSize();
 
-        int h =
-            SPACE_TOP + nameDim.height
-            + SPACE_MIDDLE + internalDim.height
-            + SPACE_BOTTOM;
-        int w =
-            Math.max(nameDim.width + 2 * MARGIN,
-                     internalDim.width + 2 * MARGIN);
-        return new Dimension(w, h);
-    }
+		int h = SPACE_TOP + nameDim.height + SPACE_MIDDLE + internalDim.height + SPACE_BOTTOM;
+		int w = Math.max(nameDim.width + 2 * MARGIN, internalDim.width + 2 * MARGIN);
+		return new Dimension(w, h);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getUseTrapRect()
-     */
-    public boolean getUseTrapRect() {
-        return true;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getUseTrapRect()
+	 */
+	public boolean getUseTrapRect() {
+		return true;
+	}
 
-    /*
-     * Override setBounds to keep shapes looking right.
-     *
-     * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
-     */
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        if (getNameFig() == null) {
-            return;
-        }
+	/*
+	 * Override setBounds to keep shapes looking right.
+	 *
+	 * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
+	 */
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
 
-        Rectangle oldBounds = getBounds();
-        Dimension nameDim = getNameFig().getMinimumSize();
-        List regionsList = getEnclosedFigs();
+		Rectangle oldBounds = getBounds();
+		Dimension nameDim = getNameFig().getMinimumSize();
+		List regionsList = getEnclosedFigs();
 
-        /* If it is concurrent and contains concurrent regions,
-        the bottom region has a minimum height*/
-        if (getOwner() != null) {
-            if (isConcurrent()
-                    && !regionsList.isEmpty()
-                    && regionsList.get(regionsList.size() - 1)
-                        instanceof FigConcurrentRegion) {
-                FigConcurrentRegion f = 
-                    ((FigConcurrentRegion) regionsList.get(
-                            regionsList.size() - 1));
-                Rectangle regionBounds = f.getBounds();
-                if ((h - oldBounds.height + regionBounds.height)
-                        <= (f.getMinimumSize().height)) {
-                    h = oldBounds.height;
-                    y = oldBounds.y;
-                }
-            }
-        }
+		/*
+		 * If it is concurrent and contains concurrent regions, the bottom
+		 * region has a minimum height
+		 */
+		if (getOwner() != null) {
+			if (isConcurrent() && !regionsList.isEmpty()
+					&& regionsList.get(regionsList.size() - 1) instanceof FigConcurrentRegion) {
+				FigConcurrentRegion f = ((FigConcurrentRegion) regionsList.get(regionsList.size() - 1));
+				Rectangle regionBounds = f.getBounds();
+				if ((h - oldBounds.height + regionBounds.height) <= (f.getMinimumSize().height)) {
+					h = oldBounds.height;
+					y = oldBounds.y;
+				}
+			}
+		}
 
-        getNameFig().setBounds(x + MARGIN,
-                y + SPACE_TOP,
-                w - 2 * MARGIN,
-                nameDim.height);
-        divider.setShape(x,
-                y + DIVIDER_Y + nameDim.height,
-                x + w - 1,
-                y + DIVIDER_Y + nameDim.height);
+		getNameFig().setBounds(x + MARGIN, y + SPACE_TOP, w - 2 * MARGIN, nameDim.height);
+		divider.setShape(x, y + DIVIDER_Y + nameDim.height, x + w - 1, y + DIVIDER_Y + nameDim.height);
 
-        getInternal().setBounds(
-                x + MARGIN,
-                y + nameDim.height + SPACE_TOP + SPACE_MIDDLE,
-                w - 2 * MARGIN,
-                h - nameDim.height - SPACE_TOP - SPACE_MIDDLE - SPACE_BOTTOM);
+		getInternal().setBounds(x + MARGIN, y + nameDim.height + SPACE_TOP + SPACE_MIDDLE, w - 2 * MARGIN,
+				h - nameDim.height - SPACE_TOP - SPACE_MIDDLE - SPACE_BOTTOM);
 
-        getBigPort().setBounds(x, y, w, h);
-        cover.setBounds(x, y, w, h);
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y, w, h);
 
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
 
-        /*If it is concurrent and contains concurrent regions,
-        the regions are resized*/
-        if (getOwner() != null) {
-            if (isConcurrent()
-                    && !regionsList.isEmpty()
-                    && regionsList.get(regionsList.size() - 1)
-                        instanceof FigConcurrentRegion) {
-                FigConcurrentRegion f = ((FigConcurrentRegion) regionsList
-                        .get(regionsList.size() - 1));
-                for (int i = 0; i < regionsList.size() - 1; i++) {
-                    ((FigConcurrentRegion) regionsList.get(i))
-                        .setBounds(x - oldBounds.x, y - oldBounds.y,
-                                w - 2 * FigConcurrentRegion.INSET_HORZ, true);
-                }
-                f.setBounds(x - oldBounds.x,
-                        y - oldBounds.y, 
-                        w - 2 * FigConcurrentRegion.INSET_HORZ, 
-                        h - oldBounds.height, true);
-            }
-        }
+		/*
+		 * If it is concurrent and contains concurrent regions, the regions are
+		 * resized
+		 */
+		if (getOwner() != null) {
+			if (isConcurrent() && !regionsList.isEmpty()
+					&& regionsList.get(regionsList.size() - 1) instanceof FigConcurrentRegion) {
+				FigConcurrentRegion f = ((FigConcurrentRegion) regionsList.get(regionsList.size() - 1));
+				for (int i = 0; i < regionsList.size() - 1; i++) {
+					((FigConcurrentRegion) regionsList.get(i)).setBounds(x - oldBounds.x, y - oldBounds.y,
+							w - 2 * FigConcurrentRegion.INSET_HORZ, true);
+				}
+				f.setBounds(x - oldBounds.x, y - oldBounds.y, w - 2 * FigConcurrentRegion.INSET_HORZ,
+						h - oldBounds.height, true);
+			}
+		}
 
-    }
-    
-    /*
-     * The returned list of Figs is sorted according layout: from top to bottom.
-     */
-    @Override
-    public Vector<Fig> getEnclosedFigs() {
-        Vector<Fig> enclosedFigs = super.getEnclosedFigs();
+	}
 
-        if (isConcurrent()) {
-            TreeMap<Integer, Fig> figsByY = new TreeMap<Integer, Fig>();
-            for (Fig fig : enclosedFigs) {
-                if (fig instanceof FigConcurrentRegion) {
-                    figsByY.put(fig.getY(), fig);
-                }
-            }
-            return new Vector<Fig>(figsByY.values());
-        }
-        return enclosedFigs;
-    }
-    
-    /**
-     * @return true if this is a concurrent state, 
-     * false otherwise, or if the owner is not known
-     */
-    public boolean isConcurrent() {
-        Object owner = getOwner();
-        if (owner == null) {
-            return false;
-        }
-        return Model.getFacade().isConcurrent(owner);
-    }
+	/*
+	 * The returned list of Figs is sorted according layout: from top to bottom.
+	 */
+	@Override
+	public Vector<Fig> getEnclosedFigs() {
+		Vector<Fig> enclosedFigs = super.getEnclosedFigs();
 
-    /**
-     * To resize only when a new concurrent region is added,
-     * changing the height.
-     * TODO: Probably shouldn't
-     * exist as this class should be listening for added concurrent regions
-     * and call this internally itself.
-     *
-     * @param h the new height
-     */
-    public void setCompositeStateHeight(int h) {
-        if (getNameFig() == null) {
-            return;
-        }
-        Rectangle oldBounds = getBounds();
-        Dimension nameDim = getNameFig().getMinimumSize();
-        int x = oldBounds.x;
-        int y = oldBounds.y;
-        int w = oldBounds.width;
+		if (isConcurrent()) {
+			TreeMap<Integer, Fig> figsByY = new TreeMap<Integer, Fig>();
+			for (Fig fig : enclosedFigs) {
+				if (fig instanceof FigConcurrentRegion) {
+					figsByY.put(fig.getY(), fig);
+				}
+			}
+			return new Vector<Fig>(figsByY.values());
+		}
+		return enclosedFigs;
+	}
 
-        getInternal().setBounds(
-                x + MARGIN, 
-                y + nameDim.height + 4,
-                w - 2 * MARGIN, 
-                h - nameDim.height - 6);
-        getBigPort().setBounds(x, y, w, h);
-        cover.setBounds(x, y, w, h);
+	/**
+	 * @return true if this is a concurrent state, false otherwise, or if the
+	 *         owner is not known
+	 */
+	public boolean isConcurrent() {
+		Object owner = getOwner();
+		if (owner == null) {
+			return false;
+		}
+		return Model.getFacade().isConcurrent(owner);
+	}
 
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+	/**
+	 * To resize only when a new concurrent region is added, changing the
+	 * height. TODO: Probably shouldn't exist as this class should be listening
+	 * for added concurrent regions and call this internally itself.
+	 *
+	 * @param h
+	 *            the new height
+	 */
+	public void setCompositeStateHeight(int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
+		Dimension nameDim = getNameFig().getMinimumSize();
+		int x = oldBounds.x;
+		int y = oldBounds.y;
+		int w = oldBounds.width;
 
+		getInternal().setBounds(x + MARGIN, y + nameDim.height + 4, w - 2 * MARGIN, h - nameDim.height - 6);
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y, w, h);
 
-    /*
-     * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.MouseEvent)
-     */
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        /* Check if multiple items are selected: */
-        boolean ms = TargetManager.getInstance().getTargets().size() > 1;
-        if (!ms) {
-            popUpActions.add(
-                    popUpActions.size() - getPopupAddOffset(),
-                    new ActionAddConcurrentRegion());
-        }
-        return popUpActions;
-    }
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    public void setLineColor(Color col) {
-        cover.setLineColor(col);
-        divider.setLineColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.
+	 * MouseEvent)
+	 */
+	public Vector getPopUpActions(MouseEvent me) {
+		Vector popUpActions = super.getPopUpActions(me);
+		/* Check if multiple items are selected: */
+		boolean ms = TargetManager.getInstance().getTargets().size() > 1;
+		if (!ms) {
+			popUpActions.add(popUpActions.size() - getPopupAddOffset(), new ActionAddConcurrentRegion());
+		}
+		return popUpActions;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    public Color getLineColor() {
-        return cover.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	public void setLineColor(Color col) {
+		cover.setLineColor(col);
+		divider.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    public void setFillColor(Color col) {
-        cover.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	public Color getLineColor() {
+		return cover.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    public Color getFillColor() {
-        return cover.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	public void setFillColor(Color col) {
+		cover.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-        getBigPort().setFilled(f);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	public Color getFillColor() {
+		return cover.getFillColor();
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+		getBigPort().setFilled(f);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-        divider.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+		divider.setLineWidth(w);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    public int getLineWidth() {
-        return cover.getLineWidth();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	public int getLineWidth() {
+		return cover.getLineWidth();
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // event processing
+	////////////////////////////////////////////////////////////////
+	// event processing
 
-    @Override 
-    protected void updateLayout(UmlChangeEvent event) {
-        /* We only handle the case where a region has been removed: */
-        if (!(event instanceof RemoveAssociationEvent)
-                ||  !"subvertex".equals(event.getPropertyName())) {
-            return;
-        }
-        
-        final Object removedRegion = event.getOldValue();
-        
-        List<FigConcurrentRegion> regionFigs =
-            ((List<FigConcurrentRegion>) getEnclosedFigs().clone());
+	@Override
+	protected void updateLayout(UmlChangeEvent event) {
+		/* We only handle the case where a region has been removed: */
+		if (!(event instanceof RemoveAssociationEvent) || !"subvertex".equals(event.getPropertyName())) {
+			return;
+		}
 
-        int totHeight = getInitialHeight();
-        if (!regionFigs.isEmpty()) {
-            Fig removedFig = null;
-            for (FigConcurrentRegion figRegion : regionFigs) {
-                if (figRegion.getOwner() == removedRegion) {
-                    removedFig = figRegion;
-                    removeEnclosedFig(figRegion);
-                    break;
-                }
-            }
-            if (removedFig != null) {
-                regionFigs.remove(removedFig);
-                if (!regionFigs.isEmpty()) {
-                    for (FigConcurrentRegion figRegion : regionFigs) {
-                        if (figRegion.getY() > removedFig.getY()) {
-                            figRegion.displace(0, -removedFig.getHeight());
-                        }
-                    }
-                    totHeight = getHeight() - removedFig.getHeight();
-                }
-            }
-        }
-        
-        setBounds(getX(), getY(), getWidth(), totHeight);
+		final Object removedRegion = event.getOldValue();
 
-        // do we need to 
-        renderingChanged();
-    }
+		List<FigConcurrentRegion> regionFigs = ((List<FigConcurrentRegion>) getEnclosedFigs().clone());
 
+		int totHeight = getInitialHeight();
+		if (!regionFigs.isEmpty()) {
+			Fig removedFig = null;
+			for (FigConcurrentRegion figRegion : regionFigs) {
+				if (figRegion.getOwner() == removedRegion) {
+					removedFig = figRegion;
+					removeEnclosedFig(figRegion);
+					break;
+				}
+			}
+			if (removedFig != null) {
+				regionFigs.remove(removedFig);
+				if (!regionFigs.isEmpty()) {
+					for (FigConcurrentRegion figRegion : regionFigs) {
+						if (figRegion.getY() > removedFig.getY()) {
+							figRegion.displace(0, -removedFig.getHeight());
+						}
+					}
+					totHeight = getHeight() - removedFig.getHeight();
+				}
+			}
+		}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialHeight()
-     */
-    protected int getInitialHeight() {
-        return 150;
-    }
+		setBounds(getX(), getY(), getWidth(), totHeight);
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialWidth()
-     */
-    protected int getInitialWidth() {
-        return 180;
-    }
+		// do we need to
+		renderingChanged();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialX()
-     */
-    protected int getInitialX() {
-        return 0;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialHeight()
+	 */
+	protected int getInitialHeight() {
+		return 150;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigState#getInitialY()
-     */
-    protected int getInitialY() {
-        return 0;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialWidth()
+	 */
+	protected int getInitialWidth() {
+		return 180;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialX()
+	 */
+	protected int getInitialX() {
+		return 0;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigState#getInitialY()
+	 */
+	protected int getInitialY() {
+		return 0;
+	}
 
 } /* end class FigCompositeState */

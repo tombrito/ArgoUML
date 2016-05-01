@@ -54,39 +54,38 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetAssociationEndTargetScope extends UndoableAction {
 
-    private static final long serialVersionUID = -4043054152564371876L;
-	private static final ActionSetAssociationEndTargetScope SINGLETON =
-        new ActionSetAssociationEndTargetScope();
+	private static final long serialVersionUID = -4043054152564371876L;
+	private static final ActionSetAssociationEndTargetScope SINGLETON = new ActionSetAssociationEndTargetScope();
 
-    /**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    protected ActionSetAssociationEndTargetScope() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	protected ActionSetAssociationEndTargetScope() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof UMLCheckBox2) {
-            UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-            Object target = source.getTarget();
-            if (Model.getFacade().isAAssociationEnd(target)) {
-                Object m = target;
-                Model.getCoreHelper().setStatic(m, source.isSelected());
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAAssociationEnd(target)) {
+				Object m = target;
+				Model.getCoreHelper().setStatic(m, source.isSelected());
+			}
+		}
+	}
 
-    /**
-     * @return Returns the sINGLETON.
-     */
-    public static ActionSetAssociationEndTargetScope getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the sINGLETON.
+	 */
+	public static ActionSetAssociationEndTargetScope getInstance() {
+		return SINGLETON;
+	}
 }

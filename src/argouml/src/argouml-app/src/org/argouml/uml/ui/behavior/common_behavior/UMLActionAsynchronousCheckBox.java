@@ -49,24 +49,24 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class UMLActionAsynchronousCheckBox extends UMLCheckBox2 {
 
-    private static final long serialVersionUID = 6774833160753780049L;
+	private static final long serialVersionUID = 6774833160753780049L;
 
 	/**
-     * Constructor for UMLAssociationEndNavigableCheckBox.
-     */
-    public UMLActionAsynchronousCheckBox() {
-        super(Translator.localize("checkbox.asynchronous"),
-                ActionSetActionAsynchronous.getInstance(), "isAsynchronous");
-    }
+	 * Constructor for UMLAssociationEndNavigableCheckBox.
+	 */
+	public UMLActionAsynchronousCheckBox() {
+		super(Translator.localize("checkbox.asynchronous"), ActionSetActionAsynchronous.getInstance(),
+				"isAsynchronous");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
-     */
-    public void buildModel() {
-        if (getTarget() != null) {
-            setSelected(Model.getFacade().isAsynchronous(getTarget()));
-        }
+	/*
+	 * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
+	 */
+	public void buildModel() {
+		if (getTarget() != null) {
+			setSelected(Model.getFacade().isAsynchronous(getTarget()));
+		}
 
-    }
+	}
 
 }

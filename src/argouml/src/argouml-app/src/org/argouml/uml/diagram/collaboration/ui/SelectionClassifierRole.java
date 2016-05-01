@@ -51,129 +51,121 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.Handle;
 
 /**
- * The selection buttons for a classifier role. <p>
+ * The selection buttons for a classifier role.
+ * <p>
  * 
  * The AssociationRoles created shall be unidirectional.
  */
 public class SelectionClassifierRole extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -7331092537545831777L;
+	private static final long serialVersionUID = -7331092537545831777L;
 
-	private static Icon assocrole =
-	ResourceLoaderWrapper
-	    .lookupIconResource("AssociationRole");
+	private static Icon assocrole = ResourceLoaderWrapper.lookupIconResource("AssociationRole");
 
-    private static Icon selfassoc =
-        ResourceLoaderWrapper
-	    .lookupIconResource("SelfAssociation");
+	private static Icon selfassoc = ResourceLoaderWrapper.lookupIconResource("SelfAssociation");
 
-    private static Icon icons[] = 
-    {null,
-     null,
-     assocrole,
-     assocrole,
-     selfassoc,
-    };
-    
-    // TODO: I18N required
-    private static String instructions[] = 
-    {null,
-     null,
-     "Add an outgoing classifierrole",
-     "Add an incoming classifierrole",
-     "Add a associationrole to this",
-     "Move object(s)",
-    };
+	private static Icon icons[] = { null, null, assocrole, assocrole, selfassoc, };
 
-    private boolean showIncoming = true;
+	// TODO: I18N required
+	private static String instructions[] = { null, null, "Add an outgoing classifierrole",
+			"Add an incoming classifierrole", "Add a associationrole to this", "Move object(s)", };
 
-    private boolean showOutgoing = true;
+	private boolean showIncoming = true;
 
-    /**
-     * Construct a new SelectionClassifierRole for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionClassifierRole(Fig f) {
-	super(f);
-    }
+	private boolean showOutgoing = true;
 
-    /**
-     * @param b true if the incoming button is enabled
-     */
-    public void setIncomingButtonEnabled(boolean b) {
-	showIncoming = b;
-    }
+	/**
+	 * Construct a new SelectionClassifierRole for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionClassifierRole(Fig f) {
+		super(f);
+	}
 
-    /**
-     * @param b true if the outgoing button is enabled
-     */
-    public void setOutgoingButtonEnabled(boolean b) {
-	showOutgoing = b;
-    }
+	/**
+	 * @param b
+	 *            true if the incoming button is enabled
+	 */
+	public void setIncomingButtonEnabled(boolean b) {
+		showIncoming = b;
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        Icon workingIcons[] = new Icon[icons.length];
-        System.arraycopy(icons, 0, workingIcons, 0, icons.length);
+	/**
+	 * @param b
+	 *            true if the outgoing button is enabled
+	 */
+	public void setOutgoingButtonEnabled(boolean b) {
+		showOutgoing = b;
+	}
 
-        if (!showIncoming) {
-            workingIcons[BASE - LEFT] = null;
-        }
-        if (!showOutgoing) {
-            workingIcons[BASE - RIGHT] = null;
-        }
-        if (!showOutgoing && !showIncoming) {
-            workingIcons[BASE - LOWER_LEFT] = null;
-        }
-        return workingIcons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		Icon workingIcons[] = new Icon[icons.length];
+		System.arraycopy(icons, 0, workingIcons, 0, icons.length);
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+		if (!showIncoming) {
+			workingIcons[BASE - LEFT] = null;
+		}
+		if (!showOutgoing) {
+			workingIcons[BASE - RIGHT] = null;
+		}
+		if (!showOutgoing && !showIncoming) {
+			workingIcons[BASE - LOWER_LEFT] = null;
+		}
+		return workingIcons;
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        /* The next 4 lines fix the first half of issue 5638.
-         * Is there no better way? */
-        Editor curEditor = Globals.curEditor();
-        ModeManager modeManager = curEditor.getModeManager();
-        Mode mode = modeManager.top();
-        mode.setArg("unidirectional", true);
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-        return Model.getMetaTypes().getAssociationRole();
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		/*
+		 * The next 4 lines fix the first half of issue 5638. Is there no better
+		 * way?
+		 */
+		Editor curEditor = Globals.curEditor();
+		ModeManager modeManager = curEditor.getModeManager();
+		Mode mode = modeManager.top();
+		mode.setArg("unidirectional", true);
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getClassifierRole();
-    }
+		return Model.getMetaTypes().getAssociationRole();
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        return Model.getCollaborationsFactory().createClassifierRole();
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getClassifierRole();
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == LEFT) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		return Model.getCollaborationsFactory().createClassifierRole();
+	}
 
-    @Override
-    public void dragHandle(int mx, int my, int anX, int anY, Handle hand) {
-        super.dragHandle(mx, my, anX, anY, hand);
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
-        /* The next 4 lines fix the 2nd half of issue 5638.
-         * Is there no better way? */
-        Editor curEditor = Globals.curEditor();
-        ModeManager modeManager = curEditor.getModeManager();
-        Mode mode = modeManager.top();
-        mode.setArg("unidirectional", true);
-    }
+	@Override
+	public void dragHandle(int mx, int my, int anX, int anY, Handle hand) {
+		super.dragHandle(mx, my, anX, anY, hand);
 
-} 
+		/*
+		 * The next 4 lines fix the 2nd half of issue 5638. Is there no better
+		 * way?
+		 */
+		Editor curEditor = Globals.curEditor();
+		ModeManager modeManager = curEditor.getModeManager();
+		Mode mode = modeManager.top();
+		mode.setArg("unidirectional", true);
+	}
+
+}

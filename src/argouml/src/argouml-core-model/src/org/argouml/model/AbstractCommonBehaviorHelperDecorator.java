@@ -46,177 +46,175 @@ import java.util.List;
  *
  * @author Bob Tarling
  */
-public abstract class AbstractCommonBehaviorHelperDecorator
-	implements CommonBehaviorHelper {
+public abstract class AbstractCommonBehaviorHelperDecorator implements CommonBehaviorHelper {
 
-    /**
-     * The component.
-     */
-    private CommonBehaviorHelper impl;
+	/**
+	 * The component.
+	 */
+	private CommonBehaviorHelper impl;
 
-    /**
-     * @param component The component to decorate.
-     */
-    protected AbstractCommonBehaviorHelperDecorator(
-            CommonBehaviorHelper component) {
-        impl = component;
-    }
+	/**
+	 * @param component
+	 *            The component to decorate.
+	 */
+	protected AbstractCommonBehaviorHelperDecorator(CommonBehaviorHelper component) {
+		impl = component;
+	}
 
-    /**
-     * The component we are decorating.
-     *
-     * @return Returns the component.
-     */
-    protected CommonBehaviorHelper getComponent() {
-        return impl;
-    }
-    
-    /*
-     * @see org.argouml.model.CommonBehaviorHelper#getSource(java.lang.Object)
-     */
-    public Object getSource(Object link) {
-        return impl.getSource(link);
-    }
+	/**
+	 * The component we are decorating.
+	 *
+	 * @return Returns the component.
+	 */
+	protected CommonBehaviorHelper getComponent() {
+		return impl;
+	}
 
-    public Object getDestination(Object link) {
-        return impl.getDestination(link);
-    }
+	/*
+	 * @see org.argouml.model.CommonBehaviorHelper#getSource(java.lang.Object)
+	 */
+	public Object getSource(Object link) {
+		return impl.getSource(link);
+	}
 
-    public void removeActualArgument(Object handle, Object argument) {
-        impl.removeActualArgument(handle, argument);
-    }
-    
-    public void setActualArguments(Object action, List arguments) {
-        impl.setActualArguments(action, arguments);
-    }
+	public Object getDestination(Object link) {
+		return impl.getDestination(link);
+	}
 
-    public void removeClassifier(Object handle, Object classifier) {
-        impl.removeClassifier(handle, classifier);
-    }
+	public void removeActualArgument(Object handle, Object argument) {
+		impl.removeActualArgument(handle, argument);
+	}
 
-    public void removeContext(Object handle, Object context) {
-        impl.removeContext(handle, context);
-    }
+	public void setActualArguments(Object action, List arguments) {
+		impl.setActualArguments(action, arguments);
+	}
 
-    public void removeReception(Object handle, Object reception) {
-        impl.removeReception(handle, reception);
-    }
+	public void removeClassifier(Object handle, Object classifier) {
+		impl.removeClassifier(handle, classifier);
+	}
 
-    public void addActualArgument(Object handle, Object argument) {
-        impl.addActualArgument(handle, argument);
-    }
+	public void removeContext(Object handle, Object context) {
+		impl.removeContext(handle, context);
+	}
 
-    public void addActualArgument(Object handle, int position, 
-            Object argument) {
-        impl.addActualArgument(handle, position, argument);
-    }
+	public void removeReception(Object handle, Object reception) {
+		impl.removeReception(handle, reception);
+	}
 
-    public void addClassifier(Object handle, Object classifier) {
-        impl.addClassifier(handle, classifier);
-    }
+	public void addActualArgument(Object handle, Object argument) {
+		impl.addActualArgument(handle, argument);
+	}
 
-    public void addStimulus(Object handle, Object stimulus) {
-        impl.addStimulus(handle, stimulus);
-    }
+	public void addActualArgument(Object handle, int position, Object argument) {
+		impl.addActualArgument(handle, position, argument);
+	}
 
-    public void setAsynchronous(Object handle, boolean value) {
-        impl.setAsynchronous(handle, value);
-    }
+	public void addClassifier(Object handle, Object classifier) {
+		impl.addClassifier(handle, classifier);
+	}
 
-    public void setOperation(Object handle, Object operation) {
-        impl.setOperation(handle, operation);
-    }
+	public void addStimulus(Object handle, Object stimulus) {
+		impl.addStimulus(handle, stimulus);
+	}
 
-    public void setClassifiers(Object handle, Collection classifiers) {
-        impl.setClassifiers(handle, classifiers);
-    }
-    
-    public void setCommunicationLink(Object handle, Object c) {
-        impl.setCommunicationLink(handle, c);
-    }
+	public void setAsynchronous(Object handle, boolean value) {
+		impl.setAsynchronous(handle, value);
+	}
 
-    public void setComponentInstance(Object handle, Object c) {
-        impl.setComponentInstance(handle, c);
-    }
+	public void setOperation(Object handle, Object operation) {
+		impl.setOperation(handle, operation);
+	}
 
-    public void setContexts(Object handle, Collection c) {
-        impl.setContexts(handle, c);
-    }
+	public void setClassifiers(Object handle, Collection classifiers) {
+		impl.setClassifiers(handle, classifiers);
+	}
 
-    public void setDispatchAction(Object handle, Object value) {
-        impl.setDispatchAction(handle, value);
-    }
+	public void setCommunicationLink(Object handle, Object c) {
+		impl.setCommunicationLink(handle, c);
+	}
 
-    public void setInstance(Object handle, Object inst) {
-        impl.setInstance(handle, inst);
-    }
+	public void setComponentInstance(Object handle, Object c) {
+		impl.setComponentInstance(handle, c);
+	}
 
-    public void setNodeInstance(Object handle, Object nodeInstance) {
-        impl.setNodeInstance(handle, nodeInstance);
-    }
+	public void setContexts(Object handle, Collection c) {
+		impl.setContexts(handle, c);
+	}
 
-    public void setReceiver(Object handle, Object receiver) {
-        impl.setReceiver(handle, receiver);
-    }
+	public void setDispatchAction(Object handle, Object value) {
+		impl.setDispatchAction(handle, value);
+	}
 
-    public void setReception(Object handle, Collection c) {
-        impl.setReception(handle, c);
-    }
+	public void setInstance(Object handle, Object inst) {
+		impl.setInstance(handle, inst);
+	}
 
-    public void setRecurrence(Object handle, Object expr) {
-        impl.setRecurrence(handle, expr);
-    }
+	public void setNodeInstance(Object handle, Object nodeInstance) {
+		impl.setNodeInstance(handle, nodeInstance);
+	}
 
-    public void setScript(Object handle, Object expr) {
-        impl.setScript(handle, expr);
-    }
+	public void setReceiver(Object handle, Object receiver) {
+		impl.setReceiver(handle, receiver);
+	}
 
-    public void setSender(Object handle, Object sender) {
-        impl.setSender(handle, sender);
-    }
+	public void setReception(Object handle, Collection c) {
+		impl.setReception(handle, c);
+	}
 
-    public void setSignal(Object handle, Object signal) {
-        impl.setSignal(handle, signal);
-    }
+	public void setRecurrence(Object handle, Object expr) {
+		impl.setRecurrence(handle, expr);
+	}
 
-    public void setSpecification(Object handle, String specification) {
-        impl.setSpecification(handle, specification);
-    }
+	public void setScript(Object handle, Object expr) {
+		impl.setScript(handle, expr);
+	}
 
-    public void setTarget(Object handle, Object element) {
-        impl.setTarget(handle, element);
-    }
+	public void setSender(Object handle, Object sender) {
+		impl.setSender(handle, sender);
+	}
 
-    public void setTransition(Object handle, Object trans) {
-        impl.setTransition(handle, trans);
-    }
+	public void setSignal(Object handle, Object signal) {
+		impl.setSignal(handle, signal);
+	}
 
-    public void setValue(Object handle, Object value) {
-        impl.setValue(handle, value);
-    }
+	public void setSpecification(Object handle, String specification) {
+		impl.setSpecification(handle, specification);
+	}
 
-    public Object getInstantiation(Object createaction) {
-        return impl.getInstantiation(createaction);
-    }
+	public void setTarget(Object handle, Object element) {
+		impl.setTarget(handle, element);
+	}
 
-    public void setInstantiation(Object createaction, Object instantiation) {
-        impl.setInstantiation(createaction, instantiation);
-    }
+	public void setTransition(Object handle, Object trans) {
+		impl.setTransition(handle, trans);
+	}
 
-    public Object getActionOwner(Object handle) {
-        return impl.getActionOwner(handle);
-    }
-    
-    public void addAction(Object handle, Object action) {
-        impl.addAction(handle, action);
-    }
+	public void setValue(Object handle, Object value) {
+		impl.setValue(handle, value);
+	}
 
-    public void addAction(Object handle, int position, Object action) {
-        impl.addAction(handle, position, action);
-    }
+	public Object getInstantiation(Object createaction) {
+		return impl.getInstantiation(createaction);
+	}
 
-    public void removeAction(Object handle, Object action) {
-        impl.removeAction(handle, action);
-    }
+	public void setInstantiation(Object createaction, Object instantiation) {
+		impl.setInstantiation(createaction, instantiation);
+	}
+
+	public Object getActionOwner(Object handle) {
+		return impl.getActionOwner(handle);
+	}
+
+	public void addAction(Object handle, Object action) {
+		impl.addAction(handle, action);
+	}
+
+	public void addAction(Object handle, int position, Object action) {
+		impl.addAction(handle, position, action);
+	}
+
+	public void removeAction(Object handle, Object action) {
+		impl.removeAction(handle, action);
+	}
 
 }

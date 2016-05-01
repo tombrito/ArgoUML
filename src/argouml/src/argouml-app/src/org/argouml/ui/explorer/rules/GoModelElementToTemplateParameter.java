@@ -9,27 +9,26 @@ import org.argouml.model.Model;
 
 public class GoModelElementToTemplateParameter extends AbstractPerspectiveRule {
 
-    @Override
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAClassifier(parent)) {
-            return Model.getFacade().getTemplateParameters(parent);
-        }
-        return Collections.emptyList();
-    }
+	@Override
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAClassifier(parent)) {
+			return Model.getFacade().getTemplateParameters(parent);
+		}
+		return Collections.emptyList();
+	}
 
-    @Override
-    public String getRuleName() {
-        return Translator.localize("misc.model-element.template-parameter");
-    }
+	@Override
+	public String getRuleName() {
+		return Translator.localize("misc.model-element.template-parameter");
+	}
 
-    public Set getDependencies(Object parent) {
-//        if (Model.getFacade().isAClassifier(parent)) {
-//            Set set = new HashSet();
-//            set.add(parent);
-//            return set;
-//        }
-        return Collections.emptySet();
-    }
-
+	public Set getDependencies(Object parent) {
+		// if (Model.getFacade().isAClassifier(parent)) {
+		// Set set = new HashSet();
+		// set.add(parent);
+		// return set;
+		// }
+		return Collections.emptySet();
+	}
 
 }

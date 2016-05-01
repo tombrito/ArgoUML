@@ -49,66 +49,58 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
 
 /**
  * Action to add a predecessor to some message.
+ * 
  * @since Oct 2, 2002
  * @author jaap.branderhorst@xs4all.nl
  * @stereotype singleton
  */
-public class ActionAddMessagePredecessor 
-    extends AbstractActionAddModelElement2 {
+public class ActionAddMessagePredecessor extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = 7133471696539329826L;
-	private static final ActionAddMessagePredecessor SINGLETON =
-	new ActionAddMessagePredecessor();
+	private static final long serialVersionUID = 7133471696539329826L;
+	private static final ActionAddMessagePredecessor SINGLETON = new ActionAddMessagePredecessor();
 
-    /**
-     * Constructor for ActionAddMessagePredecessor.
-     */
-    protected ActionAddMessagePredecessor() {
-        super();
-    }
-
-
-    protected List getChoices() {
-        if (getTarget() == null) {
-            return Collections.EMPTY_LIST;
-        }
-        List vec = new ArrayList();
-        vec.addAll(Model.getCollaborationsHelper()
-                .getAllPossiblePredecessors(getTarget()));
-        return vec;
-    }
-
-
-    protected List getSelected() {
-        if (getTarget() == null) {
-	    throw new IllegalStateException(
-                "getSelected may not be called with null target");
-        }
-        List vec = new ArrayList();
-        vec.addAll(Model.getFacade().getPredecessors(getTarget()));
-        return vec;
-    }
-
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.add-predecessors");
-    }
-
-
-    protected void doIt(Collection selected) {
-	if (getTarget() == null) {
-	    throw new IllegalStateException(
-	            "doIt may not be called with null target");
+	/**
+	 * Constructor for ActionAddMessagePredecessor.
+	 */
+	protected ActionAddMessagePredecessor() {
+		super();
 	}
-	Object message = getTarget();
-	Model.getCollaborationsHelper().setPredecessors(message, selected);
-    }
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionAddMessagePredecessor getInstance() {
-        return SINGLETON;
-    }
+	protected List getChoices() {
+		if (getTarget() == null) {
+			return Collections.EMPTY_LIST;
+		}
+		List vec = new ArrayList();
+		vec.addAll(Model.getCollaborationsHelper().getAllPossiblePredecessors(getTarget()));
+		return vec;
+	}
+
+	protected List getSelected() {
+		if (getTarget() == null) {
+			throw new IllegalStateException("getSelected may not be called with null target");
+		}
+		List vec = new ArrayList();
+		vec.addAll(Model.getFacade().getPredecessors(getTarget()));
+		return vec;
+	}
+
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.add-predecessors");
+	}
+
+	protected void doIt(Collection selected) {
+		if (getTarget() == null) {
+			throw new IllegalStateException("doIt may not be called with null target");
+		}
+		Object message = getTarget();
+		Model.getCollaborationsHelper().setPredecessors(message, selected);
+	}
+
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionAddMessagePredecessor getInstance() {
+		return SINGLETON;
+	}
 
 }

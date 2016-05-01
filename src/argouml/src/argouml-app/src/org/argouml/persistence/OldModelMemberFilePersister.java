@@ -38,12 +38,11 @@
 
 package org.argouml.persistence;
 
-
 /**
- * The file persister for the UML model.
- * TODO: This is empty.  What is its purpose? - tfm
+ * The file persister for the UML model. TODO: This is empty. What is its
+ * purpose? - tfm
+ * 
  * @author Bob Tarling
  */
-class OldModelMemberFilePersister extends ModelMemberFilePersister 
-    implements XmiExtensionParser {
+class OldModelMemberFilePersister extends ModelMemberFilePersister implements XmiExtensionParser {
 }

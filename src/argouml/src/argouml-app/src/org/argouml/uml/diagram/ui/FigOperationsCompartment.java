@@ -37,7 +37,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.diagram.ui;
 
 import java.awt.Rectangle;
@@ -54,62 +53,66 @@ import org.argouml.uml.diagram.static_structure.ui.FigOperation;
  * @author Bob Tarling
  */
 public class FigOperationsCompartment extends FigCompartment {
-    
-    private static final long serialVersionUID = -3031854637951412169L;
+
+	private static final long serialVersionUID = -3031854637951412169L;
 
 	/**
-     * Constructor for an Operations compartment.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigOperationsCompartment(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        super.populate();
-    }
+	 * Constructor for an Operations compartment.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigOperationsCompartment(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		super.populate();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getUmlCollection()
-     */
-    protected Collection getUmlCollection() {
-        Object classifier = getOwner();
-        return Model.getFacade().getOperationsAndReceptions(classifier);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getUmlCollection()
+	 */
+	protected Collection getUmlCollection() {
+		Object classifier = getOwner();
+		return Model.getFacade().getOperationsAndReceptions(classifier);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getNotationType()
-     */
-    protected int getNotationType() {
-        return NotationProviderFactory2.TYPE_OPERATION;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getNotationType()
+	 */
+	protected int getNotationType() {
+		return NotationProviderFactory2.TYPE_OPERATION;
+	}
 
-    /**     
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @return a FigSingleLineTextWithNotation which can be used to 
-     *                          display the text.
-     */
-    @Override
-    protected FigSingleLineTextWithNotation createFigText(Object owner, 
-            Rectangle bounds,
-            DiagramSettings settings) {
-        return new FigOperation(owner, bounds, settings);
-    }
+	/**
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @return a FigSingleLineTextWithNotation which can be used to display the
+	 *         text.
+	 */
+	@Override
+	protected FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds, DiagramSettings settings) {
+		return new FigOperation(owner, bounds, settings);
+	}
 
-    @Override
-    public String getName() {
-        return "operations";
-    }
-    
-    /**
-     * Returns the meta type for Operation to indicate the type of model
-     * element within this compartment.
-     * @return a model element type
-     */
-    public Object getCompartmentType() {
-        return Model.getMetaTypes().getOperation();
-    }
+	@Override
+	public String getName() {
+		return "operations";
+	}
+
+	/**
+	 * Returns the meta type for Operation to indicate the type of model element
+	 * within this compartment.
+	 * 
+	 * @return a model element type
+	 */
+	public Object getCompartmentType() {
+		return Model.getMetaTypes().getOperation();
+	}
 }

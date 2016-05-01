@@ -51,109 +51,108 @@ import org.argouml.uml.diagram.deployment.ui.FigComponentInstance;
 import org.argouml.uml.diagram.deployment.ui.UMLDeploymentDiagram;
 
 /**
- * A critic to detect when there are component-instances that
- * are not inside a node-instance.
+ * A critic to detect when there are component-instances that are not inside a
+ * node-instance.
  *
  * @author 5eichler
  */
 public class CrComponentInstanceWithoutClassifier extends CrUML {
 
-    /**
-     * The constructor.
-     */
-    public CrComponentInstanceWithoutClassifier() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.PATTERNS);
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(dm instanceof UMLDeploymentDiagram)) {
-	    return NO_PROBLEM;
+	/**
+	 * The constructor.
+	 */
+	public CrComponentInstanceWithoutClassifier() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.PATTERNS);
 	}
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
-	ListSet offs = computeOffenders(dd);
-	if (offs == null) {
-	    return NO_PROBLEM;
-	}
-	return PROBLEM_FOUND;
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
-	ListSet offs = computeOffenders(dd);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
-
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-	    return false;
-	}
-	ListSet offs = i.getOffenders();
-	UMLDeploymentDiagram dd = (UMLDeploymentDiagram) offs.get(0);
-	//if (!predicate(dm, dsgr)) return false;
-	ListSet newOffs = computeOffenders(dd);
-	boolean res = offs.equals(newOffs);
-	return res;
-    }
-
-    /**
-     * If there are component-instances that have no enclosing FigMNodeInstance
-     * the returned ListSet is not null. Then in the ListSet
-     * are the UMLDeploymentDiagram and all FigComponentInstances with no
-     * enclosing FigMNodeInstance
-     *
-     * @param deploymentDiagram the diagram to check
-     * @return the set of offenders
-     */
-    public ListSet computeOffenders(UMLDeploymentDiagram deploymentDiagram) {
-
-	Collection figs = deploymentDiagram.getLayer().getContents();
-        ListSet offs = null;
-        Iterator figIter = figs.iterator();
-	while (figIter.hasNext()) {
-	    Object obj = figIter.next();
-	    if (!(obj instanceof FigComponentInstance)) {
-	        continue;
-	    }
-	    FigComponentInstance figComponentInstance =
-	        (FigComponentInstance) obj;
-	    if (figComponentInstance != null) {
-		Object coi =
-		    figComponentInstance.getOwner();
-		if (coi != null) {
-		    Collection col = Model.getFacade().getClassifiers(coi);
-		    if (col.size() > 0) {
-		        continue;
-		    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(dm instanceof UMLDeploymentDiagram)) {
+			return NO_PROBLEM;
 		}
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
+		ListSet offs = computeOffenders(dd);
 		if (offs == null) {
-		    offs = new ListSet();
-		    offs.add(deploymentDiagram);
+			return NO_PROBLEM;
 		}
-		offs.add(figComponentInstance);
-	    }
+		return PROBLEM_FOUND;
 	}
 
-	return offs;
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) dm;
+		ListSet offs = computeOffenders(dd);
+		return new UMLToDoItem(this, offs, dsgr);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -2178052428128671983L;
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		UMLDeploymentDiagram dd = (UMLDeploymentDiagram) offs.get(0);
+		// if (!predicate(dm, dsgr)) return false;
+		ListSet newOffs = computeOffenders(dd);
+		boolean res = offs.equals(newOffs);
+		return res;
+	}
+
+	/**
+	 * If there are component-instances that have no enclosing FigMNodeInstance
+	 * the returned ListSet is not null. Then in the ListSet are the
+	 * UMLDeploymentDiagram and all FigComponentInstances with no enclosing
+	 * FigMNodeInstance
+	 *
+	 * @param deploymentDiagram
+	 *            the diagram to check
+	 * @return the set of offenders
+	 */
+	public ListSet computeOffenders(UMLDeploymentDiagram deploymentDiagram) {
+
+		Collection figs = deploymentDiagram.getLayer().getContents();
+		ListSet offs = null;
+		Iterator figIter = figs.iterator();
+		while (figIter.hasNext()) {
+			Object obj = figIter.next();
+			if (!(obj instanceof FigComponentInstance)) {
+				continue;
+			}
+			FigComponentInstance figComponentInstance = (FigComponentInstance) obj;
+			if (figComponentInstance != null) {
+				Object coi = figComponentInstance.getOwner();
+				if (coi != null) {
+					Collection col = Model.getFacade().getClassifiers(coi);
+					if (col.size() > 0) {
+						continue;
+					}
+				}
+				if (offs == null) {
+					offs = new ListSet();
+					offs.add(deploymentDiagram);
+				}
+				offs.add(figComponentInstance);
+			}
+		}
+
+		return offs;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -2178052428128671983L;
 } /* end class CrComponentInstanceWithoutClassifier */

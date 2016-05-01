@@ -56,169 +56,161 @@ import org.tigris.gef.presentation.Fig;
  * The style Panel for FigEdgeModelElement.
  *
  */
-public class StylePanelFigAssociationClass
-    extends StylePanelFigNodeModelElement
-    implements ItemListener, FocusListener, KeyListener {
+public class StylePanelFigAssociationClass extends StylePanelFigNodeModelElement
+		implements ItemListener, FocusListener, KeyListener {
 
-    private static final long serialVersionUID = -919690104491942480L;
+	private static final long serialVersionUID = -919690104491942480L;
 
-	private JCheckBox attrCheckBox =
-        new JCheckBox(Translator.localize("checkbox.attributes"));
+	private JCheckBox attrCheckBox = new JCheckBox(Translator.localize("checkbox.attributes"));
 
-    private JCheckBox operCheckBox =
-        new JCheckBox(Translator.localize("checkbox.operations"));
+	private JCheckBox operCheckBox = new JCheckBox(Translator.localize("checkbox.operations"));
 
-    /**
-     * Flag to indicate that a refresh is going on.
-     */
-    private boolean refreshTransaction;
+	/**
+	 * Flag to indicate that a refresh is going on.
+	 */
+	private boolean refreshTransaction;
 
-    /**
-     * Constructor.
-     */
-    public StylePanelFigAssociationClass() {
-        super();
+	/**
+	 * Constructor.
+	 */
+	public StylePanelFigAssociationClass() {
+		super();
 
-        addToDisplayPane(attrCheckBox);
-        addToDisplayPane(operCheckBox);
+		addToDisplayPane(attrCheckBox);
+		addToDisplayPane(operCheckBox);
 
-        attrCheckBox.setSelected(false);
-        operCheckBox.setSelected(false);
-        attrCheckBox.addItemListener(this);
-        operCheckBox.addItemListener(this);
-    }
+		attrCheckBox.setSelected(false);
+		operCheckBox.setSelected(false);
+		attrCheckBox.addItemListener(this);
+		operCheckBox.addItemListener(this);
+	}
 
-    /**
-     * Bounding box is editable (although this is style panel for an
-     * FigEdgeModelElement).
-     * 
-     * @param value Ignored argument.
-     */
-    @Override
-    protected void hasEditableBoundingBox(boolean value) {
-        super.hasEditableBoundingBox(true);
-    }
+	/**
+	 * Bounding box is editable (although this is style panel for an
+	 * FigEdgeModelElement).
+	 * 
+	 * @param value
+	 *            Ignored argument.
+	 */
+	@Override
+	protected void hasEditableBoundingBox(boolean value) {
+		super.hasEditableBoundingBox(true);
+	}
 
-    /*
-     * @see org.argouml.ui.StylePanelFig#setTargetBBox()
-     */
-    @Override
-    protected void setTargetBBox() {
-        Fig target = getPanelTarget();
-        // Can't do anything if we don't have a fig.
-        if (target == null) {
-            return;
-        }
-        // Parse the boundary box text. Null is
-        // returned if it is empty or
-        // invalid, which causes no change. Otherwise we tell
-        // GEF we are making
-        // a change, make the change and tell GEF we've
-        // finished.
-        Rectangle bounds = parseBBox();
-        if (bounds == null) {
-            return;
-        }
+	/*
+	 * @see org.argouml.ui.StylePanelFig#setTargetBBox()
+	 */
+	@Override
+	protected void setTargetBBox() {
+		Fig target = getPanelTarget();
+		// Can't do anything if we don't have a fig.
+		if (target == null) {
+			return;
+		}
+		// Parse the boundary box text. Null is
+		// returned if it is empty or
+		// invalid, which causes no change. Otherwise we tell
+		// GEF we are making
+		// a change, make the change and tell GEF we've
+		// finished.
+		Rectangle bounds = parseBBox();
+		if (bounds == null) {
+			return;
+		}
 
-        // Get class box, because we will set it's bounding box
-        Rectangle oldAssociationBounds = target.getBounds();
-        if (((FigAssociationClass) target).getAssociationClass() != null) {
-            target = ((FigAssociationClass) target).getAssociationClass();
-        }
+		// Get class box, because we will set it's bounding box
+		Rectangle oldAssociationBounds = target.getBounds();
+		if (((FigAssociationClass) target).getAssociationClass() != null) {
+			target = ((FigAssociationClass) target).getAssociationClass();
+		}
 
-        if (!target.getBounds().equals(bounds)
-                && !oldAssociationBounds.equals(bounds)) {
-            target.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
-            target.endTrans();
-        }
-    }
+		if (!target.getBounds().equals(bounds) && !oldAssociationBounds.equals(bounds)) {
+			target.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
+			target.endTrans();
+		}
+	}
 
-    /*
-     * Only refresh the tab if the bounds propertyChange event arrives.
-     *
-     * @see org.argouml.ui.StylePanel#refresh(java.beans.PropertyChangeEvent)
-     */
-    public void refresh(PropertyChangeEvent e) {
-        String propertyName = e.getPropertyName();
-        if (propertyName.equals("bounds")) {
-            refresh();
-        }
-    }
-    /*
-     * @see org.argouml.ui.StylePanelFig#refresh()
-     */
-    @Override
-    public void refresh() {
-        // StylePanelFigClass relies on getPanelTarget() to return a 
-        // FigCompartmentBox
-        refreshTransaction = true;
-        FigAssociationClass panelTarget =
-            (FigAssociationClass) getPanelTarget();
-        try {
-            super.refresh();
-            final FigCompartmentBox fcb = panelTarget.getAssociationClass();
-            if (fcb != null) {
-                FigCompartment compartment =
-                    fcb.getCompartment(Model.getMetaTypes().getAttribute());
-                attrCheckBox.setSelected(compartment.isVisible());
-                compartment =
-                    fcb.getCompartment(Model.getMetaTypes().getOperation());
-                operCheckBox.setSelected(compartment.isVisible());
-            }
-        } finally {
-            refreshTransaction = false;
-        }
+	/*
+	 * Only refresh the tab if the bounds propertyChange event arrives.
+	 *
+	 * @see org.argouml.ui.StylePanel#refresh(java.beans.PropertyChangeEvent)
+	 */
+	public void refresh(PropertyChangeEvent e) {
+		String propertyName = e.getPropertyName();
+		if (propertyName.equals("bounds")) {
+			refresh();
+		}
+	}
 
-        // The boundary box as held in the target fig, and as listed
-        // in the boundary box style field (null if we don't have 
-        // anything valid)
-        Fig target = panelTarget;
+	/*
+	 * @see org.argouml.ui.StylePanelFig#refresh()
+	 */
+	@Override
+	public void refresh() {
+		// StylePanelFigClass relies on getPanelTarget() to return a
+		// FigCompartmentBox
+		refreshTransaction = true;
+		FigAssociationClass panelTarget = (FigAssociationClass) getPanelTarget();
+		try {
+			super.refresh();
+			final FigCompartmentBox fcb = panelTarget.getAssociationClass();
+			if (fcb != null) {
+				FigCompartment compartment = fcb.getCompartment(Model.getMetaTypes().getAttribute());
+				attrCheckBox.setSelected(compartment.isVisible());
+				compartment = fcb.getCompartment(Model.getMetaTypes().getOperation());
+				operCheckBox.setSelected(compartment.isVisible());
+			}
+		} finally {
+			refreshTransaction = false;
+		}
 
-        // Get class box, because we will set it's bounding box in text field
-        if (((FigAssociationClass) target).getAssociationClass() != null) {
-            target = ((FigAssociationClass) target).getAssociationClass();
-        }
+		// The boundary box as held in the target fig, and as listed
+		// in the boundary box style field (null if we don't have
+		// anything valid)
+		Fig target = panelTarget;
 
-        Rectangle figBounds = target.getBounds();
-        Rectangle styleBounds = parseBBox();
+		// Get class box, because we will set it's bounding box in text field
+		if (((FigAssociationClass) target).getAssociationClass() != null) {
+			target = ((FigAssociationClass) target).getAssociationClass();
+		}
 
-        // Only reset the text if the two are not the same (i.e the fig
-        // has
-        // moved, rather than we've just edited the text, when
-        // setTargetBBox()
-        // will have made them the same). Note that styleBounds could
-        // be null,
-        // so we do the test this way round.
+		Rectangle figBounds = target.getBounds();
+		Rectangle styleBounds = parseBBox();
 
-        if (!(figBounds.equals(styleBounds))) {
-            getBBoxField().setText(
-                    figBounds.x + "," + figBounds.y + "," + figBounds.width
-                            + "," + figBounds.height);
-        }
-    }
+		// Only reset the text if the two are not the same (i.e the fig
+		// has
+		// moved, rather than we've just edited the text, when
+		// setTargetBBox()
+		// will have made them the same). Note that styleBounds could
+		// be null,
+		// so we do the test this way round.
 
-    ////////////////////////////////////////////////////////////////
-    // event handling
+		if (!(figBounds.equals(styleBounds))) {
+			getBBoxField().setText(figBounds.x + "," + figBounds.y + "," + figBounds.width + "," + figBounds.height);
+		}
+	}
 
-    /*
-     * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-     */
-    public void itemStateChanged(ItemEvent e) {
-        if (!refreshTransaction) {
-            Object src = e.getSource();
+	////////////////////////////////////////////////////////////////
+	// event handling
 
-            if (src == attrCheckBox) {
-                FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
-                fcb.showCompartment(Model.getMetaTypes().getAttribute(), 
-                        attrCheckBox.isSelected());
-            } else if (src == operCheckBox) {
-                FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
-                fcb.showCompartment(Model.getMetaTypes().getOperation(),
-                        operCheckBox.isSelected());
-            } else {
-                super.itemStateChanged(e);
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
+	 */
+	public void itemStateChanged(ItemEvent e) {
+		if (!refreshTransaction) {
+			Object src = e.getSource();
+
+			if (src == attrCheckBox) {
+				FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
+				fcb.showCompartment(Model.getMetaTypes().getAttribute(), attrCheckBox.isSelected());
+			} else if (src == operCheckBox) {
+				FigCompartmentBox fcb = (FigCompartmentBox) getPanelTarget();
+				fcb.showCompartment(Model.getMetaTypes().getOperation(), operCheckBox.isSelected());
+			} else {
+				super.itemStateChanged(e);
+			}
+		}
+	}
 
 } /* end class StylePanelFigAssociationClass */

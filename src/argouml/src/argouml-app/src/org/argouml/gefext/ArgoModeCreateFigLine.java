@@ -45,30 +45,29 @@ import org.tigris.gef.base.ModeCreateFigLine;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * A Mode to interpret user input while creating a FigLine. All of
- *  the actual event handling is inherited from ModeCreate. This class
- *  just implements the differences needed to make it specific to
- *  lines.
+ * A Mode to interpret user input while creating a FigLine. All of the actual
+ * event handling is inherited from ModeCreate. This class just implements the
+ * differences needed to make it specific to lines.
  *
  * @author Michiel
  */
 public class ArgoModeCreateFigLine extends ModeCreateFigLine {
 
-    private static final long serialVersionUID = -4598340052644406294L;
+	private static final long serialVersionUID = -4598340052644406294L;
 
 	@Override
-    public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
-        Fig line = new ArgoFigLine(snapX, snapY, snapX, snapY);
-        // TODO: We need a way to set the line color and width here, but
-        // TestDependencies thinks this creates a dependency cycle
-        //        Fig line = new ArgoFigLine(snapX, snapY, snapX, snapY, 
-//                ArgoFig.LINE_COLOR);
-//        line.setLineWidth(ArgoFig.LINE_WIDTH);
-        return line;
-    }
+	public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
+		Fig line = new ArgoFigLine(snapX, snapY, snapX, snapY);
+		// TODO: We need a way to set the line color and width here, but
+		// TestDependencies thinks this creates a dependency cycle
+		// Fig line = new ArgoFigLine(snapX, snapY, snapX, snapY,
+		// ArgoFig.LINE_COLOR);
+		// line.setLineWidth(ArgoFig.LINE_WIDTH);
+		return line;
+	}
 
-    @Override
-    public String instructions() { 
-        return Translator.localize("statusmsg.help.create.line"); 
-    }
+	@Override
+	public String instructions() {
+		return Translator.localize("statusmsg.help.create.line");
+	}
 }

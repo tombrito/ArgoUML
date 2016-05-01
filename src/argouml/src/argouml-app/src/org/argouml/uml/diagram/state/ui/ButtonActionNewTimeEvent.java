@@ -47,17 +47,17 @@ import org.argouml.model.Model;
  */
 public class ButtonActionNewTimeEvent extends ButtonActionNewEvent {
 
-    private static final long serialVersionUID = 1714440375876806261L;
+	private static final long serialVersionUID = 1714440375876806261L;
 
 	protected Object createEvent(Object ns) {
-        return Model.getStateMachinesFactory().buildTimeEvent(ns);
-    }
-    
-    protected String getKeyName() {
-        return "button.new-timeevent";
-    }
-    
-    protected String getIconName() {
-        return "TimeEvent";
-    }
+		return Model.getStateMachinesFactory().buildTimeEvent(ns);
+	}
+
+	protected String getKeyName() {
+		return "button.new-timeevent";
+	}
+
+	protected String getIconName() {
+		return "TimeEvent";
+	}
 }

@@ -48,94 +48,94 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * A mouselistener that implements behaviour
- * to navigate to a selected modelelement
- * on double click of the left mousebutton
- * for a JList.
+ * A mouselistener that implements behaviour to navigate to a selected
+ * modelelement on double click of the left mousebutton for a JList.
  *
  * @since Juli 9, 2004
  * @author jaap.branderhorst@xs4all.nl
  */
 public class UMLLinkMouseListener implements MouseListener {
 
-    /**
-     * The graphical object for which this mouselistener is registrated.
-     */
-    private JList owner = null;
+	/**
+	 * The graphical object for which this mouselistener is registrated.
+	 */
+	private JList owner = null;
 
-    /**
-     * The total amount of mouseclicks the user has to do,
-     * to go to the selected element.
-     */
-    private int numberOfMouseClicks;
+	/**
+	 * The total amount of mouseclicks the user has to do, to go to the selected
+	 * element.
+	 */
+	private int numberOfMouseClicks;
 
-    /**
-     * The constructor.
-     *
-     * @param theOwner the graphical object for which
-     *                 this mouselistener is registered
-     */
-    public UMLLinkMouseListener(JList theOwner) {
-        this(theOwner, 2);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param theOwner
+	 *            the graphical object for which this mouselistener is
+	 *            registered
+	 */
+	public UMLLinkMouseListener(JList theOwner) {
+		this(theOwner, 2);
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param theOwner the graphical object for which
-     *                 this mouselistener is registered
-     * @param numberOfmouseClicks the total amount of mouseclicks the user
-     *                            has to do, to go to the selected element
-     */
-    private UMLLinkMouseListener(JList theOwner, int numberOfmouseClicks) {
-        owner = theOwner;
-        numberOfMouseClicks = numberOfmouseClicks;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param theOwner
+	 *            the graphical object for which this mouselistener is
+	 *            registered
+	 * @param numberOfmouseClicks
+	 *            the total amount of mouseclicks the user has to do, to go to
+	 *            the selected element
+	 */
+	private UMLLinkMouseListener(JList theOwner, int numberOfmouseClicks) {
+		owner = theOwner;
+		numberOfMouseClicks = numberOfmouseClicks;
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(
-     *          java.awt.event.MouseEvent)
-     */
-    public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() >= numberOfMouseClicks
-                && SwingUtilities.isLeftMouseButton(e)) {
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(
+	 * java.awt.event.MouseEvent)
+	 */
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() >= numberOfMouseClicks && SwingUtilities.isLeftMouseButton(e)) {
 
-            Object o = owner.getSelectedValue();
-            if (Model.getFacade().isAModelElement(o)) {
-                TargetManager.getInstance().setTarget(o);
-            }
-            e.consume();
-        }
+			Object o = owner.getSelectedValue();
+			if (Model.getFacade().isAModelElement(o)) {
+				TargetManager.getInstance().setTarget(o);
+			}
+			e.consume();
+		}
 
-    }
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
-    public void mouseEntered(MouseEvent e) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered(MouseEvent e) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
-    public void mouseExited(MouseEvent e) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited(MouseEvent e) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
-    public void mousePressed(MouseEvent e) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	public void mousePressed(MouseEvent e) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseReleased(
-     *          java.awt.event.MouseEvent)
-     */
-    public void mouseReleased(MouseEvent e) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseReleased(
+	 * java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased(MouseEvent e) {
+		// ignored
+	}
 
 }

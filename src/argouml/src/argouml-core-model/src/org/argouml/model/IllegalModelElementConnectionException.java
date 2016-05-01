@@ -44,36 +44,36 @@
 
 package org.argouml.model;
 
-
 /**
  * An Exception thrown when trying to create an invalid association or link.
  */
 public class IllegalModelElementConnectionException extends UmlException {
-    /**
-     * Constructs an instance of
-     * <code>IllegalModelElementConnection</code> with the specified
-     * detail message.
-     *
-     * @param msg the detail message.
-     */
-    public IllegalModelElementConnectionException(String msg) {
-        super(msg);
-    }
+	/**
+	 * Constructs an instance of <code>IllegalModelElementConnection</code> with
+	 * the specified detail message.
+	 *
+	 * @param msg
+	 *            the detail message.
+	 */
+	public IllegalModelElementConnectionException(String msg) {
+		super(msg);
+	}
 
-    /**
-     * Constructs an instance of
-     * <code>IllegalModelElementConnection</code> with the specified
-     * detail message.
-     *
-     * @param msg the detail message.
-     * @param cause the cause
-     */
-    public IllegalModelElementConnectionException(String msg, Throwable cause) {
-        super(msg, cause);
-    }
+	/**
+	 * Constructs an instance of <code>IllegalModelElementConnection</code> with
+	 * the specified detail message.
+	 *
+	 * @param msg
+	 *            the detail message.
+	 * @param cause
+	 *            the cause
+	 */
+	public IllegalModelElementConnectionException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3934102825576700361L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -3934102825576700361L;
 }

@@ -48,21 +48,20 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class UMLFeatureOwnerScopeCheckBox extends UMLCheckBox2 {
 
-    private static final long serialVersionUID = -5093336348482171369L;
+	private static final long serialVersionUID = -5093336348482171369L;
 
 	/**
-     * Constructor for UMLFeatureOwnerScopeCheckBox.
-     */
-    public UMLFeatureOwnerScopeCheckBox() {
-        super(Translator.localize("checkbox.static-lc"),
-                new ActionSetFeatureOwnerScope(), "ownerScope");
-    }
+	 * Constructor for UMLFeatureOwnerScopeCheckBox.
+	 */
+	public UMLFeatureOwnerScopeCheckBox() {
+		super(Translator.localize("checkbox.static-lc"), new ActionSetFeatureOwnerScope(), "ownerScope");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
-     */
-    public void buildModel() {
-        setSelected(Model.getFacade().isStatic(getTarget()));
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
+	 */
+	public void buildModel() {
+		setSelected(Model.getFacade().isStatic(getTarget()));
+	}
 
 }

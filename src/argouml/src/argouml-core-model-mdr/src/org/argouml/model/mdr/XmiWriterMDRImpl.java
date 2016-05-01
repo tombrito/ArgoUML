@@ -67,84 +67,76 @@ import org.netbeans.lib.jmi.xmi.OutputConfig;
  */
 class XmiWriterMDRImpl implements XmiWriter {
 
-    private MDRModelImplementation modelImpl;
+	private MDRModelImplementation modelImpl;
 
-    private Object model;
+	private Object model;
 
-    private OutputConfig config;
+	private OutputConfig config;
 
-    private OutputStream oStream;
+	private OutputStream oStream;
 
-    private static final String ENCODING = "UTF-8";
+	private static final String ENCODING = "UTF-8";
 
-    private static final String XMI_VERSION = "1.2";
+	private static final String XMI_VERSION = "1.2";
 
-    /*
-     * Private constructor for common work needed by both public
-     * constructors.
-     */
-    private XmiWriterMDRImpl(MDRModelImplementation theParent, Object theModel,
-             String version) {
-        if (theModel == null) {
-            throw new IllegalArgumentException("A model must be provided");
-        }
-        if (theParent == null) {
-            throw new IllegalArgumentException("A parent must be provided");
-        }
-        this.modelImpl = theParent;
-        this.model = theModel;
-        config = new OutputConfig();
-        config.setEncoding(ENCODING);
-        config.setReferenceProvider(new XmiReferenceProviderImpl(modelImpl
-                .getObjectToId()));
-        config.setHeaderProvider(new XmiHeaderProviderImpl(version));
-    }
+	/*
+	 * Private constructor for common work needed by both public constructors.
+	 */
+	private XmiWriterMDRImpl(MDRModelImplementation theParent, Object theModel, String version) {
+		if (theModel == null) {
+			throw new IllegalArgumentException("A model must be provided");
+		}
+		if (theParent == null) {
+			throw new IllegalArgumentException("A parent must be provided");
+		}
+		this.modelImpl = theParent;
+		this.model = theModel;
+		config = new OutputConfig();
+		config.setEncoding(ENCODING);
+		config.setReferenceProvider(new XmiReferenceProviderImpl(modelImpl.getObjectToId()));
+		config.setHeaderProvider(new XmiHeaderProviderImpl(version));
+	}
 
+	/**
+	 * Create an XMI writer for the given model.
+	 *
+	 * @param theParent
+	 *            The ModelImplementation
+	 * @param theModel
+	 *            The Model to write. If null, write all top-level model
+	 *            elements.
+	 * @param theStream
+	 *            The OutputStream to write to.
+	 * @param version
+	 *            the ArgoUML version
+	 * @throws IllegalArgumentException
+	 *             if no output stream is provided
+	 * @since 0.25.4
+	 */
+	public XmiWriterMDRImpl(MDRModelImplementation theParent, Object theModel, OutputStream theStream, String version) {
+		this(theParent, theModel, version);
+		if (theStream == null) {
+			throw new IllegalArgumentException("A writer must be provided");
+		}
+		oStream = theStream;
+	}
 
-    /**
-     * Create an XMI writer for the given model.
-     *
-     * @param theParent
-     *            The ModelImplementation
-     * @param theModel
-     *            The Model to write. If null, write all top-level model
-     *            elements.
-     * @param theStream
-     *            The OutputStream to write to.
-     * @param version
-     *            the ArgoUML version
-     * @throws IllegalArgumentException
-     *             if no output stream is provided
-     * @since 0.25.4
-     */
-    public XmiWriterMDRImpl(MDRModelImplementation theParent, Object theModel,
-            OutputStream theStream, String version) {
-        this(theParent, theModel, version);
-        if (theStream == null) {
-            throw new IllegalArgumentException("A writer must be provided");
-        }
-        oStream = theStream;
-    }
+	public void write() throws UmlException {
+		XMIWriter xmiWriter = XMIWriterFactory.getDefault().createXMIWriter(config);
+		try {
+			modelImpl.getRepository().beginTrans(false);
+			try {
+				RefPackage extent = ((RefObject) model).refOutermostPackage();
+				xmiWriter.write(oStream, "file:///ThisIsADummyName.xmi", extent, XMI_VERSION);
+			} finally {
+				// end our transaction
+				modelImpl.getRepository().endTrans();
+			}
+		} catch (IOException e) {
+			throw new UmlException(e);
+		}
+	}
 
-
-    public void write() throws UmlException {
-        XMIWriter xmiWriter = XMIWriterFactory.getDefault().createXMIWriter(
-                config);
-        try {
-            modelImpl.getRepository().beginTrans(false);
-            try {
-                RefPackage extent = ((RefObject) model).refOutermostPackage();
-                xmiWriter.write(oStream, "file:///ThisIsADummyName.xmi", extent,
-                        XMI_VERSION);
-            } finally {
-                // end our transaction
-                modelImpl.getRepository().endTrans();
-            }
-        } catch (IOException e) {
-            throw new UmlException(e);
-        }
-    }
-
-    public void setXmiExtensionWriter(XmiExtensionWriter theWriter) {
-    }
+	public void setXmiExtensionWriter(XmiExtensionWriter theWriter) {
+	}
 }

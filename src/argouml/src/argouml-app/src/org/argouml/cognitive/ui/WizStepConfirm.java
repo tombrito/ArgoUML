@@ -47,82 +47,85 @@ import javax.swing.border.EtchedBorder;
 import org.argouml.cognitive.critics.Wizard;
 import org.argouml.swingext.SpacerPanel;
 
-
 /**
- * A non-modal wizard step that shows instructions and prompts
- * the user to confirm an action.
+ * A non-modal wizard step that shows instructions and prompts the user to
+ * confirm an action.
  *
  * @see org.argouml.cognitive.Critic
  * @see org.argouml.cognitive.critics.Wizard
  */
 
 public class WizStepConfirm extends WizStep {
-    private JTextArea instructions = new JTextArea();
+	private JTextArea instructions = new JTextArea();
 
-    /**
-     * The constructor. Since this constructor does not set the
-     * necessary instructions, it is private.
-     */
-    private WizStepConfirm() {
-	instructions.setEditable(false);
-	instructions.setBorder(null);
-	instructions.setBackground(getMainPanel().getBackground());
-	instructions.setWrapStyleWord(true);
+	/**
+	 * The constructor. Since this constructor does not set the necessary
+	 * instructions, it is private.
+	 */
+	private WizStepConfirm() {
+		instructions.setEditable(false);
+		instructions.setBorder(null);
+		instructions.setBackground(getMainPanel().getBackground());
+		instructions.setWrapStyleWord(true);
 
-	getMainPanel().setBorder(new EtchedBorder());
+		getMainPanel().setBorder(new EtchedBorder());
 
-	GridBagLayout gb = new GridBagLayout();
-	getMainPanel().setLayout(gb);
+		GridBagLayout gb = new GridBagLayout();
+		getMainPanel().setLayout(gb);
 
-	GridBagConstraints c = new GridBagConstraints();
-	c.ipadx = 3; c.ipady = 3;
-	c.weightx = 0.0; c.weighty = 0.0;
-	c.anchor = GridBagConstraints.EAST;
+		GridBagConstraints c = new GridBagConstraints();
+		c.ipadx = 3;
+		c.ipady = 3;
+		c.weightx = 0.0;
+		c.weighty = 0.0;
+		c.anchor = GridBagConstraints.EAST;
 
-	JLabel image = new JLabel("");
-	//image.setMargin(new Insets(0, 0, 0, 0));
-	image.setIcon(getWizardIcon());
-	image.setBorder(null);
-	c.gridx = 0;
-	c.gridheight = 4;
-	c.gridy = 0;
-	gb.setConstraints(image, c);
-	getMainPanel().add(image);
+		JLabel image = new JLabel("");
+		// image.setMargin(new Insets(0, 0, 0, 0));
+		image.setIcon(getWizardIcon());
+		image.setBorder(null);
+		c.gridx = 0;
+		c.gridheight = 4;
+		c.gridy = 0;
+		gb.setConstraints(image, c);
+		getMainPanel().add(image);
 
-	c.weightx = 1.0;
-	c.gridx = 2;
-	c.gridheight = 1;
-	c.gridwidth = 3;
-	c.gridy = 0;
-	c.fill = GridBagConstraints.HORIZONTAL;
-	gb.setConstraints(instructions, c);
-	getMainPanel().add(instructions);
+		c.weightx = 1.0;
+		c.gridx = 2;
+		c.gridheight = 1;
+		c.gridwidth = 3;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		gb.setConstraints(instructions, c);
+		getMainPanel().add(instructions);
 
-	c.gridx = 1;
-	c.gridy = 1;
-	c.weightx = 0.0;
-	c.gridwidth = 1;
-	c.fill = GridBagConstraints.NONE;
-	SpacerPanel spacer = new SpacerPanel();
-	gb.setConstraints(spacer, c);
-	getMainPanel().add(spacer);
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weightx = 0.0;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.NONE;
+		SpacerPanel spacer = new SpacerPanel();
+		gb.setConstraints(spacer, c);
+		getMainPanel().add(spacer);
 
-    }
+	}
 
-    /**
-     * The constructor.
-     *
-     * @param w the wizard (ignored)
-     * @param instr the instructions
-     */
-    public WizStepConfirm(Wizard w, String instr) {
-	this();
-	// store wizard?
-	instructions.setText(instr);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param w
+	 *            the wizard (ignored)
+	 * @param instr
+	 *            the instructions
+	 */
+	public WizStepConfirm(Wizard w, String instr) {
+		this();
+		// store wizard?
+		instructions.setText(instr);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 9145817515169354813L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 9145817515169354813L;
 } /* end class WizStepConfirm */

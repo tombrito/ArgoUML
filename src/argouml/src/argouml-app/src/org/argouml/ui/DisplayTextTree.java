@@ -68,397 +68,378 @@ import org.argouml.uml.diagram.ArgoDiagram;
 import org.argouml.uml.ui.UMLTreeCellRenderer;
 
 /**
- * This is the JTree that is the GUI component view of the UML model
- * navigation (the explorer) and the todo list.
+ * This is the JTree that is the GUI component view of the UML model navigation
+ * (the explorer) and the todo list.
  */
 public class DisplayTextTree extends JTree {
 
-    private static final Logger LOG =
-        Logger.getLogger(DisplayTextTree.class.getName());
+	private static final Logger LOG = Logger.getLogger(DisplayTextTree.class.getName());
 
-    /**
-     * A Map helping the tree maintain a consistent expanded paths state.
-     *
-     * <pre>
-     *  keys are the current TreeModel of this Tree
-     *  values are Lists of currently expanded paths.
-     * </pre>
-     */
-    private Hashtable<TreeModel, List<TreePath>> expandedPathsInModel;
+	/**
+	 * A Map helping the tree maintain a consistent expanded paths state.
+	 *
+	 * <pre>
+	 *  keys are the current TreeModel of this Tree
+	 *  values are Lists of currently expanded paths.
+	 * </pre>
+	 */
+	private Hashtable<TreeModel, List<TreePath>> expandedPathsInModel;
 
-    private boolean reexpanding;
+	private boolean reexpanding;
 
-    /**
-     * This determines if stereotypes are to be shown in the explorer.
-     */
-    private boolean showStereotype;
+	/**
+	 * This determines if stereotypes are to be shown in the explorer.
+	 */
+	private boolean showStereotype;
 
-    /**
-     * Sets the label renderer, line style angled, enable tooltips,
-     * sets row height to 18 pixels.
-     */
-    public DisplayTextTree() {
+	/**
+	 * Sets the label renderer, line style angled, enable tooltips, sets row
+	 * height to 18 pixels.
+	 */
+	public DisplayTextTree() {
 
-        super();
+		super();
 
-        /* MVW: We should use default font sizes as much as possible.
-         * BTW, this impacts only the width, and reduces readibility:
-         */
-//        setFont(LookAndFeelMgr.getInstance().getSmallFont());
+		/*
+		 * MVW: We should use default font sizes as much as possible. BTW, this
+		 * impacts only the width, and reduces readibility:
+		 */
+		// setFont(LookAndFeelMgr.getInstance().getSmallFont());
 
-        setCellRenderer(new UMLTreeCellRenderer());
-        setRootVisible(false);
-        setShowsRootHandles(true);
+		setCellRenderer(new UMLTreeCellRenderer());
+		setRootVisible(false);
+		setShowsRootHandles(true);
 
-        // This enables tooltips for tree; this one won't be shown:
-        setToolTipText("Tree");
+		// This enables tooltips for tree; this one won't be shown:
+		setToolTipText("Tree");
 
-        /* The default (16) puts the icons too close together: */
-        setRowHeight(18);
+		/* The default (16) puts the icons too close together: */
+		setRowHeight(18);
 
-        expandedPathsInModel = new Hashtable<TreeModel, List<TreePath>>();
-        reexpanding = false;
-    }
+		expandedPathsInModel = new Hashtable<TreeModel, List<TreePath>>();
+		reexpanding = false;
+	}
 
-    // ------------ methods that override JTree methods ---------
+	// ------------ methods that override JTree methods ---------
 
-    /**
-     * Override the default JTree implementation to display the appropriate text
-     * for any object that will be displayed in the todo list. <p>
-     *
-     * This is used for the Todo list as well as the Explorer list.
-     *
-     * @param value
-     *            the given object
-     * @param selected
-     *            ignored
-     * @param expanded
-     *            ignored
-     * @param leaf
-     *            ignored
-     * @param row
-     *            ignored
-     * @param hasFocus
-     *            ignored
-     *
-     * @return the value converted to text.
-     *
-     * @see javax.swing.JTree#convertValueToText(java.lang.Object, boolean,
-     *      boolean, boolean, int, boolean)
-     */
-    public String convertValueToText(Object value, boolean selected,
-            boolean expanded, boolean leaf, int row, boolean hasFocus) {
+	/**
+	 * Override the default JTree implementation to display the appropriate text
+	 * for any object that will be displayed in the todo list.
+	 * <p>
+	 *
+	 * This is used for the Todo list as well as the Explorer list.
+	 *
+	 * @param value
+	 *            the given object
+	 * @param selected
+	 *            ignored
+	 * @param expanded
+	 *            ignored
+	 * @param leaf
+	 *            ignored
+	 * @param row
+	 *            ignored
+	 * @param hasFocus
+	 *            ignored
+	 *
+	 * @return the value converted to text.
+	 *
+	 * @see javax.swing.JTree#convertValueToText(java.lang.Object, boolean,
+	 *      boolean, boolean, int, boolean)
+	 */
+	public String convertValueToText(Object value, boolean selected, boolean expanded, boolean leaf, int row,
+			boolean hasFocus) {
 
-        if (value instanceof ToDoItem) {
-            return ((ToDoItem) value).getHeadline();
-        }
-        if (value instanceof ToDoList) {
-            // TODO: Localize
-            return "ToDoList";
-        }
+		if (value instanceof ToDoItem) {
+			return ((ToDoItem) value).getHeadline();
+		}
+		if (value instanceof ToDoList) {
+			// TODO: Localize
+			return "ToDoList";
+		}
 
-        if (Model.getFacade().isAModelElement(value)) {
-            String name = null;
-            try {
-                if (Model.getFacade().isATransition(value)) {
-                    name = formatTransitionLabel(value);
-                } else if (Model.getFacade().isAExtensionPoint(value)) {
-                    name = formatExtensionPoint(value);
-                } else if (Model.getFacade().isAComment(value)) {
-                    name = (String) Model.getFacade().getBody(value);
-                } else if (Model.getFacade().isATaggedValue(value)) {
-                    name = formatTaggedValueLabel(value);
-                } else {
-                    name = getModelElementDisplayName(value);
-                }
+		if (Model.getFacade().isAModelElement(value)) {
+			String name = null;
+			try {
+				if (Model.getFacade().isATransition(value)) {
+					name = formatTransitionLabel(value);
+				} else if (Model.getFacade().isAExtensionPoint(value)) {
+					name = formatExtensionPoint(value);
+				} else if (Model.getFacade().isAComment(value)) {
+					name = (String) Model.getFacade().getBody(value);
+				} else if (Model.getFacade().isATaggedValue(value)) {
+					name = formatTaggedValueLabel(value);
+				} else {
+					name = getModelElementDisplayName(value);
+				}
 
-                /*
-                 * If the name is too long or multi-line (e.g. for comments)
-                 * then we reduce to the first line or 80 chars.
-                 */
-                // TODO: Localize
-                if (name != null
-                        && name.indexOf("\n") < 80
-                        && name.indexOf("\n") > -1) {
-                    name = name.substring(0, name.indexOf("\n")) + "...";
-                } else if (name != null && name.length() > 80) {
-                    name = name.substring(0, 80) + "...";
-                }
+				/*
+				 * If the name is too long or multi-line (e.g. for comments)
+				 * then we reduce to the first line or 80 chars.
+				 */
+				// TODO: Localize
+				if (name != null && name.indexOf("\n") < 80 && name.indexOf("\n") > -1) {
+					name = name.substring(0, name.indexOf("\n")) + "...";
+				} else if (name != null && name.length() > 80) {
+					name = name.substring(0, 80) + "...";
+				}
 
-                // Look for stereotype
-                if (showStereotype) {
-                    Collection<Object> stereos =
-                        Model.getFacade().getStereotypes(value);
-                    name += " " + generateStereotype(stereos);
-                    if (name != null && name.length() > 80) {
-                        name = name.substring(0, 80) + "...";
-                    }
-                }
-            } catch (InvalidElementException e) {
-                name = Translator.localize("misc.name.deleted");
-            }
+				// Look for stereotype
+				if (showStereotype) {
+					Collection<Object> stereos = Model.getFacade().getStereotypes(value);
+					name += " " + generateStereotype(stereos);
+					if (name != null && name.length() > 80) {
+						name = name.substring(0, 80) + "...";
+					}
+				}
+			} catch (InvalidElementException e) {
+				name = Translator.localize("misc.name.deleted");
+			}
 
-            return name;
-        }
+			return name;
+		}
 
-        // TODO: This duplicates code in Facade.toString(), but this version
-        // is localized, so we'll leave it for now.
-        if (Model.getFacade().isAElementImport(value)) {
-            try {
-                Object me = Model.getFacade().getImportedElement(value);
-                String typeName = Model.getFacade().getUMLClassName(me);
-                String elemName = convertValueToText(me, selected,
-                        expanded, leaf, row,
-                        hasFocus);
-                String alias = Model.getFacade().getAlias(value);
-                if (alias != null && alias.length() > 0) {
-                    Object[] args = {typeName, elemName, alias};
-                    return Translator.localize(
-                            "misc.name.element-import.alias", args);
-                } else {
-                    Object[] args = {typeName, elemName};
-                    return Translator.localize(
-                            "misc.name.element-import", args);
-                }
-            } catch (InvalidElementException e) {
-                return Translator.localize("misc.name.deleted");
-            }
-        }
+		// TODO: This duplicates code in Facade.toString(), but this version
+		// is localized, so we'll leave it for now.
+		if (Model.getFacade().isAElementImport(value)) {
+			try {
+				Object me = Model.getFacade().getImportedElement(value);
+				String typeName = Model.getFacade().getUMLClassName(me);
+				String elemName = convertValueToText(me, selected, expanded, leaf, row, hasFocus);
+				String alias = Model.getFacade().getAlias(value);
+				if (alias != null && alias.length() > 0) {
+					Object[] args = { typeName, elemName, alias };
+					return Translator.localize("misc.name.element-import.alias", args);
+				} else {
+					Object[] args = { typeName, elemName };
+					return Translator.localize("misc.name.element-import", args);
+				}
+			} catch (InvalidElementException e) {
+				return Translator.localize("misc.name.deleted");
+			}
+		}
 
-        // Use default formatting for any other type of UML element
-        if (Model.getFacade().isAUMLElement(value)) {
-            try {
-                return Model.getFacade().toString(value);
-            } catch (InvalidElementException e) {
-                return Translator.localize("misc.name.deleted");
-            }
-        }
+		// Use default formatting for any other type of UML element
+		if (Model.getFacade().isAUMLElement(value)) {
+			try {
+				return Model.getFacade().toString(value);
+			} catch (InvalidElementException e) {
+				return Translator.localize("misc.name.deleted");
+			}
+		}
 
-        if (Model.getFacade().isAAppliedProfileElement(value)) {
-            return Model.getFacade().getName(value);
-        }
+		if (Model.getFacade().isAAppliedProfileElement(value)) {
+			return Model.getFacade().getName(value);
+		}
 
-        if (value instanceof ArgoDiagram) {
-            return ((ArgoDiagram) value).getName();
-        }
+		if (value instanceof ArgoDiagram) {
+			return ((ArgoDiagram) value).getName();
+		}
 
-        if (value != null) {
-            return value.toString();
-        }
-        return "-";
-    }
+		if (value != null) {
+			return value.toString();
+		}
+		return "-";
+	}
 
-    private String formatExtensionPoint(Object value) {
-        NotationSettings settings = getNotationSettings();
-        NotationProvider notationProvider = NotationProviderFactory2
-                .getInstance().getNotationProvider(
-                        NotationProviderFactory2.TYPE_EXTENSION_POINT, value,
-                        Notation.findNotation(settings.getNotationLanguage()));
-        String name = notationProvider.toString(value, settings);
-        return name;
-    }
+	private String formatExtensionPoint(Object value) {
+		NotationSettings settings = getNotationSettings();
+		NotationProvider notationProvider = NotationProviderFactory2.getInstance().getNotationProvider(
+				NotationProviderFactory2.TYPE_EXTENSION_POINT, value,
+				Notation.findNotation(settings.getNotationLanguage()));
+		String name = notationProvider.toString(value, settings);
+		return name;
+	}
 
-    private static NotationSettings getNotationSettings() {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        NotationSettings settings;
-        if (p != null) {
-            settings = p.getProjectSettings().getNotationSettings();
-        } else {
-            settings = NotationSettings.getDefaultSettings();
-        }
-        return settings;
-    }
+	private static NotationSettings getNotationSettings() {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		NotationSettings settings;
+		if (p != null) {
+			settings = p.getProjectSettings().getNotationSettings();
+		} else {
+			settings = NotationSettings.getDefaultSettings();
+		}
+		return settings;
+	}
 
-    private String formatTaggedValueLabel(Object value) {
-        String name;
-        String tagName = Model.getFacade().getTag(value);
-        if (tagName == null || tagName.equals("")) {
-            name = MessageFormat.format(
-                    Translator.localize("misc.unnamed"),
-                    new Object[] {
-                        Model.getFacade().getUMLClassName(value)
-                    });
-        }
-        Collection referenceValues =
-            Model.getFacade().getReferenceValue(value);
-        Collection dataValues =
-            Model.getFacade().getDataValue(value);
-        Iterator i;
-        if (referenceValues.size() > 0) {
-            i = referenceValues.iterator();
-        } else {
-            i = dataValues.iterator();
-        }
-        String theValue = "";
-        if (i.hasNext()) {
-            theValue = i.next().toString();
-        }
-        if (i.hasNext()) {
-            theValue += " , ...";
-        }
-        name = (tagName + " = " + theValue);
-        return name;
-    }
+	private String formatTaggedValueLabel(Object value) {
+		String name;
+		String tagName = Model.getFacade().getTag(value);
+		if (tagName == null || tagName.equals("")) {
+			name = MessageFormat.format(Translator.localize("misc.unnamed"),
+					new Object[] { Model.getFacade().getUMLClassName(value) });
+		}
+		Collection referenceValues = Model.getFacade().getReferenceValue(value);
+		Collection dataValues = Model.getFacade().getDataValue(value);
+		Iterator i;
+		if (referenceValues.size() > 0) {
+			i = referenceValues.iterator();
+		} else {
+			i = dataValues.iterator();
+		}
+		String theValue = "";
+		if (i.hasNext()) {
+			theValue = i.next().toString();
+		}
+		if (i.hasNext()) {
+			theValue += " , ...";
+		}
+		name = (tagName + " = " + theValue);
+		return name;
+	}
 
-    /**
-     * Generate the text to represent a Transition.
-     *
-     * @param value a Transition UML object
-     * @return a representation of the Transition with trigger, guard
-     * and effect
-     */
-    private String formatTransitionLabel(Object value) {
-        String name;
-        name = Model.getFacade().getName(value);
-        NotationSettings settings = getNotationSettings();
-        NotationProvider notationProvider =
-            NotationProviderFactory2.getInstance()
-                .getNotationProvider(
-                        NotationProviderFactory2.TYPE_TRANSITION,
-                        value,
-                        Notation.findNotation(settings.getNotationLanguage()));
-        String signature = notationProvider.toString(value,
-                NotationSettings.getDefaultSettings());
-        if (name != null && name.length() > 0) {
-            name += ": " + signature;
-        } else {
-            name = signature;
-        }
-        return name;
-    }
+	/**
+	 * Generate the text to represent a Transition.
+	 *
+	 * @param value
+	 *            a Transition UML object
+	 * @return a representation of the Transition with trigger, guard and effect
+	 */
+	private String formatTransitionLabel(Object value) {
+		String name;
+		name = Model.getFacade().getName(value);
+		NotationSettings settings = getNotationSettings();
+		NotationProvider notationProvider = NotationProviderFactory2.getInstance().getNotationProvider(
+				NotationProviderFactory2.TYPE_TRANSITION, value, Notation.findNotation(settings.getNotationLanguage()));
+		String signature = notationProvider.toString(value, NotationSettings.getDefaultSettings());
+		if (name != null && name.length() > 0) {
+			name += ": " + signature;
+		} else {
+			name = signature;
+		}
+		return name;
+	}
 
-    /**
-     * @param st a collection of stereotypes
-     * @return a string representing the given stereotype(s)
-     */
-    public static String generateStereotype(Collection<Object> st) {
-        return NotationUtilityUml.generateStereotype(st,
-                getNotationSettings().isUseGuillemets());
-    }
+	/**
+	 * @param st
+	 *            a collection of stereotypes
+	 * @return a string representing the given stereotype(s)
+	 */
+	public static String generateStereotype(Collection<Object> st) {
+		return NotationUtilityUml.generateStereotype(st, getNotationSettings().isUseGuillemets());
+	}
 
-    /**
-     * Create a string representing the given modelelement. Normally this is
-     * just the name, but if the element is not named, something like
-     * "anonymous Classifier" is returned with i18n applied.
-     *
-     * @param modelElement the given element
-     * @return a recognizable name for the element
-     * (guaranteed with length > 0)
-     */
-    public static final String getModelElementDisplayName(Object modelElement) {
-        String name = "";
-        if (Model.getFacade().isANamedElement(modelElement)) {
-            name = Model.getFacade().getName(modelElement);
-            if (name == null || name.equals("")) {
-                name = MessageFormat.format(
-                        Translator.localize("misc.unnamed"),
-                        new Object[] {
-                            Model.getFacade().getUMLClassName(modelElement)
-                        }
-                );
-            }
-        } else {
-            name = Model.getFacade().getUMLClassName(modelElement);
-        }
-        return name;
-    }
+	/**
+	 * Create a string representing the given modelelement. Normally this is
+	 * just the name, but if the element is not named, something like
+	 * "anonymous Classifier" is returned with i18n applied.
+	 *
+	 * @param modelElement
+	 *            the given element
+	 * @return a recognizable name for the element (guaranteed with length > 0)
+	 */
+	public static final String getModelElementDisplayName(Object modelElement) {
+		String name = "";
+		if (Model.getFacade().isANamedElement(modelElement)) {
+			name = Model.getFacade().getName(modelElement);
+			if (name == null || name.equals("")) {
+				name = MessageFormat.format(Translator.localize("misc.unnamed"),
+						new Object[] { Model.getFacade().getUMLClassName(modelElement) });
+			}
+		} else {
+			name = Model.getFacade().getUMLClassName(modelElement);
+		}
+		return name;
+	}
 
-    /**
-     * Tree Model Expansion notification.<p>
-     *
-     * @param path
-     *            a Tree node insertion event
-     */
-    public void fireTreeExpanded(TreePath path) {
+	/**
+	 * Tree Model Expansion notification.
+	 * <p>
+	 *
+	 * @param path
+	 *            a Tree node insertion event
+	 */
+	public void fireTreeExpanded(TreePath path) {
 
-        super.fireTreeExpanded(path);
+		super.fireTreeExpanded(path);
 
-        LOG.log(Level.FINE, "fireTreeExpanded");
-        if (reexpanding || path == null) {
-            return;
-        }
-        List<TreePath> expanded = getExpandedPaths();
-        expanded.remove(path);
-        expanded.add(path);
-    }
+		LOG.log(Level.FINE, "fireTreeExpanded");
+		if (reexpanding || path == null) {
+			return;
+		}
+		List<TreePath> expanded = getExpandedPaths();
+		expanded.remove(path);
+		expanded.add(path);
+	}
 
-    /*
-     * @see javax.swing.JTree#fireTreeCollapsed(javax.swing.tree.TreePath)
-     */
-    public void fireTreeCollapsed(TreePath path) {
+	/*
+	 * @see javax.swing.JTree#fireTreeCollapsed(javax.swing.tree.TreePath)
+	 */
+	public void fireTreeCollapsed(TreePath path) {
 
-        super.fireTreeCollapsed(path);
+		super.fireTreeCollapsed(path);
 
-        LOG.log(Level.FINE, "fireTreeCollapsed");
-        if (path == null || expandedPathsInModel == null) {
-            return;
-        }
-        List<TreePath> expanded = getExpandedPaths();
-        expanded.remove(path);
-    }
+		LOG.log(Level.FINE, "fireTreeCollapsed");
+		if (path == null || expandedPathsInModel == null) {
+			return;
+		}
+		List<TreePath> expanded = getExpandedPaths();
+		expanded.remove(path);
+	}
 
-    /*
-     * @see javax.swing.JTree#setModel(javax.swing.tree.TreeModel)
-     */
-    public void setModel(TreeModel newModel) {
+	/*
+	 * @see javax.swing.JTree#setModel(javax.swing.tree.TreeModel)
+	 */
+	public void setModel(TreeModel newModel) {
 
-        LOG.log(Level.FINE, "setModel");
-        Object r = newModel.getRoot();
-        if (r != null) {
-            super.setModel(newModel);
-        }
-        reexpand();
-    }
+		LOG.log(Level.FINE, "setModel");
+		Object r = newModel.getRoot();
+		if (r != null) {
+			super.setModel(newModel);
+		}
+		reexpand();
+	}
 
-    // ------------- other methods ------------------
+	// ------------- other methods ------------------
 
-    /**
-     * Called in reexpand().
-     *
-     * @return a List containing all expanded paths
-     */
-    protected List<TreePath> getExpandedPaths() {
+	/**
+	 * Called in reexpand().
+	 *
+	 * @return a List containing all expanded paths
+	 */
+	protected List<TreePath> getExpandedPaths() {
 
-        LOG.log(Level.FINE, "getExpandedPaths");
-        TreeModel tm = getModel();
-        List<TreePath> res = expandedPathsInModel.get(tm);
-        if (res == null) {
-            res = new ArrayList<TreePath>();
-            expandedPathsInModel.put(tm, res);
-        }
-        return res;
-    }
+		LOG.log(Level.FINE, "getExpandedPaths");
+		TreeModel tm = getModel();
+		List<TreePath> res = expandedPathsInModel.get(tm);
+		if (res == null) {
+			res = new ArrayList<TreePath>();
+			expandedPathsInModel.put(tm, res);
+		}
+		return res;
+	}
 
-    /**
-     * We re-expand the ones that were open before to maintain the same viewable
-     * tree.
-     *
-     * called by doForceUpdate(), setModel()
-     */
-    private void reexpand() {
+	/**
+	 * We re-expand the ones that were open before to maintain the same viewable
+	 * tree.
+	 *
+	 * called by doForceUpdate(), setModel()
+	 */
+	private void reexpand() {
 
-        LOG.log(Level.FINE, "reexpand");
-        if (expandedPathsInModel == null) {
-            return;
-        }
+		LOG.log(Level.FINE, "reexpand");
+		if (expandedPathsInModel == null) {
+			return;
+		}
 
-        reexpanding = true;
+		reexpanding = true;
 
-        for (TreePath path : getExpandedPaths()) {
-            expandPath(path);
-        }
-        reexpanding = false;
-    }
+		for (TreePath path : getExpandedPaths()) {
+			expandPath(path);
+		}
+		reexpanding = false;
+	}
 
-    /**
-     * @param show true if stereotypes have to be shown
-     */
-    protected void setShowStereotype(boolean show) {
-        this.showStereotype = show;
-    }
+	/**
+	 * @param show
+	 *            true if stereotypes have to be shown
+	 */
+	protected void setShowStereotype(boolean show) {
+		this.showStereotype = show;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 949560309817566838L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 949560309817566838L;
 }

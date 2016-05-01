@@ -70,212 +70,223 @@ import org.argouml.taskmgmt.ProgressMonitor;
  * all methods use SwingUtilities.invokeLater() or
  * SwingUtilities.invokeAndWait() to make sure that Swing calls happen on the
  * appropriate thread.
- *<p>
+ * <p>
  * TODO: React on the close button as if the Cancel button was pressed.
  */
-public class ImportStatusScreen extends JDialog 
-    implements ProgressMonitor, WindowListener {
-    
-    private JButton cancelButton;
-    private JLabel progressLabel;
-    private JProgressBar progress;
-    private JTextArea messageArea;
-    private boolean hasMessages = false;
-    private boolean canceled = false;
+public class ImportStatusScreen extends JDialog implements ProgressMonitor, WindowListener {
 
-    /**
-     * The constructor.
-     *
-     * @param title
-     * @param iconName
-     */
-    public ImportStatusScreen(Frame frame, String title, String iconName) {
-        super(frame, true);
-        if (title != null) {
-            setTitle(title);
-        }
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-        getContentPane().setLayout(new BorderLayout(4, 4));
-        Container panel = new JPanel(new GridBagLayout());
+	private JButton cancelButton;
+	private JLabel progressLabel;
+	private JProgressBar progress;
+	private JTextArea messageArea;
+	private boolean hasMessages = false;
+	private boolean canceled = false;
 
-        // Parsing file x of z.
-        progressLabel = new JLabel();
-        progressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+	/**
+	 * The constructor.
+	 *
+	 * @param title
+	 * @param iconName
+	 */
+	public ImportStatusScreen(Frame frame, String title, String iconName) {
+		super(frame, true);
+		if (title != null) {
+			setTitle(title);
+		}
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		getContentPane().setLayout(new BorderLayout(4, 4));
+		Container panel = new JPanel(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.NORTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridheight = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.1;
-        
-        panel.add(progressLabel, gbc);
-        gbc.gridy++;
-        
-        // progress bar
-        progress = new JProgressBar();
-        gbc.anchor = GridBagConstraints.CENTER;
-        panel.add(progress, gbc);
-        gbc.gridy++;
-        
-        panel.add(
-                new JLabel(Translator.localize("label.import-messages")), gbc);
-        gbc.gridy++;
-        
-        // Error/warning messageArea
-        messageArea = new JTextArea(10, 50);
-        gbc.weighty = 0.8;
-//        gbc.gridheight = 10;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel.add(new JScrollPane(messageArea), gbc);
-        gbc.gridy++;
+		// Parsing file x of z.
+		progressLabel = new JLabel();
+		progressLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        // cancel/close button
-        cancelButton = new JButton(Translator.localize("button.cancel"));
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridheight = 1;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 0.1;
 
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.weighty = 0.1;
-        gbc.gridheight = GridBagConstraints.REMAINDER;
-        panel.add(cancelButton, gbc);
-        gbc.gridy++;
-        
-        cancelButton.addActionListener(new ActionListener() {
+		panel.add(progressLabel, gbc);
+		gbc.gridy++;
 
-            public void actionPerformed(ActionEvent e) {
-                if (isComplete()) {
-                    close();
-                }
-                canceled = true;
-            }
+		// progress bar
+		progress = new JProgressBar();
+		gbc.anchor = GridBagConstraints.CENTER;
+		panel.add(progress, gbc);
+		gbc.gridy++;
 
-        });
-        
-        getContentPane().add(panel);
-        pack();
-        Dimension contentPaneSize = getContentPane().getPreferredSize();
-        setLocation(scrSize.width / 2 - contentPaneSize.width / 2,
-                scrSize.height / 2 - contentPaneSize.height / 2);
-        setResizable(true);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(this);
-    }
+		panel.add(new JLabel(Translator.localize("label.import-messages")), gbc);
+		gbc.gridy++;
 
-    public void setMaximumProgress(final int i) {
-        SwingUtilities.invokeLater(new Runnable () {
-            public void run() {
-                progress.setMaximum(i);
-                setVisible(true);
-            }
-        });
-    }
+		// Error/warning messageArea
+		messageArea = new JTextArea(10, 50);
+		gbc.weighty = 0.8;
+		// gbc.gridheight = 10;
+		gbc.fill = GridBagConstraints.BOTH;
+		panel.add(new JScrollPane(messageArea), gbc);
+		gbc.gridy++;
 
-    public void updateProgress(final int i) {
-        SwingUtilities.invokeLater(new Runnable () {
-            public void run() {
-                progress.setValue(i);
-                if (isComplete()) {
-                    if (hasMessages) {
-                        cancelButton.setText(
-                                Translator.localize("button.close"));
-                    } else {
-                        close();
-                    }
-                }
-            }
-        });
-    }
-    
-    private boolean isComplete() {
-        return progress.getValue() == progress.getMaximum();
-    }
+		// cancel/close button
+		cancelButton = new JButton(Translator.localize("button.cancel"));
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1336242911879462274L;
+		gbc.fill = GridBagConstraints.NONE;
+		gbc.anchor = GridBagConstraints.SOUTH;
+		gbc.weighty = 0.1;
+		gbc.gridheight = GridBagConstraints.REMAINDER;
+		panel.add(cancelButton, gbc);
+		gbc.gridy++;
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#close()
-     */
-    public void close() {
-        SwingUtilities.invokeLater(new Runnable () {
-            public void run() {
-                setVisible(false);
-                dispose();
-            }
-        });
-    }
+		cancelButton.addActionListener(new ActionListener() {
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#isCanceled()
-     */
-    public boolean isCanceled() {
-        return canceled;
-    }
+			public void actionPerformed(ActionEvent e) {
+				if (isComplete()) {
+					close();
+				}
+				canceled = true;
+			}
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#notifyMessage(java.lang.String, java.lang.String, java.lang.String)
-     */
-    public void notifyMessage(final String title, final String introduction,
-            final String message) {
-        hasMessages = true;
-        // TODO: Add filename ?
-        messageArea.setText(messageArea.getText() + title + "\n" + introduction
-                + "\n" + message + "\n\n");
-        messageArea.setCaretPosition(messageArea.getText().length());
-    }
+		});
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#notifyNullAction()
-     */
-    public void notifyNullAction() {
-        String msg = Translator.localize("label.import.empty");
-        notifyMessage(msg, msg, msg);
-    }
+		getContentPane().add(panel);
+		pack();
+		Dimension contentPaneSize = getContentPane().getPreferredSize();
+		setLocation(scrSize.width / 2 - contentPaneSize.width / 2, scrSize.height / 2 - contentPaneSize.height / 2);
+		setResizable(true);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(this);
+	}
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#updateMainTask(java.lang.String)
-     */
-    public void updateMainTask(final String name) {
-        SwingUtilities.invokeLater(new Runnable () {
-            public void run() {
-                setTitle(name);
-            }
-        });
-    }
+	public void setMaximumProgress(final int i) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				progress.setMaximum(i);
+				setVisible(true);
+			}
+		});
+	}
 
-    /*
-     * @see org.argouml.application.api.ProgressMonitor#updateSubTask(java.lang.String)
-     */
-    public void updateSubTask(final String action) {
-        SwingUtilities.invokeLater(new Runnable () {
-            public void run() {
-                progressLabel.setText(action);
-            }
-        });
-    }
+	public void updateProgress(final int i) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				progress.setValue(i);
+				if (isComplete()) {
+					if (hasMessages) {
+						cancelButton.setText(Translator.localize("button.close"));
+					} else {
+						close();
+					}
+				}
+			}
+		});
+	}
 
-    /*
-     * @see org.argouml.persistence.ProgressListener#progress(org.argouml.persistence.ProgressEvent)
-     */
-    public void progress(ProgressEvent event) throws InterruptedException {
-        // ignored
-    }
+	private boolean isComplete() {
+		return progress.getValue() == progress.getMaximum();
+	}
 
-    public void windowClosing(WindowEvent e) {
-        // User closing the progress window is interpreted as cancel request
-        canceled = true;
-        close();
-    }
-    
-    public void windowActivated(WindowEvent e) { }
-    public void windowClosed(WindowEvent e) { }
-    public void windowDeactivated(WindowEvent e) { }
-    public void windowDeiconified(WindowEvent e) { }
-    public void windowIconified(WindowEvent e) { }
-    public void windowOpened(WindowEvent e) { }
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1336242911879462274L;
+
+	/*
+	 * @see org.argouml.application.api.ProgressMonitor#close()
+	 */
+	public void close() {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				setVisible(false);
+				dispose();
+			}
+		});
+	}
+
+	/*
+	 * @see org.argouml.application.api.ProgressMonitor#isCanceled()
+	 */
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	/*
+	 * @see org.argouml.application.api.ProgressMonitor#notifyMessage(java.lang.
+	 * String, java.lang.String, java.lang.String)
+	 */
+	public void notifyMessage(final String title, final String introduction, final String message) {
+		hasMessages = true;
+		// TODO: Add filename ?
+		messageArea.setText(messageArea.getText() + title + "\n" + introduction + "\n" + message + "\n\n");
+		messageArea.setCaretPosition(messageArea.getText().length());
+	}
+
+	/*
+	 * @see org.argouml.application.api.ProgressMonitor#notifyNullAction()
+	 */
+	public void notifyNullAction() {
+		String msg = Translator.localize("label.import.empty");
+		notifyMessage(msg, msg, msg);
+	}
+
+	/*
+	 * @see
+	 * org.argouml.application.api.ProgressMonitor#updateMainTask(java.lang.
+	 * String)
+	 */
+	public void updateMainTask(final String name) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				setTitle(name);
+			}
+		});
+	}
+
+	/*
+	 * @see org.argouml.application.api.ProgressMonitor#updateSubTask(java.lang.
+	 * String)
+	 */
+	public void updateSubTask(final String action) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				progressLabel.setText(action);
+			}
+		});
+	}
+
+	/*
+	 * @see
+	 * org.argouml.persistence.ProgressListener#progress(org.argouml.persistence
+	 * .ProgressEvent)
+	 */
+	public void progress(ProgressEvent event) throws InterruptedException {
+		// ignored
+	}
+
+	public void windowClosing(WindowEvent e) {
+		// User closing the progress window is interpreted as cancel request
+		canceled = true;
+		close();
+	}
+
+	public void windowActivated(WindowEvent e) {
+	}
+
+	public void windowClosed(WindowEvent e) {
+	}
+
+	public void windowDeactivated(WindowEvent e) {
+	}
+
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	public void windowIconified(WindowEvent e) {
+	}
+
+	public void windowOpened(WindowEvent e) {
+	}
 
 }

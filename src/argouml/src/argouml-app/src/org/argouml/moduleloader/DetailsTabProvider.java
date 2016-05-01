@@ -43,15 +43,15 @@ import java.util.List;
 import org.argouml.application.api.AbstractArgoJPanel;
 
 /**
- * Every ModuleInterface that implements this interface 
- * may add Details tabs to ArgoUML.
+ * Every ModuleInterface that implements this interface may add Details tabs to
+ * ArgoUML.
  *
  * @author Michiel
  */
 public interface DetailsTabProvider {
 
-    /**
-     * @return the Details tabs to be added
-     */
-    public List<AbstractArgoJPanel> getDetailsTabs();
+	/**
+	 * @return the Details tabs to be added
+	 */
+	public List<AbstractArgoJPanel> getDetailsTabs();
 }

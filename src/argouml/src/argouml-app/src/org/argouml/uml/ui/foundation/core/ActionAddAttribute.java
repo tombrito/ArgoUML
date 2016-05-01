@@ -55,90 +55,90 @@ import org.argouml.ui.targetmanager.TargetListener;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * Action to add an attribute to a Classifier or AssociationEnd.<p>
+ * Action to add an attribute to a Classifier or AssociationEnd.
+ * <p>
  * 
- * This class shall be the only one that knows 
- * when this tool should be downlighted or not.
+ * This class shall be the only one that knows when this tool should be
+ * downlighted or not.
  */
 @UmlModelMutator
 public class ActionAddAttribute extends UndoableAction {
 
-    private static ActionAddAttribute targetFollower;
+	private static ActionAddAttribute targetFollower;
 
-    /**
-     * The constructor for this class.
-     */
-    public ActionAddAttribute() {
-        super(Translator.localize("button.new-attribute"),
-                ResourceLoaderWrapper.lookupIcon("button.new-attribute"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("button.new-attribute"));
-    }
+	/**
+	 * The constructor for this class.
+	 */
+	public ActionAddAttribute() {
+		super(Translator.localize("button.new-attribute"), ResourceLoaderWrapper.lookupIcon("button.new-attribute"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("button.new-attribute"));
+	}
 
-    public static ActionAddAttribute getTargetFollower() {
-        if (targetFollower == null) {
-            targetFollower  = new ActionAddAttribute();
-            TargetManager.getInstance().addTargetListener(new TargetListener() {
-                public void targetAdded(TargetEvent e) {
-                    setTarget();
-                }
-                public void targetRemoved(TargetEvent e) {
-                    setTarget();
-                }
+	public static ActionAddAttribute getTargetFollower() {
+		if (targetFollower == null) {
+			targetFollower = new ActionAddAttribute();
+			TargetManager.getInstance().addTargetListener(new TargetListener() {
+				public void targetAdded(TargetEvent e) {
+					setTarget();
+				}
 
-                public void targetSet(TargetEvent e) {
-                    setTarget();
-                }
-                private void setTarget() {
-                    targetFollower.setEnabled(targetFollower.shouldBeEnabled());
-                }
-            });
-            targetFollower.setEnabled(targetFollower.shouldBeEnabled());
-        }
-        return targetFollower;
-    }
+				public void targetRemoved(TargetEvent e) {
+					setTarget();
+				}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
+				public void targetSet(TargetEvent e) {
+					setTarget();
+				}
 
-        super.actionPerformed(ae);
+				private void setTarget() {
+					targetFollower.setEnabled(targetFollower.shouldBeEnabled());
+				}
+			});
+			targetFollower.setEnabled(targetFollower.shouldBeEnabled());
+		}
+		return targetFollower;
+	}
 
-        Object target = TargetManager.getInstance().getSingleModelTarget();
-        Object classifier = null;
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
 
-        if (Model.getFacade().isAClassifier(target)
-                || Model.getFacade().isAAssociationEnd(target)) {
-            classifier = target;
-        } else if (Model.getFacade().isAFeature(target)) {
-            classifier = Model.getFacade().getOwner(target);
-        } else {
-            return;
-        }
+		super.actionPerformed(ae);
 
-        Project project = ProjectManager.getManager().getCurrentProject();
-        Defaults defaults = project.getDefaults();
-        Object attr = Model.getUmlFactory().buildNode(Model.getMetaTypes().getAttribute(), classifier, null, defaults);
-        TargetManager.getInstance().setTarget(attr);
-    }
+		Object target = TargetManager.getInstance().getSingleModelTarget();
+		Object classifier = null;
 
-    /**
-     * @return true if this tool should be enabled
-     */
-    public boolean shouldBeEnabled() {
-        Object target = TargetManager.getInstance().getSingleModelTarget();
-        if (target == null) {
-            return false;
-        }
-        return Model.getFacade().isAClassifier(target)
-            || Model.getFacade().isAFeature(target)
-            || Model.getFacade().isAAssociationEnd(target);
-    }
+		if (Model.getFacade().isAClassifier(target) || Model.getFacade().isAAssociationEnd(target)) {
+			classifier = target;
+		} else if (Model.getFacade().isAFeature(target)) {
+			classifier = Model.getFacade().getOwner(target);
+		} else {
+			return;
+		}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -111785878370086329L;
+		Project project = ProjectManager.getManager().getCurrentProject();
+		Defaults defaults = project.getDefaults();
+		Object attr = Model.getUmlFactory().buildNode(Model.getMetaTypes().getAttribute(), classifier, null, defaults);
+		TargetManager.getInstance().setTarget(attr);
+	}
+
+	/**
+	 * @return true if this tool should be enabled
+	 */
+	public boolean shouldBeEnabled() {
+		Object target = TargetManager.getInstance().getSingleModelTarget();
+		if (target == null) {
+			return false;
+		}
+		return Model.getFacade().isAClassifier(target) || Model.getFacade().isAFeature(target)
+				|| Model.getFacade().isAAssociationEnd(target);
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -111785878370086329L;
 } /* end class ActionAddAttribute */

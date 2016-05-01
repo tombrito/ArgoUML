@@ -39,21 +39,21 @@
 package org.argouml.uml.diagram;
 
 /**
- * Diagram element related settings to be supplied at construction of a
- * diagram element.
+ * Diagram element related settings to be supplied at construction of a diagram
+ * element.
  *
  * @author Bob Tarling
  */
 public class DiagramElementSettings {
-    
-    private final Object owner;
-    
-    public DiagramElementSettings(final Object owner) {
-        this.owner = owner;
-    }
-    
-    public Object getOwner() {
-        return owner;
-    }
+
+	private final Object owner;
+
+	public DiagramElementSettings(final Object owner) {
+		this.owner = owner;
+	}
+
+	public Object getOwner() {
+		return owner;
+	}
 
 }

@@ -60,219 +60,225 @@ import org.tigris.gef.presentation.FigText;
  *
  * @author Michiel
  */
-public class ArgoFigText extends FigText 
-    implements NotificationEmitter, ArgoFig {
+public class ArgoFigText extends FigText implements NotificationEmitter, ArgoFig {
 
-    private static final long serialVersionUID = 736320728225076733L;
+	private static final long serialVersionUID = 736320728225076733L;
 
-	private NotificationBroadcasterSupport notifier = 
-        new NotificationBroadcasterSupport();
+	private NotificationBroadcasterSupport notifier = new NotificationBroadcasterSupport();
 
-    private DiagramSettings settings;
-    
-    /**
-     * Construct a text fig owned by the given UML element. <p>
-     * 
-     * Even if there is no owner, then you still have to use this constructor;
-     * setting the owner parameter to null is acceptable.
-     * 
-     * @param owner owning model element or null
-     * @param bounds rectangle describing bounds of figure
-     * @param renderSettings render settings
-     * @param expandOnly true if Fig should never shrink
-     */
-    public ArgoFigText(Object owner, Rectangle bounds,
-            DiagramSettings renderSettings, boolean expandOnly) {        
-        super(bounds.x, bounds.y, bounds.width, bounds.height, expandOnly);
-        //setFontFamily("dialog"); /* TODO: Is this needed?*/
+	private DiagramSettings settings;
 
-        // TODO: We don't currently have any settings that can change on a
-        // per-fig basis, so we can just use the project/diagram defaults
-//        settings = new DiagramSettings(renderSettings);
-        settings = renderSettings;
-        super.setFontFamily(settings.getFontName());
-        super.setFontSize(settings.getFontSize());
-        super.setFilled(false);
-        super.setFillColor(null);
-        super.setTextFilled(false);
-        super.setTextFillColor(null);
-        super.setTextColor(TEXT_COLOR);
-        /* This makes the text not touch the text-border line: */
-        super.setTopMargin(1);
-        super.setBotMargin(1);
-        super.setLeftMargin(1);
-        super.setRightMargin(1);
-        // Certain types of fixed text (e.g. a FigStereotype with a keyword)
-        // may not have an owner
-        if (owner != null) {
-            super.setOwner(owner);
-            Model.getPump().addModelEventListener(this, owner, "remove");
-        }
-    }
-    
-    /*
-     * @see org.tigris.gef.presentation.Fig#deleteFromModel()
-     */
-    @Override
-    public void deleteFromModel() {
-        super.deleteFromModel();
-        firePropChange("remove", null, null);
-        notifier.sendNotification(new Notification("remove", this, 0));
-    }
+	/**
+	 * Construct a text fig owned by the given UML element.
+	 * <p>
+	 * 
+	 * Even if there is no owner, then you still have to use this constructor;
+	 * setting the owner parameter to null is acceptable.
+	 * 
+	 * @param owner
+	 *            owning model element or null
+	 * @param bounds
+	 *            rectangle describing bounds of figure
+	 * @param renderSettings
+	 *            render settings
+	 * @param expandOnly
+	 *            true if Fig should never shrink
+	 */
+	public ArgoFigText(Object owner, Rectangle bounds, DiagramSettings renderSettings, boolean expandOnly) {
+		super(bounds.x, bounds.y, bounds.width, bounds.height, expandOnly);
+		// setFontFamily("dialog"); /* TODO: Is this needed?*/
 
-    /*
-     * @see javax.management.NotificationEmitter#removeNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
-     */
-    public void removeNotificationListener(NotificationListener listener,
-        NotificationFilter filter, Object handback) 
-        throws ListenerNotFoundException {
-        notifier.removeNotificationListener(listener, filter, handback);
-    }
+		// TODO: We don't currently have any settings that can change on a
+		// per-fig basis, so we can just use the project/diagram defaults
+		// settings = new DiagramSettings(renderSettings);
+		settings = renderSettings;
+		super.setFontFamily(settings.getFontName());
+		super.setFontSize(settings.getFontSize());
+		super.setFilled(false);
+		super.setFillColor(null);
+		super.setTextFilled(false);
+		super.setTextFillColor(null);
+		super.setTextColor(TEXT_COLOR);
+		/* This makes the text not touch the text-border line: */
+		super.setTopMargin(1);
+		super.setBotMargin(1);
+		super.setLeftMargin(1);
+		super.setRightMargin(1);
+		// Certain types of fixed text (e.g. a FigStereotype with a keyword)
+		// may not have an owner
+		if (owner != null) {
+			super.setOwner(owner);
+			Model.getPump().addModelEventListener(this, owner, "remove");
+		}
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#addNotificationListener(javax.management.NotificationListener, javax.management.NotificationFilter, java.lang.Object)
-     */
-    public void addNotificationListener(NotificationListener listener, 
-        NotificationFilter filter, Object handback) 
-        throws IllegalArgumentException {
-        notifier.addNotificationListener(listener, filter, handback);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#deleteFromModel()
+	 */
+	@Override
+	public void deleteFromModel() {
+		super.deleteFromModel();
+		firePropChange("remove", null, null);
+		notifier.sendNotification(new Notification("remove", this, 0));
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#getNotificationInfo()
-     */
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return notifier.getNotificationInfo();
-    }
+	/*
+	 * @see
+	 * javax.management.NotificationEmitter#removeNotificationListener(javax.
+	 * management.NotificationListener, javax.management.NotificationFilter,
+	 * java.lang.Object)
+	 */
+	public void removeNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback)
+			throws ListenerNotFoundException {
+		notifier.removeNotificationListener(listener, filter, handback);
+	}
 
-    /*
-     * @see javax.management.NotificationBroadcaster#removeNotificationListener(javax.management.NotificationListener)
-     */
-    public void removeNotificationListener(NotificationListener listener) 
-        throws ListenerNotFoundException {
-        notifier.removeNotificationListener(listener);
-    }
-    
-    /**
-     * This optional method is not implemented.  It will throw an
-     * {@link UnsupportedOperationException} if used.  Figs are 
-     * added to a GraphModel which is, in turn, owned by a project.
-     *
-     * @param project the project
-     * @deprecated
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setProject(Project project) {
-        throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * @return the owning project
-     * @see org.argouml.uml.diagram.ui.ArgoFig#getProject()
-     * @deprecated for 0.27.2 by tfmorris.  Implementations should have all
-     * the information that they require in the DiagramSettings object.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public Project getProject() {
-        return ArgoFigUtil.getProject(this);
-    }
+	/*
+	 * @see
+	 * javax.management.NotificationBroadcaster#addNotificationListener(javax.
+	 * management.NotificationListener, javax.management.NotificationFilter,
+	 * java.lang.Object)
+	 */
+	public void addNotificationListener(NotificationListener listener, NotificationFilter filter, Object handback)
+			throws IllegalArgumentException {
+		notifier.addNotificationListener(listener, filter, handback);
+	}
 
-    public void renderingChanged() {
-        updateFont();
-        setBounds(getBounds());
-        damage();        
-    }
+	/*
+	 * @see javax.management.NotificationBroadcaster#getNotificationInfo()
+	 */
+	public MBeanNotificationInfo[] getNotificationInfo() {
+		return notifier.getNotificationInfo();
+	}
 
-    /**
-     * This function should, for all FigTexts, 
-     * recalculate the font-style (plain, bold, italic, bold/italic),
-     * and apply it by calling FigText.setFont().
-     */
-    protected void updateFont() {
-        setFont(getSettings().getFont(getFigFontStyle()));
-    }
+	/*
+	 * @see
+	 * javax.management.NotificationBroadcaster#removeNotificationListener(javax
+	 * .management.NotificationListener)
+	 */
+	public void removeNotificationListener(NotificationListener listener) throws ListenerNotFoundException {
+		notifier.removeNotificationListener(listener);
+	}
 
-    /**
-     * Determines the font style based on the UML model. 
-     * Overrule this in Figs that have to show bold or italic based on the 
-     * UML model they represent. 
-     * E.g. abstract classes show their name in italic.
-     * 
-     * @return the font style for the nameFig.
-     */
-    protected int getFigFontStyle() {
-        return Font.PLAIN;
-    }
+	/**
+	 * This optional method is not implemented. It will throw an
+	 * {@link UnsupportedOperationException} if used. Figs are added to a
+	 * GraphModel which is, in turn, owned by a project.
+	 *
+	 * @param project
+	 *            the project
+	 * @deprecated
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setProject(Project project) {
+		throw new UnsupportedOperationException();
+	}
 
-    /**
-     * Update listeners for a new owner. Obsolete since owner is not allow to
-     * change.
-     * 
-     * @param oldOwner the old owner
-     * @param newOwner the new owner
-     * @deprecated for 0.27.3 by tfmorris. The owner must be specified in the
-     *             constructor and never changed.
-     */
-    @Deprecated
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        if (oldOwner == newOwner) {
-            return;
-        }
-        if (oldOwner != null) {
-            Model.getPump().removeModelEventListener(this, oldOwner);
-        }
-        if (newOwner != null) {
-            Model.getPump().addModelEventListener(this, newOwner, "remove");
-        }
-    }
+	/**
+	 * @return the owning project
+	 * @see org.argouml.uml.diagram.ui.ArgoFig#getProject()
+	 * @deprecated for 0.27.2 by tfmorris. Implementations should have all the
+	 *             information that they require in the DiagramSettings object.
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public Project getProject() {
+		return ArgoFigUtil.getProject(this);
+	}
 
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        super.propertyChange(pce);
-        if ("remove".equals(pce.getPropertyName()) 
-                && (pce.getSource() == getOwner())) {
-            deleteFromModel();
-        }
-    }
-    
+	public void renderingChanged() {
+		updateFont();
+		setBounds(getBounds());
+		damage();
+	}
 
-    public DiagramSettings getSettings() {
-        // TODO: This is a temporary crutch to use until all Figs are updated
-        // to use the constructor that accepts a DiagramSettings object
-        if (settings == null) {
-            Project p = getProject();
-            if (p != null) {
-                return p.getProjectSettings().getDefaultDiagramSettings();
-            }
-        }
-        return settings;
-    }
-    
-    public void setSettings(DiagramSettings renderSettings) {
-        settings = renderSettings;
-        renderingChanged();
-    }
+	/**
+	 * This function should, for all FigTexts, recalculate the font-style
+	 * (plain, bold, italic, bold/italic), and apply it by calling
+	 * FigText.setFont().
+	 */
+	protected void updateFont() {
+		setFont(getSettings().getFont(getFigFontStyle()));
+	}
 
+	/**
+	 * Determines the font style based on the UML model. Overrule this in Figs
+	 * that have to show bold or italic based on the UML model they represent.
+	 * E.g. abstract classes show their name in italic.
+	 * 
+	 * @return the font style for the nameFig.
+	 */
+	protected int getFigFontStyle() {
+		return Font.PLAIN;
+	}
 
-    /**
-     * Setting the owner of the Fig must be done in the constructor and not
-     * changed afterwards for all ArgoUML figs.
-     * 
-     * @param owner owning UML element
-     * @throws UnsupportedOperationException
-     * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
-     *             is implemented in GEF, so we'll leave this implementation
-     *             here to block any attempts to use it within ArgoUML.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setOwner(Object owner) {
-        if (owner != getOwner()) {
-            throw new UnsupportedOperationException(
-                    "Owner must be set in constructor and left unchanged");
-        }
-    }
+	/**
+	 * Update listeners for a new owner. Obsolete since owner is not allow to
+	 * change.
+	 * 
+	 * @param oldOwner
+	 *            the old owner
+	 * @param newOwner
+	 *            the new owner
+	 * @deprecated for 0.27.3 by tfmorris. The owner must be specified in the
+	 *             constructor and never changed.
+	 */
+	@Deprecated
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+		if (oldOwner == newOwner) {
+			return;
+		}
+		if (oldOwner != null) {
+			Model.getPump().removeModelEventListener(this, oldOwner);
+		}
+		if (newOwner != null) {
+			Model.getPump().addModelEventListener(this, newOwner, "remove");
+		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent pce) {
+		super.propertyChange(pce);
+		if ("remove".equals(pce.getPropertyName()) && (pce.getSource() == getOwner())) {
+			deleteFromModel();
+		}
+	}
+
+	public DiagramSettings getSettings() {
+		// TODO: This is a temporary crutch to use until all Figs are updated
+		// to use the constructor that accepts a DiagramSettings object
+		if (settings == null) {
+			Project p = getProject();
+			if (p != null) {
+				return p.getProjectSettings().getDefaultDiagramSettings();
+			}
+		}
+		return settings;
+	}
+
+	public void setSettings(DiagramSettings renderSettings) {
+		settings = renderSettings;
+		renderingChanged();
+	}
+
+	/**
+	 * Setting the owner of the Fig must be done in the constructor and not
+	 * changed afterwards for all ArgoUML figs.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @throws UnsupportedOperationException
+	 * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
+	 *             is implemented in GEF, so we'll leave this implementation
+	 *             here to block any attempts to use it within ArgoUML.
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setOwner(Object owner) {
+		if (owner != getOwner()) {
+			throw new UnsupportedOperationException("Owner must be set in constructor and left unchanged");
+		}
+	}
 
 }

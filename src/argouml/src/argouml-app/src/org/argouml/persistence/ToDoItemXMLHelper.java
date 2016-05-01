@@ -41,100 +41,88 @@ package org.argouml.persistence;
 import org.argouml.cognitive.ToDoItem;
 
 /**
- * Helper class to help save todo items properly in the .todo XML file.
- * It provides a view of A ToDoItem particularly suited for saving in an
- * XML file by encoding strings to preserve graphic characters and allow
- * lines to be broken and still be able to regain the original contents.
- * Used by todo.tee
+ * Helper class to help save todo items properly in the .todo XML file. It
+ * provides a view of A ToDoItem particularly suited for saving in an XML file
+ * by encoding strings to preserve graphic characters and allow lines to be
+ * broken and still be able to regain the original contents. Used by todo.tee
  * This is not to be considered as part of the peristence interface.
  *
- * @see	ToDoItem
+ * @see ToDoItem
  * @author Michael Stockman
  */
-public class ToDoItemXMLHelper
-{
-    private final ToDoItem item;
+public class ToDoItemXMLHelper {
+	private final ToDoItem item;
 
-    /**
-     * Creates a new ToDoItemXMLHelper for item.
-     *
-     * @param	todoItem	A ToDoItem.
-     */
-    public ToDoItemXMLHelper(ToDoItem todoItem)
-    {
-	if (todoItem == null) {
-	    throw new NullPointerException();
-	}
-	item = todoItem;
-    }
-
-    /**
-     * Encodes the headline of this ToDoItem in an XML safe way and
-     * returns the new String. The String can be regained by running the
-     * returned String through
-     * {@link TodoParser#decode(String)}.
-     *
-     * @return	The encoded headline.
-     */
-    public String getHeadline()
-    {
-	return TodoParser.encode(item.getHeadline());
-    }
-
-    /**
-     * Encodes the priority of this ToDoItem in an XML safe way and
-     * returns the new String. The String can be regained by running the
-     * returned String through
-     * {@link TodoParser#decode(String)} and comparing to the
-     * STRING_prio_* values in TodoTokenTable.
-     *
-     * @return	The encoded priority.
-     */
-    public String getPriority()
-    {
-	String s = TodoTokenTable.STRING_PRIO_HIGH;
-	switch (item.getPriority())
-	{
-	case ToDoItem.HIGH_PRIORITY:
-	    s = TodoTokenTable.STRING_PRIO_HIGH;
-	    break;
-
-	case ToDoItem.MED_PRIORITY:
-	    s = TodoTokenTable.STRING_PRIO_MED;
-	    break;
-
-	case ToDoItem.LOW_PRIORITY:
-	    s = TodoTokenTable.STRING_PRIO_LOW;
-	    break;
+	/**
+	 * Creates a new ToDoItemXMLHelper for item.
+	 *
+	 * @param todoItem
+	 *            A ToDoItem.
+	 */
+	public ToDoItemXMLHelper(ToDoItem todoItem) {
+		if (todoItem == null) {
+			throw new NullPointerException();
+		}
+		item = todoItem;
 	}
 
-	return TodoParser.encode(s);
-    }
+	/**
+	 * Encodes the headline of this ToDoItem in an XML safe way and returns the
+	 * new String. The String can be regained by running the returned String
+	 * through {@link TodoParser#decode(String)}.
+	 *
+	 * @return The encoded headline.
+	 */
+	public String getHeadline() {
+		return TodoParser.encode(item.getHeadline());
+	}
 
-    /**
-     * Encodes the moreInfoURL of this ToDoItem in an XML safe way and
-     * returns the new String. The String can be regained by running the
-     * returned String through
-     * {@link TodoParser#decode(String)}.
-     *
-     * @return	The encoded moreInfoURL.
-     */
-    public String getMoreInfoURL()
-    {
-	return TodoParser.encode(item.getMoreInfoURL());
-    }
+	/**
+	 * Encodes the priority of this ToDoItem in an XML safe way and returns the
+	 * new String. The String can be regained by running the returned String
+	 * through {@link TodoParser#decode(String)} and comparing to the
+	 * STRING_prio_* values in TodoTokenTable.
+	 *
+	 * @return The encoded priority.
+	 */
+	public String getPriority() {
+		String s = TodoTokenTable.STRING_PRIO_HIGH;
+		switch (item.getPriority()) {
+		case ToDoItem.HIGH_PRIORITY:
+			s = TodoTokenTable.STRING_PRIO_HIGH;
+			break;
 
-    /**
-     * Encodes the description of this ToDoItem in an XML safe way and
-     * returns the new String. The String can be regained by running the
-     * returned String through
-     * {@link TodoParser#decode(String)}.
-     *
-     * @return	The encoded description.
-     */
-    public String getDescription()
-    {
-	return TodoParser.encode(item.getDescription());
-    }
+		case ToDoItem.MED_PRIORITY:
+			s = TodoTokenTable.STRING_PRIO_MED;
+			break;
+
+		case ToDoItem.LOW_PRIORITY:
+			s = TodoTokenTable.STRING_PRIO_LOW;
+			break;
+		}
+
+		return TodoParser.encode(s);
+	}
+
+	/**
+	 * Encodes the moreInfoURL of this ToDoItem in an XML safe way and returns
+	 * the new String. The String can be regained by running the returned String
+	 * through {@link TodoParser#decode(String)}.
+	 *
+	 * @return The encoded moreInfoURL.
+	 */
+	public String getMoreInfoURL() {
+		return TodoParser.encode(item.getMoreInfoURL());
+	}
+
+	/**
+	 * Encodes the description of this ToDoItem in an XML safe way and returns
+	 * the new String. The String can be regained by running the returned String
+	 * through {@link TodoParser#decode(String)}.
+	 *
+	 * @return The encoded description.
+	 */
+	public String getDescription() {
+		return TodoParser.encode(item.getDescription());
+	}
 }
-

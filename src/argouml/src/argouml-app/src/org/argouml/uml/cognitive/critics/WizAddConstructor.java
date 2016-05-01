@@ -51,93 +51,86 @@ import org.argouml.ui.targetmanager.TargetManager;
 /**
  * A wizard to add a constructor to a classifier.
  *
- * @author  d00mst (copied from WizAddOperation by mkl)
+ * @author d00mst (copied from WizAddOperation by mkl)
  * @since February 7, 2004, 12:35 AM
  */
 public class WizAddConstructor extends UMLWizard {
 
-    private WizStepTextField step1;
-    private String label = Translator.localize("label.name");
-    private String instructions = 
-        Translator.localize("critics.WizAddConstructor-ins");
+	private WizStepTextField step1;
+	private String label = Translator.localize("label.name");
+	private String instructions = Translator.localize("critics.WizAddConstructor-ins");
 
-    /**
-     * Creates a new instance of WizAddConstructor.
-     */
-    public WizAddConstructor() {
-        super();
-    }
-
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#doAction(int)
-     */
-    public void doAction(int oldStep) {
-	Object oper;
-	Collection savedTargets;
-
-	switch (oldStep) {
-	case 1:
-	    String newName = getSuggestion();
-	    if (step1 != null) {
-	        newName = step1.getText();
-	    }
-	    Object me = getModelElement();
-	    savedTargets = TargetManager.getInstance().getTargets();
-	    Object returnType =
-	        ProjectManager.getManager().getCurrentProject()
-	        	.getDefaultReturnType();
-	    oper =
-	        Model.getCoreFactory().buildOperation2(me, returnType, newName);
-	    Model.getCoreHelper()
-	        .addStereotype(oper, getCreateStereotype(oper));
-            ProjectManager.getManager().updateRoots();
-	    TargetManager.getInstance().setTargets(savedTargets);
-            break;
+	/**
+	 * Creates a new instance of WizAddConstructor.
+	 */
+	public WizAddConstructor() {
+		super();
 	}
-    }
 
-    /**
-     * Finds the create stereotype for an object.
-     * 
-     * @param obj is the object the stereotype should be applicable to.
-     * @return a suitable stereotype, or null.
-     */
-    private Object getCreateStereotype(Object obj) {
-        return ProjectManager.getManager().getCurrentProject()
-                .getProfileConfiguration().findStereotypeForObject("create",
-                        obj);
-    }
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#doAction(int)
+	 */
+	public void doAction(int oldStep) {
+		Object oper;
+		Collection savedTargets;
 
-    /**
-     * @param s set a new instruction string
-     */
-    public void setInstructions(String s) {
-	instructions = s;
-    }
+		switch (oldStep) {
+		case 1:
+			String newName = getSuggestion();
+			if (step1 != null) {
+				newName = step1.getText();
+			}
+			Object me = getModelElement();
+			savedTargets = TargetManager.getInstance().getTargets();
+			Object returnType = ProjectManager.getManager().getCurrentProject().getDefaultReturnType();
+			oper = Model.getCoreFactory().buildOperation2(me, returnType, newName);
+			Model.getCoreHelper().addStereotype(oper, getCreateStereotype(oper));
+			ProjectManager.getManager().updateRoots();
+			TargetManager.getInstance().setTargets(savedTargets);
+			break;
+		}
+	}
 
+	/**
+	 * Finds the create stereotype for an object.
+	 * 
+	 * @param obj
+	 *            is the object the stereotype should be applicable to.
+	 * @return a suitable stereotype, or null.
+	 */
+	private Object getCreateStereotype(Object obj) {
+		return ProjectManager.getManager().getCurrentProject().getProfileConfiguration()
+				.findStereotypeForObject("create", obj);
+	}
 
-    /**
-     * Create a new panel for the given step.
-     *
-     * @param newStep The step.
-     * @return The panel.
-     */
-    public JPanel makePanel(int newStep) {
-        switch (newStep) {
-	case 1:
-	    if (step1 == null) {
-		step1 =
-		    new WizStepTextField(this, instructions,
-		            		 label, offerSuggestion());
-	    }
-	    return step1;
-        }
-        return null;
-    }
+	/**
+	 * @param s
+	 *            set a new instruction string
+	 */
+	public void setInstructions(String s) {
+		instructions = s;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -4661562206721689576L;
+	/**
+	 * Create a new panel for the given step.
+	 *
+	 * @param newStep
+	 *            The step.
+	 * @return The panel.
+	 */
+	public JPanel makePanel(int newStep) {
+		switch (newStep) {
+		case 1:
+			if (step1 == null) {
+				step1 = new WizStepTextField(this, instructions, label, offerSuggestion());
+			}
+			return step1;
+		}
+		return null;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -4661562206721689576L;
 }
-

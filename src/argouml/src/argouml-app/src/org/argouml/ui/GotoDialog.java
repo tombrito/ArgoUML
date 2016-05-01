@@ -50,12 +50,14 @@ import org.argouml.kernel.ProjectManager;
 import org.argouml.util.ArgoDialog;
 
 /**
- * The dialog that allows the user to go to any diagram in the project
- * by doubleclicking on it.<p>
+ * The dialog that allows the user to go to any diagram in the project by
+ * doubleclicking on it.
+ * <p>
  *
- * This dialog is not modal, and can stay open while the user
- * is working on the model. It is even possible to open multiple
- * of these dialogs, although the purpose of such useraction eludes me.<p>
+ * This dialog is not modal, and can stay open while the user is working on the
+ * model. It is even possible to open multiple of these dialogs, although the
+ * purpose of such useraction eludes me.
+ * <p>
  *
  * TODO: This dialog should have multiple tabs named "Help", "Diagram",
  * "Classifier", "StateVertex", etc. Which would allow the user to go to other
@@ -66,55 +68,53 @@ import org.argouml.util.ArgoDialog;
  */
 public class GotoDialog extends ArgoDialog {
 
-    private static final long serialVersionUID = -7195407055178260421L;
+	private static final long serialVersionUID = -7195407055178260421L;
 	private final TabResults allDiagrams = new TabResults(false); // no related
 
-    /**
-     * The constructor.
-     */
-    public GotoDialog() {
-        super(Translator.localize("dialog.gotodiagram.title"),
-              ArgoDialog.OK_CANCEL_OPTION, false);
+	/**
+	 * The constructor.
+	 */
+	public GotoDialog() {
+		super(Translator.localize("dialog.gotodiagram.title"), ArgoDialog.OK_CANCEL_OPTION, false);
 
-        Project p = ProjectManager.getManager().getCurrentProject();
+		Project p = ProjectManager.getManager().getCurrentProject();
 
-        allDiagrams.setResults(p.getDiagramList(), p.getDiagramList());
+		allDiagrams.setResults(p.getDiagramList(), p.getDiagramList());
 
-        // TabResults has really large preferred height, so divide in
-        // half to reduce size of dialog which will be sized based on
-        // this preferred size.
-        allDiagrams.setPreferredSize(new Dimension(
-                allDiagrams.getPreferredSize().width,
-                allDiagrams.getPreferredSize().height / 2));
-        allDiagrams.selectResult(0);
+		// TabResults has really large preferred height, so divide in
+		// half to reduce size of dialog which will be sized based on
+		// this preferred size.
+		allDiagrams.setPreferredSize(
+				new Dimension(allDiagrams.getPreferredSize().width, allDiagrams.getPreferredSize().height / 2));
+		allDiagrams.selectResult(0);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        //JTabbedPane tabs = new JTabbedPane();
-        //mainPanel.add(tabs, BorderLayout.CENTER);
-        //tabs.addTab("All Diagrams", allDiagrams);
-        mainPanel.add(allDiagrams, BorderLayout.CENTER);
-        setContent(mainPanel);
-        //TODO: tabs for class, state, usecase, help
-    }
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		// JTabbedPane tabs = new JTabbedPane();
+		// mainPanel.add(tabs, BorderLayout.CENTER);
+		// tabs.addTab("All Diagrams", allDiagrams);
+		mainPanel.add(allDiagrams, BorderLayout.CENTER);
+		setContent(mainPanel);
+		// TODO: tabs for class, state, usecase, help
+	}
 
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == getOkButton()) {
+			allDiagrams.doDoubleClick();
+		} else {
+			super.actionPerformed(e);
+		}
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == getOkButton()) {
-            allDiagrams.doDoubleClick();
-        } else {
-            super.actionPerformed(e);
-        }
-    }
-
-    /*
-     * @see org.tigris.swidgets.Dialog#nameButtons()
-     */
-    protected void nameButtons() {
-        super.nameButtons();
-        nameButton(getOkButton(), "button.go-to-selection");
-        nameButton(getCancelButton(), "button.close");
-    }
+	/*
+	 * @see org.tigris.swidgets.Dialog#nameButtons()
+	 */
+	protected void nameButtons() {
+		super.nameButtons();
+		nameButton(getOkButton(), "button.go-to-selection");
+		nameButton(getCancelButton(), "button.close");
+	}
 }

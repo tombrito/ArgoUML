@@ -45,35 +45,31 @@ import javax.swing.Action;
 import org.argouml.i18n.Translator;
 import org.argouml.ui.UndoableAction;
 
-
-
 /**
- * Action to open the dialog to set the priorities for decisions. 
- * These will be evaluated against the critics, 
- * so that the user will only see todo items which match
- * the priorities for a certain decision.
+ * Action to open the dialog to set the priorities for decisions. These will be
+ * evaluated against the critics, so that the user will only see todo items
+ * which match the priorities for a certain decision.
  */
 public class ActionOpenDecisions extends UndoableAction {
 
-    private static final long serialVersionUID = -7193688805307101577L;
+	private static final long serialVersionUID = -7193688805307101577L;
 
 	/**
-     * The constructor.
-     */
-    public ActionOpenDecisions() {
-        super(Translator.localize("action.design-issues"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.design-issues"));
-    }
+	 * The constructor.
+	 */
+	public ActionOpenDecisions() {
+		super(Translator.localize("action.design-issues"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.design-issues"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	DesignIssuesDialog d = new DesignIssuesDialog();
-	d.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		DesignIssuesDialog d = new DesignIssuesDialog();
+		d.setVisible(true);
+	}
 } /* end class ActionOpenDecisions */
-

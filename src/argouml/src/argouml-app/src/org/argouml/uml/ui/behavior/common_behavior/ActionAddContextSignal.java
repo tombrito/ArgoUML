@@ -54,42 +54,36 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  */
 public class ActionAddContextSignal extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = 4323505957553491360L;
-
+	private static final long serialVersionUID = 4323505957553491360L;
 
 	/**
-     * The constructor.
-     */
-    public ActionAddContextSignal() {
-        super();
-    }
+	 * The constructor.
+	 */
+	public ActionAddContextSignal() {
+		super();
+	}
 
-    protected List getChoices() {
-        List ret = new ArrayList();
-        Object model =
-            ProjectManager.getManager().getCurrentProject().getModel();
-        if (getTarget() != null) {
-            ret.addAll(Model.getModelManagementHelper()
-                    .getAllBehavioralFeatures(model));
-        }
-        return ret;
-    }
+	protected List getChoices() {
+		List ret = new ArrayList();
+		Object model = ProjectManager.getManager().getCurrentProject().getModel();
+		if (getTarget() != null) {
+			ret.addAll(Model.getModelManagementHelper().getAllBehavioralFeatures(model));
+		}
+		return ret;
+	}
 
+	protected List getSelected() {
+		List ret = new ArrayList();
+		ret.addAll(Model.getFacade().getContexts(getTarget()));
+		return ret;
+	}
 
-    protected List getSelected() {
-        List ret = new ArrayList();
-        ret.addAll(Model.getFacade().getContexts(getTarget()));
-        return ret;
-    }
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-contexts");
+	}
 
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-contexts");
-    }
-
-
-    protected void doIt(Collection selected) {
-        Model.getCommonBehaviorHelper().setContexts(getTarget(), selected);
-    }
+	protected void doIt(Collection selected) {
+		Model.getCommonBehaviorHelper().setContexts(getTarget(), selected);
+	}
 
 }

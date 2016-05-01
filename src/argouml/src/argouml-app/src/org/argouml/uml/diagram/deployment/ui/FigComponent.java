@@ -59,84 +59,80 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigComponent extends AbstractFigComponent {
 
-    private static final long serialVersionUID = -5710238905308711337L;
+	private static final long serialVersionUID = -5710238905308711337L;
 
 	/**
-     * Construct a new FigComponent.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigComponent(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
-    
-    @Override
-    protected void textEditStarted(FigText ft) {
-        if (ft == getNameFig()) {
-            showHelp("parsing.help.fig-component");
-        }
-    }
+	 * Construct a new FigComponent.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigComponent(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
 
-    @Override
-    public Selection makeSelection() {
-        return new SelectionComponent(this);
-    }
+	@Override
+	protected void textEditStarted(FigText ft) {
+		if (ft == getNameFig()) {
+			showHelp("parsing.help.fig-component");
+		}
+	}
 
-    @Override
-    public void setEnclosingFig(Fig encloser) {
+	@Override
+	public Selection makeSelection() {
+		return new SelectionComponent(this);
+	}
 
-        Object comp = getOwner();
-        if (encloser != null
-                && (Model.getFacade().isANode(encloser.getOwner()) 
-                        || Model.getFacade().isAComponent(encloser.getOwner()))
-                && getOwner() != null) {
-            if (Model.getFacade().isANode(encloser.getOwner())) {
-                Object node = encloser.getOwner();
-                if (!Model.getFacade().getDeploymentLocations(comp).contains(
-                        node)) {
-                    Model.getCoreHelper().addDeploymentLocation(comp, node);
-                }
-            }
-            super.setEnclosingFig(encloser);
+	@Override
+	public void setEnclosingFig(Fig encloser) {
 
-            if (getLayer() != null) {
-                // elementOrdering(figures);
-                List contents = new ArrayList(getLayer().getContents());
-                Iterator it = contents.iterator();
-                while (it.hasNext()) {
-                    Object o = it.next();
-                    if (o instanceof FigEdgeModelElement) {
-                        FigEdgeModelElement figedge = (FigEdgeModelElement) o;
-                        figedge.getLayer().bringToFront(figedge);
-                    }
-                }
-            }
-        } else if (encloser == null && getEnclosingFig() != null) {
-            Object encloserOwner = getEnclosingFig().getOwner();
-            if (Model.getFacade().isANode(encloserOwner)
-                    && (Model.getFacade().getDeploymentLocations(comp)
-                            .contains(encloserOwner))) {
-                Model.getCoreHelper().removeDeploymentLocation(comp,
-                        encloserOwner);
-            }
-            super.setEnclosingFig(encloser);
-        }
-    }
+		Object comp = getOwner();
+		if (encloser != null && (Model.getFacade().isANode(encloser.getOwner())
+				|| Model.getFacade().isAComponent(encloser.getOwner())) && getOwner() != null) {
+			if (Model.getFacade().isANode(encloser.getOwner())) {
+				Object node = encloser.getOwner();
+				if (!Model.getFacade().getDeploymentLocations(comp).contains(node)) {
+					Model.getCoreHelper().addDeploymentLocation(comp, node);
+				}
+			}
+			super.setEnclosingFig(encloser);
 
-    /*
-     * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.MouseEvent)
-     */
-    @Override
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        // Modifiers ...
-        popUpActions.add(
-                popUpActions.size() - getPopupAddOffset(),
-                buildModifierPopUp(ABSTRACT | LEAF | ROOT));
-        return popUpActions;
-    }
+			if (getLayer() != null) {
+				// elementOrdering(figures);
+				List contents = new ArrayList(getLayer().getContents());
+				Iterator it = contents.iterator();
+				while (it.hasNext()) {
+					Object o = it.next();
+					if (o instanceof FigEdgeModelElement) {
+						FigEdgeModelElement figedge = (FigEdgeModelElement) o;
+						figedge.getLayer().bringToFront(figedge);
+					}
+				}
+			}
+		} else if (encloser == null && getEnclosingFig() != null) {
+			Object encloserOwner = getEnclosingFig().getOwner();
+			if (Model.getFacade().isANode(encloserOwner)
+					&& (Model.getFacade().getDeploymentLocations(comp).contains(encloserOwner))) {
+				Model.getCoreHelper().removeDeploymentLocation(comp, encloserOwner);
+			}
+			super.setEnclosingFig(encloser);
+		}
+	}
+
+	/*
+	 * @see org.tigris.gef.ui.PopupGenerator#getPopUpActions(java.awt.event.
+	 * MouseEvent)
+	 */
+	@Override
+	public Vector getPopUpActions(MouseEvent me) {
+		Vector popUpActions = super.getPopUpActions(me);
+		// Modifiers ...
+		popUpActions.add(popUpActions.size() - getPopupAddOffset(), buildModifierPopUp(ABSTRACT | LEAF | ROOT));
+		return popUpActions;
+	}
 
 }

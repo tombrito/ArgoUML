@@ -38,101 +38,112 @@
 
 package org.argouml.model;
 
-
 /**
  * Exception for external reference problems with XMI files.
  * 
  * @author Tom Morris
  */
 public class XmiReferenceException extends XmiException {
-    
-    private static final long serialVersionUID = 8930503203533646002L;
+
+	private static final long serialVersionUID = 8930503203533646002L;
 	private String reference;
-    
-    /**
-     * Construct an XmiReferenceException with the given message.
-     * 
-     * @param message the message
-     */
-    public XmiReferenceException(String message) {
-        super(message);
-    }
 
-//    /**
-//     * Construct an exception with a message and a causing exception.
-//     *
-//     * @param message the message
-//     * @param c the cause of the exception
-//     */
-//    public XmiReferenceException(String message, Throwable c) {
-//        super(message, c);
-//    }
+	/**
+	 * Construct an XmiReferenceException with the given message.
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public XmiReferenceException(String message) {
+		super(message);
+	}
 
-    /**
-     * Construct an XmiReferenceException for the given reference
-     * 
-     * @param href the reference that caused the error
-     * @param cause the nested exception if available
-     */
-    public XmiReferenceException(String href, Throwable cause) {
-        super(href, cause);
-        reference = href;
-    }
+	// /**
+	// * Construct an exception with a message and a causing exception.
+	// *
+	// * @param message the message
+	// * @param c the cause of the exception
+	// */
+	// public XmiReferenceException(String message, Throwable c) {
+	// super(message, c);
+	// }
 
-    /**
-     * @return the external reference (href) that caused the exception
-     */
-    public String getReference() {
-        return reference;
-    }
+	/**
+	 * Construct an XmiReferenceException for the given reference
+	 * 
+	 * @param href
+	 *            the reference that caused the error
+	 * @param cause
+	 *            the nested exception if available
+	 */
+	public XmiReferenceException(String href, Throwable cause) {
+		super(href, cause);
+		reference = href;
+	}
 
-    /**
-     * Construct an exception with a causing exception.
-     *
-     * @param c the cause of the exception
-     */
-    public XmiReferenceException(Throwable c) {
-        super(c);
-    }
-    
-    /**
-     * Create a new XmiReferenceException.
-     *
-     * @param message The error or warning message.
-     * @param publicId The public identifier of the entity that generated
-     *                 the error or warning.
-     * @param systemId The system identifier of the entity that generated
-     *                 the error or warning.
-     * @param lineNumber The line number of the end of the text that
-     *                   caused the error or warning.
-     * @param columnNumber The column number of the end of the text that
-     *                     cause the error or warning.
-     */
-    public XmiReferenceException(String message, String publicId,
-            String systemId, int lineNumber, int columnNumber) {
-        super(message, publicId, systemId, lineNumber, columnNumber);
-    }
-    
-    
-    /**
-     * Create a new XmiReferenceException with an embedded exception.
-     * 
-     * @param message The error or warning message, or null to use the message
-     *                from the embedded exception.
-     * @param publicId The public identifier of the entity that generated the
-     *                error or warning.
-     * @param systemId The system identifier of the entity that generated the
-     *                error or warning.
-     * @param lineNumber The line number of the end of the text that caused the
-     *                error or warning.
-     * @param columnNumber The column number of the end of the text that cause
-     *                the error or warning.
-     * @param e Another exception to embed in this one.
-     */
-    public XmiReferenceException(String message, String publicId,
-            String systemId, int lineNumber, int columnNumber, Exception e) {
-        super(message, publicId, systemId, lineNumber, columnNumber, e);
-    }
+	/**
+	 * @return the external reference (href) that caused the exception
+	 */
+	public String getReference() {
+		return reference;
+	}
 
+	/**
+	 * Construct an exception with a causing exception.
+	 *
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public XmiReferenceException(Throwable c) {
+		super(c);
+	}
+
+	/**
+	 * Create a new XmiReferenceException.
+	 *
+	 * @param message
+	 *            The error or warning message.
+	 * @param publicId
+	 *            The public identifier of the entity that generated the error
+	 *            or warning.
+	 * @param systemId
+	 *            The system identifier of the entity that generated the error
+	 *            or warning.
+	 * @param lineNumber
+	 *            The line number of the end of the text that caused the error
+	 *            or warning.
+	 * @param columnNumber
+	 *            The column number of the end of the text that cause the error
+	 *            or warning.
+	 */
+	public XmiReferenceException(String message, String publicId, String systemId, int lineNumber, int columnNumber) {
+		super(message, publicId, systemId, lineNumber, columnNumber);
+	}
+
+	/**
+	 * Create a new XmiReferenceException with an embedded exception.
+	 * 
+	 * @param message
+	 *            The error or warning message, or null to use the message from
+	 *            the embedded exception.
+	 * @param publicId
+	 *            The public identifier of the entity that generated the error
+	 *            or warning.
+	 * @param systemId
+	 *            The system identifier of the entity that generated the error
+	 *            or warning.
+	 * @param lineNumber
+	 *            The line number of the end of the text that caused the error
+	 *            or warning.
+	 * @param columnNumber
+	 *            The column number of the end of the text that cause the error
+	 *            or warning.
+	 * @param e
+	 *            Another exception to embed in this one.
+	 */
+	public XmiReferenceException(String message, String publicId, String systemId, int lineNumber, int columnNumber,
+			Exception e) {
+		super(message, publicId, systemId, lineNumber, columnNumber, e);
+	}
 
 }

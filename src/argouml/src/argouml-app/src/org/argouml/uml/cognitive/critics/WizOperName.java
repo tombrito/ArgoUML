@@ -58,14 +58,15 @@ import org.argouml.model.Model;
  * Same as WizMEName except that it handles the special case where the operation
  * instead should be made a constructor of the class. This is helpful in
  * languages where constructors have names that do not agree with the convention
- * for method names (i.e. Java).<p>
+ * for method names (i.e. Java).
+ * <p>
  *
  * Path looks like this for the case when it is not supposed to be a
  * constructor:
  *
  * <pre>
  *
- *  step0 -&gt; step1
+ * step0 -&gt; step1
  *
  * </pre>
  *
@@ -79,266 +80,246 @@ import org.argouml.model.Model;
  * </pre>
  */
 public class WizOperName extends WizMEName {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(WizOperName.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(WizOperName.class.getName());
 
-    private boolean possibleConstructor;
+	private boolean possibleConstructor;
 
-    private boolean stereotypePathChosen;
+	private boolean stereotypePathChosen;
 
-    private String option0 =
-        Translator.localize("critics.WizOperName-options1");
+	private String option0 = Translator.localize("critics.WizOperName-options1");
 
-    private String option1 =
-        Translator.localize("critics.WizOperName-options2");
+	private String option1 = Translator.localize("critics.WizOperName-options2");
 
-    private WizStepChoice step1;
+	private WizStepChoice step1;
 
-    private WizStepCue step2;
+	private WizStepCue step2;
 
-    private Object createStereotype;
+	private Object createStereotype;
 
-    private boolean addedCreateStereotype;
+	private boolean addedCreateStereotype;
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.UMLWizard#getNumSteps()
-     */
-    @Override
-    public int getNumSteps() {
-        if (possibleConstructor) {
-            return 2;
-        }
-        return 1;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.UMLWizard#getNumSteps()
+	 */
+	@Override
+	public int getNumSteps() {
+		if (possibleConstructor) {
+			return 2;
+		}
+		return 1;
+	}
 
-    private List<String> getOptions() {
-        List<String> res = new ArrayList<String>();
-        res.add(option0);
-        res.add(option1);
-        return res;
-    }
+	private List<String> getOptions() {
+		List<String> res = new ArrayList<String>();
+		res.add(option0);
+		res.add(option1);
+		return res;
+	}
 
-    /**
-     * Method to tell the Wizard what path it should work with.
-     *
-     * @param b
-     *            setToConstructor is true if we shall take the path where the
-     *            oper is converted to a constructor.
-     */
-    public void setPossibleConstructor(boolean b) {
-        possibleConstructor = b;
-    }
+	/**
+	 * Method to tell the Wizard what path it should work with.
+	 *
+	 * @param b
+	 *            setToConstructor is true if we shall take the path where the
+	 *            oper is converted to a constructor.
+	 */
+	public void setPossibleConstructor(boolean b) {
+		possibleConstructor = b;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.WizMEName#makePanel(int)
-     */
-    @Override
-    public JPanel makePanel(int newStep) {
-        if (!possibleConstructor) {
-            return super.makePanel(newStep);
-        }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.WizMEName#makePanel(int)
+	 */
+	@Override
+	public JPanel makePanel(int newStep) {
+		if (!possibleConstructor) {
+			return super.makePanel(newStep);
+		}
 
-        switch (newStep) {
-        case 0:
-            return super.makePanel(newStep);
+		switch (newStep) {
+		case 0:
+			return super.makePanel(newStep);
 
-        case 1:
-            if (step1 == null) {
-                step1 =
-                    new WizStepChoice(this, getInstructions(), getOptions());
-                step1.setTarget(getToDoItem());
-            }
-            return step1;
+		case 1:
+			if (step1 == null) {
+				step1 = new WizStepChoice(this, getInstructions(), getOptions());
+				step1.setTarget(getToDoItem());
+			}
+			return step1;
 
-        case 2:
-            if (stereotypePathChosen) {
-                if (step2 == null) {
-                    step2 =
-                        new WizStepCue(this, Translator.localize(
-                                "critics.WizOperName-stereotype"));
-                    step2.setTarget(getToDoItem());
-                }
-                return step2;
-            }
-            return super.makePanel(1);
+		case 2:
+			if (stereotypePathChosen) {
+				if (step2 == null) {
+					step2 = new WizStepCue(this, Translator.localize("critics.WizOperName-stereotype"));
+					step2.setTarget(getToDoItem());
+				}
+				return step2;
+			}
+			return super.makePanel(1);
 
-        default:
-        }
-        return null;
-    }
+		default:
+		}
+		return null;
+	}
 
-    /**
-     * There is a possibility that the next step forward takes another path in
-     * this wizard. To allow for this we must destroy the path already traveled
-     * by.
-     * <p>
-     * TODO: I (Linus) would say that this is really a problem with the Wizard
-     * implementation since I believe it should be possible to explore a path in
-     * the wizard and then go back. {@inheritDoc}
-     */
-    @Override
-    public void undoAction(int origStep) {
-        super.undoAction(origStep);
-        if (getStep() >= 1) {
-            removePanel(origStep);
-        }
-        if (origStep == 1) {
-            Object oper = getModelElement();
+	/**
+	 * There is a possibility that the next step forward takes another path in
+	 * this wizard. To allow for this we must destroy the path already traveled
+	 * by.
+	 * <p>
+	 * TODO: I (Linus) would say that this is really a problem with the Wizard
+	 * implementation since I believe it should be possible to explore a path in
+	 * the wizard and then go back. {@inheritDoc}
+	 */
+	@Override
+	public void undoAction(int origStep) {
+		super.undoAction(origStep);
+		if (getStep() >= 1) {
+			removePanel(origStep);
+		}
+		if (origStep == 1) {
+			Object oper = getModelElement();
 
-            if (addedCreateStereotype) {
-                Model.getCoreHelper().removeStereotype(oper, createStereotype);
-                ProjectManager.getManager().updateRoots();
-            }
-        }
-    }
+			if (addedCreateStereotype) {
+				Model.getCoreHelper().removeStereotype(oper, createStereotype);
+				ProjectManager.getManager().updateRoots();
+			}
+		}
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.WizMEName#doAction(int)
-     */
-    @Override
-    public void doAction(int oldStep) {
-        if (!possibleConstructor) {
-            super.doAction(oldStep);
-            return;
-        }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.WizMEName#doAction(int)
+	 */
+	@Override
+	public void doAction(int oldStep) {
+		if (!possibleConstructor) {
+			super.doAction(oldStep);
+			return;
+		}
 
-        switch (oldStep) {
-        case 1:
-            int choice = -1;
-            if (step1 != null) {
-                choice = step1.getSelectedIndex();
-            }
+		switch (oldStep) {
+		case 1:
+			int choice = -1;
+			if (step1 != null) {
+				choice = step1.getSelectedIndex();
+			}
 
-            switch (choice) {
-            case -1:
-                throw new IllegalArgumentException(
-                        "nothing selected, should not get here");
+			switch (choice) {
+			case -1:
+				throw new IllegalArgumentException("nothing selected, should not get here");
 
-            case 0:
-                stereotypePathChosen = true;
-                Object oper = getModelElement();
+			case 0:
+				stereotypePathChosen = true;
+				Object oper = getModelElement();
 
+				// We need to find the stereotype with the name
+				// "create" and the base class BehavioralFeature in
+				// the model. If there is none then we create one and
+				// put it there.
+				Object m = Model.getFacade().getRoot(oper);
+				Object theStereotype = null;
+				for (Iterator iter = Model.getFacade().getOwnedElements(m).iterator(); iter.hasNext();) {
+					Object candidate = iter.next();
+					if (!(Model.getFacade().isAStereotype(candidate))) {
+						continue;
+					}
+					if (!("create".equals(Model.getFacade().getName(candidate)))) {
+						continue;
+					}
+					Collection baseClasses = Model.getFacade().getBaseClasses(candidate);
+					Iterator iter2 = baseClasses != null ? baseClasses.iterator() : null;
+					if (iter2 == null || !("BehavioralFeature".equals(iter2.next()))) {
+						continue;
+					}
+					theStereotype = candidate;
+					break;
+				}
+				if (theStereotype == null) {
+					theStereotype = Model.getExtensionMechanismsFactory().buildStereotype("create", m);
+					Model.getCoreHelper().setName(theStereotype, "create");
+					// theStereotype.setStereotype(???);
+					Model.getExtensionMechanismsHelper().addBaseClass(theStereotype, "BehavioralFeature");
+					Object targetNS = findNamespace(Model.getFacade().getNamespace(oper),
+							Model.getFacade().getRoot(oper));
+					Model.getCoreHelper().addOwnedElement(targetNS, theStereotype);
+				}
 
-                // We need to find the stereotype with the name
-                // "create" and the base class BehavioralFeature in
-                // the model. If there is none then we create one and
-                // put it there.
-                Object m = Model.getFacade().getRoot(oper);
-                Object theStereotype = null;
-                for (Iterator iter =
-                        Model.getFacade().getOwnedElements(m).iterator();
-                                        iter.hasNext();) {
-                    Object candidate = iter.next();
-                    if (!(Model.getFacade().isAStereotype(candidate))) {
-                        continue;
-                    }
-                    if (!("create".equals(
-                            Model.getFacade().getName(candidate)))) {
-                        continue;
-                    }
-                    Collection baseClasses =
-                        Model.getFacade().getBaseClasses(candidate);
-                    Iterator iter2 =
-                        baseClasses != null ? baseClasses.iterator() : null;
-                    if (iter2 == null || !("BehavioralFeature".equals(
-                            iter2.next()))) {
-                        continue;
-                    }
-                    theStereotype = candidate;
-                    break;
-                }
-                if (theStereotype == null) {
-                    theStereotype =
-                        Model.getExtensionMechanismsFactory()
-                        	.buildStereotype("create", m);
-                    Model.getCoreHelper().setName(theStereotype, "create");
-                    // theStereotype.setStereotype(???);
-                    Model.getExtensionMechanismsHelper()
-                            .addBaseClass(theStereotype, "BehavioralFeature");
-                    Object targetNS =
-                        findNamespace(Model.getFacade().getNamespace(oper),
-                                      Model.getFacade().getRoot(oper));
-                    Model.getCoreHelper()
-                        .addOwnedElement(targetNS, theStereotype);
-                }
+				try {
+					createStereotype = theStereotype;
+					Model.getCoreHelper().addStereotype(oper, theStereotype);
+					ProjectManager.getManager().updateRoots();
+					addedCreateStereotype = true;
+				} catch (Exception pve) {
+					LOG.log(Level.SEVERE, "could not set stereotype", pve);
+				}
+				return;
 
-                try {
-                    createStereotype = theStereotype;
-                    Model.getCoreHelper().addStereotype(oper, theStereotype);
-                    ProjectManager.getManager().updateRoots();
-                    addedCreateStereotype = true;
-                } catch (Exception pve) {
-                    LOG.log(Level.SEVERE, "could not set stereotype", pve);
-                }
-                return;
+			case 1:
+				// Nothing to do.
+				stereotypePathChosen = false;
+				return;
 
-            case 1:
-                // Nothing to do.
-                stereotypePathChosen = false;
-                return;
+			default:
+			}
+			return;
 
-            default:
-            }
-            return;
+		case 2:
+			if (!stereotypePathChosen) {
+				super.doAction(1);
+			}
+			return;
 
-        case 2:
-            if (!stereotypePathChosen) {
-                super.doAction(1);
-            }
-            return;
+		default:
+		}
+	}
 
-        default:
-        }
-    }
+	// TODO:
+	// Move to MMUtil or some other common place and merge with
+	// UMLComboBoxEntry::findNamespace()
+	private static Object findNamespace(Object phantomNS, Object targetModel) {
+		Object ns = null;
+		Object targetParentNS = null;
+		if (phantomNS == null) {
+			return targetModel;
+		}
+		Object parentNS = Model.getFacade().getNamespace(phantomNS);
+		if (parentNS == null) {
+			return targetModel;
+		}
+		targetParentNS = findNamespace(parentNS, targetModel);
+		//
+		// see if there is already an element with the same name
+		//
+		Collection ownedElements = Model.getFacade().getOwnedElements(targetParentNS);
+		String phantomName = Model.getFacade().getName(phantomNS);
+		String targetName;
+		if (ownedElements != null) {
+			Object ownedElement;
+			Iterator iter = ownedElements.iterator();
+			while (iter.hasNext()) {
+				ownedElement = iter.next();
+				targetName = Model.getFacade().getName(ownedElement);
+				if (targetName != null && phantomName.equals(targetName)) {
+					if (Model.getFacade().isAPackage(ownedElement)) {
+						ns = ownedElement;
+						break;
+					}
+				}
+			}
+		}
+		if (ns == null) {
+			ns = Model.getModelManagementFactory().createPackage();
+			Model.getCoreHelper().setName(ns, phantomName);
+			Model.getCoreHelper().addOwnedElement(targetParentNS, ns);
+		}
+		return ns;
+	}
 
-    // TODO:
-    // Move to MMUtil or some other common place and merge with
-    // UMLComboBoxEntry::findNamespace()
-    private static Object findNamespace(Object phantomNS, Object targetModel) {
-        Object ns = null;
-        Object targetParentNS = null;
-        if (phantomNS == null) {
-            return targetModel;
-        }
-        Object parentNS = Model.getFacade().getNamespace(phantomNS);
-        if (parentNS == null) {
-            return targetModel;
-        }
-        targetParentNS = findNamespace(parentNS, targetModel);
-        //
-        //   see if there is already an element with the same name
-        //
-        Collection ownedElements =
-            Model.getFacade().getOwnedElements(targetParentNS);
-        String phantomName = Model.getFacade().getName(phantomNS);
-        String targetName;
-        if (ownedElements != null) {
-            Object ownedElement;
-            Iterator iter = ownedElements.iterator();
-            while (iter.hasNext()) {
-                ownedElement = iter.next();
-                targetName = Model.getFacade().getName(ownedElement);
-                if (targetName != null && phantomName.equals(targetName)) {
-                    if (Model.getFacade().isAPackage(ownedElement)) {
-                        ns = ownedElement;
-                        break;
-                    }
-                }
-            }
-        }
-        if (ns == null) {
-            ns = Model.getModelManagementFactory().createPackage();
-            Model.getCoreHelper().setName(ns, phantomName);
-            Model.getCoreHelper().addOwnedElement(targetParentNS, ns);
-        }
-        return ns;
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -4013730212763172160L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -4013730212763172160L;
 }

@@ -58,239 +58,189 @@ import org.argouml.i18n.Translator;
  */
 public class ConfigPanelExtension extends JPanel {
 
-    private static final long serialVersionUID = 3225693056701431253L;
+	private static final long serialVersionUID = 3225693056701431253L;
 
 	/**
-     * Key for RE extended settings: model attributes as:
-     * 0: attibutes
-     * 1: associations
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_MODEL_ATTR =
-        Configuration
-            .makeKey("import", "extended", "java", "model", "attributes");
+	 * Key for RE extended settings: model attributes as: 0: attibutes 1:
+	 * associations
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_MODEL_ATTR = Configuration.makeKey("import", "extended",
+			"java", "model", "attributes");
 
-    /**
-     * Key for RE extended settings: model arrays as:
-     * 0: datatype
-     * 1: associations
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_MODEL_ARRAYS =
-        Configuration.makeKey("import", "extended", "java", "model", "arrays");
+	/**
+	 * Key for RE extended settings: model arrays as: 0: datatype 1:
+	 * associations
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_MODEL_ARRAYS = Configuration.makeKey("import", "extended",
+			"java", "model", "arrays");
 
-    /**
-     * Key for RE extended settings: flag for modelling of listed collections,
-     * if to model them as associations with multiplicity *.
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG =
-        Configuration
-            .makeKey("import", "extended", "java", "collections", "flag");
+	/**
+	 * Key for RE extended settings: flag for modelling of listed collections,
+	 * if to model them as associations with multiplicity *.
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG = Configuration.makeKey("import",
+			"extended", "java", "collections", "flag");
 
-    /**
-     * Key for RE extended settings: list of collections, that will be modelled
-     * as associations with multiplicity *.
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_COLLECTIONS_LIST =
-        Configuration
-            .makeKey("import", "extended", "java", "collections", "list");
+	/**
+	 * Key for RE extended settings: list of collections, that will be modelled
+	 * as associations with multiplicity *.
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_COLLECTIONS_LIST = Configuration.makeKey("import",
+			"extended", "java", "collections", "list");
 
-    /**
-     * Key for RE extended settings: flag for modelling of listed collections,
-     * if to model them as ordered associations with multiplicity *.
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG =
-        Configuration
-            .makeKey("import", "extended", "java", "orderedcolls", "flag");
+	/**
+	 * Key for RE extended settings: flag for modelling of listed collections,
+	 * if to model them as ordered associations with multiplicity *.
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG = Configuration.makeKey("import",
+			"extended", "java", "orderedcolls", "flag");
 
-    /**
-     * Key for RE extended settings: list of collections, that will be modelled
-     * as ordered associations with multiplicity *.
-     */
-    public static final ConfigurationKey KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST =
-        Configuration
-            .makeKey("import", "extended", "java", "orderedcolls", "list");
+	/**
+	 * Key for RE extended settings: list of collections, that will be modelled
+	 * as ordered associations with multiplicity *.
+	 */
+	public static final ConfigurationKey KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST = Configuration.makeKey("import",
+			"extended", "java", "orderedcolls", "list");
 
-    private JPanel configPanel;
+	private JPanel configPanel;
 
-    private JRadioButton attribute;
+	private JRadioButton attribute;
 
-    private JRadioButton datatype;
+	private JRadioButton datatype;
 
-    private JCheckBox modelcollections, modelorderedcollections;
+	private JCheckBox modelcollections, modelorderedcollections;
 
-    private JTextField collectionlist, orderedcollectionlist;
+	private JTextField collectionlist, orderedcollectionlist;
 
-    /**
-     * Construct a new default configuration extension panel.
-     */
-    public ConfigPanelExtension() {
+	/**
+	 * Construct a new default configuration extension panel.
+	 */
+	public ConfigPanelExtension() {
 
-        configPanel = this;
-        configPanel.setLayout(new GridBagLayout());
+		configPanel = this;
+		configPanel.setLayout(new GridBagLayout());
 
-        JLabel attributeLabel1 =
-            new JLabel(
-                    Translator.localize("action.import-java-attr-model"));
-        configPanel.add(attributeLabel1,
-                createGridBagConstraints(true, false, false));
-        ButtonGroup group1 = new ButtonGroup();
-        attribute =
-            new JRadioButton(
-                    Translator.localize("action.import-java-UML-attr"));
-        group1.add(attribute);
-        configPanel.add(attribute,
-                createGridBagConstraints(false, false, false));
-        JRadioButton association =
-            new JRadioButton(
-                    Translator.localize("action.import-java-UML-assoc"));
-        group1.add(association);
-        configPanel.add(association,
-                createGridBagConstraints(false, true, false));
-        String modelattr =
-            Configuration.getString(KEY_IMPORT_EXTENDED_MODEL_ATTR);
-        if ("1".equals(modelattr)) {
-            association.setSelected(true);
-        } else {
-            attribute.setSelected(true);
-        }
-        
-        JLabel attributeLabel2 =
-            new JLabel(
-                    Translator.localize("action.import-java-array-model"));
-        configPanel.add(attributeLabel2,
-                createGridBagConstraints(true, false, false));
-        ButtonGroup group2 = new ButtonGroup();
-        datatype =
-            new JRadioButton(
-                    Translator.localize(
-                            "action.import-java-array-model-datatype"));
-        group2.add(datatype);
-        configPanel.add(datatype,
-                createGridBagConstraints(false, false, false));
-        JRadioButton multi =
-            new JRadioButton(
-                    Translator.localize(
-                    "action.import-java-array-model-multi"));
-        group2.add(multi);
-        configPanel.add(multi,
-                createGridBagConstraints(false, true, false));
-        String modelarrays =
-            Configuration.getString(KEY_IMPORT_EXTENDED_MODEL_ARRAYS);
-        if ("1".equals(modelarrays)) {
-            multi.setSelected(true);
-        } else {
-            datatype.setSelected(true);
-        }
+		JLabel attributeLabel1 = new JLabel(Translator.localize("action.import-java-attr-model"));
+		configPanel.add(attributeLabel1, createGridBagConstraints(true, false, false));
+		ButtonGroup group1 = new ButtonGroup();
+		attribute = new JRadioButton(Translator.localize("action.import-java-UML-attr"));
+		group1.add(attribute);
+		configPanel.add(attribute, createGridBagConstraints(false, false, false));
+		JRadioButton association = new JRadioButton(Translator.localize("action.import-java-UML-assoc"));
+		group1.add(association);
+		configPanel.add(association, createGridBagConstraints(false, true, false));
+		String modelattr = Configuration.getString(KEY_IMPORT_EXTENDED_MODEL_ATTR);
+		if ("1".equals(modelattr)) {
+			association.setSelected(true);
+		} else {
+			attribute.setSelected(true);
+		}
 
-        String s = Configuration
-                .getString(KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG);
-        boolean flag = ("true".equals(s));
-        modelcollections =
-            new JCheckBox(Translator.localize(
-                    "action.import-option-model-collections"), flag);
-        configPanel.add(modelcollections,
-                createGridBagConstraints(true, false, false));
+		JLabel attributeLabel2 = new JLabel(Translator.localize("action.import-java-array-model"));
+		configPanel.add(attributeLabel2, createGridBagConstraints(true, false, false));
+		ButtonGroup group2 = new ButtonGroup();
+		datatype = new JRadioButton(Translator.localize("action.import-java-array-model-datatype"));
+		group2.add(datatype);
+		configPanel.add(datatype, createGridBagConstraints(false, false, false));
+		JRadioButton multi = new JRadioButton(Translator.localize("action.import-java-array-model-multi"));
+		group2.add(multi);
+		configPanel.add(multi, createGridBagConstraints(false, true, false));
+		String modelarrays = Configuration.getString(KEY_IMPORT_EXTENDED_MODEL_ARRAYS);
+		if ("1".equals(modelarrays)) {
+			multi.setSelected(true);
+		} else {
+			datatype.setSelected(true);
+		}
 
-        s = Configuration.getString(KEY_IMPORT_EXTENDED_COLLECTIONS_LIST);
-        collectionlist = new JTextField(s);
-        configPanel.add(collectionlist,
-                createGridBagConstraints(false, false, true));
-        JLabel listLabel =
-            new JLabel(
-                    Translator.localize("action.import-comma-separated-names"));
-        configPanel.add(listLabel,
-                createGridBagConstraints(false, true, false));
+		String s = Configuration.getString(KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG);
+		boolean flag = ("true".equals(s));
+		modelcollections = new JCheckBox(Translator.localize("action.import-option-model-collections"), flag);
+		configPanel.add(modelcollections, createGridBagConstraints(true, false, false));
 
-        s = Configuration.getString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG);
-        flag = ("true".equals(s));
-        modelorderedcollections =
-            new JCheckBox(Translator.localize(
-                    "action.import-option-model-ordered-collections"), flag);
-        configPanel.add(modelorderedcollections,
-                createGridBagConstraints(true, false, false));
+		s = Configuration.getString(KEY_IMPORT_EXTENDED_COLLECTIONS_LIST);
+		collectionlist = new JTextField(s);
+		configPanel.add(collectionlist, createGridBagConstraints(false, false, true));
+		JLabel listLabel = new JLabel(Translator.localize("action.import-comma-separated-names"));
+		configPanel.add(listLabel, createGridBagConstraints(false, true, false));
 
-        s = Configuration.getString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST);
-        orderedcollectionlist = new JTextField(s);
-        configPanel.add(orderedcollectionlist,
-                createGridBagConstraints(false, false, true));
-        listLabel =
-            new JLabel(
-                    Translator.localize("action.import-comma-separated-names"));
-        configPanel.add(listLabel,
-                createGridBagConstraintsFinal());
+		s = Configuration.getString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG);
+		flag = ("true".equals(s));
+		modelorderedcollections = new JCheckBox(Translator.localize("action.import-option-model-ordered-collections"),
+				flag);
+		configPanel.add(modelorderedcollections, createGridBagConstraints(true, false, false));
 
-        // TODO: Get the list of extended settings from the current
-        // language importer and add those too
-    }
+		s = Configuration.getString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST);
+		orderedcollectionlist = new JTextField(s);
+		configPanel.add(orderedcollectionlist, createGridBagConstraints(false, false, true));
+		listLabel = new JLabel(Translator.localize("action.import-comma-separated-names"));
+		configPanel.add(listLabel, createGridBagConstraintsFinal());
 
+		// TODO: Get the list of extended settings from the current
+		// language importer and add those too
+	}
 
-    /**
-     * Create a GridBagConstraints object to use with the layout.
-     * 
-     * @param topInset true to use a top inset 
-     * @param bottomInset true to use a bottom inset
-     * @param fill true to fill (horizontally)
-     * @return the grid bag constraints
-     */
-    private GridBagConstraints createGridBagConstraints(boolean topInset,
-            boolean bottomInset, boolean fill) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = GridBagConstraints.RELATIVE;
-        gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridheight = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = fill ? GridBagConstraints.HORIZONTAL
-                : GridBagConstraints.NONE;
-        gbc.insets = 
-            new Insets(
-                    topInset ? 5 : 0, 
-                    5, 
-                    bottomInset ? 5 : 0, 
-                    5);
-        gbc.ipadx = 0;
-        gbc.ipady = 0;
-        return gbc;
-    }
+	/**
+	 * Create a GridBagConstraints object to use with the layout.
+	 * 
+	 * @param topInset
+	 *            true to use a top inset
+	 * @param bottomInset
+	 *            true to use a bottom inset
+	 * @param fill
+	 *            true to fill (horizontally)
+	 * @return the grid bag constraints
+	 */
+	private GridBagConstraints createGridBagConstraints(boolean topInset, boolean bottomInset, boolean fill) {
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = GridBagConstraints.RELATIVE;
+		gbc.gridy = GridBagConstraints.RELATIVE;
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		gbc.gridheight = 1;
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = fill ? GridBagConstraints.HORIZONTAL : GridBagConstraints.NONE;
+		gbc.insets = new Insets(topInset ? 5 : 0, 5, bottomInset ? 5 : 0, 5);
+		gbc.ipadx = 0;
+		gbc.ipady = 0;
+		return gbc;
+	}
 
-    /**
-     * A GridBagConstraints for the last item to take up the rest of the space.
-     * @return the GridBagConstraints object
-     */
-    private GridBagConstraints createGridBagConstraintsFinal() {
-        GridBagConstraints gbc = createGridBagConstraints(false, true, false);
-        gbc.gridheight = GridBagConstraints.REMAINDER;
-        gbc.weighty = 1.0;
-        return gbc;
-    }
+	/**
+	 * A GridBagConstraints for the last item to take up the rest of the space.
+	 * 
+	 * @return the GridBagConstraints object
+	 */
+	private GridBagConstraints createGridBagConstraintsFinal() {
+		GridBagConstraints gbc = createGridBagConstraints(false, true, false);
+		gbc.gridheight = GridBagConstraints.REMAINDER;
+		gbc.weighty = 1.0;
+		return gbc;
+	}
 
-    /**
-     * @return the attribute radio button
-     */
-    public JRadioButton getAttribute() {
-        return attribute;
-    }
+	/**
+	 * @return the attribute radio button
+	 */
+	public JRadioButton getAttribute() {
+		return attribute;
+	}
 
-    /**
-     * @return the datatype radio button
-     */
-    public JRadioButton getDatatype() {
-        return datatype;
-    }
+	/**
+	 * @return the datatype radio button
+	 */
+	public JRadioButton getDatatype() {
+		return datatype;
+	}
 
-    public void disposeDialog() {
-        Configuration.setString(KEY_IMPORT_EXTENDED_MODEL_ATTR,
-                String.valueOf(getAttribute().isSelected() ? "0" : "1"));
-        Configuration.setString(KEY_IMPORT_EXTENDED_MODEL_ARRAYS,
-                String.valueOf(getDatatype().isSelected() ? "0" : "1"));
-        Configuration.setString(KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG,
-                String.valueOf(modelcollections.isSelected()));
-        Configuration.setString(KEY_IMPORT_EXTENDED_COLLECTIONS_LIST,
-                String.valueOf(collectionlist.getText()));
-        Configuration.setString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG,
-                String.valueOf(modelorderedcollections.isSelected()));
-        Configuration.setString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST,
-                String.valueOf(orderedcollectionlist.getText()));
-    }
+	public void disposeDialog() {
+		Configuration.setString(KEY_IMPORT_EXTENDED_MODEL_ATTR,
+				String.valueOf(getAttribute().isSelected() ? "0" : "1"));
+		Configuration.setString(KEY_IMPORT_EXTENDED_MODEL_ARRAYS,
+				String.valueOf(getDatatype().isSelected() ? "0" : "1"));
+		Configuration.setString(KEY_IMPORT_EXTENDED_COLLECTIONS_FLAG, String.valueOf(modelcollections.isSelected()));
+		Configuration.setString(KEY_IMPORT_EXTENDED_COLLECTIONS_LIST, String.valueOf(collectionlist.getText()));
+		Configuration.setString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_FLAG,
+				String.valueOf(modelorderedcollections.isSelected()));
+		Configuration.setString(KEY_IMPORT_EXTENDED_ORDEREDCOLLS_LIST, String.valueOf(orderedcollectionlist.getText()));
+	}
 }

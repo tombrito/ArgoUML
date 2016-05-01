@@ -47,135 +47,140 @@ import org.argouml.cognitive.ToDoItem;
 import org.argouml.ui.TreeModelComposite;
 
 /**
- * This class represents a todo tree model / perspective.<p>
+ * This class represents a todo tree model / perspective.
+ * <p>
  *
  * A todo tree model / perspective is a collection of GoRules.
  */
 public abstract class ToDoPerspective extends TreeModelComposite {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ToDoPerspective.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ToDoPerspective.class.getName());
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
+	////////////////////////////////////////////////////////////////
+	// instance variables
 
-    /**
-     * todoList specific.
-     */
-    private boolean flat;
+	/**
+	 * todoList specific.
+	 */
+	private boolean flat;
 
-    /**
-     * todoList specific.
-     */
-    private List<ToDoItem> flatChildren;
+	/**
+	 * todoList specific.
+	 */
+	private List<ToDoItem> flatChildren;
 
-    /**
-     * The constructor.
-     *
-     * @param name the name that will be localized
-     */
-    public ToDoPerspective(String name) {
+	/**
+	 * The constructor.
+	 *
+	 * @param name
+	 *            the name that will be localized
+	 */
+	public ToDoPerspective(String name) {
 
-        super(name);
-        flatChildren = new ArrayList<ToDoItem>();
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // TreeModel implementation - todo specific stuff
-
-    /**
-     * Finds the each of the children of a parent in the tree.
-     *
-     * @param parent in the tree
-     * @param index of child to find
-     * @return the child found at index. Null if index is out of bounds.
-     */
-    @Override
-    public Object getChild(Object parent, int index) {
-        if (flat && parent == getRoot()) {
-            return flatChildren.get(index);
-        }
-        return super.getChild(parent,  index);
-    }
-
-    /*
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    @Override
-    public int getChildCount(Object parent) {
-        if (flat && parent == getRoot()) {
-            return flatChildren.size();
-        }
-        return super.getChildCount(parent);
-    }
-
-    /*
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
-     *      java.lang.Object)
-     */
-    @Override
-    public int getIndexOfChild(Object parent, Object child) {
-        if (flat && parent == getRoot()) {
-            return flatChildren.indexOf(child);
-        }
-        return super.getIndexOfChild(parent, child);
-    }
-
-    // ------------ other methods ------------
-
-    /**
-     * todoList specific.
-     *
-     * @param b true if flat
-     */
-    public void setFlat(boolean b) {
-        flat = false;
-        if (b) {
-	    calcFlatChildren();
-	}
-        flat = b;
-    }
-
-    /**
-     * todoList specific.
-     *
-     * @return the flatness: true if flat
-     */
-    public boolean getFlat() {
-        return flat;
-    }
-
-    /**
-     * TodoList specific.
-     */
-    public void calcFlatChildren() {
-        flatChildren.clear();
-        addFlatChildren(getRoot());
-    }
-
-    /**
-     * TodoList specific.
-     *
-     * @param node the object to be added
-     */
-    public void addFlatChildren(Object node) {
-        if (node == null) {
-	    return;
-	}
-        LOG.log(Level.FINE, "addFlatChildren");
-        // hack for to do items only, should check isLeaf(node), but that
-        // includes empty folders. Really I need alwaysLeaf(node).
-        if ((node instanceof ToDoItem) && !flatChildren.contains(node)) {
-            flatChildren.add((ToDoItem) node);
+		super(name);
+		flatChildren = new ArrayList<ToDoItem>();
 	}
 
-        int nKids = getChildCount(node);
-        for (int i = 0; i < nKids; i++) {
-            addFlatChildren(getChild(node, i));
-        }
-    }
+	////////////////////////////////////////////////////////////////
+	// TreeModel implementation - todo specific stuff
+
+	/**
+	 * Finds the each of the children of a parent in the tree.
+	 *
+	 * @param parent
+	 *            in the tree
+	 * @param index
+	 *            of child to find
+	 * @return the child found at index. Null if index is out of bounds.
+	 */
+	@Override
+	public Object getChild(Object parent, int index) {
+		if (flat && parent == getRoot()) {
+			return flatChildren.get(index);
+		}
+		return super.getChild(parent, index);
+	}
+
+	/*
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
+	@Override
+	public int getChildCount(Object parent) {
+		if (flat && parent == getRoot()) {
+			return flatChildren.size();
+		}
+		return super.getChildCount(parent);
+	}
+
+	/*
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
+	 * java.lang.Object)
+	 */
+	@Override
+	public int getIndexOfChild(Object parent, Object child) {
+		if (flat && parent == getRoot()) {
+			return flatChildren.indexOf(child);
+		}
+		return super.getIndexOfChild(parent, child);
+	}
+
+	// ------------ other methods ------------
+
+	/**
+	 * todoList specific.
+	 *
+	 * @param b
+	 *            true if flat
+	 */
+	public void setFlat(boolean b) {
+		flat = false;
+		if (b) {
+			calcFlatChildren();
+		}
+		flat = b;
+	}
+
+	/**
+	 * todoList specific.
+	 *
+	 * @return the flatness: true if flat
+	 */
+	public boolean getFlat() {
+		return flat;
+	}
+
+	/**
+	 * TodoList specific.
+	 */
+	public void calcFlatChildren() {
+		flatChildren.clear();
+		addFlatChildren(getRoot());
+	}
+
+	/**
+	 * TodoList specific.
+	 *
+	 * @param node
+	 *            the object to be added
+	 */
+	public void addFlatChildren(Object node) {
+		if (node == null) {
+			return;
+		}
+		LOG.log(Level.FINE, "addFlatChildren");
+		// hack for to do items only, should check isLeaf(node), but that
+		// includes empty folders. Really I need alwaysLeaf(node).
+		if ((node instanceof ToDoItem) && !flatChildren.contains(node)) {
+			flatChildren.add((ToDoItem) node);
+		}
+
+		int nKids = getChildCount(node);
+		for (int i = 0; i < nKids; i++) {
+			addFlatChildren(getChild(node, i));
+		}
+	}
 
 }

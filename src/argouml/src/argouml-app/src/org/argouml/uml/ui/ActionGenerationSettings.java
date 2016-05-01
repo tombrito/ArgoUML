@@ -50,37 +50,35 @@ import org.argouml.ui.UndoableAction;
  */
 public class ActionGenerationSettings extends UndoableAction {
 
-    private static final long serialVersionUID = 7166017263177878303L;
+	private static final long serialVersionUID = 7166017263177878303L;
 
 	/**
-     *  The constructor.
-     */
-    public ActionGenerationSettings() {
-        super(Translator
-                .localize("action.settings-for-project-code-generation"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, Translator
-                .localize("action.settings-for-project-code-generation"));
-    }
+	 * The constructor.
+	 */
+	public ActionGenerationSettings() {
+		super(Translator.localize("action.settings-for-project-code-generation"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.settings-for-project-code-generation"));
+	}
 
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		SourcePathDialog cgd = new SourcePathDialog();
+		cgd.setVisible(true);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	SourcePathDialog cgd = new SourcePathDialog();
-	cgd.setVisible(true);
-    }
-
-    /**
-     * @return always returns true
-     * @see org.tigris.gef.undo.UndoableAction#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-	return true;
-    }
+	/**
+	 * @return always returns true
+	 * @see org.tigris.gef.undo.UndoableAction#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 }

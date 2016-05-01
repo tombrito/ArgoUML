@@ -44,37 +44,40 @@ import java.awt.Rectangle;
 import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.presentation.FigPoly;
 
-/** 
- * Class to display graphics for a UML model in a class diagram. 
+/**
+ * Class to display graphics for a UML model in a class diagram.
  */
 public class FigModel extends FigPackage {
-    
-    private static final long serialVersionUID = 128770396151321212L;
+
+	private static final long serialVersionUID = 128770396151321212L;
 
 	/**
-     * Construct a Model fig
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigModel(Object owner, Rectangle bounds, DiagramSettings settings) {
-        super(owner, bounds, settings);
-        constructFigs();
-    }
+	 * Construct a Model fig
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigModel(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		constructFigs();
+	}
 
-    private void constructFigs() {
-        setFigPoly(new FigPoly(LINE_COLOR, SOLID_FILL_COLOR));
-        int[] xpoints = {125, 130, 135, 125};
-        int[] ypoints = {45, 40, 45, 45};
-        Polygon polygon = new Polygon(xpoints, ypoints, 4);
-        getFigPoly().setPolygon(polygon);
-        getFigPoly().setFilled(false);
-        addFig(getFigPoly());
+	private void constructFigs() {
+		setFigPoly(new FigPoly(LINE_COLOR, SOLID_FILL_COLOR));
+		int[] xpoints = { 125, 130, 135, 125 };
+		int[] ypoints = { 45, 40, 45, 45 };
+		Polygon polygon = new Polygon(xpoints, ypoints, 4);
+		getFigPoly().setPolygon(polygon);
+		getFigPoly().setFilled(false);
+		addFig(getFigPoly());
 
-        setBounds(getBounds());
-        
-        updateEdges();
-    }
+		setBounds(getBounds());
+
+		updateEdges();
+	}
 
 }

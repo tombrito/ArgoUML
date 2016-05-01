@@ -56,9 +56,9 @@ import org.argouml.model.DataTypesHelper;
 import org.argouml.model.InvalidElementException;
 import org.argouml.model.Model;
 
-
 /**
- * Wrapper around org.tigris.gef.util.ResourceLoader.<p>
+ * Wrapper around org.tigris.gef.util.ResourceLoader.
+ * <p>
  *
  * Necessary since ArgoUML needs some extra init.
  *
@@ -68,448 +68,437 @@ import org.argouml.model.Model;
  */
 public final class ResourceLoaderWrapper {
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(ResourceLoaderWrapper.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(ResourceLoaderWrapper.class.getName());
 
-    private static ImageIcon initialStateIcon;
-    private static ImageIcon deepIcon;
-    private static ImageIcon shallowIcon;
-    private static ImageIcon forkIcon;
-    private static ImageIcon joinIcon;
-    private static ImageIcon branchIcon;
-    private static ImageIcon junctionIcon;
-    private static ImageIcon realizeIcon;
-    private static ImageIcon signalIcon;
-    private static ImageIcon exceptionIcon;
-    private static ImageIcon commentIcon;
+	private static ImageIcon initialStateIcon;
+	private static ImageIcon deepIcon;
+	private static ImageIcon shallowIcon;
+	private static ImageIcon forkIcon;
+	private static ImageIcon joinIcon;
+	private static ImageIcon branchIcon;
+	private static ImageIcon junctionIcon;
+	private static ImageIcon realizeIcon;
+	private static ImageIcon signalIcon;
+	private static ImageIcon exceptionIcon;
+	private static ImageIcon commentIcon;
 
-    private Hashtable<Class, Icon> iconCache = new Hashtable<Class, Icon>();
+	private Hashtable<Class, Icon> iconCache = new Hashtable<Class, Icon>();
 
-    /**
-     * Singleton implementation.
-     */
-    private static ResourceLoaderWrapper instance = new ResourceLoaderWrapper();
+	/**
+	 * Singleton implementation.
+	 */
+	private static ResourceLoaderWrapper instance = new ResourceLoaderWrapper();
 
-
-    /**
-     * Returns the singleton instance.
-     *
-     * @return ResourceLoaderWrapper
-     */
-    public static ResourceLoaderWrapper getInstance() {
-        return instance;
-    }
-
-    /**
-     * Constructor for ResourceLoaderWrapper.
-     */
-    private ResourceLoaderWrapper() {
-        initResourceLoader();
-    }
-
-    /**
-     * Calculate the path to a look and feel object.
-     *
-     * @param classname
-     *            The look and feel classname
-     * @param element
-     *            The en part of the path.
-     * @return the complete path.
-     */
-    private static String lookAndFeelPath(String classname, String element) {
-        return "/org/argouml/Images/plaf/"
-            + classname.replace('.', '/')
-            + "/toolbarButtonGraphics/"
-            + element;
-    }
-
-    /**
-     * Initializes the resourceloader.
-     *
-     * LookupIconResource checks if there are locations and extensions known.
-     * If there are none, this method is called to initialize the resource
-     * loader. Originally, this method was placed within Main but this coupled
-     * Main and the resourceLoader too much.
-     */
-    private static void initResourceLoader() {
-	String lookAndFeelClassName;
-	if ("true".equals(System.getProperty("force.nativelaf", "false"))) {
-	    lookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
-	} else {
-	    lookAndFeelClassName = "javax.swing.plaf.metal.MetalLookAndFeel";
+	/**
+	 * Returns the singleton instance.
+	 *
+	 * @return ResourceLoaderWrapper
+	 */
+	public static ResourceLoaderWrapper getInstance() {
+		return instance;
 	}
-	String lookAndFeelGeneralImagePath =
-	    lookAndFeelPath(lookAndFeelClassName, "general");
-	String lookAndFeelNavigationImagePath =
-	    lookAndFeelPath(lookAndFeelClassName, "navigation");
-	String lookAndFeelDiagramImagePath =
-	    lookAndFeelPath(lookAndFeelClassName, "argouml/diagrams");
-	String lookAndFeelElementImagePath =
-	    lookAndFeelPath(lookAndFeelClassName, "argouml/elements");
-	String lookAndFeelArgoUmlImagePath =
-	    lookAndFeelPath(lookAndFeelClassName, "argouml");
-	ResourceLoader.addResourceExtension("gif");
-        ResourceLoader.addResourceExtension("png");
-	ResourceLoader.addResourceLocation(lookAndFeelGeneralImagePath);
-	ResourceLoader.addResourceLocation(lookAndFeelNavigationImagePath);
-	ResourceLoader.addResourceLocation(lookAndFeelDiagramImagePath);
-	ResourceLoader.addResourceLocation(lookAndFeelElementImagePath);
-	ResourceLoader.addResourceLocation(lookAndFeelArgoUmlImagePath);
-	ResourceLoader.addResourceLocation("/org/argouml/Images");
-	ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
 
-        // Initialze GEF's version of the loader too
-        // TODO: We should probably be passing icons that we loaded ourselves
-        // but there doesn't seem to be a way to do that with GEF - tfm
-        org.tigris.gef.util.ResourceLoader.addResourceExtension("gif");
-        org.tigris.gef.util.ResourceLoader.addResourceExtension("png");
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation(lookAndFeelGeneralImagePath);
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation(lookAndFeelNavigationImagePath);
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation(lookAndFeelDiagramImagePath);
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation(lookAndFeelElementImagePath);
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation(lookAndFeelArgoUmlImagePath);
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation("/org/argouml/Images");
-        org.tigris.gef.util.ResourceLoader
-                .addResourceLocation("/org/tigris/gef/Images");
+	/**
+	 * Constructor for ResourceLoaderWrapper.
+	 */
+	private ResourceLoaderWrapper() {
+		initResourceLoader();
+	}
 
-        initialStateIcon = ResourceLoader.lookupIconResource("Initial");
-        deepIcon = ResourceLoader.lookupIconResource("DeepHistory");
-        shallowIcon = ResourceLoader.lookupIconResource("ShallowHistory");
-        forkIcon = ResourceLoader.lookupIconResource("Fork");
-        joinIcon = ResourceLoader.lookupIconResource("Join");
-        branchIcon = ResourceLoader.lookupIconResource("Choice");
-        junctionIcon = ResourceLoader.lookupIconResource("Junction");
-        realizeIcon = ResourceLoader.lookupIconResource("Realization");
-        signalIcon = ResourceLoader.lookupIconResource("SignalSending");
-        exceptionIcon = ResourceLoader.lookupIconResource("Exception");
-        commentIcon = ResourceLoader.lookupIconResource("Note");
-    }
+	/**
+	 * Calculate the path to a look and feel object.
+	 *
+	 * @param classname
+	 *            The look and feel classname
+	 * @param element
+	 *            The en part of the path.
+	 * @return the complete path.
+	 */
+	private static String lookAndFeelPath(String classname, String element) {
+		return "/org/argouml/Images/plaf/" + classname.replace('.', '/') + "/toolbarButtonGraphics/" + element;
+	}
 
-    /**
-     * This public operation is needed
-     * to allow modules to add their own images.
-     *
-     * @param location the path were the images are
-     */
-    public static void addResourceLocation(String location) {
-        ResourceLoader.addResourceLocation(location);
-    }
+	/**
+	 * Initializes the resourceloader.
+	 *
+	 * LookupIconResource checks if there are locations and extensions known. If
+	 * there are none, this method is called to initialize the resource loader.
+	 * Originally, this method was placed within Main but this coupled Main and
+	 * the resourceLoader too much.
+	 */
+	private static void initResourceLoader() {
+		String lookAndFeelClassName;
+		if ("true".equals(System.getProperty("force.nativelaf", "false"))) {
+			lookAndFeelClassName = UIManager.getSystemLookAndFeelClassName();
+		} else {
+			lookAndFeelClassName = "javax.swing.plaf.metal.MetalLookAndFeel";
+		}
+		String lookAndFeelGeneralImagePath = lookAndFeelPath(lookAndFeelClassName, "general");
+		String lookAndFeelNavigationImagePath = lookAndFeelPath(lookAndFeelClassName, "navigation");
+		String lookAndFeelDiagramImagePath = lookAndFeelPath(lookAndFeelClassName, "argouml/diagrams");
+		String lookAndFeelElementImagePath = lookAndFeelPath(lookAndFeelClassName, "argouml/elements");
+		String lookAndFeelArgoUmlImagePath = lookAndFeelPath(lookAndFeelClassName, "argouml");
+		ResourceLoader.addResourceExtension("gif");
+		ResourceLoader.addResourceExtension("png");
+		ResourceLoader.addResourceLocation(lookAndFeelGeneralImagePath);
+		ResourceLoader.addResourceLocation(lookAndFeelNavigationImagePath);
+		ResourceLoader.addResourceLocation(lookAndFeelDiagramImagePath);
+		ResourceLoader.addResourceLocation(lookAndFeelElementImagePath);
+		ResourceLoader.addResourceLocation(lookAndFeelArgoUmlImagePath);
+		ResourceLoader.addResourceLocation("/org/argouml/Images");
+		ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
 
-    /**
-     * Find the correct icon for a key.
-     *
-     * @param resource The name of the resource to look up.
-     * @return The ImageIcon.
-     */
-    public static ImageIcon lookupIconResource(String resource) {
-	return ResourceLoader.lookupIconResource(resource);
-    }
+		// Initialze GEF's version of the loader too
+		// TODO: We should probably be passing icons that we loaded ourselves
+		// but there doesn't seem to be a way to do that with GEF - tfm
+		org.tigris.gef.util.ResourceLoader.addResourceExtension("gif");
+		org.tigris.gef.util.ResourceLoader.addResourceExtension("png");
+		org.tigris.gef.util.ResourceLoader.addResourceLocation(lookAndFeelGeneralImagePath);
+		org.tigris.gef.util.ResourceLoader.addResourceLocation(lookAndFeelNavigationImagePath);
+		org.tigris.gef.util.ResourceLoader.addResourceLocation(lookAndFeelDiagramImagePath);
+		org.tigris.gef.util.ResourceLoader.addResourceLocation(lookAndFeelElementImagePath);
+		org.tigris.gef.util.ResourceLoader.addResourceLocation(lookAndFeelArgoUmlImagePath);
+		org.tigris.gef.util.ResourceLoader.addResourceLocation("/org/argouml/Images");
+		org.tigris.gef.util.ResourceLoader.addResourceLocation("/org/tigris/gef/Images");
 
-    /**
-     * Find the correct icon for a key.
-     *
-     * @param resource The name of the resource to look up.
-     * @param desc The description for the icon.
-     * @return The ImageIcon.
-     */
-    public static ImageIcon lookupIconResource(String resource, String desc) {
-	return ResourceLoader.lookupIconResource(resource, desc);
-    }
+		initialStateIcon = ResourceLoader.lookupIconResource("Initial");
+		deepIcon = ResourceLoader.lookupIconResource("DeepHistory");
+		shallowIcon = ResourceLoader.lookupIconResource("ShallowHistory");
+		forkIcon = ResourceLoader.lookupIconResource("Fork");
+		joinIcon = ResourceLoader.lookupIconResource("Join");
+		branchIcon = ResourceLoader.lookupIconResource("Choice");
+		junctionIcon = ResourceLoader.lookupIconResource("Junction");
+		realizeIcon = ResourceLoader.lookupIconResource("Realization");
+		signalIcon = ResourceLoader.lookupIconResource("SignalSending");
+		exceptionIcon = ResourceLoader.lookupIconResource("Exception");
+		commentIcon = ResourceLoader.lookupIconResource("Note");
+	}
 
-    /**
-     * Look up the Icon for a key.
-     *
-     * @param key The key to find.
-     * @return The found Icon.
-     */
-    public static ImageIcon lookupIcon(String key) {
-        return lookupIconResource(getImageBinding(key),
-                		  Translator.localize(key));
-    }
+	/**
+	 * This public operation is needed to allow modules to add their own images.
+	 *
+	 * @param location
+	 *            the path were the images are
+	 */
+	public static void addResourceLocation(String location) {
+		ResourceLoader.addResourceLocation(location);
+	}
 
-    /**
-     * Find the Icon for a given model element.
-     *
-     * @return The Icon or <code>null</code> if there is no Icon.
-     * @param value The model element.
-     *
-     * TODO: This should not use string matching on classnames to do this
-     *       since this means that we have knowledge about how the model
-     *       elements are implemented outside of the Model component.
-     */
-    public Icon lookupIcon(Object value) {
-        if (value == null) {
-            throw new IllegalArgumentException(
-                    "Attempted to get an icon given a null key");
-        }
+	/**
+	 * Find the correct icon for a key.
+	 *
+	 * @param resource
+	 *            The name of the resource to look up.
+	 * @return The ImageIcon.
+	 */
+	public static ImageIcon lookupIconResource(String resource) {
+		return ResourceLoader.lookupIconResource(resource);
+	}
 
-        if (value instanceof String) {
-            return null;
-        }
+	/**
+	 * Find the correct icon for a key.
+	 *
+	 * @param resource
+	 *            The name of the resource to look up.
+	 * @param desc
+	 *            The description for the icon.
+	 * @return The ImageIcon.
+	 */
+	public static ImageIcon lookupIconResource(String resource, String desc) {
+		return ResourceLoader.lookupIconResource(resource, desc);
+	}
 
-        Icon icon = iconCache.get(value.getClass());
+	/**
+	 * Look up the Icon for a key.
+	 *
+	 * @param key
+	 *            The key to find.
+	 * @return The found Icon.
+	 */
+	public static ImageIcon lookupIcon(String key) {
+		return lookupIconResource(getImageBinding(key), Translator.localize(key));
+	}
 
-        try {
-            if (Model.getFacade().isAPseudostate(value)) {
+	/**
+	 * Find the Icon for a given model element.
+	 *
+	 * @return The Icon or <code>null</code> if there is no Icon.
+	 * @param value
+	 *            The model element.
+	 *
+	 *            TODO: This should not use string matching on classnames to do
+	 *            this since this means that we have knowledge about how the
+	 *            model elements are implemented outside of the Model component.
+	 */
+	public Icon lookupIcon(Object value) {
+		if (value == null) {
+			throw new IllegalArgumentException("Attempted to get an icon given a null key");
+		}
 
-                Object kind = Model.getFacade().getKind(value);
-                DataTypesHelper helper = Model.getDataTypesHelper();
-                if (helper.equalsINITIALKind(kind)) {
-                    icon = initialStateIcon;
-                }
-                if (helper.equalsDeepHistoryKind(kind)) {
-                    icon = deepIcon;
-                }
-                if (helper.equalsShallowHistoryKind(kind)) {
-                    icon = shallowIcon;
-                }
-                if (helper.equalsFORKKind(kind)) {
-                    icon = forkIcon;
-                }
-                if (helper.equalsJOINKind(kind)) {
-                    icon = joinIcon;
-                }
-                if (helper.equalsCHOICEKind(kind)) {
-                    icon = branchIcon;
-                }
-                if (helper.equalsJUNCTIONKind(kind)) {
-                    icon = junctionIcon;
-                }
-                // if (MPseudostateKind.FINAL.equals(kind))
-                // icon = _FinalStateIcon;
-            }
+		if (value instanceof String) {
+			return null;
+		}
 
-            if (Model.getFacade().isAAbstraction(value)) {
-                icon = realizeIcon;
-            }
-            if (Model.getFacade().isAException(value)) {
-                icon = exceptionIcon;
-            } else {
-                // needs more work: sending and receiving icons
-                if (Model.getFacade().isASignal(value)) {
-                    icon = signalIcon;
-                }
-            }
+		Icon icon = iconCache.get(value.getClass());
 
-            if (Model.getFacade().isAComment(value)) {
-                icon = commentIcon;
-            }
+		try {
+			if (Model.getFacade().isAPseudostate(value)) {
 
-            if (icon == null) {
+				Object kind = Model.getFacade().getKind(value);
+				DataTypesHelper helper = Model.getDataTypesHelper();
+				if (helper.equalsINITIALKind(kind)) {
+					icon = initialStateIcon;
+				}
+				if (helper.equalsDeepHistoryKind(kind)) {
+					icon = deepIcon;
+				}
+				if (helper.equalsShallowHistoryKind(kind)) {
+					icon = shallowIcon;
+				}
+				if (helper.equalsFORKKind(kind)) {
+					icon = forkIcon;
+				}
+				if (helper.equalsJOINKind(kind)) {
+					icon = joinIcon;
+				}
+				if (helper.equalsCHOICEKind(kind)) {
+					icon = branchIcon;
+				}
+				if (helper.equalsJUNCTIONKind(kind)) {
+					icon = junctionIcon;
+				}
+				// if (MPseudostateKind.FINAL.equals(kind))
+				// icon = _FinalStateIcon;
+			}
 
-                String cName = Model.getMetaTypes().getName(value);
+			if (Model.getFacade().isAAbstraction(value)) {
+				icon = realizeIcon;
+			}
+			if (Model.getFacade().isAException(value)) {
+				icon = exceptionIcon;
+			} else {
+				// needs more work: sending and receiving icons
+				if (Model.getFacade().isASignal(value)) {
+					icon = signalIcon;
+				}
+			}
 
-                icon = lookupIconResource(cName);
-                if (icon == null) {
-                    LOG.log(Level.FINE,
-                            "Can't find icon for {0}", cName);
-                } else {
-                    synchronized (iconCache) {
-                        iconCache.put(value.getClass(), icon);
-                    }
-                }
+			if (Model.getFacade().isAComment(value)) {
+				icon = commentIcon;
+			}
 
-            }
-        } catch (InvalidElementException e) {
-            LOG.log(Level.FINE, "Attempted to get icon for deleted element");
-            return null;
-        }
-        return icon;
-    }
+			if (icon == null) {
 
-    /**
-     * Map to convert tokens into file names.
-     */
-    private static Map<String, String> images = new HashMap<String, String>();
-    static {
-        images.put("action.about-argouml", "AboutArgoUML");
-        images.put("action.activity-diagram", "Activity Diagram");
-        images.put("action.class-diagram", "Class Diagram");
-        images.put("action.collaboration-diagram", "Collaboration Diagram");
-        images.put("action.deployment-diagram", "Deployment Diagram");
-        images.put("action.sequence-diagram", "Sequence Diagram");
-        images.put("action.state-diagram", "State Diagram");
-        images.put("action.usecase-diagram", "Use Case Diagram");
-    }
+				String cName = Model.getMetaTypes().getName(value);
 
-    static {
-        images.put("action.add-concurrent-region", "Add Concurrent Region");
-        images.put("action.add-message", "Add Message");
-        images.put("action.configure-perspectives", "ConfigurePerspectives");
-        images.put("action.copy", "Copy");
-        images.put("action.cut", "Cut");
-        images.put("action.delete-concurrent-region", "DeleteConcurrentRegion");
-        images.put("action.delete-from-model", "DeleteFromModel");
-        images.put("action.find", "Find...");
-        images.put("action.import-sources", "Import Sources...");
-        images.put("action.more-info", "More Info...");
-        images.put("action.navigate-back", "NavigateBack");
-        images.put("action.navigate-forward", "NavigateForward");
-        images.put("action.navigate-up", "NavigateUp");
-        images.put("action.new", "New");
-        images.put("action.new-profile", "NewProfile");
-        images.put("action.new-todo-item", "New To Do Item...");
-        images.put("action.open-project", "Open Project...");
-        images.put("action.page-setup", "Page Setup...");
-        images.put("action.paste", "Paste");
-        images.put("action.print", "Print...");
-        images.put("action.properties", "Properties");
-        images.put("action.remove-from-diagram", "Remove From Diagram");
-        images.put("action.resolve-item", "Resolve Item...");
-        images.put("action.save-project", "Save Project");
-        images.put("action.save-project-as", "Save Project As...");
-        images.put("action.settings", "Settings...");
-        images.put("action.snooze-critic", "Snooze Critic");
-        images.put("action.system-information", "System Information");
-    }
+				icon = lookupIconResource(cName);
+				if (icon == null) {
+					LOG.log(Level.FINE, "Can't find icon for {0}", cName);
+				} else {
+					synchronized (iconCache) {
+						iconCache.put(value.getClass(), icon);
+					}
+				}
 
-    static {
-        images.put("button.broom", "Broom");
-        images.put("button.new-actionstate", "ActionState");
-        images.put("button.new-actor", "Actor");
-        images.put("button.new-aggregation", "Aggregation");
-        images.put("button.new-association", "Association");
-        images.put("button.new-associationclass", "AssociationClass");
-        images.put("button.new-association-end", "AssociationEnd");
-        images.put("button.new-associationrole", "AssociationRole");
-        images.put("button.new-attribute", "New Attribute");
-        images.put("button.new-callaction", "CallAction");
-        images.put("button.new-terminateaction", "TerminateAction");
-        images.put("button.new-uninterpretedaction", "UninterpretedAction");
-        images.put("button.new-actionsequence", "ActionSequence");
-        images.put("button.new-callaction", "CallAction");
-        images.put("button.new-callevent", "CallEvent");
-        images.put("button.new-callstate", "CallState");
-        images.put("button.new-changeevent", "ChangeEvent");
-        images.put("button.new-choice", "Choice");
-        images.put("button.new-class", "Class");
-        images.put("button.new-classifierrole", "ClassifierRole");
-        images.put("button.new-commentlink", "CommentLink");
-        images.put("button.new-component", "Component");
-        images.put("button.new-componentinstance", "ComponentInstance");
-        images.put("button.new-compositestate", "CompositeState");
-        images.put("button.new-composition", "Composition");
-        images.put("button.new-createaction", "CreateAction");
-        images.put("button.new-datatype", "DataType");
-        images.put("button.new-deephistory", "DeepHistory");
-        images.put("button.new-dependency", "Dependency");
-        images.put("button.new-destroyaction", "DestroyAction");
-        images.put("button.new-entrypoint", "EntryPoint");
-        images.put("button.new-enumeration", "Enumeration");
-        images.put("button.new-enumerationliteral", "EnumerationLiteral");
-        images.put("button.new-exitpoint", "ExitPoint");
-        images.put("button.new-extension-point", "New Extension Point");
-        images.put("button.new-extend", "Extend");
-        images.put("button.new-exception", "Exception");
-        images.put("button.new-extensionpoint", "ExtensionPoint");
-        images.put("button.new-guard", "Guard");
-        images.put("button.new-method", "Method");
-        images.put("button.new-message", "Message");
-        images.put("button.new-argument", "Argument");
-        images.put("button.new-property", "Property");
-        images.put("button.new-state", "State");
-        images.put("button.new-templateparameter", "TemplateParameter");
-    }
+			}
+		} catch (InvalidElementException e) {
+			LOG.log(Level.FINE, "Attempted to get icon for deleted element");
+			return null;
+		}
+		return icon;
+	}
 
-    static {
-        images.put("button.new-finalstate", "FinalState");
-        images.put("button.new-fork", "Fork");
-        images.put("button.new-generalization", "Generalization");
-        images.put("button.new-include", "Include");
-        images.put("button.new-initial", "Initial");
-        images.put("button.new-region", "Region");
-    }
+	/**
+	 * Map to convert tokens into file names.
+	 */
+	private static Map<String, String> images = new HashMap<String, String>();
+	static {
+		images.put("action.about-argouml", "AboutArgoUML");
+		images.put("action.activity-diagram", "Activity Diagram");
+		images.put("action.class-diagram", "Class Diagram");
+		images.put("action.collaboration-diagram", "Collaboration Diagram");
+		images.put("action.deployment-diagram", "Deployment Diagram");
+		images.put("action.sequence-diagram", "Sequence Diagram");
+		images.put("action.state-diagram", "State Diagram");
+		images.put("action.usecase-diagram", "Use Case Diagram");
+	}
 
-    static {
-        images.put("button.new-inner-class", "Inner Class");
-        images.put("button.new-interface", "Interface");
-        images.put("button.new-join", "Join");
-        images.put("button.new-junction", "Junction");
-        images.put("button.new-link", "Link");
-        images.put("button.new-node", "Node");
-        images.put("button.new-nodeinstance", "NodeInstance");
-        images.put("button.new-object", "Object");
-        images.put("button.new-objectflowstate", "ObjectFlowState");
-    }
+	static {
+		images.put("action.add-concurrent-region", "Add Concurrent Region");
+		images.put("action.add-message", "Add Message");
+		images.put("action.configure-perspectives", "ConfigurePerspectives");
+		images.put("action.copy", "Copy");
+		images.put("action.cut", "Cut");
+		images.put("action.delete-concurrent-region", "DeleteConcurrentRegion");
+		images.put("action.delete-from-model", "DeleteFromModel");
+		images.put("action.find", "Find...");
+		images.put("action.import-sources", "Import Sources...");
+		images.put("action.more-info", "More Info...");
+		images.put("action.navigate-back", "NavigateBack");
+		images.put("action.navigate-forward", "NavigateForward");
+		images.put("action.navigate-up", "NavigateUp");
+		images.put("action.new", "New");
+		images.put("action.new-profile", "NewProfile");
+		images.put("action.new-todo-item", "New To Do Item...");
+		images.put("action.open-project", "Open Project...");
+		images.put("action.page-setup", "Page Setup...");
+		images.put("action.paste", "Paste");
+		images.put("action.print", "Print...");
+		images.put("action.properties", "Properties");
+		images.put("action.remove-from-diagram", "Remove From Diagram");
+		images.put("action.resolve-item", "Resolve Item...");
+		images.put("action.save-project", "Save Project");
+		images.put("action.save-project-as", "Save Project As...");
+		images.put("action.settings", "Settings...");
+		images.put("action.snooze-critic", "Snooze Critic");
+		images.put("action.system-information", "System Information");
+	}
 
-    static {
-        images.put("button.new-operation", "New Operation");
-        images.put("button.new-package", "Package");
-        images.put("button.new-parameter", "New Parameter");
-        images.put("button.new-partition", "Partition");
-        images.put("button.new-permission", "Permission");
-        images.put("button.new-profile-package", "ProfilePackage");
-        images.put("button.new-raised-signal", "New Raised Signal");
-        images.put("button.new-reception", "New Reception");
-        images.put("button.new-realization", "Realization");
-        images.put("button.new-returnaction", "ReturnAction");
-        images.put("button.new-sendaction", "SendAction");
-        images.put("button.new-shallowhistory", "ShallowHistory");
-        images.put("button.new-signal", "Signal");
-        images.put("button.new-signalevent", "SignalEvent");
-        images.put("button.new-simplestate", "SimpleState");
-        images.put("button.new-stereotype", "Stereotype");
-        images.put("button.new-stubstate", "StubState");
-        images.put("button.new-subactivitystate", "SubactivityState");
-        images.put("button.new-submachinestate", "SubmachineState");
-        images.put("button.new-synchstate", "SynchState");
-        images.put("button.new-timeevent", "TimeEvent");
-        images.put("button.new-tagdefinition", "TagDefinition");
-        images.put("button.new-transition", "Transition");
-        images.put("button.new-uniaggregation", "UniAggregation");
-        images.put("button.new-uniassociation", "UniAssociation");
-        images.put("button.new-unicomposition", "UniComposition");
-        images.put("button.new-usage", "Usage");
-        images.put("button.new-usecase", "UseCase");
-    }
+	static {
+		images.put("button.broom", "Broom");
+		images.put("button.new-actionstate", "ActionState");
+		images.put("button.new-actor", "Actor");
+		images.put("button.new-aggregation", "Aggregation");
+		images.put("button.new-association", "Association");
+		images.put("button.new-associationclass", "AssociationClass");
+		images.put("button.new-association-end", "AssociationEnd");
+		images.put("button.new-associationrole", "AssociationRole");
+		images.put("button.new-attribute", "New Attribute");
+		images.put("button.new-callaction", "CallAction");
+		images.put("button.new-terminateaction", "TerminateAction");
+		images.put("button.new-uninterpretedaction", "UninterpretedAction");
+		images.put("button.new-actionsequence", "ActionSequence");
+		images.put("button.new-callaction", "CallAction");
+		images.put("button.new-callevent", "CallEvent");
+		images.put("button.new-callstate", "CallState");
+		images.put("button.new-changeevent", "ChangeEvent");
+		images.put("button.new-choice", "Choice");
+		images.put("button.new-class", "Class");
+		images.put("button.new-classifierrole", "ClassifierRole");
+		images.put("button.new-commentlink", "CommentLink");
+		images.put("button.new-component", "Component");
+		images.put("button.new-componentinstance", "ComponentInstance");
+		images.put("button.new-compositestate", "CompositeState");
+		images.put("button.new-composition", "Composition");
+		images.put("button.new-createaction", "CreateAction");
+		images.put("button.new-datatype", "DataType");
+		images.put("button.new-deephistory", "DeepHistory");
+		images.put("button.new-dependency", "Dependency");
+		images.put("button.new-destroyaction", "DestroyAction");
+		images.put("button.new-entrypoint", "EntryPoint");
+		images.put("button.new-enumeration", "Enumeration");
+		images.put("button.new-enumerationliteral", "EnumerationLiteral");
+		images.put("button.new-exitpoint", "ExitPoint");
+		images.put("button.new-extension-point", "New Extension Point");
+		images.put("button.new-extend", "Extend");
+		images.put("button.new-exception", "Exception");
+		images.put("button.new-extensionpoint", "ExtensionPoint");
+		images.put("button.new-guard", "Guard");
+		images.put("button.new-method", "Method");
+		images.put("button.new-message", "Message");
+		images.put("button.new-argument", "Argument");
+		images.put("button.new-property", "Property");
+		images.put("button.new-state", "State");
+		images.put("button.new-templateparameter", "TemplateParameter");
+	}
 
-    static {
-        images.put("button.select", "Select");
-        images.put("button.sequence-expand", "SequenceExpand");
-        images.put("button.sequence-contract", "SequenceContract");
-    }
+	static {
+		images.put("button.new-finalstate", "FinalState");
+		images.put("button.new-fork", "Fork");
+		images.put("button.new-generalization", "Generalization");
+		images.put("button.new-include", "Include");
+		images.put("button.new-initial", "Initial");
+		images.put("button.new-region", "Region");
+	}
 
-    /**
-     * Convert the key to the image file name.
-     *
-     * @param name the new i18n key
-     * @return the file name (base part only).
-     */
-    public static String getImageBinding(String name) {
-        String found = images.get(name);
-        if (found == null) {
-            return name;
-        }
-        return found;
-    }
+	static {
+		images.put("button.new-inner-class", "Inner Class");
+		images.put("button.new-interface", "Interface");
+		images.put("button.new-join", "Join");
+		images.put("button.new-junction", "Junction");
+		images.put("button.new-link", "Link");
+		images.put("button.new-node", "Node");
+		images.put("button.new-nodeinstance", "NodeInstance");
+		images.put("button.new-object", "Object");
+		images.put("button.new-objectflowstate", "ObjectFlowState");
+	}
 
-    /**
-     * Find the path to a given icon and return it as a URL.
-     *
-     * @param name base name of the icon to search for
-     * @param loader class loader to use or null to use the default class loader
-     * @return the URL where the icon was found
-     */
-    public static URL lookupIconUrl(String name, ClassLoader loader) {
-        return ResourceLoader.lookupIconUrl(name, loader);
-    }
+	static {
+		images.put("button.new-operation", "New Operation");
+		images.put("button.new-package", "Package");
+		images.put("button.new-parameter", "New Parameter");
+		images.put("button.new-partition", "Partition");
+		images.put("button.new-permission", "Permission");
+		images.put("button.new-profile-package", "ProfilePackage");
+		images.put("button.new-raised-signal", "New Raised Signal");
+		images.put("button.new-reception", "New Reception");
+		images.put("button.new-realization", "Realization");
+		images.put("button.new-returnaction", "ReturnAction");
+		images.put("button.new-sendaction", "SendAction");
+		images.put("button.new-shallowhistory", "ShallowHistory");
+		images.put("button.new-signal", "Signal");
+		images.put("button.new-signalevent", "SignalEvent");
+		images.put("button.new-simplestate", "SimpleState");
+		images.put("button.new-stereotype", "Stereotype");
+		images.put("button.new-stubstate", "StubState");
+		images.put("button.new-subactivitystate", "SubactivityState");
+		images.put("button.new-submachinestate", "SubmachineState");
+		images.put("button.new-synchstate", "SynchState");
+		images.put("button.new-timeevent", "TimeEvent");
+		images.put("button.new-tagdefinition", "TagDefinition");
+		images.put("button.new-transition", "Transition");
+		images.put("button.new-uniaggregation", "UniAggregation");
+		images.put("button.new-uniassociation", "UniAssociation");
+		images.put("button.new-unicomposition", "UniComposition");
+		images.put("button.new-usage", "Usage");
+		images.put("button.new-usecase", "UseCase");
+	}
 
-    /**
-     * Find the path to a given icon and return it as a URL.
-     *
-     * @param name base name of the icon to search for
-     * @return the URL where the icon was found
-     */
-    public static URL lookupIconUrl(String name) {
-        return lookupIconUrl(name, null);
-    }
+	static {
+		images.put("button.select", "Select");
+		images.put("button.sequence-expand", "SequenceExpand");
+		images.put("button.sequence-contract", "SequenceContract");
+	}
+
+	/**
+	 * Convert the key to the image file name.
+	 *
+	 * @param name
+	 *            the new i18n key
+	 * @return the file name (base part only).
+	 */
+	public static String getImageBinding(String name) {
+		String found = images.get(name);
+		if (found == null) {
+			return name;
+		}
+		return found;
+	}
+
+	/**
+	 * Find the path to a given icon and return it as a URL.
+	 *
+	 * @param name
+	 *            base name of the icon to search for
+	 * @param loader
+	 *            class loader to use or null to use the default class loader
+	 * @return the URL where the icon was found
+	 */
+	public static URL lookupIconUrl(String name, ClassLoader loader) {
+		return ResourceLoader.lookupIconUrl(name, loader);
+	}
+
+	/**
+	 * Find the path to a given icon and return it as a URL.
+	 *
+	 * @param name
+	 *            base name of the icon to search for
+	 * @return the URL where the icon was found
+	 */
+	public static URL lookupIconUrl(String name) {
+		return lookupIconUrl(name, null);
+	}
 }

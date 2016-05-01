@@ -61,140 +61,154 @@ import org.argouml.util.ArgoFrame;
 @UmlModelMutator
 public abstract class AbstractActionAddModelElement2 extends UndoableAction {
 
-    private static final long serialVersionUID = -7641664295323618337L;
+	private static final long serialVersionUID = -7641664295323618337L;
 	private Object target;
-    private boolean multiSelect = true;
-    private boolean exclusive = true;
+	private boolean multiSelect = true;
+	private boolean exclusive = true;
 
-    /**
-     * Construct an action to add a model element to some list.
-     */
-    protected AbstractActionAddModelElement2() {
-        super(Translator.localize("menu.popup.add-modelelement"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("menu.popup.add-modelelement"));
-    }
+	/**
+	 * Construct an action to add a model element to some list.
+	 */
+	protected AbstractActionAddModelElement2() {
+		super(Translator.localize("menu.popup.add-modelelement"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("menu.popup.add-modelelement"));
+	}
 
-    /**
-     * Construct a named action to add a model element to some list.
-     * @param name name for action
-     */
-    public AbstractActionAddModelElement2(String name) {
-        super(name);
-    }
+	/**
+	 * Construct a named action to add a model element to some list.
+	 * 
+	 * @param name
+	 *            name for action
+	 */
+	public AbstractActionAddModelElement2(String name) {
+		super(name);
+	}
 
-    /**
-     * Construct an action to add a model element to some list with the
-     * given name and icon.
-     * @param name name for action
-     * @param icon icon for action
-     */
-    public AbstractActionAddModelElement2(String name, Icon icon) {
-        super(name, icon);
-    }
-    
+	/**
+	 * Construct an action to add a model element to some list with the given
+	 * name and icon.
+	 * 
+	 * @param name
+	 *            name for action
+	 * @param icon
+	 *            icon for action
+	 */
+	public AbstractActionAddModelElement2(String name, Icon icon) {
+		super(name, icon);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        UMLAddDialog dialog =
-            new UMLAddDialog(getChoices(), getSelected(), getDialogTitle(),
-                             isMultiSelect(),
-                             isExclusive());
-        int result = dialog.showDialog(ArgoFrame.getFrame());
-        if (result == JOptionPane.OK_OPTION) {
-            doIt(dialog.getSelected());
-        }
-    }
-    
-    /**
-     * Returns the choices the user has in the UMLAddDialog. The choices are
-     * depicted on the left side of the UMLAddDialog (sorry Arabic users) and
-     * can be moved via the buttons on the dialog to the right side. On the
-     * right side are the selected modelelements.
-     * @return List of choices
-     */
-    protected abstract List getChoices();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		UMLAddDialog dialog = new UMLAddDialog(getChoices(), getSelected(), getDialogTitle(), isMultiSelect(),
+				isExclusive());
+		int result = dialog.showDialog(ArgoFrame.getFrame());
+		if (result == JOptionPane.OK_OPTION) {
+			doIt(dialog.getSelected());
+		}
+	}
 
-    
-    /**
-     * The modelelements already selected BEFORE the dialog is shown.
-     * @return List of model elements
-     */
-    protected abstract List getSelected();
+	/**
+	 * Returns the choices the user has in the UMLAddDialog. The choices are
+	 * depicted on the left side of the UMLAddDialog (sorry Arabic users) and
+	 * can be moved via the buttons on the dialog to the right side. On the
+	 * right side are the selected modelelements.
+	 * 
+	 * @return List of choices
+	 */
+	protected abstract List getChoices();
 
-    /**
-     * The action that has to be done by ArgoUml after the user clicks ok in the
-     * UMLAddDialog.
-     * @param selected The choices the user has selected in the UMLAddDialog
-     */
-    protected abstract void doIt(Collection selected);
+	/**
+	 * The modelelements already selected BEFORE the dialog is shown.
+	 * 
+	 * @return List of model elements
+	 */
+	protected abstract List getSelected();
 
-    /*
-     * @see javax.swing.Action#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-        return !getChoices().isEmpty();
-    }
-    
-    
-    /**
-     * Returns the UML model target.
-     * @return UML ModelElement
-     */
-    protected Object getTarget() {
-        return target;
-    }
+	/**
+	 * The action that has to be done by ArgoUml after the user clicks ok in the
+	 * UMLAddDialog.
+	 * 
+	 * @param selected
+	 *            The choices the user has selected in the UMLAddDialog
+	 */
+	protected abstract void doIt(Collection selected);
 
-    /**
-     * Sets the UML model target.
-     * @param theTarget The target to set
-     */
-    public void setTarget(Object theTarget) {
-        target = theTarget;
-    }
+	/*
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return !getChoices().isEmpty();
+	}
 
-    /**
-     * Returns the title of the dialog.
-     * @return String
-     */
-    protected abstract String getDialogTitle();
+	/**
+	 * Returns the UML model target.
+	 * 
+	 * @return UML ModelElement
+	 */
+	protected Object getTarget() {
+		return target;
+	}
 
-    /**
-     * Returns the exclusive.
-     * @return boolean
-     */
-    public boolean isExclusive() {
-        return exclusive;
-    }
+	/**
+	 * Sets the UML model target.
+	 * 
+	 * @param theTarget
+	 *            The target to set
+	 */
+	public void setTarget(Object theTarget) {
+		target = theTarget;
+	}
 
-    /**
-     * Returns the multiSelect.
-     * @return boolean
-     */
-    public boolean isMultiSelect() {
-        return multiSelect;
-    }
+	/**
+	 * Returns the title of the dialog.
+	 * 
+	 * @return String
+	 */
+	protected abstract String getDialogTitle();
 
-    /**
-     * Sets the exclusive.
-     * @param theExclusive The exclusive to set
-     */
-    public void setExclusive(boolean theExclusive) {
-        exclusive = theExclusive;
-    }
+	/**
+	 * Returns the exclusive.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isExclusive() {
+		return exclusive;
+	}
 
-    /**
-     * Sets the multiSelect.
-     * @param theMultiSelect The multiSelect to set
-     */
-    public void setMultiSelect(boolean theMultiSelect) {
-        multiSelect = theMultiSelect;
-    }
+	/**
+	 * Returns the multiSelect.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isMultiSelect() {
+		return multiSelect;
+	}
+
+	/**
+	 * Sets the exclusive.
+	 * 
+	 * @param theExclusive
+	 *            The exclusive to set
+	 */
+	public void setExclusive(boolean theExclusive) {
+		exclusive = theExclusive;
+	}
+
+	/**
+	 * Sets the multiSelect.
+	 * 
+	 * @param theMultiSelect
+	 *            The multiSelect to set
+	 */
+	public void setMultiSelect(boolean theMultiSelect) {
+		multiSelect = theMultiSelect;
+	}
 
 }

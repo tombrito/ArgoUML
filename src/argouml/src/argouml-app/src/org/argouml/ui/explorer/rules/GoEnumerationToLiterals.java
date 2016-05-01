@@ -49,55 +49,55 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Go rule to navigate from an Enumeration to its Literals. <p>
+ * Go rule to navigate from an Enumeration to its Literals.
+ * <p>
  * Enumeration->Literal.
  */
 public class GoEnumerationToLiterals extends AbstractPerspectiveRule {
 
-    /**
-     * The constructor.
-     */
-    public GoEnumerationToLiterals() {
-        super();
-    }
+	/**
+	 * The constructor.
+	 */
+	public GoEnumerationToLiterals() {
+		super();
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(
-     *         java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAEnumeration(parent)) {
-            List list = new ArrayList();
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(
+	 * java.lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAEnumeration(parent)) {
+			List list = new ArrayList();
 
-            if (Model.getFacade().getEnumerationLiterals(parent) != null
-                    && (Model.getFacade().getEnumerationLiterals(parent).size()
-                        > 0)) {
-                list.addAll(Model.getFacade().getEnumerationLiterals(parent));
-            }
-            return list;
-        }
-        return Collections.EMPTY_SET;
-    }
+			if (Model.getFacade().getEnumerationLiterals(parent) != null
+					&& (Model.getFacade().getEnumerationLiterals(parent).size() > 0)) {
+				list.addAll(Model.getFacade().getEnumerationLiterals(parent));
+			}
+			return list;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.enumeration.literal");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.enumeration.literal");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
-     *         java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAEnumeration(parent)) {
-            Set set = new HashSet();
-            set.add(parent);
-            set.addAll(Model.getFacade().getEnumerationLiterals(parent));
-            return set;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
+	 * java.lang.Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAEnumeration(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			set.addAll(Model.getFacade().getEnumerationLiterals(parent));
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 
 }

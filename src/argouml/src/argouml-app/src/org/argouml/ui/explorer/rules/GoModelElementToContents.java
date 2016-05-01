@@ -47,44 +47,48 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Rule for ModelElement -> Contents. <p>
+ * Rule for ModelElement -> Contents.
+ * <p>
  *
- * The Contents are all the elements which, in the metamodel,
- * are connected by a composite association.
- * This means, these are the elements that are deleted as a side-effect
- * when the parent gets deleted.
+ * The Contents are all the elements which, in the metamodel, are connected by a
+ * composite association. This means, these are the elements that are deleted as
+ * a side-effect when the parent gets deleted.
  *
  * @author michiel
  */
 public class GoModelElementToContents extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.model-element.contents");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.model-element.contents");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAModelElement(parent)) {
-            return Model.getFacade().getModelElementContents(parent);
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.
+	 * lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAModelElement(parent)) {
+			return Model.getFacade().getModelElementContents(parent);
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        Set set = new HashSet();
-        if (Model.getFacade().isAModelElement(parent)) {
-            set.add(parent);
-            set.addAll(Model.getFacade().getModelElementContents(parent));
-        }
-        return set;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		Set set = new HashSet();
+		if (Model.getFacade().isAModelElement(parent)) {
+			set.add(parent);
+			set.addAll(Model.getFacade().getModelElementContents(parent));
+		}
+		return set;
+	}
 
 }

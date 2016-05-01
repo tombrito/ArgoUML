@@ -49,7 +49,8 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigGroup;
 
 /**
- * A Fig which contains other Figs.  ArgoUMLs version of GEF's FigGroup. <p>
+ * A Fig which contains other Figs. ArgoUMLs version of GEF's FigGroup.
+ * <p>
  *
  * It implements the additional methods of the ArgoFig interface.
  *
@@ -57,104 +58,106 @@ import org.tigris.gef.presentation.FigGroup;
  */
 public abstract class ArgoFigGroup extends FigGroup implements ArgoFig {
 
-    private static final long serialVersionUID = -1012617605194168797L;
+	private static final long serialVersionUID = -1012617605194168797L;
 
-	private static final Logger LOG =
-        Logger.getLogger(ArgoFigGroup.class.getName());
+	private static final Logger LOG = Logger.getLogger(ArgoFigGroup.class.getName());
 
-    // TODO: Make this final asap.
-    private DiagramSettings settings;
+	// TODO: Make this final asap.
+	private DiagramSettings settings;
 
-    /**
-     * Construct an empty FigGroup with the given DiagramSettings.
-     * object.
-     * @param owner owning UML element
-     * @param renderSettings render settings to use
-     */
-    public ArgoFigGroup(Object owner, DiagramSettings renderSettings) {
-        super();
-        super.setOwner(owner);
-        settings = renderSettings;
-    }
+	/**
+	 * Construct an empty FigGroup with the given DiagramSettings. object.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param renderSettings
+	 *            render settings to use
+	 */
+	public ArgoFigGroup(Object owner, DiagramSettings renderSettings) {
+		super();
+		super.setOwner(owner);
+		settings = renderSettings;
+	}
 
-    /**
-     * This optional method is not implemented.  It will throw an
-     * {@link UnsupportedOperationException} if used.  Figs are
-     * added to a GraphModel which is, in turn, owned by a project.<p>
-     *
-     * @param project the project
-     * @deprecated
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setProject(Project project) {
-        throw new UnsupportedOperationException();
-    }
+	/**
+	 * This optional method is not implemented. It will throw an
+	 * {@link UnsupportedOperationException} if used. Figs are added to a
+	 * GraphModel which is, in turn, owned by a project.
+	 * <p>
+	 *
+	 * @param project
+	 *            the project
+	 * @deprecated
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setProject(Project project) {
+		throw new UnsupportedOperationException();
+	}
 
-    /**
-     * @deprecated for 0.27.2 by tfmorris.  Implementations should have all
-     * the information that they require in the DiagramSettings object.
-     *
-     * @return the owning project
-     * @see org.argouml.uml.diagram.ui.ArgoFig#getProject()
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public Project getProject() {
-        return ArgoFigUtil.getProject(this);
-    }
+	/**
+	 * @deprecated for 0.27.2 by tfmorris. Implementations should have all the
+	 *             information that they require in the DiagramSettings object.
+	 *
+	 * @return the owning project
+	 * @see org.argouml.uml.diagram.ui.ArgoFig#getProject()
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public Project getProject() {
+		return ArgoFigUtil.getProject(this);
+	}
 
-    public void renderingChanged() {
-        // Get all our sub Figs and hit them with the big stick too
-        for (Fig fig : (List<Fig>) getFigs()) {
-            if (fig instanceof ArgoFig) {
-                ((ArgoFig) fig).renderingChanged();
-            } else {
-                LOG.log(Level.FINE, "Found non-Argo fig nested");
-            }
-        }
-    }
+	public void renderingChanged() {
+		// Get all our sub Figs and hit them with the big stick too
+		for (Fig fig : (List<Fig>) getFigs()) {
+			if (fig instanceof ArgoFig) {
+				((ArgoFig) fig).renderingChanged();
+			} else {
+				LOG.log(Level.FINE, "Found non-Argo fig nested");
+			}
+		}
+	}
 
+	public DiagramSettings getSettings() {
+		// TODO: This is a temporary crutch to use until all Figs are updated
+		// to use the constructor that accepts a DiagramSettings object
+		if (settings == null) {
+			Project p = getProject();
+			if (p != null) {
+				return p.getProjectSettings().getDefaultDiagramSettings();
+			}
+		}
+		return settings;
+	}
 
-    public DiagramSettings getSettings() {
-        // TODO: This is a temporary crutch to use until all Figs are updated
-        // to use the constructor that accepts a DiagramSettings object
-        if (settings == null) {
-            Project p = getProject();
-            if (p != null) {
-                return p.getProjectSettings().getDefaultDiagramSettings();
-            }
-        }
-        return settings;
-    }
+	/**
+	 * @deprecated for 0.29.3 by Bob Tarling. The diagram settings are provided
+	 *             to the constructor and then should never change. When this
+	 *             method is removed the "settings" variable can become final.
+	 */
+	public void setSettings(DiagramSettings renderSettings) {
+		settings = renderSettings;
+		renderingChanged();
+	}
 
-    /**
-     * @deprecated for 0.29.3 by Bob Tarling. The diagram settings are
-     * provided to the constructor and then should never change.
-     * When this method is removed the "settings" variable can become final.
-     */
-    public void setSettings(DiagramSettings renderSettings) {
-        settings = renderSettings;
-        renderingChanged();
-    }
-
-    /**
-     * Setting the owner of the Fig must be done in the constructor and not
-     * changed afterwards for all ArgoUML figs.
-     *
-     * @param owner owning UML element
-     * @throws UnsupportedOperationException
-     * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
-     *             is implemented in GEF, so we'll leave this implementation
-     *             here to block any attempts to use it within ArgoUML.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setOwner(Object owner) {
-        if (owner != getOwner()) {
-            throw new UnsupportedOperationException(
-                    "Owner must be set in constructor and left unchanged");
-        }
-    }
+	/**
+	 * Setting the owner of the Fig must be done in the constructor and not
+	 * changed afterwards for all ArgoUML figs.
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @throws UnsupportedOperationException
+	 * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
+	 *             is implemented in GEF, so we'll leave this implementation
+	 *             here to block any attempts to use it within ArgoUML.
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setOwner(Object owner) {
+		if (owner != getOwner()) {
+			throw new UnsupportedOperationException("Owner must be set in constructor and left unchanged");
+		}
+	}
 
 }

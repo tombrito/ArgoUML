@@ -52,134 +52,119 @@ import org.tigris.gef.graph.MutableGraphModel;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * The buttons on selection for a Stereotype. <p>
+ * The buttons on selection for a Stereotype.
+ * <p>
  * 
- * TODO: Find a way to hide the OperationsCompartment 
- * on the FigClass of the created metaclass.
+ * TODO: Find a way to hide the OperationsCompartment on the FigClass of the
+ * created metaclass.
  * 
  * @author michiel
  */
 public class SelectionStereotype extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -7743568695915716174L;
-	private static Icon inheritIcon =
-        ResourceLoaderWrapper.lookupIconResource("Generalization");
-    private static Icon dependIcon =
-        ResourceLoaderWrapper.lookupIconResource("Dependency");
+	private static final long serialVersionUID = -7743568695915716174L;
+	private static Icon inheritIcon = ResourceLoaderWrapper.lookupIconResource("Generalization");
+	private static Icon dependIcon = ResourceLoaderWrapper.lookupIconResource("Dependency");
 
-    private boolean useComposite;
-    
-    private static Icon icons[] = 
-    {dependIcon,
-     inheritIcon,
-     null,
-     null,
-     null,
-    };
+	private boolean useComposite;
 
-    // TODO: I18N required
-    private static String instructions[] = 
-    {"Add a baseClass",
-     "Add a subStereotype",
-     null,
-     null,
-     null,
-     "Move object(s)",
-    };
+	private static Icon icons[] = { dependIcon, inheritIcon, null, null, null, };
 
-    /**
-     * Construct a new  SelectionStereotype for the given Fig.
-     *
-     * @param f the given fig
-     */
-    public SelectionStereotype(Fig f) {
-        super(f);
-    }
+	// TODO: I18N required
+	private static String instructions[] = { "Add a baseClass", "Add a subStereotype", null, null, null,
+			"Move object(s)", };
 
-    @Override
-    public void mouseEntered(MouseEvent me) {
-        super.mouseEntered(me);
-        useComposite = me.isShiftDown();
-    }
+	/**
+	 * Construct a new SelectionStereotype for the given Fig.
+	 *
+	 * @param f
+	 *            the given fig
+	 */
+	public SelectionStereotype(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        if (index == 0) {
-            index = getButton();
-        }
-        Object ns = Model.getFacade().getNamespace(getContent().getOwner());
-        switch (index) {
-        case 10:
-            Object clazz = Model.getCoreFactory().buildClass(ns);
-            StereotypeUtility.dealWithStereotypes(clazz, "metaclass", false);
-            return clazz;
-        case 11:
-            Object st = 
-                Model.getExtensionMechanismsFactory().createStereotype();
-            Model.getCoreHelper().setNamespace(st, ns);
-            return st;
-        }
-        return null;
-    }
+	@Override
+	public void mouseEntered(MouseEvent me) {
+		super.mouseEntered(me);
+		useComposite = me.isShiftDown();
+	}
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        switch (index) {
-        case 10:
-            return Model.getMetaTypes().getClass();
-        case 11:
-            return Model.getMetaTypes().getStereotype();
-        }
-        return null;
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		if (index == 0) {
+			index = getButton();
+		}
+		Object ns = Model.getFacade().getNamespace(getContent().getOwner());
+		switch (index) {
+		case 10:
+			Object clazz = Model.getCoreFactory().buildClass(ns);
+			StereotypeUtility.dealWithStereotypes(clazz, "metaclass", false);
+			return clazz;
+		case 11:
+			Object st = Model.getExtensionMechanismsFactory().createStereotype();
+			Model.getCoreHelper().setNamespace(st, ns);
+			return st;
+		}
+		return null;
+	}
 
-    @Override
-    protected Object createEdgeAbove(MutableGraphModel mgm, Object newNode) {
-        Object dep = super.createEdgeAbove(mgm, newNode);
-        StereotypeUtility.dealWithStereotypes(dep, "stereotype", false);
-        return dep;
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		switch (index) {
+		case 10:
+			return Model.getMetaTypes().getClass();
+		case 11:
+			return Model.getMetaTypes().getStereotype();
+		}
+		return null;
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        // In the DeploymentDiagram there are no Generalizations
-        if (Globals.curEditor().getGraphModel() 
-                instanceof DeploymentDiagramGraphModel) {
-            return null;
-        }
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, inheritIcon, null, null, null };
-        }
-        return icons;
-    }
+	@Override
+	protected Object createEdgeAbove(MutableGraphModel mgm, Object newNode) {
+		Object dep = super.createEdgeAbove(mgm, newNode);
+		StereotypeUtility.dealWithStereotypes(dep, "stereotype", false);
+		return dep;
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected Icon[] getIcons() {
+		// In the DeploymentDiagram there are no Generalizations
+		if (Globals.curEditor().getGraphModel() instanceof DeploymentDiagramGraphModel) {
+			return null;
+		}
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, inheritIcon, null, null, null };
+		}
+		return icons;
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        if (index == TOP) {
-            return Model.getMetaTypes().getDependency();
-        } else if (index == BOTTOM) {
-            return Model.getMetaTypes().getGeneralization();
-        }
-        return null;
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == BOTTOM) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		if (index == TOP) {
+			return Model.getMetaTypes().getDependency();
+		} else if (index == BOTTOM) {
+			return Model.getMetaTypes().getGeneralization();
+		}
+		return null;
+	}
 
-    @Override
-    protected boolean isEdgePostProcessRequested() {
-        return useComposite;
-    }
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == BOTTOM) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean isEdgePostProcessRequested() {
+		return useComposite;
+	}
 
 }

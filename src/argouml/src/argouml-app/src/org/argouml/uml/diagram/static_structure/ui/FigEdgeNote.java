@@ -72,258 +72,263 @@ import org.tigris.gef.presentation.FigNode;
  * @author jaap.branderhorst@xs4all.nl
  */
 public class FigEdgeNote extends FigEdgePoly
-        implements ArgoFig, DiagramElement, Owned, IItemUID, PropertyChangeListener {
+		implements ArgoFig, DiagramElement, Owned, IItemUID, PropertyChangeListener {
 
-    private static final long serialVersionUID = 6155265188011926058L;
+	private static final long serialVersionUID = 6155265188011926058L;
 
-	private static final Logger LOG =
-        Logger.getLogger(FigEdgeNote.class.getName());
+	private static final Logger LOG = Logger.getLogger(FigEdgeNote.class.getName());
 
-    private Object comment;
-    private Object annotatedElement;
+	private Object comment;
+	private Object annotatedElement;
 
-    private DiagramSettings settings;
+	private DiagramSettings settings;
 
-    private ItemUID itemUid;
+	private ItemUID itemUid;
 
-    /**
-     * @param element owning CommentEdge object. This is a special case since it
-     *            is not a UML element.
-     * @param theSettings render settings
-     */
-    public FigEdgeNote(Object element, DiagramSettings theSettings) {
-        // element will normally be null when called from PGML parser
-        // It will get it's source & destination set later in attachEdges
-        super();
-        settings = theSettings;
+	/**
+	 * @param element
+	 *            owning CommentEdge object. This is a special case since it is
+	 *            not a UML element.
+	 * @param theSettings
+	 *            render settings
+	 */
+	public FigEdgeNote(Object element, DiagramSettings theSettings) {
+		// element will normally be null when called from PGML parser
+		// It will get it's source & destination set later in attachEdges
+		super();
+		settings = theSettings;
 
-        if (element != null) {
-            super.setOwner(element);
-        } else {
-            super.setOwner(new CommentEdge());
-        }
+		if (element != null) {
+			super.setOwner(element);
+		} else {
+			super.setOwner(new CommentEdge());
+		}
 
-        setBetweenNearestPoints(true);
-        getFig().setLineWidth(LINE_WIDTH);
-        getFig().setDashed(true);
+		setBetweenNearestPoints(true);
+		getFig().setLineWidth(LINE_WIDTH);
+		getFig().setDashed(true);
 
-        // Unfortunately the Fig and it's associated CommentEdge will not be
-        // fully initialized yet here if we're being loaded from a PGML file.
-        // The remainder of the initialization will happen when
-        // set{Dest|Source}FigNode are called from PGMLStackParser.attachEdges()
-    }
+		// Unfortunately the Fig and it's associated CommentEdge will not be
+		// fully initialized yet here if we're being loaded from a PGML file.
+		// The remainder of the initialization will happen when
+		// set{Dest|Source}FigNode are called from PGMLStackParser.attachEdges()
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigEdge#setFig(org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void setFig(Fig f) {
-        LOG.log(Level.INFO, "Setting the internal fig to {0}", f);
+	/*
+	 * @see
+	 * org.tigris.gef.presentation.FigEdge#setFig(org.tigris.gef.presentation.
+	 * Fig)
+	 */
+	@Override
+	public void setFig(Fig f) {
+		LOG.log(Level.INFO, "Setting the internal fig to {0}", f);
 
-        super.setFig(f);
-        getFig().setDashed(true);
-    }
+		super.setFig(f);
+		getFig().setDashed(true);
+	}
 
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return Translator.localize("misc.comment-edge");
+	}
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return Translator.localize("misc.comment-edge");
-    }
+	/*
+	 * Listen for a RemoveAssociationEvent between the comment and the annotated
+	 * element. When recieved delete the CommentEdge and this FigEdgeNote.
+	 * 
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigEdgeModelElement#modelChanged(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	protected void modelChanged(PropertyChangeEvent e) {
+		if (e instanceof RemoveAssociationEvent && e.getOldValue() == annotatedElement) {
+			removeFromDiagram();
+		}
+	}
 
-    /*
-     * Listen for a RemoveAssociationEvent between the comment
-     * and the annotated element. When recieved delete the CommentEdge
-     * and this FigEdgeNote.
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#modelChanged(java.beans.PropertyChangeEvent)
-     */
-    protected void modelChanged(PropertyChangeEvent e) {
-        if (e instanceof RemoveAssociationEvent
-                && e.getOldValue() == annotatedElement) {
-            removeFromDiagram();
-        }
-    }
+	/*
+	 * @see
+	 * org.tigris.gef.presentation.Fig#getTipString(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public String getTipString(MouseEvent me) {
+		return "Comment Edge"; // TODO: get tip string from comment
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getTipString(java.awt.event.MouseEvent)
-     */
-    @Override
-    public String getTipString(MouseEvent me) {
-        return "Comment Edge"; // TODO: get tip string from comment
-    }
+	/*
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	@Override
+	public void propertyChange(PropertyChangeEvent pve) {
+		modelChanged(pve);
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
+	 */
+	@Override
+	public final void removeFromDiagram() {
+		if (comment != null) {
+			removeElementListener(comment);
+		}
 
-    /*
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent pve) {
-        modelChanged(pve);
-    }
+		super.removeFromDiagram();
+		damage();
+	}
 
+	/**
+	 * Returns the source of the edge. The source is the owner of the node the
+	 * edge travels from in a binary relationship. For instance: for a
+	 * classifierrole, this is the sender.
+	 * 
+	 * @return MModelElement
+	 */
+	protected Object getSource() {
+		Object theOwner = getOwner();
+		if (theOwner != null) {
+			return ((CommentEdge) theOwner).getSource();
+		}
+		return null;
+	}
 
+	/**
+	 * Returns the destination of the edge. The destination is the owner of the
+	 * node the edge travels to in a binary relationship. For instance: for a
+	 * classifierrole, this is the receiver.
+	 * 
+	 * @return Object
+	 */
+	protected Object getDestination() {
+		Object theOwner = getOwner();
+		if (theOwner != null) {
+			return ((CommentEdge) theOwner).getDestination();
+		}
+		return null;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
-     */
-    @Override
-    public final void removeFromDiagram() {
-        if (comment != null) {
-            removeElementListener(comment);
-        }
+	/*
+	 * @see org.tigris.gef.presentation.FigEdge#setDestFigNode(org.tigris.gef.
+	 * presentation.FigNode)
+	 */
+	@Override
+	public void setDestFigNode(FigNode fn) {
+		// When this is called from PGMLStackParser.attachEdges, we finished
+		// the initialization of owning pseudo element (CommentEdge)
+		if (fn != null && Model.getFacade().isAComment(fn.getOwner())) {
+			Object oldComment = comment;
+			if (oldComment != null) {
+				removeElementListener(oldComment);
+			}
+			comment = fn.getOwner();
+			if (comment != null) {
+				addElementListener(comment);
+			}
 
-        super.removeFromDiagram();
-        damage();
-    }
+			((CommentEdge) getOwner()).setComment(comment);
+		} else if (fn != null && !Model.getFacade().isAComment(fn.getOwner())) {
+			annotatedElement = fn.getOwner();
+			((CommentEdge) getOwner()).setAnnotatedElement(annotatedElement);
+		}
 
+		super.setDestFigNode(fn);
+	}
 
-    /**
-     * Returns the source of the edge. The source is the owner of the
-     * node the edge travels from in a binary relationship. For
-     * instance: for a classifierrole, this is the sender.
-     * @return MModelElement
-     */
-    protected Object getSource() {
-        Object theOwner = getOwner();
-        if (theOwner != null) {
-            return ((CommentEdge) theOwner).getSource();
-        }
-        return null;
-    }
-    /**
-     * Returns the destination of the edge. The destination is the
-     * owner of the node the edge travels to in a binary
-     * relationship. For instance: for a classifierrole, this is the
-     * receiver.
-     * @return Object
-     */
-    protected Object getDestination() {
-        Object theOwner = getOwner();
-        if (theOwner != null) {
-            return ((CommentEdge) theOwner).getDestination();
-        }
-        return null;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.FigEdge#setSourceFigNode(org.tigris.gef.
+	 * presentation.FigNode)
+	 */
+	@Override
+	public void setSourceFigNode(FigNode fn) {
+		// When this is called from PGMLStackParser.attachEdges, we finished
+		// the initialization of owning pseudo element (CommentEdge)
+		if (fn != null && Model.getFacade().isAComment(fn.getOwner())) {
+			Object oldComment = comment;
+			if (oldComment != null) {
+				removeElementListener(oldComment);
+			}
+			comment = fn.getOwner();
+			if (comment != null) {
+				addElementListener(comment);
+			}
+			((CommentEdge) getOwner()).setComment(comment);
+		} else if (fn != null && !Model.getFacade().isAComment(fn.getOwner())) {
+			annotatedElement = fn.getOwner();
+			((CommentEdge) getOwner()).setAnnotatedElement(annotatedElement);
+		}
+		super.setSourceFigNode(fn);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigEdge#setDestFigNode(org.tigris.gef.presentation.FigNode)
-     */
-    @Override
-    public void setDestFigNode(FigNode fn) {
-        // When this is called from PGMLStackParser.attachEdges, we finished
-        // the initialization of owning pseudo element (CommentEdge)
-        if (fn != null && Model.getFacade().isAComment(fn.getOwner())) {
-            Object oldComment = comment;
-            if (oldComment != null) {
-                removeElementListener(oldComment);
-            }
-            comment = fn.getOwner();
-            if (comment != null) {
-                addElementListener(comment);
-            }
+	private void addElementListener(Object element) {
+		Model.getPump().addModelEventListener(this, element);
+	}
 
-            ((CommentEdge) getOwner()).setComment(comment);
-        } else if (fn != null
-                && !Model.getFacade().isAComment(fn.getOwner())) {
-            annotatedElement = fn.getOwner();
-            ((CommentEdge) getOwner()).setAnnotatedElement(annotatedElement);
-        }
+	private void removeElementListener(Object element) {
+		Model.getPump().removeModelEventListener(this, element);
+	}
 
-        super.setDestFigNode(fn);
-    }
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public Project getProject() {
+		return ArgoFigUtil.getProject(this);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.FigEdge#setSourceFigNode(org.tigris.gef.presentation.FigNode)
-     */
-    @Override
-    public void setSourceFigNode(FigNode fn) {
-        // When this is called from PGMLStackParser.attachEdges, we finished
-        // the initialization of owning pseudo element (CommentEdge)
-        if (fn != null && Model.getFacade().isAComment(fn.getOwner())) {
-            Object oldComment = comment;
-            if (oldComment != null) {
-                removeElementListener(oldComment);
-            }
-            comment = fn.getOwner();
-            if (comment != null) {
-                addElementListener(comment);
-            }
-            ((CommentEdge) getOwner()).setComment(comment);
-        } else if (fn != null
-                && !Model.getFacade().isAComment(fn.getOwner())) {
-            annotatedElement = fn.getOwner();
-            ((CommentEdge) getOwner()).setAnnotatedElement(annotatedElement);
-        }
-        super.setSourceFigNode(fn);
-    }
+	public DiagramSettings getSettings() {
+		return settings;
+	}
 
-    private void addElementListener(Object element) {
-        Model.getPump().addModelEventListener(this, element);
-    }
+	public void renderingChanged() {
 
-    private void removeElementListener(Object element) {
-        Model.getPump().removeModelEventListener(this, element);
-    }
+	}
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public Project getProject() {
-        return ArgoFigUtil.getProject(this);
-    }
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setProject(Project project) {
+		// unimplemented
+	}
 
-    public DiagramSettings getSettings() {
-        return settings;
-    }
+	public void setSettings(DiagramSettings theSettings) {
+		settings = theSettings;
+	}
 
-    public void renderingChanged() {
+	/**
+	 * Setter for the UID
+	 * 
+	 * @param newId
+	 *            the new UID
+	 */
+	public void setItemUID(ItemUID newId) {
+		itemUid = newId;
+	}
 
-    }
+	/**
+	 * Getter for the UID
+	 * 
+	 * @return the UID
+	 */
+	public ItemUID getItemUID() {
+		return itemUid;
+	}
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setProject(Project project) {
-        // unimplemented
-    }
-
-    public void setSettings(DiagramSettings theSettings) {
-        settings = theSettings;
-    }
-
-    /**
-     * Setter for the UID
-     * @param newId the new UID
-     */
-    public void setItemUID(ItemUID newId) {
-        itemUid = newId;
-    }
-
-    /**
-     * Getter for the UID
-     * @return the UID
-     */
-    public ItemUID getItemUID() {
-        return itemUid;
-    }
-
-
-    /**
-     * Setting the owner of the Fig must be done in the constructor and not
-     * changed afterwards for all ArgoUML figs.
-     *
-     * @param owner owning UML element
-     * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
-     *             is implemented in GEF, so we'll leave this implementation
-     *             here to block any attempts to use it within ArgoUML.
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    public void setOwner(Object owner) {
-        if (owner != getOwner()) {
-            throw new UnsupportedOperationException(
-                    "Owner must be set in constructor and left unchanged");
-        }
-    }
+	/**
+	 * Setting the owner of the Fig must be done in the constructor and not
+	 * changed afterwards for all ArgoUML figs.
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @deprecated for 0.27.3 by tfmorris. Set owner in constructor. This method
+	 *             is implemented in GEF, so we'll leave this implementation
+	 *             here to block any attempts to use it within ArgoUML.
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	public void setOwner(Object owner) {
+		if (owner != getOwner()) {
+			throw new UnsupportedOperationException("Owner must be set in constructor and left unchanged");
+		}
+	}
 
 }

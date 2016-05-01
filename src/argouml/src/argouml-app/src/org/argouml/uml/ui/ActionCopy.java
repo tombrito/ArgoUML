@@ -61,83 +61,80 @@ import org.tigris.gef.base.Globals;
  */
 public class ActionCopy extends AbstractAction implements CaretListener {
 
-    ////////////////////////////////////////////////////////////////
-    // static variables
+	////////////////////////////////////////////////////////////////
+	// static variables
 
-    private static final long serialVersionUID = 8877033229048615486L;
+	private static final long serialVersionUID = 8877033229048615486L;
 
 	private static ActionCopy instance = new ActionCopy();
 
-    private static final String LOCALIZE_KEY = "action.copy";
+	private static final String LOCALIZE_KEY = "action.copy";
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
-    /**
-     * Constructor.
-     */
-    public ActionCopy() {
-        super(Translator.localize(LOCALIZE_KEY));
-        Icon icon = ResourceLoaderWrapper.lookupIcon(LOCALIZE_KEY);
-        if (icon != null) {
-            putValue(Action.SMALL_ICON, icon);
+	////////////////////////////////////////////////////////////////
+	// constructors
+	/**
+	 * Constructor.
+	 */
+	public ActionCopy() {
+		super(Translator.localize(LOCALIZE_KEY));
+		Icon icon = ResourceLoaderWrapper.lookupIcon(LOCALIZE_KEY);
+		if (icon != null) {
+			putValue(Action.SMALL_ICON, icon);
+		}
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(LOCALIZE_KEY) + " ");
 	}
-        putValue(
-		 Action.SHORT_DESCRIPTION,
-		 Translator.localize(LOCALIZE_KEY) + " ");
-    }
 
-    /**
-     * @return the singleton
-     */
-    public static ActionCopy getInstance() {
-        return instance;
-    }
+	/**
+	 * @return the singleton
+	 */
+	public static ActionCopy getInstance() {
+		return instance;
+	}
 
-    private JTextComponent textSource;
+	private JTextComponent textSource;
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        if (textSource != null) {
-            textSource.copy();
-            Globals.clipBoard = null;
-        } else {
-            CmdCopy cmd = new CmdCopy();
-            cmd.doIt();
-        }
-        if (isSystemClipBoardEmpty()
-            && (Globals.clipBoard == null
-		|| Globals.clipBoard.isEmpty())) {
-            ActionPaste.getInstance().setEnabled(false);
-        } else {
-            ActionPaste.getInstance().setEnabled(true);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		if (textSource != null) {
+			textSource.copy();
+			Globals.clipBoard = null;
+		} else {
+			CmdCopy cmd = new CmdCopy();
+			cmd.doIt();
+		}
+		if (isSystemClipBoardEmpty() && (Globals.clipBoard == null || Globals.clipBoard.isEmpty())) {
+			ActionPaste.getInstance().setEnabled(false);
+		} else {
+			ActionPaste.getInstance().setEnabled(true);
+		}
+	}
 
-    /*
-     * @see javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
-     */
-    public void caretUpdate(CaretEvent e) {
-        if (e.getMark() != e.getDot()) { // there is a selection
-            setEnabled(true);
-            textSource = (JTextComponent) e.getSource();
-        } else {
-            setEnabled(false);
-            textSource = null;
-        }
-    }
+	/*
+	 * @see
+	 * javax.swing.event.CaretListener#caretUpdate(javax.swing.event.CaretEvent)
+	 */
+	public void caretUpdate(CaretEvent e) {
+		if (e.getMark() != e.getDot()) { // there is a selection
+			setEnabled(true);
+			textSource = (JTextComponent) e.getSource();
+		} else {
+			setEnabled(false);
+			textSource = null;
+		}
+	}
 
-    private boolean isSystemClipBoardEmpty() {
-        try {
-            Object text =
-                Toolkit.getDefaultToolkit().getSystemClipboard()
-		    .getContents(null).getTransferData(DataFlavor.stringFlavor);
-            return text == null;
-        } catch (IOException ignorable) {
-        } catch (UnsupportedFlavorException ignorable) {
-        }
-        return true;
-    }
+	private boolean isSystemClipBoardEmpty() {
+		try {
+			Object text = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null)
+					.getTransferData(DataFlavor.stringFlavor);
+			return text == null;
+		} catch (IOException ignorable) {
+		} catch (UnsupportedFlavorException ignorable) {
+		}
+		return true;
+	}
 
 } /* end class ActionCopy */

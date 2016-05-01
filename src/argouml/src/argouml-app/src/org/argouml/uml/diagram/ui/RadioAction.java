@@ -49,62 +49,62 @@ import org.tigris.gef.base.Globals;
 import org.tigris.toolbar.toolbutton.AbstractButtonAction;
 
 /**
- * A wrapper around a standard action to indicate that any buttons created
- * from this actions should act like radio buttons, i.e. that when the
- * toolbar buttons are double-clicked, they remain active, and every click
- * on the diagram will place a new modelelement.
+ * A wrapper around a standard action to indicate that any buttons created from
+ * this actions should act like radio buttons, i.e. that when the toolbar
+ * buttons are double-clicked, they remain active, and every click on the
+ * diagram will place a new modelelement.
  *
  * @author Bob Tarling
  */
 public class RadioAction extends AbstractButtonAction {
 
-    private static final long serialVersionUID = -7488831242390384425L;
+	private static final long serialVersionUID = -7488831242390384425L;
 	private Action realAction;
 
-    /**
-     * @param action the action
-     */
-    public RadioAction(Action action) {
-        super((String) action.getValue(Action.NAME),
-		(Icon) action.getValue(Action.SMALL_ICON));
-        putValue(Action.SHORT_DESCRIPTION,
-                action.getValue(Action.SHORT_DESCRIPTION));
-        realAction = action;
-    }
+	/**
+	 * @param action
+	 *            the action
+	 */
+	public RadioAction(Action action) {
+		super((String) action.getValue(Action.NAME), (Icon) action.getValue(Action.SMALL_ICON));
+		putValue(Action.SHORT_DESCRIPTION, action.getValue(Action.SHORT_DESCRIPTION));
+		realAction = action;
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(java.awt.event.ActionEvent actionEvent) {
-        UMLDiagram diagram = (UMLDiagram) DiagramUtils.getActiveDiagram();
-        if (Globals.getSticky() && diagram.getSelectedAction() == this) {
-            // If the user selects an Action that is already selected in sticky
-            // mode (double clicked) then we turn off sticky mode and make sure
-            // no action is selected.
-            Globals.setSticky(false);
-            diagram.deselectAllTools();
-            Editor ce = Globals.curEditor();
-            if (ce != null) {
-                ce.finishMode();
-            }
-            return;
-        }
-        super.actionPerformed(actionEvent);
-        realAction.actionPerformed(actionEvent);
-        diagram.setSelectedAction(this);
-        Globals.setSticky(isDoubleClick());
-        if (!isDoubleClick()) {
-            Editor ce = Globals.curEditor();
-            if (ce != null) {
-                ce.finishMode();
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(java.awt.event.ActionEvent actionEvent) {
+		UMLDiagram diagram = (UMLDiagram) DiagramUtils.getActiveDiagram();
+		if (Globals.getSticky() && diagram.getSelectedAction() == this) {
+			// If the user selects an Action that is already selected in sticky
+			// mode (double clicked) then we turn off sticky mode and make sure
+			// no action is selected.
+			Globals.setSticky(false);
+			diagram.deselectAllTools();
+			Editor ce = Globals.curEditor();
+			if (ce != null) {
+				ce.finishMode();
+			}
+			return;
+		}
+		super.actionPerformed(actionEvent);
+		realAction.actionPerformed(actionEvent);
+		diagram.setSelectedAction(this);
+		Globals.setSticky(isDoubleClick());
+		if (!isDoubleClick()) {
+			Editor ce = Globals.curEditor();
+			if (ce != null) {
+				ce.finishMode();
+			}
+		}
+	}
 
-    /**
-     * @return the action
-     */
-    public Action getAction() {
-        return realAction;
-    }
+	/**
+	 * @return the action
+	 */
+	public Action getAction() {
+		return realAction;
+	}
 }

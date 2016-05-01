@@ -49,40 +49,38 @@ import org.argouml.model.Model;
 import org.argouml.ui.UndoableAction;
 
 /**
- * Add a new package at the top level, i.e. a model.<p>
+ * Add a new package at the top level, i.e. a model.
+ * <p>
  *
  * TODO: ArgoUML currently only supports one model.
  */
 public class ActionAddTopLevelPackage extends UndoableAction {
 
-    private static final long serialVersionUID = -5541199978782011201L;
-
+	private static final long serialVersionUID = -5541199978782011201L;
 
 	/**
-     *  The constructor.
-     */
-    public ActionAddTopLevelPackage() {
-        super(Translator.localize("action.add-top-level-package"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("action.add-top-level-package"));
-    }
+	 * The constructor.
+	 */
+	public ActionAddTopLevelPackage() {
+		super(Translator.localize("action.add-top-level-package"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.add-top-level-package"));
+	}
 
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		Project p = ProjectManager.getManager().getCurrentProject();
+		int numPacks = p.getUserDefinedModelList().size();
+		String nameStr = "package_" + (numPacks + 1);
+		Object model = Model.getModelManagementFactory().createModel();
+		Model.getCoreHelper().setName(model, nameStr);
+		p.addMember(model);
+		super.actionPerformed(ae);
+		new ActionClassDiagram().actionPerformed(ae);
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-	Project p = ProjectManager.getManager().getCurrentProject();
-        int numPacks = p.getUserDefinedModelList().size();
-        String nameStr = "package_" + (numPacks + 1);
-        Object model = Model.getModelManagementFactory().createModel();
-        Model.getCoreHelper().setName(model, nameStr);
-        p.addMember(model);
-        super.actionPerformed(ae);
-        new ActionClassDiagram().actionPerformed(ae);
-
-
-    }
+	}
 }

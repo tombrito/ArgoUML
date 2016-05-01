@@ -47,84 +47,72 @@ import org.argouml.model.Model;
 import org.argouml.uml.ui.UMLRadioButtonPanel;
 
 /**
- * A radio button panel for the visibility of a ModelElement 
- * or ElementResidence, or ElementImport.
+ * A radio button panel for the visibility of a ModelElement or
+ * ElementResidence, or ElementImport.
  *
  * @author jaap.branderhorst@xs4all.nl
  * @since Jan 4, 2003
  */
-public class UMLModelElementVisibilityRadioButtonPanel
-    extends UMLRadioButtonPanel {
+public class UMLModelElementVisibilityRadioButtonPanel extends UMLRadioButtonPanel {
 
-    /**
-     * The serial version.
-     */
-    private static final long serialVersionUID = -1705561978481456281L;
-    
-    private static List<String[]> labelTextsAndActionCommands =
-        new ArrayList<String[]>();
+	/**
+	 * The serial version.
+	 */
+	private static final long serialVersionUID = -1705561978481456281L;
 
-    static {
-        labelTextsAndActionCommands.add(new String[] {
-            Translator.localize("label.visibility-public"),
-            ActionSetModelElementVisibility.PUBLIC_COMMAND
-        });
-        labelTextsAndActionCommands.add(new String[] {
-            Translator.localize("label.visibility-package"),
-            ActionSetModelElementVisibility.PACKAGE_COMMAND
-        });
-        labelTextsAndActionCommands.add(new String[] {
-            Translator.localize("label.visibility-protected"),
-            ActionSetModelElementVisibility.PROTECTED_COMMAND
-        });
-        labelTextsAndActionCommands.add(new String[] {
-            Translator.localize("label.visibility-private"),
-            ActionSetModelElementVisibility.PRIVATE_COMMAND
-        });
-    }
+	private static List<String[]> labelTextsAndActionCommands = new ArrayList<String[]>();
 
-    /**
-     * Constructor for UMLAssociationEndChangeabilityRadioButtonPanel.
-     * @param title the title for the panel
-     * @param horizontal determines the orientation
-     */
-    public UMLModelElementVisibilityRadioButtonPanel(
-            String title, boolean horizontal) {
-        super(title, labelTextsAndActionCommands, "visibility",
-                ActionSetModelElementVisibility.getInstance(), horizontal);
-    }
+	static {
+		labelTextsAndActionCommands.add(new String[] { Translator.localize("label.visibility-public"),
+				ActionSetModelElementVisibility.PUBLIC_COMMAND });
+		labelTextsAndActionCommands.add(new String[] { Translator.localize("label.visibility-package"),
+				ActionSetModelElementVisibility.PACKAGE_COMMAND });
+		labelTextsAndActionCommands.add(new String[] { Translator.localize("label.visibility-protected"),
+				ActionSetModelElementVisibility.PROTECTED_COMMAND });
+		labelTextsAndActionCommands.add(new String[] { Translator.localize("label.visibility-private"),
+				ActionSetModelElementVisibility.PRIVATE_COMMAND });
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLRadioButtonPanel#buildModel()
-     */
-    public void buildModel() {
-        Object target = getTarget();
-        if (target != null && Model.getFacade().isAElement(target)) {
-            Object kind = Model.getFacade().getVisibility(target);
-            if (kind == null) {
-                setSelected(null);
-            } else if (kind.equals(
-                            Model.getVisibilityKind().getPublic())) {
-                setSelected(ActionSetModelElementVisibility.PUBLIC_COMMAND);
-            } else if (kind.equals(
-                    Model.getVisibilityKind().getPackage())) {
-                setSelected(ActionSetModelElementVisibility.PACKAGE_COMMAND);
-            } else if (kind.equals(
-                    Model.getVisibilityKind().getProtected())) {
-                setSelected(ActionSetModelElementVisibility.PROTECTED_COMMAND);
-            } else if (kind.equals(
-                    Model.getVisibilityKind().getPrivate())) {
-                setSelected(ActionSetModelElementVisibility.PRIVATE_COMMAND);
-            } else {
-                setSelected(ActionSetModelElementVisibility.PUBLIC_COMMAND);
-            }
-        }
-    }
-    
-    public void setEnabled(boolean enabled) {
-        for (final Component component : getComponents()) {
-            component.setEnabled(enabled);
-        }
-    }
+	/**
+	 * Constructor for UMLAssociationEndChangeabilityRadioButtonPanel.
+	 * 
+	 * @param title
+	 *            the title for the panel
+	 * @param horizontal
+	 *            determines the orientation
+	 */
+	public UMLModelElementVisibilityRadioButtonPanel(String title, boolean horizontal) {
+		super(title, labelTextsAndActionCommands, "visibility", ActionSetModelElementVisibility.getInstance(),
+				horizontal);
+	}
+
+	/*
+	 * @see org.argouml.uml.ui.UMLRadioButtonPanel#buildModel()
+	 */
+	public void buildModel() {
+		Object target = getTarget();
+		if (target != null && Model.getFacade().isAElement(target)) {
+			Object kind = Model.getFacade().getVisibility(target);
+			if (kind == null) {
+				setSelected(null);
+			} else if (kind.equals(Model.getVisibilityKind().getPublic())) {
+				setSelected(ActionSetModelElementVisibility.PUBLIC_COMMAND);
+			} else if (kind.equals(Model.getVisibilityKind().getPackage())) {
+				setSelected(ActionSetModelElementVisibility.PACKAGE_COMMAND);
+			} else if (kind.equals(Model.getVisibilityKind().getProtected())) {
+				setSelected(ActionSetModelElementVisibility.PROTECTED_COMMAND);
+			} else if (kind.equals(Model.getVisibilityKind().getPrivate())) {
+				setSelected(ActionSetModelElementVisibility.PRIVATE_COMMAND);
+			} else {
+				setSelected(ActionSetModelElementVisibility.PUBLIC_COMMAND);
+			}
+		}
+	}
+
+	public void setEnabled(boolean enabled) {
+		for (final Component component : getComponents()) {
+			component.setEnabled(enabled);
+		}
+	}
 
 }

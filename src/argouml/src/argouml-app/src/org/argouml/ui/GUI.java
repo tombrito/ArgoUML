@@ -45,10 +45,12 @@ import java.util.List;
 import org.argouml.application.api.GUISettingsTabInterface;
 
 /**
- * This is the "main" class for the GUI subsystem.<p>
+ * This is the "main" class for the GUI subsystem.
+ * <p>
  *
- * Users of the GUI subsystem, i.e. components that are to place themselves
- * in any of the GUI components, register themselves in this class.<p>
+ * Users of the GUI subsystem, i.e. components that are to place themselves in
+ * any of the GUI components, register themselves in this class.
+ * <p>
  *
  * TODO: Add the rest of the registers to this.
  *
@@ -57,85 +59,85 @@ import org.argouml.application.api.GUISettingsTabInterface;
  */
 public final class GUI {
 
-    /**
-     * Constructor.
-     */
-    private GUI() {
-        // Add GUI-internal stuff.
-        // GUI-internal stuff is panes, tabs, menu items that are
-        // part of the GUI subsystem i.e. a class in the
-        // org.argouml.ui-package.
-        // Things that are not part of the GUI, like everything that
-        // has any knowledge about UML, Diagrams, Code Generation, 
-        // Reverse Engineering, creates and registers itself
-        // when that subsystem or module is loaded.
-        addSettingsTab(new SettingsTabPreferences());
-        addSettingsTab(new SettingsTabEnvironment());
-        addSettingsTab(new SettingsTabUser());
-        addSettingsTab(new SettingsTabAppearance());
-        addSettingsTab(new SettingsTabProfile());
+	/**
+	 * Constructor.
+	 */
+	private GUI() {
+		// Add GUI-internal stuff.
+		// GUI-internal stuff is panes, tabs, menu items that are
+		// part of the GUI subsystem i.e. a class in the
+		// org.argouml.ui-package.
+		// Things that are not part of the GUI, like everything that
+		// has any knowledge about UML, Diagrams, Code Generation,
+		// Reverse Engineering, creates and registers itself
+		// when that subsystem or module is loaded.
+		addSettingsTab(new SettingsTabPreferences());
+		addSettingsTab(new SettingsTabEnvironment());
+		addSettingsTab(new SettingsTabUser());
+		addSettingsTab(new SettingsTabAppearance());
+		addSettingsTab(new SettingsTabProfile());
 
-        addProjectSettingsTab(new ProjectSettingsTabProperties());
-        addProjectSettingsTab(new ProjectSettingsTabProfile());
-    }
+		addProjectSettingsTab(new ProjectSettingsTabProperties());
+		addProjectSettingsTab(new ProjectSettingsTabProfile());
+	}
 
-    /**
-     * The instance.
-     */
-    private static GUI instance = new GUI();
+	/**
+	 * The instance.
+	 */
+	private static GUI instance = new GUI();
 
-    /**
-     * @return the instance.
-     */
-    public static GUI getInstance() {
-        return instance;
-    }
+	/**
+	 * @return the instance.
+	 */
+	public static GUI getInstance() {
+		return instance;
+	}
 
-    /**
-     * A List of {@link GUISettingsTabInterface}.
-     */
-    private List<GUISettingsTabInterface> settingsTabs = 
-        new ArrayList<GUISettingsTabInterface>();
+	/**
+	 * A List of {@link GUISettingsTabInterface}.
+	 */
+	private List<GUISettingsTabInterface> settingsTabs = new ArrayList<GUISettingsTabInterface>();
 
-    /**
-     * Register a new SettingsTab.
-     *
-     * @param panel The GUISettingsTabInterface to add.
-     */
-    public void addSettingsTab(final GUISettingsTabInterface panel) {
-        settingsTabs.add(panel);
-    }
+	/**
+	 * Register a new SettingsTab.
+	 *
+	 * @param panel
+	 *            The GUISettingsTabInterface to add.
+	 */
+	public void addSettingsTab(final GUISettingsTabInterface panel) {
+		settingsTabs.add(panel);
+	}
 
-    /**
-     * Get the components for the settings tab.
-     *
-     * @return A List of {@link GUISettingsTabInterface}.
-     */
-    public final List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.unmodifiableList(settingsTabs);
-    }
+	/**
+	 * Get the components for the settings tab.
+	 *
+	 * @return A List of {@link GUISettingsTabInterface}.
+	 */
+	public final List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.unmodifiableList(settingsTabs);
+	}
 
-    /**
-     * A List of {@link GUISettingsTabInterface}.
-     */
-    private List<GUISettingsTabInterface> projectSettingsTabs = 
-        new ArrayList<GUISettingsTabInterface>();
+	/**
+	 * A List of {@link GUISettingsTabInterface}.
+	 */
+	private List<GUISettingsTabInterface> projectSettingsTabs = new ArrayList<GUISettingsTabInterface>();
 
-    /**
-     * Register a new ProjectSettingsTab.
-     *
-     * @param panel The GUISettingsTabInterface to add.
-     */
-    public void addProjectSettingsTab(final GUISettingsTabInterface panel) {
-        projectSettingsTabs.add(panel);
-    }
+	/**
+	 * Register a new ProjectSettingsTab.
+	 *
+	 * @param panel
+	 *            The GUISettingsTabInterface to add.
+	 */
+	public void addProjectSettingsTab(final GUISettingsTabInterface panel) {
+		projectSettingsTabs.add(panel);
+	}
 
-    /**
-     * Get the components for the project settings tab.
-     *
-     * @return A List of {@link GUISettingsTabInterface}.
-     */
-    public final List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.unmodifiableList(projectSettingsTabs);
-    }
+	/**
+	 * Get the components for the project settings tab.
+	 *
+	 * @return A List of {@link GUISettingsTabInterface}.
+	 */
+	public final List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.unmodifiableList(projectSettingsTabs);
+	}
 }

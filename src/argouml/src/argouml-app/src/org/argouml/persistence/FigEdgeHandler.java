@@ -48,84 +48,81 @@ import org.tigris.gef.presentation.FigPoly;
 import org.xml.sax.SAXException;
 
 /**
- * The handler for elements that represent FigEdge objects.
- * This extends the base GEF class to allow comment edges to connect
- * to nodes inside other edges.
+ * The handler for elements that represent FigEdge objects. This extends the
+ * base GEF class to allow comment edges to connect to nodes inside other edges.
+ * 
  * @author Bob Tarling
  */
-class FigEdgeHandler
-    extends org.tigris.gef.persistence.pgml.FigEdgeHandler {
+class FigEdgeHandler extends org.tigris.gef.persistence.pgml.FigEdgeHandler {
 
-    /**
-     * @param parser
-     * @param theEdge
-     */
-    public FigEdgeHandler(PGMLStackParser parser, FigEdge theEdge) {
-        super(parser, theEdge);
-    }
-    /**
-     * Incorporates a contained element into this FigEdge object.<p>
-     *
-     * Three types of contained elements are supported: FigLine or FigPoly
-     * become the Fig associated with this FigEdge; String valued elements
-     * (i.e., <em>private</em> elements) are themselves parsed to determin the
-     * source and destination PortFig's for this FigEdge.
-     *
-     * @see org.tigris.gef.persistence.pgml.Container#addObject(java.lang.Object)
-     */
-    public void addObject(Object o) throws SAXException {
-        FigEdge edge = getFigEdge();
-        if (o instanceof FigLine || o instanceof FigPoly) {
-            edge.setFig((Fig) o);
-            if (o instanceof FigPoly) {
-                ((FigPoly) o).setComplete(true);
-            }
-            edge.calcBounds();
-            if (edge instanceof FigEdgePoly) {
-                ((FigEdgePoly) edge).setInitiallyLaidOut(true);
-            }
-            edge.updateAnnotationPositions();
-        }
+	/**
+	 * @param parser
+	 * @param theEdge
+	 */
+	public FigEdgeHandler(PGMLStackParser parser, FigEdge theEdge) {
+		super(parser, theEdge);
+	}
 
-        if (o instanceof String) {
-            PGMLStackParser parser = getPGMLStackParser();
-//            Fig spf = null;
-//            Fig dpf = null;
-//            FigNode sfn = null;
-//            FigNode dfn = null;
-            String body = (String) o;
-            StringTokenizer st2 = new StringTokenizer(body, "=\"' \t\n");
-            String sourcePortFig = null;
-            String destPortFig = null;
-            String sourceFigNode = null;
-            String destFigNode = null;
-            while (st2.hasMoreElements()) {
-                String attribute = st2.nextToken();
-                String value = st2.nextToken();
-                
-                if (attribute.equals("sourcePortFig")) {
-                    sourcePortFig = value;
-                }
+	/**
+	 * Incorporates a contained element into this FigEdge object.
+	 * <p>
+	 *
+	 * Three types of contained elements are supported: FigLine or FigPoly
+	 * become the Fig associated with this FigEdge; String valued elements
+	 * (i.e., <em>private</em> elements) are themselves parsed to determin the
+	 * source and destination PortFig's for this FigEdge.
+	 *
+	 * @see org.tigris.gef.persistence.pgml.Container#addObject(java.lang.Object)
+	 */
+	public void addObject(Object o) throws SAXException {
+		FigEdge edge = getFigEdge();
+		if (o instanceof FigLine || o instanceof FigPoly) {
+			edge.setFig((Fig) o);
+			if (o instanceof FigPoly) {
+				((FigPoly) o).setComplete(true);
+			}
+			edge.calcBounds();
+			if (edge instanceof FigEdgePoly) {
+				((FigEdgePoly) edge).setInitiallyLaidOut(true);
+			}
+			edge.updateAnnotationPositions();
+		}
 
-                if (attribute.equals("destPortFig")) {
-                    destPortFig = value;
-                }
+		if (o instanceof String) {
+			PGMLStackParser parser = getPGMLStackParser();
+			// Fig spf = null;
+			// Fig dpf = null;
+			// FigNode sfn = null;
+			// FigNode dfn = null;
+			String body = (String) o;
+			StringTokenizer st2 = new StringTokenizer(body, "=\"' \t\n");
+			String sourcePortFig = null;
+			String destPortFig = null;
+			String sourceFigNode = null;
+			String destFigNode = null;
+			while (st2.hasMoreElements()) {
+				String attribute = st2.nextToken();
+				String value = st2.nextToken();
 
-                if (attribute.equals("sourceFigNode")) {
-                    sourceFigNode = value;
-                }
+				if (attribute.equals("sourcePortFig")) {
+					sourcePortFig = value;
+				}
 
-                if (attribute.equals("destFigNode")) {
-                    destFigNode = value;
-                }
-            }
-            
-            ((org.argouml.persistence.PGMLStackParser) parser).addFigEdge(
-                    edge, 
-                    sourcePortFig, 
-                    destPortFig, 
-                    sourceFigNode, 
-                    destFigNode);
-        }
-    }
+				if (attribute.equals("destPortFig")) {
+					destPortFig = value;
+				}
+
+				if (attribute.equals("sourceFigNode")) {
+					sourceFigNode = value;
+				}
+
+				if (attribute.equals("destFigNode")) {
+					destFigNode = value;
+				}
+			}
+
+			((org.argouml.persistence.PGMLStackParser) parser).addFigEdge(edge, sourcePortFig, destPortFig,
+					sourceFigNode, destFigNode);
+		}
+	}
 }

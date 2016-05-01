@@ -52,21 +52,18 @@ import java.util.logging.Logger;
  */
 public class FileModelLoader extends URLModelLoader {
 
-    private static final Logger LOG =
-        Logger.getLogger(FileModelLoader.class.getName());
+	private static final Logger LOG = Logger.getLogger(FileModelLoader.class.getName());
 
-    public Collection loadModel(ProfileReference reference)
-        throws ProfileException {
-        LOG.log(Level.INFO,
-                "Loading profile from file {0}", reference.getPath());
+	public Collection loadModel(ProfileReference reference) throws ProfileException {
+		LOG.log(Level.INFO, "Loading profile from file {0}", reference.getPath());
 
-        try {
-            File modelFile = new File(reference.getPath());
-            URL url = modelFile.toURI().toURL();
-            return super.loadModel(url, reference.getPublicReference());
-        } catch (MalformedURLException e) {
-            throw new ProfileException("Model file not found!", e);
-        }
-    }
+		try {
+			File modelFile = new File(reference.getPath());
+			URL url = modelFile.toURI().toURL();
+			return super.loadModel(url, reference.getPublicReference());
+		} catch (MalformedURLException e) {
+			throw new ProfileException("Model file not found!", e);
+		}
+	}
 
 }

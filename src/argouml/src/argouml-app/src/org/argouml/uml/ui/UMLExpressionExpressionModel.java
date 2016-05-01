@@ -42,45 +42,45 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * The model for a UML Expression that is obtained from its "parent"
- * by getExpression - hence: Guard, ChangeEvent, TimeEvent.
+ * The model for a UML Expression that is obtained from its "parent" by
+ * getExpression - hence: Guard, ChangeEvent, TimeEvent.
  *
  * @author Michiel
  */
 public class UMLExpressionExpressionModel extends UMLExpressionModel2 {
 
-    /**
-     * The constructor.
-     *
-     * @param c the container of UML user interface components
-     * @param name the name of the property
-     */
-    public UMLExpressionExpressionModel(UMLUserInterfaceContainer c,
-            String name) {
-        super(c, name);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param c
+	 *            the container of UML user interface components
+	 * @param name
+	 *            the name of the property
+	 */
+	public UMLExpressionExpressionModel(UMLUserInterfaceContainer c, String name) {
+		super(c, name);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
-     */
-    public Object getExpression() {
-        return Model.getFacade().getExpression(
-                TargetManager.getInstance().getTarget());
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#getExpression()
+	 */
+	public Object getExpression() {
+		return Model.getFacade().getExpression(TargetManager.getInstance().getTarget());
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
-     */
-    public void setExpression(Object expr) {
-        Model.getStateMachinesHelper()
-        	.setExpression(TargetManager.getInstance().getTarget(), expr);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLExpressionModel2#setExpression(java.lang.Object)
+	 */
+	public void setExpression(Object expr) {
+		Model.getStateMachinesHelper().setExpression(TargetManager.getInstance().getTarget(), expr);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
-     */
-    public Object newExpression() {
-        return Model.getDataTypesFactory().createBooleanExpression("", "");
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLExpressionModel2#newExpression()
+	 */
+	public Object newExpression() {
+		return Model.getDataTypesFactory().createBooleanExpression("", "");
+	}
 
 }

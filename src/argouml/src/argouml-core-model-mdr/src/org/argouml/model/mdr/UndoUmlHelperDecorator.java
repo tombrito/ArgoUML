@@ -42,20 +42,20 @@ import org.argouml.model.AbstractUmlHelperDecorator;
 import org.argouml.model.UmlHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
 public class UndoUmlHelperDecorator extends AbstractUmlHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoUmlHelperDecorator(UmlHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoUmlHelperDecorator(UmlHelper component) {
+		super(component);
+	}
 }
-

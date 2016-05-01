@@ -51,26 +51,27 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionMoveClarifiers extends SelectionMove {
 
-    private static final long serialVersionUID = 588331720209174397L;
+	private static final long serialVersionUID = 588331720209174397L;
 
-	/** Construct a new SelectionMoveClarifiers for the given Fig
-     *
-     * @param f the given Fig
-     */
-    public SelectionMoveClarifiers(Fig f) {
-        super(f);
-    }
+	/**
+	 * Construct a new SelectionMoveClarifiers for the given Fig
+	 *
+	 * @param f
+	 *            the given Fig
+	 */
+	public SelectionMoveClarifiers(Fig f) {
+		super(f);
+	}
 
-    /**
-     * Paint the handles at the four corners and midway along each edge of the
-     * bounding box.
-     *
-     * @see org.tigris.gef.base.Selection#paint(java.awt.Graphics)
-     */
-    public void paint(Graphics g) {
-        ((Clarifiable) getContent()).paintClarifiers(g);
-        super.paint(g);
-    }
+	/**
+	 * Paint the handles at the four corners and midway along each edge of the
+	 * bounding box.
+	 *
+	 * @see org.tigris.gef.base.Selection#paint(java.awt.Graphics)
+	 */
+	public void paint(Graphics g) {
+		((Clarifiable) getContent()).paintClarifiers(g);
+		super.paint(g);
+	}
 
 }
-

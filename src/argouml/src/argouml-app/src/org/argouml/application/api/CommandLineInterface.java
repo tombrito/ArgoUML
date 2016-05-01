@@ -39,23 +39,25 @@
 package org.argouml.application.api;
 
 /**
- * This is the interface that a class needs to implement in order to
- * be used from the command line of ArgoUML.<p>
+ * This is the interface that a class needs to implement in order to be used
+ * from the command line of ArgoUML.
+ * <p>
  *
- * Furthermore the class need to have a public constructor
- * that doesn't take any arguments.<p>
+ * Furthermore the class need to have a public constructor that doesn't take any
+ * arguments.
+ * <p>
  *
  * @author Linus Tolke
  * @since 0.15.1
  */
 public interface CommandLineInterface {
-    /**
-     * The method is called with the argument to this class from the
-     * command line (or null if no argument).
-     *
-     * @param argument a string that is used to send arguments.
-     * @return true if the command was performed successfully.
-     */
-    boolean doCommand(String argument);
+	/**
+	 * The method is called with the argument to this class from the command
+	 * line (or null if no argument).
+	 *
+	 * @param argument
+	 *            a string that is used to send arguments.
+	 * @return true if the command was performed successfully.
+	 */
+	boolean doCommand(String argument);
 }
-

@@ -51,100 +51,90 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionState extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -6217485733568515366L;
+	private static final long serialVersionUID = -6217485733568515366L;
 
-	private static Icon trans =
-	ResourceLoaderWrapper.lookupIconResource("Transition");
+	private static Icon trans = ResourceLoaderWrapper.lookupIconResource("Transition");
 
-    private static Icon icons[] = 
-    {null,
-     null,
-     trans,
-     trans,
-     null,
-    };
-    
-    // TODO: I18N required
-    private static String instructions[] = 
-    {null,
-     null,
-     "Add an outgoing transition",
-     "Add an incoming transition",
-     null,
-     "Move object(s)",
-    };
-    private boolean showIncoming = true;
+	private static Icon icons[] = { null, null, trans, trans, null, };
 
-    private boolean showOutgoing = true;
+	// TODO: I18N required
+	private static String instructions[] = { null, null, "Add an outgoing transition", "Add an incoming transition",
+			null, "Move object(s)", };
+	private boolean showIncoming = true;
 
-    /**
-     * Construct a new SelectionState for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionState(Fig f) {
-	super(f);
-    }
+	private boolean showOutgoing = true;
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setIncomingButtonEnabled(boolean b) {
-	showIncoming = b;
-    }
+	/**
+	 * Construct a new SelectionState for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionState(Fig f) {
+		super(f);
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setOutgoingButtonEnabled(boolean b) {
-	showOutgoing = b;
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setIncomingButtonEnabled(boolean b) {
+		showIncoming = b;
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        Icon workingIcons[] = new Icon[icons.length];
-        System.arraycopy(icons, 0, workingIcons, 0, icons.length);
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setOutgoingButtonEnabled(boolean b) {
+		showOutgoing = b;
+	}
 
-        if (!showOutgoing) {
-            workingIcons[RIGHT - BASE] = null;
-        }
-        if (!showIncoming) {
-            workingIcons[LEFT - BASE] = null;
-        }
-        
-        return workingIcons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		Icon workingIcons[] = new Icon[icons.length];
+		System.arraycopy(icons, 0, workingIcons, 0, icons.length);
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+		if (!showOutgoing) {
+			workingIcons[RIGHT - BASE] = null;
+		}
+		if (!showIncoming) {
+			workingIcons[LEFT - BASE] = null;
+		}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return Model.getMetaTypes().getTransition();
-    }
+		return workingIcons;
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        return Model.getStateMachinesFactory().createSimpleState();
-    }
-    
-    @Override
-    protected Object getNewNodeType(int index) {
-        if (Model.getFacade().getUmlVersion().startsWith("1")) {
-            return Model.getMetaTypes().getSimpleState();
-        } else {
-            return Model.getMetaTypes().getState();
-        }
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == LEFT) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return Model.getMetaTypes().getTransition();
+	}
+
+	@Override
+	protected Object getNewNode(int index) {
+		return Model.getStateMachinesFactory().createSimpleState();
+	}
+
+	@Override
+	protected Object getNewNodeType(int index) {
+		if (Model.getFacade().getUmlVersion().startsWith("1")) {
+			return Model.getMetaTypes().getSimpleState();
+		} else {
+			return Model.getMetaTypes().getState();
+		}
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
 }

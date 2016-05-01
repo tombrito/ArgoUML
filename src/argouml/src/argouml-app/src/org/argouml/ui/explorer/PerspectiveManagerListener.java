@@ -39,21 +39,23 @@
 package org.argouml.ui.explorer;
 
 /**
- * An interface to decouple the perspective manager
- * from interested ui components.
+ * An interface to decouple the perspective manager from interested ui
+ * components.
  *
- * @author  alexb
+ * @author alexb
  * @since 0.15.2
  */
 public interface PerspectiveManagerListener {
 
-    /**
-     * @param perspective the perspective to be added
-     */
-    void addPerspective(Object perspective);
+	/**
+	 * @param perspective
+	 *            the perspective to be added
+	 */
+	void addPerspective(Object perspective);
 
-    /**
-     * @param perspective the perspective to be removed
-     */
-    void removePerspective(Object perspective);
+	/**
+	 * @param perspective
+	 *            the perspective to be removed
+	 */
+	void removePerspective(Object perspective);
 }

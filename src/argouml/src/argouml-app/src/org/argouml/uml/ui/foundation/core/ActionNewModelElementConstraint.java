@@ -43,38 +43,38 @@ import java.awt.event.ActionEvent;
 
 import org.argouml.model.Model;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
+
 /**
  * @since Oct 12, 2002
  * @author jaap.branderhorst@xs4all.nl
  * @stereotype singleton
  */
-public class ActionNewModelElementConstraint
-    extends AbstractActionNewModelElement {
+public class ActionNewModelElementConstraint extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 5290420904805888224L;
-	private static final ActionNewModelElementConstraint SINGLETON =
-        new ActionNewModelElementConstraint();
+	private static final long serialVersionUID = 5290420904805888224L;
+	private static final ActionNewModelElementConstraint SINGLETON = new ActionNewModelElementConstraint();
 
-    /**
-     * Constructor for ActionNewModelElementConstraint.
-     */
-    protected ActionNewModelElementConstraint() {
-        super();
-    }
+	/**
+	 * Constructor for ActionNewModelElementConstraint.
+	 */
+	protected ActionNewModelElementConstraint() {
+		super();
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getCoreFactory().buildConstraint(getTarget());
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getCoreFactory().buildConstraint(getTarget());
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewModelElementConstraint getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewModelElementConstraint getInstance() {
+		return SINGLETON;
+	}
 
 }

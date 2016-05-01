@@ -38,24 +38,26 @@
 
 package org.argouml.uml.diagram;
 
-
 /**
-* An interface to be implemented by any Fig that may or may not
-* show a full path (of which the segments are seperated by ::).
-*
-* @author mvw@tigris.org
-*/
+ * An interface to be implemented by any Fig that may or may not show a full
+ * path (of which the segments are seperated by ::).
+ *
+ * @author mvw@tigris.org
+ */
 public interface PathContainer {
-    /**
-     * Determine if the path is visible.
-     * @return true if the path is visible.
-     */
-    boolean isPathVisible();
+	/**
+	 * Determine if the path is visible.
+	 * 
+	 * @return true if the path is visible.
+	 */
+	boolean isPathVisible();
 
-    /**
-     * Set the visibility of the path.
-     * @param visible the new path status.
-     */
-    void setPathVisible(boolean visible);
+	/**
+	 * Set the visibility of the path.
+	 * 
+	 * @param visible
+	 *            the new path status.
+	 */
+	void setPathVisible(boolean visible);
 
 }

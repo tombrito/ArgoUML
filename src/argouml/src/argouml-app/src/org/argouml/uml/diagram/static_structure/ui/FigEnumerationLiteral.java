@@ -51,23 +51,25 @@ import org.argouml.uml.diagram.ui.CompartmentFigText;
  */
 public class FigEnumerationLiteral extends CompartmentFigText {
 
-    private static final long serialVersionUID = 4329575493025528544L;
+	private static final long serialVersionUID = 4329575493025528544L;
 
 	/**
-     * Build a new Enumeration Literal figText of the given dimensions, 
-     * within the compartment described by <code>aFig</code>.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigEnumerationLiteral(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
+	 * Build a new Enumeration Literal figText of the given dimensions, within
+	 * the compartment described by <code>aFig</code>.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigEnumerationLiteral(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
 
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_ENUMERATION_LITERAL;
-    }
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_ENUMERATION_LITERAL;
+	}
 }

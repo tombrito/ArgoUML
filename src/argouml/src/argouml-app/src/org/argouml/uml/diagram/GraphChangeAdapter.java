@@ -47,140 +47,142 @@ import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * Adapts changes in the Diagram subsystem (the graph presentation layer)
- * to changes in the Model subsyetm (diagram interchange model).
- * The curent implementaion does this by listening to graph events and
- * forwarding those as specific calls to the DiagramInterchangeModel.
- * This should be changed to a more standard Adapter architecture that
- * provides an interface for Figs and GraphModels to call only when required.
+ * Adapts changes in the Diagram subsystem (the graph presentation layer) to
+ * changes in the Model subsyetm (diagram interchange model). The curent
+ * implementaion does this by listening to graph events and forwarding those as
+ * specific calls to the DiagramInterchangeModel. This should be changed to a
+ * more standard Adapter architecture that provides an interface for Figs and
+ * GraphModels to call only when required.
  *
  * @author Bob Tarling
  * @stereotype singleton
  */
 public final class GraphChangeAdapter implements GraphListener {
-    /**
-     * The instance.
-     */
-    private static final GraphChangeAdapter INSTANCE =
-        new GraphChangeAdapter();
+	/**
+	 * The instance.
+	 */
+	private static final GraphChangeAdapter INSTANCE = new GraphChangeAdapter();
 
-    /**
-     * The getter for the instance.
-     *
-     * @return The instance.
-     */
-    public static GraphChangeAdapter getInstance() {
-        return INSTANCE;
-    }
+	/**
+	 * The getter for the instance.
+	 *
+	 * @return The instance.
+	 */
+	public static GraphChangeAdapter getInstance() {
+		return INSTANCE;
+	}
 
-    /**
-     * The constructor of a singleton is private.
-     */
-    private GraphChangeAdapter() {
-        // singleton, no instantiation
-    }
+	/**
+	 * The constructor of a singleton is private.
+	 */
+	private GraphChangeAdapter() {
+		// singleton, no instantiation
+	}
 
-    public DiDiagram createDiagram(Class type, Object owner) {
-        if (Model.getDiagramInterchangeModel() != null) {
-            return Model.getDiagramInterchangeModel()
-                .createDiagram(type, owner);
-        }
-        return null;
-    }
+	public DiDiagram createDiagram(Class type, Object owner) {
+		if (Model.getDiagramInterchangeModel() != null) {
+			return Model.getDiagramInterchangeModel().createDiagram(type, owner);
+		}
+		return null;
+	}
 
+	public void removeDiagram(DiDiagram dd) {
+		if (Model.getDiagramInterchangeModel() != null) {
+			Model.getDiagramInterchangeModel().deleteDiagram(dd);
+		}
+	}
 
-    public void removeDiagram(DiDiagram dd) {
-        if (Model.getDiagramInterchangeModel() != null) {
-            Model.getDiagramInterchangeModel().deleteDiagram(dd);
-        }
-    }
+	public DiElement createElement(GraphModel gm, Object node) {
+		if (Model.getDiagramInterchangeModel() != null) {
+			return Model.getDiagramInterchangeModel().createElement(((UMLMutableGraphSupport) gm).getDiDiagram(), node);
+		}
+		return null;
+	}
 
-    public DiElement createElement(GraphModel gm, Object node) {
-        if (Model.getDiagramInterchangeModel() != null) {
-            return Model.getDiagramInterchangeModel().createElement(
-                ((UMLMutableGraphSupport) gm).getDiDiagram(), node);
-        }
-        return null;
-    }
+	public void removeElement(DiElement element) {
+		if (Model.getDiagramInterchangeModel() != null) {
+			Model.getDiagramInterchangeModel().deleteElement(element);
+		}
+	}
 
-    public void removeElement(DiElement element) {
-        if (Model.getDiagramInterchangeModel() != null) {
-            Model.getDiagramInterchangeModel().deleteElement(element);
-        }
-    }
+	/*
+	 * @see org.tigris.gef.graph.GraphListener#nodeAdded(org.tigris.gef.graph.
+	 * GraphEvent)
+	 */
+	public void nodeAdded(GraphEvent e) {
+		Object source = e.getSource();
+		Object arg = e.getArg();
+		if (source instanceof Fig) {
+			source = ((Fig) source).getOwner();
+		}
+		if (arg instanceof Fig) {
+			arg = ((Fig) arg).getOwner();
+		}
+		Model.getDiagramInterchangeModel().nodeAdded(source, arg);
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphListener#nodeAdded(org.tigris.gef.graph.GraphEvent)
-     */
-    public void nodeAdded(GraphEvent e) {
-        Object source = e.getSource();
-        Object arg = e.getArg();
-        if (source instanceof Fig) {
-            source = ((Fig) source).getOwner();
-        }
-        if (arg instanceof Fig) {
-            arg = ((Fig) arg).getOwner();
-        }
-        Model.getDiagramInterchangeModel().nodeAdded(source, arg);
-    }
+	/*
+	 * @see org.tigris.gef.graph.GraphListener#edgeAdded(org.tigris.gef.graph.
+	 * GraphEvent)
+	 */
+	public void edgeAdded(GraphEvent e) {
+		Object source = e.getSource();
+		Object arg = e.getArg();
+		if (source instanceof Fig) {
+			source = ((Fig) source).getOwner();
+		}
+		if (arg instanceof Fig) {
+			arg = ((Fig) arg).getOwner();
+		}
+		Model.getDiagramInterchangeModel().edgeAdded(source, arg);
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphListener#edgeAdded(org.tigris.gef.graph.GraphEvent)
-     */
-    public void edgeAdded(GraphEvent e) {
-        Object source = e.getSource();
-        Object arg = e.getArg();
-        if (source instanceof Fig) {
-            source = ((Fig) source).getOwner();
-        }
-        if (arg instanceof Fig) {
-            arg = ((Fig) arg).getOwner();
-        }
-        Model.getDiagramInterchangeModel().edgeAdded(source, arg);
-    }
+	/*
+	 * @see org.tigris.gef.graph.GraphListener#nodeRemoved(org.tigris.gef.graph.
+	 * GraphEvent)
+	 */
+	public void nodeRemoved(GraphEvent e) {
+		Object source = e.getSource();
+		Object arg = e.getArg();
+		if (source instanceof Fig) {
+			source = ((Fig) source).getOwner();
+		}
+		if (arg instanceof Fig) {
+			arg = ((Fig) arg).getOwner();
+		}
+		Model.getDiagramInterchangeModel().nodeRemoved(source, arg);
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphListener#nodeRemoved(org.tigris.gef.graph.GraphEvent)
-     */
-    public void nodeRemoved(GraphEvent e) {
-        Object source = e.getSource();
-        Object arg = e.getArg();
-        if (source instanceof Fig) {
-            source = ((Fig) source).getOwner();
-        }
-        if (arg instanceof Fig) {
-            arg = ((Fig) arg).getOwner();
-        }
-        Model.getDiagramInterchangeModel().nodeRemoved(source, arg);
-    }
+	/*
+	 * @see org.tigris.gef.graph.GraphListener#edgeRemoved(org.tigris.gef.graph.
+	 * GraphEvent)
+	 */
+	public void edgeRemoved(GraphEvent e) {
+		Object source = e.getSource();
+		Object arg = e.getArg();
+		if (source instanceof Fig) {
+			source = ((Fig) source).getOwner();
+		}
+		if (arg instanceof Fig) {
+			arg = ((Fig) arg).getOwner();
+		}
+		Model.getDiagramInterchangeModel().edgeRemoved(source, arg);
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphListener#edgeRemoved(org.tigris.gef.graph.GraphEvent)
-     */
-    public void edgeRemoved(GraphEvent e) {
-        Object source = e.getSource();
-        Object arg = e.getArg();
-        if (source instanceof Fig) {
-            source = ((Fig) source).getOwner();
-        }
-        if (arg instanceof Fig) {
-            arg = ((Fig) arg).getOwner();
-        }
-        Model.getDiagramInterchangeModel().edgeRemoved(source, arg);
-    }
-
-    /*
-     * @see org.tigris.gef.graph.GraphListener#graphChanged(org.tigris.gef.graph.GraphEvent)
-     */
-    public void graphChanged(GraphEvent e) {
-        Object source = e.getSource();
-        Object arg = e.getArg();
-        if (source instanceof Fig) {
-            source = ((Fig) source).getOwner();
-        }
-        if (arg instanceof Fig) {
-            arg = ((Fig) arg).getOwner();
-        }
-        Model.getDiagramInterchangeModel().graphChanged(source, arg);
-    }
+	/*
+	 * @see
+	 * org.tigris.gef.graph.GraphListener#graphChanged(org.tigris.gef.graph.
+	 * GraphEvent)
+	 */
+	public void graphChanged(GraphEvent e) {
+		Object source = e.getSource();
+		Object arg = e.getArg();
+		if (source instanceof Fig) {
+			source = ((Fig) source).getOwner();
+		}
+		if (arg instanceof Fig) {
+			arg = ((Fig) arg).getOwner();
+		}
+		Model.getDiagramInterchangeModel().graphChanged(source, arg);
+	}
 }

@@ -52,57 +52,61 @@ import org.argouml.model.Model;
  */
 public class GoStereotypeToTagDefinition extends AbstractPerspectiveRule {
 
-    /**
-     * The constructor.
-     */
-    public GoStereotypeToTagDefinition() {
-        super();
-    }
+	/**
+	 * The constructor.
+	 */
+	public GoStereotypeToTagDefinition() {
+		super();
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.lang.Object)
-     */
-    @Override
-    public Collection getChildren(final Object parent) {
-        if (Model.getFacade().isAStereotype(parent)) {
-            final List list = new ArrayList();
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.
+	 * lang.Object)
+	 */
+	@Override
+	public Collection getChildren(final Object parent) {
+		if (Model.getFacade().isAStereotype(parent)) {
+			final List list = new ArrayList();
 
-            if (Model.getFacade().getTagDefinitions(parent) != null
-                    && Model.getFacade().getTagDefinitions(parent).size() > 0) {
-                list.addAll(Model.getFacade().getTagDefinitions(parent));
-            }
-            return list;
-        }
-        return Collections.EMPTY_SET;
-    }
+			if (Model.getFacade().getTagDefinitions(parent) != null
+					&& Model.getFacade().getTagDefinitions(parent).size() > 0) {
+				list.addAll(Model.getFacade().getTagDefinitions(parent));
+			}
+			return list;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
-     */
-    @Override
-    public String getRuleName() {
-        return "Stereotype->TagDefinition";
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
+	 */
+	@Override
+	public String getRuleName() {
+		return "Stereotype->TagDefinition";
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#toString()
-     */
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#toString()
+	 */
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(final Object parent) {
-        if (Model.getFacade().isAStereotype(parent)) {
-            final Set set = new HashSet();
-            set.add(parent);
-            set.addAll(Model.getFacade().getTagDefinitions(parent));
-            return set;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(final Object parent) {
+		if (Model.getFacade().isAStereotype(parent)) {
+			final Set set = new HashSet();
+			set.add(parent);
+			set.addAll(Model.getFacade().getTagDefinitions(parent));
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 
 }

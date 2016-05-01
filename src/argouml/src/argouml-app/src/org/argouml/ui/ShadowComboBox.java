@@ -59,164 +59,159 @@ import org.argouml.uml.diagram.ui.FigStereotypesGroup;
  */
 public class ShadowComboBox extends JComboBox {
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 3440806802523267746L;
-    
-    private static ShadowFig[]  shadowFigs;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 3440806802523267746L;
 
-    /**
-     * The constructor.
-     *
-     */
-    public ShadowComboBox() {
-        super();
+	private static ShadowFig[] shadowFigs;
 
-        addItem(Translator.localize("label.stylepane.no-shadow"));
-        addItem("1");
-        addItem("2");
-        addItem("3");
-        addItem("4");
-        addItem("5");
-        addItem("6");
-        addItem("7");
-        addItem("8");
+	/**
+	 * The constructor.
+	 *
+	 */
+	public ShadowComboBox() {
+		super();
 
-        setRenderer(new ShadowRenderer());
-    }
+		addItem(Translator.localize("label.stylepane.no-shadow"));
+		addItem("1");
+		addItem("2");
+		addItem("3");
+		addItem("4");
+		addItem("5");
+		addItem("6");
+		addItem("7");
+		addItem("8");
 
-    /**
-     * Renders each combo box entry as a shadowed diagram figure with the
-     * associated level of shadow.
-     */
-    private class ShadowRenderer extends JComponent
-            implements ListCellRenderer {
-        
-        /**
-         * The UID.
-         */
-        private static final long serialVersionUID = 5939340501470674464L;
-        
-        private ShadowFig  currentFig;
+		setRenderer(new ShadowRenderer());
+	}
 
-        /**
-         * Constructor.
-         */
-        public ShadowRenderer() {
-            super();
-        }
+	/**
+	 * Renders each combo box entry as a shadowed diagram figure with the
+	 * associated level of shadow.
+	 */
+	private class ShadowRenderer extends JComponent implements ListCellRenderer {
 
-        /*
-         * @see javax.swing.ListCellRenderer#getListCellRendererComponent(
-         *         javax.swing.JList, java.lang.Object, int, boolean, boolean)
-         */
-        public Component getListCellRendererComponent(
-            JList list,
-            Object value,
-            int index,
-            boolean isSelected,
-            boolean cellHasFocus) {
+		/**
+		 * The UID.
+		 */
+		private static final long serialVersionUID = 5939340501470674464L;
 
-            if (shadowFigs == null) {
-                shadowFigs = new ShadowFig[ShadowComboBox.this.getItemCount()];
+		private ShadowFig currentFig;
 
-                for (int i = 0; i < shadowFigs.length; ++i) {
-                    shadowFigs[i] = new ShadowFig();
-                    shadowFigs[i].setShadowSize(i);
-                    shadowFigs[i].setName(
-                        (String) ShadowComboBox.this.getItemAt(i));
-                }
-            }
+		/**
+		 * Constructor.
+		 */
+		public ShadowRenderer() {
+			super();
+		}
 
-            if (isSelected) {
-                setBackground(list.getSelectionBackground());
-            } else {
-                setBackground(list.getBackground());
-            }
+		/*
+		 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(
+		 * javax.swing.JList, java.lang.Object, int, boolean, boolean)
+		 */
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
 
-            int figIndex = index;
-            if (figIndex < 0) {
-                for (int i = 0; i < shadowFigs.length; ++i) {
-                    if (value == ShadowComboBox.this.getItemAt(i)) {
-                        figIndex = i;
-                    }
-                }
-            }
+			if (shadowFigs == null) {
+				shadowFigs = new ShadowFig[ShadowComboBox.this.getItemCount()];
 
-            if (figIndex >= 0) {
-                currentFig = shadowFigs[figIndex];
-                setPreferredSize(new Dimension(
-                    currentFig.getWidth() + figIndex + 4,
-                    currentFig.getHeight() + figIndex + 2));
-            } else {
-                currentFig = null;
-            }
+				for (int i = 0; i < shadowFigs.length; ++i) {
+					shadowFigs[i] = new ShadowFig();
+					shadowFigs[i].setShadowSize(i);
+					shadowFigs[i].setName((String) ShadowComboBox.this.getItemAt(i));
+				}
+			}
 
-            return this;
-        }
+			if (isSelected) {
+				setBackground(list.getSelectionBackground());
+			} else {
+				setBackground(list.getBackground());
+			}
 
-        /*
-         * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
-         */
-        protected void paintComponent(Graphics g) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
-            if (currentFig != null) {
-                currentFig.setLocation(2, 1);
-                currentFig.paint(g);
-            }
-        }
-    }
+			int figIndex = index;
+			if (figIndex < 0) {
+				for (int i = 0; i < shadowFigs.length; ++i) {
+					if (value == ShadowComboBox.this.getItemAt(i)) {
+						figIndex = i;
+					}
+				}
+			}
 
-    /**
-     * This Fig is never placed on a diagram. It is only used by the call
-     * renderer so that pick list items look like diagram Figs.
-     * TODO: This Fig does not represent a model element and so it
-     * should not extend FigNodeModelElement. We should split
-     * FigNodeModelElement in two, one for base functionality for all nodes
-     * and one that is truly for model elements.
-     */
-    private static class ShadowFig extends FigNodeModelElement {
+			if (figIndex >= 0) {
+				currentFig = shadowFigs[figIndex];
+				setPreferredSize(
+						new Dimension(currentFig.getWidth() + figIndex + 4, currentFig.getHeight() + figIndex + 2));
+			} else {
+				currentFig = null;
+			}
 
-        /**
-         * The UID.
-         */
-        private static final long serialVersionUID = 4999132551417131227L;
+			return this;
+		}
 
-        /**
-         * Constructor.
-         */
-        public ShadowFig() {
-            super(null, null, new DiagramSettings());
-            addFig(getBigPort());
-            addFig(getNameFig());
-        }
-        
-        public void setName(String text) {
-            getNameFig().setText(text);
-        }
-        
-        /**
-         * TODO: Bob says - This is a really nasty horrible hack.
-         * ShadowFig should not extend FigNodeModelElement. Instead
-         * we require a base class FigNode with common behaviour of ALL
-         * nodes in ArgoUML. ShadowFig should extend that and
-         * FigNodeModelElement should extend that same base class adding
-         * common functionality for FigNode that represent model element.
-         * @see org.argouml.uml.diagram.ui.FigNodeModelElement#setShadowSize(int)
-         */
-        public void setShadowSize(int size) {
-            super.setShadowSizeFriend(size);
-        }
-        
-        /**
-         * This isn't really a Fig representing a model element so
-         * there is always no stereotype.
-         * @return null
-         */
-        protected FigStereotypesGroup createStereotypeFig() {
-            return null;
-        }
-    }
+		/*
+		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+		 */
+		protected void paintComponent(Graphics g) {
+			g.setColor(getBackground());
+			g.fillRect(0, 0, getWidth(), getHeight());
+			if (currentFig != null) {
+				currentFig.setLocation(2, 1);
+				currentFig.paint(g);
+			}
+		}
+	}
+
+	/**
+	 * This Fig is never placed on a diagram. It is only used by the call
+	 * renderer so that pick list items look like diagram Figs. TODO: This Fig
+	 * does not represent a model element and so it should not extend
+	 * FigNodeModelElement. We should split FigNodeModelElement in two, one for
+	 * base functionality for all nodes and one that is truly for model
+	 * elements.
+	 */
+	private static class ShadowFig extends FigNodeModelElement {
+
+		/**
+		 * The UID.
+		 */
+		private static final long serialVersionUID = 4999132551417131227L;
+
+		/**
+		 * Constructor.
+		 */
+		public ShadowFig() {
+			super(null, null, new DiagramSettings());
+			addFig(getBigPort());
+			addFig(getNameFig());
+		}
+
+		public void setName(String text) {
+			getNameFig().setText(text);
+		}
+
+		/**
+		 * TODO: Bob says - This is a really nasty horrible hack. ShadowFig
+		 * should not extend FigNodeModelElement. Instead we require a base
+		 * class FigNode with common behaviour of ALL nodes in ArgoUML.
+		 * ShadowFig should extend that and FigNodeModelElement should extend
+		 * that same base class adding common functionality for FigNode that
+		 * represent model element.
+		 * 
+		 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#setShadowSize(int)
+		 */
+		public void setShadowSize(int size) {
+			super.setShadowSizeFriend(size);
+		}
+
+		/**
+		 * This isn't really a Fig representing a model element so there is
+		 * always no stereotype.
+		 * 
+		 * @return null
+		 */
+		protected FigStereotypesGroup createStereotypeFig() {
+			return null;
+		}
+	}
 }

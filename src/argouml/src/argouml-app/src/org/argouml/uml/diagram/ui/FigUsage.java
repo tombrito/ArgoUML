@@ -47,17 +47,18 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public class FigUsage extends FigDependency {
 
-    private static final long serialVersionUID = 1410803391181091628L;
+	private static final long serialVersionUID = 1410803391181091628L;
 
 	/**
-     * Construct a Fig.
-     * 
-     * @param owner owning UML element
-     * @param settings render settings
-     */
-    public FigUsage(Object owner, DiagramSettings settings) {
-        super(owner, settings);
-    }
-    
-} 
+	 * Construct a Fig.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param settings
+	 *            render settings
+	 */
+	public FigUsage(Object owner, DiagramSettings settings) {
+		super(owner, settings);
+	}
 
+}

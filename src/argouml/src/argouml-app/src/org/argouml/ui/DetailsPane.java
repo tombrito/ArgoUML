@@ -71,646 +71,647 @@ import org.tigris.swidgets.Orientable;
 import org.tigris.swidgets.Orientation;
 
 /**
- * The lower-right pane of the main ArgoUML window, which shows
- * the details of a selected model element. <p>
+ * The lower-right pane of the main ArgoUML window, which shows the details of a
+ * selected model element.
+ * <p>
  *
- * This panel has several tabs that show details of the selected
- * ToDoItem, or the selected model element in the Explorer (NavigatorPane),
- * or the MultiEditorPane. <p>
+ * This panel has several tabs that show details of the selected ToDoItem, or
+ * the selected model element in the Explorer (NavigatorPane), or the
+ * MultiEditorPane.
+ * <p>
  *
- * There are requests to have the cursor automatically
- * be set to the primary field.
+ * There are requests to have the cursor automatically be set to the primary
+ * field.
  */
-public class DetailsPane
-    extends JPanel
-    implements ChangeListener, MouseListener,
-	       Orientable,
-	       TargetListener {
+public class DetailsPane extends JPanel implements ChangeListener, MouseListener, Orientable, TargetListener {
 
-    private static final long serialVersionUID = 5408288238881845021L;
+	private static final long serialVersionUID = 5408288238881845021L;
 
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(DetailsPane.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(DetailsPane.class.getName());
 
-    /**
-     * The top level pane, which is a tabbed pane.
-     */
-    private JTabbedPane topLevelTabbedPane = new JTabbedPane();
+	/**
+	 * The top level pane, which is a tabbed pane.
+	 */
+	private JTabbedPane topLevelTabbedPane = new JTabbedPane();
 
-    /**
-     * The current target.
-     */
-    private Object currentTarget;
+	/**
+	 * The current target.
+	 */
+	private Object currentTarget;
 
+	/**
+	 * The list of all the tabs, which are JPanels, in the JTabbedPane tabs.
+	 */
+	private List<JPanel> tabPanelList = new ArrayList<JPanel>();
 
-    /**
-     * The list of all the tabs, which are JPanels, in the JTabbedPane tabs.
-     */
-    private List<JPanel> tabPanelList = new ArrayList<JPanel>();
+	/**
+	 * index of the selected tab in the JTabbedPane.
+	 */
+	private int lastNonNullTab = -1;
 
-    /**
-     * index of the selected tab in the JTabbedPane.
-     */
-    private int lastNonNullTab = -1;
+	/**
+	 * The list with targetlisteners, this are the property panels managed by
+	 * TabProps It should only contain one listener at a time.
+	 */
+	private EventListenerList listenerList = new EventListenerList();
 
-    /**
-     * The list with targetlisteners, this are the property panels
-     * managed by TabProps It should only contain one listener at a
-     * time.
-     */
-    private EventListenerList listenerList = new EventListenerList();
+	private Orientation orientation;
 
-    private Orientation orientation;
+	private boolean hasTabs = false;
 
-    private boolean hasTabs = false;
+	/**
+	 * Adds a listener.
+	 * 
+	 * @param listener
+	 *            the listener to add
+	 */
+	private void addTargetListener(TargetListener listener) {
+		listenerList.add(TargetListener.class, listener);
+	}
 
-    /**
-     * Adds a listener.
-     * @param listener the listener to add
-     */
-    private void addTargetListener(TargetListener listener) {
-        listenerList.add(TargetListener.class, listener);
-    }
+	/**
+	 * Removes a target listener.
+	 * 
+	 * @param listener
+	 *            the listener to remove
+	 */
+	private void removeTargetListener(TargetListener listener) {
+		listenerList.remove(TargetListener.class, listener);
+	}
 
-    /**
-     * Removes a target listener.
-     * @param listener the listener to remove
-     */
-    private void removeTargetListener(TargetListener listener) {
-        listenerList.remove(TargetListener.class, listener);
-    }
+	/**
+	 * Gets all of the tabPanels from the ConfigLoader, then adds them to the
+	 * JTabbedPane.
+	 * <p>
+	 *
+	 * Sets the target to null.
+	 * <p>
+	 *
+	 * Registers listeners.
+	 * <p>
+	 *
+	 * @param compassPoint
+	 *            the position for which to build the pane
+	 * @param theOrientation
+	 *            is the orientation.
+	 */
+	public DetailsPane(String compassPoint, Orientation theOrientation) {
+		LOG.log(Level.INFO, "making DetailsPane({0})", compassPoint);
 
-    /**
-     * Gets all of the tabPanels from the ConfigLoader, then
-     * adds them to the JTabbedPane.<p>
-     *
-     * Sets the target to null.<p>
-     *
-     * Registers listeners.<p>
-     *
-     * @param compassPoint the position for which to build the pane
-     * @param theOrientation is the orientation.
-     */
-    public DetailsPane(String compassPoint, Orientation theOrientation) {
-        LOG.log(Level.INFO, "making DetailsPane({0})", compassPoint);
+		orientation = theOrientation;
 
-        orientation = theOrientation;
+		loadTabs(compassPoint);
 
-        loadTabs(compassPoint);
+		setOrientation(orientation);
 
-        setOrientation(orientation);
+		setLayout(new BorderLayout());
+		setFont(new Font("Dialog", Font.PLAIN, 10));
+		add(topLevelTabbedPane, BorderLayout.CENTER);
 
-        setLayout(new BorderLayout());
-        setFont(new Font("Dialog", Font.PLAIN, 10));
-        add(topLevelTabbedPane, BorderLayout.CENTER);
+		setTarget(null, true);
+		topLevelTabbedPane.addMouseListener(this);
+		topLevelTabbedPane.addChangeListener(this);
+	}
 
-        setTarget(null, true);
-        topLevelTabbedPane.addMouseListener(this);
-        topLevelTabbedPane.addChangeListener(this);
-    }
+	/*
+	 * TODO: Some parts of ArgoUML have preliminary support for multiple details
+	 * panels, but we currently only support the default South (bottom) panel
+	 */
+	private void loadTabs(String direction) {
+		if (Position.South.toString().equalsIgnoreCase(direction)
+				// Special case for backward compatibility
+				|| "detail".equalsIgnoreCase(direction)) {
+			/*
+			 * The south panel always has tabs - but they are added (later)
+			 * elsewhere.
+			 */
+			hasTabs = true;
+		}
+	}
 
-    /* TODO: Some parts of ArgoUML have preliminary support for multiple
-     * details panels, but we currently only support
-     * the default South (bottom) panel
-     */
-    private void loadTabs(String direction) {
-        if (Position.South.toString().equalsIgnoreCase(direction)
-                // Special case for backward compatibility
-                || "detail".equalsIgnoreCase(direction)) {
-            /* The south panel always has tabs - but they are
-             * added (later) elsewhere.
-             */
-            hasTabs = true;
-        }
-    }
+	boolean hasTabs() {
+		return hasTabs;
+	}
 
-    boolean hasTabs() {
-        return hasTabs;
-    }
+	/**
+	 * Returns the JTabbedPane that contains all details panels.
+	 * 
+	 * @return the JTabbedPane.
+	 */
+	JTabbedPane getTabs() {
+		return topLevelTabbedPane;
+	}
 
-    /**
-     * Returns the JTabbedPane that contains all details panels.
-     * @return the JTabbedPane.
-     */
-    JTabbedPane getTabs() {
-        return topLevelTabbedPane;
-    }
+	/**
+	 * @param p
+	 *            the panel to be added
+	 * @param atEnd
+	 *            true = add the panel at the end, false = at the beginning
+	 */
+	public void addTab(JPanel p, boolean atEnd) {
+		final Icon icon;
+		final String title;
+		if (p instanceof AbstractArgoJPanel) {
+			icon = ((AbstractArgoJPanel) p).getIcon();
+			title = Translator.localize(((AbstractArgoJPanel) p).getTitle());
+		} else {
+			icon = null;
+			title = p.getName();
+		}
+		if (atEnd) {
+			topLevelTabbedPane.addTab(title, icon, p);
+			tabPanelList.add(p);
+		} else {
+			topLevelTabbedPane.insertTab(title, icon, p, null, 0);
+			tabPanelList.add(0, p);
+		}
+	}
 
+	/**
+	 * @param p
+	 *            the panel to be removed
+	 */
+	public void removeTab(JPanel p) {
+		topLevelTabbedPane.remove(p);
+		tabPanelList.remove(p);
+	}
 
-    /**
-     * @param p the panel to be added
-     * @param atEnd true = add the panel at the end,
-     *                  false = at the beginning
-     */
-    public void addTab(JPanel p, boolean atEnd) {
-        final Icon icon;
-        final String title;
-        if (p instanceof AbstractArgoJPanel) {
-            icon = ((AbstractArgoJPanel) p).getIcon();
-            title =
-                Translator.localize(((AbstractArgoJPanel) p).getTitle());
-        } else {
-            icon = null;
-            title = p.getName();
-        }
-        if (atEnd) {
-            topLevelTabbedPane.addTab(title, icon, p);
-            tabPanelList.add(p);
-        } else {
-            topLevelTabbedPane.insertTab(title, icon, p, null, 0);
-            tabPanelList.add(0, p);
-        }
-    }
+	/**
+	 * Selects the to do tab, and sets the target of that tab.
+	 *
+	 * @param item
+	 *            the selected todo item
+	 * @return true if todo tab is really selected.
+	 * @deprecated for 0.25.5 by tfmorris. Send an event that TabToDoTargets
+	 *             listen to.
+	 */
+	@Deprecated
+	public boolean setToDoItem(Object item) {
+		enableTabs(item);
+		for (JPanel t : tabPanelList) {
+			if (t instanceof TabToDoTarget) {
+				((TabToDoTarget) t).setTarget(item);
+				topLevelTabbedPane.setSelectedComponent(t);
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * @param p the panel to be removed
-     */
-    public void removeTab(JPanel p) {
-        topLevelTabbedPane.remove(p);
-        tabPanelList.remove(p);
-    }
+	/**
+	 * Selects the prop tab if it is appropriate for the target.
+	 *
+	 * @param target
+	 *            the target object
+	 * @return true if props tab is really selected
+	 */
+	private boolean selectPropsTab(Object target) {
+		if (getTabProps().shouldBeEnabled(target)) {
+			int indexOfPropPanel = topLevelTabbedPane.indexOfComponent(getTabProps());
+			topLevelTabbedPane.setSelectedIndex(indexOfPropPanel);
+			lastNonNullTab = indexOfPropPanel;
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Selects the to do tab, and sets the target of that tab.
-     *
-     * @param item the selected todo item
-     * @return true if todo tab is really selected.
-     * @deprecated for 0.25.5 by tfmorris. Send an event that TabToDoTargets
-     *             listen to.
-     */
-    @Deprecated
-    public boolean setToDoItem(Object item) {
-        enableTabs(item);
-        for (JPanel t : tabPanelList) {
-            if (t instanceof TabToDoTarget) {
-                ((TabToDoTarget) t).setTarget(item);
-                topLevelTabbedPane.setSelectedComponent(t);
-                return true;
-            }
-        }
-        return false;
-    }
+	/**
+	 * Sets the target of the Details pane to either be a selected model element
+	 * or the owner(model element) of a selected fig.
+	 * <p>
+	 *
+	 * Decides which panels to enable.
+	 *
+	 * @param target
+	 *            the target object
+	 */
+	private void setTarget(Object target, boolean defaultToProperties) {
+		enableTabs(target);
+		if (target != null) {
+			boolean tabSelected = false;
 
-    /**
-     * Selects the prop tab if it is appropriate for the target.
-     *
-     * @param target
-     *            the target object
-     * @return true if props tab is really selected
-     */
-    private boolean selectPropsTab(Object target) {
-        if (getTabProps().shouldBeEnabled(target)) {
-            int indexOfPropPanel = topLevelTabbedPane
-                    .indexOfComponent(getTabProps());
-            topLevelTabbedPane.setSelectedIndex(indexOfPropPanel);
-            lastNonNullTab = indexOfPropPanel;
-            return true;
-        }
-        return false;
-    }
+			// Always select properties panel if defaultToProperties is true,
+			// and if properties panel is appropriate for selected perspective
+			if (defaultToProperties || lastNonNullTab < 0) {
+				tabSelected = selectPropsTab(target);
+			} else {
+				// Select prop panel if current panel is not appropriate
+				// for selected target
+				Component selectedTab = topLevelTabbedPane.getComponentAt(lastNonNullTab);
+				if (selectedTab instanceof TabTarget) {
+					if (((TabTarget) selectedTab).shouldBeEnabled(target)) {
+						topLevelTabbedPane.setSelectedIndex(lastNonNullTab);
+						tabSelected = true;
+					} else {
+						tabSelected = selectPropsTab(target);
+					}
+				}
+			}
+			if (!tabSelected) {
+				for (int i = lastNonNullTab + 1; i < topLevelTabbedPane.getTabCount(); i++) {
+					Component tab = topLevelTabbedPane.getComponentAt(i);
+					if (tab instanceof TabTarget) {
+						if (((TabTarget) tab).shouldBeEnabled(target)) {
+							topLevelTabbedPane.setSelectedIndex(i);
+							((TabTarget) tab).setTarget(target);
+							lastNonNullTab = i;
+							tabSelected = true;
+							break;
+						}
+					}
+				}
+			}
+			// default tab todo
+			if (!tabSelected) {
+				JPanel tab = tabPanelList.get(0);
+				if (!(tab instanceof TabToDoTarget)) {
+					for (JPanel panel : tabPanelList) {
+						if (panel instanceof TabToDoTarget) {
+							tab = panel;
+							break;
+						}
+					}
+				}
+				if (tab instanceof TabToDoTarget) {
+					topLevelTabbedPane.setSelectedComponent(tab);
+					((TabToDoTarget) tab).setTarget(target);
+					lastNonNullTab = topLevelTabbedPane.getSelectedIndex();
+				}
+			}
 
-    /**
-     * Sets the target of the Details pane to either be a
-     * selected model element or
-     * the owner(model element) of a selected fig.<p>
-     *
-     * Decides which panels to enable.
-     *
-     * @param target the target object
-     */
-    private void setTarget(Object target, boolean defaultToProperties) {
-        enableTabs(target);
-        if (target != null) {
-            boolean tabSelected = false;
+		} else {
+			// default tab todo
+			JPanel tab = tabPanelList.isEmpty() ? null : (JPanel) tabPanelList.get(0);
+			if (!(tab instanceof TabToDoTarget)) {
+				Iterator it = tabPanelList.iterator();
+				while (it.hasNext()) {
+					Object o = it.next();
+					if (o instanceof TabToDoTarget) {
+						tab = (JPanel) o;
+						break;
+					}
+				}
+			}
+			if (tab instanceof TabToDoTarget) {
+				topLevelTabbedPane.setSelectedComponent(tab);
+				((TabToDoTarget) tab).setTarget(target);
 
-            // Always select properties panel if defaultToProperties is true,
-            // and if properties panel is appropriate for selected perspective
-            if (defaultToProperties || lastNonNullTab < 0) {
-                tabSelected = selectPropsTab(target);
-            } else {
-                // Select prop panel if current panel is not appropriate
-                // for selected target
-                Component selectedTab = topLevelTabbedPane
-                        .getComponentAt(lastNonNullTab);
-                if (selectedTab instanceof TabTarget) {
-                    if (((TabTarget) selectedTab).shouldBeEnabled(target)) {
-                        topLevelTabbedPane.setSelectedIndex(lastNonNullTab);
-                        tabSelected = true;
-                    } else {
-                        tabSelected = selectPropsTab(target);
-                    }
-                }
-            }
-            if (!tabSelected) {
-                for (int i = lastNonNullTab + 1;
-		     i < topLevelTabbedPane.getTabCount();
-		     i++) {
-                    Component tab = topLevelTabbedPane.getComponentAt(i);
-                    if (tab instanceof TabTarget) {
-                        if (((TabTarget) tab).shouldBeEnabled(target)) {
-                            topLevelTabbedPane.setSelectedIndex(i);
-                            ((TabTarget) tab).setTarget(target);
-                            lastNonNullTab = i;
-                            tabSelected = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            // default tab todo
-            if (!tabSelected) {
-                JPanel tab = tabPanelList.get(0);
-                if (!(tab instanceof TabToDoTarget)) {
-                    for (JPanel panel : tabPanelList) {
-                        if (panel instanceof TabToDoTarget) {
-                            tab = panel;
-                            break;
-                        }
-                    }
-                }
-                if (tab instanceof TabToDoTarget) {
-                    topLevelTabbedPane.setSelectedComponent(tab);
-                    ((TabToDoTarget) tab).setTarget(target);
-                    lastNonNullTab = topLevelTabbedPane.getSelectedIndex();
-                }
-            }
+			} else {
+				topLevelTabbedPane.setSelectedIndex(-1);
+			}
+		}
+		currentTarget = target;
 
-        } else {
-            // default tab todo
-            JPanel tab =
-                tabPanelList.isEmpty() ? null : (JPanel) tabPanelList.get(0);
-            if (!(tab instanceof TabToDoTarget)) {
-                Iterator it = tabPanelList.iterator();
-                while (it.hasNext()) {
-                    Object o = it.next();
-                    if (o instanceof TabToDoTarget) {
-                        tab = (JPanel) o;
-                        break;
-                    }
-                }
-            }
-            if (tab instanceof TabToDoTarget) {
-                topLevelTabbedPane.setSelectedComponent(tab);
-                ((TabToDoTarget) tab).setTarget(target);
+	}
 
-            } else {
-                topLevelTabbedPane.setSelectedIndex(-1);
-            }
-        }
-        currentTarget = target;
+	/**
+	 * Returns the current model target.
+	 * 
+	 * @return the current model target
+	 */
+	public Object getTarget() {
+		return currentTarget;
+	}
 
-    }
+	/*
+	 * @see java.awt.Component#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		return new Dimension(100, 100);
+	}
 
-    /**
-     * Returns the current model target.
-     * @return the current model target
-     */
-    public Object getTarget() {
-        return currentTarget;
-    }
+	/**
+	 * Get the index of the tab with the given name.
+	 *
+	 * @param tabName
+	 *            the name of the required tab
+	 * @return index of the tab of the given name
+	 */
+	public int getIndexOfNamedTab(String tabName) {
+		for (int i = 0; i < tabPanelList.size(); i++) {
+			String title = topLevelTabbedPane.getTitleAt(i);
+			if (title != null && title.equals(tabName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
-    /*
-     * @see java.awt.Component#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(100, 100);
-    }
+	/**
+	 * Get the number of tabs.
+	 *
+	 * @return the number of tab pages
+	 */
+	public int getTabCount() {
+		return tabPanelList.size();
+	}
 
+	/**
+	 * Selects a tab by given name.
+	 * 
+	 * @param tabName
+	 *            the given name
+	 * @return true if the named tab has been found
+	 */
+	public boolean selectTabNamed(String tabName) {
+		int index = getIndexOfNamedTab(tabName);
+		if (index != -1) {
+			topLevelTabbedPane.setSelectedIndex(index);
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Get the index of the tab with the given name.
-     *
-     * @param tabName the name of the required tab
-     * @return index of the tab of the given name
-     */
-    public int getIndexOfNamedTab(String tabName) {
-        for (int i = 0; i < tabPanelList.size(); i++) {
-            String title = topLevelTabbedPane.getTitleAt(i);
-            if (title != null && title.equals(tabName)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+	/**
+	 * Helper method to add a Property panel for a given class.
+	 *
+	 * @param c
+	 *            the given class
+	 * @param p
+	 *            the given property panel
+	 */
+	public void addToPropTab(Class c, PropPanel p) {
+		for (JPanel panel : tabPanelList) {
+			if (panel instanceof TabProps) {
+				((TabProps) panel).addPanel(c, p);
+			}
+		}
+	}
 
-    /**
-     * Get the number of tabs.
-     *
-     * @return the number of tab pages
-     */
-    public int getTabCount() {
-        return tabPanelList.size();
-    }
+	/**
+	 * returns the Property panel in the Details Pane.
+	 *
+	 * @return the property panel
+	 */
+	public TabProps getTabProps() {
+		for (JPanel tab : tabPanelList) {
+			if (tab instanceof TabProps) {
+				return (TabProps) tab;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Selects a tab by given name.
-     * @param tabName the given name
-     * @return true if the named tab has been found
-     */
-    public boolean selectTabNamed(String tabName) {
-        int index = getIndexOfNamedTab(tabName);
-        if (index != -1) {
-            topLevelTabbedPane.setSelectedIndex(index);
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Returns the tab instance of the specified class.
+	 *
+	 * @param tabClass
+	 *            the given class
+	 * @return the tab instance for the given class
+	 */
+	public AbstractArgoJPanel getTab(Class<? extends AbstractArgoJPanel> tabClass) {
+		for (JPanel tab : tabPanelList) {
+			if (tab.getClass().equals(tabClass)) {
+				return (AbstractArgoJPanel) tab;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * Helper method to add a Property panel for a given class.
-     *
-     * @param c the given class
-     * @param p the given property panel
-     */
-    public void addToPropTab(Class c, PropPanel p) {
-        for (JPanel panel : tabPanelList) {
-            if (panel instanceof TabProps) {
-                ((TabProps) panel).addPanel(c, p);
-            }
-        }
-    }
+	/**
+	 * Reacts to a change in the selected tab by calling refresh() for
+	 * TabToDoTarget's & setTarget on a TabModelTarget or TabFigTarget instance.
+	 * <p>
+	 *
+	 * Called when the user selects a new tab, by clicking or otherwise.
+	 *
+	 * {@inheritDoc}
+	 */
+	public void stateChanged(ChangeEvent e) {
+		LOG.log(Level.FINE, "DetailsPane state changed");
+		Component sel = topLevelTabbedPane.getSelectedComponent();
 
-    /**
-     * returns the Property panel in the Details Pane.
-     *
-     * @return the property panel
-     */
-    public TabProps getTabProps() {
-        for (JPanel tab : tabPanelList) {
-            if (tab instanceof TabProps) {
-                return (TabProps) tab;
-            }
-        }
-        return null;
-    }
+		// update the previously selected tab
+		if (lastNonNullTab >= 0) {
+			JPanel tab = tabPanelList.get(lastNonNullTab);
+			if (tab instanceof TargetListener) {
+				// not visible any more - so remove as listener
+				removeTargetListener((TargetListener) tab);
+			}
+		}
+		Object target = TargetManager.getInstance().getSingleTarget();
 
-    /**
-     * Returns the tab instance of the specified class.
-     *
-     * @param tabClass the given class
-     * @return the tab instance for the given class
-     */
-    public AbstractArgoJPanel getTab(
-            Class< ? extends AbstractArgoJPanel> tabClass) {
-        for (JPanel tab : tabPanelList) {
-            if (tab.getClass().equals(tabClass)) {
-                return (AbstractArgoJPanel) tab;
-            }
-        }
-        return null;
-    }
+		if (!(sel instanceof TabToDoTarget) && !(sel instanceof TabProps)) {
+			// TODO: Bob says - tabs that listen for target changes
+			// should register themselves not expect DetailsPane to
+			// listen and pass on the event. Otherwise these tabs
+			// always rely on DetailsPane. TabToDoTarget and TabProps
+			// currently listen directly.
 
-    /**
-     * Reacts to a change in the selected tab by calling
-     * refresh() for TabToDoTarget's
-     * &
-     * setTarget on a  TabModelTarget or TabFigTarget instance. <p>
-     *
-     * Called when the user selects a new tab, by clicking or
-     * otherwise.
-     *
-     * {@inheritDoc}
-     */
-    public void stateChanged(ChangeEvent e) {
-        LOG.log(Level.FINE, "DetailsPane state changed");
-        Component sel = topLevelTabbedPane.getSelectedComponent();
+			// The other tabs need to be updated depending on the selection.
+			if (sel instanceof TabTarget) {
+				((TabTarget) sel).setTarget(target);
+			} else if (sel instanceof TargetListener) {
+				removeTargetListener((TargetListener) sel);
+				addTargetListener((TargetListener) sel);
+				// Newly selected tab may have stale target info, so generate
+				// a new set target event for it to refresh it
+				((TargetListener) sel).targetSet(
+						new TargetEvent(this, TargetEvent.TARGET_SET, new Object[] {}, new Object[] { target }));
+			}
+		}
 
-        // update the previously selected tab
-        if (lastNonNullTab >= 0) {
-	    JPanel tab = tabPanelList.get(lastNonNullTab);
-	    if (tab instanceof TargetListener) {
-                // not visible any more - so remove as listener
-                removeTargetListener((TargetListener) tab);
-	    }
-        }
-        Object target = TargetManager.getInstance().getSingleTarget();
+		if (target != null && Model.getFacade().isAUMLElement(target) && topLevelTabbedPane.getSelectedIndex() > 0) {
+			lastNonNullTab = topLevelTabbedPane.getSelectedIndex();
+		}
 
-        if (!(sel instanceof TabToDoTarget) && !(sel instanceof TabProps)) {
-            // TODO: Bob says - tabs that listen for target changes
-            // should register themselves not expect DetailsPane to
-            // listen and pass on the event. Otherwise these tabs
-            // always rely on DetailsPane. TabToDoTarget and TabProps
-            // currently listen directly.
+	}
 
-            // The other tabs need to be updated depending on the selection.
-            if (sel instanceof TabTarget) {
-                ((TabTarget) sel).setTarget(target);
-            }
-            else if (sel instanceof TargetListener) {
-                removeTargetListener((TargetListener) sel);
-                addTargetListener((TargetListener) sel);
-                // Newly selected tab may have stale target info, so generate
-                // a new set target event for it to refresh it
-                ((TargetListener) sel).targetSet(new TargetEvent(this,
-                        TargetEvent.TARGET_SET, new Object[] {},
-                        new Object[] {
-                            target
-                        }));
-            }
-        }
+	/**
+	 * no action currently executed here. called when the user clicks once on a
+	 * tab.
+	 *
+	 * @param tab
+	 *            the index of the clicked tab
+	 */
+	public void mySingleClick(int tab) {
+		// TODO: should fire its own event and ProjectBrowser
+		// should register a listener
+		LOG.log(Level.FINE, "single: {0}", topLevelTabbedPane.getComponentAt(tab).toString());
+	}
 
-        if (target != null
-            && Model.getFacade().isAUMLElement(target)
-            && topLevelTabbedPane.getSelectedIndex() > 0) {
-            lastNonNullTab = topLevelTabbedPane.getSelectedIndex();
-        }
+	/**
+	 * Spawns a new tab. called when the user clicks twice on a tab.
+	 *
+	 * @param tab
+	 *            the index of the clicked tab
+	 */
+	public void myDoubleClick(int tab) {
+		// TODO: should fire its own event and ProjectBrowser
+		// should register a listener
+		LOG.log(Level.FINE, "double: {0}", topLevelTabbedPane.getComponentAt(tab).toString());
+		// JPanel t = (JPanel) tabPanelList.elementAt(tab);
+		// Currently this feature is disabled for ArgoUML.
+		// if (t instanceof AbstractArgoJPanel)
+		// ((AbstractArgoJPanel) t).spawn();
+	}
 
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	public void mousePressed(MouseEvent me) {
+		// empty implementation - we only handle mouseClicked
+	}
 
-    /**
-     * no action currently executed here.
-     * called when the user clicks once on a tab.
-     *
-     * @param tab the index of the clicked tab
-     */
-    public void mySingleClick(int tab) {
-        //TODO: should fire its own event and ProjectBrowser
-        //should register a listener
-        LOG.log(Level.FINE, "single: {0}",
-                topLevelTabbedPane.getComponentAt(tab).toString());
-    }
+	/*
+	 * @see
+	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased(MouseEvent me) {
+		// empty implementation - we only handle mouseClicked
+	}
 
-    /**
-     * Spawns a new tab.
-     * called when the user clicks twice on a tab.
-     *
-     * @param tab the index of the clicked tab
-     */
-    public void myDoubleClick(int tab) {
-        //TODO: should fire its own event and ProjectBrowser
-        //should register a listener
-        LOG.log(Level.FINE, "double: {0}",
-                topLevelTabbedPane.getComponentAt(tab).toString());
-//        JPanel t = (JPanel) tabPanelList.elementAt(tab);
-        // Currently this feature is disabled for ArgoUML.
-//        if (t instanceof AbstractArgoJPanel)
-//	    ((AbstractArgoJPanel) t).spawn();
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered(MouseEvent me) {
+		// empty implementation - we only handle mouseClicked
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
-    public void mousePressed(MouseEvent me) {
-        // empty implementation - we only handle mouseClicked
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited(MouseEvent me) {
+		// empty implementation - we only handle mouseClicked
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
-    public void mouseReleased(MouseEvent me) {
-        // empty implementation - we only handle mouseClicked
-    }
+	/*
+	 * if(the mouse click is not in the bounds of the tabbed panel) then call
+	 * mySingleClick() or myDoubleClick().
+	 *
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	public void mouseClicked(MouseEvent me) {
+		int tab = topLevelTabbedPane.getSelectedIndex();
+		if (tab != -1) {
+			Rectangle tabBounds = topLevelTabbedPane.getBoundsAt(tab);
+			if (!tabBounds.contains(me.getX(), me.getY())) {
+				return;
+			}
+			if (me.getClickCount() == 1) {
+				mySingleClick(tab);
+			} else if (me.getClickCount() >= 2) {
+				myDoubleClick(tab);
+			}
+		}
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
-    public void mouseEntered(MouseEvent me) {
-        // empty implementation - we only handle mouseClicked
-    }
+	/*
+	 * @see org.tigris.swidgets.Orientable#setOrientation(org.tigris.swidgets.
+	 * Orientation)
+	 */
+	public void setOrientation(Orientation newOrientation) {
+		for (JPanel t : tabPanelList) {
+			if (t instanceof Orientable) {
+				Orientable o = (Orientable) t;
+				o.setOrientation(newOrientation);
+			}
+		}
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
-    public void mouseExited(MouseEvent me) {
-        // empty implementation - we only handle mouseClicked
-    }
+	/*
+	 * @see TargetListener#targetAdded(TargetEvent)
+	 */
+	public void targetAdded(TargetEvent e) {
+		setTarget(e.getNewTarget(), false);
+		fireTargetAdded(e);
+	}
 
-    /*
-     * if(the mouse click is not in the bounds of the tabbed panel)
-     *      then call mySingleClick() or myDoubleClick().
-     *
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    public void mouseClicked(MouseEvent me) {
-        int tab = topLevelTabbedPane.getSelectedIndex();
-        if (tab != -1) {
-            Rectangle tabBounds = topLevelTabbedPane.getBoundsAt(tab);
-            if (!tabBounds.contains(me.getX(), me.getY())) {
-                return;
-            }
-            if (me.getClickCount() == 1) {
-                mySingleClick(tab);
-            } else if (me.getClickCount() >= 2) {
-                myDoubleClick(tab);
-            }
-        }
-    }
+	/*
+	 * @see TargetListener#targetRemoved(TargetEvent)
+	 */
+	public void targetRemoved(TargetEvent e) {
+		setTarget(e.getNewTarget(), false);
+		fireTargetRemoved(e);
+	}
 
-    /*
-     * @see org.tigris.swidgets.Orientable#setOrientation(org.tigris.swidgets.Orientation)
-     */
-    public void setOrientation(Orientation newOrientation) {
-        for (JPanel t : tabPanelList) {
-            if (t instanceof Orientable) {
-                Orientable o = (Orientable) t;
-                o.setOrientation(newOrientation);
-            }
-        }
-    }
+	/*
+	 * @see TargetListener#targetSet(TargetEvent)
+	 */
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget(), false);
+		fireTargetSet(e);
+	}
 
-    /*
-     * @see TargetListener#targetAdded(TargetEvent)
-     */
-    public void targetAdded(TargetEvent e) {
-        setTarget(e.getNewTarget(), false);
-        fireTargetAdded(e);
-    }
+	/**
+	 * Enables/disables the tabs on the tabbed card. Also selects the tab to
+	 * show.
+	 *
+	 * @param target
+	 *            the target object
+	 */
+	private void enableTabs(Object target) {
 
-    /*
-     * @see TargetListener#targetRemoved(TargetEvent)
-     */
-    public void targetRemoved(TargetEvent e) {
-        setTarget(e.getNewTarget(), false);
-        fireTargetRemoved(e);
-    }
+		// TODO: Quick return here for target == null? - tfm
 
-    /*
-     * @see TargetListener#targetSet(TargetEvent)
-     */
-    public void targetSet(TargetEvent e) {
-        setTarget(e.getNewTarget(), false);
-        fireTargetSet(e);
-    }
+		// iterate through the tabbed panels to determine whether they
+		// should be enabled.
+		for (int i = 0; i < tabPanelList.size(); i++) {
+			JPanel tab = tabPanelList.get(i);
+			boolean shouldEnable = false;
+			if (!(tab instanceof TabToDoTarget) && !(tab instanceof TabProps)) {
+				// TODO: Bob says - tabs that listen for target changes
+				// should register themselves not expect DetailsPane to
+				// listen and pass on the event. Otherwise these tabs
+				// always rely on DetailsPane. TabToDoTarget and TabProps
+				// currently listen directly.
+				if (tab instanceof TargetListener) {
+					if (tab instanceof TabTarget) {
+						shouldEnable = ((TabTarget) tab).shouldBeEnabled(target);
+					} else {
+						if (tab instanceof TabToDoTarget) {
+							shouldEnable = true;
+						}
+					}
+					// TODO: Do we want all enabled tabs to listen or
+					// only the one that is selected/visible? - tfm
+					removeTargetListener((TargetListener) tab);
+					if (shouldEnable) {
+						addTargetListener((TargetListener) tab);
+					}
 
-    /**
-     * Enables/disables the tabs on the tabbed card. Also selects the tab to
-     * show.
-     *
-     * @param target the target object
-     */
-    private void enableTabs(Object target) {
+					topLevelTabbedPane.setEnabledAt(i, shouldEnable);
+				}
+			}
+		}
+	}
 
-        // TODO: Quick return here for target == null? - tfm
+	private void fireTargetSet(TargetEvent targetEvent) {
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				// Lazily create the event:
+				((TargetListener) listeners[i + 1]).targetSet(targetEvent);
+			}
+		}
+	}
 
-        // iterate through the tabbed panels to determine whether they
-        // should be enabled.
-        for (int i = 0; i < tabPanelList.size(); i++) {
-            JPanel tab = tabPanelList.get(i);
-            boolean shouldEnable = false;
-            if (!(tab instanceof TabToDoTarget) && !(tab instanceof TabProps)) {
-                // TODO: Bob says - tabs that listen for target changes
-                // should register themselves not expect DetailsPane to
-                // listen and pass on the event. Otherwise these tabs
-                // always rely on DetailsPane. TabToDoTarget and TabProps
-                // currently listen directly.
-                if (tab instanceof TargetListener) {
-                    if (tab instanceof TabTarget) {
-                        shouldEnable =
-                            ((TabTarget) tab).shouldBeEnabled(target);
-                    } else {
-                        if (tab instanceof TabToDoTarget) {
-                            shouldEnable = true;
-                        }
-                    }
-                    // TODO: Do we want all enabled tabs to listen or
-                    // only the one that is selected/visible? - tfm
-                    removeTargetListener((TargetListener) tab);
-                    if (shouldEnable) {
-                        addTargetListener((TargetListener) tab);
-                    }
+	private void fireTargetAdded(TargetEvent targetEvent) {
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
 
-                    topLevelTabbedPane.setEnabledAt(i, shouldEnable);
-                }
-            }
-        }
-    }
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				// Lazily create the event:
+				((TargetListener) listeners[i + 1]).targetAdded(targetEvent);
+			}
+		}
+	}
 
-    private void fireTargetSet(TargetEvent targetEvent) {
-        //          Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                // Lazily create the event:
-		((TargetListener) listeners[i + 1]).targetSet(targetEvent);
-            }
-        }
-    }
-
-    private void fireTargetAdded(TargetEvent targetEvent) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                // Lazily create the event:
-		((TargetListener) listeners[i + 1]).targetAdded(targetEvent);
-            }
-        }
-    }
-
-    private void fireTargetRemoved(TargetEvent targetEvent) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                // Lazily create the event:
-                ((TargetListener) listeners[i + 1]).targetRemoved(targetEvent);
-            }
-        }
-    }
+	private void fireTargetRemoved(TargetEvent targetEvent) {
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				// Lazily create the event:
+				((TargetListener) listeners[i + 1]).targetRemoved(targetEvent);
+			}
+		}
+	}
 
 }

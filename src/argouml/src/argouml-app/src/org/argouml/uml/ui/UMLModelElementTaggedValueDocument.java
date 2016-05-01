@@ -41,62 +41,59 @@ package org.argouml.uml.ui;
 import org.argouml.model.Model;
 
 /**
- * This class provides a text field that can be used to access
- * tagged values of a ModelElement object.
- * UMLModelElementTaggedValueDocument is especially useful when
- * using LabelledLayout.
+ * This class provides a text field that can be used to access tagged values of
+ * a ModelElement object. UMLModelElementTaggedValueDocument is especially
+ * useful when using LabelledLayout.
  *
  * @since 5th April 2003
  * @author Raphael Langerhorst (raphael-langerhorst@gmx.at)
  */
 public class UMLModelElementTaggedValueDocument extends UMLPlainTextDocument {
 
-    private static final long serialVersionUID = 7030109675187012636L;
+	private static final long serialVersionUID = 7030109675187012636L;
 
 	/**
-     * Creates a UMLPlainTextDocument object that represents a tagged value of
-     * an ModelElement object.
-     *
-     * @param taggedValue the tagged value
-     */
-    public UMLModelElementTaggedValueDocument(String taggedValue) {
-        //stores the action command into the UMLPlainTextDocument
-        //class which is also used
-        //for setProperty and getProperty
-        
-        // TODO: This appears to expect that the UML 1.3 tag name
-        // will appear as a property name in an event, but with the
-        // UML 1.4 switch to TagDefinitions, this won't work
-        super(taggedValue);
-    }
+	 * Creates a UMLPlainTextDocument object that represents a tagged value of
+	 * an ModelElement object.
+	 *
+	 * @param taggedValue
+	 *            the tagged value
+	 */
+	public UMLModelElementTaggedValueDocument(String taggedValue) {
+		// stores the action command into the UMLPlainTextDocument
+		// class which is also used
+		// for setProperty and getProperty
 
-    /**
-     * Sets the tagged value to given String.
-     *
-     * @param text the property
-     */
-    protected void setProperty(String text) {
-        if (getTarget() != null) {
-            Model.getCoreHelper().setTaggedValue(
-                    getTarget(),
-                    getEventName(),
-                    text);
-        }
-    }
+		// TODO: This appears to expect that the UML 1.3 tag name
+		// will appear as a property name in an event, but with the
+		// UML 1.4 switch to TagDefinitions, this won't work
+		super(taggedValue);
+	}
 
-    /**
-     *
-     * @return the value of the tagged value
-     */
-    protected String getProperty() {
-        String eventName = getEventName();
-        if (Model.getFacade().isAModelElement(getTarget())) {
-            Object taggedValue =
-                Model.getFacade().getTaggedValue(getTarget(), eventName);
-            if (taggedValue != null) {
-                return Model.getFacade().getValueOfTag(taggedValue);
-            } 
-        }
-        return "";
-    }
+	/**
+	 * Sets the tagged value to given String.
+	 *
+	 * @param text
+	 *            the property
+	 */
+	protected void setProperty(String text) {
+		if (getTarget() != null) {
+			Model.getCoreHelper().setTaggedValue(getTarget(), getEventName(), text);
+		}
+	}
+
+	/**
+	 *
+	 * @return the value of the tagged value
+	 */
+	protected String getProperty() {
+		String eventName = getEventName();
+		if (Model.getFacade().isAModelElement(getTarget())) {
+			Object taggedValue = Model.getFacade().getTaggedValue(getTarget(), eventName);
+			if (taggedValue != null) {
+				return Model.getFacade().getValueOfTag(taggedValue);
+			}
+		}
+		return "";
+	}
 }

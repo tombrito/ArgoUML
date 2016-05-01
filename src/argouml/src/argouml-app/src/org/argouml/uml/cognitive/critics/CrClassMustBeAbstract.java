@@ -48,60 +48,58 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * A critic to detect whether a non abstract class
- * contains abstract operations.
+ * A critic to detect whether a non abstract class contains abstract operations.
  *
  * @author jrobbins
  */
 public class CrClassMustBeAbstract extends CrUML {
 
-    /**
-     * The constructor.
-     *
-     */
-    public CrClassMustBeAbstract() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	addSupportedDecision(UMLDecision.METHODS);
-	setKnowledgeTypes(Critic.KT_SEMANTICS);
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAClass(dm))) {
-            return NO_PROBLEM;
-        }
-	if (Model.getFacade().isAbstract(dm)) {
-            return NO_PROBLEM;
-        }
-
-	Iterator ops = Model.getFacade().getOperations(dm).iterator();
-	while (ops.hasNext()) {
-	    if (Model.getFacade().isAbstract(ops.next())) {
-                return PROBLEM_FOUND;
-            }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public CrClassMustBeAbstract() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		addSupportedDecision(UMLDecision.METHODS);
+		setKnowledgeTypes(Critic.KT_SEMANTICS);
 	}
-	return NO_PROBLEM;
-    }
 
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClass(dm))) {
+			return NO_PROBLEM;
+		}
+		if (Model.getFacade().isAbstract(dm)) {
+			return NO_PROBLEM;
+		}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -3881153331169214357L;
+		Iterator ops = Model.getFacade().getOperations(dm).iterator();
+		while (ops.hasNext()) {
+			if (Model.getFacade().isAbstract(ops.next())) {
+				return PROBLEM_FOUND;
+			}
+		}
+		return NO_PROBLEM;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -3881153331169214357L;
 } /* end class CrClassMustBeAbstract */
-

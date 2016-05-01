@@ -52,15 +52,16 @@ import org.tigris.gef.presentation.FigInk;
  */
 public class ArgoModeCreateFigInk extends ModeCreateFigInk {
 
-    private static final long serialVersionUID = 5636656816682598629L;
+	private static final long serialVersionUID = 5636656816682598629L;
 
-	public String instructions() { 
-        return Translator.localize("statusmsg.help.create.ink"); 
-    }
+	public String instructions() {
+		return Translator.localize("statusmsg.help.create.ink");
+	}
 
-    public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
-        FigInk p = new ArgoFigInk(snapX, snapY);
-        _lastX = snapX; _lastY = snapY;
-        return p;
-    }
+	public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
+		FigInk p = new ArgoFigInk(snapX, snapY);
+		_lastX = snapX;
+		_lastY = snapY;
+		return p;
+	}
 }

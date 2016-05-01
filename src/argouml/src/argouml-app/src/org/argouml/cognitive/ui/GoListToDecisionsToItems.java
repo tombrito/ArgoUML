@@ -49,146 +49,145 @@ import org.argouml.cognitive.Designer;
 import org.argouml.cognitive.ToDoItem;
 import org.argouml.cognitive.ToDoList;
 
-
 /**
  * Rule for sorting the ToDo list: Decision -> Item.
  *
  */
 public class GoListToDecisionsToItems extends AbstractGoList2 {
 
-    ////////////////////////////////////////////////////////////////
-    // TreeModel implementation
+	////////////////////////////////////////////////////////////////
+	// TreeModel implementation
 
+	/*
+	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+	 */
+	public Object getChild(Object parent, int index) {
+		if (parent instanceof ToDoList) {
+			return getDecisionList().get(index);
+		}
+		if (parent instanceof Decision) {
+			Decision dec = (Decision) parent;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.getPoster().supports(dec)) {
+						if (index == 0) {
+							return item;
+						}
+						index--;
+					}
+				}
+			}
+		}
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
-    public Object getChild(Object parent, int index) {
-	if (parent instanceof ToDoList) {
-	    return getDecisionList().get(index);
+		throw new IndexOutOfBoundsException("getChild shouldn't get here " + "GoListToDecisionsToItems");
 	}
-	if (parent instanceof Decision) {
-            Decision dec = (Decision) parent;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.getPoster().supports(dec)) {
-                        if (index == 0) {
-                            return item;
-                        }
-                        index--;
-                    }
-                }
-            }
-        }
 
-	throw new IndexOutOfBoundsException("getChild shouldn't get here "
-					    + "GoListToDecisionsToItems");
-    }
-
-    private int getChildCountCond(Object parent, boolean stopafterone) {
-	if (parent instanceof ToDoList) {
-	    return getDecisionList().size();
+	private int getChildCountCond(Object parent, boolean stopafterone) {
+		if (parent instanceof ToDoList) {
+			return getDecisionList().size();
+		}
+		if (parent instanceof Decision) {
+			Decision dec = (Decision) parent;
+			int count = 0;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.getPoster().supports(dec)) {
+						count++;
+					}
+					if (stopafterone && count > 0) {
+						break;
+					}
+				}
+			}
+			return count;
+		}
+		return 0;
 	}
-	if (parent instanceof Decision) {
-	    Decision dec = (Decision) parent;
-            int count = 0;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.getPoster().supports(dec)) {
-                        count++;
-                    }
-                    if (stopafterone && count > 0) {
-                        break;
-                    }
-                }
-            }
-	    return count;
+
+	/*
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
+	public int getChildCount(Object parent) {
+		return getChildCountCond(parent, false);
 	}
-	return 0;
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    public int getChildCount(Object parent) {
-        return getChildCountCond(parent, false);
-    }
-
-    /**
-     * @param parent the object to check its offspring
-     * @return the nr of children
-     */
-    private boolean hasChildren(Object parent) {
-        return getChildCountCond(parent, true) > 0;
-    }
-
-
-    /*
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
-     * java.lang.Object)
-     */
-    public int getIndexOfChild(Object parent, Object child) {
-	if (parent instanceof ToDoList) {
-	    return getDecisionList().indexOf(child);
+	/**
+	 * @param parent
+	 *            the object to check its offspring
+	 * @return the nr of children
+	 */
+	private boolean hasChildren(Object parent) {
+		return getChildCountCond(parent, true) > 0;
 	}
-	if (parent instanceof Decision) {
-	    // instead of making a new list, decrement index, return when
-	    // found and index == 0
-	    List<ToDoItem> candidates = new ArrayList<ToDoItem>();
-	    Decision dec = (Decision) parent;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.getPoster().supports(dec)) {
-                        candidates.add(item);
-                    }
-                }
-            }
-	    return candidates.indexOf(child);
+
+	/*
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
+	 * java.lang.Object)
+	 */
+	public int getIndexOfChild(Object parent, Object child) {
+		if (parent instanceof ToDoList) {
+			return getDecisionList().indexOf(child);
+		}
+		if (parent instanceof Decision) {
+			// instead of making a new list, decrement index, return when
+			// found and index == 0
+			List<ToDoItem> candidates = new ArrayList<ToDoItem>();
+			Decision dec = (Decision) parent;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.getPoster().supports(dec)) {
+						candidates.add(item);
+					}
+				}
+			}
+			return candidates.indexOf(child);
+		}
+		return -1;
 	}
-	return -1;
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
-     */
-    public boolean isLeaf(Object node) {
-	if (node instanceof ToDoList) {
-            return false;
-        }
-	if (node instanceof Decision && hasChildren(node)) {
-            return false;
-        }
-	return true;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
+	 */
+	public boolean isLeaf(Object node) {
+		if (node instanceof ToDoList) {
+			return false;
+		}
+		if (node instanceof Decision && hasChildren(node)) {
+			return false;
+		}
+		return true;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#valueForPathChanged(
-     * javax.swing.tree.TreePath, java.lang.Object)
-     */
-    public void valueForPathChanged(TreePath path, Object newValue) { }
+	/*
+	 * @see javax.swing.tree.TreeModel#valueForPathChanged(
+	 * javax.swing.tree.TreePath, java.lang.Object)
+	 */
+	public void valueForPathChanged(TreePath path, Object newValue) {
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void addTreeModelListener(TreeModelListener l) { }
+	/*
+	 * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void addTreeModelListener(TreeModelListener l) {
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void removeTreeModelListener(TreeModelListener l) { }
+	/*
+	 * @see
+	 * javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void removeTreeModelListener(TreeModelListener l) {
+	}
 
-    /**
-     * @return the decisions
-     */    
-    public List<Decision> getDecisionList() {
-        return Designer.theDesigner().getDecisionModel().getDecisionList();
-    }
-
+	/**
+	 * @return the decisions
+	 */
+	public List<Decision> getDecisionList() {
+		return Designer.theDesigner().getDecisionModel().getDecisionList();
+	}
 
 }

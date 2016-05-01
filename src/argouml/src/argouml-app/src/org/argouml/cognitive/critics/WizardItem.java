@@ -36,23 +36,22 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.cognitive.critics;
 
-
 /**
- * A WizardItem is a type wizards know how to deal with.
- * It only requires that it
- * is notified to have been changed.
+ * A WizardItem is a type wizards know how to deal with. It only requires that
+ * it is notified to have been changed.
+ * 
  * @author mkl
  * @see org.argouml.cognitive.critics.Wizard
  */
 public interface WizardItem {
 
-    /** notify this wizarditem that it has been changed.
-     *
-     *
-     */
-    void changed();
+	/**
+	 * notify this wizarditem that it has been changed.
+	 *
+	 *
+	 */
+	void changed();
 
 }

@@ -54,56 +54,53 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewActionSequence extends ActionNewAction {
 
-    private static final long serialVersionUID = 1589060281200557562L;
-	private static final ActionNewActionSequence SINGLETON =
-        new ActionNewActionSequence();
+	private static final long serialVersionUID = 1589060281200557562L;
+	private static final ActionNewActionSequence SINGLETON = new ActionNewActionSequence();
 
-    /**
-     * Constructor.
-     */
-    protected ActionNewActionSequence() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-actionsequence"));
-    }
+	/**
+	 * Constructor.
+	 */
+	protected ActionNewActionSequence() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-actionsequence"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createActionSequence();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createActionSequence();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewActionSequence getInstance() {
+		return SINGLETON;
+	}
 
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewActionSequence() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewActionSequence getInstance() {
-        return SINGLETON;
-    }
-
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewActionSequence() {
-
-            private static final long serialVersionUID = 1505404316449644635L;
+			private static final long serialVersionUID = 1505404316449644635L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = 
-            ResourceLoaderWrapper.lookupIconResource("ActionSequence");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("ActionSequence");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

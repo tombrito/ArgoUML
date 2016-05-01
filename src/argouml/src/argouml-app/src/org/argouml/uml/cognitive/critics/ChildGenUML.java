@@ -55,16 +55,15 @@ import org.tigris.gef.base.Diagram;
 import org.tigris.gef.util.ChildGenerator;
 
 /**
- * This class gives critics access to parts of the UML model of the
- * design.  It defines a gen() function that returns the "children"
- * of any given part of the UML model.  Basically, it goes from
- * Project, to Models, to ModelElements.  Argo's critic Agency uses
- * this to apply critics where appropriate.
+ * This class gives critics access to parts of the UML model of the design. It
+ * defines a gen() function that returns the "children" of any given part of the
+ * UML model. Basically, it goes from Project, to Models, to ModelElements.
+ * Argo's critic Agency uses this to apply critics where appropriate.
  *
- * TODO: This thinks it knows all the composition associations of the
- * the UML metamodel, but it is a) incomplete and b) not updated for
- * UML 1.4.  This should be done using information from the metamodel
- * rather than hardwired code. - tfm - 20070205
+ * TODO: This thinks it knows all the composition associations of the the UML
+ * metamodel, but it is a) incomplete and b) not updated for UML 1.4. This
+ * should be done using information from the metamodel rather than hardwired
+ * code. - tfm - 20070205
  *
  * @see org.argouml.cognitive.Agency
  * @see org.argouml.cognitive.Designer
@@ -72,137 +71,136 @@ import org.tigris.gef.util.ChildGenerator;
  */
 public class ChildGenUML implements ChildGenerator {
 
-    private static final long serialVersionUID = 3057623882949073830L;
-	private static final Logger LOG =
-        Logger.getLogger(ChildGenUML.class.getName());
+	private static final long serialVersionUID = 3057623882949073830L;
+	private static final Logger LOG = Logger.getLogger(ChildGenUML.class.getName());
 
-    /**
-     * Reply a java.util.Enumeration of the children of the given Object
-     *
-     * @param o the object to return the children of
-     * @return an enumeration of the children of the given Object
-     * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
-     * @deprecated for 0.25.4 by tfmorris. Only for use with legacy GEF
-     *             interfaces. Use {@link #gen2(Object)} for new applications.
-     */
-    @Deprecated
-    public Enumeration gen(Object o) {
-        return new IteratorEnumeration(gen2(o));
-    }
-
-    /**
-     * Return an Iterator of the children of the given Object
-     *
-     * @param o object to return the children of
-     * @return an iterator over the children of the given object
-     * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
-     */
-    public Iterator gen2(Object o) {
-
-        if (o == null) {
-            LOG.log(Level.FINE, "Object is null");
-        } else {
-//                LOG.log(Level.FINE, "Finding children for " + o.getClass());
-        }
-
-	if (o instanceof Project) {
-	    Project p = (Project) o;
-            Collection result = new ArrayList();
-            result.addAll(p.getUserDefinedModelList());
-            result.addAll(p.getDiagramList());
-            return result.iterator();
+	/**
+	 * Reply a java.util.Enumeration of the children of the given Object
+	 *
+	 * @param o
+	 *            the object to return the children of
+	 * @return an enumeration of the children of the given Object
+	 * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
+	 * @deprecated for 0.25.4 by tfmorris. Only for use with legacy GEF
+	 *             interfaces. Use {@link #gen2(Object)} for new applications.
+	 */
+	@Deprecated
+	public Enumeration gen(Object o) {
+		return new IteratorEnumeration(gen2(o));
 	}
 
-	if (o instanceof Diagram) {
-	    Collection figs = ((Diagram) o).getLayer().getContents();
-	    if (figs != null) {
-	        return figs.iterator();
-	    }
+	/**
+	 * Return an Iterator of the children of the given Object
+	 *
+	 * @param o
+	 *            object to return the children of
+	 * @return an iterator over the children of the given object
+	 * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
+	 */
+	public Iterator gen2(Object o) {
+
+		if (o == null) {
+			LOG.log(Level.FINE, "Object is null");
+		} else {
+			// LOG.log(Level.FINE, "Finding children for " + o.getClass());
+		}
+
+		if (o instanceof Project) {
+			Project p = (Project) o;
+			Collection result = new ArrayList();
+			result.addAll(p.getUserDefinedModelList());
+			result.addAll(p.getDiagramList());
+			return result.iterator();
+		}
+
+		if (o instanceof Diagram) {
+			Collection figs = ((Diagram) o).getLayer().getContents();
+			if (figs != null) {
+				return figs.iterator();
+			}
+		}
+
+		// argument can be an instanceof a Fig which we ignore
+
+		if (Model.getFacade().isAPackage(o)) {
+			Collection ownedElements = Model.getFacade().getOwnedElements(o);
+			if (ownedElements != null) {
+				return ownedElements.iterator();
+			}
+		}
+
+		if (Model.getFacade().isAElementImport(o)) {
+			Object me = Model.getFacade().getModelElement(o);
+			if (me != null) {
+				return new SingleElementIterator(me);
+			}
+		}
+
+		// TODO: associationclasses fit both of the next 2 cases
+
+		if (Model.getFacade().isAClassifier(o)) {
+			Collection result = new ArrayList();
+			result.addAll(Model.getFacade().getFeatures(o));
+
+			Collection sms = Model.getFacade().getBehaviors(o);
+			// Object sm = null;
+			// if (sms != null && sms.size() > 0)
+			// sm = sms.elementAt(0);
+			// if (sm != null) res.addSub(new EnumerationSingle(sm));
+			if (sms != null) {
+				result.addAll(sms);
+			}
+			return result.iterator();
+		}
+
+		if (Model.getFacade().isAAssociation(o)) {
+			List assocEnds = (List) Model.getFacade().getConnections(o);
+			if (assocEnds != null) {
+				return assocEnds.iterator();
+			}
+			// TODO: AssociationRole
+		}
+
+		// // needed?
+		if (Model.getFacade().isAStateMachine(o)) {
+			Collection result = new ArrayList();
+			Object top = Model.getStateMachinesHelper().getTop(o);
+			if (top != null) {
+				result.add(top);
+			}
+			result.addAll(Model.getFacade().getTransitions(o));
+			return result.iterator();
+		}
+
+		// needed?
+		if (Model.getFacade().isACompositeState(o)) {
+			Collection substates = Model.getFacade().getSubvertices(o);
+			if (substates != null) {
+				return substates.iterator();
+			}
+		}
+
+		if (Model.getFacade().isAOperation(o)) {
+			Collection params = Model.getFacade().getParameters(o);
+			if (params != null) {
+				return params.iterator();
+			}
+		}
+
+		if (Model.getFacade().isAModelElement(o)) {
+			Collection behavior = Model.getFacade().getBehaviors(o);
+			if (behavior != null) {
+				return behavior.iterator();
+			}
+		}
+
+		// TODO: We can probably use this instead of all of the above
+		// legacy UML 1.3 code - tfm - 20070915
+		if (Model.getFacade().isAUMLElement(o)) {
+			Collection result = Model.getFacade().getModelElementContents(o);
+			return result.iterator();
+		}
+
+		return Collections.emptySet().iterator();
 	}
-
-	// argument can be an instanceof a Fig which we ignore
-
-	if (Model.getFacade().isAPackage(o)) {
-	    Collection ownedElements =
-                Model.getFacade().getOwnedElements(o);
-	    if (ownedElements != null) {
-	        return ownedElements.iterator();
-	    }
-	}
-
-	if (Model.getFacade().isAElementImport(o)) {
-	    Object me = Model.getFacade().getModelElement(o);
-	    if (me != null) {
-	        return new SingleElementIterator(me);
-	    }
-	}
-
-
-	// TODO: associationclasses fit both of the next 2 cases
-
-	if (Model.getFacade().isAClassifier(o)) {
-            Collection result = new ArrayList();
-	    result.addAll(Model.getFacade().getFeatures(o));
-
-	    Collection sms = Model.getFacade().getBehaviors(o);
-	    //Object sm = null;
-	    //if (sms != null && sms.size() > 0)
-		//sm = sms.elementAt(0);
-	    //if (sm != null) res.addSub(new EnumerationSingle(sm));
-            if (sms != null) {
-                result.addAll(sms);
-            }
-	    return result.iterator();
-	}
-
-	if (Model.getFacade().isAAssociation(o)) {
-	    List assocEnds = (List) Model.getFacade().getConnections(o);
-	    if (assocEnds != null) {
-	        return assocEnds.iterator();
-	    }
-	    //TODO: AssociationRole
-	}
-
-	// // needed?
-	if (Model.getFacade().isAStateMachine(o)) {
-            Collection result = new ArrayList();
-	    Object top = Model.getStateMachinesHelper().getTop(o);
-	    if (top != null) {
-                result.add(top);
-	    }
-	    result.addAll(Model.getFacade().getTransitions(o));
-	    return result.iterator();
-	}
-
-	// needed?
-	if (Model.getFacade().isACompositeState(o)) {
-	    Collection substates = Model.getFacade().getSubvertices(o);
-	    if (substates != null) {
-	        return substates.iterator();
-	    }
-	}
-
-        if (Model.getFacade().isAOperation(o)) {
-            Collection params = Model.getFacade().getParameters(o);
-            if (params != null) {
-                return params.iterator();
-            }
-        }
-
-        if (Model.getFacade().isAModelElement(o)) {
-	    Collection behavior = Model.getFacade().getBehaviors(o);
-	    if (behavior != null) {
-	        return behavior.iterator();
-	    }
-	}
-
-        // TODO: We can probably use this instead of all of the above
-        // legacy UML 1.3 code - tfm - 20070915
-        if (Model.getFacade().isAUMLElement(o)) {
-            Collection result = Model.getFacade().getModelElementContents(o);
-            return result.iterator();
-        }
-
-        return Collections.emptySet().iterator();
-    }
 }

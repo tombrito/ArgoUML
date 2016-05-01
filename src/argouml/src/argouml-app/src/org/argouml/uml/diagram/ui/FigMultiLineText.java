@@ -45,8 +45,7 @@ import org.tigris.gef.presentation.FigText;
 
 /**
  * A MultiLine FigText to provide consistency across Figs displaying multiple
- * lines of text.
- * By default -
+ * lines of text. By default -
  * <ul>
  * <li>Text is black
  * <li>The display area is transparent
@@ -58,29 +57,32 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigMultiLineText extends ArgoFigText {
 
-    private static final long serialVersionUID = 5016150851754013790L;
+	private static final long serialVersionUID = 5016150851754013790L;
 
 	private void initFigs() {
-        setTextColor(TEXT_COLOR);
-        setReturnAction(FigText.INSERT);
-        setLineSeparator("\n");
-        setTabAction(FigText.END_EDITING);
-        setJustification(FigText.JUSTIFY_LEFT);
-        setFilled(false);
-        setLineWidth(0);
-    }
-    
-    /**
-     * Create a multi line text Fig
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     * @param expandOnly true if fig should expand, but never contract
-     */
-    public FigMultiLineText(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
-        super(owner, bounds, settings, expandOnly);
-        initFigs();
-    }
+		setTextColor(TEXT_COLOR);
+		setReturnAction(FigText.INSERT);
+		setLineSeparator("\n");
+		setTabAction(FigText.END_EDITING);
+		setJustification(FigText.JUSTIFY_LEFT);
+		setFilled(false);
+		setLineWidth(0);
+	}
+
+	/**
+	 * Create a multi line text Fig
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 * @param expandOnly
+	 *            true if fig should expand, but never contract
+	 */
+	public FigMultiLineText(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
+		super(owner, bounds, settings, expandOnly);
+		initFigs();
+	}
 }

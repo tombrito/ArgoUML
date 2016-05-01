@@ -53,93 +53,93 @@ import org.argouml.notation.providers.ComponentInstanceNotation;
  */
 public class ComponentInstanceNotationUml extends ComponentInstanceNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param componentInstance the UML componentInstance
-     */
-    public ComponentInstanceNotationUml(Object componentInstance) {
-        super(componentInstance);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param componentInstance
+	 *            the UML componentInstance
+	 */
+	public ComponentInstanceNotationUml(Object componentInstance) {
+		super(componentInstance);
+	}
 
-    /**
-     * Parse a line of the form: "name : base-component".
-     * <p>
-     * The base-component part is a comma separated list of Components. <p>
-     * 
-     * Note that stereotypes are not supported.
-     *
-     * {@inheritDoc}
-     */
-    public void parse(Object modelElement, String text) {
-        // strip any trailing semi-colons
-        String s = text.trim();
-        if (s.length() == 0) {
-            return;
-        }
-        if (s.charAt(s.length() - 1) == ';') {
-            s = s.substring(0, s.length() - 2);
-        }
+	/**
+	 * Parse a line of the form: "name : base-component".
+	 * <p>
+	 * The base-component part is a comma separated list of Components.
+	 * <p>
+	 * 
+	 * Note that stereotypes are not supported.
+	 *
+	 * {@inheritDoc}
+	 */
+	public void parse(Object modelElement, String text) {
+		// strip any trailing semi-colons
+		String s = text.trim();
+		if (s.length() == 0) {
+			return;
+		}
+		if (s.charAt(s.length() - 1) == ';') {
+			s = s.substring(0, s.length() - 2);
+		}
 
-        String name = "";
-        String bases = "";
-        StringTokenizer tokenizer = null;
+		String name = "";
+		String bases = "";
+		StringTokenizer tokenizer = null;
 
-        if (s.indexOf(":", 0) > -1) {
-            name = s.substring(0, s.indexOf(":")).trim();
-            bases = s.substring(s.indexOf(":") + 1).trim();
-        } else {
-            name = s;
-        }
+		if (s.indexOf(":", 0) > -1) {
+			name = s.substring(0, s.indexOf(":")).trim();
+			bases = s.substring(s.indexOf(":") + 1).trim();
+		} else {
+			name = s;
+		}
 
-        tokenizer = new StringTokenizer(bases, ",");
+		tokenizer = new StringTokenizer(bases, ",");
 
-        List<Object> classifiers = new ArrayList<Object>();
-        Object ns = Model.getFacade().getNamespace(modelElement);
-        if (ns != null) {
-            while (tokenizer.hasMoreElements()) {
-                String newBase = tokenizer.nextToken();
-                Object cls = Model.getFacade().lookupIn(ns, newBase.trim());
-                if (cls != null) {
-                    classifiers.add(cls);
-                }
-            }
-        }
+		List<Object> classifiers = new ArrayList<Object>();
+		Object ns = Model.getFacade().getNamespace(modelElement);
+		if (ns != null) {
+			while (tokenizer.hasMoreElements()) {
+				String newBase = tokenizer.nextToken();
+				Object cls = Model.getFacade().lookupIn(ns, newBase.trim());
+				if (cls != null) {
+					classifiers.add(cls);
+				}
+			}
+		}
 
-        Model.getCommonBehaviorHelper().setClassifiers(modelElement,
-                classifiers);
-        Model.getCoreHelper().setName(modelElement, name);
-    }
+		Model.getCommonBehaviorHelper().setClassifiers(modelElement, classifiers);
+		Model.getCoreHelper().setName(modelElement, name);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-componentinstance";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-componentinstance";
+	}
 
-    private String toString(Object modelElement) {
-        String nameStr = "";
-        if (Model.getFacade().getName(modelElement) != null) {
-            nameStr = Model.getFacade().getName(modelElement).trim();
-        }
+	private String toString(Object modelElement) {
+		String nameStr = "";
+		if (Model.getFacade().getName(modelElement) != null) {
+			nameStr = Model.getFacade().getName(modelElement).trim();
+		}
 
-        // construct bases string (comma separated)
-        StringBuilder baseStr = NotationUtilityUml.formatNameList(
-                Model.getFacade().getClassifiers(modelElement));
-        if ((nameStr.length() == 0) && (baseStr.length() == 0)) {
-            return "";
-        }
-        baseStr = new StringBuilder(baseStr.toString().trim());
-        if (baseStr.length() < 1) {
-            return nameStr.trim();
-        }
-        return nameStr.trim() + " : " + baseStr.toString();
-    }
+		// construct bases string (comma separated)
+		StringBuilder baseStr = NotationUtilityUml.formatNameList(Model.getFacade().getClassifiers(modelElement));
+		if ((nameStr.length() == 0) && (baseStr.length() == 0)) {
+			return "";
+		}
+		baseStr = new StringBuilder(baseStr.toString().trim());
+		if (baseStr.length() < 1) {
+			return nameStr.trim();
+		}
+		return nameStr.trim() + " : " + baseStr.toString();
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

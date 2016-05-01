@@ -49,87 +49,83 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Rule for Namespace->Owned Element, 
- * excluding StateMachine, Comment and 
+ * Rule for Namespace->Owned Element, excluding StateMachine, Comment and
  * Collaborations that have a Represented Classifier or Operation.
  */
 public class GoNamespaceToOwnedElements extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.namespace.owned-element");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
-     *         java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-
-        if (!Model.getFacade().isANamespace(parent)) {
-            return Collections.EMPTY_LIST;
-        }
-        Collection ownedElements = Model.getFacade().getOwnedElements(parent);
-        Iterator it = ownedElements.iterator();
-        Collection ret = new ArrayList();
-        while (it.hasNext()) {
-	    Object o = it.next();
-	    if (Model.getFacade().isACollaboration(o)) {
-                if ((Model.getFacade().getRepresentedClassifier(o) != null)
-                        || (Model.getFacade().getRepresentedOperation(o)
-                                != null)) {
-                    continue;
-                }
-	    }
-	    if (Model.getFacade().isAStateMachine(o)
-		 && Model.getFacade().getContext(o) != parent) {
-		continue;
-	    }
-            if (Model.getFacade().isAComment(o)) {
-                if (Model.getFacade().getAnnotatedElements(o).size() != 0) {
-                    continue;
-                }
-            }
-            if (Model.getFacade().getUmlVersion().charAt(0) == '2') {
-                // in UML2, some elements are not to be shown
-                if (Model.getFacade().isAProfileApplication(o)) {
-                    // don't show a profile application
-                    continue;
-                }
-                if (Model.getFacade().isAProfile(parent)) {
-                    if (Model.getFacade().isAElementImport(o)) {
-                        // don't show element imports in profiles
-                        continue;
-                    } else if (Model.getFacade().isAExtension(o)) {
-                        // don't show extensions in profiles
-                        continue;
-                    }
-                }
-                if (Model.getFacade().isAStereotype(parent)
-                        //&& Model.getFacade().isAProperty(o)
-                        && Model.getFacade().getName(o) != null
-                        && Model.getFacade().getName(o).startsWith("base_")) {
-                    // don't show base_... properties in stereotypes
-                    continue;
-                }
-            }
-	    ret.add(o);
-        }
-        return ret;
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
-     *         java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isANamespace(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.namespace.owned-element");
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
+	 * java.lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+
+		if (!Model.getFacade().isANamespace(parent)) {
+			return Collections.EMPTY_LIST;
+		}
+		Collection ownedElements = Model.getFacade().getOwnedElements(parent);
+		Iterator it = ownedElements.iterator();
+		Collection ret = new ArrayList();
+		while (it.hasNext()) {
+			Object o = it.next();
+			if (Model.getFacade().isACollaboration(o)) {
+				if ((Model.getFacade().getRepresentedClassifier(o) != null)
+						|| (Model.getFacade().getRepresentedOperation(o) != null)) {
+					continue;
+				}
+			}
+			if (Model.getFacade().isAStateMachine(o) && Model.getFacade().getContext(o) != parent) {
+				continue;
+			}
+			if (Model.getFacade().isAComment(o)) {
+				if (Model.getFacade().getAnnotatedElements(o).size() != 0) {
+					continue;
+				}
+			}
+			if (Model.getFacade().getUmlVersion().charAt(0) == '2') {
+				// in UML2, some elements are not to be shown
+				if (Model.getFacade().isAProfileApplication(o)) {
+					// don't show a profile application
+					continue;
+				}
+				if (Model.getFacade().isAProfile(parent)) {
+					if (Model.getFacade().isAElementImport(o)) {
+						// don't show element imports in profiles
+						continue;
+					} else if (Model.getFacade().isAExtension(o)) {
+						// don't show extensions in profiles
+						continue;
+					}
+				}
+				if (Model.getFacade().isAStereotype(parent)
+						// && Model.getFacade().isAProperty(o)
+						&& Model.getFacade().getName(o) != null && Model.getFacade().getName(o).startsWith("base_")) {
+					// don't show base_... properties in stereotypes
+					continue;
+				}
+			}
+			ret.add(o);
+		}
+		return ret;
+	}
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
+	 * java.lang.Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isANamespace(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

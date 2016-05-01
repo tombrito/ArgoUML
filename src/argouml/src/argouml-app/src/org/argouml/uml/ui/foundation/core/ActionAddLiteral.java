@@ -54,33 +54,31 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionAddLiteral extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 8664208525314996807L;
+	private static final long serialVersionUID = 8664208525314996807L;
 
 	/**
-     * The constructor.
-     */
-    public ActionAddLiteral() {
-        super("button.new-enumeration-literal");
-        putValue(Action.NAME, Translator.localize(
-            "button.new-enumeration-literal"));
-        Icon icon = ResourceLoaderWrapper.lookupIcon("EnumerationLiteral");
-        putValue(Action.SMALL_ICON, icon);
-    }
+	 * The constructor.
+	 */
+	public ActionAddLiteral() {
+		super("button.new-enumeration-literal");
+		putValue(Action.NAME, Translator.localize("button.new-enumeration-literal"));
+		Icon icon = ResourceLoaderWrapper.lookupIcon("EnumerationLiteral");
+		putValue(Action.SMALL_ICON, icon);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAEnumerationLiteral(target)) {
-            target = Model.getFacade().getEnumeration(target);
-        }
-        if (Model.getFacade().isAClassifier(target)) {
-            Object el =
-                Model.getCoreFactory().buildEnumerationLiteral("", target);
-            TargetManager.getInstance().setTarget(el);
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAEnumerationLiteral(target)) {
+			target = Model.getFacade().getEnumeration(target);
+		}
+		if (Model.getFacade().isAClassifier(target)) {
+			Object el = Model.getCoreFactory().buildEnumerationLiteral("", target);
+			TargetManager.getInstance().setTarget(el);
+			super.actionPerformed(e);
+		}
+	}
 }
-

@@ -50,8 +50,10 @@ import org.argouml.notation.NotationSettings;
 import org.argouml.notation.providers.AssociationNameNotation;
 
 /**
- * Handles the notation of the name of an association modelelement in UML,
- * ie a string on the format:<pre>
+ * Handles the notation of the name of an association modelelement in UML, ie a
+ * string on the format:
+ * 
+ * <pre>
  *     [/] [ &lt;&lt; stereotype &gt;&gt;] [+|-|#|~] [name]
  * </pre>
  *
@@ -59,105 +61,98 @@ import org.argouml.notation.providers.AssociationNameNotation;
  */
 public class AssociationNameNotationUml extends AssociationNameNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param association the association modelelement
-     * that we represent in textual form.
-     */
-    public AssociationNameNotationUml(Object association) {
-        super(association);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param association
+	 *            the association modelelement that we represent in textual
+	 *            form.
+	 */
+	public AssociationNameNotationUml(Object association) {
+		super(association);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-association-name";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-association-name";
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        try {
-            parseAssociationName(modelElement, text);
-        } catch (ParseException pe) {
-            String msg = "statusmsg.bar.error.parsing.association-name";
-            Object[] args = {
-                pe.getLocalizedMessage(),
-                Integer.valueOf(pe.getErrorOffset()),
-            };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                Translator.messageFormat(msg, args)));
-        }
-    }
-    
-    protected void parseAssociationName(Object modelElement, String text)
-        throws ParseException {
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		try {
+			parseAssociationName(modelElement, text);
+		} catch (ParseException pe) {
+			String msg = "statusmsg.bar.error.parsing.association-name";
+			Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-        boolean derived = false;
+	protected void parseAssociationName(Object modelElement, String text) throws ParseException {
 
-        text = text.trim();
-        /* Handle Derived: */
-        if (text.length() > 0 && "/".indexOf(text.charAt(0)) >= 0) {
-            derived = true;
-            text = text.substring(1);
-            text = text.trim();
-        }
-        NotationUtilityUml.setDerived(modelElement, derived);
-        
-        NotationUtilityUml.parseModelElement(modelElement, text);
-    }
+		boolean derived = false;
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#toString(java.lang.Object, java.util.Map)
-     */
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement, settings.isShowAssociationNames(),
-                settings.isFullyHandleStereotypes(),
-                settings.isShowPaths(),
-                settings.isShowVisibilities(),
-                settings.isUseGuillemets());
-    }
+		text = text.trim();
+		/* Handle Derived: */
+		if (text.length() > 0 && "/".indexOf(text.charAt(0)) >= 0) {
+			derived = true;
+			text = text.substring(1);
+			text = text.trim();
+		}
+		NotationUtilityUml.setDerived(modelElement, derived);
 
-    private String toString(Object modelElement, Boolean showAssociationName,
-            boolean fullyHandleStereotypes, boolean showPath, 
-            boolean showVisibility, boolean useGuillemets) {
+		NotationUtilityUml.parseModelElement(modelElement, text);
+	}
 
-        if (showAssociationName == Boolean.FALSE) {
-            return "";
-        }
-        
-        String derived = "";
-        Object tv = Model.getFacade().getTaggedValue(modelElement, 
-                Facade.DERIVED_TAG);
-        if (tv != null) {
-            String tag = Model.getFacade().getValueOfTag(tv);
-            if ("true".equalsIgnoreCase(tag)) {
-                derived = "/";
-            }
-        }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#toString(java.lang.
+	 * Object, java.util.Map)
+	 */
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement, settings.isShowAssociationNames(), settings.isFullyHandleStereotypes(),
+				settings.isShowPaths(), settings.isShowVisibilities(), settings.isUseGuillemets());
+	}
 
-        String name = Model.getFacade().getName(modelElement);
-        StringBuffer sb = new StringBuffer("");
-        sb.append(derived);
-        if (fullyHandleStereotypes) {
-            sb.append(NotationUtilityUml.generateStereotype(modelElement, 
-                    useGuillemets));
-        }
-        if (showVisibility) {
-            sb.append(NotationUtilityUml.generateVisibility2(modelElement));
-            sb.append(" ");
-        }
-        if (showPath) {
-            sb.append(NotationUtilityUml.generatePath(modelElement));
-        }
-        if (name != null) {
-            sb.append(name);
-        }
-        return sb.toString();
-    }
+	private String toString(Object modelElement, Boolean showAssociationName, boolean fullyHandleStereotypes,
+			boolean showPath, boolean showVisibility, boolean useGuillemets) {
+
+		if (showAssociationName == Boolean.FALSE) {
+			return "";
+		}
+
+		String derived = "";
+		Object tv = Model.getFacade().getTaggedValue(modelElement, Facade.DERIVED_TAG);
+		if (tv != null) {
+			String tag = Model.getFacade().getValueOfTag(tv);
+			if ("true".equalsIgnoreCase(tag)) {
+				derived = "/";
+			}
+		}
+
+		String name = Model.getFacade().getName(modelElement);
+		StringBuffer sb = new StringBuffer("");
+		sb.append(derived);
+		if (fullyHandleStereotypes) {
+			sb.append(NotationUtilityUml.generateStereotype(modelElement, useGuillemets));
+		}
+		if (showVisibility) {
+			sb.append(NotationUtilityUml.generateVisibility2(modelElement));
+			sb.append(" ");
+		}
+		if (showPath) {
+			sb.append(NotationUtilityUml.generatePath(modelElement));
+		}
+		if (name != null) {
+			sb.append(name);
+		}
+		return sb.toString();
+	}
 
 }

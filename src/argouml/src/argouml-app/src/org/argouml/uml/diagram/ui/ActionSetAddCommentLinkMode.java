@@ -43,7 +43,6 @@
  */
 package org.argouml.uml.diagram.ui;
 
-
 import org.argouml.uml.CommentEdge;
 
 /**
@@ -54,18 +53,13 @@ import org.argouml.uml.CommentEdge;
 
 public class ActionSetAddCommentLinkMode extends ActionSetMode {
 
-    private static final long serialVersionUID = -4388464627082828170L;
+	private static final long serialVersionUID = -4388464627082828170L;
 
 	/**
-     * Construct a new ActionSetAddCommentLinkMode.<p>
-     */
-    public ActionSetAddCommentLinkMode() {
-        super(
-                ModeCreateCommentEdge.class,
-                "edgeClass",
-                CommentEdge.class,
-                "button.new-commentlink");
-    }
+	 * Construct a new ActionSetAddCommentLinkMode.
+	 * <p>
+	 */
+	public ActionSetAddCommentLinkMode() {
+		super(ModeCreateCommentEdge.class, "edgeClass", CommentEdge.class, "button.new-commentlink");
+	}
 }
-
-

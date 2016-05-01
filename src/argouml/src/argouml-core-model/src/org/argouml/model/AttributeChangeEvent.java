@@ -41,30 +41,34 @@ package org.argouml.model;
 import java.util.EventObject;
 
 /**
- * A change event due to change in an attribute of a model element
- * (eg the name of a model element has changed).
+ * A change event due to change in an attribute of a model element (eg the name
+ * of a model element has changed).
  *
  * @author Bob Tarling
  */
 public class AttributeChangeEvent extends UmlChangeEvent {
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     */
-    public AttributeChangeEvent(Object source, String propertyName,
-            Object oldValue, Object newValue, EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, originalEvent);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 */
+	public AttributeChangeEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, originalEvent);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1573202490278617016L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1573202490278617016L;
 }

@@ -51,82 +51,85 @@ import org.tigris.gef.base.Selection;
 /**
  * Class to display graphics for a UML Signal in a diagram.
  * <p>
- * A Signal has a keyword "signal", possibly some stereotypes, and a name. 
- * It may also have attributes - the UML standard document 
- * contains an example diagram showing this.
- * A Signal may have operations.
+ * A Signal has a keyword "signal", possibly some stereotypes, and a name. It
+ * may also have attributes - the UML standard document contains an example
+ * diagram showing this. A Signal may have operations.
  * 
  * @author Tom Morris
  */
 public class FigSignal extends FigClassifierBox {
 
-    private static final long serialVersionUID = 3875367030716602301L;
+	private static final long serialVersionUID = 3875367030716602301L;
 
 	/**
-     * Construct a Fig representing a Signal.
-     * 
-     * @param owner owning Signal
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigSignal(Object owner, Rectangle bounds, DiagramSettings settings) {
-        super(owner, bounds, settings);
-        constructFigs(bounds);
-    }
+	 * Construct a Fig representing a Signal.
+	 * 
+	 * @param owner
+	 *            owning Signal
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigSignal(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		constructFigs(bounds);
+	}
 
-    private void constructFigs(Rectangle bounds) {
-        enableSizeChecking(false);
-        setSuppressCalcBounds(true);
+	private void constructFigs(Rectangle bounds) {
+		enableSizeChecking(false);
+		setSuppressCalcBounds(true);
 
-        getStereotypeFig().setKeyword("signal");
-        getStereotypeFig().setVisible(true);
-        /* The next line is needed so that we have the right dimension 
-         * when drawing this Fig on the diagram by pressing down 
-         * the mouse button, even before releasing the mouse button: */
-        getNameFig().setTopMargin(
-                getStereotypeFig().getMinimumSize().height);
+		getStereotypeFig().setKeyword("signal");
+		getStereotypeFig().setVisible(true);
+		/*
+		 * The next line is needed so that we have the right dimension when
+		 * drawing this Fig on the diagram by pressing down the mouse button,
+		 * even before releasing the mouse button:
+		 */
+		getNameFig().setTopMargin(getStereotypeFig().getMinimumSize().height);
 
-        addFig(getBigPort());
-        addFig(getNameFig());
-        /* Stereotype covers NameFig: */
-        addFig(getStereotypeFig());
-        /* Compartments from top to bottom: */
-        createCompartments();
+		addFig(getBigPort());
+		addFig(getNameFig());
+		/* Stereotype covers NameFig: */
+		addFig(getStereotypeFig());
+		/* Compartments from top to bottom: */
+		createCompartments();
 
-        // Make all the parts match the main fig
-        setFilled(true);
-        setFillColor(FILL_COLOR);
-        setLineColor(LINE_COLOR);
-        setLineWidth(LINE_WIDTH);
-        
-        // by default, do not show operations nor attributes:
-        FigCompartment ops = getCompartment(Model.getMetaTypes().getOperation());
-        setCompartmentVisible(ops, false);
-        FigCompartment atts = getCompartment(Model.getMetaTypes().getAttribute());
-        setCompartmentVisible(atts, false);
+		// Make all the parts match the main fig
+		setFilled(true);
+		setFillColor(FILL_COLOR);
+		setLineColor(LINE_COLOR);
+		setLineWidth(LINE_WIDTH);
 
-        /* Set the drop location in the case of D&D: */
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
+		// by default, do not show operations nor attributes:
+		FigCompartment ops = getCompartment(Model.getMetaTypes().getOperation());
+		setCompartmentVisible(ops, false);
+		FigCompartment atts = getCompartment(Model.getMetaTypes().getAttribute());
+		setCompartmentVisible(atts, false);
 
-        setSuppressCalcBounds(false);
-        setBounds(getBounds());
-        enableSizeChecking(true);
-    }
-    
-    @Override
-    public Selection makeSelection() {
-        return new SelectionSignal(this);
-    }
+		/* Set the drop location in the case of D&D: */
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
 
-    @Override
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
-        
-        // TODO: Do we have anything to add here?
+		setSuppressCalcBounds(false);
+		setBounds(getBounds());
+		enableSizeChecking(true);
+	}
 
-        return popUpActions;
-    }
+	@Override
+	public Selection makeSelection() {
+		return new SelectionSignal(this);
+	}
 
-} 
+	@Override
+	public Vector getPopUpActions(MouseEvent me) {
+		Vector popUpActions = super.getPopUpActions(me);
+
+		// TODO: Do we have anything to add here?
+
+		return popUpActions;
+	}
+
+}

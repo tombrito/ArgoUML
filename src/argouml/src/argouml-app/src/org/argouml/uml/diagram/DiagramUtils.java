@@ -48,52 +48,51 @@ import org.tigris.gef.base.LayerManager;
 import org.tigris.gef.base.LayerPerspective;
 
 /**
- * A utility class for diagrams (ArgoDiagrams).  It provides convenience
- * methods which encapsulate and isolate access to GEF.
+ * A utility class for diagrams (ArgoDiagrams). It provides convenience methods
+ * which encapsulate and isolate access to GEF.
  *
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class DiagramUtils {
 
-    private static final Logger LOG =
-        Logger.getLogger(DiagramUtils.class.getName());
+	private static final Logger LOG = Logger.getLogger(DiagramUtils.class.getName());
 
-    /**
-     * Instantiation not allowed.  Static methods only.
-     */
-    private DiagramUtils() {
-        // not allowed
-    }
+	/**
+	 * Instantiation not allowed. Static methods only.
+	 */
+	private DiagramUtils() {
+		// not allowed
+	}
 
-    /**
-     * @return the diagram containing the mouse (or which most recently
-     *         contained the mouse).
-     */
-    public static ArgoDiagram getActiveDiagram() {
-        LayerPerspective layer = getActiveLayer();
-        if (layer != null) {
-            return (ArgoDiagram) layer.getDiagram();
-        }
-        LOG.log(Level.FINE, "No active diagram");
-        return null;
-    }
+	/**
+	 * @return the diagram containing the mouse (or which most recently
+	 *         contained the mouse).
+	 */
+	public static ArgoDiagram getActiveDiagram() {
+		LayerPerspective layer = getActiveLayer();
+		if (layer != null) {
+			return (ArgoDiagram) layer.getDiagram();
+		}
+		LOG.log(Level.FINE, "No active diagram");
+		return null;
+	}
 
-    /**
-     * @return the active diagram layer. If the currently active layer is not a
-     *         LayerPerspective, it can't be associated with a Diagram, so
-     *         return null.
-     */
-    private static LayerPerspective getActiveLayer() {
-        Editor editor = Globals.curEditor();
-        if (editor != null) {
-            LayerManager manager = editor.getLayerManager();
-            if (manager != null) {
-                Layer layer = manager.getActiveLayer();
-                if (layer instanceof LayerPerspective) {
-                    return (LayerPerspective) layer;
-                }
-            }
-        }
-        return null;
-    }
+	/**
+	 * @return the active diagram layer. If the currently active layer is not a
+	 *         LayerPerspective, it can't be associated with a Diagram, so
+	 *         return null.
+	 */
+	private static LayerPerspective getActiveLayer() {
+		Editor editor = Globals.curEditor();
+		if (editor != null) {
+			LayerManager manager = editor.getLayerManager();
+			if (manager != null) {
+				Layer layer = manager.getActiveLayer();
+				if (layer instanceof LayerPerspective) {
+					return (LayerPerspective) layer;
+				}
+			}
+		}
+		return null;
+	}
 }

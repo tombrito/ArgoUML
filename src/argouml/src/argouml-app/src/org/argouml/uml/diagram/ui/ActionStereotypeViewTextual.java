@@ -41,22 +41,22 @@ package org.argouml.uml.diagram.ui;
 import org.argouml.uml.diagram.DiagramAppearance;
 
 /**
- * When this action is triggered the selected node visualization changes into 
- * <code>Textual</code> mode. This is the default mode for all nodes. The 
+ * When this action is triggered the selected node visualization changes into
+ * <code>Textual</code> mode. This is the default mode for all nodes. The
  * stereotypes are displayed as the stereotype name between guillemets.
  *
  * @author maurelio1234
  */
 public class ActionStereotypeViewTextual extends ActionStereotypeView {
-    private static final long serialVersionUID = -5657208671097711886L;
+	private static final long serialVersionUID = -5657208671097711886L;
 
 	/**
-     * Default constructor for this action
-     * 
-     * @param node the current node
-     */
-    public ActionStereotypeViewTextual(FigNodeModelElement node) {
-	super(node, "menu.popup.stereotype-view.textual",
-		DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL);
-    }
+	 * Default constructor for this action
+	 * 
+	 * @param node
+	 *            the current node
+	 */
+	public ActionStereotypeViewTextual(FigNodeModelElement node) {
+		super(node, "menu.popup.stereotype-view.textual", DiagramAppearance.STEREOTYPE_VIEW_TEXTUAL);
+	}
 }

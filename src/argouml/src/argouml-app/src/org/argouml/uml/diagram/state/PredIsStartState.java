@@ -47,28 +47,28 @@ import org.tigris.gef.util.Predicate;
  */
 public class PredIsStartState implements Predicate {
 
-    private static final long serialVersionUID = 8452275518443081838L;
+	private static final long serialVersionUID = 8452275518443081838L;
 	/**
-     * theInstance is the singleton.
-     */
-    private static PredIsStartState theInstance = new PredIsStartState();
+	 * theInstance is the singleton.
+	 */
+	private static PredIsStartState theInstance = new PredIsStartState();
 
-    private PredIsStartState() { }
+	private PredIsStartState() {
+	}
 
-    /*
-     * @see org.tigris.gef.util.Predicate#predicate(java.lang.Object)
-     */
-    public boolean predicate(Object obj) {
-	return (Model.getFacade().isAPseudostate(obj))
-	    && (Model.getPseudostateKind().getInitial().equals(
-                Model.getFacade().getKind(obj)));
-    }
+	/*
+	 * @see org.tigris.gef.util.Predicate#predicate(java.lang.Object)
+	 */
+	public boolean predicate(Object obj) {
+		return (Model.getFacade().isAPseudostate(obj))
+				&& (Model.getPseudostateKind().getInitial().equals(Model.getFacade().getKind(obj)));
+	}
 
-    /**
-     * @return the instance
-     */
-    public static PredIsStartState getTheInstance() {
-        return theInstance;
-    }
+	/**
+	 * @return the instance
+	 */
+	public static PredIsStartState getTheInstance() {
+		return theInstance;
+	}
 
 } /* end class PredIsStartpackage */

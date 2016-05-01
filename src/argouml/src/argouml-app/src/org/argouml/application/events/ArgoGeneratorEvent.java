@@ -39,26 +39,29 @@
 package org.argouml.application.events;
 
 /**
- * ArgoGeneratorEvent is used to notify interested parties
- * that a CodeGenerator has been added, removed, modified.
+ * ArgoGeneratorEvent is used to notify interested parties that a CodeGenerator
+ * has been added, removed, modified.
  */
 public class ArgoGeneratorEvent extends ArgoEvent {
 
-    private static final long serialVersionUID = 3646899062036736500L;
+	private static final long serialVersionUID = 3646899062036736500L;
 
 	/**
-     * @param eventType reported by this event.
-     * @param src object that caused the event.
-     */
-    public ArgoGeneratorEvent(int eventType, Object src) {
-        super(eventType, src);
-    }
+	 * @param eventType
+	 *            reported by this event.
+	 * @param src
+	 *            object that caused the event.
+	 */
+	public ArgoGeneratorEvent(int eventType, Object src) {
+		super(eventType, src);
+	}
 
-    /**
-     * Indicates the start of the 100-digit range for generator events.
-     *
-     * @return the first id reserved for events.
-     */
-    public int getEventStartRange() { return ANY_GENERATOR_EVENT; }
+	/**
+	 * Indicates the start of the 100-digit range for generator events.
+	 *
+	 * @return the first id reserved for events.
+	 */
+	public int getEventStartRange() {
+		return ANY_GENERATOR_EVENT;
+	}
 }
-

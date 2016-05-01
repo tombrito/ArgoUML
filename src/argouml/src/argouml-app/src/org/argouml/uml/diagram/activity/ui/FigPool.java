@@ -54,164 +54,169 @@ import org.tigris.gef.presentation.FigRect;
 
 /**
  * This class represents a Pool of Swimlanes for Activity diagrams. This is
- * exists only to act as the GEF style encloser. Other nodes in the same
- * must be placed entirely within or outside the boundaries of this Fig
- * but cannot intersect with the boundary. <p>
+ * exists only to act as the GEF style encloser. Other nodes in the same must be
+ * placed entirely within or outside the boundaries of this Fig but cannot
+ * intersect with the boundary.
+ * <p>
  * TODO: There is no actual model element being represented here so we are
- * inheriting a lot of behaviour from FigNodeModelElement that we don't want.
- * We require to split FigNodeModelElement to separate the code that requires
- * a model element owner. See issue ... <p>
- * Remark mvw: Why not give it an owner instead? The ActivityGraph 
- * is the obvious candidate, or maybe the top state.
+ * inheriting a lot of behaviour from FigNodeModelElement that we don't want. We
+ * require to split FigNodeModelElement to separate the code that requires a
+ * model element owner. See issue ...
+ * <p>
+ * Remark mvw: Why not give it an owner instead? The ActivityGraph is the
+ * obvious candidate, or maybe the top state.
  *
  * @author mkl
  */
 public class FigPool extends FigNodeModelElement {
 
-    private static final long serialVersionUID = -4441142386301785487L;
+	private static final long serialVersionUID = -4441142386301785487L;
 
 	private void initialize(Rectangle r) {
-        /* TODO: Replace the next deprecated call. This case is complicated 
-         * by the use of parameters. All other Figs work differently. */
-        setBigPort(new FigEmptyRect(r.x, r.y, r.width, r.height));
-        getBigPort().setFilled(false);
-        getBigPort().setLineWidth(0);
+		/*
+		 * TODO: Replace the next deprecated call. This case is complicated by
+		 * the use of parameters. All other Figs work differently.
+		 */
+		setBigPort(new FigEmptyRect(r.x, r.y, r.width, r.height));
+		getBigPort().setFilled(false);
+		getBigPort().setLineWidth(0);
 
-        addFig(getBigPort());
+		addFig(getBigPort());
 
-        setBounds(r);
-    }
-    
-    /**
-     * Constructor used by PGML parser when loading.
-     * 
-     * @param bounds bounding box rectangle
-     * @param settings (ignored since this is just an empty rectangle)
-     */
-    public FigPool(Rectangle bounds, DiagramSettings settings) {
-        super(null, bounds, settings);
-        initialize(bounds);
-    }
+		setBounds(r);
+	}
 
+	/**
+	 * Constructor used by PGML parser when loading.
+	 * 
+	 * @param bounds
+	 *            bounding box rectangle
+	 * @param settings
+	 *            (ignored since this is just an empty rectangle)
+	 */
+	public FigPool(Rectangle bounds, DiagramSettings settings) {
+		super(null, bounds, settings);
+		initialize(bounds);
+	}
 
-    /**
-     * Create the Fig containing the stereotype(s). As there is no stereotype
-     * display for this Fig we return null
-     *
-     * @return the stereotype FigGroup
-     */
-    protected FigStereotypesGroup createStereotypeFig() {
-        return null;
-    }
+	/**
+	 * Create the Fig containing the stereotype(s). As there is no stereotype
+	 * display for this Fig we return null
+	 *
+	 * @return the stereotype FigGroup
+	 */
+	protected FigStereotypesGroup createStereotypeFig() {
+		return null;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#clone()
-     */
-    @Override
-    public Object clone() {
-        FigPool figClone = (FigPool) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        return figClone;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigPool figClone = (FigPool) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		return figClone;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#addEnclosedFig(org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void addEnclosedFig(Fig figState) {
-        super.addEnclosedFig(figState);
-        Iterator it = getLayer().getContentsNoEdges().iterator();
-        while (it.hasNext()) {
-            Fig f = (Fig) it.next();
-            if (f instanceof FigPartition
-            	&& f.getBounds().intersects(figState.getBounds())) { 
-                Model.getCoreHelper().setModelElementContainer(
-                            figState.getOwner(), f.getOwner());
-            }
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#addEnclosedFig(org.tigris.
+	 * gef.presentation.Fig)
+	 */
+	@Override
+	public void addEnclosedFig(Fig figState) {
+		super.addEnclosedFig(figState);
+		Iterator it = getLayer().getContentsNoEdges().iterator();
+		while (it.hasNext()) {
+			Fig f = (Fig) it.next();
+			if (f instanceof FigPartition && f.getBounds().intersects(figState.getBounds())) {
+				Model.getCoreHelper().setModelElementContainer(figState.getOwner(), f.getOwner());
+			}
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        getBigPort().setFillColor(col);
-        getNameFig().setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		getBigPort().setFillColor(col);
+		getNameFig().setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return getBigPort().getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return getBigPort().getFillColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        getBigPort().setFilled(f);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		getBigPort().setFilled(f);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return getBigPort().isFilled();
-    }
+	@Override
+	public boolean isFilled() {
+		return getBigPort().isFilled();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        Dimension nameDim = getNameFig().getMinimumSize();
-        int w = nameDim.width;
-        int h = nameDim.height;
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension nameDim = getNameFig().getMinimumSize();
+		int w = nameDim.width;
+		int h = nameDim.height;
 
-        // we want to maintain a minimum size for the partition
-        w = Math.max(64, w);
-        h = Math.max(256, h);
+		// we want to maintain a minimum size for the partition
+		w = Math.max(64, w);
+		h = Math.max(256, h);
 
-        return new Dimension(w, h);
-    }
+		return new Dimension(w, h);
+	}
 
-    /**
-     * Using a traprect enables us to move containing figs easily.
-     *
-     * @return <code>true</code>
-     *
-     * @see org.tigris.gef.presentation.Fig#getUseTrapRect()
-     */
-    @Override
-    public boolean getUseTrapRect() {
-        return true;
-    }
+	/**
+	 * Using a traprect enables us to move containing figs easily.
+	 *
+	 * @return <code>true</code>
+	 *
+	 * @see org.tigris.gef.presentation.Fig#getUseTrapRect()
+	 */
+	@Override
+	public boolean getUseTrapRect() {
+		return true;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-	
-        Rectangle oldBounds = getBounds();
-        getBigPort().setBounds(x, y, w, h);
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setBoundsImpl(int, int, int, int)
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
 
-        firePropChange("bounds", oldBounds, getBounds());
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-    }
-    
-    /**
-     * A FigPool can't be selected. Instead it is dragged or resized whenever
-     * one of its swimlanes is dragged or resized.
-     * @return false at all times
-     */
-    @Override
-    public boolean isSelectable() {
-        return false;
-    }
+		Rectangle oldBounds = getBounds();
+		getBigPort().setBounds(x, y, w, h);
+
+		firePropChange("bounds", oldBounds, getBounds());
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+	}
+
+	/**
+	 * A FigPool can't be selected. Instead it is dragged or resized whenever
+	 * one of its swimlanes is dragged or resized.
+	 * 
+	 * @return false at all times
+	 */
+	@Override
+	public boolean isSelectable() {
+		return false;
+	}
 
 }
-

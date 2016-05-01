@@ -57,125 +57,111 @@ import org.argouml.persistence.PersistenceManager;
  * Settings tab panel for handling ArgoUML application related settings.
  *
  * @author Thierry Lach
- * @since  0.9.4
+ * @since 0.9.4
  */
-class SettingsTabPreferences extends JPanel
-    implements GUISettingsTabInterface {
+class SettingsTabPreferences extends JPanel implements GUISettingsTabInterface {
 
-    private static final long serialVersionUID = 291324967069048399L;
+	private static final long serialVersionUID = 291324967069048399L;
 	private JPanel topPanel;
-    private JCheckBox chkSplash;
-    private JCheckBox chkReloadRecent;
-    private JCheckBox chkStripDiagrams;
-    private JCheckBox chkUseSafeSaves;
-    
-    /**
-     * The constructor.
-     *
-     */
-    SettingsTabPreferences() {
-    }
+	private JCheckBox chkSplash;
+	private JCheckBox chkReloadRecent;
+	private JCheckBox chkStripDiagrams;
+	private JCheckBox chkUseSafeSaves;
 
-    private void buildPanel() {
-        setLayout(new BorderLayout());
-	topPanel = new JPanel();
-    	topPanel.setLayout(new GridBagLayout());
+	/**
+	 * The constructor.
+	 *
+	 */
+	SettingsTabPreferences() {
+	}
 
-	GridBagConstraints checkConstraints = new GridBagConstraints();
-	checkConstraints.anchor = GridBagConstraints.LINE_START;
-	checkConstraints.gridy = 0;
-	checkConstraints.gridx = 0;
-	checkConstraints.gridwidth = 1;
-	checkConstraints.gridheight = 1;
-	checkConstraints.insets = new Insets(4, 10, 0, 10);
+	private void buildPanel() {
+		setLayout(new BorderLayout());
+		topPanel = new JPanel();
+		topPanel.setLayout(new GridBagLayout());
 
-	checkConstraints.gridy = 2;
-	JCheckBox j = new JCheckBox(Translator.localize("label.splash"));
-        chkSplash = j;
-	topPanel.add(chkSplash, checkConstraints);
+		GridBagConstraints checkConstraints = new GridBagConstraints();
+		checkConstraints.anchor = GridBagConstraints.LINE_START;
+		checkConstraints.gridy = 0;
+		checkConstraints.gridx = 0;
+		checkConstraints.gridwidth = 1;
+		checkConstraints.gridheight = 1;
+		checkConstraints.insets = new Insets(4, 10, 0, 10);
 
-	checkConstraints.gridy++;
-        JCheckBox j2 =
-            new JCheckBox(Translator.localize("label.reload-recent"));
-        chkReloadRecent = j2;
- 	topPanel.add(chkReloadRecent, checkConstraints);
+		checkConstraints.gridy = 2;
+		JCheckBox j = new JCheckBox(Translator.localize("label.splash"));
+		chkSplash = j;
+		topPanel.add(chkSplash, checkConstraints);
 
-        checkConstraints.gridy++;
-        JCheckBox j3 =
-            new JCheckBox(Translator.localize("label.strip-diagrams"));
-        chkStripDiagrams = j3;
-        topPanel.add(chkStripDiagrams, checkConstraints);
+		checkConstraints.gridy++;
+		JCheckBox j2 = new JCheckBox(Translator.localize("label.reload-recent"));
+		chkReloadRecent = j2;
+		topPanel.add(chkReloadRecent, checkConstraints);
 
-        checkConstraints.gridy++;
-        JCheckBox j4 =
-            new JCheckBox(Translator.localize("label.use-safe-saves"));
-        chkUseSafeSaves = j4;
-        topPanel.add(chkUseSafeSaves, checkConstraints);
-        
-        checkConstraints.fill = GridBagConstraints.HORIZONTAL;
+		checkConstraints.gridy++;
+		JCheckBox j3 = new JCheckBox(Translator.localize("label.strip-diagrams"));
+		chkStripDiagrams = j3;
+		topPanel.add(chkStripDiagrams, checkConstraints);
 
-	add(topPanel, BorderLayout.NORTH);
-    }
+		checkConstraints.gridy++;
+		JCheckBox j4 = new JCheckBox(Translator.localize("label.use-safe-saves"));
+		chkUseSafeSaves = j4;
+		topPanel.add(chkUseSafeSaves, checkConstraints);
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabRefresh()
-     */
-    public void handleSettingsTabRefresh() {
-        chkSplash.setSelected(Configuration.getBoolean(Argo.KEY_SPLASH, true));
-        chkReloadRecent.setSelected(
-		Configuration.getBoolean(Argo.KEY_RELOAD_RECENT_PROJECT,
-					 false));
-        chkStripDiagrams.setSelected(
-                Configuration.getBoolean(Argo.KEY_XMI_STRIP_DIAGRAMS,
-                                         false));
-        chkUseSafeSaves.setSelected(
-            Configuration.getBoolean(PersistenceManager.USE_SAFE_SAVES,
-                true)); 
-    }
+		checkConstraints.fill = GridBagConstraints.HORIZONTAL;
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabSave()
-     */
-    public void handleSettingsTabSave() {
-        Configuration.setBoolean(Argo.KEY_SPLASH, chkSplash.isSelected());
-        Configuration.setBoolean(Argo.KEY_RELOAD_RECENT_PROJECT,
-				 chkReloadRecent.isSelected());
-        Configuration.setBoolean(Argo.KEY_XMI_STRIP_DIAGRAMS,
-                 chkStripDiagrams.isSelected());
-        Configuration.setBoolean(PersistenceManager.USE_SAFE_SAVES,
-                chkUseSafeSaves.isSelected());
-    }
+		add(topPanel, BorderLayout.NORTH);
+	}
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabCancel()
-     */
-    public void handleSettingsTabCancel() {
-        handleSettingsTabRefresh();
-    }
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabRefresh()
+	 */
+	public void handleSettingsTabRefresh() {
+		chkSplash.setSelected(Configuration.getBoolean(Argo.KEY_SPLASH, true));
+		chkReloadRecent.setSelected(Configuration.getBoolean(Argo.KEY_RELOAD_RECENT_PROJECT, false));
+		chkStripDiagrams.setSelected(Configuration.getBoolean(Argo.KEY_XMI_STRIP_DIAGRAMS, false));
+		chkUseSafeSaves.setSelected(Configuration.getBoolean(PersistenceManager.USE_SAFE_SAVES, true));
+	}
 
-    /*
-     * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
-     */
-    public void handleResetToDefault() {
-        // Do nothing - these buttons are not shown.
-    }
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabSave()
+	 */
+	public void handleSettingsTabSave() {
+		Configuration.setBoolean(Argo.KEY_SPLASH, chkSplash.isSelected());
+		Configuration.setBoolean(Argo.KEY_RELOAD_RECENT_PROJECT, chkReloadRecent.isSelected());
+		Configuration.setBoolean(Argo.KEY_XMI_STRIP_DIAGRAMS, chkStripDiagrams.isSelected());
+		Configuration.setBoolean(PersistenceManager.USE_SAFE_SAVES, chkUseSafeSaves.isSelected());
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabPanel()
-     */
-    public JPanel getTabPanel() {
-        if (topPanel == null) {
-            buildPanel();
-        }
-        return this;
-    }
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabCancel()
+	 */
+	public void handleSettingsTabCancel() {
+		handleSettingsTabRefresh();
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabKey()
-     */
-    public String getTabKey() {
-        return "tab.preferences";
-    }
+	/*
+	 * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
+	 */
+	public void handleResetToDefault() {
+		// Do nothing - these buttons are not shown.
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#getTabPanel()
+	 */
+	public JPanel getTabPanel() {
+		if (topPanel == null) {
+			buildPanel();
+		}
+		return this;
+	}
+
+	/*
+	 * @see GUISettingsTabInterface#getTabKey()
+	 */
+	public String getTabKey() {
+		return "tab.preferences";
+	}
 
 }
-

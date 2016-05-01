@@ -39,23 +39,25 @@
 package org.argouml.persistence;
 
 /**
- * Exception indicating an unsupported version of UML. 
+ * Exception indicating an unsupported version of UML.
  * 
  * @author Tom Morris
  */
 public class UmlVersionException extends XmiFormatException {
 
-    private static final long serialVersionUID = 572039833250263170L;
+	private static final long serialVersionUID = 572039833250263170L;
 
 	/**
-     * Construct an UmlVersionException with the version string
-     * and a nested cause.
-     * 
-     * @param message the message for the exception
-     * @param cause what caused the exception
-     */
-    public UmlVersionException(String message, Throwable cause) {
-        super(message, cause);
-    }
+	 * Construct an UmlVersionException with the version string and a nested
+	 * cause.
+	 * 
+	 * @param message
+	 *            the message for the exception
+	 * @param cause
+	 *            what caused the exception
+	 */
+	public UmlVersionException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
 }

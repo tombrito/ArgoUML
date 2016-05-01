@@ -44,41 +44,43 @@ package org.argouml.persistence;
  * @author Bob Tarling
  */
 class PersistenceException extends Exception {
-    /**
-     * Constructor.
-     */
-    public PersistenceException() {
-        super();
-    }
+	/**
+	 * Constructor.
+	 */
+	public PersistenceException() {
+		super();
+	}
 
-    /**
-     * Constructor.
-     *
-     * @param message the message
-     */
-    public PersistenceException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param message
+	 *            the message
+	 */
+	public PersistenceException(String message) {
+		super(message);
+	}
 
-    /**
-     * @param message the message
-     * @param c the cause of the exception
-     */
-    public PersistenceException(String message, Throwable c) {
-        super(message, c);
-    }
+	/**
+	 * @param message
+	 *            the message
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public PersistenceException(String message, Throwable c) {
+		super(message, c);
+	}
 
-    /**
-     * @param c the cause of the exception
-     */
-    public PersistenceException(Throwable c) {
-        super(c);
-    }
+	/**
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public PersistenceException(Throwable c) {
+		super(c);
+	}
 
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 4626477344515962964L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 4626477344515962964L;
 }
-

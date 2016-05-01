@@ -62,150 +62,149 @@ import org.tigris.toolbar.toolbutton.PopupToolBoxButton;
  */
 public class ToolBarUtility {
 
-    private static final Logger LOG =
-        Logger.getLogger(ToolBarUtility.class.getName());
+	private static final Logger LOG = Logger.getLogger(ToolBarUtility.class.getName());
 
-    /**
-     * Manages the selection of the default tool
-     * in a popup tool in the toolbar. <p>
-     *
-     * I.e. in a toolbar, you can have tools that can be opened,
-     * into a grid of tools. The last used tool is remembered,
-     * and put at the top when the popup is closed, i.e.
-     * is the only tool that remains visible. This remembering is
-     * persistent, hence stored in the configuration file,
-     * under a certain key (i.e. name).
-     *
-     * @param actions the array of actions that make up the popup
-     * @param key appendix for the key for the configuration file
-     */
-    public static void manageDefault(Object[] actions, String key) {
-        Action defaultAction = null;
-        ConfigurationKey k =
-            Configuration.makeKey("default", "popupactions", key);
-        String defaultName = Configuration.getString(k);
-        PopupActionsListener listener = new PopupActionsListener(k);
-        for (int i = 0; i < actions.length; ++i) {
-            if (actions[i] instanceof Action) {
-                Action a = (Action) actions[i];
-                if (a.getValue(Action.NAME).equals(defaultName)) {
-                    defaultAction = a;
-                }
-                a.addPropertyChangeListener(listener);
-            } else if (actions[i] instanceof Object[]) {
-                Object[] actionRow = (Object[]) actions[i];
-                for (int j = 0; j < actionRow.length; ++j) {
-                    Action a = (Action) actionRow[j];
-                    if (a.getValue(Action.NAME).equals(defaultName)) {
-                        defaultAction = a;
-                    }
-                    a.addPropertyChangeListener(listener);
-                }
-            }
-        }
+	/**
+	 * Manages the selection of the default tool in a popup tool in the toolbar.
+	 * <p>
+	 *
+	 * I.e. in a toolbar, you can have tools that can be opened, into a grid of
+	 * tools. The last used tool is remembered, and put at the top when the
+	 * popup is closed, i.e. is the only tool that remains visible. This
+	 * remembering is persistent, hence stored in the configuration file, under
+	 * a certain key (i.e. name).
+	 *
+	 * @param actions
+	 *            the array of actions that make up the popup
+	 * @param key
+	 *            appendix for the key for the configuration file
+	 */
+	public static void manageDefault(Object[] actions, String key) {
+		Action defaultAction = null;
+		ConfigurationKey k = Configuration.makeKey("default", "popupactions", key);
+		String defaultName = Configuration.getString(k);
+		PopupActionsListener listener = new PopupActionsListener(k);
+		for (int i = 0; i < actions.length; ++i) {
+			if (actions[i] instanceof Action) {
+				Action a = (Action) actions[i];
+				if (a.getValue(Action.NAME).equals(defaultName)) {
+					defaultAction = a;
+				}
+				a.addPropertyChangeListener(listener);
+			} else if (actions[i] instanceof Object[]) {
+				Object[] actionRow = (Object[]) actions[i];
+				for (int j = 0; j < actionRow.length; ++j) {
+					Action a = (Action) actionRow[j];
+					if (a.getValue(Action.NAME).equals(defaultName)) {
+						defaultAction = a;
+					}
+					a.addPropertyChangeListener(listener);
+				}
+			}
+		}
 
-        if (defaultAction != null) {
-            defaultAction.putValue("isDefault", Boolean.TRUE);
-        }
-    }
+		if (defaultAction != null) {
+			defaultAction.putValue("isDefault", Boolean.TRUE);
+		}
+	}
 
-    static class PopupActionsListener implements PropertyChangeListener {
-        private boolean blockEvents;
-        private ConfigurationKey key;
+	static class PopupActionsListener implements PropertyChangeListener {
+		private boolean blockEvents;
+		private ConfigurationKey key;
 
-        /**
-         * Constructor.
-         *
-         * @param k
-         */
-        public PopupActionsListener(ConfigurationKey k) {
-            key = k;
-        }
+		/**
+		 * Constructor.
+		 *
+		 * @param k
+		 */
+		public PopupActionsListener(ConfigurationKey k) {
+			key = k;
+		}
 
-        /*
-         * @see java.beans.PropertyChangeListener#propertyChange(
-         *         java.beans.PropertyChangeEvent)
-         */
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getSource() instanceof Action) {
-                Action a = (Action) evt.getSource();
-                if (!blockEvents && evt.getPropertyName().equals("popped")) {
-                    blockEvents = true;
-                    /* Switch the value back off, so that we will
-                     * get notified again next time.
-                     */
-                    a.putValue("popped", Boolean.FALSE);
-                    blockEvents = false;
-                    Configuration.setString(key,
-                            (String) a.getValue(Action.NAME));
-                }
-            }
-        }
-    }
+		/*
+		 * @see java.beans.PropertyChangeListener#propertyChange(
+		 * java.beans.PropertyChangeEvent)
+		 */
+		public void propertyChange(PropertyChangeEvent evt) {
+			if (evt.getSource() instanceof Action) {
+				Action a = (Action) evt.getSource();
+				if (!blockEvents && evt.getPropertyName().equals("popped")) {
+					blockEvents = true;
+					/*
+					 * Switch the value back off, so that we will get notified
+					 * again next time.
+					 */
+					a.putValue("popped", Boolean.FALSE);
+					blockEvents = false;
+					Configuration.setString(key, (String) a.getValue(Action.NAME));
+				}
+			}
+		}
+	}
 
-    /**
-     * TODO: Use the following function to have a dropdown set of tools:
-     * ToolBarFactory.addItemsToToolBar(buttonPanel, actions, true);
-     * Instead, this temporary solution:
-     *
-     * @param buttonPanel the toolbar
-     * @param actions an array of actions representing the tool layout
-     */
-    public static void addItemsToToolBar(JToolBar buttonPanel,
-            Object[] actions) {
-        JButton button = buildPopupToolBoxButton(actions, false);
-        if (!ToolBarManager.alwaysUseStandardRollover()) {
-            button.setBorderPainted(false);
-        }
-        buttonPanel.add(button);
-    }
+	/**
+	 * TODO: Use the following function to have a dropdown set of tools:
+	 * ToolBarFactory.addItemsToToolBar(buttonPanel, actions, true); Instead,
+	 * this temporary solution:
+	 *
+	 * @param buttonPanel
+	 *            the toolbar
+	 * @param actions
+	 *            an array of actions representing the tool layout
+	 */
+	public static void addItemsToToolBar(JToolBar buttonPanel, Object[] actions) {
+		JButton button = buildPopupToolBoxButton(actions, false);
+		if (!ToolBarManager.alwaysUseStandardRollover()) {
+			button.setBorderPainted(false);
+		}
+		buttonPanel.add(button);
+	}
 
-    /**
-     * TODO: Use the following function to have a dropdown set of tools:
-     * ToolBarFactory.addItemsToToolBar(buttonPanel, actions, true);
-     * Instead, this temporary solution:
-     *
-     * @param buttonPanel the toolbar
-     * @param actions an array of actions representing the tool layout
-     */
-    public static void addItemsToToolBar(JToolBar buttonPanel,
-            Collection actions) {
-	addItemsToToolBar(buttonPanel, actions.toArray());
-    }
+	/**
+	 * TODO: Use the following function to have a dropdown set of tools:
+	 * ToolBarFactory.addItemsToToolBar(buttonPanel, actions, true); Instead,
+	 * this temporary solution:
+	 *
+	 * @param buttonPanel
+	 *            the toolbar
+	 * @param actions
+	 *            an array of actions representing the tool layout
+	 */
+	public static void addItemsToToolBar(JToolBar buttonPanel, Collection actions) {
+		addItemsToToolBar(buttonPanel, actions.toArray());
+	}
 
-    /**
-     * TODO: Move this into the toolbar project.
-     */
-    private static PopupToolBoxButton buildPopupToolBoxButton(Object[] actions,
-            boolean rollover) {
-        PopupToolBoxButton toolBox = null;
-        for (int i = 0; i < actions.length; ++i) {
-            if (actions[i] instanceof Action) {
-                LOG.log(Level.INFO, "Adding a {0} to the toolbar", actions[i]);
+	/**
+	 * TODO: Move this into the toolbar project.
+	 */
+	private static PopupToolBoxButton buildPopupToolBoxButton(Object[] actions, boolean rollover) {
+		PopupToolBoxButton toolBox = null;
+		for (int i = 0; i < actions.length; ++i) {
+			if (actions[i] instanceof Action) {
+				LOG.log(Level.INFO, "Adding a {0} to the toolbar", actions[i]);
 
-                Action a = (Action) actions[i];
-                if (toolBox == null) {
-                    toolBox = new PopupToolBoxButton(a, 0, 1, rollover);
-                }
-                toolBox.add(a);
-            } else if (actions[i] instanceof Component) {
-                toolBox.add((Component) actions[i]);
-            } else if (actions[i] instanceof Object[]) {
-                Object[] actionRow = (Object[]) actions[i];
-                for (int j = 0; j < actionRow.length; ++j) {
-                    Action a = (Action) actionRow[j];
-                    if (toolBox == null) {
-                        int cols = actionRow.length;
-                        toolBox = new PopupToolBoxButton(a, 0, cols, rollover);
-                    }
-                    toolBox.add(a);
-                }
-            } else {
-                LOG.log(Level.SEVERE,
-                        "Can't add a " + actions[i] + " to the toolbar");
-            }
-        }
-        return toolBox;
-    }
+				Action a = (Action) actions[i];
+				if (toolBox == null) {
+					toolBox = new PopupToolBoxButton(a, 0, 1, rollover);
+				}
+				toolBox.add(a);
+			} else if (actions[i] instanceof Component) {
+				toolBox.add((Component) actions[i]);
+			} else if (actions[i] instanceof Object[]) {
+				Object[] actionRow = (Object[]) actions[i];
+				for (int j = 0; j < actionRow.length; ++j) {
+					Action a = (Action) actionRow[j];
+					if (toolBox == null) {
+						int cols = actionRow.length;
+						toolBox = new PopupToolBoxButton(a, 0, cols, rollover);
+					}
+					toolBox.add(a);
+				}
+			} else {
+				LOG.log(Level.SEVERE, "Can't add a " + actions[i] + " to the toolbar");
+			}
+		}
+		return toolBox;
+	}
 
 }

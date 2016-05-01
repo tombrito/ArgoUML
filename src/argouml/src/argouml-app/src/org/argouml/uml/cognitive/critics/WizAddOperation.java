@@ -48,63 +48,59 @@ import org.argouml.model.Model;
 /**
  * A wizard to add operations to a classifier.
  *
- * @author  mkl
+ * @author mkl
  * @since Created on December 4, 2003, 1:55 PM
  */
 public class WizAddOperation extends UMLWizard {
 
-    private static final long serialVersionUID = 8197630634314561910L;
+	private static final long serialVersionUID = 8197630634314561910L;
 	private WizStepTextField step1 = null;
-    private String label = Translator.localize("label.name");
-    private String instructions;
+	private String label = Translator.localize("label.name");
+	private String instructions;
 
-    /**
-     * Creates a new instance of WizAddOperation.
-     */
-    public WizAddOperation() {
-        super();
-    }
+	/**
+	 * Creates a new instance of WizAddOperation.
+	 */
+	public WizAddOperation() {
+		super();
+	}
 
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#doAction(int)
-     */
-    public void doAction(int oldStep) {
-        switch (oldStep) {
-	case 1:
-	    String newName = getSuggestion();
-	    if (step1 != null) {
-		newName = step1.getText();
-	    }
-	    Object me = getModelElement();
-	    Object returnType =
-	        ProjectManager.getManager()
-	        	.getCurrentProject().getDefaultReturnType();
-	    Model.getCoreFactory().buildOperation2(me, returnType, newName);
-            break;
-        }
-    }
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#doAction(int)
+	 */
+	public void doAction(int oldStep) {
+		switch (oldStep) {
+		case 1:
+			String newName = getSuggestion();
+			if (step1 != null) {
+				newName = step1.getText();
+			}
+			Object me = getModelElement();
+			Object returnType = ProjectManager.getManager().getCurrentProject().getDefaultReturnType();
+			Model.getCoreFactory().buildOperation2(me, returnType, newName);
+			break;
+		}
+	}
 
+	/**
+	 * @param s
+	 *            the new instructions
+	 */
+	public void setInstructions(String s) {
+		instructions = s;
+	}
 
-    /**
-     * @param s the new instructions
-     */
-    public void setInstructions(String s) {
-        instructions = s;
-    }
-
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#makePanel(int)
-     */
-    public JPanel makePanel(int newStep) {
-        switch (newStep) {
-	case 1:
-	    if (step1 == null) {
-		step1 =
-		    new WizStepTextField(this, instructions,
-		            label, offerSuggestion());
-	    }
-	    return step1;
-        }
-        return null;
-    }
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#makePanel(int)
+	 */
+	public JPanel makePanel(int newStep) {
+		switch (newStep) {
+		case 1:
+			if (step1 == null) {
+				step1 = new WizStepTextField(this, instructions, label, offerSuggestion());
+			}
+			return step1;
+		}
+		return null;
+	}
 }

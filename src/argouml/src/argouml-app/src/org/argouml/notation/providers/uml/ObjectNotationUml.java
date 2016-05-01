@@ -54,85 +54,83 @@ import org.argouml.notation.providers.ObjectNotation;
  */
 public class ObjectNotationUml extends ObjectNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param theObject the UML Object
-     */
-    public ObjectNotationUml(Object theObject) {
-        super(theObject);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param theObject
+	 *            the UML Object
+	 */
+	public ObjectNotationUml(Object theObject) {
+		super(theObject);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-object";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-object";
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        String s = text.trim();
-        if (s.length() == 0) {
-            return;
-        }
-        // strip any trailing semi-colons
-        if (s.charAt(s.length() - 1) == ';') {
-            s = s.substring(0, s.length() - 2);
-        }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		String s = text.trim();
+		if (s.length() == 0) {
+			return;
+		}
+		// strip any trailing semi-colons
+		if (s.charAt(s.length() - 1) == ';') {
+			s = s.substring(0, s.length() - 2);
+		}
 
-        String name = "";
-        String bases = "";
-        StringTokenizer baseTokens = null;
+		String name = "";
+		String bases = "";
+		StringTokenizer baseTokens = null;
 
-        if (s.indexOf(":", 0) > -1) {
-            name = s.substring(0, s.indexOf(":", 0)).trim();
-            bases = s.substring(s.indexOf(":", 0) + 1).trim();
-            baseTokens = new StringTokenizer(bases, ",");
-        } else {
-            name = s;
-        }
+		if (s.indexOf(":", 0) > -1) {
+			name = s.substring(0, s.indexOf(":", 0)).trim();
+			bases = s.substring(s.indexOf(":", 0) + 1).trim();
+			baseTokens = new StringTokenizer(bases, ",");
+		} else {
+			name = s;
+		}
 
-        Model.getCommonBehaviorHelper().setClassifiers(modelElement, 
-                Collections.emptyList());
-        if (baseTokens != null) {
-            while (baseTokens.hasMoreElements()) {
-                String typeString = baseTokens.nextToken();
-                Object type =
-                    ProjectManager.getManager()
-                        .getCurrentProject().findType(typeString);
-                Model.getCommonBehaviorHelper().addClassifier(modelElement, 
-                        type);
-            }
-        }
-        /* This updates the diagram - hence as last statement: */
-        Model.getCoreHelper().setName(modelElement, name);
-    }
+		Model.getCommonBehaviorHelper().setClassifiers(modelElement, Collections.emptyList());
+		if (baseTokens != null) {
+			while (baseTokens.hasMoreElements()) {
+				String typeString = baseTokens.nextToken();
+				Object type = ProjectManager.getManager().getCurrentProject().findType(typeString);
+				Model.getCommonBehaviorHelper().addClassifier(modelElement, type);
+			}
+		}
+		/* This updates the diagram - hence as last statement: */
+		Model.getCoreHelper().setName(modelElement, name);
+	}
 
-    private String toString(Object modelElement) {
-        String nameStr = "";
-        if (Model.getFacade().getName(modelElement) != null) {
-            nameStr = Model.getFacade().getName(modelElement).trim();
-        }
+	private String toString(Object modelElement) {
+		String nameStr = "";
+		if (Model.getFacade().getName(modelElement) != null) {
+			nameStr = Model.getFacade().getName(modelElement).trim();
+		}
 
-        StringBuilder baseString = NotationUtilityUml.formatNameList(
-                Model.getFacade().getClassifiers(modelElement));
+		StringBuilder baseString = NotationUtilityUml.formatNameList(Model.getFacade().getClassifiers(modelElement));
 
-        if ((nameStr.length() == 0) && (baseString.length() == 0)) {
-            return "";
-        }
-        String base = baseString.toString().trim();
-        if (base.length() < 1) {
-            return nameStr.trim();
-        }
-        return nameStr.trim() + " : " + base;
-    }
+		if ((nameStr.length() == 0) && (baseString.length() == 0)) {
+			return "";
+		}
+		String base = baseString.toString().trim();
+		if (base.length() < 1) {
+			return nameStr.trim();
+		}
+		return nameStr.trim() + " : " + base;
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

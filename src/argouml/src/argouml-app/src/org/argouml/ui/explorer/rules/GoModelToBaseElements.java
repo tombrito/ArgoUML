@@ -53,43 +53,43 @@ import org.argouml.model.Model;
  */
 public class GoModelToBaseElements extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-	return Translator.localize("misc.package.base-class");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.package.base-class");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (Model.getFacade().isAPackage(parent)) {
-	    Collection result = new ArrayList();
-	    Collection generalizableElements =
-	        Model.getModelManagementHelper()
-	            .getAllModelElementsOfKind(
-	                    parent,
-	                    Model.getMetaTypes().getGeneralizableElement());
-	    for (Object element : generalizableElements) {
-	        if (Model.getFacade().getGeneralizations(element).isEmpty()) {
-	            result.add(element);
-	        }
-	    }
-	    return result;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAPackage(parent)) {
+			Collection result = new ArrayList();
+			Collection generalizableElements = Model.getModelManagementHelper().getAllModelElementsOfKind(parent,
+					Model.getMetaTypes().getGeneralizableElement());
+			for (Object element : generalizableElements) {
+				if (Model.getFacade().getGeneralizations(element).isEmpty()) {
+					result.add(element);
+				}
+			}
+			return result;
+		}
+		return Collections.EMPTY_LIST;
 	}
-	return Collections.EMPTY_LIST;
-    }
-    
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAPackage(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAPackage(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
 	}
-	return Collections.EMPTY_SET;
-    }
 }

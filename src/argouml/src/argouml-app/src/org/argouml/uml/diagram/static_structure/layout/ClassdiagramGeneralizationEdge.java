@@ -42,19 +42,17 @@ import org.tigris.gef.presentation.FigEdge;
 
 /**
  *
- * @author  mkl
+ * @author mkl
  */
-public class ClassdiagramGeneralizationEdge
-    extends ClassdiagramInheritanceEdge
-{
+public class ClassdiagramGeneralizationEdge extends ClassdiagramInheritanceEdge {
 
-    /**
-     * The constructor.
-     *
-     * @param edge the fig edge
-     */
-    public ClassdiagramGeneralizationEdge(FigEdge edge) {
-        super(edge);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param edge
+	 *            the fig edge
+	 */
+	public ClassdiagramGeneralizationEdge(FigEdge edge) {
+		super(edge);
+	}
 }
-

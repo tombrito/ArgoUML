@@ -53,82 +53,79 @@ import org.argouml.uml.diagram.state.ui.UMLStateDiagram;
  */
 public class ActionStateDiagram extends ActionNewDiagram {
 
-    private static final long serialVersionUID = -5156437569379747444L;
+	private static final long serialVersionUID = -5156437569379747444L;
 
 	/**
-     * Constructor.
-     */
-    public ActionStateDiagram() {
-        super("action.state-diagram");
-    }
+	 * Constructor.
+	 */
+	public ActionStateDiagram() {
+		super("action.state-diagram");
+	}
 
-    protected ArgoDiagram createDiagram(Object namespace, 
-            DiagramSettings settings) {
-        Object machine = buildMachine(namespace, getTarget(namespace));
-        
-        return DiagramFactory.getInstance().create(
-                DiagramFactory.DiagramType.State,
-                machine, settings);
-    }
-    
+	protected ArgoDiagram createDiagram(Object namespace, DiagramSettings settings) {
+		Object machine = buildMachine(namespace, getTarget(namespace));
 
-    private Object getTarget(Object namespace) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAUMLElement(target) 
-                && Model.getModelManagementHelper().isReadOnly(target)) {
-            target = namespace;
-        }
-        return target;
-    }
+		return DiagramFactory.getInstance().create(DiagramFactory.DiagramType.State, machine, settings);
+	}
 
-    private Object buildMachine(Object namespace, Object target) {
-        Object machine = null;
-        if (Model.getStateMachinesHelper().isAddingStatemachineAllowed(
-              target)) {
-            /* The target is a valid context. */
-            machine = Model.getStateMachinesFactory().buildStateMachine(target);
-        } else if (Model.getFacade().isAStateMachine(target)
-                && hasNoDiagramYet(target)) {
-            /* This target is a statemachine, 
-             * for which no diagram exists yet, 
-             * so, let's use it. */
-            machine = target;
-        } else {
-            /* Let's just build a Statemachine, 
-             * and put it in a suitable namespace. */
-            machine = Model.getStateMachinesFactory().createStateMachine();
-            if (Model.getFacade().isANamespace(target)) {
-                namespace = target;
-                /* Follow well-formedness rule for a Class [2].
-                 * Determine the owning namespace for the statemachine: */
-                while (Model.getFacade().isAClass(namespace)) {
-                    Object parent = Model.getFacade().getNamespace(namespace);
-                    if (parent == null) {
-                        break;
-                    }
-                    namespace = parent;
-                }
-            }
-            Model.getCoreHelper().setNamespace(machine, namespace);
-            
-            if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
-                Model.getStateMachinesFactory()
-                    .buildCompositeStateOnStateMachine(machine);
-            }
-        }
-        return machine;
-    }
-    
-    private boolean hasNoDiagramYet(Object machine) {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        for (ArgoDiagram d : p.getDiagramList()) {
-            if (d instanceof UMLStateDiagram) {
-                if (((UMLStateDiagram) d).getStateMachine() == machine) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+	private Object getTarget(Object namespace) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAUMLElement(target) && Model.getModelManagementHelper().isReadOnly(target)) {
+			target = namespace;
+		}
+		return target;
+	}
+
+	private Object buildMachine(Object namespace, Object target) {
+		Object machine = null;
+		if (Model.getStateMachinesHelper().isAddingStatemachineAllowed(target)) {
+			/* The target is a valid context. */
+			machine = Model.getStateMachinesFactory().buildStateMachine(target);
+		} else if (Model.getFacade().isAStateMachine(target) && hasNoDiagramYet(target)) {
+			/*
+			 * This target is a statemachine, for which no diagram exists yet,
+			 * so, let's use it.
+			 */
+			machine = target;
+		} else {
+			/*
+			 * Let's just build a Statemachine, and put it in a suitable
+			 * namespace.
+			 */
+			machine = Model.getStateMachinesFactory().createStateMachine();
+			if (Model.getFacade().isANamespace(target)) {
+				namespace = target;
+				/*
+				 * Follow well-formedness rule for a Class [2]. Determine the
+				 * owning namespace for the statemachine:
+				 */
+				while (Model.getFacade().isAClass(namespace)) {
+					Object parent = Model.getFacade().getNamespace(namespace);
+					if (parent == null) {
+						break;
+					}
+					namespace = parent;
+				}
+			}
+			Model.getCoreHelper().setNamespace(machine, namespace);
+
+			if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
+				Model.getStateMachinesFactory().buildCompositeStateOnStateMachine(machine);
+			}
+		}
+		return machine;
+	}
+
+	private boolean hasNoDiagramYet(Object machine) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		for (ArgoDiagram d : p.getDiagramList()) {
+			if (d instanceof UMLStateDiagram) {
+				if (((UMLStateDiagram) d).getStateMachine() == machine) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 }

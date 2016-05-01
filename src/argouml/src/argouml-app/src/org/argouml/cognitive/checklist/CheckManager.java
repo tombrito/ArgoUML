@@ -43,131 +43,133 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
- * The CheckManager keeps track of which Checklists should be
- * presented for a given design material.  CheckManager also keeps
- * track of which CheckItem's are checked off for a given design
- * element.
+ * The CheckManager keeps track of which Checklists should be presented for a
+ * given design material. CheckManager also keeps track of which CheckItem's are
+ * checked off for a given design element.
  *
  * @author Jason Robbins
  */
 public class CheckManager implements Serializable {
 
-    ////////////////////////////////////////////////////////////////
-    // static variables
+	////////////////////////////////////////////////////////////////
+	// static variables
 
-    private static final long serialVersionUID = -3728939841412205636L;
+	private static final long serialVersionUID = -3728939841412205636L;
 
 	/**
-     * List of checklists.
-     *
-     * Indexed on the object type of the element that this checklist is
-     * appropriate for.
-     */
-    private static Hashtable lists = new Hashtable();
+	 * List of checklists.
+	 *
+	 * Indexed on the object type of the element that this checklist is
+	 * appropriate for.
+	 */
+	private static Hashtable lists = new Hashtable();
 
-    /**
-     * List of ChecklistStatus:es.
-     *
-     * Indexed on the model element itself.
-     * TODO: Should use weak references so that this is forgotten about
-     * when the object is removed.
-     */
-    private static Hashtable statuses = new Hashtable();
+	/**
+	 * List of ChecklistStatus:es.
+	 *
+	 * Indexed on the model element itself. TODO: Should use weak references so
+	 * that this is forgotten about when the object is removed.
+	 */
+	private static Hashtable statuses = new Hashtable();
 
-    /**
-     * Constructor.
-     */
-    public CheckManager() { }
-
-    ////////////////////////////////////////////////////////////////
-    // static accessors
-
-    /**
-     * Gets the checklist for an element.
-     *
-     * @param dm is the element
-     * @return a checklist
-     */
-    public static Checklist getChecklistFor(Object dm) {
-        Checklist cl;
-
-	java.lang.Class cls = dm.getClass();
-	while (cls != null) {
-	    cl = lookupChecklist(cls);
-	    if (cl != null) {
-		return cl;
-	    }
-	    cls = cls.getSuperclass();
-	}
-	return null;
-    }
-
-    /**
-     * Find an element in the list.
-     *
-     * This is a little more complex than the simple lookup since it might be
-     * that we are indexing with a class and the list contains interfaces.
-     *
-     * Since the hashtable lookup is a lot faster than the linear search we
-     * add the result of the linear search to the hashtable so that the next
-     * time we need not do it.
-     *
-     * @return Checklist or null if noone exist.
-     * @param cls the class to lookup.
-     */
-    private static Checklist lookupChecklist(Class cls) {
-        if (lists.contains(cls)) {
-            return (Checklist) lists.get(cls);
+	/**
+	 * Constructor.
+	 */
+	public CheckManager() {
 	}
 
-        // Now lets search
-        Enumeration enumeration = lists.keys();
+	////////////////////////////////////////////////////////////////
+	// static accessors
 
-        while (enumeration.hasMoreElements()) {
-            Object clazz = enumeration.nextElement();
+	/**
+	 * Gets the checklist for an element.
+	 *
+	 * @param dm
+	 *            is the element
+	 * @return a checklist
+	 */
+	public static Checklist getChecklistFor(Object dm) {
+		Checklist cl;
 
-            Class[] intfs = cls.getInterfaces();
-            for (int i = 0; i < intfs.length; i++) {
-                if (intfs[i].equals(clazz)) {
-                    // We found it!
-                    Checklist chlist = (Checklist) lists.get(clazz);
-
-                    // Enter the class to speed up the next search.
-                    lists.put(cls, chlist);
-                    return chlist;
-                }
-            }
-        }
-
-        return null;
-    }
-
-
-    /**
-     * Registers a new list. Used when setting up the checklist stuff.
-     *
-     * @param dm the class for which the Checklist holds
-     * @param cl the Checklist
-     */
-    public static void register(Object dm, Checklist cl) {
-	lists.put(dm, cl);
-    }
-
-    /**
-     * Get the ChecklistStatus for some object.
-     *
-     * If there is none, then create one.
-     *
-     * @return ChecklistStatus, a half filled list.
-     * @param dm is the object that we retrieve the checklist for
-     */
-    public static ChecklistStatus getStatusFor(Object dm) {
-	ChecklistStatus cls = (ChecklistStatus) statuses.get(dm);
-	if (cls == null) {
-	    cls = new ChecklistStatus();
-	    statuses.put(dm, cls);
+		java.lang.Class cls = dm.getClass();
+		while (cls != null) {
+			cl = lookupChecklist(cls);
+			if (cl != null) {
+				return cl;
+			}
+			cls = cls.getSuperclass();
+		}
+		return null;
 	}
-	return cls;
-    }
+
+	/**
+	 * Find an element in the list.
+	 *
+	 * This is a little more complex than the simple lookup since it might be
+	 * that we are indexing with a class and the list contains interfaces.
+	 *
+	 * Since the hashtable lookup is a lot faster than the linear search we add
+	 * the result of the linear search to the hashtable so that the next time we
+	 * need not do it.
+	 *
+	 * @return Checklist or null if noone exist.
+	 * @param cls
+	 *            the class to lookup.
+	 */
+	private static Checklist lookupChecklist(Class cls) {
+		if (lists.contains(cls)) {
+			return (Checklist) lists.get(cls);
+		}
+
+		// Now lets search
+		Enumeration enumeration = lists.keys();
+
+		while (enumeration.hasMoreElements()) {
+			Object clazz = enumeration.nextElement();
+
+			Class[] intfs = cls.getInterfaces();
+			for (int i = 0; i < intfs.length; i++) {
+				if (intfs[i].equals(clazz)) {
+					// We found it!
+					Checklist chlist = (Checklist) lists.get(clazz);
+
+					// Enter the class to speed up the next search.
+					lists.put(cls, chlist);
+					return chlist;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Registers a new list. Used when setting up the checklist stuff.
+	 *
+	 * @param dm
+	 *            the class for which the Checklist holds
+	 * @param cl
+	 *            the Checklist
+	 */
+	public static void register(Object dm, Checklist cl) {
+		lists.put(dm, cl);
+	}
+
+	/**
+	 * Get the ChecklistStatus for some object.
+	 *
+	 * If there is none, then create one.
+	 *
+	 * @return ChecklistStatus, a half filled list.
+	 * @param dm
+	 *            is the object that we retrieve the checklist for
+	 */
+	public static ChecklistStatus getStatusFor(Object dm) {
+		ChecklistStatus cls = (ChecklistStatus) statuses.get(dm);
+		if (cls == null) {
+			cls = new ChecklistStatus();
+			statuses.put(dm, cls);
+		}
+		return cls;
+	}
 } /* end class CheckManager */
-

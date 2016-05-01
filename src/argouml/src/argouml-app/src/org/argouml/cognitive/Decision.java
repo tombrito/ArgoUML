@@ -48,102 +48,101 @@ package org.argouml.cognitive;
  *
  */
 public class Decision {
-    ////////////////////////////////////////////////////////////////
-    // constants
-    /**
-     * This is another test.
-     */
-    public static final Decision UNSPEC =
-        new Decision("misc.decision.uncategorized", 1);
+	////////////////////////////////////////////////////////////////
+	// constants
+	/**
+	 * This is another test.
+	 */
+	public static final Decision UNSPEC = new Decision("misc.decision.uncategorized", 1);
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
-    /**
-     * The localized name.
-     */
-    private String name;
+	////////////////////////////////////////////////////////////////
+	// instance variables
+	/**
+	 * The localized name.
+	 */
+	private String name;
 
-    /**
-     * The priority.
-     */
-    private int priority;
+	/**
+	 * The priority.
+	 */
+	private int priority;
 
-    /**
-     * The constructor.
-     *
-     * @param n
-     *            the (not yet localized) name
-     * @param p
-     *            the priority
-     */
-    public Decision(String n, int p) {
-        name = Translator.localize(n);
-        priority = p;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param n
+	 *            the (not yet localized) name
+	 * @param p
+	 *            the priority
+	 */
+	public Decision(String n, int p) {
+		name = Translator.localize(n);
+		priority = p;
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // accessors
+	////////////////////////////////////////////////////////////////
+	// accessors
 
-    /*
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        if (name == null) {
-            return 0;
-        }
-        return name.hashCode();
-    }
+	/*
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		if (name == null) {
+			return 0;
+		}
+		return name.hashCode();
+	}
 
-    /**
-     * Two decisions are considered to be equal if their names are equal. The
-     * priority is not considered.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean equals(Object d2) {
-        if (!(d2 instanceof Decision)) {
-            return false;
-        }
-        return ((Decision) d2).getName().equals(getName());
-    }
+	/**
+	 * Two decisions are considered to be equal if their names are equal. The
+	 * priority is not considered.
+	 *
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object d2) {
+		if (!(d2 instanceof Decision)) {
+			return false;
+		}
+		return ((Decision) d2).getName().equals(getName());
+	}
 
-    /**
-     * @return the localized name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the localized name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param n
-     *            the localized name
-     */
-    public void setName(String n) {
-        name = n;
-    }
+	/**
+	 * @param n
+	 *            the localized name
+	 */
+	public void setName(String n) {
+		name = n;
+	}
 
-    /**
-     * @return the priority
-     */
-    public int getPriority() {
-        return priority;
-    }
+	/**
+	 * @return the priority
+	 */
+	public int getPriority() {
+		return priority;
+	}
 
-    /**
-     * @param p
-     *            the priority
-     */
-    public void setPriority(int p) {
-        priority = p;
-    }
+	/**
+	 * @param p
+	 *            the priority
+	 */
+	public void setPriority(int p) {
+		priority = p;
+	}
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return getName();
-    }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

@@ -50,231 +50,234 @@ import org.argouml.ui.targetmanager.TargetListener;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * The model for an expression. 
- * An expression consists of a body and a language.
+ * The model for an expression. An expression consists of a body and a language.
  * 
  * @author mkl
  */
-public abstract class UMLExpressionModel2  
-    implements TargetListener, PropertyChangeListener {
-    private UMLUserInterfaceContainer container;
-    private String propertyName;
-    private Object expression;
-    private boolean mustRefresh;
-    private static final String EMPTYSTRING = "";
-    
-    private Object target = null;
+public abstract class UMLExpressionModel2 implements TargetListener, PropertyChangeListener {
+	private UMLUserInterfaceContainer container;
+	private String propertyName;
+	private Object expression;
+	private boolean mustRefresh;
+	private static final String EMPTYSTRING = "";
 
-    /**
-     * The constructor.
-     *
-     * @param c the container of UML user interface components
-     * @param name the name of the property
-     */
-    public UMLExpressionModel2(UMLUserInterfaceContainer c, String name) {
-        container = c;
-        propertyName = name;
-        mustRefresh = true;
-    }
+	private Object target = null;
 
-    /**
-     * When the target is changed, we must refresh.
-     */
-    public void targetChanged() {
-        mustRefresh = true;
-        expression = null;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param c
+	 *            the container of UML user interface components
+	 * @param name
+	 *            the name of the property
+	 */
+	public UMLExpressionModel2(UMLUserInterfaceContainer c, String name) {
+		container = c;
+		propertyName = name;
+		mustRefresh = true;
+	}
 
+	/**
+	 * When the target is changed, we must refresh.
+	 */
+	public void targetChanged() {
+		mustRefresh = true;
+		expression = null;
+	}
 
-    /**
-     * @return the expression
-     */
-    public abstract Object getExpression();
+	/**
+	 * @return the expression
+	 */
+	public abstract Object getExpression();
 
-    /**
-     * @param expr the expression
-     */
-    public abstract void setExpression(Object expr);
+	/**
+	 * @param expr
+	 *            the expression
+	 */
+	public abstract void setExpression(Object expr);
 
-    /**
-     * @return a new expression
-     */
-    public abstract Object newExpression();
+	/**
+	 * @return a new expression
+	 */
+	public abstract Object newExpression();
 
+	/**
+	 * @return the language of the expression
+	 */
+	public String getLanguage() {
+		if (mustRefresh) {
+			expression = getExpression();
+		}
+		if (expression == null) {
+			return EMPTYSTRING;
+		}
+		return Model.getDataTypesHelper().getLanguage(expression);
+	}
 
-    /**
-     * @return the language of the expression
-     */
-    public String getLanguage() {
-        if (mustRefresh) {
-            expression = getExpression();
-        }
-        if (expression == null) {
-            return EMPTYSTRING;
-        }
-        return Model.getDataTypesHelper().getLanguage(expression);
-    }
+	/**
+	 * @return The body text of the expression.
+	 */
+	public String getBody() {
+		if (mustRefresh) {
+			expression = getExpression();
+		}
+		if (expression == null) {
+			return EMPTYSTRING;
+		}
+		return Model.getDataTypesHelper().getBody(expression);
+	}
 
-    /**
-     * @return The body text of the expression.
-     */
-    public String getBody() {
-        if (mustRefresh) {
-            expression = getExpression();
-        }
-        if (expression == null) {
-            return EMPTYSTRING;
-        }
-        return Model.getDataTypesHelper().getBody(expression);
-    }
+	/**
+	 * @param lang
+	 *            the language of the expression
+	 */
+	public void setLanguage(String lang) {
 
-    /**
-     * @param lang the language of the expression
-     */
-    public void setLanguage(String lang) {
+		boolean mustChange = true;
+		if (expression != null) {
+			String oldValue = Model.getDataTypesHelper().getLanguage(expression);
+			if (oldValue != null && oldValue.equals(lang)) {
+				mustChange = false;
+			}
+		}
+		if (mustChange) {
+			String body = EMPTYSTRING;
+			if (expression != null && Model.getDataTypesHelper().getBody(expression) != null) {
+				body = Model.getDataTypesHelper().getBody(expression);
+			}
 
-        boolean mustChange = true;
-        if (expression != null) {
-            String oldValue =
-                Model.getDataTypesHelper().getLanguage(expression);
-            if (oldValue != null && oldValue.equals(lang)) {
-                mustChange = false;
-            }
-        }
-        if (mustChange) {
-            String body = EMPTYSTRING;
-            if (expression != null
-                    && Model.getDataTypesHelper().getBody(expression) != null) {
-                body = Model.getDataTypesHelper().getBody(expression);
-            }
+			setExpression(lang, body);
+		}
+	}
 
-            setExpression(lang, body);
-        }
-    }
+	/**
+	 * @param body
+	 *            the body text of the expression
+	 */
+	public void setBody(String body) {
+		boolean mustChange = true;
+		if (expression != null) {
+			Object oldValue = Model.getDataTypesHelper().getBody(expression);
+			if (oldValue != null && oldValue.equals(body)) {
+				mustChange = false;
+			}
+		}
+		if (mustChange) {
+			String lang = null;
+			if (expression != null) {
+				lang = Model.getDataTypesHelper().getLanguage(expression);
+			}
+			if (lang == null) {
+				lang = EMPTYSTRING;
+			}
 
-    /**
-     * @param body the body text of the expression
-     */
-    public void setBody(String body) {
-        boolean mustChange = true;
-        if (expression != null) {
-            Object oldValue = Model.getDataTypesHelper().getBody(expression);
-            if (oldValue != null && oldValue.equals(body)) {
-                mustChange = false;
-            }
-        }
-        if (mustChange) {
-            String lang = null;
-            if (expression != null) {
-                lang = Model.getDataTypesHelper().getLanguage(expression);
-            }
-            if (lang == null) {
-                lang = EMPTYSTRING;
-            }
+			setExpression(lang, body);
+		}
+	}
 
-            setExpression(lang, body);
-        }
-    }
+	/**
+	 * @param lang
+	 *            the language of the expression
+	 * @param body
+	 *            the body text of the expression
+	 */
+	private void setExpression(String lang, String body) {
+		// Expressions are DataTypes, not independent model elements
+		// be careful not to reuse them
+		Object oldExpression = null;
+		if (mustRefresh || expression == null) {
+			oldExpression = expression;
+			expression = newExpression();
+		}
+		expression = Model.getDataTypesHelper().setLanguage(expression, lang);
+		expression = Model.getDataTypesHelper().setBody(expression, body);
+		setExpression(expression);
+		if (oldExpression != null) {
+			Model.getUmlFactory().delete(oldExpression);
+		}
+	}
 
-    /**
-     * @param lang the language of the expression
-     * @param body the body text of the expression
-     */
-    private void setExpression(String lang, String body) {
-        // Expressions are DataTypes, not independent model elements
-        // be careful not to reuse them
-        Object oldExpression = null;
-        if (mustRefresh || expression == null) {
-            oldExpression = expression;
-            expression = newExpression();
-        }
-        expression = Model.getDataTypesHelper().setLanguage(expression, lang);
-        expression = Model.getDataTypesHelper().setBody(expression, body);
-        setExpression(expression);
-        if (oldExpression != null) {
-            Model.getUmlFactory().delete(oldExpression);
-        }
-    }
+	/**
+	 * @return the container
+	 */
+	protected UMLUserInterfaceContainer getContainer() {
+		return container;
+	}
 
-    /**
-     * @return the container
-     */
-    protected UMLUserInterfaceContainer getContainer() {
-        return container;
-    }
+	/**
+	 * TODO: The next text was copied - to adapt.
+	 * 
+	 * Sets the target. If the old target is an UML Element, it also removes the
+	 * model from the element listener list of the target. If the new target is
+	 * an UML Element, the model is added as element listener to the new target.
+	 * <p>
+	 *
+	 * This function is called when the user changes the target. Hence, this
+	 * shall not result in any UML model changes.
+	 * <p>
+	 * 
+	 * This function looks a lot like the one in UMLComboBoxModel2.
+	 * <p>
+	 * As a possible future extension, we could allow listening to other model
+	 * elements.
+	 * 
+	 * @param theNewTarget
+	 *            the new target
+	 */
+	public void setTarget(Object theNewTarget) {
+		theNewTarget = theNewTarget instanceof Fig ? ((Fig) theNewTarget).getOwner() : theNewTarget;
+		if (Model.getFacade().isAUMLElement(target)) {
+			Model.getPump().removeModelEventListener(this, target, propertyName);
+			// Allow listening to other elements:
+			// removeOtherModelEventListeners(listTarget);
+		}
 
-    /**
-     * TODO: The next text was copied - to adapt.
-     * 
-     * Sets the target. If the old target is an UML Element, it also removes
-     * the model from the element listener list of the target. If the new target
-     * is an UML Element, the model is added as element listener to the
-     * new target. <p>
-     *
-     * This function is called when the user changes the target. 
-     * Hence, this shall not result in any UML model changes.<p>
-     * 
-     * This function looks a lot like the one in UMLComboBoxModel2.
-     * <p>
-     * As a possible future extension, we could allow listening to 
-     * other model elements.
-     * 
-     * @param theNewTarget the new target
-     */
-    public void setTarget(Object theNewTarget) {
-        theNewTarget = theNewTarget instanceof Fig
-            ? ((Fig) theNewTarget).getOwner() : theNewTarget;
-        if (Model.getFacade().isAUMLElement(target)) {
-            Model.getPump().removeModelEventListener(this, target,
-                    propertyName);
-            // Allow listening to other elements:
-            //                removeOtherModelEventListeners(listTarget);
-        }
+		if (Model.getFacade().isAUMLElement(theNewTarget)) {
+			target = theNewTarget;
+			Model.getPump().addModelEventListener(this, target, propertyName);
+			// Allow listening to other elements:
+			// addOtherModelEventListeners(listTarget);
 
-        if (Model.getFacade().isAUMLElement(theNewTarget)) {
-            target = theNewTarget;
-            Model.getPump().addModelEventListener(this, target,
-                    propertyName);
-            // Allow listening to other elements:
-            //                addOtherModelEventListeners(listTarget);
+			if (container instanceof TabTarget) {
+				((TabTarget) container).refresh();
+			}
+		} else {
+			target = null;
+		}
+	}
 
-            if (container instanceof TabTarget) {
-                ((TabTarget) container).refresh();
-            }
-        } else {
-            target = null;
-        }
-    }
-    
-    public void propertyChange(PropertyChangeEvent e) {
-        if (target != null && target == e.getSource()) {
-            mustRefresh = true;
-            expression = null;
-            /* This works - we do get an event - and now 
-             * refresh the UI: */
-            if (container instanceof TabTarget) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        ((TabTarget) container).refresh();
-                        /* TODO: The above statement also refreshes when 
-                         * we are not shown (to be verified) - hence 
-                         * not entirely correct. */
-                    }
-                });
-            }
-        }
-    }
+	public void propertyChange(PropertyChangeEvent e) {
+		if (target != null && target == e.getSource()) {
+			mustRefresh = true;
+			expression = null;
+			/*
+			 * This works - we do get an event - and now refresh the UI:
+			 */
+			if (container instanceof TabTarget) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						((TabTarget) container).refresh();
+						/*
+						 * TODO: The above statement also refreshes when we are
+						 * not shown (to be verified) - hence not entirely
+						 * correct.
+						 */
+					}
+				});
+			}
+		}
+	}
 
-    public void targetAdded(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	public void targetAdded(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
-    public void targetRemoved(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	public void targetRemoved(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
-    public void targetSet(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
 }

@@ -51,50 +51,46 @@ import org.argouml.uml.ui.UMLCheckBox2;
  * @author jaap.branderhorst@xs4all.nl
  * @since Jan 29, 2003
  * @deprecated for 0.27.2 by tfmorris. The targetScope attribute is no longer
- *             available for StructuralFeatures in UML 2.x.  No replacement.
+ *             available for StructuralFeatures in UML 2.x. No replacement.
  */
 @Deprecated
 public class ActionSetStructuralFeatureTargetScope extends UndoableAction {
 
-    private static final long serialVersionUID = -1500379158984265613L;
-	private static final ActionSetStructuralFeatureTargetScope SINGLETON =
-	new ActionSetStructuralFeatureTargetScope();
+	private static final long serialVersionUID = -1500379158984265613L;
+	private static final ActionSetStructuralFeatureTargetScope SINGLETON = new ActionSetStructuralFeatureTargetScope();
 
-    /**
-     * Constructor for ActionSetCompositeStateConcurrent.
-     */
-    protected ActionSetStructuralFeatureTargetScope() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
-
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-	super.actionPerformed(e);
-	if (e.getSource() instanceof UMLCheckBox2) {
-	    UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-	    Object target = source.getTarget();
-	    if (Model.getFacade().isAStructuralFeature(target)) {
-                Object m = target;
-		Model.getCoreHelper().setTargetScope(
-		        m,
-		        source.isSelected()
-		        ? Model.getScopeKind().getClassifier()
-		        : Model.getScopeKind().getInstance());
-	    }
+	/**
+	 * Constructor for ActionSetCompositeStateConcurrent.
+	 */
+	protected ActionSetStructuralFeatureTargetScope() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
 	}
-    }
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionSetStructuralFeatureTargetScope getInstance() {
-        return SINGLETON;
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAStructuralFeature(target)) {
+				Object m = target;
+				Model.getCoreHelper().setTargetScope(m, source.isSelected() ? Model.getScopeKind().getClassifier()
+						: Model.getScopeKind().getInstance());
+			}
+		}
+	}
+
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionSetStructuralFeatureTargetScope getInstance() {
+		return SINGLETON;
+	}
 
 }

@@ -54,22 +54,22 @@ import org.argouml.uml.ui.PropPanelFactoryManager;
  */
 public class InitUseCaseDiagram implements InitSubsystem {
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        return Collections.emptyList();
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public void init() {
-        /* Set up the property panels for use case diagrams: */
-        PropPanelFactory diagramFactory = new UseCaseDiagramPropPanelFactory();
-        PropPanelFactoryManager.addPropPanelFactory(diagramFactory);
-    }
+	public void init() {
+		/* Set up the property panels for use case diagrams: */
+		PropPanelFactory diagramFactory = new UseCaseDiagramPropPanelFactory();
+		PropPanelFactoryManager.addPropPanelFactory(diagramFactory);
+	}
 
 }

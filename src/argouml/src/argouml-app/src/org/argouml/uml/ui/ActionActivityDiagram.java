@@ -45,51 +45,48 @@ import org.argouml.uml.diagram.DiagramFactory;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * Action to trigger creation of a new activity diagram.<p>
+ * Action to trigger creation of a new activity diagram.
+ * <p>
  * 
- * An ActivityGraph specifies the dynamics of<ul>
- * <li> a Package, or
- * <li> a Classifier (including UseCase), or
- * <li> a BehavioralFeature.
+ * An ActivityGraph specifies the dynamics of
+ * <ul>
+ * <li>a Package, or
+ * <li>a Classifier (including UseCase), or
+ * <li>a BehavioralFeature.
  * </ul>
  * 
  * @author michiel
  */
 public class ActionActivityDiagram extends ActionNewDiagram {
 
-    /**
-     * Constructor.
-     */
-    public ActionActivityDiagram() {
-        super("action.activity-diagram");
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionActivityDiagram() {
+		super("action.activity-diagram");
+	}
 
-    @Override
-    protected ArgoDiagram createDiagram(Object namespace, 
-            DiagramSettings settings) {
-        final Object context = getContext(namespace); 
-        final Object activity = 
-            Model.getUmlFactory().buildNode(Model.getMetaTypes().getActivity(), context);
+	@Override
+	protected ArgoDiagram createDiagram(Object namespace, DiagramSettings settings) {
+		final Object context = getContext(namespace);
+		final Object activity = Model.getUmlFactory().buildNode(Model.getMetaTypes().getActivity(), context);
 
-        return DiagramFactory.getInstance().create(
-                DiagramFactory.DiagramType.Activity,
-                activity, settings);
-    }
+		return DiagramFactory.getInstance().create(DiagramFactory.DiagramType.Activity, activity, settings);
+	}
 
-    private Object getContext(Object namespace) {
-        Object context = TargetManager.getInstance().getModelTarget();
-        
-        if (!Model.getActivityGraphsHelper().isAddingActivityGraphAllowed(
-                context)
-                || Model.getModelManagementHelper().isReadOnly(context)) {
-            context = namespace;
-        }
-        return context;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -28844322376391273L;
+	private Object getContext(Object namespace) {
+		Object context = TargetManager.getInstance().getModelTarget();
 
-} 
+		if (!Model.getActivityGraphsHelper().isAddingActivityGraphAllowed(context)
+				|| Model.getModelManagementHelper().isReadOnly(context)) {
+			context = namespace;
+		}
+		return context;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -28844322376391273L;
+
+}

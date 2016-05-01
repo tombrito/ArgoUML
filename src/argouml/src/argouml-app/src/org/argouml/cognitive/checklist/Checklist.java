@@ -43,9 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Checklist is basically a list of CheckItems.  It also provides
- * some convenience functions for adding trivial CheckItems (ones that
- * have no predicate).
+ * A Checklist is basically a list of CheckItems. It also provides some
+ * convenience functions for adding trivial CheckItems (ones that have no
+ * predicate).
  *
  * In ArgoUML, Checklists are shown in the TabChecklist panel.
  *
@@ -53,68 +53,66 @@ import java.util.List;
  *
  * @author Jason Robbins
  */
-public class Checklist extends ArrayList<CheckItem> implements List<CheckItem>,
-        Serializable {
+public class Checklist extends ArrayList<CheckItem> implements List<CheckItem>, Serializable {
 
-    private static final long serialVersionUID = 8197231521366476245L;
+	private static final long serialVersionUID = 8197231521366476245L;
 	private String nextCategory = "General";
 
-    /**
-     * The constructor.
-     *
-     */
-    public Checklist() {
-        super();
-    }
-
-
-    /**
-     * @return the items
-     */
-    public List<CheckItem> getCheckItemList() {
-        return this;
-    }
-
-    /**
-     * @param description the description for a new item
-     */
-    public void addItem(String description) {
-	add(new CheckItem(nextCategory, description));
-    }
-
-    /**
-     * Replace the list by the given new list.
-     *
-     * @param list the given new list
-     */
-    public synchronized void addAll(Checklist list) {
-        for (CheckItem item : list) {
-	    add(item);
+	/**
+	 * The constructor.
+	 *
+	 */
+	public Checklist() {
+		super();
 	}
-    }
 
-
-    /**
-     * @param cat the category
-     */
-    public void setNextCategory(String cat) {
-        nextCategory = cat;
-    }
-
-
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-	StringBuilder sb = new StringBuilder();
-	sb.append(getClass().getName() + " {\n");
-        for (CheckItem item : this) {
-	    sb.append("    " + item.toString() + "\n");
+	/**
+	 * @return the items
+	 */
+	public List<CheckItem> getCheckItemList() {
+		return this;
 	}
-	sb.append("  }");
-	return sb.toString();
-    }
+
+	/**
+	 * @param description
+	 *            the description for a new item
+	 */
+	public void addItem(String description) {
+		add(new CheckItem(nextCategory, description));
+	}
+
+	/**
+	 * Replace the list by the given new list.
+	 *
+	 * @param list
+	 *            the given new list
+	 */
+	public synchronized void addAll(Checklist list) {
+		for (CheckItem item : list) {
+			add(item);
+		}
+	}
+
+	/**
+	 * @param cat
+	 *            the category
+	 */
+	public void setNextCategory(String cat) {
+		nextCategory = cat;
+	}
+
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getClass().getName() + " {\n");
+		for (CheckItem item : this) {
+			sb.append("    " + item.toString() + "\n");
+		}
+		sb.append("  }");
+		return sb.toString();
+	}
 
 }
-

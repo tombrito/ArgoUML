@@ -49,36 +49,34 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewCompositeState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 8435900650752639240L;
-	private static ActionNewCompositeState singleton =
-            new ActionNewCompositeState();
+	private static final long serialVersionUID = 8435900650752639240L;
+	private static ActionNewCompositeState singleton = new ActionNewCompositeState();
 
-    /**
-     * Constructor for ActionNewCompositeState.
-     */
-    protected ActionNewCompositeState() {
-        super();
-        putValue(Action.NAME,
-                 Translator.localize("button.new-compositestate"));
-    }
+	/**
+	 * Constructor for ActionNewCompositeState.
+	 */
+	protected ActionNewCompositeState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-compositestate"));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getStateMachinesFactory().buildCompositeState(getTarget());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getStateMachinesFactory().buildCompositeState(getTarget());
+	}
 
-    /**
-     * @return Returns the singleton.
-     */
-    public static ActionNewCompositeState getSingleton() {
-        return singleton;
-    }
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static ActionNewCompositeState getSingleton() {
+		return singleton;
+	}
 
 }

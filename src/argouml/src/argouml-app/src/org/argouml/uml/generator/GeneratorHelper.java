@@ -50,93 +50,109 @@ import javax.swing.Icon;
  * @author Daniele Tamino
  */
 public final class GeneratorHelper {
-    /**
-     * The constructor.
-     */
-    private GeneratorHelper() {
-    }
+	/**
+	 * The constructor.
+	 */
+	private GeneratorHelper() {
+	}
 
-    /**
-     * Generate code for one or more elements in a given language.
-     * @param lang The language to use.
-     * @param elements The elements to generate code for.
-     * @param deps Whether to generate dependency too.
-     * @return A collection of SourceUnit objects. The collection may be empty
-     * if no file is generated.
-     */
-    public static Collection generate(
-            Language lang, Collection elements, boolean deps) {
-        CodeGenerator gen =
-            GeneratorManager.getInstance().getGenerator(lang);
-        if (gen != null) {
-            return gen.generate(elements, deps);
-        }
-        return new ArrayList(); // empty list
-    }
+	/**
+	 * Generate code for one or more elements in a given language.
+	 * 
+	 * @param lang
+	 *            The language to use.
+	 * @param elements
+	 *            The elements to generate code for.
+	 * @param deps
+	 *            Whether to generate dependency too.
+	 * @return A collection of SourceUnit objects. The collection may be empty
+	 *         if no file is generated.
+	 */
+	public static Collection generate(Language lang, Collection elements, boolean deps) {
+		CodeGenerator gen = GeneratorManager.getInstance().getGenerator(lang);
+		if (gen != null) {
+			return gen.generate(elements, deps);
+		}
+		return new ArrayList(); // empty list
+	}
 
-    /**
-     * Generate code for a single element.
-     * @param lang The language to use.
-     * @param elem The element to generate code for.
-     * @param deps Whether to generate dependency too.
-     * @return A collection of SourceUnit objects. The collection may be empty
-     * if no file is generated.
-     */
-    public static Collection generate(
-            Language lang, Object elem, boolean deps) {
-        List list = new ArrayList();
-        list.add(elem);
-        return generate(lang, list, deps);
-    }
+	/**
+	 * Generate code for a single element.
+	 * 
+	 * @param lang
+	 *            The language to use.
+	 * @param elem
+	 *            The element to generate code for.
+	 * @param deps
+	 *            Whether to generate dependency too.
+	 * @return A collection of SourceUnit objects. The collection may be empty
+	 *         if no file is generated.
+	 */
+	public static Collection generate(Language lang, Object elem, boolean deps) {
+		List list = new ArrayList();
+		list.add(elem);
+		return generate(lang, list, deps);
+	}
 
-    /**
-     * Creates a new Language only if one with the same name doesn't already
-     * exist in GeneratorManager, in which case that one is returned.
-     * @param theName The name of the language.
-     * @param theTitle A string representing the language for display.
-     * @param theIcon An icon for the language.
-     * @return The Language object found or created.
-     */
-    public static Language makeLanguage(String theName, String theTitle,
-            Icon theIcon) {
-        Language lang;
-        lang = GeneratorManager.getInstance().findLanguage(theName);
-        if (lang == null) {
-            lang = new Language(theName, theTitle, theIcon);
-        }
-        return lang;
-    }
+	/**
+	 * Creates a new Language only if one with the same name doesn't already
+	 * exist in GeneratorManager, in which case that one is returned.
+	 * 
+	 * @param theName
+	 *            The name of the language.
+	 * @param theTitle
+	 *            A string representing the language for display.
+	 * @param theIcon
+	 *            An icon for the language.
+	 * @return The Language object found or created.
+	 */
+	public static Language makeLanguage(String theName, String theTitle, Icon theIcon) {
+		Language lang;
+		lang = GeneratorManager.getInstance().findLanguage(theName);
+		if (lang == null) {
+			lang = new Language(theName, theTitle, theIcon);
+		}
+		return lang;
+	}
 
-    /**
-     * Creates a language with no icon.
-     * @see #makeLanguage(String, String, Icon)
-     * @param theName The name of the language.
-     * @param theTitle A string representing the language for display.
-     * @return The Language object found or created.
-     */
-    public static Language makeLanguage(String theName, String theTitle) {
-        return makeLanguage(theName, theTitle, null);
-    }
+	/**
+	 * Creates a language with no icon.
+	 * 
+	 * @see #makeLanguage(String, String, Icon)
+	 * @param theName
+	 *            The name of the language.
+	 * @param theTitle
+	 *            A string representing the language for display.
+	 * @return The Language object found or created.
+	 */
+	public static Language makeLanguage(String theName, String theTitle) {
+		return makeLanguage(theName, theTitle, null);
+	}
 
-    /**
-     * Creates a language with title equal to the name.
-     * @see #makeLanguage(String, String, Icon)
-     * @param theName The name of the language.
-     * @param theIcon An icon for the language.
-     * @return The Language object found or created.
-     */
-    public static Language makeLanguage(String theName, Icon theIcon) {
-        return makeLanguage(theName, theName, theIcon);
-    }
+	/**
+	 * Creates a language with title equal to the name.
+	 * 
+	 * @see #makeLanguage(String, String, Icon)
+	 * @param theName
+	 *            The name of the language.
+	 * @param theIcon
+	 *            An icon for the language.
+	 * @return The Language object found or created.
+	 */
+	public static Language makeLanguage(String theName, Icon theIcon) {
+		return makeLanguage(theName, theName, theIcon);
+	}
 
-    /**
-     * Creates a language with title equal to the name and no icon.
-     * @see #makeLanguage(String, String, Icon)
-     * @param theName The name of the language.
-     * @return The Language object found or created.
-     */
-    public static Language makeLanguage(String theName) {
-        return makeLanguage(theName, theName, null);
-    }
+	/**
+	 * Creates a language with title equal to the name and no icon.
+	 * 
+	 * @see #makeLanguage(String, String, Icon)
+	 * @param theName
+	 *            The name of the language.
+	 * @return The Language object found or created.
+	 */
+	public static Language makeLanguage(String theName) {
+		return makeLanguage(theName, theName, null);
+	}
 
 }

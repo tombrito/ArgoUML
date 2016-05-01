@@ -47,56 +47,56 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * A critic to detect when a composite state has too
- * many subvertices.
+ * A critic to detect when a composite state has too many subvertices.
  */
 public class CrTooManyStates extends AbstractCrTooMany {
 
-    /**
-     * The initial threshold.
-     */
-    private static final int STATES_THRESHOLD = 20;
+	/**
+	 * The initial threshold.
+	 */
+	private static final int STATES_THRESHOLD = 20;
 
-    /**
-     * The constructor.
-     */
-    public CrTooManyStates() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	setThreshold(STATES_THRESHOLD);
-	addTrigger("substate");
-    }
+	/**
+	 * The constructor.
+	 */
+	public CrTooManyStates() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		setThreshold(STATES_THRESHOLD);
+		addTrigger("substate");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isACompositeState(dm))) {
-            return NO_PROBLEM;
-        }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isACompositeState(dm))) {
+			return NO_PROBLEM;
+		}
 
-	Collection subs = Model.getFacade().getSubvertices(dm);
-	if (subs.size() <= getThreshold()) {
-            return NO_PROBLEM;
-        }
-	return PROBLEM_FOUND;
-    }
+		Collection subs = Model.getFacade().getSubvertices(dm);
+		if (subs.size() <= getThreshold()) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getCompositeState());
-        return ret;
-    }
-    
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -7320341818814870066L;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getCompositeState());
+		return ret;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -7320341818814870066L;
 
 } /* end class CrTooManyStates */

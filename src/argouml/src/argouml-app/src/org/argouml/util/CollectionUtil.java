@@ -48,63 +48,66 @@ import java.util.List;
  */
 public final class CollectionUtil {
 
-    /**
-     * Can't construct a utility.
-     */
-    private CollectionUtil() {
-    }
+	/**
+	 * Can't construct a utility.
+	 */
+	private CollectionUtil() {
+	}
 
-    /**
-     * Return the first item from a collection using the most efficient
-     * method possible.
-     *
-     * @param c The Collection.
-     * @return the first element of a Collection.
-     * @throws java.util.NoSuchElementException if the collection is empty.
-     */
-    public static Object getFirstItem(Collection c) {
-        if (c instanceof List) {
-            return ((List) c).get(0);
-        }
-        return c.iterator().next();
-    }
+	/**
+	 * Return the first item from a collection using the most efficient method
+	 * possible.
+	 *
+	 * @param c
+	 *            The Collection.
+	 * @return the first element of a Collection.
+	 * @throws java.util.NoSuchElementException
+	 *             if the collection is empty.
+	 */
+	public static Object getFirstItem(Collection c) {
+		if (c instanceof List) {
+			return ((List) c).get(0);
+		}
+		return c.iterator().next();
+	}
 
-    /**
-     * Return the first item from a collection using the most efficient
-     * method possible. Returns null for an empty collection.
-     *
-     * @param c The Collection.
-     * @return the first element of a Collection.
-     */
-    public static Object getFirstItemOrNull(Collection c) {
-        if (c.size() == 0) {
-            return null;
-        }
-        return getFirstItem(c);
-    }
+	/**
+	 * Return the first item from a collection using the most efficient method
+	 * possible. Returns null for an empty collection.
+	 *
+	 * @param c
+	 *            The Collection.
+	 * @return the first element of a Collection.
+	 */
+	public static Object getFirstItemOrNull(Collection c) {
+		if (c.size() == 0) {
+			return null;
+		}
+		return getFirstItem(c);
+	}
 
-    /**
-     * Get the index position of an element in a collection
-     *
-     * @param c The Collection.
-     * @param elem the element to find the index of
-     * @return the element index
-     */
-    public static int indexOf(
-            final Collection c,
-            final Object elem) {
-        if (c instanceof List) {
-            return ((List) c).indexOf(elem);
-        } else {
-            int index = 0;
-            for (Object element : c) {
-                if (element == elem) {
-                    return index;
-                } else {
-                    ++index;
-                }
-            }
-            return -1;
-        }
-    }
+	/**
+	 * Get the index position of an element in a collection
+	 *
+	 * @param c
+	 *            The Collection.
+	 * @param elem
+	 *            the element to find the index of
+	 * @return the element index
+	 */
+	public static int indexOf(final Collection c, final Object elem) {
+		if (c instanceof List) {
+			return ((List) c).indexOf(elem);
+		} else {
+			int index = 0;
+			for (Object element : c) {
+				if (element == elem) {
+					return index;
+				} else {
+					++index;
+				}
+			}
+			return -1;
+		}
+	}
 }

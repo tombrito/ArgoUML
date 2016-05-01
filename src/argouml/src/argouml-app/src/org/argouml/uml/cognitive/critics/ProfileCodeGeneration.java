@@ -55,113 +55,107 @@ import org.argouml.profile.Profile;
  */
 public class ProfileCodeGeneration extends Profile {
 
-    private Set<Critic>  critics = null;
+	private Set<Critic> critics = null;
 
-    private static Critic crMissingClassName;
-    
-    private static Critic crDisambigClassName = new CrDisambigClassName();
+	private static Critic crMissingClassName;
 
-    private static Critic crNoTransitions = new CrNoTransitions();
+	private static Critic crDisambigClassName = new CrDisambigClassName();
 
-    private static Critic crNoIncomingTransitions =
-        new CrNoIncomingTransitions();
+	private static Critic crNoTransitions = new CrNoTransitions();
 
-    private static Critic crNoOutgoingTransitions =
-        new CrNoOutgoingTransitions();
-        
-    // Compound critics
+	private static Critic crNoIncomingTransitions = new CrNoIncomingTransitions();
 
-    // only classes with name need a constructor
-    private static CompoundCritic crCompoundConstructorNeeded;
+	private static Critic crNoOutgoingTransitions = new CrNoOutgoingTransitions();
 
-    private static CompoundCritic clsNaming;
-    
-    private static CompoundCritic noTrans1 =
-        new CompoundCritic(crNoTransitions, crNoIncomingTransitions);
+	// Compound critics
 
-    private static CompoundCritic noTrans2 =
-        new CompoundCritic(crNoTransitions, crNoOutgoingTransitions);
-        
-    /**
-     * Default Constructor 
-     * 
-     * @param profileGoodPractices the instance of the required profile 
-     */
-    public ProfileCodeGeneration(ProfileGoodPractices profileGoodPractices) {
-        crMissingClassName = profileGoodPractices.getCrMissingClassName();
-        addProfileDependency("GoodPractices");
-    }
+	// only classes with name need a constructor
+	private static CompoundCritic crCompoundConstructorNeeded;
 
-    private void loadCritics() {
+	private static CompoundCritic clsNaming;
 
-        critics = new HashSet<Critic>();
-        
-        crCompoundConstructorNeeded = new CompoundCritic(
-                crMissingClassName, new CrConstructorNeeded());
+	private static CompoundCritic noTrans1 = new CompoundCritic(crNoTransitions, crNoIncomingTransitions);
 
-        clsNaming = new CompoundCritic(crMissingClassName,
-                crDisambigClassName);
-            
-        critics.add(crCompoundConstructorNeeded);
-        
-        // code generation
-        critics.add(clsNaming);
-        critics.add(new CrDisambigStateName());
-        critics.add(crDisambigClassName);
-        critics.add(new CrIllegalName());
-        critics.add(new CrReservedName());
-        if (Model.getFacade().getUmlVersion().startsWith("1")) {
-            critics.add(new CrNoInitialState());
-        }
-        critics.add(new CrNoTriggerOrGuard());
-        critics.add(new CrNoGuard());
-                   
-        critics.add(new CrOperNameConflict());
-        critics.add(new CrNoInstanceVariables());
-        critics.add(new CrNoAssociations());
-        critics.add(new CrNoOperations());
-        critics.add(new CrUselessAbstract());
-        critics.add(new CrUselessInterface());
-        critics.add(new CrNavFromInterface());
-        critics.add(new CrUnnavigableAssoc());
-        critics.add(new CrAlreadyRealizes());
-        critics.add(new CrMultipleInitialStates());
-        critics.add(new CrUnconventionalOperName());
-        critics.add(new CrUnconventionalAttrName());
-        critics.add(new CrUnconventionalClassName());
-        critics.add(new CrUnconventionalPackName());
-        critics.add(new CrNodeInsideElement());
-        critics.add(new CrNodeInstanceInsideElement());
-        critics.add(new CrComponentWithoutNode());
-        critics.add(new CrCompInstanceWithoutNode());
-        critics.add(new CrClassWithoutComponent());
-        critics.add(new CrInterfaceWithoutComponent());
-        critics.add(new CrObjectWithoutComponent());
-        critics.add(new CrInstanceWithoutClassifier());
-        critics.add(noTrans1);
-        critics.add(noTrans2);                                  
-        
-        this.setCritics(critics);
-    }
-    
-    @Override
-    public Set<Critic> getCritics() {
-        if (critics == null) {
-            loadCritics();
-        }
-        return super.getCritics();
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return Translator.localize(
-                "misc.project.profile-critics-for-codegeneration");
-    }
+	private static CompoundCritic noTrans2 = new CompoundCritic(crNoTransitions, crNoOutgoingTransitions);
 
-   /*
-    * @see org.argouml.profile.Profile#getProfileIdentifier()
-    */
-    public String getProfileIdentifier() {
-        return "CodeGeneration";
-    }
+	/**
+	 * Default Constructor
+	 * 
+	 * @param profileGoodPractices
+	 *            the instance of the required profile
+	 */
+	public ProfileCodeGeneration(ProfileGoodPractices profileGoodPractices) {
+		crMissingClassName = profileGoodPractices.getCrMissingClassName();
+		addProfileDependency("GoodPractices");
+	}
+
+	private void loadCritics() {
+
+		critics = new HashSet<Critic>();
+
+		crCompoundConstructorNeeded = new CompoundCritic(crMissingClassName, new CrConstructorNeeded());
+
+		clsNaming = new CompoundCritic(crMissingClassName, crDisambigClassName);
+
+		critics.add(crCompoundConstructorNeeded);
+
+		// code generation
+		critics.add(clsNaming);
+		critics.add(new CrDisambigStateName());
+		critics.add(crDisambigClassName);
+		critics.add(new CrIllegalName());
+		critics.add(new CrReservedName());
+		if (Model.getFacade().getUmlVersion().startsWith("1")) {
+			critics.add(new CrNoInitialState());
+		}
+		critics.add(new CrNoTriggerOrGuard());
+		critics.add(new CrNoGuard());
+
+		critics.add(new CrOperNameConflict());
+		critics.add(new CrNoInstanceVariables());
+		critics.add(new CrNoAssociations());
+		critics.add(new CrNoOperations());
+		critics.add(new CrUselessAbstract());
+		critics.add(new CrUselessInterface());
+		critics.add(new CrNavFromInterface());
+		critics.add(new CrUnnavigableAssoc());
+		critics.add(new CrAlreadyRealizes());
+		critics.add(new CrMultipleInitialStates());
+		critics.add(new CrUnconventionalOperName());
+		critics.add(new CrUnconventionalAttrName());
+		critics.add(new CrUnconventionalClassName());
+		critics.add(new CrUnconventionalPackName());
+		critics.add(new CrNodeInsideElement());
+		critics.add(new CrNodeInstanceInsideElement());
+		critics.add(new CrComponentWithoutNode());
+		critics.add(new CrCompInstanceWithoutNode());
+		critics.add(new CrClassWithoutComponent());
+		critics.add(new CrInterfaceWithoutComponent());
+		critics.add(new CrObjectWithoutComponent());
+		critics.add(new CrInstanceWithoutClassifier());
+		critics.add(noTrans1);
+		critics.add(noTrans2);
+
+		this.setCritics(critics);
+	}
+
+	@Override
+	public Set<Critic> getCritics() {
+		if (critics == null) {
+			loadCritics();
+		}
+		return super.getCritics();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return Translator.localize("misc.project.profile-critics-for-codegeneration");
+	}
+
+	/*
+	 * @see org.argouml.profile.Profile#getProfileIdentifier()
+	 */
+	public String getProfileIdentifier() {
+		return "CodeGeneration";
+	}
 }

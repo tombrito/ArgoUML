@@ -53,125 +53,126 @@ import org.tigris.gef.presentation.Fig;
  */
 public class PathConvPercent2 extends PathConv {
 
-    /**
-     * The item Fig.
-     */
-    private Fig itemFig;
+	/**
+	 * The item Fig.
+	 */
+	private Fig itemFig;
 
-    /**
-     * The percent.
-     */
-    private int percent;
+	/**
+	 * The percent.
+	 */
+	private int percent;
 
-    /**
-     * The offset.
-     */
-    private int offset;
+	/**
+	 * The offset.
+	 */
+	private int offset;
 
-    /**
-     * Constructor.
-     *
-     * @param theFig The Fig.
-     * @param theItemFig The item Fig.
-     * @param newPercent The percent.
-     * @param newOffset The offset.
-     */
-    public PathConvPercent2(Fig theFig, Fig theItemFig, int newPercent,
-            int newOffset) {
-        super(theFig);
-        itemFig = theItemFig;
-        setPercentOffset(newPercent, newOffset);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param theFig
+	 *            The Fig.
+	 * @param theItemFig
+	 *            The item Fig.
+	 * @param newPercent
+	 *            The percent.
+	 * @param newOffset
+	 *            The offset.
+	 */
+	public PathConvPercent2(Fig theFig, Fig theItemFig, int newPercent, int newOffset) {
+		super(theFig);
+		itemFig = theItemFig;
+		setPercentOffset(newPercent, newOffset);
+	}
 
-    /*
-     * @see org.tigris.gef.base.PathConv#stuffPoint(java.awt.Point)
-     */
-    public void stuffPoint(Point res) {
-        int figLength = _pathFigure.getPerimeterLength();
-        if (figLength < 10) {
-            res.setLocation(_pathFigure.getCenter());
-            return;
-        }
-        int pointToGet = (figLength * percent) / 100;
+	/*
+	 * @see org.tigris.gef.base.PathConv#stuffPoint(java.awt.Point)
+	 */
+	public void stuffPoint(Point res) {
+		int figLength = _pathFigure.getPerimeterLength();
+		if (figLength < 10) {
+			res.setLocation(_pathFigure.getCenter());
+			return;
+		}
+		int pointToGet = (figLength * percent) / 100;
 
-        _pathFigure.stuffPointAlongPerimeter(pointToGet, res);
+		_pathFigure.stuffPointAlongPerimeter(pointToGet, res);
 
-        applyOffsetAmount(_pathFigure.pointAlongPerimeter(pointToGet + 5),
-                _pathFigure.pointAlongPerimeter(pointToGet - 5), offset, res);
-    }
+		applyOffsetAmount(_pathFigure.pointAlongPerimeter(pointToGet + 5),
+				_pathFigure.pointAlongPerimeter(pointToGet - 5), offset, res);
+	}
 
-    /**
-     * Set the percent and offset again.
-     *
-     * @param newPercent The new percent.
-     * @param newOffset The new offset.
-     */
-    public void setPercentOffset(int newPercent, int newOffset) {
-        percent = newPercent;
-        offset = newOffset;
-    }
+	/**
+	 * Set the percent and offset again.
+	 *
+	 * @param newPercent
+	 *            The new percent.
+	 * @param newOffset
+	 *            The new offset.
+	 */
+	public void setPercentOffset(int newPercent, int newOffset) {
+		percent = newPercent;
+		offset = newOffset;
+	}
 
-    /*
-     * @see org.tigris.gef.base.PathConv#setClosestPoint(java.awt.Point)
-     */
-    public void setClosestPoint(Point newPoint) {
-    }
+	/*
+	 * @see org.tigris.gef.base.PathConv#setClosestPoint(java.awt.Point)
+	 */
+	public void setClosestPoint(Point newPoint) {
+	}
 
-    /*
-     * @see org.tigris.gef.base.PathConv#applyOffsetAmount(java.awt.Point, java.awt.Point, int, java.awt.Point)
-     */
-    protected void applyOffsetAmount(
-            Point p1, Point p2,
-            int theOffset, Point res) {
-        // slope of the line we're finding the normal to
-        // is slope, and the normal is the negative reciprocal
-        // slope is (p1.y - p2.y) / (p1.x - p2.x)
-        // so recip is - (p1.x - p2.x) / (p1.y - p2.y)
-        int recipnumerator = (p1.x - p2.x) * -1;
-        int recipdenominator = (p1.y - p2.y);
+	/*
+	 * @see org.tigris.gef.base.PathConv#applyOffsetAmount(java.awt.Point,
+	 * java.awt.Point, int, java.awt.Point)
+	 */
+	protected void applyOffsetAmount(Point p1, Point p2, int theOffset, Point res) {
+		// slope of the line we're finding the normal to
+		// is slope, and the normal is the negative reciprocal
+		// slope is (p1.y - p2.y) / (p1.x - p2.x)
+		// so recip is - (p1.x - p2.x) / (p1.y - p2.y)
+		int recipnumerator = (p1.x - p2.x) * -1;
+		int recipdenominator = (p1.y - p2.y);
 
-        if (recipdenominator == 0 && recipnumerator == 0) {
-            return;
-        }
+		if (recipdenominator == 0 && recipnumerator == 0) {
+			return;
+		}
 
+		// find the point offset on the line that gives a
+		// correct offset
 
-        // find the point offset on the line that gives a
-        // correct offset
+		double len = Math.sqrt(recipnumerator * recipnumerator + recipdenominator * recipdenominator);
+		int dx = (int) ((recipdenominator * theOffset) / len);
+		int dy = (int) ((recipnumerator * theOffset) / len);
 
-        double len =
-            Math.sqrt(recipnumerator * recipnumerator
-                + recipdenominator * recipdenominator);
-        int dx = (int) ((recipdenominator * theOffset) / len);
-        int dy = (int) ((recipnumerator * theOffset) / len);
+		res.x += Math.abs(dx);
+		res.y -= Math.abs(dy);
 
-        res.x += Math.abs(dx);
-        res.y -= Math.abs(dy);
+		int width = itemFig.getWidth() / 2;
 
-        int width = itemFig.getWidth() / 2;
+		if (recipnumerator != 0) {
+			double slope = (double) recipdenominator / (double) recipnumerator;
 
-        if (recipnumerator != 0) {
-            double slope = (double) recipdenominator / (double) recipnumerator;
+			double factor = tanh(slope);
+			res.x += (Math.abs(factor) * width);
+		} else {
+			res.x += width;
+		}
+	}
 
-            double factor = tanh(slope);
-            res.x += (Math.abs(factor) * width);
-        } else {
-            res.x += width;
-        }
-    }
+	/**
+	 * Calculate the tangens hyperbolicus.
+	 *
+	 * @param x
+	 *            The argument.
+	 * @return tangens hyberbolicus
+	 */
+	private double tanh(double x) {
+		return ((Math.exp(x) - Math.exp(-x)) / 2) / ((Math.exp(x) + Math.exp(-x)) / 2);
+	}
 
-    /**
-     * Calculate the tangens hyperbolicus.
-     *
-     * @param x The argument.
-     * @return tangens hyberbolicus
-     */
-    private double tanh(double x) {
-        return ((Math.exp(x) - Math.exp(-x)) / 2)
-            / ((Math.exp(x) + Math.exp(-x)) / 2);
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -8079350336685789199L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -8079350336685789199L;
 }

@@ -49,25 +49,22 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class UMLAssociationEndOrderingCheckBox extends UMLCheckBox2 {
 
-    private static final long serialVersionUID = -1908547293045981547L;
+	private static final long serialVersionUID = -1908547293045981547L;
 
 	/**
-     * Constructor for UMLAssociationEndOrderingCheckBox.
-     */
-    public UMLAssociationEndOrderingCheckBox() {
-        super(Translator.localize("label.ordered"),
-                ActionSetAssociationEndOrdering.getInstance(), "ordering");
-    }
+	 * Constructor for UMLAssociationEndOrderingCheckBox.
+	 */
+	public UMLAssociationEndOrderingCheckBox() {
+		super(Translator.localize("label.ordered"), ActionSetAssociationEndOrdering.getInstance(), "ordering");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
-     */
-    public void buildModel() {
-        if (getTarget() != null) {
-            Object associationEnd = getTarget();
-            setSelected(
-                    Model.getOrderingKind().getOrdered().equals(
-                            Model.getFacade().getOrdering(associationEnd)));
-        }
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
+	 */
+	public void buildModel() {
+		if (getTarget() != null) {
+			Object associationEnd = getTarget();
+			setSelected(Model.getOrderingKind().getOrdered().equals(Model.getFacade().getOrdering(associationEnd)));
+		}
+	}
 }

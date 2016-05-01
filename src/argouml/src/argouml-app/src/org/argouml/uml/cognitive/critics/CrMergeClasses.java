@@ -50,74 +50,71 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * A critic to check whether to classes sharing a 1..1 association can or
- * should be combined.
+ * A critic to check whether to classes sharing a 1..1 association can or should
+ * be combined.
  */
 public class CrMergeClasses extends CrUML {
 
-    private static final long serialVersionUID = -563713227021753985L;
+	private static final long serialVersionUID = -563713227021753985L;
 
 	/**
-     * The constructor.
-     */
-    public CrMergeClasses() {
-        setupHeadAndDesc();
-	setPriority(ToDoItem.LOW_PRIORITY);
-	addSupportedDecision(UMLDecision.CLASS_SELECTION);
-	addTrigger("associationEnd");
-    }
+	 * The constructor.
+	 */
+	public CrMergeClasses() {
+		setupHeadAndDesc();
+		setPriority(ToDoItem.LOW_PRIORITY);
+		addSupportedDecision(UMLDecision.CLASS_SELECTION);
+		addTrigger("associationEnd");
+	}
 
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClass(dm))) {
+			return NO_PROBLEM;
+		}
+		Object cls = dm;
+		Collection ends = Model.getFacade().getAssociationEnds(cls);
+		if (ends == null || ends.size() != 1) {
+			return NO_PROBLEM;
+		}
+		Object myEnd = ends.iterator().next();
+		Object asc = Model.getFacade().getAssociation(myEnd);
+		List conns = new ArrayList(Model.getFacade().getConnections(asc));
+		// Do we have 2 connection ends?
+		if (conns == null || conns.size() != 2) {
+			return NO_PROBLEM;
+		}
+		Object ae0 = conns.get(0);
+		Object ae1 = conns.get(1);
+		// both ends must be classes, otherwise there is nothing to merge
+		if (!(Model.getFacade().isAClass(Model.getFacade().getType(ae0))
+				&& Model.getFacade().isAClass(Model.getFacade().getType(ae1)))) {
+			return NO_PROBLEM;
+		}
+		// both ends must be navigable, otherwise there is nothing to merge
+		if (!(Model.getFacade().isNavigable(ae0) && Model.getFacade().isNavigable(ae1))) {
+			return NO_PROBLEM;
+		}
+		if (Model.getFacade().getLower(ae0) == 1 && Model.getFacade().getUpper(ae0) == 1
+				&& Model.getFacade().getLower(ae1) == 1 && Model.getFacade().getUpper(ae1) == 1) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAClass(dm))) {
-	    return NO_PROBLEM;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
 	}
-	Object cls = dm;
-	Collection ends = Model.getFacade().getAssociationEnds(cls);
-	if (ends == null || ends.size() != 1) {
-	    return NO_PROBLEM;
-	}
-	Object myEnd = ends.iterator().next();
-	Object asc = Model.getFacade().getAssociation(myEnd);
-	List conns = new ArrayList(Model.getFacade().getConnections(asc));
-        // Do we have 2 connection ends?
-        if (conns == null || conns.size() != 2) {
-            return NO_PROBLEM;
-        }
-	Object ae0 = conns.get(0);
-	Object ae1 = conns.get(1);
-	// both ends must be classes, otherwise there is nothing to merge
-	if (!(Model.getFacade().isAClass(Model.getFacade().getType(ae0))
-            && Model.getFacade().isAClass(Model.getFacade().getType(ae1)))) {
-	    return NO_PROBLEM;
-	}
-	// both ends must be navigable, otherwise there is nothing to merge
-	if (!(Model.getFacade().isNavigable(ae0)
-            && Model.getFacade().isNavigable(ae1))) {
-	    return NO_PROBLEM;
-	}
-	if (Model.getFacade().getLower(ae0) == 1
-                && Model.getFacade().getUpper(ae0) == 1
-                && Model.getFacade().getLower(ae1) == 1
-                && Model.getFacade().getUpper(ae1) == 1) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
-    
 } /* end class CrMergeClasses */

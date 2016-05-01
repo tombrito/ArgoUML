@@ -38,7 +38,6 @@
 
 package org.argouml.uml.diagram;
 
-
 import org.argouml.kernel.AbstractProjectMember;
 import org.argouml.kernel.Project;
 import org.tigris.gef.util.Util;
@@ -48,58 +47,61 @@ import org.tigris.gef.util.Util;
  */
 public class ProjectMemberDiagram extends AbstractProjectMember {
 
-    private static final String MEMBER_TYPE = "pgml";
-    private static final String FILE_EXT = ".pgml";
+	private static final String MEMBER_TYPE = "pgml";
+	private static final String FILE_EXT = ".pgml";
 
-    private ArgoDiagram diagram;
+	private ArgoDiagram diagram;
 
-    /**
-     * The constructor.
-     *
-     * @param d the diagram
-     * @param p the project
-     */
-    public ProjectMemberDiagram(ArgoDiagram d, Project p) {
-        super(Util.stripJunk(d.getName()), p);
-        setDiagram(d);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param d
+	 *            the diagram
+	 * @param p
+	 *            the project
+	 */
+	public ProjectMemberDiagram(ArgoDiagram d, Project p) {
+		super(Util.stripJunk(d.getName()), p);
+		setDiagram(d);
+	}
 
-    /**
-     * Used by "argo.tee".
-     * 
-     * @return the diagram
-     */
-    public ArgoDiagram getDiagram() {
-        return diagram;
-    }
-    
-    /*
-     * @see org.argouml.kernel.AbstractProjectMember#getType()
-     */
-    public String getType() {
-        return MEMBER_TYPE;
-    }
-    
-    /*
-     * @see org.argouml.kernel.AbstractProjectMember#getZipFileExtension()
-     */
-    @Override
-    public String getZipFileExtension() {
-        return FILE_EXT;
-    }
+	/**
+	 * Used by "argo.tee".
+	 * 
+	 * @return the diagram
+	 */
+	public ArgoDiagram getDiagram() {
+		return diagram;
+	}
 
-    /**
-     * @param d the diagram
-     */
-    protected void setDiagram(ArgoDiagram d) {
-        diagram = d;
-    }
-    
-    /*
-     * @see org.argouml.kernel.ProjectMember#repair()
-     */
-    public String repair() {
-        return diagram.repair();
-    }
+	/*
+	 * @see org.argouml.kernel.AbstractProjectMember#getType()
+	 */
+	public String getType() {
+		return MEMBER_TYPE;
+	}
+
+	/*
+	 * @see org.argouml.kernel.AbstractProjectMember#getZipFileExtension()
+	 */
+	@Override
+	public String getZipFileExtension() {
+		return FILE_EXT;
+	}
+
+	/**
+	 * @param d
+	 *            the diagram
+	 */
+	protected void setDiagram(ArgoDiagram d) {
+		diagram = d;
+	}
+
+	/*
+	 * @see org.argouml.kernel.ProjectMember#repair()
+	 */
+	public String repair() {
+		return diagram.repair();
+	}
 
 }

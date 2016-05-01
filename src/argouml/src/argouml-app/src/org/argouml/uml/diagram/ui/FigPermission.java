@@ -52,18 +52,19 @@ import org.argouml.uml.diagram.DiagramSettings;
  * @author Markus Klink
  */
 public class FigPermission extends FigDependency {
-    
-    private static final long serialVersionUID = -9077940777512806073L;
+
+	private static final long serialVersionUID = -9077940777512806073L;
 
 	/**
-     * Construct a Fig.
-     * 
-     * @param owner owning UML element
-     * @param settings render settings
-     */
-    public FigPermission(Object owner, DiagramSettings settings) {
-        super(owner, settings);
-    }
+	 * Construct a Fig.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param settings
+	 *            render settings
+	 */
+	public FigPermission(Object owner, DiagramSettings settings) {
+		super(owner, settings);
+	}
 
 }
-

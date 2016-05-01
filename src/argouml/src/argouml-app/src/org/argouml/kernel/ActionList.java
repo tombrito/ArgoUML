@@ -23,67 +23,69 @@ import javax.swing.Icon;
 
 /**
  * This class is both a List and an Action although it purpose is not to serve
- * as a true executable Action.
- * Its purpose is to allow menu items, toolbars and toolbuttons etc to be built
- * from a model mode up of Actions where each Action is either an executable
- * action to be shown as a menu item or toolbutton. However should an Action
- * be of this specific class it provides the name and icon only for building
- * a submenu node or dropdown toolbutton and contains a list of further
- * Actions to be contained in that subnode.
+ * as a true executable Action. Its purpose is to allow menu items, toolbars and
+ * toolbuttons etc to be built from a model mode up of Actions where each Action
+ * is either an executable action to be shown as a menu item or toolbutton.
+ * However should an Action be of this specific class it provides the name and
+ * icon only for building a submenu node or dropdown toolbutton and contains a
+ * list of further Actions to be contained in that subnode.
  *
  * @author Bob Tarling
  */
 public class ActionList extends ArrayList<Action> implements Action {
 
-    private static final long serialVersionUID = -4899604613280060467L;
+	private static final long serialVersionUID = -4899604613280060467L;
 	private Action dummyAction;
-    
-    public ActionList(String name) {
-        dummyAction = new DummyAction(name);
-    }
-    
-    public ActionList(String name, Icon icon) {
-        dummyAction = new DummyAction(name, icon);
-    }
-    
-    public void addPropertyChangeListener(PropertyChangeListener arg0) {
-        dummyAction.addPropertyChangeListener(arg0);
-    }
 
-    public Object getValue(String arg0) {
-        return dummyAction.getValue(arg0);
-    }
+	public ActionList(String name) {
+		dummyAction = new DummyAction(name);
+	}
 
-    public boolean isEnabled() {
-        return dummyAction.isEnabled();
-    }
+	public ActionList(String name, Icon icon) {
+		dummyAction = new DummyAction(name, icon);
+	}
 
-    public void putValue(String key, Object value) {
-        dummyAction.putValue(key, value);
-    }
+	public void addPropertyChangeListener(PropertyChangeListener arg0) {
+		dummyAction.addPropertyChangeListener(arg0);
+	}
 
-    public void removePropertyChangeListener(PropertyChangeListener arg0) {
-        dummyAction.removePropertyChangeListener(arg0);
-    }
+	public Object getValue(String arg0) {
+		return dummyAction.getValue(arg0);
+	}
 
-    public void setEnabled(boolean b) {
-        dummyAction.setEnabled(b);
-    }
+	public boolean isEnabled() {
+		return dummyAction.isEnabled();
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        dummyAction.actionPerformed(e);
-    }
+	public void putValue(String key, Object value) {
+		dummyAction.putValue(key, value);
+	}
 
-    private static class DummyAction extends AbstractAction {
-        private static final long serialVersionUID = 1875305181887517506L;
+	public void removePropertyChangeListener(PropertyChangeListener arg0) {
+		dummyAction.removePropertyChangeListener(arg0);
+	}
+
+	public void setEnabled(boolean b) {
+		dummyAction.setEnabled(b);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		dummyAction.actionPerformed(e);
+	}
+
+	private static class DummyAction extends AbstractAction {
+		private static final long serialVersionUID = 1875305181887517506L;
+
 		DummyAction(String name) {
-            super(name);
-        }
-        DummyAction(String name, Icon icon) {
-            super(name, icon);
-        }
-        public void actionPerformed(ActionEvent e) {
-            // Do nothing
-        }
-    }
+			super(name);
+		}
+
+		DummyAction(String name, Icon icon) {
+			super(name, icon);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			// Do nothing
+		}
+	}
 }

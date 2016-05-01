@@ -46,21 +46,21 @@ package org.argouml.model;
  */
 @Deprecated
 public interface ChangeableKind {
-    /**
-     * @return Returns the AddOnly ChangeableKind.
-     */
-    @Deprecated
-    Object getAddOnly();
+	/**
+	 * @return Returns the AddOnly ChangeableKind.
+	 */
+	@Deprecated
+	Object getAddOnly();
 
-    /**
-     * @return Returns the Changeable ChangeableKind.
-     */
-    @Deprecated
-    Object getChangeable();
+	/**
+	 * @return Returns the Changeable ChangeableKind.
+	 */
+	@Deprecated
+	Object getChangeable();
 
-    /**
-     * @return Returns the Frozen ChangeableKind.
-     */
-    @Deprecated
-    Object getFrozen();
+	/**
+	 * @return Returns the Frozen ChangeableKind.
+	 */
+	@Deprecated
+	Object getFrozen();
 }

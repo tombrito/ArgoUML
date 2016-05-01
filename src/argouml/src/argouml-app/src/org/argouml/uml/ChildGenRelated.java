@@ -56,52 +56,51 @@ import org.tigris.gef.util.ChildGenerator;
  * @author jrobbins
  */
 public class ChildGenRelated implements ChildGenerator {
-    /**
-     * The instance.
-     */
-    private static final ChildGenRelated SINGLETON = new ChildGenRelated();
+	/**
+	 * The instance.
+	 */
+	private static final ChildGenRelated SINGLETON = new ChildGenRelated();
 
-    /**
-     * @return Returns the singleton.
-     */
-    public static ChildGenRelated getSingleton() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the singleton.
+	 */
+	public static ChildGenRelated getSingleton() {
+		return SINGLETON;
+	}
 
-    /**
-     * Reply a java.util.Enumeration of the children of the given Object Returns
-     * an enumeration or null if not possible to get the children.
-     *
-     * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
-     */
-    public Enumeration gen(Object o) {
+	/**
+	 * Reply a java.util.Enumeration of the children of the given Object Returns
+	 * an enumeration or null if not possible to get the children.
+	 *
+	 * @see org.tigris.gef.util.ChildGenerator#gen(java.lang.Object)
+	 */
+	public Enumeration gen(Object o) {
 
-        // This is carried over from previous implementation
-        // not sure why we don't want contents of package - tfm - 20060214
-        if (Model.getFacade().isAPackage(o)) {
-            return null;
-        }
+		// This is carried over from previous implementation
+		// not sure why we don't want contents of package - tfm - 20060214
+		if (Model.getFacade().isAPackage(o)) {
+			return null;
+		}
 
-        if (o instanceof Diagram) {
-            List res = new ArrayList();
-            Diagram d = (Diagram) o;
-            res.add(d.getGraphModel().getNodes());
-            res.add(d.getGraphModel().getEdges());
-            return Collections.enumeration(res);
-        }
+		if (o instanceof Diagram) {
+			List res = new ArrayList();
+			Diagram d = (Diagram) o;
+			res.add(d.getGraphModel().getNodes());
+			res.add(d.getGraphModel().getEdges());
+			return Collections.enumeration(res);
+		}
 
-        // For all other model elements, return any elements
-        // associated in any way
-        if (Model.getFacade().isAUMLElement(o)) {
-            return Collections.enumeration(Model.getFacade()
-                    .getModelElementAssociated(o));
-        }
+		// For all other model elements, return any elements
+		// associated in any way
+		if (Model.getFacade().isAUMLElement(o)) {
+			return Collections.enumeration(Model.getFacade().getModelElementAssociated(o));
+		}
 
-        throw new IllegalArgumentException("Unknown element type " + o);
-    }
+		throw new IllegalArgumentException("Unknown element type " + o);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -893946595629032267L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -893946595629032267L;
 } /* end class ChildGenRelated */

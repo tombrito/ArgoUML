@@ -48,58 +48,58 @@ import org.argouml.uml.cognitive.UMLDecision;
 /**
  * UML 1.5 Well-formedness rule [3] for Transition.
  *
- * Well-formedness rule [3] for Transition. See page 140 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [3] for Transition. See page 140 of UML 1.4 Semantics.
+ * OMG document UML 1.4.2 formal/04-07-02.
  * 
  * @author pepargouml@yahoo.es
  */
 public class CrForkOutgoingTransition extends CrUML {
 
-    private static final long serialVersionUID = 2523104698197441188L;
+	private static final long serialVersionUID = 2523104698197441188L;
 
 	/**
-     * The constructor.
-     */
-    public CrForkOutgoingTransition() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.STATE_MACHINES);
-        addTrigger("outgoing");
-    }
+	 * The constructor.
+	 */
+	public CrForkOutgoingTransition() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		addTrigger("outgoing");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        if (!(Model.getFacade().isATransition(dm))) {
-            return NO_PROBLEM;
-        }
-        Object tr = dm;
-        Object target = Model.getFacade().getTarget(tr);
-        Object source = Model.getFacade().getSource(tr);
-        if (!(Model.getFacade().isAPseudostate(source))) {
-            return NO_PROBLEM;
-        }
-        if (!Model.getFacade().equalsPseudostateKind(
-                Model.getFacade().getKind(source),
-                Model.getPseudostateKind().getFork())) {
-            return NO_PROBLEM;            
-        }
-        if (Model.getFacade().isAState(target)) {
-            return NO_PROBLEM;
-        }
-        return PROBLEM_FOUND;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isATransition(dm))) {
+			return NO_PROBLEM;
+		}
+		Object tr = dm;
+		Object target = Model.getFacade().getTarget(tr);
+		Object source = Model.getFacade().getSource(tr);
+		if (!(Model.getFacade().isAPseudostate(source))) {
+			return NO_PROBLEM;
+		}
+		if (!Model.getFacade().equalsPseudostateKind(Model.getFacade().getKind(source),
+				Model.getPseudostateKind().getFork())) {
+			return NO_PROBLEM;
+		}
+		if (Model.getFacade().isAState(target)) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getTransition());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getTransition());
+		return ret;
+	}
+
 }

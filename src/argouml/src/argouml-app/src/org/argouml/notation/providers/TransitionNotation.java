@@ -42,30 +42,31 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown next to a Transition. Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown next to a Transition. Subclass this for all languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class TransitionNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param transition the UML element
-     */
-    public TransitionNotation(Object transition) {
-        if (!Model.getFacade().isATransition(transition)) {
-            throw new IllegalArgumentException("This is not a Transition.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param transition
+	 *            the UML element
+	 */
+	public TransitionNotation(Object transition) {
+		if (!Model.getFacade().isATransition(transition)) {
+			throw new IllegalArgumentException("This is not a Transition.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        // register for events from all modelelements
-        // that change the text
-        // i.e. when the Transition is replaced:
-        NotationUtilityProviders.addListenersForTransition(this, modelElement);
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		// register for events from all modelelements
+		// that change the text
+		// i.e. when the Transition is replaced:
+		NotationUtilityProviders.addListenersForTransition(this, modelElement);
+	}
 
 }

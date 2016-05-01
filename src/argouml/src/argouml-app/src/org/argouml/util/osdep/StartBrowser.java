@@ -44,65 +44,55 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * @stereotype utility
  */
 public class StartBrowser {
-    /** logger */
-    private static final Logger LOG =
-        Logger.getLogger(StartBrowser.class.getName());
+	/** logger */
+	private static final Logger LOG = Logger.getLogger(StartBrowser.class.getName());
 
-    /**
-     * Open an URL in the system's default browser.
-     *
-     * @param url string containing the given URL
-     */
-    public static void openUrl(String url) {
-	try {
-	    if (OsUtil.isWin32()) {
-		Runtime.getRuntime().exec(
-                        "rundll32 url.dll,FileProtocolHandler " + url);
-	    }
-	    else if (OsUtil.isMac()) {
+	/**
+	 * Open an URL in the system's default browser.
+	 *
+	 * @param url
+	 *            string containing the given URL
+	 */
+	public static void openUrl(String url) {
 		try {
-		    ClassLoader cl = ClassLoader.getSystemClassLoader();
-		    Class c = cl.loadClass("com.apple.mrj.MRJFileUtils");
-		    Class[] argtypes = {
-			String.class,
-		    };
-		    Method m = c.getMethod("openURL", argtypes);
-		    Object[] args = {
-			url,
-		    };
-		    m.invoke(c.newInstance(), args);
-		} catch (Exception cnfe) {
-                    LOG.log(Level.SEVERE, "", cnfe);
-                    LOG.log(Level.INFO, "Trying a default browser (netscape)");
-		    String[] commline = {
-			"netscape", url,
-		    };
-		    Runtime.getRuntime().exec(commline);
+			if (OsUtil.isWin32()) {
+				Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+			} else if (OsUtil.isMac()) {
+				try {
+					ClassLoader cl = ClassLoader.getSystemClassLoader();
+					Class c = cl.loadClass("com.apple.mrj.MRJFileUtils");
+					Class[] argtypes = { String.class, };
+					Method m = c.getMethod("openURL", argtypes);
+					Object[] args = { url, };
+					m.invoke(c.newInstance(), args);
+				} catch (Exception cnfe) {
+					LOG.log(Level.SEVERE, "", cnfe);
+					LOG.log(Level.INFO, "Trying a default browser (netscape)");
+					String[] commline = { "netscape", url, };
+					Runtime.getRuntime().exec(commline);
+				}
+			} else {
+				Runtime.getRuntime().exec("firefox " + url);
+			}
+		} catch (IOException ioe) {
+			// Didn't work.
+			LOG.log(Level.SEVERE, "", ioe);
 		}
-	    }
-	    else {
-                Runtime.getRuntime().exec("firefox " + url);
-	    }
-	}
-	catch (IOException ioe) {
-	    // Didn't work.
-            LOG.log(Level.SEVERE, "", ioe);
+
 	}
 
-    }
-
-    /**
-     * Open an URL in the system's default browser.
-     *
-     * @param url the URL to open
-     */
-    public static void openUrl(URL url) {
-        openUrl(url.toString());
-    }
+	/**
+	 * Open an URL in the system's default browser.
+	 *
+	 * @param url
+	 *            the URL to open
+	 */
+	public static void openUrl(URL url) {
+		openUrl(url.toString());
+	}
 
 }

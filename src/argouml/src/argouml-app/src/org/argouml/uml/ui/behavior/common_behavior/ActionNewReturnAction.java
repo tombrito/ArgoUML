@@ -54,55 +54,53 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewReturnAction extends ActionNewAction {
 
-    private static final long serialVersionUID = 6823792821104029764L;
-	private static final ActionNewReturnAction SINGLETON =
-        new ActionNewReturnAction();
+	private static final long serialVersionUID = 6823792821104029764L;
+	private static final ActionNewReturnAction SINGLETON = new ActionNewReturnAction();
 
-    /**
-     * Constructor for ActionNewReturnAction.
-     */
-    protected ActionNewReturnAction() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-returnaction"));
-    }
+	/**
+	 * Constructor for ActionNewReturnAction.
+	 */
+	protected ActionNewReturnAction() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-returnaction"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createReturnAction();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createReturnAction();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewReturnAction getInstance() {
+		return SINGLETON;
+	}
 
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewReturnAction() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewReturnAction getInstance() {
-        return SINGLETON;
-    }
-
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewReturnAction() {
-
-            private static final long serialVersionUID = -655248815541085594L;
+			private static final long serialVersionUID = -655248815541085594L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = ResourceLoaderWrapper.lookupIconResource("ReturnAction");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("ReturnAction");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

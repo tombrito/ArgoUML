@@ -39,7 +39,7 @@
 package org.argouml.uml.diagram.ui;
 
 /**
- * The UML 2.0 Profile specification allows three visualizations for the 
+ * The UML 2.0 Profile specification allows three visualizations for the
  * stereotypes applied on a model element:
  * 
  * <ul>
@@ -49,59 +49,59 @@ package org.argouml.uml.diagram.ui;
  * </ul>
  * 
  * An popup submenu is provided in order to allow the user switching between
- * these modes. This class keeps the code that should be commonly shared
- * among all the visualization options.
+ * these modes. This class keeps the code that should be commonly shared among
+ * all the visualization options.
  * 
  * @see FigNodeModelElement#getPopUpActions(java.awt.event.MouseEvent)
- *  
+ * 
  * @author maurelio1234
  */
 public abstract class ActionStereotypeView extends AbstractActionRadioMenuItem {
 
-    private static final long serialVersionUID = -2569411443381550783L;
+	private static final long serialVersionUID = -2569411443381550783L;
 	private FigNodeModelElement targetNode;
-    private int selectedStereotypeView;
-    
-    /**
-     * The default constructor for this class
-     * 
-     * @param node the selected node 
-     * @param key  the internationalization key used to label this action
-     * @param stereotypeView the stereotype view that is activated when this 
-     * 		action is triggered
-     */
-    public ActionStereotypeView(FigNodeModelElement node, String key,
-	    int stereotypeView) {
-	super(key, false);
+	private int selectedStereotypeView;
 
-	this.targetNode = node;
-	this.selectedStereotypeView = stereotypeView;
-	updateSelection();
-    }
-    
-    private void updateSelection() {
-	putValue("SELECTED", Boolean
-		.valueOf(targetNode.getStereotypeView() 
-				== selectedStereotypeView));
-    }
+	/**
+	 * The default constructor for this class
+	 * 
+	 * @param node
+	 *            the selected node
+	 * @param key
+	 *            the internationalization key used to label this action
+	 * @param stereotypeView
+	 *            the stereotype view that is activated when this action is
+	 *            triggered
+	 */
+	public ActionStereotypeView(FigNodeModelElement node, String key, int stereotypeView) {
+		super(key, false);
 
-    /**
-     * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#toggleValueOfTarget(java.lang.Object)
-     */
-    void toggleValueOfTarget(Object t) {
-	targetNode.setStereotypeView(selectedStereotypeView);
-	updateSelection();
-    }
-
-    /**
-     * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#valueOfTarget(java.lang.Object)
-     */
-    Object valueOfTarget(Object t) {
-	if (t instanceof FigNodeModelElement) {
-	    return Integer.valueOf(((FigNodeModelElement) t).getStereotypeView());
-	} else {
-	    return t;
+		this.targetNode = node;
+		this.selectedStereotypeView = stereotypeView;
+		updateSelection();
 	}
-    }
+
+	private void updateSelection() {
+		putValue("SELECTED", Boolean.valueOf(targetNode.getStereotypeView() == selectedStereotypeView));
+	}
+
+	/**
+	 * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#toggleValueOfTarget(java.lang.Object)
+	 */
+	void toggleValueOfTarget(Object t) {
+		targetNode.setStereotypeView(selectedStereotypeView);
+		updateSelection();
+	}
+
+	/**
+	 * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#valueOfTarget(java.lang.Object)
+	 */
+	Object valueOfTarget(Object t) {
+		if (t instanceof FigNodeModelElement) {
+			return Integer.valueOf(((FigNodeModelElement) t).getStereotypeView());
+		} else {
+			return t;
+		}
+	}
 
 }

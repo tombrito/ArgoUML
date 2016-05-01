@@ -47,27 +47,28 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLModelElementNameDocument extends UMLPlainTextDocument {
 
-    private static final long serialVersionUID = -7855199868377805942L;
+	private static final long serialVersionUID = -7855199868377805942L;
 
 	/**
-     * Constructor for UMLModelElementNameDocument.
-     */
-    public UMLModelElementNameDocument() {
-        super("name");
-    }
+	 * Constructor for UMLModelElementNameDocument.
+	 */
+	public UMLModelElementNameDocument() {
+		super("name");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
-     */
-    protected void setProperty(String text) {
-        Model.getCoreHelper().setName(getTarget(), text);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
+	 */
+	protected void setProperty(String text) {
+		Model.getCoreHelper().setName(getTarget(), text);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
-     */
-    protected String getProperty() {
-        return Model.getFacade().getName(getTarget());
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
+	 */
+	protected String getProperty() {
+		return Model.getFacade().getName(getTarget());
+	}
 
 }

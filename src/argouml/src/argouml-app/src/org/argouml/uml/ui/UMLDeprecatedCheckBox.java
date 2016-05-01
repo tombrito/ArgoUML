@@ -43,17 +43,18 @@ import org.argouml.application.api.Argo;
 /**
  * Class to represent a checkbox for the deprecated checkbox in the
  * documentation tab.
+ * 
  * @author mkl
  */
 public class UMLDeprecatedCheckBox extends UMLTaggedValueCheckBox {
 
-    private static final long serialVersionUID = -554362933814155617L;
+	private static final long serialVersionUID = -554362933814155617L;
 
 	/**
-     * The constructor.
-     *
-     */
-    public UMLDeprecatedCheckBox() {
-        super(Argo.DEPRECATED_TAG);
-    }
+	 * The constructor.
+	 *
+	 */
+	public UMLDeprecatedCheckBox() {
+		super(Argo.DEPRECATED_TAG);
+	}
 }

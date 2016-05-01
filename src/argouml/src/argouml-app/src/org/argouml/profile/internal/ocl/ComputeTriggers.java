@@ -51,20 +51,19 @@ import tudresden.ocl.parser.node.AClassifierContext;
  */
 public class ComputeTriggers extends DepthFirstAdapter {
 
-    private List<String> triggs = new ArrayList<String>();
+	private List<String> triggs = new ArrayList<String>();
 
+	@Override
+	public void caseAClassifierContext(AClassifierContext node) {
+		String str = "" + node.getPathTypeName();
+		triggs.add(str.trim().toLowerCase());
+	}
 
-    @Override
-    public void caseAClassifierContext(AClassifierContext node) {
-        String str = "" + node.getPathTypeName();
-        triggs.add(str.trim().toLowerCase());
-    }
-
-    /**
-     * @return the triggers
-     */
-    public List<String> getTriggers() {
-        return triggs;
-    }
+	/**
+	 * @return the triggers
+	 */
+	public List<String> getTriggers() {
+		return triggs;
+	}
 
 }

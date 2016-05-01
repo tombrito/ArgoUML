@@ -54,13 +54,11 @@ import org.tigris.gef.presentation.FigText;
 /**
  * An Association Class is represented by 3 separate Figs:
  * <nl>
- * <li>FigAssociationClass is the association edge drawn between two
- * classifiers this displays that association properties of the association
- * class.</li>
+ * <li>FigAssociationClass is the association edge drawn between two classifiers
+ * this displays that association properties of the association class.</li>
  * <li>FigClassAssociationClass is the classifier box that displays the class
- * properties of the association class.</li>
- * </li>
- * FigEdgeAssociationClass is the dashed line that joins these two.</li>
+ * properties of the association class.</li></li> FigEdgeAssociationClass is the
+ * dashed line that joins these two.</li>
  * </nl>
  *
  * Whenever the user attempts to remove or delete one of these parts then all
@@ -73,217 +71,217 @@ import org.tigris.gef.presentation.FigText;
  *
  * @author bob.tarling@gmail.com
  */
-public class FigAssociationClass
-        extends FigAssociation implements PathContainer {
+public class FigAssociationClass extends FigAssociation implements PathContainer {
 
-    private static final long serialVersionUID = 3643715304027095083L;
+	private static final long serialVersionUID = 3643715304027095083L;
 
-    /**
-     * Construct an association class figure for the given AssociationClass
-     * model element using the rendering settings.
-     * 
-     * @param diagramElementSettings the settings for this new diagram element
-     * @param settings rendering settings
-     */
-    public FigAssociationClass(
-            final DiagramEdgeSettings diagramElementSettings, 
-            final DiagramSettings settings) {
-        super(diagramElementSettings, settings);
-        setBetweenNearestPoints(true);
-        ((FigPoly) getFig()).setRectilinear(false);
-        setDashed(false);
-    }
-    
-    /**
-     * This overrides the parent class to do nothing here. An association class
-     * has no name label but instead has the name and stereotype editable in
-     * the association-classes class box.
-     * 
-     * @param owner owning uml element
-     * @param settings rendering settings
-     */
-    protected void createNameLabel(Object owner, DiagramSettings settings) {
-    }
-    
-    /**
-     * Remove entire composite Fig from Diagram. Discover the attached
-     * FigEdgeAssociationClass and the FigClassAssociationClass attached to
-     * that. Remove them from the diagram before removing this.
-     */
-    @Override
-    protected void removeFromDiagramImpl() {
-        FigEdgeAssociationClass figEdgeLink = null;
-        List edges = null;
+	/**
+	 * Construct an association class figure for the given AssociationClass
+	 * model element using the rendering settings.
+	 * 
+	 * @param diagramElementSettings
+	 *            the settings for this new diagram element
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigAssociationClass(final DiagramEdgeSettings diagramElementSettings, final DiagramSettings settings) {
+		super(diagramElementSettings, settings);
+		setBetweenNearestPoints(true);
+		((FigPoly) getFig()).setRectilinear(false);
+		setDashed(false);
+	}
 
-        FigEdgePort figEdgePort = getEdgePort();
-        if (figEdgePort != null) {
-            edges = figEdgePort.getFigEdges();
-        }
+	/**
+	 * This overrides the parent class to do nothing here. An association class
+	 * has no name label but instead has the name and stereotype editable in the
+	 * association-classes class box.
+	 * 
+	 * @param owner
+	 *            owning uml element
+	 * @param settings
+	 *            rendering settings
+	 */
+	protected void createNameLabel(Object owner, DiagramSettings settings) {
+	}
 
-        if (edges != null) {
-            for (Iterator it = edges.iterator(); it.hasNext()
-                    && figEdgeLink == null;) {
-                Object o = it.next();
-                if (o instanceof FigEdgeAssociationClass) {
-                    figEdgeLink = (FigEdgeAssociationClass) o;
-                }
-            }
-        }
+	/**
+	 * Remove entire composite Fig from Diagram. Discover the attached
+	 * FigEdgeAssociationClass and the FigClassAssociationClass attached to
+	 * that. Remove them from the diagram before removing this.
+	 */
+	@Override
+	protected void removeFromDiagramImpl() {
+		FigEdgeAssociationClass figEdgeLink = null;
+		List edges = null;
 
-        if (figEdgeLink != null) {
-            FigNode figClassBox = figEdgeLink.getDestFigNode();
-            if (!(figClassBox instanceof FigClassAssociationClass)) {
-                figClassBox = figEdgeLink.getSourceFigNode();
-            }
-            figEdgeLink.removeFromDiagramImpl();
-            ((FigClassAssociationClass) figClassBox).removeFromDiagramImpl();
-        }
+		FigEdgePort figEdgePort = getEdgePort();
+		if (figEdgePort != null) {
+			edges = figEdgePort.getFigEdges();
+		}
 
-        super.removeFromDiagramImpl();
-    }
+		if (edges != null) {
+			for (Iterator it = edges.iterator(); it.hasNext() && figEdgeLink == null;) {
+				Object o = it.next();
+				if (o instanceof FigEdgeAssociationClass) {
+					figEdgeLink = (FigEdgeAssociationClass) o;
+				}
+			}
+		}
 
-    /*
-     * TODO: Is this required? Why would the fig already be dashed?
-     * 
-     * @see org.tigris.gef.presentation.FigEdge#setFig(
-     *      org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void setFig(Fig f) {
-        super.setFig(f);
-        getFig().setDashed(false);
-    }
+		if (figEdgeLink != null) {
+			FigNode figClassBox = figEdgeLink.getDestFigNode();
+			if (!(figClassBox instanceof FigClassAssociationClass)) {
+				figClassBox = figEdgeLink.getSourceFigNode();
+			}
+			figEdgeLink.removeFromDiagramImpl();
+			((FigClassAssociationClass) figClassBox).removeFromDiagramImpl();
+		}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#getNameFig()
-     */
-    @Override
-    protected FigText getNameFig() {
-        return null;
-    }
+		super.removeFromDiagramImpl();
+	}
 
-    /*
-     * Overridden in order to implement PathCompartmentContainer.
-     */
-    public boolean isPathVisible() {
-        if (getAssociationClass() != null) {
-            return getAssociationClass().isPathVisible();
-        } else {
-            return false;
-        }
-    }
+	/*
+	 * TODO: Is this required? Why would the fig already be dashed?
+	 * 
+	 * @see org.tigris.gef.presentation.FigEdge#setFig(
+	 * org.tigris.gef.presentation.Fig)
+	 */
+	@Override
+	public void setFig(Fig f) {
+		super.setFig(f);
+		getFig().setDashed(false);
+	}
 
-    /*
-     * Overridden in order to implement PathCompartmentContainer.
-     */
-    public void setPathVisible(boolean visible) {
-        if (getAssociationClass() != null) {
-            getAssociationClass().setPathVisible(visible);
-        }
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigEdgeModelElement#getNameFig()
+	 */
+	@Override
+	protected FigText getNameFig() {
+		return null;
+	}
 
-    /**
-     * Set fill color of contained FigClassAssociationClass.
-     * 
-     * @param color new fill color
-     */
-    @Override
-    public void setFillColor(Color color) {
-        if (getAssociationClass() != null) {
-            getAssociationClass().setFillColor(color);
-        }
-    }
+	/*
+	 * Overridden in order to implement PathCompartmentContainer.
+	 */
+	public boolean isPathVisible() {
+		if (getAssociationClass() != null) {
+			return getAssociationClass().isPathVisible();
+		} else {
+			return false;
+		}
+	}
 
-    /**
-     * @return fill color of contained FigClassAssociationClass.
-     */
-    @Override
-    public Color getFillColor() {
-        if (getAssociationClass() != null) {
-            return getAssociationClass().getFillColor();
-        } else {
-            return FILL_COLOR;
-        }
-    }
+	/*
+	 * Overridden in order to implement PathCompartmentContainer.
+	 */
+	public void setPathVisible(boolean visible) {
+		if (getAssociationClass() != null) {
+			getAssociationClass().setPathVisible(visible);
+		}
+	}
 
-    /**
-     * Set line color of contained FigClassAssociationClass.
-     * 
-     * @param arg0 new line color
-     */
-    @Override
-    public void setLineColor(Color arg0) {
-        super.setLineColor(arg0);
-        if (getAssociationClass() != null) {
-            getAssociationClass().setLineColor(arg0);
-        }
-        if (getFigEdgeAssociationClass() != null) {
-            getFigEdgeAssociationClass().setLineColor(arg0);
-        }
-    }
+	/**
+	 * Set fill color of contained FigClassAssociationClass.
+	 * 
+	 * @param color
+	 *            new fill color
+	 */
+	@Override
+	public void setFillColor(Color color) {
+		if (getAssociationClass() != null) {
+			getAssociationClass().setFillColor(color);
+		}
+	}
 
-    /**
-     * Gets FigClassAssociationClass that is contained in this
-     * FigAssociationClass.
-     *
-     * @return FigClassAssociationClass that is contained in this
-     *         FigAssociationClass.
-     */
-    public FigClassAssociationClass getAssociationClass() {
-        FigEdgeAssociationClass figEdgeLink = null;
-        List edges = null;
+	/**
+	 * @return fill color of contained FigClassAssociationClass.
+	 */
+	@Override
+	public Color getFillColor() {
+		if (getAssociationClass() != null) {
+			return getAssociationClass().getFillColor();
+		} else {
+			return FILL_COLOR;
+		}
+	}
 
-        FigEdgePort figEdgePort = this.getEdgePort();
-        if (figEdgePort != null) {
-            edges = figEdgePort.getFigEdges();
-        }
+	/**
+	 * Set line color of contained FigClassAssociationClass.
+	 * 
+	 * @param arg0
+	 *            new line color
+	 */
+	@Override
+	public void setLineColor(Color arg0) {
+		super.setLineColor(arg0);
+		if (getAssociationClass() != null) {
+			getAssociationClass().setLineColor(arg0);
+		}
+		if (getFigEdgeAssociationClass() != null) {
+			getFigEdgeAssociationClass().setLineColor(arg0);
+		}
+	}
 
-        if (edges != null) {
-            for (Iterator it = edges.iterator(); it.hasNext()
-                    && figEdgeLink == null;) {
-                Object o = it.next();
-                if (o instanceof FigEdgeAssociationClass) {
-                    figEdgeLink = (FigEdgeAssociationClass) o;
-                }
-            }
-        }
+	/**
+	 * Gets FigClassAssociationClass that is contained in this
+	 * FigAssociationClass.
+	 *
+	 * @return FigClassAssociationClass that is contained in this
+	 *         FigAssociationClass.
+	 */
+	public FigClassAssociationClass getAssociationClass() {
+		FigEdgeAssociationClass figEdgeLink = null;
+		List edges = null;
 
-        FigNode figClassBox = null;
-        if (figEdgeLink != null) {
-            figClassBox = figEdgeLink.getDestFigNode();
-            if (!(figClassBox instanceof FigClassAssociationClass)) {
-                figClassBox = figEdgeLink.getSourceFigNode();
-            }
-        }
-        return (FigClassAssociationClass) figClassBox;
-    }
+		FigEdgePort figEdgePort = this.getEdgePort();
+		if (figEdgePort != null) {
+			edges = figEdgePort.getFigEdges();
+		}
 
-    /**
-     * Gets FigEdgeAssociationClass that is contained in this
-     * FigAssociationClass.
-     *
-     * @return FigEdgeAssociationClass that is contained in this
-     *         FigAssociationClass
-     */
-    public FigEdgeAssociationClass getFigEdgeAssociationClass() {
-        FigEdgeAssociationClass figEdgeLink = null;
-        List edges = null;
+		if (edges != null) {
+			for (Iterator it = edges.iterator(); it.hasNext() && figEdgeLink == null;) {
+				Object o = it.next();
+				if (o instanceof FigEdgeAssociationClass) {
+					figEdgeLink = (FigEdgeAssociationClass) o;
+				}
+			}
+		}
 
-        FigEdgePort figEdgePort = this.getEdgePort();
-        if (figEdgePort != null) {
-            edges = figEdgePort.getFigEdges();
-        }
+		FigNode figClassBox = null;
+		if (figEdgeLink != null) {
+			figClassBox = figEdgeLink.getDestFigNode();
+			if (!(figClassBox instanceof FigClassAssociationClass)) {
+				figClassBox = figEdgeLink.getSourceFigNode();
+			}
+		}
+		return (FigClassAssociationClass) figClassBox;
+	}
 
-        if (edges != null) {
-            for (Iterator it = edges.iterator(); it.hasNext()
-                    && figEdgeLink == null;) {
-                Object o = it.next();
-                if (o instanceof FigEdgeAssociationClass) {
-                    figEdgeLink = (FigEdgeAssociationClass) o;
-                }
-            }
-        }
+	/**
+	 * Gets FigEdgeAssociationClass that is contained in this
+	 * FigAssociationClass.
+	 *
+	 * @return FigEdgeAssociationClass that is contained in this
+	 *         FigAssociationClass
+	 */
+	public FigEdgeAssociationClass getFigEdgeAssociationClass() {
+		FigEdgeAssociationClass figEdgeLink = null;
+		List edges = null;
 
-        return figEdgeLink;
-    }
+		FigEdgePort figEdgePort = this.getEdgePort();
+		if (figEdgePort != null) {
+			edges = figEdgePort.getFigEdges();
+		}
+
+		if (edges != null) {
+			for (Iterator it = edges.iterator(); it.hasNext() && figEdgeLink == null;) {
+				Object o = it.next();
+				if (o instanceof FigEdgeAssociationClass) {
+					figEdgeLink = (FigEdgeAssociationClass) o;
+				}
+			}
+		}
+
+		return figEdgeLink;
+	}
 }

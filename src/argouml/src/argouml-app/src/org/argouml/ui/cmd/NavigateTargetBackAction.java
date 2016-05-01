@@ -54,37 +54,35 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 class NavigateTargetBackAction extends AbstractAction {
 
-    /**
-     * The constructor.
-     */
-    public NavigateTargetBackAction() {
-        super(Translator.localize("action.navigate-back"),
-                ResourceLoaderWrapper.lookupIcon("action.navigate-back"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.navigate-back"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public NavigateTargetBackAction() {
+		super(Translator.localize("action.navigate-back"), ResourceLoaderWrapper.lookupIcon("action.navigate-back"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.navigate-back"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(
-     *         java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        TargetManager.getInstance().navigateBackward();
-    }
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(
+	 * java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		TargetManager.getInstance().navigateBackward();
+	}
 
-    /**
-     * Action is possible only if navigateBackPossible on targetManager
-     * returns true.
-     *
-     * @see javax.swing.Action#isEnabled()
-     */
-    public boolean isEnabled() {
-        return TargetManager.getInstance().navigateBackPossible();
-    }
+	/**
+	 * Action is possible only if navigateBackPossible on targetManager returns
+	 * true.
+	 *
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	public boolean isEnabled() {
+		return TargetManager.getInstance().navigateBackPossible();
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 33340548502483040L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 33340548502483040L;
 }

@@ -48,39 +48,34 @@ import org.tigris.gef.presentation.Fig;
  */
 class SelectionEnumeration extends SelectionDataType {
 
-    private static final long serialVersionUID = 4879511544098524439L;
+	private static final long serialVersionUID = 4879511544098524439L;
 	// TODO: I18N
-    private static String[] instructions =
-    {"Add a super-enumeration",
-     "Add a sub-enumeration",
-     null,
-     null,
-     null,
-     "Move object(s)",
-    };
-    
-    /**
-     * @param f the given fi
-     */
-    public SelectionEnumeration(Fig f) {
-        super(f);
-    }
+	private static String[] instructions = { "Add a super-enumeration", "Add a sub-enumeration", null, null, null,
+			"Move object(s)", };
 
-    @Override
-    protected String getInstructions(int i) {
-        return instructions[ i - 10];
+	/**
+	 * @param f
+	 *            the given fi
+	 */
+	public SelectionEnumeration(Fig f) {
+		super(f);
+	}
 
-    }
+	@Override
+	protected String getInstructions(int i) {
+		return instructions[i - 10];
 
-    @Override
-    protected Object getNewNode(int index) {
-        Object ns = Model.getFacade().getNamespace(getContent().getOwner());
-        return Model.getCoreFactory().buildEnumeration("", ns);
-    }
+	}
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getEnumeration();
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		Object ns = Model.getFacade().getNamespace(getContent().getOwner());
+		return Model.getCoreFactory().buildEnumeration("", ns);
+	}
+
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getEnumeration();
+	}
 
 }

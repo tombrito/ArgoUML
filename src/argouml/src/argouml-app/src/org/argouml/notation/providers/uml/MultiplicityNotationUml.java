@@ -49,73 +49,70 @@ import org.argouml.notation.NotationSettings;
 import org.argouml.notation.providers.MultiplicityNotation;
 
 /**
- * The UML notation for a Multiplicity. <p>
+ * The UML notation for a Multiplicity.
+ * <p>
  * 
- * This NotationProvider is a bit special, in that it does not 
- * generate for the given UML element, but for its multiplicity.
+ * This NotationProvider is a bit special, in that it does not generate for the
+ * given UML element, but for its multiplicity.
  *
  * @author Michiel
  */
 public class MultiplicityNotationUml extends MultiplicityNotation {
 
-    /**
-     * @param multiplicityOwner the UML element to represent the multiplicity of
-     */
-    public MultiplicityNotationUml(Object multiplicityOwner) {
-        super(multiplicityOwner);
-    }
+	/**
+	 * @param multiplicityOwner
+	 *            the UML element to represent the multiplicity of
+	 */
+	public MultiplicityNotationUml(Object multiplicityOwner) {
+		super(multiplicityOwner);
+	}
 
-    @Override
-    public String getParsingHelp() {
-        return "parsing.help.fig-multiplicity";
-    }
+	@Override
+	public String getParsingHelp() {
+		return "parsing.help.fig-multiplicity";
+	}
 
-    @Override
-    public void parse(final Object multiplicityOwner, final String text) {
-        try {
-            setMultiplicity(multiplicityOwner, text);
-        } catch (ParseException pe) {
-            final String msg = "statusmsg.bar.error.parsing.multiplicity";
-            final Object[] args = {pe.getLocalizedMessage(),
-                             Integer.valueOf(pe.getErrorOffset()), };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                    Translator.messageFormat(msg, args)));
-        }
-    }
+	@Override
+	public void parse(final Object multiplicityOwner, final String text) {
+		try {
+			setMultiplicity(multiplicityOwner, text);
+		} catch (ParseException pe) {
+			final String msg = "statusmsg.bar.error.parsing.multiplicity";
+			final Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-    /**
-     * @deprecated by tfmorris for 0.31.6.  No application code should expect
-     * to handle Multiplicty elements (the return value of this method).  Use
-     * {@link #setMultiplicity(Object, String)}
-     */
-    @Deprecated
-    protected Object parseMultiplicity(final Object multiplicityOwner,
-            final String s1) throws ParseException {
-        String s = s1.trim();
-        Object multi = null;
-        try {
-            multi = Model.getDataTypesFactory().createMultiplicity(s);
-        } catch (IllegalArgumentException iae) {
-            throw new ParseException(iae.getLocalizedMessage(), 0);
-        }
-        setMultiplicity(multiplicityOwner, s1);
-        return multi;
-    }
+	/**
+	 * @deprecated by tfmorris for 0.31.6. No application code should expect to
+	 *             handle Multiplicty elements (the return value of this
+	 *             method). Use {@link #setMultiplicity(Object, String)}
+	 */
+	@Deprecated
+	protected Object parseMultiplicity(final Object multiplicityOwner, final String s1) throws ParseException {
+		String s = s1.trim();
+		Object multi = null;
+		try {
+			multi = Model.getDataTypesFactory().createMultiplicity(s);
+		} catch (IllegalArgumentException iae) {
+			throw new ParseException(iae.getLocalizedMessage(), 0);
+		}
+		setMultiplicity(multiplicityOwner, s1);
+		return multi;
+	}
 
-    protected void setMultiplicity(final Object multiplicityOwner,
-            final String arg) throws ParseException {
-        try {
-            Model.getCoreHelper().setMultiplicity(multiplicityOwner, arg);
-        } catch (IllegalArgumentException iae) {
-            throw new ParseException(iae.getLocalizedMessage(), 0);
-        }
-    }
+	protected void setMultiplicity(final Object multiplicityOwner, final String arg) throws ParseException {
+		try {
+			Model.getCoreHelper().setMultiplicity(multiplicityOwner, arg);
+		} catch (IllegalArgumentException iae) {
+			throw new ParseException(iae.getLocalizedMessage(), 0);
+		}
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return NotationUtilityUml.generateMultiplicity(modelElement, 
-                settings.isShowSingularMultiplicities());
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return NotationUtilityUml.generateMultiplicity(modelElement, settings.isShowSingularMultiplicities());
+	}
 
 }

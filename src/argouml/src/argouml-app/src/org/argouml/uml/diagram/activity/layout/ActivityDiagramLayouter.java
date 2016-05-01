@@ -62,139 +62,138 @@ import org.tigris.gef.presentation.Fig;
  * 
  */
 public class ActivityDiagramLayouter implements Layouter {
-    
-    /*
-     * The diagram to be laid out.
-     */
-    private ArgoDiagram diagram;
 
-    /*
-     * List of objects.
-     * 
-     * NOTE: This methods which read/write this don't appear to be used.
-     */
-    private List objects = new ArrayList();
-    
-    /*
-     * Point at which to start layout (initial state goes here). The X
-     * coordinate must be greater than half the width of the widest figure to
-     * be placed (because figures are centered on this location).
-     */
-    private static final Point STARTING_POINT = new Point(100, 10);
-    
-    /*
-     * Amount to increment Y position by for each node placed. We pack them
-     * densely on the assumption that the user is going to split them into at
-     * least two swimlanes.
-     */
-    private static final int OFFSET_Y = 25;
-    
-    /*
-     * FinalState element for ActivityDiagram
-     */
-    private Object finalState = null;
+	/*
+	 * The diagram to be laid out.
+	 */
+	private ArgoDiagram diagram;
 
-    /**
-     * Construct a new layout engine for an ActivityDiagram.
-     * @param d the ActivityDiagram to be laid out.
-     */
-    public ActivityDiagramLayouter(ArgoDiagram d)  {
-        this.diagram = d;
-    }
+	/*
+	 * List of objects.
+	 * 
+	 * NOTE: This methods which read/write this don't appear to be used.
+	 */
+	private List objects = new ArrayList();
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#add(org.argouml.uml.diagram.layout.LayoutedObject)
-     */
-    public void add(LayoutedObject object) {
-        objects.add(object);
-    }
+	/*
+	 * Point at which to start layout (initial state goes here). The X
+	 * coordinate must be greater than half the width of the widest figure to be
+	 * placed (because figures are centered on this location).
+	 */
+	private static final Point STARTING_POINT = new Point(100, 10);
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#remove(org.argouml.uml.diagram.layout.LayoutedObject)
-     */
-    public void remove(LayoutedObject object) {
-        objects.remove(object);
-    }
+	/*
+	 * Amount to increment Y position by for each node placed. We pack them
+	 * densely on the assumption that the user is going to split them into at
+	 * least two swimlanes.
+	 */
+	private static final int OFFSET_Y = 25;
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#getObjects()
-     */
-    public LayoutedObject[] getObjects() {
-        return (LayoutedObject[]) objects.toArray();
-    }
+	/*
+	 * FinalState element for ActivityDiagram
+	 */
+	private Object finalState = null;
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#getObject(int)
-     */
-    public LayoutedObject getObject(int index) {
-        return (LayoutedObject) objects.get(index);
-    }
+	/**
+	 * Construct a new layout engine for an ActivityDiagram.
+	 * 
+	 * @param d
+	 *            the ActivityDiagram to be laid out.
+	 */
+	public ActivityDiagramLayouter(ArgoDiagram d) {
+		this.diagram = d;
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#layout()
-     */
-    public void layout() {
-        Object first = null;
-        // Find our Initial State
-        for (Iterator it = diagram.getNodes().iterator(); it.hasNext();) {
-            Object node = it.next();
-            if (Model.getFacade().isAPseudostate(node) 
-                    && Model.getDataTypesHelper().equalsINITIALKind(
-                            Model.getFacade().getKind(node))) {
-                first = node;
-                break;
-            } 
-        }
-        assert first != null;
-        assert Model.getFacade().getIncomings(first).isEmpty();
+	/*
+	 * @see org.argouml.uml.diagram.layout.Layouter#add(org.argouml.uml.diagram.
+	 * layout.LayoutedObject)
+	 */
+	public void add(LayoutedObject object) {
+		objects.add(object);
+	}
 
-        // Place all the nodes
-        int lastIndex = placeNodes(new ArrayList(), first, 0);
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.layout.Layouter#remove(org.argouml.uml.diagram.
+	 * layout.LayoutedObject)
+	 */
+	public void remove(LayoutedObject object) {
+		objects.remove(object);
+	}
 
-        // Place the final state last with a little separation
-        Point location = new Point(STARTING_POINT);
-        location.y += OFFSET_Y * (lastIndex + 2);
-        diagram.getContainingFig(finalState).setLocation(location);
-    }
-    
-    /*
-     * Recursively place all nodes pointed to by outgoing transitions.
-     * 
-     * Because of the recursive algorithm multiple outgoing transitions
-     * will end up very lopsided because one entire subgraph will be done
-     * before dealing with the other transition(s).
-     * 
-     * @param seen set of nodes seen so far
-     * @param node the node to collect neighbors for
-     */
-    private int placeNodes(List seen, Object node, int index) {
-        if (!seen.contains(node)) {
-            seen.add(node);
-            if (Model.getFacade().isAFinalState(node)) {
-                finalState = node;
-            }
-            Fig fig = diagram.getContainingFig(node);
-            Point location = new Point(STARTING_POINT.x - fig.getWidth() / 2,
-                    STARTING_POINT.y + OFFSET_Y * index++);
-            //System.out.println("Setting location to " + location);
-            fig.setLocation(location);
-            for (Iterator it = Model.getFacade().getOutgoings(node).iterator(); 
-                    it.hasNext();) {
-                index = placeNodes(seen, Model.getFacade().getTarget(it.next()),
-                                  index);
-            }
-        }
-        return index;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.layout.Layouter#getObjects()
+	 */
+	public LayoutedObject[] getObjects() {
+		return (LayoutedObject[]) objects.toArray();
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.layout.Layouter#getMinimumDiagramSize()
-     */
-    public Dimension getMinimumDiagramSize() {
-        return new Dimension(
-                STARTING_POINT.x + 300,
-                STARTING_POINT.y + OFFSET_Y * objects.size()
-        );
-    }
+	/*
+	 * @see org.argouml.uml.diagram.layout.Layouter#getObject(int)
+	 */
+	public LayoutedObject getObject(int index) {
+		return (LayoutedObject) objects.get(index);
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.layout.Layouter#layout()
+	 */
+	public void layout() {
+		Object first = null;
+		// Find our Initial State
+		for (Iterator it = diagram.getNodes().iterator(); it.hasNext();) {
+			Object node = it.next();
+			if (Model.getFacade().isAPseudostate(node)
+					&& Model.getDataTypesHelper().equalsINITIALKind(Model.getFacade().getKind(node))) {
+				first = node;
+				break;
+			}
+		}
+		assert first != null;
+		assert Model.getFacade().getIncomings(first).isEmpty();
+
+		// Place all the nodes
+		int lastIndex = placeNodes(new ArrayList(), first, 0);
+
+		// Place the final state last with a little separation
+		Point location = new Point(STARTING_POINT);
+		location.y += OFFSET_Y * (lastIndex + 2);
+		diagram.getContainingFig(finalState).setLocation(location);
+	}
+
+	/*
+	 * Recursively place all nodes pointed to by outgoing transitions.
+	 * 
+	 * Because of the recursive algorithm multiple outgoing transitions will end
+	 * up very lopsided because one entire subgraph will be done before dealing
+	 * with the other transition(s).
+	 * 
+	 * @param seen set of nodes seen so far
+	 * 
+	 * @param node the node to collect neighbors for
+	 */
+	private int placeNodes(List seen, Object node, int index) {
+		if (!seen.contains(node)) {
+			seen.add(node);
+			if (Model.getFacade().isAFinalState(node)) {
+				finalState = node;
+			}
+			Fig fig = diagram.getContainingFig(node);
+			Point location = new Point(STARTING_POINT.x - fig.getWidth() / 2, STARTING_POINT.y + OFFSET_Y * index++);
+			// System.out.println("Setting location to " + location);
+			fig.setLocation(location);
+			for (Iterator it = Model.getFacade().getOutgoings(node).iterator(); it.hasNext();) {
+				index = placeNodes(seen, Model.getFacade().getTarget(it.next()), index);
+			}
+		}
+		return index;
+	}
+
+	/*
+	 * @see org.argouml.uml.diagram.layout.Layouter#getMinimumDiagramSize()
+	 */
+	public Dimension getMinimumDiagramSize() {
+		return new Dimension(STARTING_POINT.x + 300, STARTING_POINT.y + OFFSET_Y * objects.size());
+	}
 
 }

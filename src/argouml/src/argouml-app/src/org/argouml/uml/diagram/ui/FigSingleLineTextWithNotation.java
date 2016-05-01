@@ -56,263 +56,279 @@ import org.argouml.notation.NotationSettings;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * A single line FigText that uses the Notation subsystem facilities 
- * for its text generation.
- * This FigText is editable by the user on the diagram.
+ * A single line FigText that uses the Notation subsystem facilities for its
+ * text generation. This FigText is editable by the user on the diagram.
  * 
  * @author Michiel
  */
-public class FigSingleLineTextWithNotation extends FigSingleLineText 
-    implements ArgoNotationEventListener, NotationRenderer {
+public class FigSingleLineTextWithNotation extends FigSingleLineText
+		implements ArgoNotationEventListener, NotationRenderer {
 
-    private static final long serialVersionUID = -7166590633996897075L;
+	private static final long serialVersionUID = -7166590633996897075L;
 
 	/**
-     * @param owner the owning UML object
-     * @param bounds the initial position and size
-     * @param settings the diagram settings applicable for this Fig
-     * @param expandOnly true if the Fig won't shrink if its contents shrink
-     */
-    public FigSingleLineTextWithNotation(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
-        super(owner, bounds, settings, expandOnly);
-        initNotationProviders();
-    }
+	 * @param owner
+	 *            the owning UML object
+	 * @param bounds
+	 *            the initial position and size
+	 * @param settings
+	 *            the diagram settings applicable for this Fig
+	 * @param expandOnly
+	 *            true if the Fig won't shrink if its contents shrink
+	 */
+	public FigSingleLineTextWithNotation(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
+		super(owner, bounds, settings, expandOnly);
+		initNotationProviders();
+	}
 
-    /**
-     * @param owner the owning UML object
-     * @param bounds the initial position and size
-     * @param settings the diagram settings applicable for this Fig
-     * @param expandOnly true if the Fig won't shrink if its contents shrink
-     * @param property name of property to listen to
-     */
-    public FigSingleLineTextWithNotation(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly, String property) {
-        super(owner, bounds, settings, expandOnly, property);
-        initNotationProviders();
-    }
+	/**
+	 * @param owner
+	 *            the owning UML object
+	 * @param bounds
+	 *            the initial position and size
+	 * @param settings
+	 *            the diagram settings applicable for this Fig
+	 * @param expandOnly
+	 *            true if the Fig won't shrink if its contents shrink
+	 * @param property
+	 *            name of property to listen to
+	 */
+	public FigSingleLineTextWithNotation(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly,
+			String property) {
+		super(owner, bounds, settings, expandOnly, property);
+		initNotationProviders();
+	}
 
-    /**
-     * @param owner the owning UML object
-     * @param bounds the initial position and size
-     * @param settings the diagram settings applicable for this Fig
-     * @param expandOnly true if the Fig won't shrink if its contents shrink
-     * @param allProperties names of properties to listen to
-     */
-    public FigSingleLineTextWithNotation(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly, 
-            String[] allProperties) {
-        super(owner, bounds, settings, expandOnly, allProperties);
-        initNotationProviders();
-    }
+	/**
+	 * @param owner
+	 *            the owning UML object
+	 * @param bounds
+	 *            the initial position and size
+	 * @param settings
+	 *            the diagram settings applicable for this Fig
+	 * @param expandOnly
+	 *            true if the Fig won't shrink if its contents shrink
+	 * @param allProperties
+	 *            names of properties to listen to
+	 */
+	public FigSingleLineTextWithNotation(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly,
+			String[] allProperties) {
+		super(owner, bounds, settings, expandOnly, allProperties);
+		initNotationProviders();
+	}
 
-    /**
-     * The notation provider for the text shown in this compartment.
-     */
-    private NotationProvider notationProvider;
+	/**
+	 * The notation provider for the text shown in this compartment.
+	 */
+	private NotationProvider notationProvider;
 
-    @Override
-    public void removeFromDiagram() {
-        ArgoEventPump.removeListener(ArgoEventTypes.ANY_NOTATION_EVENT, this);
-        notationProvider.cleanListener();
-        super.removeFromDiagram();
-    }
+	@Override
+	public void removeFromDiagram() {
+		ArgoEventPump.removeListener(ArgoEventTypes.ANY_NOTATION_EVENT, this);
+		notationProvider.cleanListener();
+		super.removeFromDiagram();
+	}
 
-    /**
-     * This is a template method called by the ArgoUML framework as the result
-     * of a change to a model element. Do not call this method directly
-     * yourself.
-     * <p>Override this in any subclasses in order to redisplay the Fig
-     * due to change of any model element that this Fig is listening to.</p>
-     * <p>This method is guaranteed by the framework to be running on the 
-     * Swing/AWT thread.</p>
-     *
-     * @param event the UmlChangeEvent that caused the change
-     */
-    protected void updateLayout(UmlChangeEvent event) {
-        assert event != null;
+	/**
+	 * This is a template method called by the ArgoUML framework as the result
+	 * of a change to a model element. Do not call this method directly
+	 * yourself.
+	 * <p>
+	 * Override this in any subclasses in order to redisplay the Fig due to
+	 * change of any model element that this Fig is listening to.
+	 * </p>
+	 * <p>
+	 * This method is guaranteed by the framework to be running on the Swing/AWT
+	 * thread.
+	 * </p>
+	 *
+	 * @param event
+	 *            the UmlChangeEvent that caused the change
+	 */
+	protected void updateLayout(UmlChangeEvent event) {
+		assert event != null;
 
-        if (notationProvider != null
-                && (!"remove".equals(event.getPropertyName())
-                        || event.getSource() != getOwner())) { // not???
-            this.setText(notationProvider.toString(getOwner(), 
-                    getNotationSettings()));
-            damage();
-        }
-    }
+		if (notationProvider != null
+				&& (!"remove".equals(event.getPropertyName()) || event.getSource() != getOwner())) { // not???
+			this.setText(notationProvider.toString(getOwner(), getNotationSettings()));
+			damage();
+		}
+	}
 
-    /**
-     * Overrule this for subclasses 
-     * that need a different NotationProvider.
-     * 
-     * @return the type of the notation provider
-     */
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_NAME;
-    }
+	/**
+	 * Overrule this for subclasses that need a different NotationProvider.
+	 * 
+	 * @return the type of the notation provider
+	 */
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_NAME;
+	}
 
-    /**
-     * @return Returns the notationProvider for the text in this compartment.
-     */
-    public NotationProvider getNotationProvider() {
-        return notationProvider;
-    }
+	/**
+	 * @return Returns the notationProvider for the text in this compartment.
+	 */
+	public NotationProvider getNotationProvider() {
+		return notationProvider;
+	}
 
-    /**
-     * @param np The notationProvider to set.
-     */
-    void setNotationProvider(NotationProvider np) {
-        if (notationProvider != null) {
-            notationProvider.cleanListener();
-        }
-        this.notationProvider = np;
-    }
+	/**
+	 * @param np
+	 *            The notationProvider to set.
+	 */
+	void setNotationProvider(NotationProvider np) {
+		if (notationProvider != null) {
+			notationProvider.cleanListener();
+		}
+		this.notationProvider = np;
+	}
 
-    protected void initNotationProviders() {
-        if (notationProvider != null) {
-            notationProvider.cleanListener();
-        }
-        if (getOwner() != null) {
-            NotationName notation = Notation.findNotation(
-                    getNotationSettings().getNotationLanguage());
-            notationProvider =
-                NotationProviderFactory2.getInstance().getNotationProvider(
-                        getNotationProviderType(), getOwner(), this, notation);
-        }
-    }
-    
-    /**
-     * Show the help-text for parsing, and initialise the text.
-     */
-    protected void textEditStarted() {
-        String s = getNotationProvider().getParsingHelp();
-        showHelp(s);
-        setText();
-    }
+	protected void initNotationProviders() {
+		if (notationProvider != null) {
+			notationProvider.cleanListener();
+		}
+		if (getOwner() != null) {
+			NotationName notation = Notation.findNotation(getNotationSettings().getNotationLanguage());
+			notationProvider = NotationProviderFactory2.getInstance().getNotationProvider(getNotationProviderType(),
+					getOwner(), this, notation);
+		}
+	}
 
-    /**
-     * Parse the edited text to adapt the UML model.
-     */
-    protected void textEdited() {
-        notationProvider.parse(getOwner(), getText());
-        setText();
-    }
-    
-    /**
-     * @deprecated for 0.27.3 by tfmorris.  Diagrams are responsible for
-     * updating their contained Figs with any notation changes.
-     * MVW: There is no replacement yet!
-     *
-     * @param e the event
-     * @see org.argouml.application.events.ArgoNotationEventListener#notationAdded(org.argouml.application.events.ArgoNotationEvent)
-     */
-    @Deprecated
-    public void notationAdded(ArgoNotationEvent e) {
-        // Do nothing
-    }
+	/**
+	 * Show the help-text for parsing, and initialise the text.
+	 */
+	protected void textEditStarted() {
+		String s = getNotationProvider().getParsingHelp();
+		showHelp(s);
+		setText();
+	}
 
-    /**
-     * @deprecated for 0.27.3 by tfmorris.  Diagrams are responsible for
-     * updating their contained Figs with any notation changes.
-     * MVW: There is no replacement yet!
-     *
-     * @param e the event
-     * @see org.argouml.application.events.ArgoNotationEventListener#notationChanged(org.argouml.application.events.ArgoNotationEvent)
-     */
-    @Deprecated
-    public void notationChanged(ArgoNotationEvent e) {
-        renderingChanged();
-    }
-    
-    /**
-     * @deprecated for 0.27.3 by tfmorris.  Diagrams are responsible for
-     * updating their contained Figs with any notation changes.
-     * MVW: There is no replacement yet!
-     *
-     * @param e the event
-     * @see org.argouml.application.events.ArgoNotationEventListener#notationProviderAdded(org.argouml.application.events.ArgoNotationEvent)
-     */
-    @Deprecated
-    public void notationProviderAdded(ArgoNotationEvent e) {
-        // Do nothing
-    }
+	/**
+	 * Parse the edited text to adapt the UML model.
+	 */
+	protected void textEdited() {
+		notationProvider.parse(getOwner(), getText());
+		setText();
+	}
 
-    /**
-     * @deprecated for 0.27.3 by tfmorris.  Diagrams are responsible for
-     * updating their contained Figs with any notation changes.
-     * MVW: There is no replacement yet!
-     *
-     * @param e the event
-     * @see org.argouml.application.events.ArgoNotationEventListener#notationProviderRemoved(org.argouml.application.events.ArgoNotationEvent)
-     */
-    @Deprecated
-    public void notationProviderRemoved(ArgoNotationEvent e) {
-        // Do nothing    
-    }
+	/**
+	 * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for updating
+	 *             their contained Figs with any notation changes. MVW: There is
+	 *             no replacement yet!
+	 *
+	 * @param e
+	 *            the event
+	 * @see org.argouml.application.events.ArgoNotationEventListener#notationAdded(org.argouml.application.events.ArgoNotationEvent)
+	 */
+	@Deprecated
+	public void notationAdded(ArgoNotationEvent e) {
+		// Do nothing
+	}
 
-    /**
-     * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for
-     * updating their contained Figs with any notation changes.
-     * MVW: There is no replacement yet!
-     *
-     * @param e the event
-     * @see org.argouml.application.events.ArgoNotationEventListener#notationRemoved(org.argouml.application.events.ArgoNotationEvent)
-     */
-    @Deprecated
-    public void notationRemoved(ArgoNotationEvent e) {
-        // Do nothing        
-    }
+	/**
+	 * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for updating
+	 *             their contained Figs with any notation changes. MVW: There is
+	 *             no replacement yet!
+	 *
+	 * @param e
+	 *            the event
+	 * @see org.argouml.application.events.ArgoNotationEventListener#notationChanged(org.argouml.application.events.ArgoNotationEvent)
+	 */
+	@Deprecated
+	public void notationChanged(ArgoNotationEvent e) {
+		renderingChanged();
+	}
 
-    public void renderingChanged() {
-        initNotationProviders();
-        super.renderingChanged();
-    }
-    
-    @Override
-    protected void setText() {
-        assert getOwner() != null;
-        assert notationProvider != null;
-        setText(notationProvider.toString(getOwner(), getNotationSettings()));
-    }
-    
-    /**
-     * Utility function to localize the given string with help text, and show it
-     * in the status bar of the ArgoUML window. This function is used in favour
-     * of the inline call to enable later improvements; e.g. it would be
-     * possible to show a help-balloon.
-     * <p>
-     * TODO: This code is also present in other root Figs...
-     * 
-     * @param s the given string to be localized and shown
-     */
-    protected void showHelp(String s) {
-        ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                ArgoEventTypes.HELP_CHANGED, this,
-                Translator.localize(s)));
-    }
-    
-    protected NotationSettings getNotationSettings() {
-        return getSettings().getNotationSettings();
-    }
+	/**
+	 * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for updating
+	 *             their contained Figs with any notation changes. MVW: There is
+	 *             no replacement yet!
+	 *
+	 * @param e
+	 *            the event
+	 * @see org.argouml.application.events.ArgoNotationEventListener#notationProviderAdded(org.argouml.application.events.ArgoNotationEvent)
+	 */
+	@Deprecated
+	public void notationProviderAdded(ArgoNotationEvent e) {
+		// Do nothing
+	}
 
-    public void notationRenderingChanged(NotationProvider np, String rendering) {
-        if (notationProvider == np) {
-            setText(rendering);
-            damage();
-        }
-    }
+	/**
+	 * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for updating
+	 *             their contained Figs with any notation changes. MVW: There is
+	 *             no replacement yet!
+	 *
+	 * @param e
+	 *            the event
+	 * @see org.argouml.application.events.ArgoNotationEventListener#notationProviderRemoved(org.argouml.application.events.ArgoNotationEvent)
+	 */
+	@Deprecated
+	public void notationProviderRemoved(ArgoNotationEvent e) {
+		// Do nothing
+	}
 
-    public NotationSettings getNotationSettings(NotationProvider np) {
-        if (notationProvider == np) {
-            return getNotationSettings();
-        }
-        return null;
-    }
+	/**
+	 * @deprecated for 0.27.3 by tfmorris. Diagrams are responsible for updating
+	 *             their contained Figs with any notation changes. MVW: There is
+	 *             no replacement yet!
+	 *
+	 * @param e
+	 *            the event
+	 * @see org.argouml.application.events.ArgoNotationEventListener#notationRemoved(org.argouml.application.events.ArgoNotationEvent)
+	 */
+	@Deprecated
+	public void notationRemoved(ArgoNotationEvent e) {
+		// Do nothing
+	}
 
-    public Object getOwner(NotationProvider np) {
-        if (notationProvider == np) {
-            return getOwner();
-        }
-        return null;
-    }
+	public void renderingChanged() {
+		initNotationProviders();
+		super.renderingChanged();
+	}
+
+	@Override
+	protected void setText() {
+		assert getOwner() != null;
+		assert notationProvider != null;
+		setText(notationProvider.toString(getOwner(), getNotationSettings()));
+	}
+
+	/**
+	 * Utility function to localize the given string with help text, and show it
+	 * in the status bar of the ArgoUML window. This function is used in favour
+	 * of the inline call to enable later improvements; e.g. it would be
+	 * possible to show a help-balloon.
+	 * <p>
+	 * TODO: This code is also present in other root Figs...
+	 * 
+	 * @param s
+	 *            the given string to be localized and shown
+	 */
+	protected void showHelp(String s) {
+		ArgoEventPump.fireEvent(new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.localize(s)));
+	}
+
+	protected NotationSettings getNotationSettings() {
+		return getSettings().getNotationSettings();
+	}
+
+	public void notationRenderingChanged(NotationProvider np, String rendering) {
+		if (notationProvider == np) {
+			setText(rendering);
+			damage();
+		}
+	}
+
+	public NotationSettings getNotationSettings(NotationProvider np) {
+		if (notationProvider == np) {
+			return getNotationSettings();
+		}
+		return null;
+	}
+
+	public Object getOwner(NotationProvider np) {
+		if (notationProvider == np) {
+			return getOwner();
+		}
+		return null;
+	}
 }

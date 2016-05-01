@@ -44,68 +44,68 @@ import javax.swing.Icon;
  * Encapsulates specific attributes about a notation.
  *
  * @author Thierry Lach
- * @since  ARGO0.9.4
+ * @since ARGO0.9.4
  */
 public interface NotationName {
 
-    /**
-     * Returns the name of the language.
-     *
-     * @return the language name.
-     */
-    String getName();
+	/**
+	 * Returns the name of the language.
+	 *
+	 * @return the language name.
+	 */
+	String getName();
 
-    /**
-     * Returns the version of the language if applicable, otherwise
-     * <code>null</code>.
-     *
-     * @return The language version or <code>null</code>.
-     */
-    String getVersion();
+	/**
+	 * Returns the version of the language if applicable, otherwise
+	 * <code>null</code>.
+	 *
+	 * @return The language version or <code>null</code>.
+	 */
+	String getVersion();
 
-    /**
-     * Returns a textual title for the notation. The name and version.
-     *
-     * @return a title for the language.
-     */
-    String getTitle();
+	/**
+	 * Returns a textual title for the notation. The name and version.
+	 *
+	 * @return a title for the language.
+	 */
+	String getTitle();
 
-    /**
-     * Returns an icon for the notation, or <code>null</code> if no icon
-     * is available.
-     *
-     * @return An {@link Icon} for the language or <code>null</code>.
-     */
-    Icon getIcon();
+	/**
+	 * Returns an icon for the notation, or <code>null</code> if no icon is
+	 * available.
+	 *
+	 * @return An {@link Icon} for the language or <code>null</code>.
+	 */
+	Icon getIcon();
 
-    /**
-     * Returns the text string stored in the configuration
-     * for this notation.  This string is used to determine
-     * notation equality in {@link #sameNotationAs(NotationName)}.<p>
-     *
-     * This should incorporate both the name and the version if one
-     * exists.
-     *
-     * @return the value for this notation to be stored in the configuration.
-     */
-    String getConfigurationValue();
+	/**
+	 * Returns the text string stored in the configuration for this notation.
+	 * This string is used to determine notation equality in
+	 * {@link #sameNotationAs(NotationName)}.
+	 * <p>
+	 *
+	 * This should incorporate both the name and the version if one exists.
+	 *
+	 * @return the value for this notation to be stored in the configuration.
+	 */
+	String getConfigurationValue();
 
-    /**
-     * Ease-of-use helper for usage in swing.
-     * Usually, it is equal to <code>getConfigurationValue()</code>.
-     *
-     * @return a String representation of the notation name.
-     */
-    String toString();
+	/**
+	 * Ease-of-use helper for usage in swing. Usually, it is equal to
+	 * <code>getConfigurationValue()</code>.
+	 *
+	 * @return a String representation of the notation name.
+	 */
+	String toString();
 
-    /**
-     * Ease-of-use helper to determine
-     * if this notation is the same as another.
-     * This must be equivalent to
-     * <code>getConfigurationValue().equals(nn.getConfigurationValue())</code>
-     *
-     * @param notationName to compare
-     * @return boolean indicating equality or inequality.
-     */
-    boolean sameNotationAs(NotationName notationName);
+	/**
+	 * Ease-of-use helper to determine if this notation is the same as another.
+	 * This must be equivalent to
+	 * <code>getConfigurationValue().equals(nn.getConfigurationValue())</code>
+	 *
+	 * @param notationName
+	 *            to compare
+	 * @return boolean indicating equality or inequality.
+	 */
+	boolean sameNotationAs(NotationName notationName);
 }

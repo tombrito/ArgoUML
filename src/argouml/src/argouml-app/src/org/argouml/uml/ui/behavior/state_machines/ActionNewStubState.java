@@ -49,36 +49,34 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewStubState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -8010753568066416441L;
-	private static final ActionNewStubState SINGLETON =
-        new ActionNewStubState();
+	private static final long serialVersionUID = -8010753568066416441L;
+	private static final ActionNewStubState SINGLETON = new ActionNewStubState();
 
-    /**
-     * Constructor for ActionNewPseudoState.
-     */
-    protected ActionNewStubState() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-stubstate"));
-    }
+	/**
+	 * Constructor for ActionNewPseudoState.
+	 */
+	protected ActionNewStubState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-stubstate"));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getStateMachinesFactory().buildStubState(getTarget());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getStateMachinesFactory().buildStubState(getTarget());
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewStubState getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewStubState getInstance() {
+		return SINGLETON;
+	}
 
 }

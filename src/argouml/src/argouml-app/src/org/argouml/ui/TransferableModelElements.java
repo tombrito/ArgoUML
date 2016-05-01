@@ -45,65 +45,66 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * A transferable wraps the data that is transferred
- * (in casu a collection of UML modelelements)
- * from a drag source to a drop target.
- * The initiator of a drag wraps data in a transferable,
- * and drops are handled by accessing a transferable's data.
+ * A transferable wraps the data that is transferred (in casu a collection of
+ * UML modelelements) from a drag source to a drop target. The initiator of a
+ * drag wraps data in a transferable, and drops are handled by accessing a
+ * transferable's data.
  */
 public class TransferableModelElements implements Transferable {
 
-    /**
-     * The data flavor we use for collections of UML elements.
-     */
-    public static final DataFlavor UML_COLLECTION_FLAVOR =
-        new DataFlavor(Collection.class, "UML ModelElements Collection");
+	/**
+	 * The data flavor we use for collections of UML elements.
+	 */
+	public static final DataFlavor UML_COLLECTION_FLAVOR = new DataFlavor(Collection.class,
+			"UML ModelElements Collection");
 
-    private static DataFlavor[] flavors = {UML_COLLECTION_FLAVOR };
+	private static DataFlavor[] flavors = { UML_COLLECTION_FLAVOR };
 
-    private Collection theModelElements;
+	private Collection theModelElements;
 
-    /**
-     * The constructor.
-     *
-     * @param data the collection of UML elements
-     */
-    public TransferableModelElements(Collection data) {
+	/**
+	 * The constructor.
+	 *
+	 * @param data
+	 *            the collection of UML elements
+	 */
+	public TransferableModelElements(Collection data) {
 
-        theModelElements = data;
-    }
+		theModelElements = data;
+	}
 
-    /*
-     * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-     */
-    public Object getTransferData(DataFlavor dataFlavor)
-        throws UnsupportedFlavorException,
-               IOException {
+	/*
+	 * @see
+	 * java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.
+	 * DataFlavor)
+	 */
+	public Object getTransferData(DataFlavor dataFlavor) throws UnsupportedFlavorException, IOException {
 
-        if (dataFlavor.match(UML_COLLECTION_FLAVOR)) {
-            return theModelElements;
-        }
-        /*
-         * TODO: We could also support other flavors here,
-         * e.g. image (then you can drag modelelements directly into
-         * your wordprocessor, to be inserted as an image).
-         */
-        throw new UnsupportedFlavorException(dataFlavor);
-    }
+		if (dataFlavor.match(UML_COLLECTION_FLAVOR)) {
+			return theModelElements;
+		}
+		/*
+		 * TODO: We could also support other flavors here, e.g. image (then you
+		 * can drag modelelements directly into your wordprocessor, to be
+		 * inserted as an image).
+		 */
+		throw new UnsupportedFlavorException(dataFlavor);
+	}
 
-    /*
-     * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-     */
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors;
-    }
+	/*
+	 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
+	 */
+	public DataFlavor[] getTransferDataFlavors() {
+		return flavors;
+	}
 
-    /*
-     * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-     */
-    public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
+	/*
+	 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.
+	 * datatransfer.DataFlavor)
+	 */
+	public boolean isDataFlavorSupported(DataFlavor dataFlavor) {
 
-        return dataFlavor.match(UML_COLLECTION_FLAVOR);
-    }
+		return dataFlavor.match(UML_COLLECTION_FLAVOR);
+	}
 
 }

@@ -50,187 +50,171 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigDiamond;
 
 /**
- * Class to display graphics for a UML Junction State
- * in e.g. a statechart diagram - the diamond.
+ * Class to display graphics for a UML Junction State in e.g. a statechart
+ * diagram - the diamond.
  *
  * @author pepargouml
  */
 public class FigJunctionState extends FigStateVertex {
 
-    private static final int X = 0;
-    private static final int Y = 0;
-    private static final int WIDTH = 32;
-    private static final int HEIGHT = 32;
+	private static final int X = 0;
+	private static final int Y = 0;
+	private static final int WIDTH = 32;
+	private static final int HEIGHT = 32;
 
-    private FigDiamond head;
+	private FigDiamond head;
 
-    
-    /**
-     * Construct a new FigJunctionState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigJunctionState(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-    }
-    
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigDiamond(X, Y, WIDTH, HEIGHT, false, 
-                DEBUG_COLOR, DEBUG_COLOR);
-    }
+	/**
+	 * Construct a new FigJunctionState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigJunctionState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+	}
 
-    private void initFigs() {
-        setEditable(false);
-        head = new FigDiamond(X, Y, WIDTH, HEIGHT, false, 
-                LINE_COLOR, FILL_COLOR);
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigDiamond(X, Y, WIDTH, HEIGHT, false, DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-        addFig(getBigPort());
-        addFig(head);
+	private void initFigs() {
+		setEditable(false);
+		head = new FigDiamond(X, Y, WIDTH, HEIGHT, false, LINE_COLOR, FILL_COLOR);
 
-        setBlinkPorts(false); //make port invisible unless mouse enters
-    }
+		addFig(getBigPort());
+		addFig(head);
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-	FigJunctionState figClone = (FigJunctionState) super.clone();
-	Iterator it = figClone.getFigs().iterator();
-	figClone.setBigPort((FigDiamond) it.next());
-	figClone.head = (FigDiamond) it.next();
-	return figClone;
-    }
+		setBlinkPorts(false); // make port invisible unless mouse enters
+	}
 
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigJunctionState figClone = (FigJunctionState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigDiamond) it.next());
+		figClone.head = (FigDiamond) it.next();
+		return figClone;
+	}
 
-    /**
-     * Initial states are fixed size.
-     * @return false
-     */
-    @Override
-    public boolean isResizable() {
-        return false;
-    }
+	/**
+	 * Initial states are fixed size.
+	 * 
+	 * @return false
+	 */
+	@Override
+	public boolean isResizable() {
+		return false;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        head.setLineColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		head.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return head.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return head.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        head.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		head.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return head.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return head.getFillColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+	}
 
-    @Override
-    public boolean isFilled() {
-        return true;
-    }
+	@Override
+	public boolean isFilled() {
+		return true;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        head.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		head.setLineWidth(w);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return head.getLineWidth();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return head.getLineWidth();
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mouseClicked(MouseEvent me) { }
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent me) {
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getClosestPoint(java.awt.Point)
-     */
-    @Override
-    public Point getClosestPoint(Point anotherPt) {
-        Rectangle r = getBounds();
-        int[] xs = {r.x + r.width / 2,
-                    r.x + r.width,
-                    r.x + r.width / 2,
-                    r.x,
-                    r.x + r.width / 2,
-        };
-        int[] ys = {r.y,
-                    r.y + r.height / 2,
-                    r.y + r.height,
-                    r.y + r.height / 2,
-                    r.y,
-        };
-        Point p =
-            Geometry.ptClosestTo(
-                xs,
-                ys,
-                5,
-                anotherPt);
-        return p;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getClosestPoint(java.awt.Point)
+	 */
+	@Override
+	public Point getClosestPoint(Point anotherPt) {
+		Rectangle r = getBounds();
+		int[] xs = { r.x + r.width / 2, r.x + r.width, r.x + r.width / 2, r.x, r.x + r.width / 2, };
+		int[] ys = { r.y, r.y + r.height / 2, r.y + r.height, r.y + r.height / 2, r.y, };
+		Point p = Geometry.ptClosestTo(xs, ys, 5, anotherPt);
+		return p;
+	}
 
-    /**
-     * Override setStandardBounds to keep shapes looking right.
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        if (getNameFig() == null) {
-            return;
-        }
-        Rectangle oldBounds = getBounds();
+	/**
+	 * Override setStandardBounds to keep shapes looking right. {@inheritDoc}
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
 
-        getBigPort().setBounds(x, y, w, h);
-        head.setBounds(x, y, w, h);
+		getBigPort().setBounds(x, y, w, h);
+		head.setBounds(x, y, w, h);
 
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
-   
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -5845934640541945686L;
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -5845934640541945686L;
 }

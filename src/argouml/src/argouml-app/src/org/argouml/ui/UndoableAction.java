@@ -46,39 +46,38 @@ import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
 
 /**
- * A base class for all undoable Actions. Any action that acts as the start
- * of a user interaction should extend this and call actionPerformed before
- * calling any mutable undoable methods.
+ * A base class for all undoable Actions. Any action that acts as the start of a
+ * user interaction should extend this and call actionPerformed before calling
+ * any mutable undoable methods.
  */
 public abstract class UndoableAction extends AbstractAction {
 
-    private static final long serialVersionUID = -9169059935402030947L;
+	private static final long serialVersionUID = -9169059935402030947L;
 
 	/*
-     * @see javax.swing.AbstractAction.AbstractAction()
-     */
-    public UndoableAction() {
-        super();
-    }
-    
-    /*
-     * @see javax.swing.AbstractAction.AbstractAction(java.lang.String)
-     */
-    public UndoableAction(String name) {
-        super(name);
-    }
-    
-    /*
-     * @see javax.swing.AbstractAction.AbstractAction(
-     *       java.lang.String, javax.swing.Icon)
-     */
-    public UndoableAction(String name, Icon icon) {
-        super(name, icon);
-    }
+	 * @see javax.swing.AbstractAction.AbstractAction()
+	 */
+	public UndoableAction() {
+		super();
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        final Project p = ProjectManager.getManager().getCurrentProject();
-        p.getUndoManager().startInteraction(
-                (String) getValue(AbstractAction.NAME));
-    }
+	/*
+	 * @see javax.swing.AbstractAction.AbstractAction(java.lang.String)
+	 */
+	public UndoableAction(String name) {
+		super(name);
+	}
+
+	/*
+	 * @see javax.swing.AbstractAction.AbstractAction( java.lang.String,
+	 * javax.swing.Icon)
+	 */
+	public UndoableAction(String name, Icon icon) {
+		super(name, icon);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		final Project p = ProjectManager.getManager().getCurrentProject();
+		p.getUndoManager().startInteraction((String) getValue(AbstractAction.NAME));
+	}
 }

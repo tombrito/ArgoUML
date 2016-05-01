@@ -47,63 +47,64 @@ import org.argouml.notation.providers.AssociationEndNameNotation;
 import org.argouml.notation.providers.uml.NotationUtilityUml;
 
 /**
- * The Java notation for an associationEnd name (i.e. the  role).
+ * The Java notation for an associationEnd name (i.e. the role).
  * 
  * @author michiel
  */
 public class AssociationEndNameNotationJava extends AssociationEndNameNotation {
 
-    /**
-     * The constructor.
-     * 
-     * @param associationEnd the UML element
-     */
-    public AssociationEndNameNotationJava(Object associationEnd) {
-        super(associationEnd);
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param associationEnd
+	 *            the UML element
+	 */
+	public AssociationEndNameNotationJava(Object associationEnd) {
+		super(associationEnd);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-//        return "parsing.help.fig-association-end-name";
-        return "Parsing in Java not yet supported";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		// return "parsing.help.fig-association-end-name";
+		return "Parsing in Java not yet supported";
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                ArgoEventTypes.HELP_CHANGED, this,
-            "Parsing in Java not yet supported"));
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		ArgoEventPump
+				.fireEvent(new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, "Parsing in Java not yet supported"));
+	}
 
-    private String toString(Object modelElement, boolean useGuillemets) {
-        String name = Model.getFacade().getName(modelElement);
-        if (name == null) {
-            name = "";
-        }
+	private String toString(Object modelElement, boolean useGuillemets) {
+		String name = Model.getFacade().getName(modelElement);
+		if (name == null) {
+			name = "";
+		}
 
-        Object visi = Model.getFacade().getVisibility(modelElement);
-        String visibility = "";
-        if (visi != null) {
-            visibility = NotationUtilityJava.generateVisibility(visi);
-        }
-        if (name.length() < 1) {
-            visibility = "";
-            //this is the temporary solution for issue 1011
-        }
+		Object visi = Model.getFacade().getVisibility(modelElement);
+		String visibility = "";
+		if (visi != null) {
+			visibility = NotationUtilityJava.generateVisibility(visi);
+		}
+		if (name.length() < 1) {
+			visibility = "";
+			// this is the temporary solution for issue 1011
+		}
 
-        String stereoString = 
-            NotationUtilityUml.generateStereotype(modelElement, useGuillemets);
+		String stereoString = NotationUtilityUml.generateStereotype(modelElement, useGuillemets);
 
-        return stereoString + visibility + name;
-    }
+		return stereoString + visibility + name;
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement, settings.isUseGuillemets());
-    }
-    
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement, settings.isUseGuillemets());
+	}
+
 }

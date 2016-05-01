@@ -42,21 +42,20 @@ import org.argouml.model.AbstractDataTypesHelperDecorator;
 import org.argouml.model.DataTypesHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoDataTypesHelperDecorator
-	extends AbstractDataTypesHelperDecorator {
+class UndoDataTypesHelperDecorator extends AbstractDataTypesHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoDataTypesHelperDecorator(DataTypesHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoDataTypesHelperDecorator(DataTypesHelper component) {
+		super(component);
+	}
 }
-

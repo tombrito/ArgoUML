@@ -44,113 +44,114 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * The DecisionModel is part of the state of the Designer.  It
- * describes what types of decisions, or design issues, the Designer
- * is thinking about at the current time.  Critics that are relevant to
- * those decisions are made active, Critics that are not relevant are
- * made inactive.
+ * The DecisionModel is part of the state of the Designer. It describes what
+ * types of decisions, or design issues, the Designer is thinking about at the
+ * current time. Critics that are relevant to those decisions are made active,
+ * Critics that are not relevant are made inactive.
  *
- * TODO: There is some notion that each decision has a
- * certain importanance at a certain time, but I have not followed
- * through on that because I don't have good examples of how to
- * quantify the importance of a decision.
+ * TODO: There is some notion that each decision has a certain importanance at a
+ * certain time, but I have not followed through on that because I don't have
+ * good examples of how to quantify the importance of a decision.
  *
- * TODO: Right now the individual decisions are just
- * Strings, maybe they should have some non-atomic structure?
+ * TODO: Right now the individual decisions are just Strings, maybe they should
+ * have some non-atomic structure?
  *
  * @author Jason Robbins
  */
 public class DecisionModel extends Observable implements Serializable {
-    private static final long serialVersionUID = 6690178371954624806L;
+	private static final long serialVersionUID = 6690178371954624806L;
 	private List<Decision> decisions = new ArrayList<Decision>();
 
-    /**
-     * The constructor.
-     *
-     */
-    public DecisionModel() {
-	decisions.add(Decision.UNSPEC);
-    }
-
-    /**
-     * @return the list of decisions
-     */
-    public List<Decision> getDecisionList() {
-        return decisions;
-    }
-
-    /**
-     * This function sets the priority of an existing decision, or
-     * if the decision does not exist yet, it creates a new one.
-     *
-     * @param decision the given decision
-     * @param priority the new priority
-     */
-    public synchronized void setDecisionPriority(String decision,
-						 int priority)
-    {
-	Decision d = findDecision(decision);
-	if (null == d) {
-	    d = new Decision(decision, priority);
-	    decisions.add(d);
-	    return;
+	/**
+	 * The constructor.
+	 *
+	 */
+	public DecisionModel() {
+		decisions.add(Decision.UNSPEC);
 	}
-	d.setPriority(priority);
-	setChanged();
-	notifyObservers(decision);
-	//decision model listener
-    }
 
-    /**
-     * If the given decision is already defined, do nothing. If it is
-     * not already defined, set it to the given initial priority.
-     *
-     * @param decision the existing decision
-     * @param priority the priority
-     */
-    public void defineDecision(String decision, int priority) {
-	Decision d = findDecision(decision);
-	if (d == null) {
-	    setDecisionPriority(decision, priority);
+	/**
+	 * @return the list of decisions
+	 */
+	public List<Decision> getDecisionList() {
+		return decisions;
 	}
-    }
 
-
-    /**
-     * The Designer has indicated that he is now interested in the
-     * given decision.
-     *
-     * @param d the interesting decision
-     */
-    public void startConsidering(Decision d) {
-	decisions.remove(d);
-	decisions.add(d);
-    }
-
-
-    /**
-     * The Designer has indicated that he is not interested in the
-     * given decision right now.
-     *
-     * @param d the uninteresting decision
-     */
-    public void stopConsidering(Decision d) {
-	decisions.remove(d);
-    }
-
-    /**
-     * Finds a decision with a specific name.
-     *
-     * @param decName the decision name
-     * @return a decision or null if not found.
-     */
-    protected Decision findDecision(String decName) {
-        for (Decision d : decisions) {
-	    if (decName.equals(d.getName())) {
-		return d;
-	    }
+	/**
+	 * This function sets the priority of an existing decision, or if the
+	 * decision does not exist yet, it creates a new one.
+	 *
+	 * @param decision
+	 *            the given decision
+	 * @param priority
+	 *            the new priority
+	 */
+	public synchronized void setDecisionPriority(String decision, int priority) {
+		Decision d = findDecision(decision);
+		if (null == d) {
+			d = new Decision(decision, priority);
+			decisions.add(d);
+			return;
+		}
+		d.setPriority(priority);
+		setChanged();
+		notifyObservers(decision);
+		// decision model listener
 	}
-	return null;
-    }
+
+	/**
+	 * If the given decision is already defined, do nothing. If it is not
+	 * already defined, set it to the given initial priority.
+	 *
+	 * @param decision
+	 *            the existing decision
+	 * @param priority
+	 *            the priority
+	 */
+	public void defineDecision(String decision, int priority) {
+		Decision d = findDecision(decision);
+		if (d == null) {
+			setDecisionPriority(decision, priority);
+		}
+	}
+
+	/**
+	 * The Designer has indicated that he is now interested in the given
+	 * decision.
+	 *
+	 * @param d
+	 *            the interesting decision
+	 */
+	public void startConsidering(Decision d) {
+		decisions.remove(d);
+		decisions.add(d);
+	}
+
+	/**
+	 * The Designer has indicated that he is not interested in the given
+	 * decision right now.
+	 *
+	 * @param d
+	 *            the uninteresting decision
+	 */
+	public void stopConsidering(Decision d) {
+		decisions.remove(d);
+	}
+
+	/**
+	 * Finds a decision with a specific name.
+	 *
+	 * @param decName
+	 *            the decision name
+	 * @return a decision or null if not found.
+	 */
+	protected Decision findDecision(String decName) {
+		for (Decision d : decisions) {
+			if (decName.equals(d.getName())) {
+				return d;
+			}
+		}
+		return null;
+	}
 
 }

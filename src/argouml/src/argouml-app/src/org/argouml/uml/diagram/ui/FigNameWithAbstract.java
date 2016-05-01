@@ -45,38 +45,41 @@ import org.argouml.model.Model;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * A FigSingleLineText that represents the name of a modelelement,
- * which handles italic font if the element is abstract. <p>
+ * A FigSingleLineText that represents the name of a modelelement, which handles
+ * italic font if the element is abstract.
+ * <p>
  * 
  * For the italics to work, the owner of this FigText needs to be set!
  *
  * @author Michiel
  */
 class FigNameWithAbstract extends FigSingleLineText {
-    
-    private static final long serialVersionUID = 7756943614884804938L;
+
+	private static final long serialVersionUID = 7756943614884804938L;
 
 	/**
-     * Construct a name Fig that shows whether associated item is abstract
-     * (italics) or bold.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if fig should never contract
-     */
-    public FigNameWithAbstract(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
-        super(owner, bounds, settings, expandOnly);
-    }
+	 * Construct a name Fig that shows whether associated item is abstract
+	 * (italics) or bold.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if fig should never contract
+	 */
+	public FigNameWithAbstract(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
+		super(owner, bounds, settings, expandOnly);
+	}
 
-    @Override
-    protected int getFigFontStyle() {
-        int style = 0;
-        if (getOwner() != null) {
-            style = Model.getFacade().isAbstract(getOwner()) 
-                ? Font.ITALIC : Font.PLAIN;
-        }
-        return super.getFigFontStyle() | style;
-    }
+	@Override
+	protected int getFigFontStyle() {
+		int style = 0;
+		if (getOwner() != null) {
+			style = Model.getFacade().isAbstract(getOwner()) ? Font.ITALIC : Font.PLAIN;
+		}
+		return super.getFigFontStyle() | style;
+	}
 }

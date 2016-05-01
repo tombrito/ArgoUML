@@ -56,34 +56,33 @@ import org.xml.sax.InputSource;
  */
 public abstract class StreamModelLoader implements ProfileModelLoader {
 
-    private static final Logger LOG =
-        Logger.getLogger(StreamModelLoader.class.getName());
+	private static final Logger LOG = Logger.getLogger(StreamModelLoader.class.getName());
 
+	/**
+	 * @param inputStream
+	 *            the stream from where the model should be loaded
+	 * @param publicReference
+	 *            the URL to be used as the public reference of the profile that
+	 *            will be loaded.
+	 * @return the model
+	 * @throws ProfileException
+	 *             if the XMIReader couldn't read the input stream
+	 */
+	public Collection loadModel(InputStream inputStream, URL publicReference) throws ProfileException {
 
+		if (inputStream == null) {
+			LOG.log(Level.SEVERE, "Profile not found");
+			throw new ProfileException("Profile not found!");
+		}
 
-    /**
-     * @param inputStream the stream from where the model should be loaded
-     * @param publicReference the URL to be used as the public reference of the
-     *                profile that will be loaded.
-     * @return the model
-     * @throws ProfileException if the XMIReader couldn't read the input stream
-     */
-    public Collection loadModel(InputStream inputStream, URL publicReference)
-        throws ProfileException {
-
-        if (inputStream == null) {
-            LOG.log(Level.SEVERE, "Profile not found");
-            throw new ProfileException("Profile not found!");
-        }
-
-        try {
-            XmiReader xmiReader = Model.getXmiReader();
-            InputSource inputSource = new InputSource(inputStream);
-            inputSource.setPublicId(publicReference.toString());
-            Collection elements = xmiReader.parse(inputSource, true);
-            return elements;
-        } catch (UmlException e) {
-            throw new ProfileException("Invalid XMI data!", e);
-        }
-    }
+		try {
+			XmiReader xmiReader = Model.getXmiReader();
+			InputSource inputSource = new InputSource(inputStream);
+			inputSource.setPublicId(publicReference.toString());
+			Collection elements = xmiReader.parse(inputSource, true);
+			return elements;
+		} catch (UmlException e) {
+			throw new ProfileException("Invalid XMI data!", e);
+		}
+	}
 }

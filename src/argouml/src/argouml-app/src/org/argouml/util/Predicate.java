@@ -48,11 +48,12 @@ package org.argouml.util;
  */
 public interface Predicate {
 
-    /**
-     * Evaluate the predicate for the given object and return true or false.
-     * 
-     * @param object object to be tested
-     * @return boolean indicating whether predicate evaluated true or false.
-     */
-    public boolean evaluate(Object object);
+	/**
+	 * Evaluate the predicate for the given object and return true or false.
+	 * 
+	 * @param object
+	 *            object to be tested
+	 * @return boolean indicating whether predicate evaluated true or false.
+	 */
+	public boolean evaluate(Object object);
 }

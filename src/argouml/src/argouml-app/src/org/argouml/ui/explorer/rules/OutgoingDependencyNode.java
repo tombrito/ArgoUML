@@ -41,46 +41,46 @@ package org.argouml.ui.explorer.rules;
 import org.argouml.ui.explorer.WeakExplorerNode;
 
 /**
- * This class is a support class for The Navigation panel Go Rules.
- * Don't confuse it with anything to do with GEF nodes or the like.
+ * This class is a support class for The Navigation panel Go Rules. Don't
+ * confuse it with anything to do with GEF nodes or the like.
  *
- * @author  alexb, d00mst
+ * @author alexb, d00mst
  * @since argo 0.13.4, Created on 21 March 2003, 23:18
  */
 public class OutgoingDependencyNode implements WeakExplorerNode {
-    /**
-     * The parent.
-     */
-    private Object parent;
+	/**
+	 * The parent.
+	 */
+	private Object parent;
 
-    /**
-     * Creates a new instance of AssociationsNode.
-     *
-     * @param p the parent
-     */
-    public OutgoingDependencyNode(Object p) {
-        parent = p;
-    }
+	/**
+	 * Creates a new instance of AssociationsNode.
+	 *
+	 * @param p
+	 *            the parent
+	 */
+	public OutgoingDependencyNode(Object p) {
+		parent = p;
+	}
 
-    /**
-     * @return the parent
-     */
-    public Object getParent() {
-	return parent;
-    }
+	/**
+	 * @return the parent
+	 */
+	public Object getParent() {
+		return parent;
+	}
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-	return "Outgoing Dependencies";
-    }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return "Outgoing Dependencies";
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.WeakExplorerNode#subsumes(java.lang.Object)
-     */
-    public boolean subsumes(Object obj) {
-	return obj instanceof OutgoingDependencyNode;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.WeakExplorerNode#subsumes(java.lang.Object)
+	 */
+	public boolean subsumes(Object obj) {
+		return obj instanceof OutgoingDependencyNode;
+	}
 }
-

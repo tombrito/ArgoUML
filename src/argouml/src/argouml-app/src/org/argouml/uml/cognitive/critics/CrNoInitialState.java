@@ -48,68 +48,68 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * A critic to detect whether the Compositestate attached to a
- * Statemachine has no initial state.
+ * A critic to detect whether the Compositestate attached to a Statemachine has
+ * no initial state.
  *
  * @author jrobbins
  */
 public class CrNoInitialState extends CrUML {
 
-    private static final long serialVersionUID = -877805031613966347L;
+	private static final long serialVersionUID = -877805031613966347L;
 
 	/**
-     * The constructor.
-     *
-     */
-    public CrNoInitialState() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	addTrigger("substate");
-    }
+	 * The constructor.
+	 *
+	 */
+	public CrNoInitialState() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		addTrigger("substate");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isACompositeState(dm))) {
-	    return NO_PROBLEM;
-	}
-	Object cs = /*(MCompositeState)*/ dm;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isACompositeState(dm))) {
+			return NO_PROBLEM;
+		}
+		Object cs = /* (MCompositeState) */ dm;
 
-	// if this composite state is not attached to a statemachine
-	// it is not the toplevel composite state.
-	if (Model.getFacade().getStateMachine(cs) == null) {
-	    return NO_PROBLEM;
+		// if this composite state is not attached to a statemachine
+		// it is not the toplevel composite state.
+		if (Model.getFacade().getStateMachine(cs) == null) {
+			return NO_PROBLEM;
+		}
+		Collection peers = Model.getFacade().getSubvertices(cs);
+		int initialStateCount = 0;
+		if (peers == null) {
+			return PROBLEM_FOUND;
+		}
+		for (Iterator iter = peers.iterator(); iter.hasNext();) {
+			Object sv = iter.next();
+			if (Model.getFacade().isAPseudostate(sv)
+					&& (Model.getFacade().getKind(sv).equals(Model.getPseudostateKind().getInitial()))) {
+				initialStateCount++;
+			}
+		}
+		if (initialStateCount == 0) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-	Collection peers = Model.getFacade().getSubvertices(cs);
-	int initialStateCount = 0;
-	if (peers == null) {
-	    return PROBLEM_FOUND;
-	}
-	for (Iterator iter = peers.iterator(); iter.hasNext();) {
-	    Object sv = iter.next();
-	    if (Model.getFacade().isAPseudostate(sv)
-		&& (Model.getFacade().getKind(sv).equals(
-                        Model.getPseudostateKind().getInitial()))) {
-	        initialStateCount++;
-	    }
-	}
-	if (initialStateCount == 0) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getCompositeState());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getCompositeState());
+		return ret;
+	}
+
 } /* end class CrNoInitialState */

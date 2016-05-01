@@ -47,20 +47,17 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * A critic to detect when a Branch (i.e. Choice or Junction)
- * state has the wrong number of transitions.
- * Implements constraint [5] and [6] on PseudoState in the UML
- * Semantics v1.3, p. 2-140:
+ * A critic to detect when a Branch (i.e. Choice or Junction) state has the
+ * wrong number of transitions. Implements constraint [5] and [6] on PseudoState
+ * in the UML Semantics v1.3, p. 2-140:
  *
- * [5] A junction vertex must have at least one incoming and
- * one outgoing transition.
- * (self.kind = #junction) implies
- *     ((self.incoming->size >= 1) and (self.outgoing->size >= 1))
+ * [5] A junction vertex must have at least one incoming and one outgoing
+ * transition. (self.kind = #junction) implies ((self.incoming->size >= 1) and
+ * (self.outgoing->size >= 1))
  *
- * [6] A choice vertex must have at least one incoming and
- * one outgoing transition.
- * (self.kind = #choice) implies
- *     ((self.incoming->size >= 1) and (self.outgoing->size >= 1))
+ * [6] A choice vertex must have at least one incoming and one outgoing
+ * transition. (self.kind = #choice) implies ((self.incoming->size >= 1) and
+ * (self.outgoing->size >= 1))
  *
  * Well-formedness rule [7] and [8] for PseudoState. See page 138 of UML 1.4
  * Semantics. OMG document UML 1.4.2 formal/04-07-02.
@@ -69,55 +66,53 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInvalidBranch extends CrUML {
 
-    private static final long serialVersionUID = -8891623137883314994L;
+	private static final long serialVersionUID = -8891623137883314994L;
 
 	/**
-     * The constructor.
-     */
-    public CrInvalidBranch() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	addTrigger("incoming");
-    }
+	 * The constructor.
+	 */
+	public CrInvalidBranch() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		addTrigger("incoming");
+	}
 
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAPseudostate(dm))) {
+			return NO_PROBLEM;
+		}
+		Object k = Model.getFacade().getKind(dm);
+		if ((!Model.getFacade().equalsPseudostateKind(k, Model.getPseudostateKind().getChoice()))
+				&& (!Model.getFacade().equalsPseudostateKind(k, Model.getPseudostateKind().getJunction()))) {
+			return NO_PROBLEM;
+		}
+		Collection outgoing = Model.getFacade().getOutgoings(dm);
+		Collection incoming = Model.getFacade().getIncomings(dm);
+		int nOutgoing = outgoing == null ? 0 : outgoing.size();
+		int nIncoming = incoming == null ? 0 : incoming.size();
+		if (nIncoming < 1) {
+			return PROBLEM_FOUND;
+		}
+		if (nOutgoing < 1) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAPseudostate(dm))) {
-	    return NO_PROBLEM;
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getPseudostate());
+		return ret;
 	}
-	Object k = Model.getFacade().getKind(dm);
-	if ((!Model.getFacade().equalsPseudostateKind(k,
-	        Model.getPseudostateKind().getChoice()))
-            && (!Model.getFacade().equalsPseudostateKind(k,
-                    Model.getPseudostateKind().getJunction()))) {
-	    return NO_PROBLEM;
-	}
-	Collection outgoing = Model.getFacade().getOutgoings(dm);
-	Collection incoming = Model.getFacade().getIncomings(dm);
-	int nOutgoing = outgoing == null ? 0 : outgoing.size();
-	int nIncoming = incoming == null ? 0 : incoming.size();
-	if (nIncoming < 1) {
-	    return PROBLEM_FOUND;
-	}
-	if (nOutgoing < 1) {
-	    return PROBLEM_FOUND;
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getPseudostate());
-        return ret;
-    }
-    
 }
-

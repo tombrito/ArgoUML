@@ -41,46 +41,49 @@ package org.argouml.model;
 import java.util.EventObject;
 
 /**
- * A change event due to change in an association between one model element
- * and another.
+ * A change event due to change in an association between one model element and
+ * another.
  *
  * @author Bob Tarling
  */
 public class AssociationChangeEvent extends UmlChangeEvent {
-    /**
-     * The value that was changed.
-     */
-    private Object changedValue;
+	/**
+	 * The value that was changed.
+	 */
+	private Object changedValue;
 
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     * @param theChangedValue The object that was actually added or removed.
-     */
-    public AssociationChangeEvent(
-            Object source, String propertyName, Object oldValue,
-            Object newValue, Object theChangedValue,
-            EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, originalEvent);
-        changedValue = theChangedValue;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 * @param theChangedValue
+	 *            The object that was actually added or removed.
+	 */
+	public AssociationChangeEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			Object theChangedValue, EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, originalEvent);
+		changedValue = theChangedValue;
+	}
 
-    /**
-     * @return The changed value.
-     */
-    public Object getChangedValue() {
-        return changedValue;
-    }
+	/**
+	 * @return The changed value.
+	 */
+	public Object getChangedValue() {
+		return changedValue;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 6586460366990334839L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 6586460366990334839L;
 }

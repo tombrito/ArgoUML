@@ -48,75 +48,61 @@ import org.argouml.model.RemoveAssociationEvent;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown next to the end of an association.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown next to the end of an association. Subclass this for all languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class AssociationEndNameNotation extends NotationProvider {
 
-    /**
-     * The constructor. 
-     *
-     * @param associationEnd the uml element
-     */
-    public AssociationEndNameNotation(Object associationEnd) {
-        if (!Model.getFacade().isAAssociationEnd(associationEnd)
-                && !Model.getFacade().isAConnectorEnd(associationEnd)) {
-            throw new IllegalArgumentException("This is not an AssociationEnd.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param associationEnd
+	 *            the uml element
+	 */
+	public AssociationEndNameNotation(Object associationEnd) {
+		if (!Model.getFacade().isAAssociationEnd(associationEnd)
+				&& !Model.getFacade().isAConnectorEnd(associationEnd)) {
+			throw new IllegalArgumentException("This is not an AssociationEnd.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(
-                modelElement, 
-                new String[] {"name", "visibility", "stereotype", "taggedValue"});
-        Collection stereotypes =
-                Model.getFacade().getStereotypes(modelElement);
-        Iterator iter = stereotypes.iterator();
-        while (iter.hasNext()) {
-            Object o = iter.next();
-            addElementListener(
-                    o, 
-                    new String[] {"name", "remove"});
-        }
-        // We also show tagged values (the / for derived)
-        for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
-            addElementListener(uml);
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement, new String[] { "name", "visibility", "stereotype", "taggedValue" });
+		Collection stereotypes = Model.getFacade().getStereotypes(modelElement);
+		Iterator iter = stereotypes.iterator();
+		while (iter.hasNext()) {
+			Object o = iter.next();
+			addElementListener(o, new String[] { "name", "remove" });
+		}
+		// We also show tagged values (the / for derived)
+		for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
+			addElementListener(uml);
+		}
+	}
 
-    @Override
-    public void updateListener(Object modelElement,
-            PropertyChangeEvent pce) {
-        Object obj = pce.getSource();
-        if ((obj == modelElement) 
-                && ("stereotype".equals(pce.getPropertyName())
-                || "taggedValue".equals(pce.getPropertyName()))) {
-            if (pce instanceof AddAssociationEvent 
-                    && Model.getFacade().isAStereotype(pce.getNewValue())) {
-                // new stereotype
-                addElementListener(
-                        pce.getNewValue(), 
-                        new String[] {"name", "remove"});
-            }
-            if (pce instanceof RemoveAssociationEvent 
-                    && Model.getFacade().isAStereotype(pce.getOldValue())) {
-                // removed stereotype
-                removeElementListener(
-                        pce.getOldValue());
-            }
-            if (pce instanceof AddAssociationEvent
-                    && Model.getFacade().isATaggedValue(pce.getNewValue())) {
-                addElementListener(pce.getNewValue());
-            }
-            if (pce instanceof RemoveAssociationEvent
-                    && Model.getFacade().isATaggedValue(pce.getOldValue())) {
-                removeElementListener(pce.getOldValue());
-            }
-        }
-    }
+	@Override
+	public void updateListener(Object modelElement, PropertyChangeEvent pce) {
+		Object obj = pce.getSource();
+		if ((obj == modelElement)
+				&& ("stereotype".equals(pce.getPropertyName()) || "taggedValue".equals(pce.getPropertyName()))) {
+			if (pce instanceof AddAssociationEvent && Model.getFacade().isAStereotype(pce.getNewValue())) {
+				// new stereotype
+				addElementListener(pce.getNewValue(), new String[] { "name", "remove" });
+			}
+			if (pce instanceof RemoveAssociationEvent && Model.getFacade().isAStereotype(pce.getOldValue())) {
+				// removed stereotype
+				removeElementListener(pce.getOldValue());
+			}
+			if (pce instanceof AddAssociationEvent && Model.getFacade().isATaggedValue(pce.getNewValue())) {
+				addElementListener(pce.getNewValue());
+			}
+			if (pce instanceof RemoveAssociationEvent && Model.getFacade().isATaggedValue(pce.getOldValue())) {
+				removeElementListener(pce.getOldValue());
+			}
+		}
+	}
 
 }

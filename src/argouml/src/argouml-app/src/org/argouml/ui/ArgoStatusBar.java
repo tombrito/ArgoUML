@@ -52,71 +52,67 @@ import org.argouml.i18n.Translator;
 import org.tigris.gef.ui.IStatusBar;
 
 /**
- * A StatusBar that registers itself with the ArgoEventPump to receive
- * help and status events.
+ * A StatusBar that registers itself with the ArgoEventPump to receive help and
+ * status events.
  * 
  * @author Tom Morris <tfmorris@gmail.com>
  */
-public class ArgoStatusBar extends StatusBar implements IStatusBar,
-        ArgoStatusEventListener, ArgoHelpEventListener {
+public class ArgoStatusBar extends StatusBar implements IStatusBar, ArgoStatusEventListener, ArgoHelpEventListener {
 
-    private static final long serialVersionUID = 8012811144470344016L;
+	private static final long serialVersionUID = 8012811144470344016L;
 
 	/**
-     * Default constructor.  Registers itself to receive Help & Status events
-     * from the ArgoUML event pump.
-     */
-    public ArgoStatusBar() {
-        super();
-        ArgoEventPump.addListener(ArgoEventTypes.ANY_HELP_EVENT, this);
-        ArgoEventPump.addListener(ArgoEventTypes.ANY_STATUS_EVENT, this);
-    }
+	 * Default constructor. Registers itself to receive Help & Status events
+	 * from the ArgoUML event pump.
+	 */
+	public ArgoStatusBar() {
+		super();
+		ArgoEventPump.addListener(ArgoEventTypes.ANY_HELP_EVENT, this);
+		ArgoEventPump.addListener(ArgoEventTypes.ANY_STATUS_EVENT, this);
+	}
 
-    public void projectLoaded(ArgoStatusEvent e) {
-        String status = MessageFormat.format(
-                Translator.localize("statusmsg.bar.open-project-status-read"),
-                new Object[] {e.getText()});
-        showStatusOnSwingThread(status);
-    }
+	public void projectLoaded(ArgoStatusEvent e) {
+		String status = MessageFormat.format(Translator.localize("statusmsg.bar.open-project-status-read"),
+				new Object[] { e.getText() });
+		showStatusOnSwingThread(status);
+	}
 
-    public void projectModified(ArgoStatusEvent e) {
-        String status = MessageFormat.format(
-                Translator.localize("statusmsg.bar.project-modified"),
-                new Object[] {e.getText()});
-        showStatusOnSwingThread(status);
-    }
+	public void projectModified(ArgoStatusEvent e) {
+		String status = MessageFormat.format(Translator.localize("statusmsg.bar.project-modified"),
+				new Object[] { e.getText() });
+		showStatusOnSwingThread(status);
+	}
 
-    public void projectSaved(ArgoStatusEvent e) {
-        String status = MessageFormat.format(
-                Translator.localize("statusmsg.bar.save-project-status-wrote"),
-                new Object[] {e.getText()});
-        showStatusOnSwingThread(status);
-    }
+	public void projectSaved(ArgoStatusEvent e) {
+		String status = MessageFormat.format(Translator.localize("statusmsg.bar.save-project-status-wrote"),
+				new Object[] { e.getText() });
+		showStatusOnSwingThread(status);
+	}
 
-    public void statusCleared(ArgoStatusEvent e) {
-        showStatusOnSwingThread("");
-    }
+	public void statusCleared(ArgoStatusEvent e) {
+		showStatusOnSwingThread("");
+	}
 
-    public void statusText(ArgoStatusEvent e) {
-        showStatusOnSwingThread(e.getText());
-    }
+	public void statusText(ArgoStatusEvent e) {
+		showStatusOnSwingThread(e.getText());
+	}
 
-    public void helpChanged(ArgoHelpEvent e) {
-        showStatusOnSwingThread(e.getHelpText());
-    }
+	public void helpChanged(ArgoHelpEvent e) {
+		showStatusOnSwingThread(e.getHelpText());
+	}
 
-    public void helpRemoved(ArgoHelpEvent e) {
-        showStatusOnSwingThread("");
-    }
-    
-    // We don't know what thread events will be delivered on, so make sure
-    // we run Swing methods on the Swing thread
-    private void showStatusOnSwingThread(final String status) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                showStatus(status);
-            }
-        });
-    }
+	public void helpRemoved(ArgoHelpEvent e) {
+		showStatusOnSwingThread("");
+	}
+
+	// We don't know what thread events will be delivered on, so make sure
+	// we run Swing methods on the Swing thread
+	private void showStatusOnSwingThread(final String status) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				showStatus(status);
+			}
+		});
+	}
 
 }

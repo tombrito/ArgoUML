@@ -44,103 +44,106 @@ import java.util.List;
 import java.util.Observable;
 
 /**
- * Models the designers goals in making this design.  Provides useful
- * control information to the Agency so that only critics relevant to
- * the designers goals are ever executed.
+ * Models the designers goals in making this design. Provides useful control
+ * information to the Agency so that only critics relevant to the designers
+ * goals are ever executed.
  *
- * TODO: Really this should be part of a domain extension
- * and not the kernel.  I have not developed this part of Argo very
- * much.
+ * TODO: Really this should be part of a domain extension and not the kernel. I
+ * have not developed this part of Argo very much.
  *
  * @author Jason Robbins
  */
 public class GoalModel extends Observable implements Serializable {
-    private static final long serialVersionUID = 3996422031591474941L;
+	private static final long serialVersionUID = 3996422031591474941L;
 	private List<Goal> goals = new ArrayList<Goal>();
 
-    /**
-     * The constructor.
-     *
-     */
-    public GoalModel() {
-	addGoal(Goal.getUnspecifiedGoal());
-    }
-
-
-    /**
-     * @return the list of goals
-     */
-    public List<Goal> getGoalList() {
-        return goals;
-    }
-
-    
-    /**
-     * @param g the goal to be added
-     */
-    public void addGoal(Goal g) {
-        goals.add(g);
-    }
-
-    /**
-     * @param g the goal to be removed
-     */
-    public void removeGoal(Goal g) {
-        goals.remove(g);
-    }
-
-    /**
-     * Reply true iff the Designer wants to achieve the given goal.
-     *
-     * @param goalName the given goal
-     * @return true if the designer wants this
-     */
-    public boolean hasGoal(String goalName) {
-        for (Goal g : goals) {
-	    if (g.getName().equals(goalName)) {
-		return g.getPriority() > 0;
-	    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public GoalModel() {
+		addGoal(Goal.getUnspecifiedGoal());
 	}
-	return false;
-    }
 
-    /**
-     * @param goalName the given goal
-     * @param priority the new priority for the goal
-     */
-    public synchronized void setGoalPriority(String goalName, int priority) {
-	Goal g = new Goal(goalName, priority);
-	goals.remove(g);
-	goals.add(g);
-    }
+	/**
+	 * @return the list of goals
+	 */
+	public List<Goal> getGoalList() {
+		return goals;
+	}
 
-    //   public Object getGoalInfo(String goal) {
-    //     return _goals.getProperty(goal);
-    //     /* TODO: we need a better representation of goals */
-    //   }
+	/**
+	 * @param g
+	 *            the goal to be added
+	 */
+	public void addGoal(Goal g) {
+		goals.add(g);
+	}
 
-    //   public void setGoalInfo(String goal, String info) {
-    //     _goals.put(goal, info);
-    //     /* TODO: we need a better representation of goals */
-    //   }
+	/**
+	 * @param g
+	 *            the goal to be removed
+	 */
+	public void removeGoal(Goal g) {
+		goals.remove(g);
+	}
 
-    /**
-     * The Designer wants to achieve the given goal.
-     *
-     * @param goalName the wanted goal
-     */
-    public void startDesiring(String goalName) {
-	addGoal(new Goal(goalName, 1));
-    }
+	/**
+	 * Reply true iff the Designer wants to achieve the given goal.
+	 *
+	 * @param goalName
+	 *            the given goal
+	 * @return true if the designer wants this
+	 */
+	public boolean hasGoal(String goalName) {
+		for (Goal g : goals) {
+			if (g.getName().equals(goalName)) {
+				return g.getPriority() > 0;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * The Designer does not care about the given goal.
-     *
-     * @param goalName the unwanted goal
-     */
-    public void stopDesiring(String goalName) {
-	removeGoal(new Goal(goalName, 0));
-    }
+	/**
+	 * @param goalName
+	 *            the given goal
+	 * @param priority
+	 *            the new priority for the goal
+	 */
+	public synchronized void setGoalPriority(String goalName, int priority) {
+		Goal g = new Goal(goalName, priority);
+		goals.remove(g);
+		goals.add(g);
+	}
 
+	// public Object getGoalInfo(String goal) {
+	// return _goals.getProperty(goal);
+	// /* TODO: we need a better representation of goals */
+	// }
+
+	// public void setGoalInfo(String goal, String info) {
+	// _goals.put(goal, info);
+	// /* TODO: we need a better representation of goals */
+	// }
+
+	/**
+	 * The Designer wants to achieve the given goal.
+	 *
+	 * @param goalName
+	 *            the wanted goal
+	 */
+	public void startDesiring(String goalName) {
+		addGoal(new Goal(goalName, 1));
+	}
+
+	/**
+	 * The Designer does not care about the given goal.
+	 *
+	 * @param goalName
+	 *            the unwanted goal
+	 */
+	public void stopDesiring(String goalName) {
+		removeGoal(new Goal(goalName, 0));
+	}
 
 }

@@ -49,45 +49,48 @@ import java.util.Set;
  */
 public class CompositeModelInterpreter implements ModelInterpreter {
 
-    private Set<ModelInterpreter> set = new HashSet<ModelInterpreter>();
+	private Set<ModelInterpreter> set = new HashSet<ModelInterpreter>();
 
-    /**
-     * Adds a ModelInterpreter to this set
-     * 
-     * @param mi the model interpreter
-     */
-    public void addModelInterpreter(ModelInterpreter mi) {
-        set.add(mi);
-    }
+	/**
+	 * Adds a ModelInterpreter to this set
+	 * 
+	 * @param mi
+	 *            the model interpreter
+	 */
+	public void addModelInterpreter(ModelInterpreter mi) {
+		set.add(mi);
+	}
 
-    /*
-     * @see org.argouml.profile.internal.ocl.ModelInterpreter#invokeFeature(java.util.HashMap,
-     *      java.lang.Object, java.lang.String, java.lang.String,
-     *      java.lang.Object[])
-     */
-    public Object invokeFeature(Map<String, Object> vt, Object subject,
-            String feature, String type, Object[] parameters) {
-        for (ModelInterpreter mi : set) {
-            Object ret = mi.invokeFeature(vt, subject, feature, type,
-                    parameters);
-            if (ret != null) {
-                return ret;
-            }
-        }
-        return null;
-    }
+	/*
+	 * @see
+	 * org.argouml.profile.internal.ocl.ModelInterpreter#invokeFeature(java.util
+	 * .HashMap, java.lang.Object, java.lang.String, java.lang.String,
+	 * java.lang.Object[])
+	 */
+	public Object invokeFeature(Map<String, Object> vt, Object subject, String feature, String type,
+			Object[] parameters) {
+		for (ModelInterpreter mi : set) {
+			Object ret = mi.invokeFeature(vt, subject, feature, type, parameters);
+			if (ret != null) {
+				return ret;
+			}
+		}
+		return null;
+	}
 
-    /*
-     * @see org.argouml.profile.internal.ocl.ModelInterpreter#getBuiltInSymbol(java.lang.String)
-     */
-    public Object getBuiltInSymbol(String sym) {
-        for (ModelInterpreter mi : set) {
-            Object ret = mi.getBuiltInSymbol(sym);
-            if (ret != null) {
-                return ret;
-            }
-        }
-        return null;
-    }
+	/*
+	 * @see
+	 * org.argouml.profile.internal.ocl.ModelInterpreter#getBuiltInSymbol(java.
+	 * lang.String)
+	 */
+	public Object getBuiltInSymbol(String sym) {
+		for (ModelInterpreter mi : set) {
+			Object ret = mi.getBuiltInSymbol(sym);
+			if (ret != null) {
+				return ret;
+			}
+		}
+		return null;
+	}
 
 }

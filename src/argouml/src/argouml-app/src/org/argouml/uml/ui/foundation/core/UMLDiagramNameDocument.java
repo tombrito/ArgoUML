@@ -49,38 +49,39 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLDiagramNameDocument extends UMLPlainTextDocument {
 
-    private static final long serialVersionUID = 3820469436931022297L;
+	private static final long serialVersionUID = 3820469436931022297L;
 
 	/**
-     * Constructor.
-     */
-    public UMLDiagramNameDocument() {
-        super("name");
-    }
+	 * Constructor.
+	 */
+	public UMLDiagramNameDocument() {
+		super("name");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
-     */
-    protected void setProperty(String text) {
-        Object target = DiagramUtils.getActiveDiagram();
-        if (target instanceof ArgoDiagram) {
-            try {
-                ((ArgoDiagram) target).setName(text);
-            } catch (PropertyVetoException e) {
-                // TODO: what shall we do with the exception?
-            }
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
+	 */
+	protected void setProperty(String text) {
+		Object target = DiagramUtils.getActiveDiagram();
+		if (target instanceof ArgoDiagram) {
+			try {
+				((ArgoDiagram) target).setName(text);
+			} catch (PropertyVetoException e) {
+				// TODO: what shall we do with the exception?
+			}
+		}
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
-     */
-    protected String getProperty() {
-        Object target = DiagramUtils.getActiveDiagram();
-        if (target instanceof ArgoDiagram) {
-            return ((ArgoDiagram) target).getName();
-        }
-        return "";
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
+	 */
+	protected String getProperty() {
+		Object target = DiagramUtils.getActiveDiagram();
+		if (target instanceof ArgoDiagram) {
+			return ((ArgoDiagram) target).getName();
+		}
+		return "";
+	}
 
 }

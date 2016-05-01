@@ -53,29 +53,29 @@ import org.argouml.ui.TabToDoTarget;
  */
 public class SubsystemUtility {
 
-    /**
-     * The use of this method in the top-level package 
-     * prevents that the subsystem would depend on the GUI.
-     * 
-     * @param subsystem the subsystem to be initialised
-     */
-    static void initSubsystem(InitSubsystem subsystem) {
-        subsystem.init();
-        for (GUISettingsTabInterface tab : subsystem.getSettingsTabs()) {
-            // TODO: This work should be deferred until actually 
-            // needed for display
-            GUI.getInstance().addSettingsTab(tab);
-        }
-        for (GUISettingsTabInterface tab : subsystem.getProjectSettingsTabs()) {
-            // TODO: This work should be deferred until actually 
-            // needed for display
-            GUI.getInstance().addProjectSettingsTab(tab);
-        }
-        for (AbstractArgoJPanel tab : subsystem.getDetailsTabs()) {
-            /* All tabs are added at the end, except a TabToDoTarget: */
-            ((DetailsPane) ProjectBrowser.getInstance().getDetailsPane())
-                .addTab(tab, !(tab instanceof TabToDoTarget));
-        }
-    }
+	/**
+	 * The use of this method in the top-level package prevents that the
+	 * subsystem would depend on the GUI.
+	 * 
+	 * @param subsystem
+	 *            the subsystem to be initialised
+	 */
+	static void initSubsystem(InitSubsystem subsystem) {
+		subsystem.init();
+		for (GUISettingsTabInterface tab : subsystem.getSettingsTabs()) {
+			// TODO: This work should be deferred until actually
+			// needed for display
+			GUI.getInstance().addSettingsTab(tab);
+		}
+		for (GUISettingsTabInterface tab : subsystem.getProjectSettingsTabs()) {
+			// TODO: This work should be deferred until actually
+			// needed for display
+			GUI.getInstance().addProjectSettingsTab(tab);
+		}
+		for (AbstractArgoJPanel tab : subsystem.getDetailsTabs()) {
+			/* All tabs are added at the end, except a TabToDoTarget: */
+			((DetailsPane) ProjectBrowser.getInstance().getDetailsPane()).addTab(tab, !(tab instanceof TabToDoTarget));
+		}
+	}
 
 }

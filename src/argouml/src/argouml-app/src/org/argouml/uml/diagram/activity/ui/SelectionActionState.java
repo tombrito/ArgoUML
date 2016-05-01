@@ -50,139 +50,131 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionActionState extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = 7480753754544338933L;
+	private static final long serialVersionUID = 7480753754544338933L;
 
-	private static Icon trans =
-	ResourceLoaderWrapper.lookupIconResource("Transition");
-    
-    private static Icon transDown =
-	ResourceLoaderWrapper.lookupIconResource("TransitionDown");
-    
-    private static Icon icons[] =
-    {transDown,
-     transDown,
-     trans,
-     trans,
-     null,
-    };
+	private static Icon trans = ResourceLoaderWrapper.lookupIconResource("Transition");
 
-// TODO: I18N required
-    private static String instructions[] =
-    {"Add an incoming transition",
-     "Add an outgoing transition",
-     "Add an incoming transition",
-     "Add an outgoing transition",
-     null,
-     "Move object(s)",
-    };
+	private static Icon transDown = ResourceLoaderWrapper.lookupIconResource("TransitionDown");
 
-    private boolean showIncomingLeft = true;
+	private static Icon icons[] = { transDown, transDown, trans, trans, null, };
 
-    private boolean showIncomingAbove = true;
+	// TODO: I18N required
+	private static String instructions[] = { "Add an incoming transition", "Add an outgoing transition",
+			"Add an incoming transition", "Add an outgoing transition", null, "Move object(s)", };
 
-    private boolean showOutgoingRight = true;
+	private boolean showIncomingLeft = true;
 
-    private boolean showOutgoingBelow = true;
+	private boolean showIncomingAbove = true;
 
-    /**
-     * Construct a new SelectionActionState for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionActionState(Fig f) {
-        super(f);
-    }
+	private boolean showOutgoingRight = true;
 
+	private boolean showOutgoingBelow = true;
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setOutgoingButtonEnabled(boolean b) {
-        setOutgoingRightButtonEnabled(b);
-        setOutgoingBelowButtonEnabled(b);
-    }
+	/**
+	 * Construct a new SelectionActionState for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionActionState(Fig f) {
+		super(f);
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setIncomingButtonEnabled(boolean b) {
-        setIncomingAboveButtonEnabled(b);
-        setIncomingLeftButtonEnabled(b);
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setOutgoingButtonEnabled(boolean b) {
+		setOutgoingRightButtonEnabled(b);
+		setOutgoingBelowButtonEnabled(b);
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setIncomingLeftButtonEnabled(boolean b) {
-	showIncomingLeft = b;
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setIncomingButtonEnabled(boolean b) {
+		setIncomingAboveButtonEnabled(b);
+		setIncomingLeftButtonEnabled(b);
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setOutgoingRightButtonEnabled(boolean b) {
-	showOutgoingRight = b;
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setIncomingLeftButtonEnabled(boolean b) {
+		showIncomingLeft = b;
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setIncomingAboveButtonEnabled(boolean b) {
-	showIncomingAbove = b;
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setOutgoingRightButtonEnabled(boolean b) {
+		showOutgoingRight = b;
+	}
 
-    /**
-     * @param b true if the button is enabled
-     */
-    public void setOutgoingBelowButtonEnabled(boolean b) {
-	showOutgoingBelow = b;
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setIncomingAboveButtonEnabled(boolean b) {
+		showIncomingAbove = b;
+	}
 
-    @Override
-    protected Object getNewNodeType(int index) {
-        return Model.getMetaTypes().getActionState();
-    }
-    
-    @Override
-    protected Object getNewNode(int arg0) {
-        return Model.getActivityGraphsFactory().createActionState();
-    }
+	/**
+	 * @param b
+	 *            true if the button is enabled
+	 */
+	public void setOutgoingBelowButtonEnabled(boolean b) {
+		showOutgoingBelow = b;
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        Icon[] workingIcons = new Icon[icons.length];
-        System.arraycopy(icons, 0, workingIcons, 0, icons.length);
-        if (!showOutgoingBelow) {
-            workingIcons[BOTTOM - BASE] = null;
-        }
-        if (!showIncomingAbove) {
-            workingIcons[TOP - BASE] = null;
-        }
-        if (!showIncomingLeft) {
-            workingIcons[LEFT - BASE] = null;
-        }
-        if (!showOutgoingRight) {
-            workingIcons[RIGHT - BASE] = null;
-        }
-        return workingIcons;
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		return Model.getMetaTypes().getActionState();
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected Object getNewNode(int arg0) {
+		return Model.getActivityGraphsFactory().createActionState();
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return Model.getMetaTypes().getTransition();
-    }
+	@Override
+	protected Icon[] getIcons() {
+		Icon[] workingIcons = new Icon[icons.length];
+		System.arraycopy(icons, 0, workingIcons, 0, icons.length);
+		if (!showOutgoingBelow) {
+			workingIcons[BOTTOM - BASE] = null;
+		}
+		if (!showIncomingAbove) {
+			workingIcons[TOP - BASE] = null;
+		}
+		if (!showIncomingLeft) {
+			workingIcons[LEFT - BASE] = null;
+		}
+		if (!showOutgoingRight) {
+			workingIcons[RIGHT - BASE] = null;
+		}
+		return workingIcons;
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == TOP || index == LEFT ) {
-            return true;
-        }
-        return false;
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
+
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return Model.getMetaTypes().getTransition();
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == TOP || index == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
 }

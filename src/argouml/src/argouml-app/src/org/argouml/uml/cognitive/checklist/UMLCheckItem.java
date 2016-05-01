@@ -48,75 +48,80 @@ import org.argouml.ocl.CriticOclEvaluator;
 import org.argouml.ocl.OCLEvaluator;
 import org.tigris.gef.ocl.ExpansionException;
 
-
-/** A special kind of CheckItem that can replace OCL expressions with
- *  their values in the generated advice.
+/**
+ * A special kind of CheckItem that can replace OCL expressions with their
+ * values in the generated advice.
  *
- * @see org.argouml.ocl.OCLEvaluator */
+ * @see org.argouml.ocl.OCLEvaluator
+ */
 
 public class UMLCheckItem extends CheckItem {
-    private static final long serialVersionUID = -5507204901307842149L;
-	private static final Logger LOG =
-        Logger.getLogger(UMLCheckItem.class.getName());
+	private static final long serialVersionUID = -5507204901307842149L;
+	private static final Logger LOG = Logger.getLogger(UMLCheckItem.class.getName());
 
-    /**
-     * The constructor.
-     *
-     * @param c the category
-     * @param d the description
-     */
-    public UMLCheckItem(String c, String d) { super(c, d); }
-
-    /**
-     * The constructor.
-     *
-     * @param c the category
-     * @param d the description
-     * @param m the more-info-url
-     * @param p the predicate
-     */
-    public UMLCheckItem(String c, String d, String m,
-            org.argouml.util.Predicate p) {
-        super(c, d, m, p);
-    }
-
-    /*
-     * @see org.argouml.cognitive.checklist.CheckItem#expand(java.lang.String,
-     *      java.lang.Object)
-     */
-    @Override
-    public String expand(String res, Object dm) {
-	int searchPos = 0;
-	int matchPos = res.indexOf(OCLEvaluator.OCL_START, searchPos);
-
-	// replace all occurances of OFFENDER with the name of the
-	// first offender
-	while (matchPos != -1) {
-	    int endExpr = res.indexOf(OCLEvaluator.OCL_END, matchPos + 1);
-	    String expr = res.substring(matchPos
-                + OCLEvaluator.OCL_START.length(), endExpr);
-	    String evalStr = null;
-
-	    try {
-	        evalStr = CriticOclEvaluator.getInstance()
-	                            .evalToString(dm, expr);
-	    } catch (ExpansionException e) {
-	        // Really ought to have a CriticException to throw here.
-                LOG.log(Level.SEVERE,
-                        "Failed to evaluate critic expression", e);
-	    } catch (InvalidElementException e) {
-                /* The modelelement must have been
-                 * deleted - ignore this - it will pass. */
-                evalStr = Translator.localize("misc.name.deleted");
-            }
-            LOG.log(Level.FINE, "expr={0} = {1}", new Object[]{expr, evalStr});
-
-	    res = res.substring(0, matchPos) + evalStr
-	        + res.substring(endExpr + OCLEvaluator.OCL_END.length());
-	    searchPos = endExpr + 1;
-	    matchPos = res.indexOf(OCLEvaluator.OCL_START, searchPos);
+	/**
+	 * The constructor.
+	 *
+	 * @param c
+	 *            the category
+	 * @param d
+	 *            the description
+	 */
+	public UMLCheckItem(String c, String d) {
+		super(c, d);
 	}
-	return res;
-    }
+
+	/**
+	 * The constructor.
+	 *
+	 * @param c
+	 *            the category
+	 * @param d
+	 *            the description
+	 * @param m
+	 *            the more-info-url
+	 * @param p
+	 *            the predicate
+	 */
+	public UMLCheckItem(String c, String d, String m, org.argouml.util.Predicate p) {
+		super(c, d, m, p);
+	}
+
+	/*
+	 * @see org.argouml.cognitive.checklist.CheckItem#expand(java.lang.String,
+	 * java.lang.Object)
+	 */
+	@Override
+	public String expand(String res, Object dm) {
+		int searchPos = 0;
+		int matchPos = res.indexOf(OCLEvaluator.OCL_START, searchPos);
+
+		// replace all occurances of OFFENDER with the name of the
+		// first offender
+		while (matchPos != -1) {
+			int endExpr = res.indexOf(OCLEvaluator.OCL_END, matchPos + 1);
+			String expr = res.substring(matchPos + OCLEvaluator.OCL_START.length(), endExpr);
+			String evalStr = null;
+
+			try {
+				evalStr = CriticOclEvaluator.getInstance().evalToString(dm, expr);
+			} catch (ExpansionException e) {
+				// Really ought to have a CriticException to throw here.
+				LOG.log(Level.SEVERE, "Failed to evaluate critic expression", e);
+			} catch (InvalidElementException e) {
+				/*
+				 * The modelelement must have been deleted - ignore this - it
+				 * will pass.
+				 */
+				evalStr = Translator.localize("misc.name.deleted");
+			}
+			LOG.log(Level.FINE, "expr={0} = {1}", new Object[] { expr, evalStr });
+
+			res = res.substring(0, matchPos) + evalStr + res.substring(endExpr + OCLEvaluator.OCL_END.length());
+			searchPos = endExpr + 1;
+			matchPos = res.indexOf(OCLEvaluator.OCL_START, searchPos);
+		}
+		return res;
+	}
 
 }

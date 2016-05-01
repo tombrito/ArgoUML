@@ -21,25 +21,25 @@ import org.tigris.gef.presentation.FigRect;
  */
 public class FigRegion extends FigRect {
 
-    private static final long serialVersionUID = -152506165956915180L;
+	private static final long serialVersionUID = -152506165956915180L;
 
 	/**
-     * Construct a fig representing a region.
-     * 
-     * @param region owning UML element
-     */
-    public FigRegion(
-            final Object region) {
-        super(0, 0, 0, 0);
-        setLineWidth(0);
-        setOwner(region);
-    }
-    
-    /*
-     * @see org.tigris.gef.presentation.Fig#getMinimumSize()
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        return new Dimension(180, 80);
-    }
+	 * Construct a fig representing a region.
+	 * 
+	 * @param region
+	 *            owning UML element
+	 */
+	public FigRegion(final Object region) {
+		super(0, 0, 0, 0);
+		setLineWidth(0);
+		setOwner(region);
+	}
+
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getMinimumSize()
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		return new Dimension(180, 80);
+	}
 }

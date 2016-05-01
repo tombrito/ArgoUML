@@ -48,22 +48,23 @@ import org.tigris.gef.base.AdjustPageBreaksAction;
  */
 public class ActionAdjustPageBreaks extends AdjustPageBreaksAction {
 
-    private static final long serialVersionUID = 3789112897216300382L;
+	private static final long serialVersionUID = 3789112897216300382L;
 
 	/**
-     * The Constructor.
-     */
-    public ActionAdjustPageBreaks() {
-        this(Translator.localize("menu.adjust-pagebreaks"));
-    }
+	 * The Constructor.
+	 */
+	public ActionAdjustPageBreaks() {
+		this(Translator.localize("menu.adjust-pagebreaks"));
+	}
 
-    /**
-     * The Constructor.
-     * 
-     * @param name the name of the action
-     */
-    public ActionAdjustPageBreaks(String name) {
-        super(name);
-    }
+	/**
+	 * The Constructor.
+	 * 
+	 * @param name
+	 *            the name of the action
+	 */
+	public ActionAdjustPageBreaks(String name) {
+		super(name);
+	}
 
 }

@@ -48,114 +48,118 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * A non-modal wizard to help the user change the name of a
- * MModelElement to a better name.
+ * A non-modal wizard to help the user change the name of a MModelElement to a
+ * better name.
  *
  * @author jrobbins
  */
 public class WizMEName extends UMLWizard {
-    private static final long serialVersionUID = -8736394150766704675L;
+	private static final long serialVersionUID = -8736394150766704675L;
 
-	private static final Logger LOG =
-        Logger.getLogger(WizMEName.class.getName());
+	private static final Logger LOG = Logger.getLogger(WizMEName.class.getName());
 
-    private String instructions = Translator.localize("critics.WizMEName-ins");
-    private String label = Translator.localize("label.name");
-    private boolean mustEdit = false;
+	private String instructions = Translator.localize("critics.WizMEName-ins");
+	private String label = Translator.localize("label.name");
+	private boolean mustEdit = false;
 
-    private WizStepTextField step1 = null;
+	private WizStepTextField step1 = null;
 
-    private String origSuggest;
+	private String origSuggest;
 
-    /**
-     * The constructor.
-     *
-     */
-    public WizMEName() { }
-
-    /**
-     * @param s the instructions
-     */
-    public void setInstructions(String s) { instructions = s; }
-
-    /**
-     * @param b if true, then the wizard step needs userinput,
-     *          i.e. it must be edited
-     */
-    public void setMustEdit(boolean b) { mustEdit = b; }
-
-    /**
-     * Create a new panel for the given step.
-     *
-     * @see org.argouml.cognitive.critics.Wizard#makePanel(int)
-     */
-    public JPanel makePanel(int newStep) {
-	switch (newStep) {
-	case 1:
-	    if (step1 == null) {
-		step1 = new WizStepTextField(this, instructions,
-					      label, offerSuggestion());
-	    }
-	    return step1;
+	/**
+	 * The constructor.
+	 *
+	 */
+	public WizMEName() {
 	}
-	return null;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.UMLWizard#setSuggestion(java.lang.String)
-     */
-    public void setSuggestion(String s) {
-        origSuggest = s;
-        super.setSuggestion(s);
-    }
-
-
-    /**
-     * Return false if the user has not edited the text and they were required
-     * to.
-     *
-     * @see org.argouml.cognitive.critics.Wizard#canGoNext()
-     */
-    public boolean canGoNext() {
-	if (!super.canGoNext()) {
-	    return false;
+	/**
+	 * @param s
+	 *            the instructions
+	 */
+	public void setInstructions(String s) {
+		instructions = s;
 	}
-	if (step1 != null) {
-	    boolean changed = origSuggest.equals(step1.getText());
-	    if (mustEdit && !changed) {
-	        return false;
-	    }
+
+	/**
+	 * @param b
+	 *            if true, then the wizard step needs userinput, i.e. it must be
+	 *            edited
+	 */
+	public void setMustEdit(boolean b) {
+		mustEdit = b;
 	}
-	return true;
-    }
 
-    /*
-     * @see org.argouml.cognitive.ui.Wizard#doAction(int)
-     */
-    public void doAction(int oldStep) {
-        LOG.log(Level.FINE, "doAction {0}", oldStep);
-
-	switch (oldStep) {
-	case 1:
-	    String newName = getSuggestion();
-	    if (step1 != null) {
-	        newName = step1.getText();
-	    }
-	    try {
-		Object me = getModelElement();
-		Model.getCoreHelper().setName(me, newName);
-	    }
-	    catch (Exception pve) {
-                LOG.log(Level.SEVERE, "could not set name", pve);
-	    }
-            break;
+	/**
+	 * Create a new panel for the given step.
+	 *
+	 * @see org.argouml.cognitive.critics.Wizard#makePanel(int)
+	 */
+	public JPanel makePanel(int newStep) {
+		switch (newStep) {
+		case 1:
+			if (step1 == null) {
+				step1 = new WizStepTextField(this, instructions, label, offerSuggestion());
+			}
+			return step1;
+		}
+		return null;
 	}
-    }
 
-    /**
-     * @return Returns the instructions.
-     */
-    protected String getInstructions() {
-        return instructions;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.UMLWizard#setSuggestion(java.lang.
+	 * String)
+	 */
+	public void setSuggestion(String s) {
+		origSuggest = s;
+		super.setSuggestion(s);
+	}
+
+	/**
+	 * Return false if the user has not edited the text and they were required
+	 * to.
+	 *
+	 * @see org.argouml.cognitive.critics.Wizard#canGoNext()
+	 */
+	public boolean canGoNext() {
+		if (!super.canGoNext()) {
+			return false;
+		}
+		if (step1 != null) {
+			boolean changed = origSuggest.equals(step1.getText());
+			if (mustEdit && !changed) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/*
+	 * @see org.argouml.cognitive.ui.Wizard#doAction(int)
+	 */
+	public void doAction(int oldStep) {
+		LOG.log(Level.FINE, "doAction {0}", oldStep);
+
+		switch (oldStep) {
+		case 1:
+			String newName = getSuggestion();
+			if (step1 != null) {
+				newName = step1.getText();
+			}
+			try {
+				Object me = getModelElement();
+				Model.getCoreHelper().setName(me, newName);
+			} catch (Exception pve) {
+				LOG.log(Level.SEVERE, "could not set name", pve);
+			}
+			break;
+		}
+	}
+
+	/**
+	 * @return Returns the instructions.
+	 */
+	protected String getInstructions() {
+		return instructions;
+	}
 } /* end class WizMEName */

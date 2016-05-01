@@ -43,50 +43,49 @@ import org.argouml.cognitive.Designer;
 import org.argouml.uml.cognitive.UMLDecision;
 import org.tigris.gef.presentation.FigEdge;
 
-/** A critic to detect when an edge is very short in order to suggest to
- *  improve the layout of the diagram.
+/**
+ * A critic to detect when an edge is very short in order to suggest to improve
+ * the layout of the diagram.
  *
  * @author jrobbins
  */
 public class CrZeroLengthEdge extends CrUML {
-    private static final long serialVersionUID = -4777975713455593366L;
+	private static final long serialVersionUID = -4777975713455593366L;
 	////////////////////////////////////////////////////////////////
-    // constants
-    private static final int THRESHOLD = 20;
+	// constants
+	private static final int THRESHOLD = 20;
 
-    /**
-     * The constructor.
-     *
-     */
-    public CrZeroLengthEdge() {
-	// TODO: {name} is not expanded for diagram objects
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.RELATIONSHIPS);
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	setKnowledgeTypes(Critic.KT_PRESENTATION);
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // critiquing API
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(dm instanceof FigEdge)) {
-	    return NO_PROBLEM;
+	/**
+	 * The constructor.
+	 *
+	 */
+	public CrZeroLengthEdge() {
+		// TODO: {name} is not expanded for diagram objects
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		setKnowledgeTypes(Critic.KT_PRESENTATION);
 	}
-	FigEdge fe = (FigEdge) dm;
-	int length = fe.getPerimeterLength();
-	if (length > THRESHOLD) {
-	    return NO_PROBLEM;
-	}
-	return PROBLEM_FOUND;
-    }
 
+	////////////////////////////////////////////////////////////////
+	// critiquing API
+
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(dm instanceof FigEdge)) {
+			return NO_PROBLEM;
+		}
+		FigEdge fe = (FigEdge) dm;
+		int length = fe.getPerimeterLength();
+		if (length > THRESHOLD) {
+			return NO_PROBLEM;
+		}
+		return PROBLEM_FOUND;
+	}
 
 } /* end class CrZeroLengthEdge */
-

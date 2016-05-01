@@ -56,74 +56,72 @@ import org.argouml.uml.ui.UMLRadioButtonPanel;
  */
 public class ActionSetParameterDirectionKind extends UndoableAction {
 
-    private static final long serialVersionUID = -7219592466759480273L;
+	private static final long serialVersionUID = -7219592466759480273L;
 
-	private static final ActionSetParameterDirectionKind SINGLETON =
-        new ActionSetParameterDirectionKind();
+	private static final ActionSetParameterDirectionKind SINGLETON = new ActionSetParameterDirectionKind();
 
-    /**
-     * IN_COMMAND determines the kind of direction.
-     */
-    public static final String IN_COMMAND = "in";
+	/**
+	 * IN_COMMAND determines the kind of direction.
+	 */
+	public static final String IN_COMMAND = "in";
 
-    /**
-     * OUT_COMMAND determines the kind of direction.
-     */
-    public static final String OUT_COMMAND = "out";
+	/**
+	 * OUT_COMMAND determines the kind of direction.
+	 */
+	public static final String OUT_COMMAND = "out";
 
-    /**
-     * INOUT_COMMAND determines the kind of direction.
-     */
-    public static final String INOUT_COMMAND = "inout";
+	/**
+	 * INOUT_COMMAND determines the kind of direction.
+	 */
+	public static final String INOUT_COMMAND = "inout";
 
-    /**
-     * RETURN_COMMAND determines the kind of direction.
-     */
-    public static final String RETURN_COMMAND = "return";
-    
-    /**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    protected ActionSetParameterDirectionKind() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * RETURN_COMMAND determines the kind of direction.
+	 */
+	public static final String RETURN_COMMAND = "return";
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof JRadioButton) {
-            JRadioButton source = (JRadioButton) e.getSource();
-            String actionCommand = source.getActionCommand();
-            Object target = ((UMLRadioButtonPanel) source.getParent())
-                    .getTarget();
-            if (Model.getFacade().isAParameter(target)) {
-                Object kind = null;
-                if (actionCommand == null) {
-                    kind = null;
-                } else if (actionCommand.equals(IN_COMMAND)) {
-                    kind = Model.getDirectionKind().getInParameter();
-                } else if (actionCommand.equals(OUT_COMMAND)) {
-                    kind = Model.getDirectionKind().getOutParameter();
-                } else if (actionCommand.equals(INOUT_COMMAND)) {
-                    kind = Model.getDirectionKind().getInOutParameter();
-                } else if (actionCommand.equals(RETURN_COMMAND)) {
-                    kind = Model.getDirectionKind().getReturnParameter();
-                }
-                Model.getCoreHelper().setKind(target, kind);
-            }
-        }
-    }
+	/**
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	protected ActionSetParameterDirectionKind() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /**
-     * @return Returns the sINGLETON.
-     */
-    public static ActionSetParameterDirectionKind getInstance() {
-        return SINGLETON;
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof JRadioButton) {
+			JRadioButton source = (JRadioButton) e.getSource();
+			String actionCommand = source.getActionCommand();
+			Object target = ((UMLRadioButtonPanel) source.getParent()).getTarget();
+			if (Model.getFacade().isAParameter(target)) {
+				Object kind = null;
+				if (actionCommand == null) {
+					kind = null;
+				} else if (actionCommand.equals(IN_COMMAND)) {
+					kind = Model.getDirectionKind().getInParameter();
+				} else if (actionCommand.equals(OUT_COMMAND)) {
+					kind = Model.getDirectionKind().getOutParameter();
+				} else if (actionCommand.equals(INOUT_COMMAND)) {
+					kind = Model.getDirectionKind().getInOutParameter();
+				} else if (actionCommand.equals(RETURN_COMMAND)) {
+					kind = Model.getDirectionKind().getReturnParameter();
+				}
+				Model.getCoreHelper().setKind(target, kind);
+			}
+		}
+	}
+
+	/**
+	 * @return Returns the sINGLETON.
+	 */
+	public static ActionSetParameterDirectionKind getInstance() {
+		return SINGLETON;
+	}
 }

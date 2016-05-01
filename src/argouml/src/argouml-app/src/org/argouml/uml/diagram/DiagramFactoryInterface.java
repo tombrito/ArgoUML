@@ -47,19 +47,22 @@ package org.argouml.uml.diagram;
  *             the create method is invoked..
  */
 @Deprecated
-public interface DiagramFactoryInterface  {
+public interface DiagramFactoryInterface {
 
-    /**
-     * Factory method to create a new instance of an ArgoDiagram.
-     * 
-     * @param namespace The namespace that (in)directly 
-     *                        owns the elements on the diagram
-     * @param machine The StateMachine for the diagram
-     *                         (only: statemachine - activitygraph)
-     * @return the newly instantiated diagram
-     * @deprecated for 0.27.3 by tfmorris.  Use 
-     * {@link DiagramFactoryInterface2#createDiagram(Object, Object, DiagramSettings)}.
-     */
-    @Deprecated
-    public ArgoDiagram createDiagram(Object namespace, final Object machine);
+	/**
+	 * Factory method to create a new instance of an ArgoDiagram.
+	 * 
+	 * @param namespace
+	 *            The namespace that (in)directly owns the elements on the
+	 *            diagram
+	 * @param machine
+	 *            The StateMachine for the diagram (only: statemachine -
+	 *            activitygraph)
+	 * @return the newly instantiated diagram
+	 * @deprecated for 0.27.3 by tfmorris. Use
+	 *             {@link DiagramFactoryInterface2#createDiagram(Object, Object, DiagramSettings)}
+	 *             .
+	 */
+	@Deprecated
+	public ArgoDiagram createDiagram(Object namespace, final Object machine);
 }

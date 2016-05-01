@@ -50,92 +50,73 @@ import org.tigris.gef.presentation.Fig;
  */
 public class SelectionUseCase extends SelectionNodeClarifiers2 {
 
-    private static final long serialVersionUID = -7328901763704635166L;
-	private static Icon inherit =
-        ResourceLoaderWrapper.lookupIconResource("Generalization");
-    private static Icon assoc =
-        ResourceLoaderWrapper.lookupIconResource("Association");
-    
-    private static Icon icons[] =
-    {inherit,
-     inherit,
-     assoc,
-     assoc,
-     null,
-    };
+	private static final long serialVersionUID = -7328901763704635166L;
+	private static Icon inherit = ResourceLoaderWrapper.lookupIconResource("Generalization");
+	private static Icon assoc = ResourceLoaderWrapper.lookupIconResource("Association");
 
-    // TODO: I18N required
-    private static String instructions[] =
-    {"Add a more general use case",
-     "Add a more specialized use case",
-     "Add an associated actor",
-     "Add an associated actor",
-     null,
-     "Move object(s)",
-    };
+	private static Icon icons[] = { inherit, inherit, assoc, assoc, null, };
 
-    private static Object edgeType[] =
-    {Model.getMetaTypes().getGeneralization(),
-     Model.getMetaTypes().getGeneralization(),
-     Model.getMetaTypes().getAssociation(),
-     Model.getMetaTypes().getAssociation(),
-     null, 
-    };
+	// TODO: I18N required
+	private static String instructions[] = { "Add a more general use case", "Add a more specialized use case",
+			"Add an associated actor", "Add an associated actor", null, "Move object(s)", };
 
+	private static Object edgeType[] = { Model.getMetaTypes().getGeneralization(),
+			Model.getMetaTypes().getGeneralization(), Model.getMetaTypes().getAssociation(),
+			Model.getMetaTypes().getAssociation(), null, };
 
-    /**
-     * Construct a new SelectionUseCase for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionUseCase(Fig f) {
-        super(f);
-    }
+	/**
+	 * Construct a new SelectionUseCase for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionUseCase(Fig f) {
+		super(f);
+	}
 
-    @Override
-    protected Icon[] getIcons() {
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, inherit, null, null, null };
-        }
-        return icons;
-    }
+	@Override
+	protected Icon[] getIcons() {
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, inherit, null, null, null };
+		}
+		return icons;
+	}
 
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected Object getNewEdgeType(int index) {
-        return edgeType[index - BASE];
-    }
+	@Override
+	protected Object getNewEdgeType(int index) {
+		return edgeType[index - BASE];
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        if (index == 0) {
-            index = getButton();
-        }
-        if (index == TOP || index == BOTTOM) {
-            return Model.getUseCasesFactory().createUseCase();
-        } 
-        return Model.getUseCasesFactory().createActor();
-    }
-    
-    @Override
-    protected Object getNewNodeType(int index) {
-        if (index == TOP || index == BOTTOM) {
-            return Model.getMetaTypes().getUseCase();
-        } 
-        return Model.getMetaTypes().getActor();
-    }
+	@Override
+	protected Object getNewNode(int index) {
+		if (index == 0) {
+			index = getButton();
+		}
+		if (index == TOP || index == BOTTOM) {
+			return Model.getUseCasesFactory().createUseCase();
+		}
+		return Model.getUseCasesFactory().createActor();
+	}
 
-    @Override
-    protected boolean isReverseEdge(int index) {
-        if (index == BOTTOM) {
-            return true;
-        } 
-        return false;
-    }
+	@Override
+	protected Object getNewNodeType(int index) {
+		if (index == TOP || index == BOTTOM) {
+			return Model.getMetaTypes().getUseCase();
+		}
+		return Model.getMetaTypes().getActor();
+	}
+
+	@Override
+	protected boolean isReverseEdge(int index) {
+		if (index == BOTTOM) {
+			return true;
+		}
+		return false;
+	}
 
 }

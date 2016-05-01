@@ -45,25 +45,26 @@ package org.argouml.profile.internal.ocl.uml14;
  */
 public class OclType {
 
-    /**
-     * The name of the type
-     */
-    private String name;
+	/**
+	 * The name of the type
+	 */
+	private String name;
 
-    /**
-     * Default Constructor
-     * 
-     * @param type the type name
-     */
-    public OclType(String type) {
-        this.name = type;
-    }
+	/**
+	 * Default Constructor
+	 * 
+	 * @param type
+	 *            the type name
+	 */
+	public OclType(String type) {
+		this.name = type;
+	}
 
-    /**
-     * @return Returns the name.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return Returns the name.
+	 */
+	public String getName() {
+		return name;
+	}
 
 }

@@ -55,8 +55,9 @@ import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Class to display graphics for a UML classifier role in a  collaboration
- * diagram.<p>
+ * Class to display graphics for a UML classifier role in a collaboration
+ * diagram.
+ * <p>
  *
  * Stereotypes (if there are any) and name are displayed in the center of the
  * box.
@@ -68,345 +69,344 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigClassifierRole extends FigNodeModelElement {
 
-    private static final long serialVersionUID = 2563662467867242311L;
+	private static final long serialVersionUID = 2563662467867242311L;
 
 	private static final int DEFAULT_HEIGHT = 50;
 
-    private static final int DEFAULT_WIDTH = 90;
+	private static final int DEFAULT_WIDTH = 90;
 
-    /**
-     * The minimum padding top and bottom.
-     */
-    private static final int PADDING = 5;
+	/**
+	 * The minimum padding top and bottom.
+	 */
+	private static final int PADDING = 5;
 
-    /**
-     * The fig that is used for the complete classifier role.
-     * Identical in size to {@link FigNodeModelElement#bigPort}.<p>
-     */
-    private FigRect cover;
+	/**
+	 * The fig that is used for the complete classifier role. Identical in size
+	 * to {@link FigNodeModelElement#bigPort}.
+	 * <p>
+	 */
+	private FigRect cover;
 
-    /**
-     * Construct a FigClassifierRole.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size (size is ignored)
-     * @param settings render settings
-     */
-    public FigClassifierRole(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initClassifierRoleFigs();
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
-    }
+	/**
+	 * Construct a FigClassifierRole.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size (size is ignored)
+	 * @param settings
+	 *            render settings
+	 */
+	public FigClassifierRole(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initClassifierRoleFigs();
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
+	}
 
-    @Override
-    protected Fig createBigPortFig() {
-        // The big port. Color of the big port is irrelevant
-        return new FigRect(X0, Y0, DEFAULT_WIDTH, DEFAULT_HEIGHT,
-                DEBUG_COLOR, DEBUG_COLOR);
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		// The big port. Color of the big port is irrelevant
+		return new FigRect(X0, Y0, DEFAULT_WIDTH, DEFAULT_HEIGHT, DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-    /**
-     * There should be no size calculations here, 
-     * since not all attributes are set yet.
-     */
-    private void initClassifierRoleFigs() {
-        // The cover. 
-        cover = new FigRect(X0, Y0, DEFAULT_WIDTH, DEFAULT_HEIGHT, LINE_COLOR,
-                FILL_COLOR);
+	/**
+	 * There should be no size calculations here, since not all attributes are
+	 * set yet.
+	 */
+	private void initClassifierRoleFigs() {
+		// The cover.
+		cover = new FigRect(X0, Y0, DEFAULT_WIDTH, DEFAULT_HEIGHT, LINE_COLOR, FILL_COLOR);
 
-        // The stereotype. Width is the same as the cover, height is its default
-        // (since the font is not yet set). The text should be centered.
+		// The stereotype. Width is the same as the cover, height is its default
+		// (since the font is not yet set). The text should be centered.
 
-        getStereotypeFig().setLineWidth(0);
-        getStereotypeFig().setVisible(true);
-        //getStereotypeFig().setFilled(false);
-        getStereotypeFig().setFillColor(DEBUG_COLOR);
-        getStereotypeFig().setBounds(X0, Y0, 
-                DEFAULT_WIDTH, getStereotypeFig().getHeight());
+		getStereotypeFig().setLineWidth(0);
+		getStereotypeFig().setVisible(true);
+		// getStereotypeFig().setFilled(false);
+		getStereotypeFig().setFillColor(DEBUG_COLOR);
+		getStereotypeFig().setBounds(X0, Y0, DEFAULT_WIDTH, getStereotypeFig().getHeight());
 
-        // The name. Width is the same as the cover, height is the default.
-        // The text of the name will be centered by
-        // default. In the same place as the stereotype, since at this stage
-        // the stereotype is not displayed. Being a classifier role it is
-        // underlined
+		// The name. Width is the same as the cover, height is the default.
+		// The text of the name will be centered by
+		// default. In the same place as the stereotype, since at this stage
+		// the stereotype is not displayed. Being a classifier role it is
+		// underlined
 
-        getNameFig().setLineWidth(0);
-        getNameFig().setReturnAction(FigText.END_EDITING);
-        getNameFig().setFilled(false);
-        getNameFig().setUnderline(true);
+		getNameFig().setLineWidth(0);
+		getNameFig().setReturnAction(FigText.END_EDITING);
+		getNameFig().setFilled(false);
+		getNameFig().setUnderline(true);
 
-        getNameFig().setBounds(X0, Y0, 
-                DEFAULT_WIDTH, getStereotypeFig().getHeight());
+		getNameFig().setBounds(X0, Y0, DEFAULT_WIDTH, getStereotypeFig().getHeight());
 
-        // add Figs to the FigNode in back-to-front order
+		// add Figs to the FigNode in back-to-front order
 
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getStereotypeFig());
-        addFig(getNameFig());
-    }
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getStereotypeFig());
+		addFig(getNameFig());
+	}
 
-    /*
-     * The NotationProvider for the ClassifierRole. <p>
-     * 
-     * The syntax is for UML is:
-     * <pre>
-     * baselist := [base] [, base]*
-     * classifierRole := [name] [/ role] [: baselist]
-     * </pre></p>
-     * 
-     * The <code>name</code> is the Instance name, not used currently.
-     * See ClassifierRoleNotationUml for details.<p>
-     *
-     * This syntax is compatible with the UML 1.4 specification.
-     */
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_CLASSIFIERROLE;
-    }
+	/*
+	 * The NotationProvider for the ClassifierRole. <p>
+	 * 
+	 * The syntax is for UML is: <pre> baselist := [base] [, base]*
+	 * classifierRole := [name] [/ role] [: baselist] </pre></p>
+	 * 
+	 * The <code>name</code> is the Instance name, not used currently. See
+	 * ClassifierRoleNotationUml for details.<p>
+	 *
+	 * This syntax is compatible with the UML 1.4 specification.
+	 */
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_CLASSIFIERROLE;
+	}
 
-    /**
-     * Version of the clone to ensure all sub-figs are copied.<p>
-     *
-     * Uses the generic superclass clone which gives a list of all the
-     * figs. Then initialize our instance variables from this list.<p>
-     *
-     * @return  A new copy of the the current fig.
-     */
-    @Override
-    public Object clone() {
-        FigClassifierRole figClone = (FigClassifierRole) super.clone();
-        Iterator it = figClone.getFigs().iterator();
+	/**
+	 * Version of the clone to ensure all sub-figs are copied.
+	 * <p>
+	 *
+	 * Uses the generic superclass clone which gives a list of all the figs.
+	 * Then initialize our instance variables from this list.
+	 * <p>
+	 *
+	 * @return A new copy of the the current fig.
+	 */
+	@Override
+	public Object clone() {
+		FigClassifierRole figClone = (FigClassifierRole) super.clone();
+		Iterator it = figClone.getFigs().iterator();
 
-        figClone.setBigPort((FigRect) it.next());
-        figClone.cover   = (FigRect) it.next();
-        it.next();
-        figClone.setNameFig((FigText) it.next());
+		figClone.setBigPort((FigRect) it.next());
+		figClone.cover = (FigRect) it.next();
+		it.next();
+		figClone.setNameFig((FigText) it.next());
 
-        return figClone;
-    }
+		return figClone;
+	}
 
-    /**
-     * Update the stereotype text.<p>
-     *
-     * If the stereotype text is non-existent, we must make sure it is
-     * marked not displayed, and update the display accordingly.<p>
-     *
-     * Similarly if there is text, we must make sure it is marked
-     * displayed.<p>
-     */
-    @Override
-    protected void updateStereotypeText() {
-        Rectangle rect = getBounds();
+	/**
+	 * Update the stereotype text.
+	 * <p>
+	 *
+	 * If the stereotype text is non-existent, we must make sure it is marked
+	 * not displayed, and update the display accordingly.
+	 * <p>
+	 *
+	 * Similarly if there is text, we must make sure it is marked displayed.
+	 * <p>
+	 */
+	@Override
+	protected void updateStereotypeText() {
+		Rectangle rect = getBounds();
 
-        int stereotypeHeight = 0;
-        if (getStereotypeFig().isVisible()) {
-            stereotypeHeight = getStereotypeFig().getHeight();
-        }
-        int heightWithoutStereo = getHeight() - stereotypeHeight;
+		int stereotypeHeight = 0;
+		if (getStereotypeFig().isVisible()) {
+			stereotypeHeight = getStereotypeFig().getHeight();
+		}
+		int heightWithoutStereo = getHeight() - stereotypeHeight;
 
-        getStereotypeFig().populate();
+		getStereotypeFig().populate();
 
-        stereotypeHeight = 0;
-        if (getStereotypeFig().isVisible()) {
-            stereotypeHeight = getStereotypeFig().getHeight();
-        }
-        
-        int minWidth = this.getMinimumSize().width;
-        if (minWidth > rect.width) {
-            rect.width = minWidth;
-        }
+		stereotypeHeight = 0;
+		if (getStereotypeFig().isVisible()) {
+			stereotypeHeight = getStereotypeFig().getHeight();
+		}
 
-        setBounds(
-                rect.x,
-                rect.y,
-                rect.width,
-                heightWithoutStereo + stereotypeHeight);
-        calcBounds();
-    }
+		int minWidth = this.getMinimumSize().width;
+		if (minWidth > rect.width) {
+			rect.width = minWidth;
+		}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        cover.setLineColor(col);
-    }
+		setBounds(rect.x, rect.y, rect.width, heightWithoutStereo + stereotypeHeight);
+		calcBounds();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return cover.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		cover.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        cover.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return cover.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return cover.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		cover.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return cover.getFillColor();
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return cover.getLineWidth();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return cover.getLineWidth();
+	}
 
+	/**
+	 * Work out the minimum size that this Fig can be.
+	 * <p>
+	 *
+	 * This should be the size of the stereotype + name + padding. However we
+	 * allow for the possible case that the cover or big port could be bigger
+	 * still.
+	 * <p>
+	 *
+	 * @return The minimum size of this fig.
+	 */
+	@Override
+	public Dimension getMinimumSize() {
 
-    /**
-     * Work out the minimum size that this Fig can be.<p>
-     *
-     * This should be the size of the stereotype + name + padding. However
-     * we allow for the possible case that the cover or big port could be
-     * bigger still.<p>
-     *
-     * @return  The minimum size of this fig.
-     */
-    @Override
-    public Dimension getMinimumSize() {
+		Dimension stereoMin = getStereotypeFig().getMinimumSize();
+		Dimension nameMin = getNameFig().getMinimumSize();
 
-        Dimension stereoMin  = getStereotypeFig().getMinimumSize();
-        Dimension nameMin    = getNameFig().getMinimumSize();
+		Dimension newMin = new Dimension(nameMin.width, nameMin.height);
 
-        Dimension newMin    = new Dimension(nameMin.width, nameMin.height);
+		if (!(stereoMin.height == 0 && stereoMin.width == 0)) {
+			newMin.width = Math.max(newMin.width, stereoMin.width);
+			newMin.height += stereoMin.height;
+		}
 
-        if (!(stereoMin.height == 0 && stereoMin.width == 0)) {
-            newMin.width   = Math.max(newMin.width, stereoMin.width);
-            newMin.height += stereoMin.height;
-        }
-        
-        newMin.height += PADDING;
+		newMin.height += PADDING;
 
-        return newMin;
-    }
+		return newMin;
+	}
 
+	/**
+	 * Override setBounds to keep shapes looking right.
+	 * <p>
+	 *
+	 * Set the bounds of all components of the Fig. The stereotype (if any) and
+	 * name are centred in the fig.
+	 * <p>
+	 *
+	 * We allow for the requested bounds being too small, and impose our minimum
+	 * size if necessary.
+	 * <p>
+	 *
+	 * @param x
+	 *            X coordinate of upper left corner
+	 *
+	 * @param y
+	 *            Y coordinate of upper left corner
+	 *
+	 * @param w
+	 *            width of bounding box
+	 *
+	 * @param h
+	 *            height of bounding box
+	 *
+	 * @author 10 Apr 2002. Jeremy Bennett (mail@jeremybennett.com). Patch to
+	 *         allow for stereotype as well.
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
 
-    /**
-     * Override setBounds to keep shapes looking right.<p>
-     *
-     * Set the bounds of all components of the Fig. The stereotype (if any)
-     * and name are centred in the fig.<p>
-     *
-     * We allow for the requested bounds being too small, and impose our
-     * minimum size if necessary.<p>
-     *
-     * @param x  X coordinate of upper left corner
-     *
-     * @param y  Y coordinate of upper left corner
-     *
-     * @param w  width of bounding box
-     *
-     * @param h  height of bounding box
-     *
-     * @author 10 Apr 2002. Jeremy Bennett (mail@jeremybennett.com). Patch to
-     *         allow for stereotype as well.
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
+		// In the rather unlikely case that we have no name, we give up.
 
-        // In the rather unlikely case that we have no name, we give up.
+		if (getNameFig() == null) {
+			return;
+		}
 
-        if (getNameFig() == null) {
-            return;
-        }
+		// Remember where we are at present, so we can tell GEF later. Then
+		// check we are as big as the minimum size
 
-        // Remember where we are at present, so we can tell GEF later. Then
-        // check we are as big as the minimum size
+		Rectangle oldBounds = getBounds();
+		Dimension minSize = getMinimumSize();
 
-        Rectangle oldBounds = getBounds();
-        Dimension minSize   = getMinimumSize();
+		int newW = (minSize.width > w) ? minSize.width : w;
+		int newH = (minSize.height > h) ? minSize.height : h;
 
-        int newW = (minSize.width  > w) ? minSize.width  : w;
-        int newH = (minSize.height > h) ? minSize.height : h;
+		Dimension stereoMin = getStereotypeFig().getMinimumSize();
+		Dimension nameMin = getNameFig().getMinimumSize();
 
-        Dimension stereoMin = getStereotypeFig().getMinimumSize();
-        Dimension nameMin   = getNameFig().getMinimumSize();
+		// Work out the padding each side, depending on whether the stereotype
+		// is displayed and set bounds accordingly
 
-        // Work out the padding each side, depending on whether the stereotype
-        // is displayed and set bounds accordingly
+		int extraEach = (newH - nameMin.height - stereoMin.height) / 2;
+		if (!(stereoMin.height == 0 && stereoMin.width == 0)) {
+			/* At least one stereotype is visible */
+			getStereotypeFig().setBounds(x, y + extraEach, newW, getStereotypeFig().getHeight());
+		}
+		getNameFig().setBounds(x, y + stereoMin.height + extraEach, newW, nameMin.height);
 
-        int extraEach = (newH - nameMin.height - stereoMin.height) / 2;
-        if (!(stereoMin.height == 0 && stereoMin.width == 0)) {
-            /* At least one stereotype is visible */
-            getStereotypeFig().setBounds(x, y + extraEach, newW, 
-                    getStereotypeFig().getHeight());
-        }
-        getNameFig().setBounds(x, y + stereoMin.height + extraEach, newW,
-                nameMin.height);
+		// Set the bounds of the bigPort and cover
 
-        // Set the bounds of the bigPort and cover
+		getBigPort().setBounds(x, y, newW, newH);
+		cover.setBounds(x, y, newW, newH);
 
-        getBigPort().setBounds(x, y, newW, newH);
-        cover.setBounds(x, y, newW, newH);
+		// Record the changes in the instance variables of our parent, tell GEF
+		// and trigger the edges to reconsider themselves.
 
-        // Record the changes in the instance variables of our parent, tell GEF
-        // and trigger the edges to reconsider themselves.
+		_x = x;
+		_y = y;
+		_w = newW;
+		_h = newH;
 
-        _x = x;
-        _y = y;
-        _w = newW;
-        _h = newH;
+		firePropChange("bounds", oldBounds, getBounds());
+		updateEdges();
+	}
 
-        firePropChange("bounds", oldBounds, getBounds());
-        updateEdges();
-    }
+	@Override
+	protected void updateLayout(UmlChangeEvent event) {
+		super.updateLayout(event);
+		if (event instanceof AddAssociationEvent || event instanceof AttributeChangeEvent) {
+			// TODO: We need to be more specific here about what to build
+			renderingChanged();
+			// TODO: Is this really needed?
+			damage();
+		}
+	}
 
-    @Override
-    protected void updateLayout(UmlChangeEvent event) {
-        super.updateLayout(event);
-        if (event instanceof AddAssociationEvent
-                || event instanceof AttributeChangeEvent) {
-            // TODO: We need to be more specific here about what to build
-            renderingChanged();
-            // TODO: Is this really needed?
-            damage();
-        }
-    }
-
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionClassifierRole(this);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionClassifierRole(this);
+	}
 
 }

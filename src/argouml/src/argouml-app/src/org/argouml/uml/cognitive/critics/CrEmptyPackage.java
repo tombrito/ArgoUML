@@ -46,49 +46,50 @@ import org.argouml.cognitive.Designer;
 import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
-
 /**
  * A critic to check for empty packages.
  *
  * @author Jason Robbins
  */
 
-//TODO: different critic for packages consisting only
-//of references to elements of other packages?
+// TODO: different critic for packages consisting only
+// of references to elements of other packages?
 
 public class CrEmptyPackage extends CrUML {
-    private static final long serialVersionUID = -7671260388283004938L;
+	private static final long serialVersionUID = -7671260388283004938L;
 
-    /**
-     * The constructor.
-     */
-    public CrEmptyPackage() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.MODULARITY);
-	addTrigger("ownedElement");
-    }
-
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAPackage(dm))) {
-	    return NO_PROBLEM;
+	/**
+	 * The constructor.
+	 */
+	public CrEmptyPackage() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.MODULARITY);
+		addTrigger("ownedElement");
 	}
-	Collection elems = Model.getFacade().getOwnedElements(dm);
-	if (elems.size() == 0) {
-//          LOG.log(Level.FINE, "Found empty package " + Model.getFacade().toString(dm));
-            return PROBLEM_FOUND;
-        }
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getPackage());
-        return ret;
-    }
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAPackage(dm))) {
+			return NO_PROBLEM;
+		}
+		Collection elems = Model.getFacade().getOwnedElements(dm);
+		if (elems.size() == 0) {
+			// LOG.log(Level.FINE, "Found empty package " +
+			// Model.getFacade().toString(dm));
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getPackage());
+		return ret;
+	}
 
 }

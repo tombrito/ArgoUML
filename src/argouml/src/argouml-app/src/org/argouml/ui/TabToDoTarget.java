@@ -45,12 +45,12 @@ import org.argouml.ui.targetmanager.TargetListener;
  */
 public interface TabToDoTarget extends TargetListener {
 
-    /**
-     * Set the target.
-     *
-     * @param target
-     *            the new target to set
-     */
-    public void setTarget(Object target);
+	/**
+	 * Set the target.
+	 *
+	 * @param target
+	 *            the new target to set
+	 */
+	public void setTarget(Object target);
 
 }

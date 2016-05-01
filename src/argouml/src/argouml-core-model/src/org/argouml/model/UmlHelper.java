@@ -41,71 +41,81 @@ package org.argouml.model;
 import java.util.Collection;
 
 /**
- * The interface for the Helper for Uml.<p>
+ * The interface for the Helper for Uml.
+ * <p>
  *
  * Created from the old UmlHelper.
  */
 public interface UmlHelper {
-    
-    /**
-     * Direction of the movement.
-     */
-    public enum Direction {
-        UP, DOWN, TOP, BOTTOM;
-    }
-    
-    /**
-     * Ensures that all of the elements in a model are registered
-     * to the UmlModelListener.  This is useful when the MModel is
-     * not created by the UmlFactory.
-     *
-     * @param model the UML model
-     */
-    void addListenersToModel(Object model);
 
-    /**
-     * Utility method to quickly delete a collection of modelelements. This
-     * method should only be called from within the model component. The only
-     * reason it is public is that the other helpers/factories are in other
-     * packages and therefore cannot see this method if it is not public.
-     *
-     * @param col a collection of modelelements
-     */
-    void deleteCollection(Collection col);
+	/**
+	 * Direction of the movement.
+	 */
+	public enum Direction {
+		UP, DOWN, TOP, BOTTOM;
+	}
 
-    /**
-     * Returns the source of some relationship.
-     * This is the element in binary relations from which a relation 'departs'.
-     *
-     * @param relationShip the relationship to be tested
-     * @return the source of the relationship
-     */
-    Object getSource(Object relationShip);
+	/**
+	 * Ensures that all of the elements in a model are registered to the
+	 * UmlModelListener. This is useful when the MModel is not created by the
+	 * UmlFactory.
+	 *
+	 * @param model
+	 *            the UML model
+	 */
+	void addListenersToModel(Object model);
 
-    /**
-     * Returns the destination of some relationship.
-     * This is the element in binary relations at which a relation 'arrives'.
-     *
-     * @param relationShip  the relationship to be tested
-     * @return the destination of the relationship
-     */
-    Object getDestination(Object relationShip);
-    
-    /**
-     * Returns true if a model element can be moved within its parent.
-     * 
-     * @return the parent model element
-     * @param element the element to move
-     */
-    boolean isMovable(Object element);
-    
-    /**
-     * This is used to change the ordering of elements that are already
-     * in some container. E.g. attributes within a class. They can be moved
-     * up, down or to top or bottom. 
-     * @param parent TODO
-     * @param element the element to move
-     * @param direction the direction of movement
-     */
-    void move(Object parent, Object element, Direction direction);
+	/**
+	 * Utility method to quickly delete a collection of modelelements. This
+	 * method should only be called from within the model component. The only
+	 * reason it is public is that the other helpers/factories are in other
+	 * packages and therefore cannot see this method if it is not public.
+	 *
+	 * @param col
+	 *            a collection of modelelements
+	 */
+	void deleteCollection(Collection col);
+
+	/**
+	 * Returns the source of some relationship. This is the element in binary
+	 * relations from which a relation 'departs'.
+	 *
+	 * @param relationShip
+	 *            the relationship to be tested
+	 * @return the source of the relationship
+	 */
+	Object getSource(Object relationShip);
+
+	/**
+	 * Returns the destination of some relationship. This is the element in
+	 * binary relations at which a relation 'arrives'.
+	 *
+	 * @param relationShip
+	 *            the relationship to be tested
+	 * @return the destination of the relationship
+	 */
+	Object getDestination(Object relationShip);
+
+	/**
+	 * Returns true if a model element can be moved within its parent.
+	 * 
+	 * @return the parent model element
+	 * @param element
+	 *            the element to move
+	 */
+	boolean isMovable(Object element);
+
+	/**
+	 * This is used to change the ordering of elements that are already in some
+	 * container. E.g. attributes within a class. They can be moved up, down or
+	 * to top or bottom.
+	 * 
+	 * @param parent
+	 *            TODO
+	 * @param element
+	 *            the element to move
+	 * @param direction
+	 *            the direction of movement
+	 */
+	void move(Object parent, Object element, Direction direction);
 }

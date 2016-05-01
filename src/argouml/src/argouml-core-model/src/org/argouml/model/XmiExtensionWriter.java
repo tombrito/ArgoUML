@@ -49,11 +49,14 @@ import java.io.Writer;
  */
 public interface XmiExtensionWriter {
 
-    /**
-     * Write XMI to registered writer.
-     * @param writer the writer
-     *
-     * @throws IOException if it goes wrong
-     */
-    void write(Writer writer) throws IOException;
+	/**
+	 * Write XMI to registered writer.
+	 * 
+	 * @param writer
+	 *            the writer
+	 *
+	 * @throws IOException
+	 *             if it goes wrong
+	 */
+	void write(Writer writer) throws IOException;
 }

@@ -61,97 +61,93 @@ import org.argouml.ui.UndoableAction;
 @UmlModelMutator
 public class ActionAddStereotype extends UndoableAction {
 
-    private static final long serialVersionUID = 5708852651371644279L;
+	private static final long serialVersionUID = 5708852651371644279L;
 
 	private Collection<Object> modelElements;
 
-    private Object stereotype;
+	private Object stereotype;
 
-    /**
-     * Constructor.
-     * 
-     * @param me The model element.
-     * @param st The stereotype.
-     */
-    public ActionAddStereotype(Object me, Object st) {
-        super(Translator.localize(buildString(st)), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, Translator.localize(buildString(st)));
-        modelElements = new ArrayList<Object>();
-        if (me != null) {
-            modelElements.add(me);
-        }
-        stereotype = st;
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param me
+	 *            The model element.
+	 * @param st
+	 *            The stereotype.
+	 */
+	public ActionAddStereotype(Object me, Object st) {
+		super(Translator.localize(buildString(st)), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(buildString(st)));
+		modelElements = new ArrayList<Object>();
+		if (me != null) {
+			modelElements.add(me);
+		}
+		stereotype = st;
+	}
 
-    /**
-     * Constructor.
-     * 
-     * @param coll The collection of model elements.
-     * @param st The stereotype.
-     */
-    public ActionAddStereotype(Collection<Object> coll, Object st) {
-        super(Translator.localize(buildString(st)), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, Translator.localize(buildString(st)));
-        modelElements = new ArrayList<Object>();
-        if (coll != null) {
-            modelElements.addAll(coll);
-        }
-        stereotype = st;
-    }
+	/**
+	 * Constructor.
+	 * 
+	 * @param coll
+	 *            The collection of model elements.
+	 * @param st
+	 *            The stereotype.
+	 */
+	public ActionAddStereotype(Collection<Object> coll, Object st) {
+		super(Translator.localize(buildString(st)), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(buildString(st)));
+		modelElements = new ArrayList<Object>();
+		if (coll != null) {
+			modelElements.addAll(coll);
+		}
+		stereotype = st;
+	}
 
-    private static String buildString(Object st) {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        ProjectSettings ps = p.getProjectSettings();
-        return NotationUtilityUml.generateStereotype(st, ps
-                .getNotationSettings().isUseGuillemets());
-    }
+	private static String buildString(Object st) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		ProjectSettings ps = p.getProjectSettings();
+		return NotationUtilityUml.generateStereotype(st, ps.getNotationSettings().isUseGuillemets());
+	}
 
-    /*
-     * @see
-     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        super.actionPerformed(ae);
-        boolean isContained = false;
-        if (!modelElements.isEmpty()) {
-            isContained = Model.getFacade().getStereotypes(
-                    modelElements.iterator().next()).contains(stereotype);
-        }
-        for (Object modelElement : modelElements) {
-            if (isContained
-                    && Model.getFacade().getStereotypes(modelElement).contains(
-                            stereotype)) {
-                Model.getCoreHelper()
-                        .removeStereotype(modelElement, stereotype);
-            } else if (!isContained
-                    && !Model.getFacade().getStereotypes(modelElement)
-                            .contains(stereotype)) {
-                Model.getCoreHelper().addStereotype(modelElement, stereotype);
-            }
-        }
-        ProjectManager.getManager().updateRoots();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		boolean isContained = false;
+		if (!modelElements.isEmpty()) {
+			isContained = Model.getFacade().getStereotypes(modelElements.iterator().next()).contains(stereotype);
+		}
+		for (Object modelElement : modelElements) {
+			if (isContained && Model.getFacade().getStereotypes(modelElement).contains(stereotype)) {
+				Model.getCoreHelper().removeStereotype(modelElement, stereotype);
+			} else if (!isContained && !Model.getFacade().getStereotypes(modelElement).contains(stereotype)) {
+				Model.getCoreHelper().addStereotype(modelElement, stereotype);
+			}
+		}
+		ProjectManager.getManager().updateRoots();
+	}
 
-    /*
-     * @see javax.swing.Action#getValue(java.lang.String)
-     */
-    @Override
-    public Object getValue(String key) {
-        if ("SELECTED".equals(key)) {
-            if (modelElements.isEmpty()) {
-                return Boolean.FALSE;
-            }
-            Object modelElement = modelElements.iterator().next();
-            if (Model.getFacade().getStereotypes(modelElement).contains(
-                    stereotype)) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-        }
-        return super.getValue(key);
-    }
+	/*
+	 * @see javax.swing.Action#getValue(java.lang.String)
+	 */
+	@Override
+	public Object getValue(String key) {
+		if ("SELECTED".equals(key)) {
+			if (modelElements.isEmpty()) {
+				return Boolean.FALSE;
+			}
+			Object modelElement = modelElements.iterator().next();
+			if (Model.getFacade().getStereotypes(modelElement).contains(stereotype)) {
+				return Boolean.TRUE;
+			} else {
+				return Boolean.FALSE;
+			}
+		}
+		return super.getValue(key);
+	}
 }

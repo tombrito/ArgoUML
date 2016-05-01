@@ -40,48 +40,43 @@ package org.argouml.application.api;
 
 import java.util.List;
 
-
 /**
- * Any subsystem that needs to initialise itself, 
- * could implement this interface.
- * The Main class (or any other top-level class 
- * that knows about the subsystem) then takes care 
- * of the initialisation,
- * without causing dependency cycles.
+ * Any subsystem that needs to initialise itself, could implement this
+ * interface. The Main class (or any other top-level class that knows about the
+ * subsystem) then takes care of the initialisation, without causing dependency
+ * cycles.
  *
  * @author Michiel
  */
 public interface InitSubsystem {
 
-    /**
-     * ArgoUML shall call this at initialisation time, 
-     * before the other operations in this interface are called.
-     * <p>
-     * Use it at will.
-     */
-    public void init();
-    
-    /**
-     * This method shall not return null.
-     * 
-     * @return an ordered list of tab panels 
-     * to be added to the settings dialog
-     */
-    public List<GUISettingsTabInterface> getSettingsTabs();
+	/**
+	 * ArgoUML shall call this at initialisation time, before the other
+	 * operations in this interface are called.
+	 * <p>
+	 * Use it at will.
+	 */
+	public void init();
 
-    /**
-     * This method shall not return null.
-     * 
-     * @return an ordered list of tab panels 
-     * to be added to the project-settings dialog
-     */
-    public List<GUISettingsTabInterface> getProjectSettingsTabs();
+	/**
+	 * This method shall not return null.
+	 * 
+	 * @return an ordered list of tab panels to be added to the settings dialog
+	 */
+	public List<GUISettingsTabInterface> getSettingsTabs();
 
-    /**
-     * This method shall not return null.
-     * 
-     * @return an ordered list of Tabs
-     * to be added to the DetailsPanel
-     */
-    public List<AbstractArgoJPanel> getDetailsTabs();
+	/**
+	 * This method shall not return null.
+	 * 
+	 * @return an ordered list of tab panels to be added to the project-settings
+	 *         dialog
+	 */
+	public List<GUISettingsTabInterface> getProjectSettingsTabs();
+
+	/**
+	 * This method shall not return null.
+	 * 
+	 * @return an ordered list of Tabs to be added to the DetailsPanel
+	 */
+	public List<AbstractArgoJPanel> getDetailsTabs();
 }

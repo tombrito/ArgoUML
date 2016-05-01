@@ -54,44 +54,42 @@ import org.argouml.uml.ui.UMLCheckBox2;
  * @since Jan 27, 2003
  */
 public class ActionSetGeneralizableElementLeaf extends UndoableAction {
-    private static final long serialVersionUID = 4861135605321861574L;
+	private static final long serialVersionUID = 4861135605321861574L;
 	/**
-     * The instance.
-     */
-    private static final ActionSetGeneralizableElementLeaf SINGLETON =
-        new ActionSetGeneralizableElementLeaf();
+	 * The instance.
+	 */
+	private static final ActionSetGeneralizableElementLeaf SINGLETON = new ActionSetGeneralizableElementLeaf();
 
-    /**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    protected ActionSetGeneralizableElementLeaf() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	protected ActionSetGeneralizableElementLeaf() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof UMLCheckBox2) {
-            UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-            Object target = source.getTarget();
-            if (Model.getFacade().isAGeneralizableElement(target)
-                    || Model.getFacade().isAOperation(target)
-                    || Model.getFacade().isAReception(target)) {
-                Model.getCoreHelper().setLeaf(target, source.isSelected());
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAGeneralizableElement(target) || Model.getFacade().isAOperation(target)
+					|| Model.getFacade().isAReception(target)) {
+				Model.getCoreHelper().setLeaf(target, source.isSelected());
+			}
+		}
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionSetGeneralizableElementLeaf getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionSetGeneralizableElementLeaf getInstance() {
+		return SINGLETON;
+	}
 
 }

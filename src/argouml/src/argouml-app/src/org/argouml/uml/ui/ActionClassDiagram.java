@@ -51,61 +51,51 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public class ActionClassDiagram extends ActionAddDiagram {
 
-    private static final Logger LOG =
-        Logger.getLogger(ActionClassDiagram.class.getName());
+	private static final Logger LOG = Logger.getLogger(ActionClassDiagram.class.getName());
 
-    /**
-     * Constructor.
-     */
-    public ActionClassDiagram() {
-        super("action.class-diagram");
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionClassDiagram() {
+		super("action.class-diagram");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    @Deprecated
-    public ArgoDiagram createDiagram(Object ns) {
-        if (isValidNamespace(ns)) {
-            return DiagramFactory.getInstance().createDiagram(
-                    DiagramFactory.DiagramType.Class,
-                    ns,
-                    null);
-        }
-        LOG.log(Level.SEVERE, "No namespace as argument {0}", ns);
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
+	 */
+	@SuppressWarnings("deprecation")
+	@Override
+	@Deprecated
+	public ArgoDiagram createDiagram(Object ns) {
+		if (isValidNamespace(ns)) {
+			return DiagramFactory.getInstance().createDiagram(DiagramFactory.DiagramType.Class, ns, null);
+		}
+		LOG.log(Level.SEVERE, "No namespace as argument {0}", ns);
 
-        throw new IllegalArgumentException(
-            "The argument " + ns + "is not a namespace.");
-    }
+		throw new IllegalArgumentException("The argument " + ns + "is not a namespace.");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
-     */
-    @Override
-    public ArgoDiagram createDiagram(Object ns, DiagramSettings settings) {
-        if (isValidNamespace(ns)) {
-            return DiagramFactory.getInstance().create(
-                    DiagramFactory.DiagramType.Class,
-                    ns,
-                    settings);
-        }
-        LOG.log(Level.SEVERE, "No namespace as argument {0}", ns);
-        throw new IllegalArgumentException(
-            "The argument " + ns + "is not a namespace.");
-    }
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#createDiagram(Object)
+	 */
+	@Override
+	public ArgoDiagram createDiagram(Object ns, DiagramSettings settings) {
+		if (isValidNamespace(ns)) {
+			return DiagramFactory.getInstance().create(DiagramFactory.DiagramType.Class, ns, settings);
+		}
+		LOG.log(Level.SEVERE, "No namespace as argument {0}", ns);
+		throw new IllegalArgumentException("The argument " + ns + "is not a namespace.");
+	}
 
+	/*
+	 * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
+	 */
+	public boolean isValidNamespace(Object handle) {
+		return Model.getFacade().isANamespace(handle);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.ActionAddDiagram#isValidNamespace(Object)
-     */
-    public boolean isValidNamespace(Object handle) {
-        return Model.getFacade().isANamespace(handle);
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 2415943949021223859L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 2415943949021223859L;
 }

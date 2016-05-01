@@ -43,41 +43,43 @@ import java.awt.Rectangle;
 
 import org.argouml.uml.diagram.DiagramSettings;
 
-
 /**
- * A FigSingleLineText that represents the name of 
- * a node type of modelelement,
- * which handles cases where the projectsettings 
- * indicate that the node name should be in bold. <p>
+ * A FigSingleLineText that represents the name of a node type of modelelement,
+ * which handles cases where the projectsettings indicate that the node name
+ * should be in bold.
+ * <p>
  * 
- * Since this Fig follows the setting "Show name of NODES in bold font",
- * it would be wise to use it for nodes only. See issue 5013.
+ * Since this Fig follows the setting "Show name of NODES in bold font", it
+ * would be wise to use it for nodes only. See issue 5013.
  *
  * @author Michiel
  */
 class FigNameWithAbstractAndBold extends FigNameWithAbstract {
 
-    private static final long serialVersionUID = 6745960767954692417L;
+	private static final long serialVersionUID = 6745960767954692417L;
 
 	/**
-     * Construct a name Fig that shows whether associated item is abstract
-     * (italics) or bold.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if fig should never contract
-     */
-    public FigNameWithAbstractAndBold(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
-        super(owner, bounds, settings, expandOnly);
-    }
+	 * Construct a name Fig that shows whether associated item is abstract
+	 * (italics) or bold.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if fig should never contract
+	 */
+	public FigNameWithAbstractAndBold(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
+		super(owner, bounds, settings, expandOnly);
+	}
 
-    @Override
-    protected int getFigFontStyle() {
-        boolean showBoldName = getSettings().isShowBoldNames();
-        int boldStyle =  showBoldName ? Font.BOLD : Font.PLAIN;
+	@Override
+	protected int getFigFontStyle() {
+		boolean showBoldName = getSettings().isShowBoldNames();
+		int boldStyle = showBoldName ? Font.BOLD : Font.PLAIN;
 
-        return super.getFigFontStyle() | boldStyle;
-    }
+		return super.getFigFontStyle() | boldStyle;
+	}
 }

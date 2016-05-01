@@ -37,66 +37,70 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.application.events;
+
 import java.util.EventObject;
 
 /**
  * The root class from which all event state objects within Argo are derived.
  *
- * All ArgoEvents are constructed with a reference to the object,
- * the "source", that is logically deemed to be the object
- * upon which the Event in question initially occurred upon.
+ * All ArgoEvents are constructed with a reference to the object, the "source",
+ * that is logically deemed to be the object upon which the Event in question
+ * initially occurred upon.
  */
-public abstract class ArgoEvent extends EventObject
-    implements ArgoEventTypes {
+public abstract class ArgoEvent extends EventObject implements ArgoEventTypes {
 
-    private static final long serialVersionUID = -3401168641539027479L;
+	private static final long serialVersionUID = -3401168641539027479L;
 	private int eventType = 0;
 
-    /**
-     * The constructor.
-     *
-     * @param eT the event type
-     * @param src the sourc, that triggered the event
-     */
-    public ArgoEvent(int eT, Object src) {
-        super(src);
-	eventType = eT;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param eT
+	 *            the event type
+	 * @param src
+	 *            the sourc, that triggered the event
+	 */
+	public ArgoEvent(int eT, Object src) {
+		super(src);
+		eventType = eT;
+	}
 
-    /**
-     * @return the event type
-     */
-    public int getEventType() { return eventType; }
+	/**
+	 * @return the event type
+	 */
+	public int getEventType() {
+		return eventType;
+	}
 
-    /**
-     * Indicates the start of the range for any events.
-     *
-     * @return the first id reserved for events.
-     */
-    public int getEventStartRange() { return ANY_EVENT; }
+	/**
+	 * Indicates the start of the range for any events.
+	 *
+	 * @return the first id reserved for events.
+	 */
+	public int getEventStartRange() {
+		return ANY_EVENT;
+	}
 
-    /**
-     * Indicates the end of the range for notation events.<p>
-     * 
-     * TODO: Remove this - not used anyway.
-     *
-     * @return the last id reserved for events.
-     */
-    public int getEventEndRange() {
-        return (getEventStartRange() == 0
-	       ? ARGO_EVENT_END
-	       : getEventStartRange() + 99);
-    }
+	/**
+	 * Indicates the end of the range for notation events.
+	 * <p>
+	 * 
+	 * TODO: Remove this - not used anyway.
+	 *
+	 * @return the last id reserved for events.
+	 */
+	public int getEventEndRange() {
+		return (getEventStartRange() == 0 ? ARGO_EVENT_END : getEventStartRange() + 99);
+	}
 
-    /**
-     * Provides formatted description of the event.
-     *
-     * @return the formatted information.
-     */
-    public String toString() {
-        return "{" + getClass().getName() + ":" + eventType
-            + "(" + getEventStartRange() + "-" + getEventEndRange() + ")"
-            + "/" + super.toString() + "}";
-    }
+	/**
+	 * Provides formatted description of the event.
+	 *
+	 * @return the formatted information.
+	 */
+	public String toString() {
+		return "{" + getClass().getName() + ":" + eventType + "(" + getEventStartRange() + "-" + getEventEndRange()
+				+ ")" + "/" + super.toString() + "}";
+	}
 
 }

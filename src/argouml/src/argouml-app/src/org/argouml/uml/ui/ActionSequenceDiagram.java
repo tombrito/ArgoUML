@@ -47,20 +47,18 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public final class ActionSequenceDiagram extends ActionNewDiagram {
 
-    private static final long serialVersionUID = -1011522701740993462L;
+	private static final long serialVersionUID = -1011522701740993462L;
 
 	/**
-     * Constructor.
-     */
-    public ActionSequenceDiagram() {
-        super("action.sequence-diagram");
-    }
+	 * Constructor.
+	 */
+	public ActionSequenceDiagram() {
+		super("action.sequence-diagram");
+	}
 
-    public ArgoDiagram createDiagram(Object namespace, 
-            DiagramSettings settings) {
-        return DiagramFactory.getInstance().create(
-                DiagramFactory.DiagramType.Sequence,
-                createCollaboration(namespace), settings);
-    }
+	public ArgoDiagram createDiagram(Object namespace, DiagramSettings settings) {
+		return DiagramFactory.getInstance().create(DiagramFactory.DiagramType.Sequence, createCollaboration(namespace),
+				settings);
+	}
 
 }

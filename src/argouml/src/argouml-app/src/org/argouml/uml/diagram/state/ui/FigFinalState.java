@@ -62,244 +62,232 @@ import org.tigris.gef.presentation.FigCircle;
  */
 public class FigFinalState extends FigStateVertex {
 
-    private static final long serialVersionUID = -8876016932440856411L;
+	private static final long serialVersionUID = -8876016932440856411L;
 
 	/**
-     * The diameter of the disc when the line width would be 0
-     */
-    private static final int DISC = 22;
-    
-    /**
-     * The fixed outside diameter.
-     */
-    private static final int DIA = DISC + 2 * LINE_WIDTH;
+	 * The diameter of the disc when the line width would be 0
+	 */
+	private static final int DISC = 22;
 
-    private FigCircle inCircle;
-    private FigCircle outCircle;
+	/**
+	 * The fixed outside diameter.
+	 */
+	private static final int DIA = DISC + 2 * LINE_WIDTH;
 
-    
-    /**
-     * Construct a new FigFinalState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigFinalState(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs(bounds);
-    }
+	private FigCircle inCircle;
+	private FigCircle outCircle;
 
-    private void initFigs(Rectangle bounds) {
-        setEditable(false);
-        Color handleColor = Globals.getPrefs().getHandleColor();
-        outCircle =
-            new FigCircle(X0, Y0, DIA, DIA, LINE_COLOR, FILL_COLOR);
-        inCircle =
-            new FigCircle(
-        		  X0 + 5,
-        		  Y0 + 5,
-        		  DIA - 10,
-        		  DIA - 10,
-        		  handleColor,
-        		  LINE_COLOR);
+	/**
+	 * Construct a new FigFinalState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigFinalState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs(bounds);
+	}
 
-        outCircle.setLineWidth(LINE_WIDTH);
-        outCircle.setLineColor(LINE_COLOR);
-        inCircle.setLineWidth(0);
+	private void initFigs(Rectangle bounds) {
+		setEditable(false);
+		Color handleColor = Globals.getPrefs().getHandleColor();
+		outCircle = new FigCircle(X0, Y0, DIA, DIA, LINE_COLOR, FILL_COLOR);
+		inCircle = new FigCircle(X0 + 5, Y0 + 5, DIA - 10, DIA - 10, handleColor, LINE_COLOR);
 
-        addFig(getBigPort());
-        addFig(outCircle);
-        addFig(inCircle);
+		outCircle.setLineWidth(LINE_WIDTH);
+		outCircle.setLineColor(LINE_COLOR);
+		inCircle.setLineWidth(0);
 
-        setBlinkPorts(false); //make port invisible unless mouse enters
+		addFig(getBigPort());
+		addFig(outCircle);
+		addFig(inCircle);
 
-        /* Set the drop location in the case of D&D: */
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
+		setBlinkPorts(false); // make port invisible unless mouse enters
 
-        setSuppressCalcBounds(false);
-        setBounds(getBounds());
-        enableSizeChecking(true);
-    }
-    
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigMyCircle(X0, Y0, DIA, DIA, 
-                LINE_COLOR, FILL_COLOR);
-    }
+		/* Set the drop location in the case of D&D: */
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
 
-    @Override
-    public Object clone() {
-        FigFinalState figClone = (FigFinalState) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigCircle) it.next());
-        figClone.outCircle = (FigCircle) it.next();
-        figClone.inCircle = (FigCircle) it.next();
+		setSuppressCalcBounds(false);
+		setBounds(getBounds());
+		enableSizeChecking(true);
+	}
 
-        return figClone;
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigMyCircle(X0, Y0, DIA, DIA, LINE_COLOR, FILL_COLOR);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        Object pstate = getOwner();
-        Selection sel = null;
-        if ( pstate != null) {
-            if (Model.getFacade().getUmlVersion().startsWith("1")
-                    && Model.getFacade().isAActivityGraph(
-                            Model.getFacade().getStateMachine(
-                            Model.getFacade().getContainer(pstate)))) {
-                sel = new SelectionActionState(this);
-                ((SelectionActionState) sel).setOutgoingButtonEnabled(false);
-            } else {
-                sel = new SelectionState(this);
-                ((SelectionState) sel).setOutgoingButtonEnabled(false);
-            }
-        }
-        return sel;
-    }
+	@Override
+	public Object clone() {
+		FigFinalState figClone = (FigFinalState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigCircle) it.next());
+		figClone.outCircle = (FigCircle) it.next();
+		figClone.inCircle = (FigCircle) it.next();
 
-    /**
-     * Final states are fixed size.
-     * @return false
-     * @see org.tigris.gef.presentation.Fig#isResizable()
-     */
-    @Override
-    public boolean isResizable() {
-        return false;
-    }
+		return figClone;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        outCircle.setLineColor(col);
-        inCircle.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		Object pstate = getOwner();
+		Selection sel = null;
+		if (pstate != null) {
+			if (Model.getFacade().getUmlVersion().startsWith("1") && Model.getFacade()
+					.isAActivityGraph(Model.getFacade().getStateMachine(Model.getFacade().getContainer(pstate)))) {
+				sel = new SelectionActionState(this);
+				((SelectionActionState) sel).setOutgoingButtonEnabled(false);
+			} else {
+				sel = new SelectionState(this);
+				((SelectionState) sel).setOutgoingButtonEnabled(false);
+			}
+		}
+		return sel;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return outCircle.getLineColor();
-    }
+	/**
+	 * Final states are fixed size.
+	 * 
+	 * @return false
+	 * @see org.tigris.gef.presentation.Fig#isResizable()
+	 */
+	@Override
+	public boolean isResizable() {
+		return false;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        if (Color.black.equals(col)) {
-            /* See issue 5721. 
-             * Projects before 0.28 have their fill color set to black.
-             * We refuse that color and replace by white.
-             * All other fill colors are accepted: */
-            col = Color.white;
-        }
-        outCircle.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		outCircle.setLineColor(col);
+		inCircle.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return outCircle.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return outCircle.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        // ignored - rendering is fixed
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		if (Color.black.equals(col)) {
+			/*
+			 * See issue 5721. Projects before 0.28 have their fill color set to
+			 * black. We refuse that color and replace by white. All other fill
+			 * colors are accepted:
+			 */
+			col = Color.white;
+		}
+		outCircle.setFillColor(col);
+	}
 
-    
-    @Override
-    public boolean isFilled() {
-        return true;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return outCircle.getFillColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        outCircle.setLineWidth(w);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		// ignored - rendering is fixed
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-	return outCircle.getLineWidth();
-    }
+	@Override
+	public boolean isFilled() {
+		return true;
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mouseClicked(MouseEvent me) {
-        // ignore mouse clicks
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		outCircle.setLineWidth(w);
+	}
 
-    /**
-     * Return a list of gravity points around the outer circle. Used in place of
-     * the default bounding box.
-     *
-     * {@inheritDoc}
-     */
-    @Override
-    public List getGravityPoints() {
-        return getCircleGravityPoints();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return outCircle.getLineWidth();
+	}
 
-    /**
-     * Override setBounds to keep shapes looking right.
-     * Special care is taken to have the inner circle nicely centered 
-     * within the outer circle.
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        if (getNameFig() == null) {
-            return;
-        }
-        Rectangle oldBounds = getBounds();
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		// ignore mouse clicks
+	}
 
-        /* This assert fails for the TestPropertyPanels, 
-         * file GUITestPropertyPanels.zargo: */
-        //assert  w == h;
+	/**
+	 * Return a list of gravity points around the outer circle. Used in place of
+	 * the default bounding box.
+	 *
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List getGravityPoints() {
+		return getCircleGravityPoints();
+	}
 
-        /* Ignore w and h from here on. */
+	/**
+	 * Override setBounds to keep shapes looking right. Special care is taken to
+	 * have the inner circle nicely centered within the outer circle.
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
 
-        int out_d = DISC + 2 * getLineWidth();
-        
-        getBigPort().setBounds(x, y, out_d, out_d);
-        outCircle.setBounds(x, y, out_d, out_d);
+		/*
+		 * This assert fails for the TestPropertyPanels, file
+		 * GUITestPropertyPanels.zargo:
+		 */
+		// assert w == h;
 
-        int inner_d = (out_d - 2 * getLineWidth()) - 6;
-        assert (inner_d % 2) == (out_d % 2);
-        // keep d even or odd, just like the line width:
-        inner_d = inner_d - (getLineWidth() % 2);
-        inCircle.setBounds(
-                x + (out_d - inner_d) / 2, 
-                y + (out_d - inner_d) / 2, 
-                inner_d, 
-                inner_d);
+		/* Ignore w and h from here on. */
 
-        calcBounds(); //_x = x; _y = y; _w = w; _h = h;
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+		int out_d = DISC + 2 * getLineWidth();
+
+		getBigPort().setBounds(x, y, out_d, out_d);
+		outCircle.setBounds(x, y, out_d, out_d);
+
+		int inner_d = (out_d - 2 * getLineWidth()) - 6;
+		assert (inner_d % 2) == (out_d % 2);
+		// keep d even or odd, just like the line width:
+		inner_d = inner_d - (getLineWidth() % 2);
+		inCircle.setBounds(x + (out_d - inner_d) / 2, y + (out_d - inner_d) / 2, inner_d, inner_d);
+
+		calcBounds(); // _x = x; _y = y; _w = w; _h = h;
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
 }

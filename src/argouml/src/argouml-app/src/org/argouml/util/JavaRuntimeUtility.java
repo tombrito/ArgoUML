@@ -43,27 +43,25 @@ package org.argouml.util;
  * use.
  */
 public class JavaRuntimeUtility {
-    
-    /**
-     * Determine if the java runtime found is supported by the current version
-     * of ArgoUML.
-     * 
-     * @return true if the version of Java is supported
-     */
-    public static boolean isJreSupported() {
-        String javaVersion = System.getProperty("java.version", "");
-        return (!( javaVersion.startsWith("1.5")
-                || javaVersion.startsWith("1.4") 
-                || javaVersion.startsWith("1.3")
-                || javaVersion.startsWith("1.2")
-                || javaVersion.startsWith("1.1")));
-    }
-        
-    /**
-     * Get the JRE version described in system properties
-     * @return the JRE version
-     */
-    public static String getJreVersion() {
-        return System.getProperty("java.version", "");
-    }
+
+	/**
+	 * Determine if the java runtime found is supported by the current version
+	 * of ArgoUML.
+	 * 
+	 * @return true if the version of Java is supported
+	 */
+	public static boolean isJreSupported() {
+		String javaVersion = System.getProperty("java.version", "");
+		return (!(javaVersion.startsWith("1.5") || javaVersion.startsWith("1.4") || javaVersion.startsWith("1.3")
+				|| javaVersion.startsWith("1.2") || javaVersion.startsWith("1.1")));
+	}
+
+	/**
+	 * Get the JRE version described in system properties
+	 * 
+	 * @return the JRE version
+	 */
+	public static String getJreVersion() {
+		return System.getProperty("java.version", "");
+	}
 }

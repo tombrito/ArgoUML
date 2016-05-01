@@ -48,7 +48,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
-
 /**
  * This action creates a new Actor.
  *
@@ -56,27 +55,26 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewActor extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -3639917638356644942L;
+	private static final long serialVersionUID = -3639917638356644942L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewActor() {
-        super("button.new-actor");
-        putValue(Action.NAME, Translator.localize("button.new-actor"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewActor() {
+		super("button.new-actor");
+		putValue(Action.NAME, Translator.localize("button.new-actor"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAActor(target)) {
-            Object model =
-                ProjectManager.getManager().getCurrentProject().getModel();
-            TargetManager.getInstance().setTarget(
-                    Model.getUseCasesFactory().buildActor(target, model));
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAActor(target)) {
+			Object model = ProjectManager.getManager().getCurrentProject().getModel();
+			TargetManager.getInstance().setTarget(Model.getUseCasesFactory().buildActor(target, model));
+			super.actionPerformed(e);
+		}
+	}
 }

@@ -54,56 +54,53 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewTerminateAction extends ActionNewAction {
 
-    private static final long serialVersionUID = 6520074654182822279L;
-	private static final ActionNewTerminateAction SINGLETON =
-        new ActionNewTerminateAction();
+	private static final long serialVersionUID = 6520074654182822279L;
+	private static final ActionNewTerminateAction SINGLETON = new ActionNewTerminateAction();
 
-    /**
-     * Constructor for ActionNewTerminateAction.
-     */
-    protected ActionNewTerminateAction() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-terminateaction"));
-    }
+	/**
+	 * Constructor for ActionNewTerminateAction.
+	 */
+	protected ActionNewTerminateAction() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-terminateaction"));
+	}
 
+	/*
+	 * @see
+	 * org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction(
+	 * )
+	 */
+	protected Object createAction() {
+		return Model.getCommonBehaviorFactory().createTerminateAction();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.behavior.common_behavior.ActionNewAction#createAction()
-     */
-    protected Object createAction() {
-        return Model.getCommonBehaviorFactory().createTerminateAction();
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewTerminateAction getInstance() {
+		return SINGLETON;
+	}
 
+	public static ActionNewAction getButtonInstance() {
+		ActionNewAction a = new ActionNewTerminateAction() {
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewTerminateAction getInstance() {
-        return SINGLETON;
-    }
-
-    public static ActionNewAction getButtonInstance() {
-        ActionNewAction a = new ActionNewTerminateAction() {
-
-            private static final long serialVersionUID = -8694533630133152478L;
+			private static final long serialVersionUID = -8694533630133152478L;
 
 			public void actionPerformed(ActionEvent e) {
-                Object target = TargetManager.getInstance().getModelTarget();
-                if (!Model.getFacade().isATransition(target)) {
-                    return;
-                }
-                setTarget(target);
-                super.actionPerformed(e);
-            }
+				Object target = TargetManager.getInstance().getModelTarget();
+				if (!Model.getFacade().isATransition(target)) {
+					return;
+				}
+				setTarget(target);
+				super.actionPerformed(e);
+			}
 
-        };
-        a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
-        Object icon = ResourceLoaderWrapper.lookupIconResource(
-                "TerminateAction");
-        a.putValue(SMALL_ICON, icon);
-        a.putValue(ROLE, Roles.EFFECT);
-        return a;
-    }
+		};
+		a.putValue(SHORT_DESCRIPTION, a.getValue(Action.NAME));
+		Object icon = ResourceLoaderWrapper.lookupIconResource("TerminateAction");
+		a.putValue(SMALL_ICON, icon);
+		a.putValue(ROLE, Roles.EFFECT);
+		return a;
+	}
 
 }

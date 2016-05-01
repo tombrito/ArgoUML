@@ -50,36 +50,40 @@ package org.argouml.model;
  * @author Bob Tarling
  */
 public class UmlException extends Exception {
-    /**
-     * Constructor the exception with a message.
-     *
-     * @param message the message
-     */
-    public UmlException(String message) {
-        super(message);
-    }
+	/**
+	 * Constructor the exception with a message.
+	 *
+	 * @param message
+	 *            the message
+	 */
+	public UmlException(String message) {
+		super(message);
+	}
 
-    /**
-     * Constructor the exception with a message and a causing exception.
-     *
-     * @param message the message
-     * @param c the cause of the exception
-     */
-    public UmlException(String message, Throwable c) {
-        super(message, c);
-    }
+	/**
+	 * Constructor the exception with a message and a causing exception.
+	 *
+	 * @param message
+	 *            the message
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public UmlException(String message, Throwable c) {
+		super(message, c);
+	}
 
-    /**
-     * Constructor the exception a causing exception.
-     *
-     * @param c the cause of the exception
-     */
-    public UmlException(Throwable c) {
-        super(c);
-    }
+	/**
+	 * Constructor the exception a causing exception.
+	 *
+	 * @param c
+	 *            the cause of the exception
+	 */
+	public UmlException(Throwable c) {
+		super(c);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1029321716390822627L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1029321716390822627L;
 }

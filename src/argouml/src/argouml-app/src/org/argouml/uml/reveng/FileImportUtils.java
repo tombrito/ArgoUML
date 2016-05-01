@@ -52,103 +52,103 @@ import org.argouml.util.SuffixFilter;
 /**
  * Utility methods for source file importers.
  */
-public  class FileImportUtils {
+public class FileImportUtils {
 
-        
-    /**
-     * This method returns a List of source files to import.
-     * <p>
-     * 
-     * Processing each file in turn is equivalent to a breadth first search
-     * through the directory structure.
-     * 
-     * @param file
-     *            file or directory to import
-     * @param recurse
-     *            if true, descend directory tree recursively
-     * @param filters
-     *            array of file suffixes to match for filtering
-     * @param monitor
-     *            a progress monitor which will be monitored for cancellation
-     *            requests. (Progress updates are not provided since the amount
-     *            of time required to get the files is non-deterministic).
-     * @return a list of files to be imported
-     */
-    public static List<File> getList(File file, boolean recurse,
-            SuffixFilter[] filters, ProgressMonitor monitor) {
-        if (file == null) {
-            return Collections.emptyList();
-        }
-        
-	List<File> results = new ArrayList<File>();
-
-	List<File> toDoDirectories = new LinkedList<File>();
-	Set<File> seenDirectories = new HashSet<File>();
-
-	toDoDirectories.add(file);
-
-	while (!toDoDirectories.isEmpty()) {
-            if (monitor != null && monitor.isCanceled()) {
-                return Collections.emptyList();
-            }
-	    File curDir = toDoDirectories.remove(0);
-
-	    if (!curDir.isDirectory()) {
-	        // For some reason, this alleged directory is a single file
-	        // This could be that there is some confusion or just
-	        // the normal, that a single file was selected and is
-	        // supposed to be imported.
-	        results.add(curDir);
-	        continue;
-	    }
-
-	    // Get the contents of the directory
-	    File[] files = curDir.listFiles();
-            if (files != null) {
-                for (File curFile : curDir.listFiles()) {
-
-                    // The following test can cause trouble with
-                    // links, because links are accepted as
-                    // directories, even if they link files. Links
-                    // could also result in infinite loops. For this
-                    // reason we don't do this traversing recursively.
-                    if (curFile.isDirectory()) {
-                        // If this file is a directory
-                        if (recurse && !seenDirectories.contains(curFile)) {
-                            toDoDirectories.add(curFile);
-                            seenDirectories.add(curFile);
-                        }
-                    } else {
-                        if (matchesSuffix(curFile, filters)) {
-                            results.add(curFile);
-                        }
-                    }
-                }
-            }
-        }
-
-	return results;
-    }
-
-    /**
-     * Tells if the filename matches one of the given suffixes.
-     *
-     * @param file file to be tested.
-     * @param filters array of filters to test against.
-     * @return true if parseable, false if not.
-     */
-    public static boolean matchesSuffix(Object file, SuffixFilter[] filters) {
-        if (!(file instanceof File)) {
-            return false;
-        }
-	if (filters != null) {
-	    for (int i = 0; i < filters.length; i++) {
-		if (filters[i].accept((File) file)) {
-		    return true;
+	/**
+	 * This method returns a List of source files to import.
+	 * <p>
+	 * 
+	 * Processing each file in turn is equivalent to a breadth first search
+	 * through the directory structure.
+	 * 
+	 * @param file
+	 *            file or directory to import
+	 * @param recurse
+	 *            if true, descend directory tree recursively
+	 * @param filters
+	 *            array of file suffixes to match for filtering
+	 * @param monitor
+	 *            a progress monitor which will be monitored for cancellation
+	 *            requests. (Progress updates are not provided since the amount
+	 *            of time required to get the files is non-deterministic).
+	 * @return a list of files to be imported
+	 */
+	public static List<File> getList(File file, boolean recurse, SuffixFilter[] filters, ProgressMonitor monitor) {
+		if (file == null) {
+			return Collections.emptyList();
 		}
-	    }
+
+		List<File> results = new ArrayList<File>();
+
+		List<File> toDoDirectories = new LinkedList<File>();
+		Set<File> seenDirectories = new HashSet<File>();
+
+		toDoDirectories.add(file);
+
+		while (!toDoDirectories.isEmpty()) {
+			if (monitor != null && monitor.isCanceled()) {
+				return Collections.emptyList();
+			}
+			File curDir = toDoDirectories.remove(0);
+
+			if (!curDir.isDirectory()) {
+				// For some reason, this alleged directory is a single file
+				// This could be that there is some confusion or just
+				// the normal, that a single file was selected and is
+				// supposed to be imported.
+				results.add(curDir);
+				continue;
+			}
+
+			// Get the contents of the directory
+			File[] files = curDir.listFiles();
+			if (files != null) {
+				for (File curFile : curDir.listFiles()) {
+
+					// The following test can cause trouble with
+					// links, because links are accepted as
+					// directories, even if they link files. Links
+					// could also result in infinite loops. For this
+					// reason we don't do this traversing recursively.
+					if (curFile.isDirectory()) {
+						// If this file is a directory
+						if (recurse && !seenDirectories.contains(curFile)) {
+							toDoDirectories.add(curFile);
+							seenDirectories.add(curFile);
+						}
+					} else {
+						if (matchesSuffix(curFile, filters)) {
+							results.add(curFile);
+						}
+					}
+				}
+			}
+		}
+
+		return results;
 	}
-	return false;
-    }
+
+	/**
+	 * Tells if the filename matches one of the given suffixes.
+	 *
+	 * @param file
+	 *            file to be tested.
+	 * @param filters
+	 *            array of filters to test against.
+	 * @return true if parseable, false if not.
+	 */
+	public static boolean matchesSuffix(Object file, SuffixFilter[] filters) {
+		if (!(file instanceof File)) {
+			return false;
+		}
+		if (filters != null) {
+			for (int i = 0; i < filters.length; i++) {
+				if (filters[i].accept((File) file)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

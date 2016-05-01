@@ -38,10 +38,11 @@
 package org.argouml.uml.diagram.ui;
 
 /**
- * An interface to be implemented by any Fig that contains
- * a FigEditableCompartment.
+ * An interface to be implemented by any Fig that contains a
+ * FigEditableCompartment.
+ * 
  * @author Bob Tarling
  */
 public abstract interface FeaturesCompartmentContainer {
-    // marker interface only
+	// marker interface only
 }

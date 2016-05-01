@@ -44,54 +44,50 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents the Message.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents the Message. Subclass this for all
+ * languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class MessageNotation extends NotationProvider {
-    
-    /**
-     * The constructor.
-     *
-     * @param message the UML element
-     */
-    public MessageNotation(Object message) {
-        if (!Model.getFacade().isAMessage(message)) {
-            throw new IllegalArgumentException("This is not an Message.");
-        }
-    }
 
-    @Override
-    public void initialiseListener(Object umlMessage) {
-        addElementListener(umlMessage,
-                new String[] {"activator", "predecessor", "successor", 
-                    "sender", "receiver", "action", "name"});
-        Object action = Model.getFacade().getAction(umlMessage);
-        if (action != null) {
-            addElementListener(action,
-                    new String[] {"remove", "recurrence", "script", 
-                        "actualArgument", "signal", "operation"});
-            List args = Model.getFacade().getActualArguments(action);
-            for (Object argument : args) {
-                addElementListener(argument,
-                        new String[] {"remove", "value"});
-            }
-            if (Model.getFacade().isACallAction(action)) {
-                Object operation = Model.getFacade().getOperation(action);
-                if (Model.getFacade().isAOperation(operation)) {
-                    addElementListener(operation,
-                            new String[] {"name"});
-                }
-            }
-            if (Model.getFacade().isASendAction(action)) {
-                Object signal = Model.getFacade().getSignal(action);
-                if (Model.getFacade().isASignal(signal)) {
-                    addElementListener(signal,
-                            new String[] {"name"});
-                }
-            }
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param message
+	 *            the UML element
+	 */
+	public MessageNotation(Object message) {
+		if (!Model.getFacade().isAMessage(message)) {
+			throw new IllegalArgumentException("This is not an Message.");
+		}
+	}
+
+	@Override
+	public void initialiseListener(Object umlMessage) {
+		addElementListener(umlMessage,
+				new String[] { "activator", "predecessor", "successor", "sender", "receiver", "action", "name" });
+		Object action = Model.getFacade().getAction(umlMessage);
+		if (action != null) {
+			addElementListener(action,
+					new String[] { "remove", "recurrence", "script", "actualArgument", "signal", "operation" });
+			List args = Model.getFacade().getActualArguments(action);
+			for (Object argument : args) {
+				addElementListener(argument, new String[] { "remove", "value" });
+			}
+			if (Model.getFacade().isACallAction(action)) {
+				Object operation = Model.getFacade().getOperation(action);
+				if (Model.getFacade().isAOperation(operation)) {
+					addElementListener(operation, new String[] { "name" });
+				}
+			}
+			if (Model.getFacade().isASendAction(action)) {
+				Object signal = Model.getFacade().getSignal(action);
+				if (Model.getFacade().isASignal(signal)) {
+					addElementListener(signal, new String[] { "name" });
+				}
+			}
+		}
+	}
 }

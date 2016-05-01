@@ -37,6 +37,7 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.ui;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -50,72 +51,73 @@ import org.argouml.util.ArgoFrame;
 
 /**
  * The specialized SwingWorker used for loading projects
- * @deprecated in 0.29.1 by Bob Tarling. This will not be deleted but reduce
- * in scope to package to package only. It is currently only used by
- * ProjectBrowser and any client calling should use methods there for load.
+ * 
+ * @deprecated in 0.29.1 by Bob Tarling. This will not be deleted but reduce in
+ *             scope to package to package only. It is currently only used by
+ *             ProjectBrowser and any client calling should use methods there
+ *             for load.
  */
 @Deprecated
 class LoadSwingWorker extends SwingWorker {
 
-    private static final Logger LOG =
-        Logger.getLogger(LoadSwingWorker.class.getName());
+	private static final Logger LOG = Logger.getLogger(LoadSwingWorker.class.getName());
 
-    private boolean showUi;
-    private File file;
+	private boolean showUi;
+	private File file;
 
-    /**
-     * This is the only constructor for LoadSwingWorker.
-     *
-     * @param aFile		the file that's going to be opened as a project
-     * @param aShowUi	whether to show the UI or not
-     */
-    public LoadSwingWorker(File aFile, boolean aShowUi) {
-        super("ArgoLoadProjectThread");
-        this.showUi = aShowUi;
-        this.file = aFile;
-    }
+	/**
+	 * This is the only constructor for LoadSwingWorker.
+	 *
+	 * @param aFile
+	 *            the file that's going to be opened as a project
+	 * @param aShowUi
+	 *            whether to show the UI or not
+	 */
+	public LoadSwingWorker(File aFile, boolean aShowUi) {
+		super("ArgoLoadProjectThread");
+		this.showUi = aShowUi;
+		this.file = aFile;
+	}
 
-    /**
-     * Implements org.argouml.swingext.SwingWorker#construct(); this is
-     * the main method for this SwingWorker.
-     * In this case, it simply loads the project.
-     *
-     * @param pmw	the ProgressMonitorWindow used by ProjectBrowser
-     * @return		always null
-     */
-    public Object construct(ProgressMonitor pmw) {
-        // Load project at slightly lower priority to keep UI responsive
-        Thread currentThread = Thread.currentThread();
-        currentThread.setPriority(currentThread.getPriority() - 1);
-        // loads the project
-        ProjectBrowser.getInstance().loadProject(file, showUi, pmw);
-        return null;
-    }
+	/**
+	 * Implements org.argouml.swingext.SwingWorker#construct(); this is the main
+	 * method for this SwingWorker. In this case, it simply loads the project.
+	 *
+	 * @param pmw
+	 *            the ProgressMonitorWindow used by ProjectBrowser
+	 * @return always null
+	 */
+	public Object construct(ProgressMonitor pmw) {
+		// Load project at slightly lower priority to keep UI responsive
+		Thread currentThread = Thread.currentThread();
+		currentThread.setPriority(currentThread.getPriority() - 1);
+		// loads the project
+		ProjectBrowser.getInstance().loadProject(file, showUi, pmw);
+		return null;
+	}
 
-    /**
-     * Implements org.argouml.swingext.SwingWorker#initProgressMonitorWindow();
-     * it just creates an instance of ProgressMonitorWindow.
-     *
-     * @return  an instance of ProgressMonitorWindow
-     */
-    public ProgressMonitor initProgressMonitorWindow() {
-        UIManager.put("ProgressMonitor.progressText",
-                Translator.localize("filechooser.open-project"));
-        Object[] msgArgs = new Object[] {this.file.getPath()};
-        return new ProgressMonitorWindow(ArgoFrame.getFrame(),
-                Translator.messageFormat("dialog.openproject.title", msgArgs));
-    }
+	/**
+	 * Implements org.argouml.swingext.SwingWorker#initProgressMonitorWindow();
+	 * it just creates an instance of ProgressMonitorWindow.
+	 *
+	 * @return an instance of ProgressMonitorWindow
+	 */
+	public ProgressMonitor initProgressMonitorWindow() {
+		UIManager.put("ProgressMonitor.progressText", Translator.localize("filechooser.open-project"));
+		Object[] msgArgs = new Object[] { this.file.getPath() };
+		return new ProgressMonitorWindow(ArgoFrame.getFrame(),
+				Translator.messageFormat("dialog.openproject.title", msgArgs));
+	}
 
-    /**
-     * Overrides the finished method of the SwingWorker class to update the GUI
-     */
-    public void finished() {
-    	super.finished();
-    	try {
-    	    ProjectBrowser.getInstance().addFileSaved(file);
-    	} catch (IOException exc) {
-            LOG.log(Level.SEVERE, "Failed to save file: " + file
-                    + " in most recently used list");
-    	}
-    }
+	/**
+	 * Overrides the finished method of the SwingWorker class to update the GUI
+	 */
+	public void finished() {
+		super.finished();
+		try {
+			ProjectBrowser.getInstance().addFileSaved(file);
+		} catch (IOException exc) {
+			LOG.log(Level.SEVERE, "Failed to save file: " + file + " in most recently used list");
+		}
+	}
 }

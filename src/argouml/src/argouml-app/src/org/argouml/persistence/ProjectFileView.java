@@ -46,45 +46,45 @@ import javax.swing.filechooser.FileView;
 import org.argouml.application.helpers.ResourceLoaderWrapper;
 
 /**
- * Provides an icon for project files. 
+ * Provides an icon for project files.
  * 
  * @since Jun 2, 2006
  * @author andrea.nironi@gmail.com @stereotype singleton
  */
 public final class ProjectFileView extends FileView {
 
-    private static ProjectFileView instance = new ProjectFileView();
-    
-    /**
-     * Constructor for ProjectFileView.
-     */
-    private ProjectFileView() {
-        
-    }
+	private static ProjectFileView instance = new ProjectFileView();
 
-    /**
-     * Returns the singleton instance.
-     * 
-     * @return ProjectFileView
-     */
-    public static ProjectFileView getInstance() {
-        return instance;
-    }
-    
-    /**
-     * Load an icon for a supported project file.
-     *  
-     * @param   f the file to check 
-     * @return  a nice icon if the file is known as a project file, 
-     * 			otherwise a default one
-     */
-    public Icon getIcon(File f) {
-    	AbstractFilePersister persister = PersistenceManager.getInstance()
-				.getPersisterFromFileName(f.getName());
-        if (persister != null && persister.hasAnIcon()) {
-            return ResourceLoaderWrapper.lookupIconResource("UmlNotation");
-        } else {
-            return null;
-        }
-    } 
+	/**
+	 * Constructor for ProjectFileView.
+	 */
+	private ProjectFileView() {
+
+	}
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return ProjectFileView
+	 */
+	public static ProjectFileView getInstance() {
+		return instance;
+	}
+
+	/**
+	 * Load an icon for a supported project file.
+	 * 
+	 * @param f
+	 *            the file to check
+	 * @return a nice icon if the file is known as a project file, otherwise a
+	 *         default one
+	 */
+	public Icon getIcon(File f) {
+		AbstractFilePersister persister = PersistenceManager.getInstance().getPersisterFromFileName(f.getName());
+		if (persister != null && persister.hasAnIcon()) {
+			return ResourceLoaderWrapper.lookupIconResource("UmlNotation");
+		} else {
+			return null;
+		}
+	}
 }

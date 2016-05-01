@@ -52,23 +52,22 @@ import org.argouml.application.api.InitSubsystem;
  */
 public class InitCognitiveUI implements InitSubsystem {
 
-    public void init() {
-        // Do nothing
-    }
+	public void init() {
+		// Do nothing
+	}
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        List<AbstractArgoJPanel> result = 
-            new ArrayList<AbstractArgoJPanel>();
-        result.add(new TabToDo());
-        return result;
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		List<AbstractArgoJPanel> result = new ArrayList<AbstractArgoJPanel>();
+		result.add(new TabToDo());
+		return result;
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.emptyList();
+	}
 
 }

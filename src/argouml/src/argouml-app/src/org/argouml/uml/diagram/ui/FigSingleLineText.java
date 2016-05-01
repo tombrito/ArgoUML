@@ -58,235 +58,246 @@ import org.tigris.gef.presentation.FigText;
 
 /**
  * A SingleLine FigText to provide consistency across Figs displaying single
- * lines of text.<ul>
+ * lines of text.
+ * <ul>
  * <li>The display area is transparent
  * <li>Text is center justified
  * <li>There is no line border
- * <li>There is space below the line for a "Clarifier",
- * i.e. a red squiggly line.
- * </ul><p>
+ * <li>There is space below the line for a "Clarifier", i.e. a red squiggly
+ * line.
+ * </ul>
+ * <p>
  *
  * Some of these have an UML object as owner, others do not.
  *
  * @author Bob Tarling
  */
-public class FigSingleLineText extends ArgoFigText  {
+public class FigSingleLineText extends ArgoFigText {
 
-    private static final long serialVersionUID = -9196961513698862434L;
+	private static final long serialVersionUID = -9196961513698862434L;
 
-	private static final Logger LOG =
-        Logger.getLogger(FigSingleLineText.class.getName());
+	private static final Logger LOG = Logger.getLogger(FigSingleLineText.class.getName());
 
-    /**
-     * The properties of 'owner' that this is interested in
-     */
-    private String[] properties;
+	/**
+	 * The properties of 'owner' that this is interested in
+	 */
+	private String[] properties;
 
-    private void initialize() {
-        setFillColor(FILL_COLOR); // in case someone turns it on
-        super.setFilled(false);
-        setTabAction(FigText.END_EDITING);
-        setReturnAction(FigText.END_EDITING);
-        setLineWidth(0);
-        setTextColor(TEXT_COLOR);
-    }
+	private void initialize() {
+		setFillColor(FILL_COLOR); // in case someone turns it on
+		super.setFilled(false);
+		setTabAction(FigText.END_EDITING);
+		setReturnAction(FigText.END_EDITING);
+		setLineWidth(0);
+		setTextColor(TEXT_COLOR);
+	}
 
-    public void setFilled(boolean filled) {
-        // Do not allow fill to change. We should see through
-        // the text to the color of the main FIg background.
-    }
+	public void setFilled(boolean filled) {
+		// Do not allow fill to change. We should see through
+		// the text to the color of the main FIg background.
+	}
 
-    /**
-     * Construct text fig
-     *
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if the Fig should only expand and never contract
-     */
-    public FigSingleLineText(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
+	/**
+	 * Construct text fig
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if the Fig should only expand and never contract
+	 */
+	public FigSingleLineText(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
 
-        this(owner, bounds, settings, expandOnly, (String[]) null);
-    }
+		this(owner, bounds, settings, expandOnly, (String[]) null);
+	}
 
-    /**
-     * Construct text fig
-     *
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if the Fig should only expand and never contract
-     * @param property name of property to listen to
-     */
-    public FigSingleLineText(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly, String property) {
+	/**
+	 * Construct text fig
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if the Fig should only expand and never contract
+	 * @param property
+	 *            name of property to listen to
+	 */
+	public FigSingleLineText(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly,
+			String property) {
 
-        this(owner, bounds, settings, expandOnly, new String[] {property});
-    }
+		this(owner, bounds, settings, expandOnly, new String[] { property });
+	}
 
-    /**
-     * Constructor for text fig without owner.
-     * Using this constructor shall mean
-     * that this fig will never have an owner.
-     *
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if the Fig should only expand and never contract
-     */
-    public FigSingleLineText(Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly) {
+	/**
+	 * Constructor for text fig without owner. Using this constructor shall mean
+	 * that this fig will never have an owner.
+	 *
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if the Fig should only expand and never contract
+	 */
+	public FigSingleLineText(Rectangle bounds, DiagramSettings settings, boolean expandOnly) {
 
-        this(null, bounds, settings, expandOnly);
-    }
+		this(null, bounds, settings, expandOnly);
+	}
 
-    /**
-     * Construct text fig
-     *
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     * @param expandOnly true if the Fig should only expand and never contract
-     * @param allProperties names of properties to listen to
-     */
-    public FigSingleLineText(Object owner, Rectangle bounds,
-            DiagramSettings settings, boolean expandOnly,
-            String[] allProperties) {
-        super(owner, bounds, settings, expandOnly);
-        initialize();
-        this.properties = allProperties;
-        addModelListener();
-    }
+	/**
+	 * Construct text fig
+	 *
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 * @param expandOnly
+	 *            true if the Fig should only expand and never contract
+	 * @param allProperties
+	 *            names of properties to listen to
+	 */
+	public FigSingleLineText(Object owner, Rectangle bounds, DiagramSettings settings, boolean expandOnly,
+			String[] allProperties) {
+		super(owner, bounds, settings, expandOnly);
+		initialize();
+		this.properties = allProperties;
+		addModelListener();
+	}
 
-    /**
-     * TODO: This function attempts to optimize the more generic
-     * code in the parent, which also works correctly in this case.
-     * Is this a good idea?
-     */
-    @Override
-    public Dimension getMinimumSize() {
-        Dimension d = new Dimension();
+	/**
+	 * TODO: This function attempts to optimize the more generic code in the
+	 * parent, which also works correctly in this case. Is this a good idea?
+	 */
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension d = new Dimension();
 
-        Font font = getFont();
+		Font font = getFont();
 
-        if (font == null) {
-            return d;
-        }
-        int maxW = 0;
-        int maxH = 0;
-        if (getFontMetrics() == null) {
-            maxH = font.getSize();
-        } else {
-            maxH = getFontMetrics().getHeight();
-            maxW = getFontMetrics().stringWidth(getText());
-        }
+		if (font == null) {
+			return d;
+		}
+		int maxW = 0;
+		int maxH = 0;
+		if (getFontMetrics() == null) {
+			maxH = font.getSize();
+		} else {
+			maxH = getFontMetrics().getHeight();
+			maxW = getFontMetrics().stringWidth(getText());
+		}
 
-        /* Now force minimum dimensions for the text: */
-        maxW = Math.max(maxW, MIN_TEXT_WIDTH);
+		/* Now force minimum dimensions for the text: */
+		maxW = Math.max(maxW, MIN_TEXT_WIDTH);
 
-        /* Now add the areas around the text to return the complete size: */
-        int overallH = maxH + getTopMargin() + getBotMargin()
-            + 2 * getLineWidth();
-        int overallW = maxW + getLeftMargin() + getRightMargin()
-            + 2 * getLineWidth();
-        d.width = overallW;
-        d.height = overallH;
-        return d;
-    }
+		/* Now add the areas around the text to return the complete size: */
+		int overallH = maxH + getTopMargin() + getBotMargin() + 2 * getLineWidth();
+		int overallW = maxW + getLeftMargin() + getRightMargin() + 2 * getLineWidth();
+		d.width = overallW;
+		d.height = overallH;
+		return d;
+	}
 
-    @Override
-    protected boolean isStartEditingKey(KeyEvent ke) {
-        if ((ke.getModifiers()
-	     & (KeyEvent.META_MASK | KeyEvent.ALT_MASK)) == 0) {
-            return super.isStartEditingKey(ke);
-        } else {
-            return false;
-        }
-    }
+	@Override
+	protected boolean isStartEditingKey(KeyEvent ke) {
+		if ((ke.getModifiers() & (KeyEvent.META_MASK | KeyEvent.ALT_MASK)) == 0) {
+			return super.isStartEditingKey(ke);
+		} else {
+			return false;
+		}
+	}
 
-    private void addModelListener() {
-        if (properties != null && getOwner() != null) {
-            Model.getPump().addModelEventListener(this, getOwner(), properties);
-        }
-    }
+	private void addModelListener() {
+		if (properties != null && getOwner() != null) {
+			Model.getPump().addModelEventListener(this, getOwner(), properties);
+		}
+	}
 
-    @Override
-    public void removeFromDiagram() {
-        if (getOwner() != null && properties != null) {
-            Model.getPump().removeModelEventListener(
-                    this,
-                    getOwner(),
-                    properties);
-        }
-        super.removeFromDiagram();
-    }
+	@Override
+	public void removeFromDiagram() {
+		if (getOwner() != null && properties != null) {
+			Model.getPump().removeModelEventListener(this, getOwner(), properties);
+		}
+		super.removeFromDiagram();
+	}
 
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        if ("remove".equals(pce.getPropertyName())
-                && (pce.getSource() == getOwner())) {
-            deleteFromModel();
-        }
+	@Override
+	public void propertyChange(PropertyChangeEvent pce) {
+		if ("remove".equals(pce.getPropertyName()) && (pce.getSource() == getOwner())) {
+			deleteFromModel();
+		}
 
-        if (pce instanceof UmlChangeEvent) {
-            final UmlChangeEvent event = (UmlChangeEvent) pce;
-            Runnable doWorkRunnable = new Runnable() {
-                public void run() {
-                    try {
-                        updateLayout(event);
-                    } catch (InvalidElementException e) {
-                        LOG.log(Level.FINE, "event = {0}", event);
-                        LOG.log(Level.FINE, "updateLayout method accessed deleted element ", e);
-                    }
-                }
-            };
-            SwingUtilities.invokeLater(doWorkRunnable);
-        }
-    }
+		if (pce instanceof UmlChangeEvent) {
+			final UmlChangeEvent event = (UmlChangeEvent) pce;
+			Runnable doWorkRunnable = new Runnable() {
+				public void run() {
+					try {
+						updateLayout(event);
+					} catch (InvalidElementException e) {
+						LOG.log(Level.FINE, "event = {0}", event);
+						LOG.log(Level.FINE, "updateLayout method accessed deleted element ", e);
+					}
+				}
+			};
+			SwingUtilities.invokeLater(doWorkRunnable);
+		}
+	}
 
-    /**
-     * This is a template method called by the ArgoUML framework as the result
-     * of a change to a model element. Do not call this method directly
-     * yourself.
-     * <p>Override this in any subclasses in order to redisplay the Fig
-     * due to change of any model element that this Fig is listening to.</p>
-     * <p>This method is guaranteed by the framework to be running on the
-     * Swing/AWT thread.</p>
-     *
-     * @param event the UmlChangeEvent that caused the change
-     */
-    protected void updateLayout(UmlChangeEvent event) {
-        assert event != null;
-        if (getOwner() == event.getSource()
-                && properties != null
-                && Arrays.asList(properties).contains(event.getPropertyName())
-                && event instanceof AttributeChangeEvent) {
-            /* TODO: Why does it fail for changing
-             * the name of an associationend?
-             *  Why should it pass? */
-            //assert Arrays.asList(properties).contains(
-            //    event.getPropertyName())
-            //  : event.getPropertyName();
-            // TODO: Do we really always need to do this or only if
-            // notationProvider is null?
-            setText();
-        }
-    }
+	/**
+	 * This is a template method called by the ArgoUML framework as the result
+	 * of a change to a model element. Do not call this method directly
+	 * yourself.
+	 * <p>
+	 * Override this in any subclasses in order to redisplay the Fig due to
+	 * change of any model element that this Fig is listening to.
+	 * </p>
+	 * <p>
+	 * This method is guaranteed by the framework to be running on the Swing/AWT
+	 * thread.
+	 * </p>
+	 *
+	 * @param event
+	 *            the UmlChangeEvent that caused the change
+	 */
+	protected void updateLayout(UmlChangeEvent event) {
+		assert event != null;
+		if (getOwner() == event.getSource() && properties != null
+				&& Arrays.asList(properties).contains(event.getPropertyName())
+				&& event instanceof AttributeChangeEvent) {
+			/*
+			 * TODO: Why does it fail for changing the name of an
+			 * associationend? Why should it pass?
+			 */
+			// assert Arrays.asList(properties).contains(
+			// event.getPropertyName())
+			// : event.getPropertyName();
+			// TODO: Do we really always need to do this or only if
+			// notationProvider is null?
+			setText();
+		}
+	}
 
-    /**
-     * This function without parameter shall
-     * determine the text of the Fig taking values from the owner,
-     * and then call {@link #setText(String)}.
-     * To be implemented as required by sub classes.
-     */
-    protected void setText() {
-    }
+	/**
+	 * This function without parameter shall determine the text of the Fig
+	 * taking values from the owner, and then call {@link #setText(String)}. To
+	 * be implemented as required by sub classes.
+	 */
+	protected void setText() {
+	}
 
-    public void renderingChanged() {
-        super.renderingChanged();
-        /* This is needed for e.g.
-         * guillemet notation change on a class name,
-         * see issue 5419. */
-        setText();
-    }
+	public void renderingChanged() {
+		super.renderingChanged();
+		/*
+		 * This is needed for e.g. guillemet notation change on a class name,
+		 * see issue 5419.
+		 */
+		setText();
+	}
 }

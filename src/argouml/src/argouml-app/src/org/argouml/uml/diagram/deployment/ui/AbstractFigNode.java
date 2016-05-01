@@ -65,225 +65,201 @@ import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Introduce abstract superclass for FigMNode & FigNodeInstance 
- * so that we can do proper inheritance.
+ * Introduce abstract superclass for FigMNode & FigNodeInstance so that we can
+ * do proper inheritance.
  *
  * @author Tom Morris
  */
 public abstract class AbstractFigNode extends FigNodeModelElement {
 
-    private static final long serialVersionUID = -133885692215268229L;
+	private static final long serialVersionUID = -133885692215268229L;
 	/**
-     * Offset in x & y for depth perspective lines of cube.
-     * TODO: This is the same value as the member 'D'in 
-     * {@link org.tigris.gef.presentation.FigCube}, but there is
-     * nothing enforcing that correspondence.  Things will probably
-     * break if they don't match.
-     */
-    protected static final int DEPTH = 20;
-    private FigCube cover;
-    private static final int DEFAULT_X = 10;
-    private static final int DEFAULT_Y = 10;
-    private static final int DEFAULT_WIDTH = 200;
-    private static final int DEFAULT_HEIGHT = 180;
+	 * Offset in x & y for depth perspective lines of cube. TODO: This is the
+	 * same value as the member 'D'in
+	 * {@link org.tigris.gef.presentation.FigCube}, but there is nothing
+	 * enforcing that correspondence. Things will probably break if they don't
+	 * match.
+	 */
+	protected static final int DEPTH = 20;
+	private FigCube cover;
+	private static final int DEFAULT_X = 10;
+	private static final int DEFAULT_Y = 10;
+	private static final int DEFAULT_WIDTH = 200;
+	private static final int DEFAULT_HEIGHT = 180;
 
-    @Override
-    protected Fig createBigPortFig() {
-       Fig cpfr = new CubePortFigRect(DEFAULT_X, DEFAULT_Y - DEPTH, 
-               DEFAULT_WIDTH + DEPTH, 
-               DEFAULT_HEIGHT + DEPTH, DEPTH);
-       cpfr.setFilled(false);
-       cpfr.setLineWidth(0);
-        return cpfr;
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		Fig cpfr = new CubePortFigRect(DEFAULT_X, DEFAULT_Y - DEPTH, DEFAULT_WIDTH + DEPTH, DEFAULT_HEIGHT + DEPTH,
+				DEPTH);
+		cpfr.setFilled(false);
+		cpfr.setLineWidth(0);
+		return cpfr;
+	}
 
-    private void initFigs() {
-        cover = new FigCube(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH,
-                DEFAULT_HEIGHT, LINE_COLOR, FILL_COLOR);
+	private void initFigs() {
+		cover = new FigCube(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT, LINE_COLOR, FILL_COLOR);
 
-        getNameFig().setLineWidth(0);
-        getNameFig().setFilled(false);
-        getNameFig().setJustification(0);
+		getNameFig().setLineWidth(0);
+		getNameFig().setFilled(false);
+		getNameFig().setJustification(0);
 
-        addFig(getBigPort());
-        addFig(cover);
-        addFig(getStereotypeFig());
-        addFig(getNameFig());
-    }
+		addFig(getBigPort());
+		addFig(cover);
+		addFig(getStereotypeFig());
+		addFig(getNameFig());
+	}
 
-    /**
-     * Construct a new AbstractFigNode.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public AbstractFigNode(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-    }
-    
-    @Override
-    public Object clone() {
-        AbstractFigNode figClone = (AbstractFigNode) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        figClone.cover = (FigCube) it.next();
-        it.next();
-        figClone.setNameFig((FigText) it.next());
-        return figClone;
-    }
+	/**
+	 * Construct a new AbstractFigNode.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public AbstractFigNode(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+	}
 
-    @Override
-    public void setLineColor(Color c) {
-        cover.setLineColor(c);
-    }
+	@Override
+	public Object clone() {
+		AbstractFigNode figClone = (AbstractFigNode) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		figClone.cover = (FigCube) it.next();
+		it.next();
+		figClone.setNameFig((FigText) it.next());
+		return figClone;
+	}
 
-    @Override
-    public void setLineWidth(int w) {
-        cover.setLineWidth(w);
-    }
+	@Override
+	public void setLineColor(Color c) {
+		cover.setLineColor(c);
+	}
 
+	@Override
+	public void setLineWidth(int w) {
+		cover.setLineWidth(w);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return cover.isFilled();
-    }
+	@Override
+	public boolean isFilled() {
+		return cover.isFilled();
+	}
 
-    @Override
-    public void setFilled(boolean f) {
-        cover.setFilled(f);
-    }
+	@Override
+	public void setFilled(boolean f) {
+		cover.setFilled(f);
+	}
 
-    @Override
-    public Selection makeSelection() {
-        return new SelectionNode(this);
-    }
+	@Override
+	public Selection makeSelection() {
+		return new SelectionNode(this);
+	}
 
-    @Override
-    public Dimension getMinimumSize() {
-        Dimension stereoDim = getStereotypeFig().getMinimumSize();
-        Dimension nameDim = getNameFig().getMinimumSize();
-    
-        int w = Math.max(stereoDim.width, nameDim.width + 1) + DEPTH;
-        int h = stereoDim.height + nameDim.height + DEPTH;
-        
-        w = Math.max(3 * DEPTH, w); // so it still looks like a cube
-        h = Math.max(3 * DEPTH, h);
-        return new Dimension(w, h);
-    }
+	@Override
+	public Dimension getMinimumSize() {
+		Dimension stereoDim = getStereotypeFig().getMinimumSize();
+		Dimension nameDim = getNameFig().getMinimumSize();
 
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        if (getNameFig() == null) {
-            return;
-        }
-        Rectangle oldBounds = getBounds();
-        getBigPort().setBounds(x, y, w, h);
-        cover.setBounds(x, y + DEPTH, w - DEPTH, h - DEPTH);
+		int w = Math.max(stereoDim.width, nameDim.width + 1) + DEPTH;
+		int h = stereoDim.height + nameDim.height + DEPTH;
 
-        Dimension stereoDim = getStereotypeFig().getMinimumSize();
-        Dimension nameDim = getNameFig().getMinimumSize();
-        getNameFig().setBounds(
-                x + 4, y + DEPTH + stereoDim.height + 1,
-                w - DEPTH - 8, nameDim.height);
-        getStereotypeFig().setBounds(x + 1, y + DEPTH + 1,
-                w - DEPTH - 2, stereoDim.height);
-        _x = x;
-        _y = y;
-        _w = w;
-        _h = h;
-        firePropChange("bounds", oldBounds, getBounds());
-        updateEdges();
-    }
+		w = Math.max(3 * DEPTH, w); // so it still looks like a cube
+		h = Math.max(3 * DEPTH, h);
+		return new Dimension(w, h);
+	}
 
-    @Override
-    public void mouseClicked(MouseEvent me) {
-        super.mouseClicked(me);
-        setLineColor(LINE_COLOR);
-    }
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
+		getBigPort().setBounds(x, y, w, h);
+		cover.setBounds(x, y + DEPTH, w - DEPTH, h - DEPTH);
 
-    @Override
-    public void setEnclosingFig(Fig encloser) {
-        if (encloser == null
-                || (encloser != null
-                && Model.getFacade().isANode(encloser.getOwner()))) {
-            super.setEnclosingFig(encloser);
-        }
-    
-        if (getLayer() != null) {
-            // elementOrdering(figures);
-            Collection contents = getLayer().getContents();
-            Collection<FigEdgeModelElement> bringToFrontList = 
-                new ArrayList<FigEdgeModelElement>();
-            for (Object o : contents) {
-                if (o instanceof FigEdgeModelElement) {
-                    bringToFrontList.add((FigEdgeModelElement) o);
-                }
-            }
-            for (FigEdgeModelElement figEdge : bringToFrontList) {
-                figEdge.getLayer().bringToFront(figEdge);
-            }
-        }
-    }
+		Dimension stereoDim = getStereotypeFig().getMinimumSize();
+		Dimension nameDim = getNameFig().getMinimumSize();
+		getNameFig().setBounds(x + 4, y + DEPTH + stereoDim.height + 1, w - DEPTH - 8, nameDim.height);
+		getStereotypeFig().setBounds(x + 1, y + DEPTH + 1, w - DEPTH - 2, stereoDim.height);
+		_x = x;
+		_y = y;
+		_w = w;
+		_h = h;
+		firePropChange("bounds", oldBounds, getBounds());
+		updateEdges();
+	}
 
-    @Override
-    public boolean getUseTrapRect() {
-        return true;
-    }
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		super.mouseClicked(me);
+		setLineColor(LINE_COLOR);
+	}
 
-    @Override
-    protected void modelChanged(PropertyChangeEvent mee) {
-        super.modelChanged(mee);
-        if (mee instanceof AssociationChangeEvent 
-                || mee instanceof AttributeChangeEvent) {
-            renderingChanged();
-            updateListeners(getOwner(), getOwner());
-            damage();
-        }
-    }
+	@Override
+	public void setEnclosingFig(Fig encloser) {
+		if (encloser == null || (encloser != null && Model.getFacade().isANode(encloser.getOwner()))) {
+			super.setEnclosingFig(encloser);
+		}
 
-    @Override
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        Set<Object[]> l = new HashSet<Object[]>();
-        if (newOwner != null) {
-            // add the listeners to the newOwner
-            l.add(new Object[] {newOwner, null});
-            
-            Collection c = Model.getFacade().getStereotypes(newOwner);
-            Iterator i = c.iterator();
-            while (i.hasNext()) {
-                Object st = i.next();
-                l.add(new Object[] {st, "name"});
-            }
-        }
-        updateElementListeners(l);
-    }
+		if (getLayer() != null) {
+			// elementOrdering(figures);
+			Collection contents = getLayer().getContents();
+			Collection<FigEdgeModelElement> bringToFrontList = new ArrayList<FigEdgeModelElement>();
+			for (Object o : contents) {
+				if (o instanceof FigEdgeModelElement) {
+					bringToFrontList.add((FigEdgeModelElement) o);
+				}
+			}
+			for (FigEdgeModelElement figEdge : bringToFrontList) {
+				figEdge.getLayer().bringToFront(figEdge);
+			}
+		}
+	}
 
-    @Override
-    public Point getClosestPoint(Point anotherPt) {
-        Rectangle r = getBounds();
-        int[] xs = {
-            r.x,
-            r.x + DEPTH,
-            r.x + r.width,
-            r.x + r.width,
-            r.x + r.width - DEPTH,
-            r.x,
-            r.x,
-        };
-        int[] ys = {
-            r.y + DEPTH,
-            r.y,
-            r.y,
-            r.y + r.height - DEPTH,
-            r.y + r.height,
-            r.y + r.height,
-            r.y + DEPTH,
-        };
-        Point p = Geometry.ptClosestTo(xs, ys, 7, anotherPt);
-        return p;
-    }
+	@Override
+	public boolean getUseTrapRect() {
+		return true;
+	}
+
+	@Override
+	protected void modelChanged(PropertyChangeEvent mee) {
+		super.modelChanged(mee);
+		if (mee instanceof AssociationChangeEvent || mee instanceof AttributeChangeEvent) {
+			renderingChanged();
+			updateListeners(getOwner(), getOwner());
+			damage();
+		}
+	}
+
+	@Override
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+		Set<Object[]> l = new HashSet<Object[]>();
+		if (newOwner != null) {
+			// add the listeners to the newOwner
+			l.add(new Object[] { newOwner, null });
+
+			Collection c = Model.getFacade().getStereotypes(newOwner);
+			Iterator i = c.iterator();
+			while (i.hasNext()) {
+				Object st = i.next();
+				l.add(new Object[] { st, "name" });
+			}
+		}
+		updateElementListeners(l);
+	}
+
+	@Override
+	public Point getClosestPoint(Point anotherPt) {
+		Rectangle r = getBounds();
+		int[] xs = { r.x, r.x + DEPTH, r.x + r.width, r.x + r.width, r.x + r.width - DEPTH, r.x, r.x, };
+		int[] ys = { r.y + DEPTH, r.y, r.y, r.y + r.height - DEPTH, r.y + r.height, r.y + r.height, r.y + DEPTH, };
+		Point p = Geometry.ptClosestTo(xs, ys, 7, anotherPt);
+		return p;
+	}
 
 }

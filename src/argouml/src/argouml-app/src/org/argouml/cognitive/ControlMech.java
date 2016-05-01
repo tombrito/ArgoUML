@@ -38,29 +38,24 @@
 
 package org.argouml.cognitive;
 
-
 /**
- * A ControlMech determines when a Critic should be active.  New
- * ControlMech's can be added to add value to existing Critic's.  Each
- * ControlMech implements a isRelevant() predicate that determines if a
- * given critic is relevant to a given Designer at the current
- * time.
+ * A ControlMech determines when a Critic should be active. New ControlMech's
+ * can be added to add value to existing Critic's. Each ControlMech implements a
+ * isRelevant() predicate that determines if a given critic is relevant to a
+ * given Designer at the current time.
  *
  * @author Jason Robbins
  */
 // TODO: Do all these classes need to be in their own files? public?
 
-public interface ControlMech  {
+public interface ControlMech {
 
-
-    /**
-     * @param c the critic
-     * @param d the designer
-     * @return true f the critic is relevant for the given designer
-     */
-    boolean isRelevant(Critic c, Designer d);
+	/**
+	 * @param c
+	 *            the critic
+	 * @param d
+	 *            the designer
+	 * @return true f the critic is relevant for the given designer
+	 */
+	boolean isRelevant(Critic c, Designer d);
 }
-
-
-
-

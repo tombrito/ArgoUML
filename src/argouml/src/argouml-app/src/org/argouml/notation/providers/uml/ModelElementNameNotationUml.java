@@ -49,8 +49,10 @@ import org.argouml.notation.NotationSettings;
 import org.argouml.notation.providers.ModelElementNameNotation;
 
 /**
- * Handles the notation of the name of a modelElement in UML,
- * i.e. a string on the format:<pre>
+ * Handles the notation of the name of a modelElement in UML, i.e. a string on
+ * the format:
+ * 
+ * <pre>
  *     [ &lt;&lt; stereotype &gt;&gt;] [+|-|#] [name]
  * </pre>
  *
@@ -58,75 +60,71 @@ import org.argouml.notation.providers.ModelElementNameNotation;
  */
 public class ModelElementNameNotationUml extends ModelElementNameNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param modelElement the UML object
-     */
-    public ModelElementNameNotationUml(Object modelElement) {
-        super(modelElement);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param modelElement
+	 *            the UML object
+	 */
+	public ModelElementNameNotationUml(Object modelElement) {
+		super(modelElement);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        try {
-            NotationUtilityUml.parseModelElement(modelElement, text);
-        } catch (ParseException pe) {
-            String msg = "statusmsg.bar.error.parsing.node-modelelement";
-            Object[] args = {
-                pe.getLocalizedMessage(),
-                Integer.valueOf(pe.getErrorOffset()),
-            };
-            ArgoEventPump.fireEvent(new ArgoHelpEvent(
-                    ArgoEventTypes.HELP_CHANGED, this,
-                Translator.messageFormat(msg, args)));
-        }
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		try {
+			NotationUtilityUml.parseModelElement(modelElement, text);
+		} catch (ParseException pe) {
+			String msg = "statusmsg.bar.error.parsing.node-modelelement";
+			Object[] args = { pe.getLocalizedMessage(), Integer.valueOf(pe.getErrorOffset()), };
+			ArgoEventPump.fireEvent(
+					new ArgoHelpEvent(ArgoEventTypes.HELP_CHANGED, this, Translator.messageFormat(msg, args)));
+		}
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-nodemodelelement";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-nodemodelelement";
+	}
 
-    private String toString(Object modelElement, boolean handleStereotypes, 
-            boolean useGuillemets, boolean showVisibility, boolean showPath) {
-        String name = Model.getFacade().getName(modelElement);
-        StringBuffer sb = new StringBuffer("");
-        if (handleStereotypes) {
-            sb.append(NotationUtilityUml.generateStereotype(
-                    modelElement, 
-                    useGuillemets));
-        }
-        if (showVisibility) {
-            sb.append(generateVisibility(modelElement));
-        }
-        if (showPath) {
-            sb.append(NotationUtilityUml.generatePath(modelElement));
-        }
-        if (name != null) {
-            sb.append(name);
-        }
-        return sb.toString();
-    }
+	private String toString(Object modelElement, boolean handleStereotypes, boolean useGuillemets,
+			boolean showVisibility, boolean showPath) {
+		String name = Model.getFacade().getName(modelElement);
+		StringBuffer sb = new StringBuffer("");
+		if (handleStereotypes) {
+			sb.append(NotationUtilityUml.generateStereotype(modelElement, useGuillemets));
+		}
+		if (showVisibility) {
+			sb.append(generateVisibility(modelElement));
+		}
+		if (showPath) {
+			sb.append(NotationUtilityUml.generatePath(modelElement));
+		}
+		if (name != null) {
+			sb.append(name);
+		}
+		return sb.toString();
+	}
 
-    private String generateVisibility(Object modelElement) {
-        String s = NotationUtilityUml.generateVisibility2(modelElement);
-        /* When nothing is generated: omit the space. */
-        if (s.length() > 0) {
-            s = s + " ";
-        }            
-        return s;
-    }
+	private String generateVisibility(Object modelElement) {
+		String s = NotationUtilityUml.generateVisibility2(modelElement);
+		/* When nothing is generated: omit the space. */
+		if (s.length() > 0) {
+			s = s + " ";
+		}
+		return s;
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement, settings.isFullyHandleStereotypes(),
-                settings.isUseGuillemets(), settings.isShowVisibilities(),
-                settings.isShowPaths());
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement, settings.isFullyHandleStereotypes(), settings.isUseGuillemets(),
+				settings.isShowVisibilities(), settings.isShowPaths());
+	}
 
 }

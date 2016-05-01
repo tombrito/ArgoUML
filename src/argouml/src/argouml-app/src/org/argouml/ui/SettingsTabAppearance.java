@@ -60,239 +60,232 @@ import org.argouml.i18n.Translator;
 import org.tigris.swidgets.LabelledLayout;
 
 /**
- *  Provides settings for altering the appearance of the Argo application.
+ * Provides settings for altering the appearance of the Argo application.
  *
- *  @author Linus Tolke
- *  @author Jeremy Jones
- *  @since  0.9.7
+ * @author Linus Tolke
+ * @author Jeremy Jones
+ * @since 0.9.7
  */
-class SettingsTabAppearance
-    extends JPanel
-    implements GUISettingsTabInterface {
+class SettingsTabAppearance extends JPanel implements GUISettingsTabInterface {
 
-    private JComboBox	lookAndFeel;
-    private JComboBox	metalTheme;
-    private JComboBox   language;
-    private JLabel      metalLabel;
-    private JCheckBox   smoothEdges;
+	private JComboBox lookAndFeel;
+	private JComboBox metalTheme;
+	private JComboBox language;
+	private JLabel metalLabel;
+	private JCheckBox smoothEdges;
 
-    private Locale locale;
+	private Locale locale;
 
-    private JPanel topPanel;
-    
-    /**
-     * The constructor.
-     *
-     */
-    SettingsTabAppearance() {
-        // Defer initialization until we're visible
-    }
+	private JPanel topPanel;
 
-    private void buildPanel() {
-        setLayout(new BorderLayout());
+	/**
+	 * The constructor.
+	 *
+	 */
+	SettingsTabAppearance() {
+		// Defer initialization until we're visible
+	}
 
-        int labelGap = 10;
-        int componentGap = 10;
-        topPanel = new JPanel(new LabelledLayout(labelGap, componentGap));
+	private void buildPanel() {
+		setLayout(new BorderLayout());
 
-        JLabel label = new JLabel(Translator.localize("label.look-and-feel"));
-        lookAndFeel =
-	    new JComboBox(LookAndFeelMgr.getInstance()
-			  .getAvailableLookAndFeelNames());
-        lookAndFeel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                setMetalThemeState();
-            }
-        });
-        label.setLabelFor(lookAndFeel);
-        topPanel.add(label);
-        topPanel.add(lookAndFeel);
+		int labelGap = 10;
+		int componentGap = 10;
+		topPanel = new JPanel(new LabelledLayout(labelGap, componentGap));
 
-        metalLabel = new JLabel(Translator.localize("label.metal-theme"));
+		JLabel label = new JLabel(Translator.localize("label.look-and-feel"));
+		lookAndFeel = new JComboBox(LookAndFeelMgr.getInstance().getAvailableLookAndFeelNames());
+		lookAndFeel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setMetalThemeState();
+			}
+		});
+		label.setLabelFor(lookAndFeel);
+		topPanel.add(label);
+		topPanel.add(lookAndFeel);
 
-        metalTheme =
-            new JComboBox(LookAndFeelMgr.getInstance()
-                .getAvailableThemeNames());
-        metalLabel.setLabelFor(metalTheme);
-        topPanel.add(metalLabel);
-        topPanel.add(metalTheme);
-        JCheckBox j = new JCheckBox(Translator.localize("label.smooth-edges"));
+		metalLabel = new JLabel(Translator.localize("label.metal-theme"));
 
-        smoothEdges = j;
-        JLabel emptyLabel = new JLabel();
-        emptyLabel.setLabelFor(smoothEdges);
+		metalTheme = new JComboBox(LookAndFeelMgr.getInstance().getAvailableThemeNames());
+		metalLabel.setLabelFor(metalTheme);
+		topPanel.add(metalLabel);
+		topPanel.add(metalTheme);
+		JCheckBox j = new JCheckBox(Translator.localize("label.smooth-edges"));
 
-        topPanel.add(emptyLabel);
-        topPanel.add(smoothEdges);
+		smoothEdges = j;
+		JLabel emptyLabel = new JLabel();
+		emptyLabel.setLabelFor(smoothEdges);
 
-        JLabel languageLabel =
-            new JLabel(Translator.localize("label.language"));
-        Collection<MyLocale> c = MyLocale.getLocales();
-        language = new JComboBox(c.toArray());
-        Object o = MyLocale.getDefault(c);
-        if (o != null) {
-            language.setSelectedItem(o);
-        } else {
-            language.setSelectedIndex(-1);
-        }
-        language.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JComboBox combo = (JComboBox) e.getSource();
-                locale = ((MyLocale) combo.getSelectedItem()).getLocale();
-            }
-        });
-        languageLabel.setLabelFor(language);
-        topPanel.add(languageLabel);
-        topPanel.add(language);
+		topPanel.add(emptyLabel);
+		topPanel.add(smoothEdges);
 
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(topPanel, BorderLayout.CENTER);
+		JLabel languageLabel = new JLabel(Translator.localize("label.language"));
+		Collection<MyLocale> c = MyLocale.getLocales();
+		language = new JComboBox(c.toArray());
+		Object o = MyLocale.getDefault(c);
+		if (o != null) {
+			language.setSelectedItem(o);
+		} else {
+			language.setSelectedIndex(-1);
+		}
+		language.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JComboBox combo = (JComboBox) e.getSource();
+				locale = ((MyLocale) combo.getSelectedItem()).getLocale();
+			}
+		});
+		languageLabel.setLabelFor(language);
+		topPanel.add(languageLabel);
+		topPanel.add(language);
 
-        JLabel restart =
-            new JLabel(Translator.localize("label.restart-application"));
-        restart.setHorizontalAlignment(SwingConstants.CENTER);
-        restart.setVerticalAlignment(SwingConstants.CENTER);
-        restart.setBorder(BorderFactory.createEmptyBorder(10, 2, 10, 2));
-        add(restart, BorderLayout.SOUTH);
+		topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		add(topPanel, BorderLayout.CENTER);
 
-        setMetalThemeState();
-    }
+		JLabel restart = new JLabel(Translator.localize("label.restart-application"));
+		restart.setHorizontalAlignment(SwingConstants.CENTER);
+		restart.setVerticalAlignment(SwingConstants.CENTER);
+		restart.setBorder(BorderFactory.createEmptyBorder(10, 2, 10, 2));
+		add(restart, BorderLayout.SOUTH);
 
-    /**
-     * Enables or disables the metal theme controls depending on whether
-     * or not themes are supported by the selected look and feel.
-     */
-    private void setMetalThemeState() {
-        String lafName = (String) lookAndFeel.getSelectedItem();
-        boolean enabled =
-	    LookAndFeelMgr.getInstance().isThemeCompatibleLookAndFeel(
-		LookAndFeelMgr.getInstance().getLookAndFeelFromName(lafName));
+		setMetalThemeState();
+	}
 
-        metalLabel.setEnabled(enabled);
-        metalTheme.setEnabled(enabled);
-    }
+	/**
+	 * Enables or disables the metal theme controls depending on whether or not
+	 * themes are supported by the selected look and feel.
+	 */
+	private void setMetalThemeState() {
+		String lafName = (String) lookAndFeel.getSelectedItem();
+		boolean enabled = LookAndFeelMgr.getInstance()
+				.isThemeCompatibleLookAndFeel(LookAndFeelMgr.getInstance().getLookAndFeelFromName(lafName));
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabRefresh()
-     */
-    public void handleSettingsTabRefresh() {
-        String laf = LookAndFeelMgr.getInstance().getCurrentLookAndFeelName();
-    	String theme = LookAndFeelMgr.getInstance().getCurrentThemeName();
+		metalLabel.setEnabled(enabled);
+		metalTheme.setEnabled(enabled);
+	}
 
-        lookAndFeel.setSelectedItem(laf);
-        metalTheme.setSelectedItem(theme);
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabRefresh()
+	 */
+	public void handleSettingsTabRefresh() {
+		String laf = LookAndFeelMgr.getInstance().getCurrentLookAndFeelName();
+		String theme = LookAndFeelMgr.getInstance().getCurrentThemeName();
 
-        smoothEdges.setSelected(Configuration.getBoolean(
-            Argo.KEY_SMOOTH_EDGES, false));
-    }
+		lookAndFeel.setSelectedItem(laf);
+		metalTheme.setSelectedItem(theme);
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabSave()
-     */
-    public void handleSettingsTabSave() {
-        LookAndFeelMgr.getInstance().setCurrentLAFAndThemeByName(
-                (String) lookAndFeel.getSelectedItem(),
-                (String) metalTheme.getSelectedItem());
-        // Make the result inmediately visible in case of apply:
-        /* Disabled since it gives various problems: e.g. the toolbar icons
-         * get too wide. Also the default does not give the new java 5.0 looks.
-        SwingUtilities.updateComponentTreeUI(SwingUtilities.getRootPane(this));
-        */
+		smoothEdges.setSelected(Configuration.getBoolean(Argo.KEY_SMOOTH_EDGES, false));
+	}
 
-        Configuration.setBoolean(Argo.KEY_SMOOTH_EDGES,
-            smoothEdges.isSelected());
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabSave()
+	 */
+	public void handleSettingsTabSave() {
+		LookAndFeelMgr.getInstance().setCurrentLAFAndThemeByName((String) lookAndFeel.getSelectedItem(),
+				(String) metalTheme.getSelectedItem());
+		// Make the result inmediately visible in case of apply:
+		/*
+		 * Disabled since it gives various problems: e.g. the toolbar icons get
+		 * too wide. Also the default does not give the new java 5.0 looks.
+		 * SwingUtilities.updateComponentTreeUI(SwingUtilities.getRootPane(this)
+		 * );
+		 */
 
-        if (locale != null) {
-            Configuration.setString(Argo.KEY_LOCALE, locale.toString());
-        }
-    }
+		Configuration.setBoolean(Argo.KEY_SMOOTH_EDGES, smoothEdges.isSelected());
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabCancel()
-     */
-    public void handleSettingsTabCancel() { }
+		if (locale != null) {
+			Configuration.setString(Argo.KEY_LOCALE, locale.toString());
+		}
+	}
 
-    /*
-     * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
-     */
-    public void handleResetToDefault() {
-        // Do nothing - these buttons are not shown.
-    }
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabCancel()
+	 */
+	public void handleSettingsTabCancel() {
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabKey()
-     */
-    public String getTabKey() { return "tab.appearance"; }
+	/*
+	 * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
+	 */
+	public void handleResetToDefault() {
+		// Do nothing - these buttons are not shown.
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabPanel()
-     */
-    public JPanel getTabPanel() {
-        if (topPanel == null) {
-            buildPanel();
-        }
-        return this;
-    }
+	/*
+	 * @see GUISettingsTabInterface#getTabKey()
+	 */
+	public String getTabKey() {
+		return "tab.appearance";
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -6779214318672690570L;
+	/*
+	 * @see GUISettingsTabInterface#getTabPanel()
+	 */
+	public JPanel getTabPanel() {
+		if (topPanel == null) {
+			buildPanel();
+		}
+		return this;
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -6779214318672690570L;
 }
 
 class MyLocale {
-    private Locale myLocale;
+	private Locale myLocale;
 
-    /**
-     * The constructor.
-     *
-     * @param locale the Locale
-     */
-    MyLocale(Locale locale) {
-        myLocale = locale;
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param locale
+	 *            the Locale
+	 */
+	MyLocale(Locale locale) {
+		myLocale = locale;
+	}
 
-    /**
-     * @return returns the locale
-     */
-    Locale getLocale() {
-        return myLocale;
-    }
+	/**
+	 * @return returns the locale
+	 */
+	Locale getLocale() {
+		return myLocale;
+	}
 
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-        StringBuffer displayString = new StringBuffer(myLocale.toString());
-        displayString.append(" (");
-        displayString.append(myLocale.getDisplayLanguage(myLocale));
-        if (myLocale.getDisplayCountry(myLocale) != null 
-                && myLocale.getDisplayCountry(myLocale).length() > 0) {
-            displayString.append(" ");
-            displayString.append(myLocale.getDisplayCountry(myLocale));
-        }
-        displayString.append(")");
-        if (myLocale.equals(Translator.getSystemDefaultLocale())) {
-            displayString.append(" - Default");
-        }
-        return displayString.toString();
-    }
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuffer displayString = new StringBuffer(myLocale.toString());
+		displayString.append(" (");
+		displayString.append(myLocale.getDisplayLanguage(myLocale));
+		if (myLocale.getDisplayCountry(myLocale) != null && myLocale.getDisplayCountry(myLocale).length() > 0) {
+			displayString.append(" ");
+			displayString.append(myLocale.getDisplayCountry(myLocale));
+		}
+		displayString.append(")");
+		if (myLocale.equals(Translator.getSystemDefaultLocale())) {
+			displayString.append(" - Default");
+		}
+		return displayString.toString();
+	}
 
-    static Collection<MyLocale> getLocales() {
-        Collection<MyLocale> c = new ArrayList<MyLocale>();
-        for (Locale locale : Arrays.asList(Translator.getLocales())) {
-            c.add(new MyLocale(locale));
-        }
-        return c;
-    }
+	static Collection<MyLocale> getLocales() {
+		Collection<MyLocale> c = new ArrayList<MyLocale>();
+		for (Locale locale : Arrays.asList(Translator.getLocales())) {
+			c.add(new MyLocale(locale));
+		}
+		return c;
+	}
 
-    static MyLocale getDefault(Collection<MyLocale> c) {
-        Locale locale = Locale.getDefault();
-        for (MyLocale ml : c) {
-            if (locale.equals(ml.getLocale())) {
-                return ml;
-            }
-        }
-        return null;
-    }
+	static MyLocale getDefault(Collection<MyLocale> c) {
+		Locale locale = Locale.getDefault();
+		for (MyLocale ml : c) {
+			if (locale.equals(ml.getLocale())) {
+				return ml;
+			}
+		}
+		return null;
+	}
 }

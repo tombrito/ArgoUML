@@ -41,20 +41,21 @@ package org.argouml.uml.diagram.ui;
 import org.argouml.model.Model;
 
 /**
- * A Mode to interpret user input while creating a dependency edge.
- * The dependency can connect any model element including those represented
- * by edges as well as nodes.
+ * A Mode to interpret user input while creating a dependency edge. The
+ * dependency can connect any model element including those represented by edges
+ * as well as nodes.
  */
 public class ModeCreateDependency extends ModeCreateGraphEdge {
-    
-    private static final long serialVersionUID = -2877745405523132972L;
+
+	private static final long serialVersionUID = -2877745405523132972L;
 
 	/**
-     * Return the meta type of the element that this mode is designed to
-     * create. In the case the dependency metatype.
-     * @return the dependency meta type.
-     */
-    protected Object getMetaType() {
-	return Model.getMetaTypes().getDependency();
-    }
+	 * Return the meta type of the element that this mode is designed to create.
+	 * In the case the dependency metatype.
+	 * 
+	 * @return the dependency meta type.
+	 */
+	protected Object getMetaType() {
+		return Model.getMetaTypes().getDependency();
+	}
 }

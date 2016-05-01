@@ -54,32 +54,31 @@ import org.argouml.ui.UndoableAction;
  *
  */
 public class ActionGoToCritique extends UndoableAction {
-    private static final long serialVersionUID = 3874441747621469616L;
+	private static final long serialVersionUID = 3874441747621469616L;
 	private ToDoItem item = null;
 
-    /**
-     * Constructor.
-     *
-     * @param theItem The item that we go to.
-     */
-    public ActionGoToCritique(ToDoItem theItem) {
-        super(Translator.localize(theItem.getHeadline()), 
-	            null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize(theItem.getHeadline()));
-	item = theItem;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param theItem
+	 *            The item that we go to.
+	 */
+	public ActionGoToCritique(ToDoItem theItem) {
+		super(Translator.localize(theItem.getHeadline()), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(theItem.getHeadline()));
+		item = theItem;
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        super.actionPerformed(ae);
-        // TODO: ProjectBrowser doesn't need to mediate this conversation
-        // Use an event listener in the ToDoPane to communicate instead. - tfm
-        ((ToDoPane) ProjectBrowser.getInstance().getTodoPane())
-                .selectItem(item);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		// TODO: ProjectBrowser doesn't need to mediate this conversation
+		// Use an event listener in the ToDoPane to communicate instead. - tfm
+		((ToDoPane) ProjectBrowser.getInstance().getTodoPane()).selectItem(item);
+	}
 
 } /* end class ActionGoToCritique */

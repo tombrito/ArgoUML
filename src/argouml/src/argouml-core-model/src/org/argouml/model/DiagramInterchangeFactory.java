@@ -43,133 +43,130 @@ import java.util.List;
 
 public interface DiagramInterchangeFactory {
 
-    List getModelDiagram();
+	List getModelDiagram();
 
-    void setModelDiagram(List diagrams);
+	void setModelDiagram(List diagrams);
 
-    /**
-     * Return true of the given ModelElement is the owner of the diagram.
-     */
-    boolean isDiagramOwner(Object modelElement, Object diagram);
+	/**
+	 * Return true of the given ModelElement is the owner of the diagram.
+	 */
+	boolean isDiagramOwner(Object modelElement, Object diagram);
 
-    /**
-     * Return true of the given ModelElement is the owner of the diagram.
-     */
-    Object getDiagramElementOwner(Object diagram);
+	/**
+	 * Return true of the given ModelElement is the owner of the diagram.
+	 */
+	Object getDiagramElementOwner(Object diagram);
 
-    Object createDiagram();
+	Object createDiagram();
 
-    Object createDiagramLink();
+	Object createDiagramLink();
 
-    Object createEllipse();
+	Object createEllipse();
 
-    Object createGraphConnector();
+	Object createGraphConnector();
 
-    Object createGraphEdge();
+	Object createGraphEdge();
 
-    Object createGraphNode();
+	Object createGraphNode();
 
-    Object createImage();
+	Object createImage();
 
-    Object createPolyline();
+	Object createPolyline();
 
-    Object createProperty();
+	Object createProperty();
 
-    Object createReference();
+	Object createReference();
 
-    Object createSimpleSemanticModelElement();
+	Object createSimpleSemanticModelElement();
 
-    Object createTextElement();
+	Object createTextElement();
 
-    Object createUml1SemanticModelBridge();
+	Object createUml1SemanticModelBridge();
 
-    /**
-     * Creates an instance of BezierPoint structure type.
-     * @param base
-     * @param control1
-     * @param control2
-     * @return
-     */
-    Object createBezierPoint(Object base, Object control1,
-            Object control2);
+	/**
+	 * Creates an instance of BezierPoint structure type.
+	 * 
+	 * @param base
+	 * @param control1
+	 * @param control2
+	 * @return
+	 */
+	Object createBezierPoint(Object base, Object control1, Object control2);
 
-    /**
-     * Creates an instance of Dimension structure type.
-     * @param width
-     * @param height
-     * @return
-     */
-    Object createDimension(double width, double height);
+	/**
+	 * Creates an instance of Dimension structure type.
+	 * 
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	Object createDimension(double width, double height);
 
-    /**
-     * Creates an instance of Point structure type.
-     * @param x
-     * @param y
-     * @return
-     */
-    Object createPoint(double x, double y);
+	/**
+	 * Creates an instance of Point structure type.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	Object createPoint(double x, double y);
 
-    /**
-     *
-     * @param modelElement
-     * @param diagramOrGraphElement
-     * @return
-     */
-    Object buildUml1SemanticModelBridge(Object modelElement,
-            Object diagramOrGraphElement);
+	/**
+	 *
+	 * @param modelElement
+	 * @param diagramOrGraphElement
+	 * @return
+	 */
+	Object buildUml1SemanticModelBridge(Object modelElement, Object diagramOrGraphElement);
 
-    Object buildSimpleSemanticModelElement(Object grafElement,
-            Object diagram, String presentation, String typeInfo);
+	Object buildSimpleSemanticModelElement(Object grafElement, Object diagram, String presentation, String typeInfo);
 
-    /**
-     * Build a diagram.
-     *
-     * @param model
-     * @return A new diagram
-     */
-    Object buildDiagram(Object model);
+	/**
+	 * Build a diagram.
+	 *
+	 * @param model
+	 * @return A new diagram
+	 */
+	Object buildDiagram(Object model);
 
-    Object buildGraphNode(Object parentGraphElement,
-            Object modelElement);
+	Object buildGraphNode(Object parentGraphElement, Object modelElement);
 
-    Object buildProperty(String key, String value);
+	Object buildProperty(String key, String value);
 
-    // ADiagramElementProperty delegate methods
+	// ADiagramElementProperty delegate methods
 
-    /*
-     * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#add(
-     *         org.omg.uml.diagraminterchange.DiagramElement,
-     *         org.omg.uml.diagraminterchange.Property)
-     */
-    boolean addProperty(Object arg0, Object arg1);
+	/*
+	 * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#add(
+	 * org.omg.uml.diagraminterchange.DiagramElement,
+	 * org.omg.uml.diagraminterchange.Property)
+	 */
+	boolean addProperty(Object arg0, Object arg1);
 
-    /*
-     * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#exists(
-     *         org.omg.uml.diagraminterchange.DiagramElement,
-     *         org.omg.uml.diagraminterchange.Property)
-     */
-    boolean existsProperty(Object arg0, Object arg1);
+	/*
+	 * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#exists(
+	 * org.omg.uml.diagraminterchange.DiagramElement,
+	 * org.omg.uml.diagraminterchange.Property)
+	 */
+	boolean existsProperty(Object arg0, Object arg1);
 
-    /*
-     * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#getProperty(
-     *         org.omg.uml.diagraminterchange.DiagramElement)
-     */
-    Collection getProperties(Object arg0);
+	/*
+	 * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#getProperty(
+	 * org.omg.uml.diagraminterchange.DiagramElement)
+	 */
+	Collection getProperties(Object arg0);
 
-    /**
-     * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#remove(
-     *         org.omg.uml.diagraminterchange.DiagramElement,
-     *         org.omg.uml.diagraminterchange.Property)
-     */
-    boolean removeProperty(Object arg0, Object arg1);
+	/**
+	 * @see org.omg.uml.diagraminterchange.ADiagramElementProperty#remove(
+	 *      org.omg.uml.diagraminterchange.DiagramElement,
+	 *      org.omg.uml.diagraminterchange.Property)
+	 */
+	boolean removeProperty(Object arg0, Object arg1);
 
-    //easy interface to properties
-    boolean hasProperty(Object diagramElement,
-            String propertyName);
+	// easy interface to properties
+	boolean hasProperty(Object diagramElement, String propertyName);
 
-    void setProperty(Object diagramElement, String key,
-            String value);
+	void setProperty(Object diagramElement, String key, String value);
 
-    String getProperty(Object diagramElement, String key);
+	String getProperty(Object diagramElement, String key);
 
 }

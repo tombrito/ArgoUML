@@ -48,24 +48,25 @@ import org.tigris.gef.presentation.Fig;
  */
 class SelectionDataType extends SelectionGeneralizableElement {
 
-    private static final long serialVersionUID = 8171766403107705369L;
+	private static final long serialVersionUID = 8171766403107705369L;
 
 	/**
-     * Construct a new SelectionClass for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionDataType(Fig f) { 
-        super(f); 
-    }
+	 * Construct a new SelectionClass for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionDataType(Fig f) {
+		super(f);
+	}
 
-    protected Object getNewNode(int buttonCode) {
-        Object ns = Model.getFacade().getNamespace(getContent().getOwner());
-        return Model.getCoreFactory().buildDataType("", ns);
-    }
+	protected Object getNewNode(int buttonCode) {
+		Object ns = Model.getFacade().getNamespace(getContent().getOwner());
+		return Model.getCoreFactory().buildDataType("", ns);
+	}
 
-    protected Object getNewNodeType(int buttonCode) {
-        return Model.getMetaTypes().getDataType();
-    }
+	protected Object getNewNodeType(int buttonCode) {
+		return Model.getMetaTypes().getDataType();
+	}
 
 }

@@ -61,85 +61,85 @@ import org.argouml.i18n.Translator;
  */
 class ProblemsDialog extends JDialog implements ActionListener {
 
-    private JButton abortButton;
-    private JButton continueButton;
-    private JLabel northLabel;
-    private boolean aborted = false;
+	private JButton abortButton;
+	private JButton continueButton;
+	private JLabel northLabel;
+	private boolean aborted = false;
 
-    /**
-     * The constructor.
-     */
-    ProblemsDialog(Frame frame, String errors) {
-        super(frame);
-        setResizable(true);
-        setModal(true);
-        setTitle(Translator.localize("dialog.title.import-problems"));
+	/**
+	 * The constructor.
+	 */
+	ProblemsDialog(Frame frame, String errors) {
+		super(frame);
+		setResizable(true);
+		setModal(true);
+		setTitle(Translator.localize("dialog.title.import-problems"));
 
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-        getContentPane().setLayout(new BorderLayout(0, 0));
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		getContentPane().setLayout(new BorderLayout(0, 0));
 
-        // the introducing label
-        northLabel =
-            new JLabel(Translator.localize("label.import-problems"));
-        getContentPane().add(northLabel, BorderLayout.NORTH);
+		// the introducing label
+		northLabel = new JLabel(Translator.localize("label.import-problems"));
+		getContentPane().add(northLabel, BorderLayout.NORTH);
 
-        // the text box containing the problem messages
-        JEditorPane textArea = new JEditorPane();
-        textArea.setText(errors);
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new JScrollPane(textArea));
-        centerPanel.setPreferredSize(new Dimension(600, 200));
-        getContentPane().add(centerPanel);
+		// the text box containing the problem messages
+		JEditorPane textArea = new JEditorPane();
+		textArea.setText(errors);
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(new JScrollPane(textArea));
+		centerPanel.setPreferredSize(new Dimension(600, 200));
+		getContentPane().add(centerPanel);
 
-        // continue and abort buttons
-        continueButton = new JButton(Translator.localize("button.continue"));
-        abortButton = new JButton(Translator.localize("button.abort"));
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(continueButton);
-        bottomPanel.add(abortButton);
-        getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-        continueButton.requestFocusInWindow();
+		// continue and abort buttons
+		continueButton = new JButton(Translator.localize("button.continue"));
+		abortButton = new JButton(Translator.localize("button.abort"));
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.add(continueButton);
+		bottomPanel.add(abortButton);
+		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+		continueButton.requestFocusInWindow();
 
-        // listeners
-        continueButton.addActionListener(this);
-        abortButton.addActionListener(this);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
-                disposeDialog();
-            }
-        });
+		// listeners
+		continueButton.addActionListener(this);
+		abortButton.addActionListener(this);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				disposeDialog();
+			}
+		});
 
-        pack();
-        Dimension contentPaneSize = getContentPane().getSize();
-        setLocation(scrSize.width / 2 - contentPaneSize.width / 2,
-                scrSize.height / 2 - contentPaneSize.height / 2);
-    }
+		pack();
+		Dimension contentPaneSize = getContentPane().getSize();
+		setLocation(scrSize.width / 2 - contentPaneSize.width / 2, scrSize.height / 2 - contentPaneSize.height / 2);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(abortButton)) {
-            aborted = true;
-        }
-        disposeDialog();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(abortButton)) {
+			aborted = true;
+		}
+		disposeDialog();
+	}
 
-    /**
-     * Returns whether the Abort button was pressed.
-     * @return aborted
-     */
-    public boolean isAborted() {
-        return aborted;
-    }
+	/**
+	 * Returns whether the Abort button was pressed.
+	 * 
+	 * @return aborted
+	 */
+	public boolean isAborted() {
+		return aborted;
+	}
 
-    private void disposeDialog() {
-        setVisible(false);
-        dispose();
-    }
+	private void disposeDialog() {
+		setVisible(false);
+		dispose();
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -9221358976863603143L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -9221358976863603143L;
 }

@@ -39,11 +39,10 @@
 package org.argouml.application.api;
 
 /**
- * Defines a functor interface implemented by 
- * classes that perform a predicate.
+ * Defines a functor interface implemented by classes that perform a predicate.
  * 
  * @author michiel
  */
 public interface Predicate {
-    public boolean evaluate(Object object);
+	public boolean evaluate(Object object);
 }

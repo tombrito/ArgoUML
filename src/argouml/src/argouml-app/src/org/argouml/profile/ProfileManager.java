@@ -49,100 +49,109 @@ import org.argouml.kernel.ProfileConfiguration;
  */
 public interface ProfileManager {
 
-    /**
-     * Register a new profile.
-     * 
-     * @param profile A profile to be registered so that it is available to the
-     *            users.
-     */
-    void registerProfile(Profile profile);
+	/**
+	 * Register a new profile.
+	 * 
+	 * @param profile
+	 *            A profile to be registered so that it is available to the
+	 *            users.
+	 */
+	void registerProfile(Profile profile);
 
-    /**
-     * Remove a profile from the list of registered profiles.
-     * Only User defined profiles can be removed.
-     * 
-     * @param profile the profile to unregister. It will no longer be available
-     *            for selection by users
-     */
-    void removeProfile(Profile profile);
+	/**
+	 * Remove a profile from the list of registered profiles. Only User defined
+	 * profiles can be removed.
+	 * 
+	 * @param profile
+	 *            the profile to unregister. It will no longer be available for
+	 *            selection by users
+	 */
+	void removeProfile(Profile profile);
 
-    /**
-     * @return the list of registered profiles
-     */
-    List<Profile> getRegisteredProfiles();
+	/**
+	 * @return the list of registered profiles
+	 */
+	List<Profile> getRegisteredProfiles();
 
-    /**
-     * Search for a Profile with the given Java classname.
-     * 
-     * @return the profile instance for the class or null if there is none.
-     * @param className the name of the Java class to search for.
-     */
-    Profile getProfileForClass(String className);
+	/**
+	 * Search for a Profile with the given Java classname.
+	 * 
+	 * @return the profile instance for the class or null if there is none.
+	 * @param className
+	 *            the name of the Java class to search for.
+	 */
+	Profile getProfileForClass(String className);
 
-    /**
-     * @return the default list of profiles
-     */
-    List<Profile> getDefaultProfiles();
+	/**
+	 * @return the default list of profiles
+	 */
+	List<Profile> getDefaultProfiles();
 
-    /**
-     * Add a profile to the default list.
-     * 
-     * @param profile profile to be added to the default application profiles.
-     *            New models will reference it by default
-     */
-    void addToDefaultProfiles(Profile profile);
+	/**
+	 * Add a profile to the default list.
+	 * 
+	 * @param profile
+	 *            profile to be added to the default application profiles. New
+	 *            models will reference it by default
+	 */
+	void addToDefaultProfiles(Profile profile);
 
-    /**
-     * Remove a profile from the default list.
-     * 
-     * @param profile the profile to be removed
-     */
-    void removeFromDefaultProfiles(Profile profile);
+	/**
+	 * Remove a profile from the default list.
+	 * 
+	 * @param profile
+	 *            the profile to be removed
+	 */
+	void removeFromDefaultProfiles(Profile profile);
 
-    /**
-     * Add a new directory to the directory list.
-     * 
-     * @param path a directory name where the manager will try to look for user
-     *            defined profiles as XMI files
-     */
-    void addSearchPathDirectory(String path);
+	/**
+	 * Add a new directory to the directory list.
+	 * 
+	 * @param path
+	 *            a directory name where the manager will try to look for user
+	 *            defined profiles as XMI files
+	 */
+	void addSearchPathDirectory(String path);
 
-    /**
-     * Remove a directory from the directory list.
-     * 
-     * @param path the directory path to be removed.
-     */
-    void removeSearchPathDirectory(String path);
+	/**
+	 * Remove a directory from the directory list.
+	 * 
+	 * @param path
+	 *            the directory path to be removed.
+	 */
+	void removeSearchPathDirectory(String path);
 
-    /**
-     * @return the current directory list
-     */
-    List<String> getSearchPathDirectories();
+	/**
+	 * @return the current directory list
+	 */
+	List<String> getSearchPathDirectories();
 
-    /**
-     * Look for XMI files at the current directory list and registers them as
-     * user defined profiles.
-     */
-    void refreshRegisteredProfiles();
+	/**
+	 * Look for XMI files at the current directory list and registers them as
+	 * user defined profiles.
+	 */
+	void refreshRegisteredProfiles();
 
-    /**
-     * @return the Profile for UML, i.e., the base UML profile as defined by the
-     *         standard.
-     */
-    Profile getUMLProfile();
+	/**
+	 * @return the Profile for UML, i.e., the base UML profile as defined by the
+	 *         standard.
+	 */
+	Profile getUMLProfile();
 
-    /**
-     * Looks for registered Profile
-     * 
-     * @param profile identifier
-     * @return profile
-     */
-    Profile lookForRegisteredProfile(String profile);
+	/**
+	 * Looks for registered Profile
+	 * 
+	 * @param profile
+	 *            identifier
+	 * @return profile
+	 */
+	Profile lookForRegisteredProfile(String profile);
 
-    /**
-     * Apply the given ProfileConfiguration to ArgoUML
-     * 
-     * @param pc the profile configuration
-     */
-    void applyConfiguration(ProfileConfiguration pc);
+	/**
+	 * Apply the given ProfileConfiguration to ArgoUML
+	 * 
+	 * @param pc
+	 *            the profile configuration
+	 */
+	void applyConfiguration(ProfileConfiguration pc);
 }

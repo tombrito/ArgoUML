@@ -48,36 +48,37 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
 /**
- * Action to create a new class 
- * in the same namespace as the currently selected classifier.
+ * Action to create a new class in the same namespace as the currently selected
+ * classifier.
  *
  * @author Michiel
  */
 public class ActionNewClass extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -5899518053107243921L;
+	private static final long serialVersionUID = -5899518053107243921L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewClass() {
-        super("button.new-class");
-        putValue(Action.NAME, Translator.localize("button.new-class"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewClass() {
+		super("button.new-class");
+		putValue(Action.NAME, Translator.localize("button.new-class"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAClassifier(target)) {
-            Object classifier = target;
-            Object ns = Model.getFacade().getNamespace(classifier);
-            if (ns != null) {
-                Object peer = Model.getCoreFactory().buildClass(ns);
-                TargetManager.getInstance().setTarget(peer);
-                super.actionPerformed(e);
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAClassifier(target)) {
+			Object classifier = target;
+			Object ns = Model.getFacade().getNamespace(classifier);
+			if (ns != null) {
+				Object peer = Model.getCoreFactory().buildClass(ns);
+				TargetManager.getInstance().setTarget(peer);
+				super.actionPerformed(e);
+			}
+		}
+	}
 }

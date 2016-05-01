@@ -43,40 +43,39 @@ import org.argouml.model.Model;
 
 @UmlModelMutator
 class ActionVisibilityPrivate extends AbstractActionRadioMenuItem {
-    
-    /**
-     * Serial version generated for rev 1.5
-     */
-    private static final long serialVersionUID = -1342216726253371114L;
 
-    /**
-     * The constructor.
-     *
-     * @param o the target
-     */
-    public ActionVisibilityPrivate(Object o) {
-        super("checkbox.visibility.private-uc", false);
-        putValue("SELECTED", Boolean.valueOf(
-            Model.getVisibilityKind().getPrivate()
-                .equals(valueOfTarget(o))));
-    }
+	/**
+	 * Serial version generated for rev 1.5
+	 */
+	private static final long serialVersionUID = -1342216726253371114L;
 
-    /*
-     * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#toggleValueOfTarget(java.lang.Object)
-     */
-    void toggleValueOfTarget(Object t) {
-        Model.getCoreHelper().setVisibility(t,
-            Model.getVisibilityKind().getPrivate());
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param o
+	 *            the target
+	 */
+	public ActionVisibilityPrivate(Object o) {
+		super("checkbox.visibility.private-uc", false);
+		putValue("SELECTED", Boolean.valueOf(Model.getVisibilityKind().getPrivate().equals(valueOfTarget(o))));
+	}
 
-    /**
-     * Make use of the default visibility, which is public...
-     * TODO: centralise this knowledge.
-     *
-     * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#valueOfTarget(java.lang.Object)
-     */
-    Object valueOfTarget(Object t) {
-        Object v = Model.getFacade().getVisibility(t);
-        return v == null ? Model.getVisibilityKind().getPublic() : v;
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#
+	 * toggleValueOfTarget(java.lang.Object)
+	 */
+	void toggleValueOfTarget(Object t) {
+		Model.getCoreHelper().setVisibility(t, Model.getVisibilityKind().getPrivate());
+	}
+
+	/**
+	 * Make use of the default visibility, which is public... TODO: centralise
+	 * this knowledge.
+	 *
+	 * @see org.argouml.uml.diagram.ui.AbstractActionRadioMenuItem#valueOfTarget(java.lang.Object)
+	 */
+	Object valueOfTarget(Object t) {
+		Object v = Model.getFacade().getVisibility(t);
+		return v == null ? Model.getVisibilityKind().getPublic() : v;
+	}
 }

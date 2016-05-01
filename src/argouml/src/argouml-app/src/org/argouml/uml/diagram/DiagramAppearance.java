@@ -54,7 +54,8 @@ import org.argouml.configuration.ConfigurationKey;
 /**
  * Provides centralized methods dealing with diagram appearance.
  * <p>
- * These settings do not apply to the appearance of the ArgoUML application! <p>
+ * These settings do not apply to the appearance of the ArgoUML application!
+ * <p>
  *
  * In the MVC pattern, this is part of the Model.
  *
@@ -63,150 +64,138 @@ import org.argouml.configuration.ConfigurationKey;
  */
 public final class DiagramAppearance implements PropertyChangeListener {
 
-    /**
-     * Define a static log4j category variable for ArgoUML diagram appearance.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(DiagramAppearance.class.getName());
+	/**
+	 * Define a static log4j category variable for ArgoUML diagram appearance.
+	 */
+	private static final Logger LOG = Logger.getLogger(DiagramAppearance.class.getName());
 
-    /**
-     * The configuration key for the font name.
-     */
-    public static final ConfigurationKey KEY_FONT_NAME = Configuration.makeKey(
-            "diagramappearance", "fontname");
+	/**
+	 * The configuration key for the font name.
+	 */
+	public static final ConfigurationKey KEY_FONT_NAME = Configuration.makeKey("diagramappearance", "fontname");
 
-    /**
-     * The configuration key for the font size.
-     */
-    public static final ConfigurationKey KEY_FONT_SIZE = Configuration.makeKey(
-            "diagramappearance", "fontsize");
+	/**
+	 * The configuration key for the font size.
+	 */
+	public static final ConfigurationKey KEY_FONT_SIZE = Configuration.makeKey("diagramappearance", "fontsize");
 
-    /**
-     * The configuration key that indicates whether to show bold names.
-     */
-    public static final ConfigurationKey KEY_SHOW_BOLD_NAMES =
-        Configuration.makeKey("notation", "show", "bold", "names");
+	/**
+	 * The configuration key that indicates whether to show bold names.
+	 */
+	public static final ConfigurationKey KEY_SHOW_BOLD_NAMES = Configuration.makeKey("notation", "show", "bold",
+			"names");
 
-    /**
-     * Default value for the shadow size of classes, interfaces etc.
-     */
-    public static final ConfigurationKey KEY_DEFAULT_SHADOW_WIDTH =
-        Configuration.makeKey("notation", "default", "shadow-width");
+	/**
+	 * Default value for the shadow size of classes, interfaces etc.
+	 */
+	public static final ConfigurationKey KEY_DEFAULT_SHADOW_WIDTH = Configuration.makeKey("notation", "default",
+			"shadow-width");
 
-    /**
-     * Indicates if the user wants to see the arrows when both
-     * association ends in an association are navigable.
-     */
-    public static final ConfigurationKey KEY_HIDE_BIDIRECTIONAL_ARROWS =
-        Configuration.makeKey("notation", "hide", "bidirectional-arrows");
+	/**
+	 * Indicates if the user wants to see the arrows when both association ends
+	 * in an association are navigable.
+	 */
+	public static final ConfigurationKey KEY_HIDE_BIDIRECTIONAL_ARROWS = Configuration.makeKey("notation", "hide",
+			"bidirectional-arrows");
 
-    /**
-     * The instance.
-     */
-    private static final DiagramAppearance SINGLETON = new DiagramAppearance();
+	/**
+	 * The instance.
+	 */
+	private static final DiagramAppearance SINGLETON = new DiagramAppearance();
 
-    /**
-     * Used for FigNodeModelElement#setStereotypeView().
-     * Represents the default view for
-     * stereotypes applied to this node.
-     *
-     * @see org.argouml.uml.diagram.ui.ActionStereotypeViewTextual
-     */
-    public static final int STEREOTYPE_VIEW_TEXTUAL = 0;
+	/**
+	 * Used for FigNodeModelElement#setStereotypeView(). Represents the default
+	 * view for stereotypes applied to this node.
+	 *
+	 * @see org.argouml.uml.diagram.ui.ActionStereotypeViewTextual
+	 */
+	public static final int STEREOTYPE_VIEW_TEXTUAL = 0;
 
-    /**
-     * Used for FigNodeModelElement#setStereotypeView().
-     * Represents the view for stereotypes where the
-     * default representation is replaced by a provided
-     * icon.
-     *
-     * @see org.argouml.uml.diagram.ui.ActionStereotypeViewBigIcon
-     */
-    public static final int STEREOTYPE_VIEW_BIG_ICON = 1;
+	/**
+	 * Used for FigNodeModelElement#setStereotypeView(). Represents the view for
+	 * stereotypes where the default representation is replaced by a provided
+	 * icon.
+	 *
+	 * @see org.argouml.uml.diagram.ui.ActionStereotypeViewBigIcon
+	 */
+	public static final int STEREOTYPE_VIEW_BIG_ICON = 1;
 
-    /**
-     * Used for FigNodeModelElement#setStereotypeView().
-     * Represents the view for stereotypes where the
-     * default view is adorned with a small version of the
-     * provided icon.
-     *
-     * @see org.argouml.uml.diagram.ui.ActionStereotypeViewSmallIcon
-     */
-    public static final int STEREOTYPE_VIEW_SMALL_ICON = 2;
+	/**
+	 * Used for FigNodeModelElement#setStereotypeView(). Represents the view for
+	 * stereotypes where the default view is adorned with a small version of the
+	 * provided icon.
+	 *
+	 * @see org.argouml.uml.diagram.ui.ActionStereotypeViewSmallIcon
+	 */
+	public static final int STEREOTYPE_VIEW_SMALL_ICON = 2;
 
-    /**
-     * The constructor.
-     * TODO: Why does this method not handle all settings
-     * (KEY_DEFAULT_SHADOW_WIDTH is missing)?
-     */
-    private DiagramAppearance() {
-        Configuration.addListener(DiagramAppearance.KEY_FONT_NAME, this);
-        Configuration.addListener(DiagramAppearance.KEY_FONT_SIZE, this);
-        Configuration.addListener(KEY_SHOW_BOLD_NAMES, this);
-        Configuration.addListener(KEY_HIDE_BIDIRECTIONAL_ARROWS, this);
-    }
+	/**
+	 * The constructor. TODO: Why does this method not handle all settings
+	 * (KEY_DEFAULT_SHADOW_WIDTH is missing)?
+	 */
+	private DiagramAppearance() {
+		Configuration.addListener(DiagramAppearance.KEY_FONT_NAME, this);
+		Configuration.addListener(DiagramAppearance.KEY_FONT_SIZE, this);
+		Configuration.addListener(KEY_SHOW_BOLD_NAMES, this);
+		Configuration.addListener(KEY_HIDE_BIDIRECTIONAL_ARROWS, this);
+	}
 
-    /**
-     * @return the singleton
-     */
-    public static DiagramAppearance getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return the singleton
+	 */
+	public static DiagramAppearance getInstance() {
+		return SINGLETON;
+	}
 
-    /*
-     * Called after the diagram font gets changed. <p>
-     *
-     * TODO: Do we need to do anything here?
-     *
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent pce) {
-        LOG.log(Level.INFO,
-                "Diagram appearance change:{0} to {1}",
-                new Object[]{pce.getOldValue(), pce.getNewValue()});
+	/*
+	 * Called after the diagram font gets changed. <p>
+	 *
+	 * TODO: Do we need to do anything here?
+	 *
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent pce) {
+		LOG.log(Level.INFO, "Diagram appearance change:{0} to {1}",
+				new Object[] { pce.getOldValue(), pce.getNewValue() });
 
-        ArgoEventPump.fireEvent(
-                new ArgoDiagramAppearanceEvent(ArgoEventTypes.DIAGRAM_FONT_CHANGED, pce));
-    }
+		ArgoEventPump.fireEvent(new ArgoDiagramAppearanceEvent(ArgoEventTypes.DIAGRAM_FONT_CHANGED, pce));
+	}
 
-    /**
-     * Gets font name. If it doesn't exist in configuration it creates new
-     * entries in configuration for appearance.
-     *
-     * TODO: Why create in a getter?
-     *
-     * @return the name of the configured font
-     */
-    public String getConfiguredFontName() {
-        String fontName = Configuration
-                .getString(DiagramAppearance.KEY_FONT_NAME);
-        if (fontName.equals("")) {
-            Font f = getStandardFont();
-            fontName = f.getName();
+	/**
+	 * Gets font name. If it doesn't exist in configuration it creates new
+	 * entries in configuration for appearance.
+	 *
+	 * TODO: Why create in a getter?
+	 *
+	 * @return the name of the configured font
+	 */
+	public String getConfiguredFontName() {
+		String fontName = Configuration.getString(DiagramAppearance.KEY_FONT_NAME);
+		if (fontName.equals("")) {
+			Font f = getStandardFont();
+			fontName = f.getName();
 
-            Configuration.setString(DiagramAppearance.KEY_FONT_NAME, f
-                    .getName());
-            Configuration.setInteger(DiagramAppearance.KEY_FONT_SIZE, f
-                    .getSize());
-        }
+			Configuration.setString(DiagramAppearance.KEY_FONT_NAME, f.getName());
+			Configuration.setInteger(DiagramAppearance.KEY_FONT_SIZE, f.getSize());
+		}
 
-        return fontName;
-    }
+		return fontName;
+	}
 
-    /**
-     * This is the same function as
-     * LookAndFeelMgr.getInstance().getStandardFont();
-     * but used for a totally different puropose: here it determines
-     * a default font when none is set. In the LookAndFeelMgr it
-     * determines the looks of the UI.
-     *
-     * @return the standard textfield font
-     */
-    private Font getStandardFont() {
-        Font font = UIManager.getDefaults().getFont("TextField.font");
-        if (font == null) {
-            font = (new javax.swing.JTextField()).getFont();
-        }
-        return font;
-    }
+	/**
+	 * This is the same function as
+	 * LookAndFeelMgr.getInstance().getStandardFont(); but used for a totally
+	 * different puropose: here it determines a default font when none is set.
+	 * In the LookAndFeelMgr it determines the looks of the UI.
+	 *
+	 * @return the standard textfield font
+	 */
+	private Font getStandardFont() {
+		Font font = UIManager.getDefaults().getFont("TextField.font");
+		if (font == null) {
+			font = (new javax.swing.JTextField()).getFont();
+		}
+		return font;
+	}
 }

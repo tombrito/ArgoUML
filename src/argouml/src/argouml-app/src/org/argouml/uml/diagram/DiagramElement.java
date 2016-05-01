@@ -39,9 +39,9 @@
 package org.argouml.uml.diagram;
 
 /**
- * The base class interface for all diagram elements. This interface is used
- * to abstract away the knowledge of what actual implementation is used
- * to store diagram elements. These are currently Figs from the GEF library.
+ * The base class interface for all diagram elements. This interface is used to
+ * abstract away the knowledge of what actual implementation is used to store
+ * diagram elements. These are currently Figs from the GEF library.
  *
  * @author Bob Tarling
  */

@@ -44,37 +44,39 @@ import java.awt.Rectangle;
 import org.argouml.uml.diagram.DiagramSettings;
 import org.tigris.gef.presentation.FigPoly;
 
-/** 
- * Class to display graphics for a UML subsystem in a class diagram. 
+/**
+ * Class to display graphics for a UML subsystem in a class diagram.
  */
 public class FigSubsystem extends FigPackage {
 
-    private static final long serialVersionUID = 4414294163006985985L;
+	private static final long serialVersionUID = 4414294163006985985L;
 
 	/**
-     * Construct a Subsystem fig.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigSubsystem(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        constructFigs();
-    }
+	 * Construct a Subsystem fig.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigSubsystem(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		constructFigs();
+	}
 
-    private void constructFigs() {
-        setFigPoly(new FigPoly(LINE_COLOR, SOLID_FILL_COLOR));
-        int[] xpoints = {125, 125, 130, 130, 130, 135, 135};
-        int[] ypoints = {45, 40, 40, 35, 40, 40, 45};
-        Polygon polygon = new Polygon(xpoints, ypoints, 7);
-        getFigPoly().setPolygon(polygon);
-        getFigPoly().setFilled(false);
-        addFig(getFigPoly());
-        Rectangle r = getBounds();
-        setBounds(r.x, r.y, r.width, r.height);
-        updateEdges();
-    }
+	private void constructFigs() {
+		setFigPoly(new FigPoly(LINE_COLOR, SOLID_FILL_COLOR));
+		int[] xpoints = { 125, 125, 130, 130, 130, 135, 135 };
+		int[] ypoints = { 45, 40, 40, 35, 40, 40, 45 };
+		Polygon polygon = new Polygon(xpoints, ypoints, 7);
+		getFigPoly().setPolygon(polygon);
+		getFigPoly().setFilled(false);
+		addFig(getFigPoly());
+		Rectangle r = getBounds();
+		setBounds(r.x, r.y, r.width, r.height);
+		updateEdges();
+	}
 
 }

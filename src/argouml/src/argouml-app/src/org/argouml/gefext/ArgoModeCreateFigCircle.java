@@ -45,25 +45,24 @@ import org.tigris.gef.base.ModeCreateFigCircle;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * A Mode to interprete user input while creating a FigCircle. All of
- * the actual event handling is inherited from ModeCreate. This class
- * just implements the differences needed to make it specific to
- * circles. 
+ * A Mode to interprete user input while creating a FigCircle. All of the actual
+ * event handling is inherited from ModeCreate. This class just implements the
+ * differences needed to make it specific to circles.
  *
  * @author Michiel
  */
 public class ArgoModeCreateFigCircle extends ModeCreateFigCircle {
 
-    private static final long serialVersionUID = -5428730018137114632L;
+	private static final long serialVersionUID = -5428730018137114632L;
 
 	@Override
-    public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
-        return new ArgoFigCircle(snapX, snapY, 0, 0);
-    }
+	public Fig createNewItem(MouseEvent me, int snapX, int snapY) {
+		return new ArgoFigCircle(snapX, snapY, 0, 0);
+	}
 
-    @Override
-    public String instructions() {
-        return Translator.localize("statusmsg.help.create.circle");
-    }
+	@Override
+	public String instructions() {
+		return Translator.localize("statusmsg.help.create.circle");
+	}
 
 }

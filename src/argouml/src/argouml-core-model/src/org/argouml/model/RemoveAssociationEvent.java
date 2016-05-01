@@ -41,34 +41,37 @@ package org.argouml.model;
 import java.util.EventObject;
 
 /**
- * A change event due to removing an association between one model element
- * and another. (eg notifys that an association between a generization element
- * and a class element has been removed (but the two elements may still exist).
+ * A change event due to removing an association between one model element and
+ * another. (eg notifys that an association between a generization element and a
+ * class element has been removed (but the two elements may still exist).
  *
  * @author Bob Tarling
  */
 public class RemoveAssociationEvent extends AssociationChangeEvent {
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     * @param changedValue The object that was actually added or removed.
-     */
-    public RemoveAssociationEvent(Object source, String propertyName,
-            Object oldValue, Object newValue, Object changedValue,
-            EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, changedValue,
-                originalEvent);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 * @param changedValue
+	 *            The object that was actually added or removed.
+	 */
+	public RemoveAssociationEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			Object changedValue, EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, changedValue, originalEvent);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1657123224250248465L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1657123224250248465L;
 }

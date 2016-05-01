@@ -47,23 +47,23 @@ import org.tigris.gef.base.Mode;
  */
 public class ActionCreatePartition extends CmdCreateNode {
 
-    private static final long serialVersionUID = -7869881830747450411L;
+	private static final long serialVersionUID = -7869881830747450411L;
 	private Object machine;
 
-    /**
-     * Constructor
-     *
-     * @param activityGraph the UML element that contains the Partition
-     */
-    public ActionCreatePartition(Object activityGraph) {
-        super(Model.getMetaTypes().getPartition(),
-      	  "button.new-partition");
-        machine = activityGraph;
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param activityGraph
+	 *            the UML element that contains the Partition
+	 */
+	public ActionCreatePartition(Object activityGraph) {
+		super(Model.getMetaTypes().getPartition(), "button.new-partition");
+		machine = activityGraph;
+	}
 
-    @Override
-    protected Mode createMode(String instructions) {
-        return new ModePlacePartition(this, instructions, machine);
-    }
+	@Override
+	protected Mode createMode(String instructions) {
+		return new ModePlacePartition(this, instructions, machine);
+	}
 
 }

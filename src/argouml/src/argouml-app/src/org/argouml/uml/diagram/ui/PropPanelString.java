@@ -58,150 +58,159 @@ import org.tigris.gef.presentation.FigText;
  * The properties panel for a simple text / string.
  *
  */
-public class PropPanelString
-    extends AbstractArgoJPanel
-    implements TabModelTarget, PropertyChangeListener, DocumentListener {
+public class PropPanelString extends AbstractArgoJPanel
+		implements TabModelTarget, PropertyChangeListener, DocumentListener {
 
-    private static final long serialVersionUID = -8059085008407973648L;
+	private static final long serialVersionUID = -8059085008407973648L;
 	private FigText target;
-    private JLabel nameLabel = new JLabel(Translator.localize("label.text"));
-    private JTextField nameField = new JTextField();
+	private JLabel nameLabel = new JLabel(Translator.localize("label.text"));
+	private JTextField nameField = new JTextField();
 
-    /**
-     * The constructor.
-     *
-     */
-    public PropPanelString() {
-	super(Translator.localize("tab.string"));
-	GridBagLayout gb = new GridBagLayout();
-	setLayout(gb);
-	GridBagConstraints c = new GridBagConstraints();
-	c.fill = GridBagConstraints.BOTH;
-	c.weightx = 0.0;
-	c.ipadx = 3; c.ipady = 3;
+	/**
+	 * The constructor.
+	 *
+	 */
+	public PropPanelString() {
+		super(Translator.localize("tab.string"));
+		GridBagLayout gb = new GridBagLayout();
+		setLayout(gb);
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 0.0;
+		c.ipadx = 3;
+		c.ipady = 3;
 
-	c.gridx = 0;
-	c.gridwidth = 1;
-	c.gridy = 0;
-	gb.setConstraints(nameLabel, c);
-	add(nameLabel);
+		c.gridx = 0;
+		c.gridwidth = 1;
+		c.gridy = 0;
+		gb.setConstraints(nameLabel, c);
+		add(nameLabel);
 
-	c.weightx = 1.0;
-	c.gridx = 1;
-	c.gridwidth = GridBagConstraints.REMAINDER;
-	c.gridheight = GridBagConstraints.REMAINDER;
-	c.gridy = 0;
-	gb.setConstraints(nameField, c);
-	add(nameField);
+		c.weightx = 1.0;
+		c.gridx = 1;
+		c.gridwidth = GridBagConstraints.REMAINDER;
+		c.gridheight = GridBagConstraints.REMAINDER;
+		c.gridy = 0;
+		gb.setConstraints(nameField, c);
+		add(nameField);
 
-	nameField.getDocument().addDocumentListener(this);
-	nameField.setEditable(true);
-	// TODO: set font?
+		nameField.getDocument().addDocumentListener(this);
+		nameField.setEditable(true);
+		// TODO: set font?
 
-    }
-
-
-    /*
-     * @see org.argouml.ui.TabTarget#setTarget(java.lang.Object)
-     */
-    public void setTarget(Object t) {
-        if (target != null) {
-            target.removePropertyChangeListener(this);
-        }
-	if (t instanceof FigText) {
-	    target = (FigText) t;
-	    // to circumvent too many registered listeners
-	    target.removePropertyChangeListener(this);
-	    if (isVisible()) {
-	        target.addPropertyChangeListener(this);
-	    }
 	}
 
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#setTarget(java.lang.Object)
+	 */
+	public void setTarget(Object t) {
+		if (target != null) {
+			target.removePropertyChangeListener(this);
+		}
+		if (t instanceof FigText) {
+			target = (FigText) t;
+			// to circumvent too many registered listeners
+			target.removePropertyChangeListener(this);
+			if (isVisible()) {
+				target.addPropertyChangeListener(this);
+			}
+		}
 
-    /*
-     * @see org.argouml.ui.TabTarget#getTarget()
-     */
-    public Object getTarget() {
-        return target;
-    }
-
-    /*
-     * @see org.argouml.ui.TabTarget#refresh()
-     */
-    public void refresh() {
-        setTarget(target);
-    }
-
-    /*
-     * @see org.argouml.ui.TabTarget#shouldBeEnabled(java.lang.Object)
-     */
-    public boolean shouldBeEnabled(Object theTarget) { return false; }
-
-
-    /**
-     * Set the target name.
-     */
-    protected void setTargetName() {
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // event handling
-
-    /*
-     * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void insertUpdate(DocumentEvent e) {
-	if (e.getDocument() == nameField.getDocument() && target != null) {
-	    target.setText(nameField.getText());
-	    target.damage();
-	}
-    }
-
-    /*
-     * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void removeUpdate(DocumentEvent e) {
-        insertUpdate(e);
-    }
-
-    /*
-     * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.DocumentEvent)
-     */
-    public void changedUpdate(DocumentEvent e) {
-    }
-
-    /*
-     * @see java.beans.PropertyChangeListener#propertyChange(PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-	if (evt.getPropertyName().equals("editing")
-	    && evt.getNewValue().equals(Boolean.FALSE)) {
-	    // ending editing
-	    nameField.setText(target.getText());
 	}
 
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#getTarget()
+	 */
+	public Object getTarget() {
+		return target;
+	}
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetAdded(org.argouml.ui.targetmanager.TargetEvent)
-     */
-    public void targetAdded(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#refresh()
+	 */
+	public void refresh() {
+		setTarget(target);
+	}
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetRemoved(org.argouml.ui.targetmanager.TargetEvent)
-     */
-    public void targetRemoved(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#shouldBeEnabled(java.lang.Object)
+	 */
+	public boolean shouldBeEnabled(Object theTarget) {
+		return false;
+	}
 
-    /*
-     * @see org.argouml.ui.targetmanager.TargetListener#targetSet(org.argouml.ui.targetmanager.TargetEvent)
-     */
-    public void targetSet(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	/**
+	 * Set the target name.
+	 */
+	protected void setTargetName() {
+	}
+
+	////////////////////////////////////////////////////////////////
+	// event handling
+
+	/*
+	 * @see javax.swing.event.DocumentListener#insertUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void insertUpdate(DocumentEvent e) {
+		if (e.getDocument() == nameField.getDocument() && target != null) {
+			target.setText(nameField.getText());
+			target.damage();
+		}
+	}
+
+	/*
+	 * @see javax.swing.event.DocumentListener#removeUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void removeUpdate(DocumentEvent e) {
+		insertUpdate(e);
+	}
+
+	/*
+	 * @see javax.swing.event.DocumentListener#changedUpdate(javax.swing.event.
+	 * DocumentEvent)
+	 */
+	public void changedUpdate(DocumentEvent e) {
+	}
+
+	/*
+	 * @see
+	 * java.beans.PropertyChangeListener#propertyChange(PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (evt.getPropertyName().equals("editing") && evt.getNewValue().equals(Boolean.FALSE)) {
+			// ending editing
+			nameField.setText(target.getText());
+		}
+
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.targetmanager.TargetListener#targetAdded(org.argouml.ui.
+	 * targetmanager.TargetEvent)
+	 */
+	public void targetAdded(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.targetmanager.TargetListener#targetRemoved(org.argouml.ui.
+	 * targetmanager.TargetEvent)
+	 */
+	public void targetRemoved(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.targetmanager.TargetListener#targetSet(org.argouml.ui.
+	 * targetmanager.TargetEvent)
+	 */
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
 }

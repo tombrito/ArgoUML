@@ -47,58 +47,56 @@ import org.argouml.model.RemoveAssociationEvent;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the attribute compartment of a Class.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the attribute compartment of a Class. Subclass this for all
+ * languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class AttributeNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     * @param attribute the UML element
-     */
-    public AttributeNotation(Object attribute) {
-        if (!Model.getFacade().isAAttribute(attribute)
-                && !Model.getFacade().isAProperty(attribute)) {
-            throw new IllegalArgumentException("This is not an Attribute " + attribute);
-        }
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param attribute
+	 *            the UML element
+	 */
+	public AttributeNotation(Object attribute) {
+		if (!Model.getFacade().isAAttribute(attribute) && !Model.getFacade().isAProperty(attribute)) {
+			throw new IllegalArgumentException("This is not an Attribute " + attribute);
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement);
-        if (Model.getFacade().isAAttribute(modelElement)
-                || Model.getFacade().isAProperty(modelElement)) {
-            // We also show stereotypes
-            for (Object uml : Model.getFacade().getStereotypes(modelElement)) {
-                addElementListener(uml);
-            }
-            // We also show the type (of which e.g. the name may change)
-            Object type = Model.getFacade().getType(modelElement);
-            if (type != null) {
-                addElementListener(type);
-            }
-            // We also show tagged values (the / for derived)
-            for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
-                addElementListener(uml);
-            }
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement);
+		if (Model.getFacade().isAAttribute(modelElement) || Model.getFacade().isAProperty(modelElement)) {
+			// We also show stereotypes
+			for (Object uml : Model.getFacade().getStereotypes(modelElement)) {
+				addElementListener(uml);
+			}
+			// We also show the type (of which e.g. the name may change)
+			Object type = Model.getFacade().getType(modelElement);
+			if (type != null) {
+				addElementListener(type);
+			}
+			// We also show tagged values (the / for derived)
+			for (Object uml : Model.getFacade().getTaggedValuesCollection(modelElement)) {
+				addElementListener(uml);
+			}
+		}
+	}
 
-    @Override
-    public void updateListener(Object modelElement, PropertyChangeEvent pce) {
-        if (pce.getSource() == modelElement
-                && ("stereotype".equals(pce.getPropertyName())
-                        || ("taggedValue".equals(pce.getPropertyName()))
-                        || ("type".equals(pce.getPropertyName())))) {
-            if (pce instanceof AddAssociationEvent) {
-                addElementListener(pce.getNewValue());
-            }
-            if (pce instanceof RemoveAssociationEvent) {
-                removeElementListener(pce.getOldValue());
-            }
-        }
-    }
+	@Override
+	public void updateListener(Object modelElement, PropertyChangeEvent pce) {
+		if (pce.getSource() == modelElement && ("stereotype".equals(pce.getPropertyName())
+				|| ("taggedValue".equals(pce.getPropertyName())) || ("type".equals(pce.getPropertyName())))) {
+			if (pce instanceof AddAssociationEvent) {
+				addElementListener(pce.getNewValue());
+			}
+			if (pce instanceof RemoveAssociationEvent) {
+				removeElementListener(pce.getOldValue());
+			}
+		}
+	}
 }

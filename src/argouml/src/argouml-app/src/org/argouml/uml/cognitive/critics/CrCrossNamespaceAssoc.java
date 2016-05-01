@@ -49,88 +49,96 @@ import org.argouml.uml.cognitive.UMLDecision;
 
 /**
  * A critic to check that the classifiers associated with the ends of an
- * association are in the same namespace as the association.<p>
+ * association are in the same namespace as the association.
+ * <p>
  *
  * This is the fourth well-formedness rule for associations in the UML 1.3
- * standard (see section 2.5.3 of the standard).<p>
+ * standard (see section 2.5.3 of the standard).
+ * <p>
  *
- * Well-formedness rule [4] for Association. See page 52 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [4] for Association. See page 52 of UML 1.4 Semantics.
+ * OMG document UML 1.4.2 formal/04-07-02.
  * 
  * See the ArgoUML User Manual: Classifier not in Namespace of its Association
  *
  * @author Jason Robbins
  */
 public class CrCrossNamespaceAssoc extends CrUML {
-    private static final long serialVersionUID = -2206527712974299465L;
+	private static final long serialVersionUID = -2206527712974299465L;
 
 	/**
-     * Constructor for the critic.<p>
-     *
-     * Sets up the resource name, which will allow headline and description
-     * to found for the current locale. Provides a design issue category
-     * (MODULARITY) and a knowledge type (SYNTAX).
-     */
-    public CrCrossNamespaceAssoc() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.MODULARITY);
-        setKnowledgeTypes(Critic.KT_SYNTAX);
-    }
+	 * Constructor for the critic.
+	 * <p>
+	 *
+	 * Sets up the resource name, which will allow headline and description to
+	 * found for the current locale. Provides a design issue category
+	 * (MODULARITY) and a knowledge type (SYNTAX).
+	 */
+	public CrCrossNamespaceAssoc() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.MODULARITY);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+	}
 
-    /**
-     * The trigger for the critic.<p>
-     *
-     * Get the association. Then loop through the association ends, checking
-     * that their associated classifiers are in the namespace, i.e. are part of
-     * the same model or subsystem.<p>
-     *
-     * @param  dm    the {@link java.lang.Object Object} to be checked against
-     *               the critic.
-     *
-     * @param  dsgr  the {@link org.argouml.cognitive.Designer Designer}
-     *               creating the model. Not used, this is for future
-     *               development of ArgoUML.
-     *
-     * @return       {@link #PROBLEM_FOUND PROBLEM_FOUND} if the critic is
-     *               triggered, otherwise {@link #NO_PROBLEM NO_PROBLEM}.
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        // Only look at associations
-        if (!Model.getFacade().isAAssociation(dm)) {
-            return NO_PROBLEM;
-        }
+	/**
+	 * The trigger for the critic.
+	 * <p>
+	 *
+	 * Get the association. Then loop through the association ends, checking
+	 * that their associated classifiers are in the namespace, i.e. are part of
+	 * the same model or subsystem.
+	 * <p>
+	 *
+	 * @param dm
+	 *            the {@link java.lang.Object Object} to be checked against the
+	 *            critic.
+	 *
+	 * @param dsgr
+	 *            the {@link org.argouml.cognitive.Designer Designer} creating
+	 *            the model. Not used, this is for future development of
+	 *            ArgoUML.
+	 *
+	 * @return {@link #PROBLEM_FOUND PROBLEM_FOUND} if the critic is triggered,
+	 *         otherwise {@link #NO_PROBLEM NO_PROBLEM}.
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		// Only look at associations
+		if (!Model.getFacade().isAAssociation(dm)) {
+			return NO_PROBLEM;
+		}
 
-        Object ns = Model.getFacade().getNamespace(dm);
-        if (ns == null) {
-            return PROBLEM_FOUND;
-        }
+		Object ns = Model.getFacade().getNamespace(dm);
+		if (ns == null) {
+			return PROBLEM_FOUND;
+		}
 
-        // Get the Association and its connections.
-        // Iterate over all the AssociationEnds and check that each connected
-        // classifier is in the same sub-system or model
-        Iterator assocEnds = Model.getFacade().getConnections(dm).iterator();
-        while (assocEnds.hasNext()) {
-            // The next AssociationEnd, and its classifier. Check the
-            // classifier is in the namespace of the association. If not we
-            // have a problem.
-            Object clf = Model.getFacade().getType(assocEnds.next());
-            if (clf != null && ns != Model.getFacade().getNamespace(clf)) {
-                return PROBLEM_FOUND;
-            }
-        }
-        // If we drop out there is no problem
-        return NO_PROBLEM;
-    }
-    
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAssociationClass());
-        return ret;
-    }
-    
+		// Get the Association and its connections.
+		// Iterate over all the AssociationEnds and check that each connected
+		// classifier is in the same sub-system or model
+		Iterator assocEnds = Model.getFacade().getConnections(dm).iterator();
+		while (assocEnds.hasNext()) {
+			// The next AssociationEnd, and its classifier. Check the
+			// classifier is in the namespace of the association. If not we
+			// have a problem.
+			Object clf = Model.getFacade().getType(assocEnds.next());
+			if (clf != null && ns != Model.getFacade().getNamespace(clf)) {
+				return PROBLEM_FOUND;
+			}
+		}
+		// If we drop out there is no problem
+		return NO_PROBLEM;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAssociationClass());
+		return ret;
+	}
+
 } /* end class CrCrossNamespaceAssoc */

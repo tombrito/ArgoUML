@@ -53,53 +53,47 @@ import org.argouml.uml.ui.AbstractActionAddModelElement2;
  * @author jaap.branderhorst@xs4all.nl
  * @since Jan 4, 2003
  */
-public class ActionAddAssociationSpecification extends
-        AbstractActionAddModelElement2 {
+public class ActionAddAssociationSpecification extends AbstractActionAddModelElement2 {
 
-    private static final long serialVersionUID = -3137031571915501851L;
-	private static final ActionAddAssociationSpecification SINGLETON =
-        new ActionAddAssociationSpecification();
-    /**
-     * Constructor for ActionAddExtendExtensionPoint.
-     */
-    protected ActionAddAssociationSpecification() {
-        super();
-    }
+	private static final long serialVersionUID = -3137031571915501851L;
+	private static final ActionAddAssociationSpecification SINGLETON = new ActionAddAssociationSpecification();
 
+	/**
+	 * Constructor for ActionAddExtendExtensionPoint.
+	 */
+	protected ActionAddAssociationSpecification() {
+		super();
+	}
 
-    protected void doIt(Collection selected) {
-        Model.getCoreHelper().setSpecifications(getTarget(), selected);
-    }
+	protected void doIt(Collection selected) {
+		Model.getCoreHelper().setSpecifications(getTarget(), selected);
+	}
 
+	protected List getChoices() {
+		List ret = new ArrayList();
+		if (getTarget() != null) {
+			Project p = ProjectManager.getManager().getCurrentProject();
+			Object model = p.getRoot();
+			ret.addAll(Model.getModelManagementHelper().getAllModelElementsOfKindWithModel(model,
+					Model.getMetaTypes().getClassifier()));
+		}
+		return ret;
+	}
 
-    protected List getChoices() {
-        List ret = new ArrayList();
-        if (getTarget() != null) {
-            Project p = ProjectManager.getManager().getCurrentProject();
-            Object model = p.getRoot();
-            ret.addAll(Model.getModelManagementHelper()
-                .getAllModelElementsOfKindWithModel(model,
-                        Model.getMetaTypes().getClassifier()));
-        }
-        return ret;
-    }
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-specifications");
+	}
 
+	protected List getSelected() {
+		List ret = new ArrayList();
+		ret.addAll(Model.getFacade().getSpecifications(getTarget()));
+		return ret;
+	}
 
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-specifications");
-    }
-
-
-    protected List getSelected() {
-        List ret = new ArrayList();
-        ret.addAll(Model.getFacade().getSpecifications(getTarget()));
-        return ret;
-    }
-
-    /**
-     * @return Returns the sINGLETON.
-     */
-    public static ActionAddAssociationSpecification getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the sINGLETON.
+	 */
+	public static ActionAddAssociationSpecification getInstance() {
+		return SINGLETON;
+	}
 }

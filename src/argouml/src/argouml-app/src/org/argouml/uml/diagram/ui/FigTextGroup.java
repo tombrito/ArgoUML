@@ -47,207 +47,208 @@ import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Custom class to group FigTexts in such a way that they don't
- * overlap and that the group is shrinked to fit (no whitespace in
- * group).
+ * Custom class to group FigTexts in such a way that they don't overlap and that
+ * the group is shrinked to fit (no whitespace in group).
  *
  * @author jaap.branderhorst@xs4all.nl
  */
 public class FigTextGroup extends ArgoFigGroup implements MouseListener {
 
-    private static final long serialVersionUID = 2606577209031053575L;
+	private static final long serialVersionUID = 2606577209031053575L;
 	private boolean supressCalcBounds = false;
 
-    /**
-     * Construct a FigGroup with the given render settings.
-     * 
-     * @param owner owning UML element
-     * @param settings rendering settings.
-     */
-    public FigTextGroup(Object owner, DiagramSettings settings) {
-        super(owner, settings);
-    }
-    
-    /**
-     * Adds a FigText to the list with figs. Makes sure that the
-     * figtexts do not overlap.
-     * {@inheritDoc}
-     */
-    @Override
-    public void addFig(Fig f) {
-	super.addFig(f);
-        updateFigTexts();
-        calcBounds();
-    }
+	/**
+	 * Construct a FigGroup with the given render settings.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param settings
+	 *            rendering settings.
+	 */
+	public FigTextGroup(Object owner, DiagramSettings settings) {
+		super(owner, settings);
+	}
 
-    /**
-     * Updates the FigTexts. FigTexts without text (equals "") are not shown.
-     * The rest of the figtexts are shown non-overlapping. The first figtext
-     * added (via addFig) is shown at the bottom of the FigTextGroup.
-     */
-    private void updateFigTexts() {
-        int height = 0;
-        for (Fig fig : getFigs()) {
-            int figHeight = fig.getMinimumSize().height;
-            fig.setBounds(getX(), getY() + height, fig.getWidth(), figHeight);
-            fig.endTrans();
-            height += fig.getHeight();
-        }
-    }
+	/**
+	 * Adds a FigText to the list with figs. Makes sure that the figtexts do not
+	 * overlap. {@inheritDoc}
+	 */
+	@Override
+	public void addFig(Fig f) {
+		super.addFig(f);
+		updateFigTexts();
+		calcBounds();
+	}
 
+	/**
+	 * Updates the FigTexts. FigTexts without text (equals "") are not shown.
+	 * The rest of the figtexts are shown non-overlapping. The first figtext
+	 * added (via addFig) is shown at the bottom of the FigTextGroup.
+	 */
+	private void updateFigTexts() {
+		int height = 0;
+		for (Fig fig : getFigs()) {
+			int figHeight = fig.getMinimumSize().height;
+			fig.setBounds(getX(), getY() + height, fig.getWidth(), figHeight);
+			fig.endTrans();
+			height += fig.getHeight();
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#calcBounds()
-     */
-    @Override
-    public void calcBounds() {
-    	updateFigTexts();
-        if (!supressCalcBounds) {
-            super.calcBounds();
-            // get the widest of all textfigs
-            // calculate the total height
-            int maxWidth = 0;
-            int height = 0;
-            for (Fig fig : getFigs()) {
-//                fig.calcBounds();
-                if (fig.getWidth() > maxWidth) {
-                    maxWidth = fig.getWidth();
-                }
-                fig.setHeight(fig.getMinimumSize().height);
-                height += fig.getHeight();
-            }
-            _w = maxWidth;
-            _h = height;
-        }
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#calcBounds()
+	 */
+	@Override
+	public void calcBounds() {
+		updateFigTexts();
+		if (!supressCalcBounds) {
+			super.calcBounds();
+			// get the widest of all textfigs
+			// calculate the total height
+			int maxWidth = 0;
+			int height = 0;
+			for (Fig fig : getFigs()) {
+				// fig.calcBounds();
+				if (fig.getWidth() > maxWidth) {
+					maxWidth = fig.getWidth();
+				}
+				fig.setHeight(fig.getMinimumSize().height);
+				height += fig.getHeight();
+			}
+			_w = maxWidth;
+			_h = height;
+		}
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
-     */
-    @Override
-    public void removeFromDiagram() {
-        for (Fig fig : getFigs()) {
-            fig.removeFromDiagram();
-        }
-        super.removeFromDiagram();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#removeFromDiagram()
+	 */
+	@Override
+	public void removeFromDiagram() {
+		for (Fig fig : getFigs()) {
+			fig.removeFromDiagram();
+		}
+		super.removeFromDiagram();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#deleteFromModel()
-     */
-    @Override
-    public void deleteFromModel() {
-        for (Fig fig : getFigs()) {
-            fig.deleteFromModel();
-        }
-        super.deleteFromModel();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#deleteFromModel()
+	 */
+	@Override
+	public void deleteFromModel() {
+		for (Fig fig : getFigs()) {
+			fig.deleteFromModel();
+		}
+		super.deleteFromModel();
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // event handlers - MouseListener implementation
+	////////////////////////////////////////////////////////////////
+	// event handlers - MouseListener implementation
 
-    /*
-     * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-     */
-    public void mousePressed(MouseEvent me) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	public void mousePressed(MouseEvent me) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-     */
-    public void mouseReleased(MouseEvent me) {
-        // ignored
-    }
+	/*
+	 * @see
+	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased(MouseEvent me) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-     */
-    public void mouseEntered(MouseEvent me) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered(MouseEvent me) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-     */
-    public void mouseExited(MouseEvent me) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited(MouseEvent me) {
+		// ignored
+	}
 
-    /**
-     * Handle mouse click. If the user double clicks on any part of this
-     * FigGroup, pass it down to one of the internal Figs. This allows the user
-     * to initiate direct text editing.
-     * 
-     * {@inheritDoc}
-     */
-    public void mouseClicked(MouseEvent me) {
-        if (me.isConsumed()) {
-            return;
-        }
-        if (me.getClickCount() >= 2) {
-            Fig f = hitFig(new Rectangle(me.getX() - 2, me.getY() - 2, 4, 4));
-            if (f instanceof MouseListener) {
-                ((MouseListener) f).mouseClicked(me);
-            }
-            if (me.isConsumed()) {
-                return;
-            }
-            // If the mouse event hasn't been consumed, it means that the user
-            // double clicked on an area that didn't contain an editable fig.
-            // in this case, scan through the list and start editing the first 
-            // fig with editable text.  This allows us to remove the editable 
-            // box clarifier outline, and just outline the whole FigTextGroup, 
-            // see issue 1048.
-            for (Object o : this.getFigs()) {
-                f = (Fig) o;
-                if (f instanceof MouseListener && f instanceof FigText) {
-                    if ( ((FigText) f).getEditable()) {
-                        ((MouseListener) f).mouseClicked(me);
-                    }
-                }
-            }
-        }
-        // TODO: 21/12/2008 dthompson mouseClicked(me) above consumes the 
-        // mouse event internally, so I suspect that this line might not be 
-        // necessary.
-        me.consume();
-    }
-    
-    /**
-     * Checks to see if the given click point (Rectangle) hits
-     * the FigTextGroup.
-     * This overrides the FigGroup implementation of hit where the hit 
-     * rectangle must hit a sub fig.
-     * Now, we count a hit if the user clicks anywhere within the outer 
-     * bounds of the FigTextGroup, see issue 5620.
-     * This method is important for registering double clicks to edit text 
-     * boxes in a FigTextGroup.
-     * @param r The hit rectangle.
-     * @return True if the given hit rectangle intersects or is contained by
-     * the outer limits of this FigTextGroup.
-     * @see org.tigris.gef.presentation.FigGroup#hit(java.awt.Rectangle)
-     */
-    public boolean hit(Rectangle r) {
-        return this.intersects(r);
-    }
-    
-    /** 
-     * Returns true if the bounds of the group contain the given point. 
-     * Used to check if a mouse click occurs within the FigTextGroup.
-     * Overrides the FigGroup implementation of contains where the
-     * x, y point must hit a sub fig.
-     * Now we count a hit if the user clicks anywhere within the outer
-     * bounds of the FigTextGroup, see issue 5620.
-     * This method is important for handling mousePressed events including
-     * the start of mouse drags.
-     * @param x The x coordinate of the point to test.
-     * @param y The y coordinate of the point to test.
-     * @return True if the given point is within the outer limits of this
-     * FigTextGroup.
-     * @see org.tigris.gef.presentation.FigGroup#contains(int, int)
-     */
-    public boolean contains(int x, int y) {
-        return (_x <= x) && (x <= _x + _w) && (_y <= y) && (y <= _y + _h);
-    }
+	/**
+	 * Handle mouse click. If the user double clicks on any part of this
+	 * FigGroup, pass it down to one of the internal Figs. This allows the user
+	 * to initiate direct text editing.
+	 * 
+	 * {@inheritDoc}
+	 */
+	public void mouseClicked(MouseEvent me) {
+		if (me.isConsumed()) {
+			return;
+		}
+		if (me.getClickCount() >= 2) {
+			Fig f = hitFig(new Rectangle(me.getX() - 2, me.getY() - 2, 4, 4));
+			if (f instanceof MouseListener) {
+				((MouseListener) f).mouseClicked(me);
+			}
+			if (me.isConsumed()) {
+				return;
+			}
+			// If the mouse event hasn't been consumed, it means that the user
+			// double clicked on an area that didn't contain an editable fig.
+			// in this case, scan through the list and start editing the first
+			// fig with editable text. This allows us to remove the editable
+			// box clarifier outline, and just outline the whole FigTextGroup,
+			// see issue 1048.
+			for (Object o : this.getFigs()) {
+				f = (Fig) o;
+				if (f instanceof MouseListener && f instanceof FigText) {
+					if (((FigText) f).getEditable()) {
+						((MouseListener) f).mouseClicked(me);
+					}
+				}
+			}
+		}
+		// TODO: 21/12/2008 dthompson mouseClicked(me) above consumes the
+		// mouse event internally, so I suspect that this line might not be
+		// necessary.
+		me.consume();
+	}
+
+	/**
+	 * Checks to see if the given click point (Rectangle) hits the FigTextGroup.
+	 * This overrides the FigGroup implementation of hit where the hit rectangle
+	 * must hit a sub fig. Now, we count a hit if the user clicks anywhere
+	 * within the outer bounds of the FigTextGroup, see issue 5620. This method
+	 * is important for registering double clicks to edit text boxes in a
+	 * FigTextGroup.
+	 * 
+	 * @param r
+	 *            The hit rectangle.
+	 * @return True if the given hit rectangle intersects or is contained by the
+	 *         outer limits of this FigTextGroup.
+	 * @see org.tigris.gef.presentation.FigGroup#hit(java.awt.Rectangle)
+	 */
+	public boolean hit(Rectangle r) {
+		return this.intersects(r);
+	}
+
+	/**
+	 * Returns true if the bounds of the group contain the given point. Used to
+	 * check if a mouse click occurs within the FigTextGroup. Overrides the
+	 * FigGroup implementation of contains where the x, y point must hit a sub
+	 * fig. Now we count a hit if the user clicks anywhere within the outer
+	 * bounds of the FigTextGroup, see issue 5620. This method is important for
+	 * handling mousePressed events including the start of mouse drags.
+	 * 
+	 * @param x
+	 *            The x coordinate of the point to test.
+	 * @param y
+	 *            The y coordinate of the point to test.
+	 * @return True if the given point is within the outer limits of this
+	 *         FigTextGroup.
+	 * @see org.tigris.gef.presentation.FigGroup#contains(int, int)
+	 */
+	public boolean contains(int x, int y) {
+		return (_x <= x) && (x <= _x + _w) && (_y <= y) && (y <= _y + _h);
+	}
 }

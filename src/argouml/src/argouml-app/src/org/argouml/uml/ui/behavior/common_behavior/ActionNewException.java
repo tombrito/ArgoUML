@@ -47,7 +47,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
-
 /**
  * This action creates a new Signal.
  *
@@ -55,31 +54,32 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewException extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 5094412386470666158L;
+	private static final long serialVersionUID = 5094412386470666158L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewException() {
-        super("button.new-exception");
-        putValue(Action.NAME, Translator.localize("button.new-exception"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewException() {
+		super("button.new-exception");
+		putValue(Action.NAME, Translator.localize("button.new-exception"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        Object ns = null;
-        if (Model.getFacade().isANamespace(target)) {
-            ns = target;
-        } else {
-            ns = Model.getFacade().getNamespace(target);
-        }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		Object ns = null;
+		if (Model.getFacade().isANamespace(target)) {
+			ns = target;
+		} else {
+			ns = Model.getFacade().getNamespace(target);
+		}
 
-        Object newElement = Model.getCommonBehaviorFactory().createException();
-        Model.getCoreHelper().setNamespace(newElement, ns);
-        TargetManager.getInstance().setTarget(newElement);
-        super.actionPerformed(e);
-    }
+		Object newElement = Model.getCommonBehaviorFactory().createException();
+		Model.getCoreHelper().setNamespace(newElement, ns);
+		TargetManager.getInstance().setTarget(newElement);
+		super.actionPerformed(e);
+	}
 }

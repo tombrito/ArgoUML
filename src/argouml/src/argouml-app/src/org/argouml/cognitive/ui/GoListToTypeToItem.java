@@ -48,130 +48,129 @@ import org.argouml.cognitive.Designer;
 import org.argouml.cognitive.ToDoItem;
 import org.argouml.cognitive.ToDoList;
 
-
 /**
  * Rule for sorting the ToDo list: Type -> Item.
  *
  */
 public class GoListToTypeToItem extends AbstractGoList2 {
 
-    ////////////////////////////////////////////////////////////////
-    // TreeModel implementation
+	////////////////////////////////////////////////////////////////
+	// TreeModel implementation
 
-
-    /*
-     * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
-    public Object getChild(Object parent, int index) {
-	if (parent instanceof ToDoList) {
-	    return KnowledgeTypeNode.getTypeList().get(index);
+	/*
+	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+	 */
+	public Object getChild(Object parent, int index) {
+		if (parent instanceof ToDoList) {
+			return KnowledgeTypeNode.getTypeList().get(index);
+		}
+		if (parent instanceof KnowledgeTypeNode) {
+			KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.containsKnowledgeType(ktn.getName())) {
+						if (index == 0) {
+							return item;
+						}
+						index--;
+					}
+				}
+			}
+		}
+		throw new IndexOutOfBoundsException("getChild shouldnt get here " + "GoListToTypeToItem");
 	}
-	if (parent instanceof KnowledgeTypeNode) {
-	    KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.containsKnowledgeType(ktn.getName())) {
-                        if (index == 0) {
-                            return item;
-                        }
-                        index--;
-                    }
-                }
-            }
+
+	/*
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
+	public int getChildCount(Object parent) {
+		if (parent instanceof ToDoList) {
+			return KnowledgeTypeNode.getTypeList().size();
+		}
+		if (parent instanceof KnowledgeTypeNode) {
+			KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
+			int count = 0;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.containsKnowledgeType(ktn.getName())) {
+						count++;
+					}
+				}
+			}
+			return count;
+		}
+		return 0;
 	}
-	throw new IndexOutOfBoundsException("getChild shouldnt get here "
-					    + "GoListToTypeToItem");
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    public int getChildCount(Object parent) {
-	if (parent instanceof ToDoList) {
-	    return KnowledgeTypeNode.getTypeList().size();
+	/*
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild( java.lang.Object,
+	 * java.lang.Object)
+	 */
+	public int getIndexOfChild(Object parent, Object child) {
+		if (parent instanceof ToDoList) {
+			return KnowledgeTypeNode.getTypeList().indexOf(child);
+		}
+		if (parent instanceof KnowledgeTypeNode) {
+			// instead of making a new list, decrement index, return when
+			// found and index == 0
+			List<ToDoItem> candidates = new ArrayList<ToDoItem>();
+			KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.containsKnowledgeType(ktn.getName())) {
+						candidates.add(item);
+					}
+				}
+			}
+			return candidates.indexOf(child);
+		}
+		return -1;
 	}
-	if (parent instanceof KnowledgeTypeNode) {
-	    KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
-	    int count = 0;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.containsKnowledgeType(ktn.getName())) {
-                        count++;
-                    }
-                }
-            }
-            return count;
+
+	/*
+	 * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
+	 */
+	public boolean isLeaf(Object node) {
+		if (node instanceof ToDoList) {
+			return false;
+		}
+		if (node instanceof KnowledgeTypeNode) {
+			KnowledgeTypeNode ktn = (KnowledgeTypeNode) node;
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					if (item.containsKnowledgeType(ktn.getName())) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
-	return 0;
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(
-     * java.lang.Object, java.lang.Object)
-     */
-    public int getIndexOfChild(Object parent, Object child) {
-	if (parent instanceof ToDoList) {
-	    return KnowledgeTypeNode.getTypeList().indexOf(child);
+	/*
+	 * @see javax.swing.tree.TreeModel#valueForPathChanged(
+	 * javax.swing.tree.TreePath, java.lang.Object)
+	 */
+	public void valueForPathChanged(TreePath path, Object newValue) {
 	}
-	if (parent instanceof KnowledgeTypeNode) {
-	    // instead of making a new list, decrement index, return when
-	    // found and index == 0
-	    List<ToDoItem> candidates = new ArrayList<ToDoItem>();
-	    KnowledgeTypeNode ktn = (KnowledgeTypeNode) parent;
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.containsKnowledgeType(ktn.getName())) {
-                        candidates.add(item);
-                    }
-                }
-            }
-	    return candidates.indexOf(child);
+
+	/*
+	 * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void addTreeModelListener(TreeModelListener l) {
 	}
-	return -1;
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
-     */
-    public boolean isLeaf(Object node) {
-	if (node instanceof ToDoList) {
-	    return false;
+	/*
+	 * @see
+	 * javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void removeTreeModelListener(TreeModelListener l) {
 	}
-	if (node instanceof KnowledgeTypeNode) {
-            KnowledgeTypeNode ktn = (KnowledgeTypeNode) node;
-            List<ToDoItem> itemList = Designer.theDesigner().getToDoList()
-                    .getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    if (item.containsKnowledgeType(ktn.getName())) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
 
-    /*
-     * @see javax.swing.tree.TreeModel#valueForPathChanged(
-     * javax.swing.tree.TreePath, java.lang.Object)
-     */
-    public void valueForPathChanged(TreePath path, Object newValue) { }
-
-    /*
-     * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void addTreeModelListener(TreeModelListener l) { }
-
-    /*
-     * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void removeTreeModelListener(TreeModelListener l) { }
-
-} 
+}

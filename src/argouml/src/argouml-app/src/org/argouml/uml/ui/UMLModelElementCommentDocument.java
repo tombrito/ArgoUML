@@ -45,80 +45,81 @@ import java.util.Iterator;
 import org.argouml.model.Model;
 
 /**
- * This class provides a text field that can be used to display
- * the text of all Comments associated with an annotated ModelElement.
+ * This class provides a text field that can be used to display the text of all
+ * Comments associated with an annotated ModelElement.
  *
- * TODO: This could use more work.  Currently it returns all
- * Comment.name or Comment.body attributes concatenated together
- * into a single read-only document.
+ * TODO: This could use more work. Currently it returns all Comment.name or
+ * Comment.body attributes concatenated together into a single read-only
+ * document.
  *
  * @since 1 Nov 2005
  * @author Tom Morris (tfmorris@gmail.com)
  */
 public class UMLModelElementCommentDocument extends UMLPlainTextDocument {
 
-    private static final long serialVersionUID = 2710344448546826155L;
+	private static final long serialVersionUID = 2710344448546826155L;
 	private boolean useBody;
 
-    /**
-     * Creates a UMLPlainTextDocument object that represents the text of a
-     * Comment associated with a ModelElement
-     *
-     * @param useBody
-     *            use the UML 1.4 body attribute instead of the UML 1.3 name
-     *            attribute
-     */
-    public UMLModelElementCommentDocument(boolean useBody) {
-        super("comment");
-        this.useBody = useBody;
-    }
+	/**
+	 * Creates a UMLPlainTextDocument object that represents the text of a
+	 * Comment associated with a ModelElement
+	 *
+	 * @param useBody
+	 *            use the UML 1.4 body attribute instead of the UML 1.3 name
+	 *            attribute
+	 */
+	public UMLModelElementCommentDocument(boolean useBody) {
+		super("comment");
+		this.useBody = useBody;
+	}
 
-    /**
-     * Add a Comment with the given string
-     *
-     * TODO: Currently a no-op, doc is read only
-     *
-     * @param text the property
-     */
-    protected void setProperty(String text) {
-//        if (Model.getFacade().isAModelElement(getTarget())) {
-//            Model.getCoreHelper().addComment(
-//                    getTarget(),
-//                    text);
-//        }
-    }
+	/**
+	 * Add a Comment with the given string
+	 *
+	 * TODO: Currently a no-op, doc is read only
+	 *
+	 * @param text
+	 *            the property
+	 */
+	protected void setProperty(String text) {
+		// if (Model.getFacade().isAModelElement(getTarget())) {
+		// Model.getCoreHelper().addComment(
+		// getTarget(),
+		// text);
+		// }
+	}
 
-    /**
-     * Get the text of all comments annotating this Model Element
-     *
-     * @return the text of all comments
-     */
-    protected String getProperty() {
-        StringBuffer sb = new StringBuffer();
-        Collection comments = Collections.EMPTY_LIST;
-        if (Model.getFacade().isAModelElement(getTarget())) {
-            comments = Model.getFacade().getComments(getTarget());
-        }
-        for (Iterator i = comments.iterator(); i.hasNext();) {
-            Object c = i.next();
-            String s;
-            if (useBody) {
-                s = (String) Model.getFacade().getBody(c);
-                //sb.append((String) Model.getFacade().getBody(c));
-            } else {
-                s = Model.getFacade().getName(c);
-                //sb.append(Model.getFacade().getName(c));
-            }
-            if (s == null) {
-                s = "";
-            }
-            sb.append(s);
-            sb.append(" // ");
-        }
-        if (sb.length() > 4) {
-            return (sb.substring(0, sb.length() - 4)).toString();
-        } else {
-            return "";
-        }
-    }
+	/**
+	 * Get the text of all comments annotating this Model Element
+	 *
+	 * @return the text of all comments
+	 */
+	protected String getProperty() {
+		StringBuffer sb = new StringBuffer();
+		Collection comments = Collections.EMPTY_LIST;
+		if (Model.getFacade().isAModelElement(getTarget())) {
+			comments = Model.getFacade().getComments(getTarget());
+		}
+		for (Iterator i = comments.iterator(); i.hasNext();) {
+			Object c = i.next();
+			String s;
+			if (useBody) {
+				s = (String) Model.getFacade().getBody(c);
+				// sb.append((String) Model.getFacade().getBody(c));
+			} else {
+				s = Model.getFacade().getName(c);
+				// sb.append(Model.getFacade().getName(c));
+			}
+			if (s == null) {
+				s = "";
+			}
+			sb.append(s);
+			sb.append(" // ");
+		}
+		if (sb.length() > 4) {
+			return (sb.substring(0, sb.length() - 4)).toString();
+		} else {
+			return "";
+		}
+	}
 }

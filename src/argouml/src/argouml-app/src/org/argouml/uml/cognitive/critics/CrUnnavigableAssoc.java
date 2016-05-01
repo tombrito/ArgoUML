@@ -47,61 +47,68 @@ import org.argouml.cognitive.Designer;
 import org.argouml.cognitive.ToDoItem;
 import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
-/** A critic to detect when a class can never have instances (of
- *  itself of any subclasses).
+
+/**
+ * A critic to detect when a class can never have instances (of itself of any
+ * subclasses).
  *
  * @author jrobbins
  */
 public class CrUnnavigableAssoc extends CrUML {
 
-    private static final long serialVersionUID = 3561703362049657085L;
+	private static final long serialVersionUID = 3561703362049657085L;
 
 	/**
-     * The constructor.
-     */
-    public CrUnnavigableAssoc() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.RELATIONSHIPS);
-	addTrigger("end_navigable");
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAAssociation(dm))) {
-	    return NO_PROBLEM;
+	 * The constructor.
+	 */
+	public CrUnnavigableAssoc() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.RELATIONSHIPS);
+		addTrigger("end_navigable");
 	}
-	Object asc = /*(MAssociation)*/ dm;
-	Collection conn = Model.getFacade().getConnections(asc);
-	if (Model.getFacade().isAAssociationRole(asc)) {
-	    conn = Model.getFacade().getConnections(asc);
-	}
-	for (Iterator iter = conn.iterator(); iter.hasNext();) {
-	    Object ae = /*(MAssociationEnd)*/ iter.next();
-	    if (Model.getFacade().isNavigable(ae)) {
-	        return NO_PROBLEM;
-	    }
-	}
-	return PROBLEM_FOUND;
-    }
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) { return WizNavigable.class; }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAAssociation(dm))) {
+			return NO_PROBLEM;
+		}
+		Object asc = /* (MAssociation) */ dm;
+		Collection conn = Model.getFacade().getConnections(asc);
+		if (Model.getFacade().isAAssociationRole(asc)) {
+			conn = Model.getFacade().getConnections(asc);
+		}
+		for (Iterator iter = conn.iterator(); iter.hasNext();) {
+			Object ae = /* (MAssociationEnd) */ iter.next();
+			if (Model.getFacade().isNavigable(ae)) {
+				return NO_PROBLEM;
+			}
+		}
+		return PROBLEM_FOUND;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getAssociationClass());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizNavigable.class;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getAssociationClass());
+		return ret;
+	}
+
 } /* end class CrUnnavigableAssoc */

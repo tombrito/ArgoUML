@@ -56,106 +56,106 @@ import org.argouml.uml.ui.PropPanel;
  */
 public class PropPanelCritic extends PropPanel {
 
-    private static final long serialVersionUID = 4178060035392992398L;
+	private static final long serialVersionUID = 4178060035392992398L;
 
 	private JTextField criticClass;
 
-    private JTextField name;
+	private JTextField name;
 
-    private JTextField headline;
+	private JTextField headline;
 
-    private JTextField priority;
+	private JTextField priority;
 
-    private JTextArea description;
+	private JTextArea description;
 
-    private JTextArea ocl;
-    
-    private JLabel oclLabel;
-    
-    private JTextField supportedDecision;
+	private JTextArea ocl;
 
-    private JTextField knowledgeType;
+	private JLabel oclLabel;
 
-    /**
-     * Constructor
-     */
-    public PropPanelCritic(Object target) {
-        super("", (ImageIcon) null);
+	private JTextField supportedDecision;
 
-        criticClass = new JTextField();
-        addField("label.class", criticClass);
-        criticClass.setEditable(false);
+	private JTextField knowledgeType;
 
-        name = new JTextField();
-        addField("label.name", name);
-        name.setEditable(false);
+	/**
+	 * Constructor
+	 */
+	public PropPanelCritic(Object target) {
+		super("", (ImageIcon) null);
 
-        headline = new JTextField();
-        addField("label.headline", headline);
-        headline.setEditable(false);
+		criticClass = new JTextField();
+		addField("label.class", criticClass);
+		criticClass.setEditable(false);
 
-        description = new JTextArea(5, 30);
-        addField("label.description", description);
-        description.setEditable(false);
-        description.setLineWrap(true);
-        
-        priority = new JTextField();
-        addField("label.priority", priority);
-        priority.setEditable(false);
-        
-        ocl = new JTextArea(5, 30);
-        oclLabel = addField("label.ocl", ocl);
-        ocl.setEditable(false);
-        ocl.setLineWrap(true);
-        
-        supportedDecision = new JTextField();
-        addField("label.decision", supportedDecision);
-        supportedDecision.setEditable(false);
+		name = new JTextField();
+		addField("label.name", name);
+		name.setEditable(false);
 
-        knowledgeType = new JTextField();
-        addField("label.knowledge_types", knowledgeType);
-        knowledgeType.setEditable(false);
-        
-        setCritic((Critic) target);
-    }
+		headline = new JTextField();
+		addField("label.headline", headline);
+		headline.setEditable(false);
 
-    /**
-     * @param t the target
-     * @see org.argouml.uml.ui.PropPanel#setTarget(java.lang.Object)
-     */
-    private void setCritic(Critic c) {
-        final String targetType =
-            c.getClass().getCanonicalName();
-        
-        criticClass.setText(targetType);
+		description = new JTextArea(5, 30);
+		addField("label.description", description);
+		description.setEditable(false);
+		description.setLineWrap(true);
 
-        name.setText(c.getCriticName());
-        headline.setText(c.getHeadline());
-        description.setText(c.getDescriptionTemplate());
-        supportedDecision.setText("" + colToString(c.getSupportedDecisions()));
-        if (c instanceof CrOCL) {
-            oclLabel.setVisible(true);
-            ocl.setVisible(true);
-            ocl.setText(((CrOCL) c).getOCL());
-        } else {
-            oclLabel.setVisible(false);
-            ocl.setVisible(false);
-        }
-        
-        priority.setText("" + c.getPriority());
-        knowledgeType.setText("" + colToString(c.getKnowledgeTypes()));
-    }
+		priority = new JTextField();
+		addField("label.priority", priority);
+		priority.setEditable(false);
 
-    private String colToString(Collection set) {
-        String r = "";
-        int count = 0;
-        for (Object obj : set) {
-            if (count > 0) {
-                r += ", ";
-            }
-            r += obj;
-            ++count;
-        }        
-        return r;
-    }
+		ocl = new JTextArea(5, 30);
+		oclLabel = addField("label.ocl", ocl);
+		ocl.setEditable(false);
+		ocl.setLineWrap(true);
+
+		supportedDecision = new JTextField();
+		addField("label.decision", supportedDecision);
+		supportedDecision.setEditable(false);
+
+		knowledgeType = new JTextField();
+		addField("label.knowledge_types", knowledgeType);
+		knowledgeType.setEditable(false);
+
+		setCritic((Critic) target);
+	}
+
+	/**
+	 * @param t
+	 *            the target
+	 * @see org.argouml.uml.ui.PropPanel#setTarget(java.lang.Object)
+	 */
+	private void setCritic(Critic c) {
+		final String targetType = c.getClass().getCanonicalName();
+
+		criticClass.setText(targetType);
+
+		name.setText(c.getCriticName());
+		headline.setText(c.getHeadline());
+		description.setText(c.getDescriptionTemplate());
+		supportedDecision.setText("" + colToString(c.getSupportedDecisions()));
+		if (c instanceof CrOCL) {
+			oclLabel.setVisible(true);
+			ocl.setVisible(true);
+			ocl.setText(((CrOCL) c).getOCL());
+		} else {
+			oclLabel.setVisible(false);
+			ocl.setVisible(false);
+		}
+
+		priority.setText("" + c.getPriority());
+		knowledgeType.setText("" + colToString(c.getKnowledgeTypes()));
+	}
+
+	private String colToString(Collection set) {
+		String r = "";
+		int count = 0;
+		for (Object obj : set) {
+			if (count > 0) {
+				r += ", ";
+			}
+			r += obj;
+			++count;
+		}
+		return r;
+	}
 }

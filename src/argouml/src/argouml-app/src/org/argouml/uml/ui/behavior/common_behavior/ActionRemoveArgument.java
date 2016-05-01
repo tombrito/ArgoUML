@@ -54,27 +54,27 @@ import org.argouml.uml.ui.AbstractActionRemoveElement;
  */
 public class ActionRemoveArgument extends AbstractActionRemoveElement {
 
-
-    private static final long serialVersionUID = 519395437073266307L;
+	private static final long serialVersionUID = 519395437073266307L;
 
 	/**
-     * Constructor for ActionRemoveArgument.
-     */
-    protected ActionRemoveArgument() {
-        super(Translator.localize("menu.popup.delete"));
-    }
+	 * Constructor for ActionRemoveArgument.
+	 */
+	protected ActionRemoveArgument() {
+		super(Translator.localize("menu.popup.delete"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (getObjectToRemove() != null) {
-            Project p = ProjectManager.getManager().getCurrentProject();
-            Object o = getObjectToRemove();
-            setObjectToRemove(null);
-            p.moveToTrash(o);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (getObjectToRemove() != null) {
+			Project p = ProjectManager.getManager().getCurrentProject();
+			Object o = getObjectToRemove();
+			setObjectToRemove(null);
+			p.moveToTrash(o);
+		}
+	}
 
 }

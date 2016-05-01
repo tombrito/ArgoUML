@@ -52,32 +52,35 @@ import org.argouml.model.Model;
  */
 public class GoAssocRoleToMessages extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.association-role.messages");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (!Model.getFacade().isAAssociationRole(parent)) {
-	    return Collections.EMPTY_SET;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.association-role.messages");
 	}
-	return Model.getFacade().getMessages(parent);
-    }
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAAssociationRole(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (!Model.getFacade().isAAssociationRole(parent)) {
+			return Collections.EMPTY_SET;
+		}
+		return Model.getFacade().getMessages(parent);
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAAssociationRole(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

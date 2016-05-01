@@ -53,43 +53,42 @@ import org.tigris.gef.base.ZoomAction;
  */
 public class ZoomActionProxy extends ZoomAction {
 
-    private static final long serialVersionUID = -3386200018343538190L;
+	private static final long serialVersionUID = -3386200018343538190L;
 	/**
-     * Local instance of the magnitude that allows computation of zoom factor
-     * before zooming.
-     */
-    private double zoomFactor;
+	 * Local instance of the magnitude that allows computation of zoom factor
+	 * before zooming.
+	 */
+	private double zoomFactor;
 
-    /**
-     * Constructor calling the org.tigris.gef.base.ZoomAction constructor.
-     * 
-     * @param zF The zoom factor.
-     */
-    public ZoomActionProxy(double zF) {
-        super(zF);
-        zoomFactor = zF;
-    }
+	/**
+	 * Constructor calling the org.tigris.gef.base.ZoomAction constructor.
+	 * 
+	 * @param zF
+	 *            The zoom factor.
+	 */
+	public ZoomActionProxy(double zF) {
+		super(zF);
+		zoomFactor = zF;
+	}
 
-    /**
-     * Tests if zoom factor values are ok before zooming.
-     * 
-     * @param arg0 The action event to be transmitted.
-     * @see org.tigris.gef.base.ZoomAction#actionPerformed(java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        Editor ed = Globals.curEditor();
-        if (ed == null) {
-            return;
-        }
+	/**
+	 * Tests if zoom factor values are ok before zooming.
+	 * 
+	 * @param arg0
+	 *            The action event to be transmitted.
+	 * @see org.tigris.gef.base.ZoomAction#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		Editor ed = Globals.curEditor();
+		if (ed == null) {
+			return;
+		}
 
-        if ((zoomFactor == 0)
-                || ((ed.getScale() * zoomFactor 
-                    > ZoomSliderButton.MINIMUM_ZOOM / 100.0) 
-                && ed.getScale() * zoomFactor 
-                    < ZoomSliderButton.MAXIMUM_ZOOM / 100.0)) {
-            super.actionPerformed(arg0);
-        }
-    }
+		if ((zoomFactor == 0) || ((ed.getScale() * zoomFactor > ZoomSliderButton.MINIMUM_ZOOM / 100.0)
+				&& ed.getScale() * zoomFactor < ZoomSliderButton.MAXIMUM_ZOOM / 100.0)) {
+			super.actionPerformed(arg0);
+		}
+	}
 
 }

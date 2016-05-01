@@ -63,202 +63,204 @@ import org.argouml.i18n.Translator;
 import org.argouml.util.osdep.StartBrowser;
 
 /**
- * A window that displays an exception to the user if we can't handle it
- * in any other way.
+ * A window that displays an exception to the user if we can't handle it in any
+ * other way.
  * 
- * TODO: This has been partly converted to be a generic error dialog 
- * rather than something specific to exceptions.  This should be renamed
- * when that process is complete.
+ * TODO: This has been partly converted to be a generic error dialog rather than
+ * something specific to exceptions. This should be renamed when that process is
+ * complete.
  */
 public class ExceptionDialog extends JDialog implements ActionListener {
 
-    private JButton closeButton;
-    private JButton copyButton;
-    private JLabel northLabel;
-    private JEditorPane textArea;
+	private JButton closeButton;
+	private JButton copyButton;
+	private JLabel northLabel;
+	private JEditorPane textArea;
 
-    /**
-     * Construct an exception dialog for the given frame and throwable.
-     *
-     * @param f the <code>Frame</code> from which the dialog is displayed
-     * @param e the exception
-     */
-    public ExceptionDialog(Frame f, Throwable e) {
-        this(f, Translator.localize("dialog.exception.unknown.error"), e);
-    }
+	/**
+	 * Construct an exception dialog for the given frame and throwable.
+	 *
+	 * @param f
+	 *            the <code>Frame</code> from which the dialog is displayed
+	 * @param e
+	 *            the exception
+	 */
+	public ExceptionDialog(Frame f, Throwable e) {
+		this(f, Translator.localize("dialog.exception.unknown.error"), e);
+	}
 
-    /**
-     * Construct an exception dialog with the given parameters.
-     *
-     * @param f the <code>Frame</code> from which the dialog is displayed
-     * @param message the message
-     * @param e the exception
-     */
-    public ExceptionDialog(Frame f, String message, Throwable e) {
-        this(f, message, e, false);
-    }
+	/**
+	 * Construct an exception dialog with the given parameters.
+	 *
+	 * @param f
+	 *            the <code>Frame</code> from which the dialog is displayed
+	 * @param message
+	 *            the message
+	 * @param e
+	 *            the exception
+	 */
+	public ExceptionDialog(Frame f, String message, Throwable e) {
+		this(f, message, e, false);
+	}
 
-    /**
-     * Construct an exception dialog with the given parameters.
-     *
-     * @param f   the <code>Frame</code> from which the dialog is displayed
-     * @param message
-     *            the message
-     * @param e   the exception
-     * @param highlightCause
-     *            give priority to Throwable.cause in display. Use this if the
-     *            main exception is mostly boilerplate and the really useful
-     *            information is in the enclosed cause.
-     */
-    public ExceptionDialog(Frame f, String message, Throwable e,
-            boolean highlightCause) {
-        this(f, Translator.localize("dialog.exception.title"), 
-                Translator.localize("dialog.exception.message"), 
-                formatException(message, e, highlightCause));
-    }
+	/**
+	 * Construct an exception dialog with the given parameters.
+	 *
+	 * @param f
+	 *            the <code>Frame</code> from which the dialog is displayed
+	 * @param message
+	 *            the message
+	 * @param e
+	 *            the exception
+	 * @param highlightCause
+	 *            give priority to Throwable.cause in display. Use this if the
+	 *            main exception is mostly boilerplate and the really useful
+	 *            information is in the enclosed cause.
+	 */
+	public ExceptionDialog(Frame f, String message, Throwable e, boolean highlightCause) {
+		this(f, Translator.localize("dialog.exception.title"), Translator.localize("dialog.exception.message"),
+				formatException(message, e, highlightCause));
+	}
 
-    public static String formatException(String message, Throwable e,
-            boolean highlightCause) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
+	public static String formatException(String message, Throwable e, boolean highlightCause) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
 
-        if (highlightCause && e.getCause() != null) {
+		if (highlightCause && e.getCause() != null) {
 
-            // This text is for the developers.
-            // It doesn't need to be localized.
-            pw.print(message );
-            pw.print("<hr>System Info:<p>" + SystemInfoDialog.getInfo());
-            pw.print("<p><hr>Error occurred at : " + new Date());
-            pw.print("<p>  Cause : ");
-            e.getCause().printStackTrace(pw);
-            pw.print("-------<p>Full exception : ");
-        }
-        e.printStackTrace(pw);
-        return sw.toString();
-    }
+			// This text is for the developers.
+			// It doesn't need to be localized.
+			pw.print(message);
+			pw.print("<hr>System Info:<p>" + SystemInfoDialog.getInfo());
+			pw.print("<p><hr>Error occurred at : " + new Date());
+			pw.print("<p>  Cause : ");
+			e.getCause().printStackTrace(pw);
+			pw.print("-------<p>Full exception : ");
+		}
+		e.printStackTrace(pw);
+		return sw.toString();
+	}
 
-    
-    /**
-     * Construct an exception dialog with given title, introduction, and detail
-     * message.
-     * 
-     * @param f
-     *            the <code>Frame</code> from which the dialog is displayed
-     * @param title
-     *            string to use as title of dialog box
-     * @param intro
-     *            introductory text (summary of error)
-     * @param message
-     *            the message
-     */
-    public ExceptionDialog(Frame f, String title, String intro, 
-            String message) {
-        super(f);
-        setResizable(true);
-        setModal(false);
-        setTitle(title);
+	/**
+	 * Construct an exception dialog with given title, introduction, and detail
+	 * message.
+	 * 
+	 * @param f
+	 *            the <code>Frame</code> from which the dialog is displayed
+	 * @param title
+	 *            string to use as title of dialog box
+	 * @param intro
+	 *            introductory text (summary of error)
+	 * @param message
+	 *            the message
+	 */
+	public ExceptionDialog(Frame f, String title, String intro, String message) {
+		super(f);
+		setResizable(true);
+		setModal(false);
+		setTitle(title);
 
-        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-        getContentPane().setLayout(new BorderLayout(0, 0));
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		getContentPane().setLayout(new BorderLayout(0, 0));
 
-        // the introducing label
-        northLabel =
-            new JLabel(intro);
-        northLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        getContentPane().add(northLabel, BorderLayout.NORTH);
+		// the introducing label
+		northLabel = new JLabel(intro);
+		northLabel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		getContentPane().add(northLabel, BorderLayout.NORTH);
 
-        // the text box containing the problem messages
-        // TODO: This should be hidden by default, but accessible on 
-        // via a "details" button or tab to provide more info to the user.
-        textArea = new JEditorPane();
-        textArea.setContentType("text/html");
-        textArea.setEditable(false);
-        textArea.addHyperlinkListener(new HyperlinkListener() {
-            public void hyperlinkUpdate(HyperlinkEvent hle) {
-                linkEvent(hle);
-            }
-        });
+		// the text box containing the problem messages
+		// TODO: This should be hidden by default, but accessible on
+		// via a "details" button or tab to provide more info to the user.
+		textArea = new JEditorPane();
+		textArea.setContentType("text/html");
+		textArea.setEditable(false);
+		textArea.addHyperlinkListener(new HyperlinkListener() {
+			public void hyperlinkUpdate(HyperlinkEvent hle) {
+				linkEvent(hle);
+			}
+		});
 
-        // These shouldn't really be <br> instead of <p> elements, but
-        // the lines all get run together when pasted into a browser window.
-        textArea.setText(message.replaceAll("\n", "<p>"));
-        textArea.setCaretPosition(0);
+		// These shouldn't really be <br> instead of <p> elements, but
+		// the lines all get run together when pasted into a browser window.
+		textArea.setText(message.replaceAll("\n", "<p>"));
+		textArea.setCaretPosition(0);
 
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new JScrollPane(textArea));
-        centerPanel.setPreferredSize(new Dimension(500, 200));
-        getContentPane().add(centerPanel);
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.add(new JScrollPane(textArea));
+		centerPanel.setPreferredSize(new Dimension(500, 200));
+		getContentPane().add(centerPanel);
 
-        copyButton =
-            new JButton(Translator.localize("button.copy-to-clipboard"));
-        copyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                copyActionPerformed(evt);
-            }
-        });
+		copyButton = new JButton(Translator.localize("button.copy-to-clipboard"));
+		copyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				copyActionPerformed(evt);
+			}
+		});
 
-        closeButton = new JButton(Translator.localize("button.close"));
-        closeButton.addActionListener(this);
-        JPanel bottomPanel = new JPanel();
+		closeButton = new JButton(Translator.localize("button.close"));
+		closeButton.addActionListener(this);
+		JPanel bottomPanel = new JPanel();
 
-        bottomPanel.add(copyButton);
-        bottomPanel.add(closeButton);
-        getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+		bottomPanel.add(copyButton);
+		bottomPanel.add(closeButton);
+		getContentPane().add(bottomPanel, BorderLayout.SOUTH);
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent evt) {
-                disposeDialog();
-            }
-        });
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent evt) {
+				disposeDialog();
+			}
+		});
 
-        pack();
-        Dimension contentPaneSize = getContentPane().getSize();
-        setLocation(scrSize.width / 2 - contentPaneSize.width / 2,
-                scrSize.height / 2 - contentPaneSize.height / 2);
-    }
+		pack();
+		Dimension contentPaneSize = getContentPane().getSize();
+		setLocation(scrSize.width / 2 - contentPaneSize.width / 2, scrSize.height / 2 - contentPaneSize.height / 2);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        disposeDialog();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		disposeDialog();
+	}
 
-    /**
-     * Copy the textpane's contents to the clipboard.
-     *
-     * @param e the actionEvent
-     */
-    private void copyActionPerformed(ActionEvent e) {
-        assert e.getSource() == copyButton;
-        textArea.setSelectionStart(0);
-        textArea.setSelectionEnd(textArea.getText().length());
-        textArea.copy();
-        textArea.setSelectionEnd(0);
-    }
+	/**
+	 * Copy the textpane's contents to the clipboard.
+	 *
+	 * @param e
+	 *            the actionEvent
+	 */
+	private void copyActionPerformed(ActionEvent e) {
+		assert e.getSource() == copyButton;
+		textArea.setSelectionStart(0);
+		textArea.setSelectionEnd(textArea.getText().length());
+		textArea.copy();
+		textArea.setSelectionEnd(0);
+	}
 
-    /**
-     * Dispose this dialog.
-     */
-    private void disposeDialog() {
-        setVisible(false);
-        dispose();
-    }
+	/**
+	 * Dispose this dialog.
+	 */
+	private void disposeDialog() {
+		setVisible(false);
+		dispose();
+	}
 
-    /**
-     * Handle link activation for our hyperlink.
-     *
-     * @param e the event
-     */
-    private void linkEvent(HyperlinkEvent e) {
-        if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
-            StartBrowser.openUrl(e.getURL());
-        }
-    }
+	/**
+	 * Handle link activation for our hyperlink.
+	 *
+	 * @param e
+	 *            the event
+	 */
+	private void linkEvent(HyperlinkEvent e) {
+		if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+			StartBrowser.openUrl(e.getURL());
+		}
+	}
 
-     /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -2773182347529547418L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -2773182347529547418L;
 
 }

@@ -43,41 +43,38 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the name of an association-role.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the name of
+ * an association-role. Subclass this for all languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class AssociationRoleNotation extends NotationProvider {
-    
-    /**
-     * The constructor.
-     *
-     * @param role the given associationRole
-     */
-    public AssociationRoleNotation(Object role) {
-        if (!Model.getFacade().isAAssociationRole(role) && !Model.getFacade().isAConnector(role)) {
-            throw new IllegalArgumentException(
-                    "This is not an AssociationRole.");
-        }
-    }
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        final Object assoc;
-        if (Model.getFacade().getUmlVersion().startsWith("1")) {
-            addElementListener(modelElement, 
-                new String[] {"name", "base"});
-            assoc = Model.getFacade().getBase(modelElement);
-        } else {
-            addElementListener(modelElement, 
-                    new String[] {"name", "type"});
-            assoc = Model.getFacade().getType(modelElement);
-        }
-        if (assoc != null) {
-            addElementListener(assoc, "name");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param role
+	 *            the given associationRole
+	 */
+	public AssociationRoleNotation(Object role) {
+		if (!Model.getFacade().isAAssociationRole(role) && !Model.getFacade().isAConnector(role)) {
+			throw new IllegalArgumentException("This is not an AssociationRole.");
+		}
+	}
+
+	@Override
+	public void initialiseListener(Object modelElement) {
+		final Object assoc;
+		if (Model.getFacade().getUmlVersion().startsWith("1")) {
+			addElementListener(modelElement, new String[] { "name", "base" });
+			assoc = Model.getFacade().getBase(modelElement);
+		} else {
+			addElementListener(modelElement, new String[] { "name", "type" });
+			assoc = Model.getFacade().getType(modelElement);
+		}
+		if (assoc != null) {
+			addElementListener(assoc, "name");
+		}
+	}
 
 }

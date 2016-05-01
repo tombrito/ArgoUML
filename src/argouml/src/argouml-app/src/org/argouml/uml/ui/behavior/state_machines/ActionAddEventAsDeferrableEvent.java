@@ -47,86 +47,76 @@ import org.argouml.model.Model;
 import org.argouml.uml.ui.AbstractActionAddModelElement2;
 
 /**
- * Provide a dialog which helps the user to select events
- * out of an existing list,
- * which will be used as the deferrable events of the state.
+ * Provide a dialog which helps the user to select events out of an existing
+ * list, which will be used as the deferrable events of the state.
  *
  * @author MarkusK
  */
-public class ActionAddEventAsDeferrableEvent
-    extends AbstractActionAddModelElement2 {
+public class ActionAddEventAsDeferrableEvent extends AbstractActionAddModelElement2 {
 
-    /**
-     * The one and only instance of this class.
-     */
-    public static final ActionAddEventAsDeferrableEvent SINGLETON =
-        new ActionAddEventAsDeferrableEvent();
+	/**
+	 * The one and only instance of this class.
+	 */
+	public static final ActionAddEventAsDeferrableEvent SINGLETON = new ActionAddEventAsDeferrableEvent();
 
-    /**
-     * Constructor for ActionAddClassifierRoleBase.
-     */
-    protected ActionAddEventAsDeferrableEvent() {
-        super();
-        setMultiSelect(true);
-    }
+	/**
+	 * Constructor for ActionAddClassifierRoleBase.
+	 */
+	protected ActionAddEventAsDeferrableEvent() {
+		super();
+		setMultiSelect(true);
+	}
 
+	protected List getChoices() {
+		List vec = new ArrayList();
+		// TODO: the namespace of created events is currently the model.
+		// I think this is wrong, they should be
+		// in the namespace of the activitygraph!
+		// vec.addAll(
+		// Model.getModelManagementHelper().getAllModelElementsOfKind(
+		// Model.getFacade().getNamespace(getTarget()),
+		// Model.getMetaTypes().getEvent()));
+		vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(Model.getFacade().getRoot(getTarget()),
+				Model.getMetaTypes().getEvent()));
 
-    protected List getChoices() {
-        List vec = new ArrayList();
-        // TODO: the namespace of created events is currently the model.
-        // I think this is wrong, they should be
-        // in the namespace of the activitygraph!
-//        vec.addAll(
-//                Model.getModelManagementHelper().getAllModelElementsOfKind(
-//                        Model.getFacade().getNamespace(getTarget()),
-//                        Model.getMetaTypes().getEvent()));
-        vec.addAll(Model.getModelManagementHelper().getAllModelElementsOfKind(
-                Model.getFacade().getRoot(getTarget()),
-                Model.getMetaTypes().getEvent()));
+		return vec;
+	}
 
-        return vec;
-    }
+	protected List getSelected() {
+		List vec = new ArrayList();
+		Collection events = Model.getFacade().getDeferrableEvents(getTarget());
+		if (events != null) {
+			vec.addAll(events);
+		}
+		return vec;
+	}
 
+	protected String getDialogTitle() {
+		return Translator.localize("dialog.title.add-events");
+	}
 
-    protected List getSelected() {
-        List vec = new ArrayList();
-        Collection events = Model.getFacade().getDeferrableEvents(getTarget());
-        if (events != null) {
-            vec.addAll(events);
-        }
-        return vec;
-    }
+	@Override
+	protected void doIt(Collection selected) {
+		Object state = getTarget();
+		if (!Model.getFacade().isAState(state)) {
+			return;
+		}
+		Collection oldOnes = new ArrayList(Model.getFacade().getDeferrableEvents(state));
+		Collection toBeRemoved = new ArrayList(oldOnes);
+		for (Object o : selected) {
+			if (oldOnes.contains(o)) {
+				toBeRemoved.remove(o);
+			} else {
+				Model.getStateMachinesHelper().addDeferrableEvent(state, o);
+			}
+		}
+		for (Object o : toBeRemoved) {
+			Model.getStateMachinesHelper().removeDeferrableEvent(state, o);
+		}
+	}
 
-
-    protected String getDialogTitle() {
-        return Translator.localize("dialog.title.add-events");
-    }
-
-
-    @Override
-    protected void doIt(Collection selected) {
-        Object state = getTarget();
-        if (!Model.getFacade().isAState(state)) {
-            return;
-        }
-        Collection oldOnes = 
-            new ArrayList(Model.getFacade()
-                .getDeferrableEvents(state));
-        Collection toBeRemoved = new ArrayList(oldOnes);
-        for (Object o : selected) {
-            if (oldOnes.contains(o)) {
-                toBeRemoved.remove(o);
-            } else {
-                Model.getStateMachinesHelper().addDeferrableEvent(state, o);
-            }
-        }
-        for (Object o : toBeRemoved) {
-            Model.getStateMachinesHelper().removeDeferrableEvent(state, o);
-        }
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1815648968597093974L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1815648968597093974L;
 }

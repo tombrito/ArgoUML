@@ -54,173 +54,149 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.base.ModeCreateEdgeAndNode;
 import org.tigris.gef.presentation.Fig;
 
-
 /**
  * @author jrobbins@ics.uci.edu
  */
 public class SelectionClass extends SelectionClassifierBox {
 
-    private static final long serialVersionUID = -7135375776978586577L;
+	private static final long serialVersionUID = -7135375776978586577L;
 
-	private static Icon inherit =
-        ResourceLoaderWrapper.lookupIconResource("Generalization");
+	private static Icon inherit = ResourceLoaderWrapper.lookupIconResource("Generalization");
 
-    private static Icon assoc =
-        ResourceLoaderWrapper.lookupIconResource("Association");
+	private static Icon assoc = ResourceLoaderWrapper.lookupIconResource("Association");
 
-    private static Icon compos =
-        ResourceLoaderWrapper.lookupIconResource("CompositeAggregation");
+	private static Icon compos = ResourceLoaderWrapper.lookupIconResource("CompositeAggregation");
 
-    private static Icon selfassoc =
-        ResourceLoaderWrapper.lookupIconResource("SelfAssociation");
+	private static Icon selfassoc = ResourceLoaderWrapper.lookupIconResource("SelfAssociation");
 
-    private boolean useComposite;
+	private boolean useComposite;
 
-    private static Icon icons[] = 
-    {inherit,
-     inherit,
-     assoc,
-     assoc,
-     selfassoc,
-    };
-    
-    // TODO: I18N required
-    private static String instructions[] = 
-    {"Add a superclass",
-     "Add a subclass",
-     "Add an associated class",
-     "Add an associated class",
-     "Add a self association",
-     "Move object(s)",
-    };
+	private static Icon icons[] = { inherit, inherit, assoc, assoc, selfassoc, };
 
-    private static Object edgeType[] = 
-    {Model.getMetaTypes().getGeneralization(),
-     Model.getMetaTypes().getGeneralization(),
-     Model.getMetaTypes().getAssociation(),
-     Model.getMetaTypes().getAssociation(),
-     Model.getMetaTypes().getAssociation(),
-    };
+	// TODO: I18N required
+	private static String instructions[] = { "Add a superclass", "Add a subclass", "Add an associated class",
+			"Add an associated class", "Add a self association", "Move object(s)", };
 
-    /**
-     * Construct a new SelectionClass for the given Fig.
-     *
-     * @param f The given Fig.
-     */
-    public SelectionClass(Fig f) { 
-        super(f);
-    }
+	private static Object edgeType[] = { Model.getMetaTypes().getGeneralization(),
+			Model.getMetaTypes().getGeneralization(), Model.getMetaTypes().getAssociation(),
+			Model.getMetaTypes().getAssociation(), Model.getMetaTypes().getAssociation(), };
 
-    @Override
-    protected Icon[] getIcons() {
-        Icon workingIcons[] = new Icon[icons.length];
-        System.arraycopy(icons, 0, workingIcons, 0, icons.length);
+	/**
+	 * Construct a new SelectionClass for the given Fig.
+	 *
+	 * @param f
+	 *            The given Fig.
+	 */
+	public SelectionClass(Fig f) {
+		super(f);
+	}
 
-        // No Generalizations on Deployment Diagram
-        if (Globals.curEditor().getGraphModel() 
-                instanceof DeploymentDiagramGraphModel) {
-            workingIcons[TOP - BASE] = null;
-            workingIcons[BOTTOM - BASE] = null;
-        }
-        if (useComposite) {
-            workingIcons[LEFT - BASE] = compos;
-            workingIcons[RIGHT - BASE] = compos;
-        } 
-        // Readonly class: no generalization, no association to self
-        if (Model.getModelManagementHelper().isReadOnly(
-                getContent().getOwner())) {
-            return new Icon[] {null, inherit, null, null, null };
-        }
-        return workingIcons;
-    }
-    
-    @Override
-    protected String getInstructions(int index) {
-        return instructions[index - BASE];
-    }
+	@Override
+	protected Icon[] getIcons() {
+		Icon workingIcons[] = new Icon[icons.length];
+		System.arraycopy(icons, 0, workingIcons, 0, icons.length);
 
-    @Override
-    protected Object getNewNodeType(int i) {
-        return Model.getMetaTypes().getUMLClass();
-    }
+		// No Generalizations on Deployment Diagram
+		if (Globals.curEditor().getGraphModel() instanceof DeploymentDiagramGraphModel) {
+			workingIcons[TOP - BASE] = null;
+			workingIcons[BOTTOM - BASE] = null;
+		}
+		if (useComposite) {
+			workingIcons[LEFT - BASE] = compos;
+			workingIcons[RIGHT - BASE] = compos;
+		}
+		// Readonly class: no generalization, no association to self
+		if (Model.getModelManagementHelper().isReadOnly(getContent().getOwner())) {
+			return new Icon[] { null, inherit, null, null, null };
+		}
+		return workingIcons;
+	}
 
-    @Override
-    protected Object getNewEdgeType(int i) {
-        if (i == 0) {
-            i = getButton();
-        }
-        return edgeType[i - 10];
-    }
+	@Override
+	protected String getInstructions(int index) {
+		return instructions[index - BASE];
+	}
 
-    @Override
-    protected boolean isReverseEdge(int i) {
-        if (i == BOTTOM || i == LEFT) {
-            return true;
-        } 
-        return false;
-    }
-    
-    @Override
-    protected boolean isDraggableHandle(int index) {
-        // Self-association isn't draggable
-        if (index == LOWER_LEFT) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	protected Object getNewNodeType(int i) {
+		return Model.getMetaTypes().getUMLClass();
+	}
 
-    @Override
-    protected boolean isEdgePostProcessRequested() {
-        return useComposite;
-    }
+	@Override
+	protected Object getNewEdgeType(int i) {
+		if (i == 0) {
+			i = getButton();
+		}
+		return edgeType[i - 10];
+	}
 
-    @Override
-    protected ModeCreateEdgeAndNode getNewModeCreateEdgeAndNode(Editor ce,
-            Object theEdgeType, boolean postProcess,
-            SelectionNodeClarifiers2 nodeCreator) {
-        return  new ModeCreateEdgeAndNodeWithComposition(ce,
-                theEdgeType, postProcess, nodeCreator);
-    }
+	@Override
+	protected boolean isReverseEdge(int i) {
+		if (i == BOTTOM || i == LEFT) {
+			return true;
+		}
+		return false;
+	}
 
-    @Override
-    protected void postProcessEdge2(Object newEdge) {
-        if (Model.getFacade().isAAssociation(newEdge)) {
-            Collection assocEnds = Model.getFacade().getConnections(newEdge);
-            Object firstAE = assocEnds.iterator().next();
-            Object aggregationKind = Model.getAggregationKind().getComposite();
-            Model.getCoreHelper().setAggregation1(firstAE, aggregationKind);
-        }
-    }
+	@Override
+	protected boolean isDraggableHandle(int index) {
+		// Self-association isn't draggable
+		if (index == LOWER_LEFT) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public void mouseEntered(MouseEvent me) {
-        super.mouseEntered(me);
-        useComposite = me.isShiftDown();
-    }
+	@Override
+	protected boolean isEdgePostProcessRequested() {
+		return useComposite;
+	}
 
-    @Override
-    protected Object getNewNode(int index) {
-        return Model.getCoreFactory().buildClass();
-    }
+	@Override
+	protected ModeCreateEdgeAndNode getNewModeCreateEdgeAndNode(Editor ce, Object theEdgeType, boolean postProcess,
+			SelectionNodeClarifiers2 nodeCreator) {
+		return new ModeCreateEdgeAndNodeWithComposition(ce, theEdgeType, postProcess, nodeCreator);
+	}
 
-    /**
-     * My derived version that handles the creation of composition associations.
-     *
-     * @author Michiel
-     */
-    class ModeCreateEdgeAndNodeWithComposition extends ModeCreateEdgeAndNode {
+	@Override
+	protected void postProcessEdge2(Object newEdge) {
+		if (Model.getFacade().isAAssociation(newEdge)) {
+			Collection assocEnds = Model.getFacade().getConnections(newEdge);
+			Object firstAE = assocEnds.iterator().next();
+			Object aggregationKind = Model.getAggregationKind().getComposite();
+			Model.getCoreHelper().setAggregation1(firstAE, aggregationKind);
+		}
+	}
 
-        private static final long serialVersionUID = 4835008837562861043L;
+	@Override
+	public void mouseEntered(MouseEvent me) {
+		super.mouseEntered(me);
+		useComposite = me.isShiftDown();
+	}
 
-		public ModeCreateEdgeAndNodeWithComposition(Editor ce, Object edgeType,
-                boolean postProcess, SelectionNodeClarifiers2 nodeCreator) {
-            super(ce, edgeType, postProcess, nodeCreator);
-        }
+	@Override
+	protected Object getNewNode(int index) {
+		return Model.getCoreFactory().buildClass();
+	}
 
-        @Override
-        protected void postProcessEdge(Object newEdge) {
-            postProcessEdge2(newEdge);
-        }
-    }
+	/**
+	 * My derived version that handles the creation of composition associations.
+	 *
+	 * @author Michiel
+	 */
+	class ModeCreateEdgeAndNodeWithComposition extends ModeCreateEdgeAndNode {
+
+		private static final long serialVersionUID = 4835008837562861043L;
+
+		public ModeCreateEdgeAndNodeWithComposition(Editor ce, Object edgeType, boolean postProcess,
+				SelectionNodeClarifiers2 nodeCreator) {
+			super(ce, edgeType, postProcess, nodeCreator);
+		}
+
+		@Override
+		protected void postProcessEdge(Object newEdge) {
+			postProcessEdge2(newEdge);
+		}
+	}
 
 }

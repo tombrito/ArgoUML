@@ -46,58 +46,58 @@ import javax.swing.AbstractAction;
 import org.argouml.ui.ProjectBrowser;
 
 /**
- * Reopens a project with respect of the calling event handler - should be
- * used with menu item.
+ * Reopens a project with respect of the calling event handler - should be used
+ * with menu item.
  *
- * @author  Frank Jelinek
+ * @author Frank Jelinek
  * @since 10. November 2003 (0.15.2)
  */
 public class ActionReopenProject extends AbstractAction {
 
-    private static final long serialVersionUID = -8745737280015401109L;
+	private static final long serialVersionUID = -8745737280015401109L;
 	private String filename;
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
+	////////////////////////////////////////////////////////////////
+	// constructors
 
-    /**
-     * Constructor.
-     *
-     * @param theFilename The name of the file.
-     */
-    public ActionReopenProject(String theFilename) {
-	super("action.reopen-project");
-	filename = theFilename;
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param theFilename
+	 *            The name of the file.
+	 */
+	public ActionReopenProject(String theFilename) {
+		super("action.reopen-project");
+		filename = theFilename;
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
-    /**
-     * Get the filename for comparing during menu creation.
-     *
-     * @return The filename.
-     */
-    public String getFilename() {
-        return filename;
-    }
+	/**
+	 * Get the filename for comparing during menu creation.
+	 *
+	 * @return The filename.
+	 */
+	public String getFilename() {
+		return filename;
+	}
 
-    /**
-     * Performs the save and reload of a project.
-     *
-     * @param e e should old the event and the eventsource. Event
-     * source is the menu item, the text is used for opening the
-     * project
-     */
-    public void actionPerformed(ActionEvent e) {
-        if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
-            return;
-        }
+	/**
+	 * Performs the save and reload of a project.
+	 *
+	 * @param e
+	 *            e should old the event and the eventsource. Event source is
+	 *            the menu item, the text is used for opening the project
+	 */
+	public void actionPerformed(ActionEvent e) {
+		if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
+			return;
+		}
 
-        File toOpen = new File(filename);
-        // load of the new project
-        // just reuse of the ActionOpen object
-        ProjectBrowser.getInstance().loadProjectWithProgressMonitor(
-                toOpen, true);
-    }
+		File toOpen = new File(filename);
+		// load of the new project
+		// just reuse of the ActionOpen object
+		ProjectBrowser.getInstance().loadProjectWithProgressMonitor(toOpen, true);
+	}
 }

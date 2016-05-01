@@ -43,106 +43,108 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * This class makes it easy to get the time between two or several
- * points in the code.
+ * This class makes it easy to get the time between two or several points in the
+ * code.
  *
  * @author Linus Tolke
  */
 public class SimpleTimer {
-    private List<Long> points = new ArrayList<Long>();
-    private List<String> labels = new ArrayList<String>();
+	private List<Long> points = new ArrayList<Long>();
+	private List<String> labels = new ArrayList<String>();
 
-    /**
-     * The constructor. Creates a simple timer.
-     */
-    public SimpleTimer() {
-    }
-
-    /**
-     * Mark (Store) the current time.
-     */
-    public void mark() {
-	points.add(new Long(System.currentTimeMillis()));
-	labels.add(null);
-    }
-
-    /**
-     * Mark (Store) the current time.
-     *
-     * @param label the mark will be labeled with this string
-     */
-    public void mark(String label) {
-	mark();
-	labels.set(labels.size() - 1, label);
-    }
-
-    /**
-     * Returns an enumeration of formatted distances.
-     *
-     * @return an enumeration representing the results
-     */
-    public Enumeration result() {
-	mark();
-	return new SimpleTimerEnumeration();
-    }
-
-    /**
-     * An enumeration to walk through all entries.<p>
-     *
-     * This allows us to get a summary at the end.
-     *
-     * @author Linus Tolke
-     */
-    class SimpleTimerEnumeration implements Enumeration<String> {
-        /**
-         * Keep track of where we are in the list.
-         */
-        private int count = 1;
-
-        /*
-         * @see java.util.Enumeration#hasMoreElements()
-         */
-        public boolean hasMoreElements() {
-            return count <= points.size();
-        }
-
-        /*
-         * @see java.util.Enumeration#nextElement()
-         */
-        public String nextElement() {
-            StringBuffer res = new StringBuffer();
-            synchronized (points) {
-                if (count < points.size()) {
-                    if (labels.get(count - 1) == null) {
-                        res.append("phase ").append(count);
-                    } else {
-                        res.append(labels.get(count - 1));
-                    }
-                    res.append("                            ");
-                    res.append("                            ");
-                    res.setLength(60);
-    		    res.append(points.get(count) - points.get(count - 1));
-                } else if (count == points.size()) {
-                    res.append("Total                      ");
-                    res.setLength(18);
-                    res.append(points.get(points.size() - 1) - (points.get(0)));
-                }
-            }
-            count++;
-            return res.toString();
-        }
-    }
-
-    /*
-     * @see java.lang.Object#toString()
-     */
-    public String toString() {
-	StringBuffer sb = new StringBuffer("");
-
-	for (Enumeration e = result(); e.hasMoreElements();) {
-	    sb.append((String) e.nextElement());
-	    sb.append("\n");
+	/**
+	 * The constructor. Creates a simple timer.
+	 */
+	public SimpleTimer() {
 	}
-	return sb.toString();
-    }
+
+	/**
+	 * Mark (Store) the current time.
+	 */
+	public void mark() {
+		points.add(new Long(System.currentTimeMillis()));
+		labels.add(null);
+	}
+
+	/**
+	 * Mark (Store) the current time.
+	 *
+	 * @param label
+	 *            the mark will be labeled with this string
+	 */
+	public void mark(String label) {
+		mark();
+		labels.set(labels.size() - 1, label);
+	}
+
+	/**
+	 * Returns an enumeration of formatted distances.
+	 *
+	 * @return an enumeration representing the results
+	 */
+	public Enumeration result() {
+		mark();
+		return new SimpleTimerEnumeration();
+	}
+
+	/**
+	 * An enumeration to walk through all entries.
+	 * <p>
+	 *
+	 * This allows us to get a summary at the end.
+	 *
+	 * @author Linus Tolke
+	 */
+	class SimpleTimerEnumeration implements Enumeration<String> {
+		/**
+		 * Keep track of where we are in the list.
+		 */
+		private int count = 1;
+
+		/*
+		 * @see java.util.Enumeration#hasMoreElements()
+		 */
+		public boolean hasMoreElements() {
+			return count <= points.size();
+		}
+
+		/*
+		 * @see java.util.Enumeration#nextElement()
+		 */
+		public String nextElement() {
+			StringBuffer res = new StringBuffer();
+			synchronized (points) {
+				if (count < points.size()) {
+					if (labels.get(count - 1) == null) {
+						res.append("phase ").append(count);
+					} else {
+						res.append(labels.get(count - 1));
+					}
+					res.append("                            ");
+					res.append("                            ");
+					res.setLength(60);
+					res.append(points.get(count) - points.get(count - 1));
+				} else if (count == points.size()) {
+					res.append("Total                      ");
+					res.setLength(18);
+					res.append(points.get(points.size() - 1) - (points.get(0)));
+				}
+			}
+			count++;
+			return res.toString();
+		}
+	}
+
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		StringBuffer sb = new StringBuffer("");
+
+		for (Enumeration e = result(); e.hasMoreElements();) {
+			sb.append((String) e.nextElement());
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }

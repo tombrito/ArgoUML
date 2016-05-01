@@ -59,51 +59,51 @@ import org.argouml.uml.cognitive.UMLDecision;
  * @author jrobbins
  */
 public class CrCircularInheritance extends CrUML {
-    private static final long serialVersionUID = 6233216429868419134L;
+	private static final long serialVersionUID = 6233216429868419134L;
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(CrCircularInheritance.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(CrCircularInheritance.class.getName());
 
-    /**
-     * The constructor.
-     */
-    public CrCircularInheritance() {
-        setupHeadAndDesc();
-	setPriority(ToDoItem.HIGH_PRIORITY);
-	addSupportedDecision(UMLDecision.INHERITANCE);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-	addTrigger("generalization");
-	// no need for trigger on "specialization"
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	boolean problem = NO_PROBLEM;
-	if (Model.getFacade().isAGeneralizableElement(dm)) {
-	    try {
-		Model.getCoreHelper().getChildren(dm);
-	    } catch (IllegalStateException ex) {
-                problem = PROBLEM_FOUND;
-                LOG.log(Level.INFO, "problem found for: {0}", this);
-	    }
+	/**
+	 * The constructor.
+	 */
+	public CrCircularInheritance() {
+		setupHeadAndDesc();
+		setPriority(ToDoItem.HIGH_PRIORITY);
+		addSupportedDecision(UMLDecision.INHERITANCE);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("generalization");
+		// no need for trigger on "specialization"
 	}
-	return problem;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getGeneralizableElement());
-        return ret;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		boolean problem = NO_PROBLEM;
+		if (Model.getFacade().isAGeneralizableElement(dm)) {
+			try {
+				Model.getCoreHelper().getChildren(dm);
+			} catch (IllegalStateException ex) {
+				problem = PROBLEM_FOUND;
+				LOG.log(Level.INFO, "problem found for: {0}", this);
+			}
+		}
+		return problem;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getGeneralizableElement());
+		return ret;
+	}
 
 } /* end class CrCircularInheritance */

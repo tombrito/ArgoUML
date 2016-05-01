@@ -43,39 +43,39 @@ import org.argouml.uml.CommentEdge;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * A Mode to interpret user input while creating a comment edge.
- * The comment can connect an existing comment node to any other existing
- * node or edge.
+ * A Mode to interpret user input while creating a comment edge. The comment can
+ * connect an existing comment node to any other existing node or edge.
  */
 public final class ModeCreateCommentEdge extends ModeCreateGraphEdge {
-    
-    private static final long serialVersionUID = 4584099650050892525L;
+
+	private static final long serialVersionUID = 4584099650050892525L;
 
 	/*
-     * If we're drawing to an edge then only allow if the start is a comment
-     * @see org.argouml.uml.diagram.ui.ModeCreateGraphEdge#isConnectionValid(org.tigris.gef.presentation.Fig, org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    protected final boolean isConnectionValid(Fig source, Fig dest) {
-	if (dest instanceof FigNodeModelElement) {
-	    Object srcOwner = source.getOwner();
-	    Object dstOwner = dest.getOwner();
-	    if (!Model.getFacade().isAModelElement(srcOwner)
-                    || !Model.getFacade().isAModelElement(dstOwner)) {
-                return false;
-            }
-	    if (Model.getModelManagementHelper().isReadOnly(srcOwner)
-	            || Model.getModelManagementHelper().isReadOnly(dstOwner)) {
-	        return false;
-	    }
-            return Model.getFacade().isAComment(srcOwner)
-                    || Model.getFacade().isAComment(dstOwner);
-	} else {
-	    return true;
+	 * If we're drawing to an edge then only allow if the start is a comment
+	 * 
+	 * @see
+	 * org.argouml.uml.diagram.ui.ModeCreateGraphEdge#isConnectionValid(org.
+	 * tigris.gef.presentation.Fig, org.tigris.gef.presentation.Fig)
+	 */
+	@Override
+	protected final boolean isConnectionValid(Fig source, Fig dest) {
+		if (dest instanceof FigNodeModelElement) {
+			Object srcOwner = source.getOwner();
+			Object dstOwner = dest.getOwner();
+			if (!Model.getFacade().isAModelElement(srcOwner) || !Model.getFacade().isAModelElement(dstOwner)) {
+				return false;
+			}
+			if (Model.getModelManagementHelper().isReadOnly(srcOwner)
+					|| Model.getModelManagementHelper().isReadOnly(dstOwner)) {
+				return false;
+			}
+			return Model.getFacade().isAComment(srcOwner) || Model.getFacade().isAComment(dstOwner);
+		} else {
+			return true;
+		}
 	}
-    }
 
-    protected final Object getMetaType() {
-	return CommentEdge.class;
-    }
+	protected final Object getMetaType() {
+		return CommentEdge.class;
+	}
 }

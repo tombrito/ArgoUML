@@ -53,7 +53,8 @@ import org.tigris.gef.presentation.FigRect;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Class to display graphics for a UML SynchState in a diagram. <p>
+ * Class to display graphics for a UML SynchState in a diagram.
+ * <p>
  * 
  * TODO: If the font increases, the circle should grow, too.
  *
@@ -61,201 +62,201 @@ import org.tigris.gef.presentation.FigText;
  */
 public class FigSynchState extends FigStateVertex {
 
-    private static final long serialVersionUID = 2566887523327603687L;
+	private static final long serialVersionUID = 2566887523327603687L;
 	private static final int X = X0;
-    private static final int Y = Y0;
-    private static final int WIDTH = 25;
-    private static final int HEIGHT = 25;
+	private static final int Y = Y0;
+	private static final int WIDTH = 25;
+	private static final int HEIGHT = 25;
 
-    private FigText bound;
-    private FigCircle head;
+	private FigText bound;
+	private FigCircle head;
 
-    /**
-     * Construct a new FigSynchState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigSynchState(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-    }
-    
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigCircle(X, Y, WIDTH, HEIGHT, DEBUG_COLOR, 
-                DEBUG_COLOR);
-    }
+	/**
+	 * Construct a new FigSynchState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigSynchState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+	}
 
-    private void initFigs() {
-        setEditable(false);
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigCircle(X, Y, WIDTH, HEIGHT, DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-        head = new FigCircle(X, Y, WIDTH, HEIGHT, LINE_COLOR, FILL_COLOR);
+	private void initFigs() {
+		setEditable(false);
 
-        bound = new FigText(X - 2, Y + 2, 0, 0, true);
-        bound.setFilled(false);
-        bound.setLineWidth(0);
-        bound.setTextColor(TEXT_COLOR);
-        bound.setReturnAction(FigText.END_EDITING);
-        bound.setTabAction(FigText.END_EDITING);
-        bound.setJustification(FigText.JUSTIFY_CENTER);
-        bound.setEditable(false);
-        bound.setText("*");
+		head = new FigCircle(X, Y, WIDTH, HEIGHT, LINE_COLOR, FILL_COLOR);
 
-        addFig(getBigPort());
-        addFig(head);
-        addFig(bound);
+		bound = new FigText(X - 2, Y + 2, 0, 0, true);
+		bound.setFilled(false);
+		bound.setLineWidth(0);
+		bound.setTextColor(TEXT_COLOR);
+		bound.setReturnAction(FigText.END_EDITING);
+		bound.setTabAction(FigText.END_EDITING);
+		bound.setJustification(FigText.JUSTIFY_CENTER);
+		bound.setEditable(false);
+		bound.setText("*");
 
-        setBlinkPorts(false); //make port invisible unless mouse enters
-    }
+		addFig(getBigPort());
+		addFig(head);
+		addFig(bound);
 
-    /**
-     * Override setStandardBounds to keep shapes looking right.
-     * {@inheritDoc}
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-    	if (getNameFig() == null) {
-            return;
-        }
-        Rectangle oldBounds = getBounds();
-        
-        getBigPort().setBounds(x, y, WIDTH, HEIGHT);
-        head.setBounds(x, y, WIDTH, HEIGHT);
-        
-        bound.setBounds(x - 2, y + 2, 0, 0);
-        bound.calcBounds();
-        calcBounds(); 
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+		setBlinkPorts(false); // make port invisible unless mouse enters
+	}
 
+	/**
+	 * Override setStandardBounds to keep shapes looking right. {@inheritDoc}
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		if (getNameFig() == null) {
+			return;
+		}
+		Rectangle oldBounds = getBounds();
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-        FigSynchState figClone = (FigSynchState) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        figClone.head = (FigCircle) it.next();
-        figClone.bound = (FigText) it.next();
-        return figClone;
-    }
+		getBigPort().setBounds(x, y, WIDTH, HEIGHT);
+		head.setBounds(x, y, WIDTH, HEIGHT);
 
+		bound.setBounds(x - 2, y + 2, 0, 0);
+		bound.calcBounds();
+		calcBounds();
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-    /**
-     * Synch states are fixed size.
-     *
-     * @return false
-     */
-    @Override
-    public boolean isResizable() {
-        return false;
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigSynchState figClone = (FigSynchState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		figClone.head = (FigCircle) it.next();
+		figClone.bound = (FigText) it.next();
+		return figClone;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        head.setLineColor(col);
-    }
+	/**
+	 * Synch states are fixed size.
+	 *
+	 * @return false
+	 */
+	@Override
+	public boolean isResizable() {
+		return false;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return head.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		head.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        head.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return head.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return head.getFillColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		head.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
-     */
-    @Override
-    public void setFilled(boolean f) {
-        // ignored
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return head.getFillColor();
+	}
 
-    @Override
-    public boolean isFilled() {
-        return true;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFilled(boolean)
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		// ignored
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        head.setLineWidth(w);
-    }
+	@Override
+	public boolean isFilled() {
+		return true;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return head.getLineWidth();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		head.setLineWidth(w);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#modelChanged(java.beans.PropertyChangeEvent)
-     */
-    @Override
-    protected void modelChanged(PropertyChangeEvent mee) {
-        super.modelChanged(mee);
-        if (mee.getPropertyName().equals("bound")) {
-            if (getOwner() == null) {
-                return;
-            }
-            int b = Model.getFacade().getBound(getOwner());
-            String aux;
-            if (b <= 0) {
-                aux = "*";
-            } else {
-                aux = String.valueOf(b);
-            }
-            bound.setText(aux);
-            updateBounds();
-            damage();
-        }
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return head.getLineWidth();
+	}
 
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mouseClicked(MouseEvent me) {
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.diagram.ui.FigNodeModelElement#modelChanged(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	@Override
+	protected void modelChanged(PropertyChangeEvent mee) {
+		super.modelChanged(mee);
+		if (mee.getPropertyName().equals("bound")) {
+			if (getOwner() == null) {
+				return;
+			}
+			int b = Model.getFacade().getBound(getOwner());
+			String aux;
+			if (b <= 0) {
+				aux = "*";
+			} else {
+				aux = String.valueOf(b);
+			}
+			bound.setText(aux);
+			updateBounds();
+			damage();
+		}
+	}
 
-    /**
-     * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateFont()
-     */
-    @Override
-    protected void updateFont() {
-        super.updateFont();
-        Font f = getSettings().getFontPlain();
-        bound.setFont(f);
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent me) {
+	}
+
+	/**
+	 * @see org.argouml.uml.diagram.ui.FigNodeModelElement#updateFont()
+	 */
+	@Override
+	protected void updateFont() {
+		super.updateFont();
+		Font f = getSettings().getFontPlain();
+		bound.setFont(f);
+	}
 
 }

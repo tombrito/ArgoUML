@@ -48,113 +48,119 @@ import javax.swing.filechooser.FileFilter;
  */
 public class SuffixFilter extends FileFilter {
 
-    private final String[] suffixes;
-    private final String desc;
+	private final String[] suffixes;
+	private final String desc;
 
-    /**
-     * Construct a file filter files with the given suffix and description.
-     *
-     * @param suffix the suffix string
-     * @param d the file type description
-     */
-    public SuffixFilter(String suffix, String d) {
-        suffixes = new String[] {suffix};
-	desc = d;
-    }
-
-    /**
-     * Construct a filter for an array of suffixes
-     *
-     * @param s the suffixes string
-     * @param d the file type description
-     */
-    public SuffixFilter(String[] s, String d) {
-        suffixes = new String[s.length];
-        System.arraycopy(s, 0, suffixes, 0, s.length);
-        desc = d;
-    }
-    
-    /*
-     * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
-     */
-    public boolean accept(File f) {
-	if (f == null) {
-            return false;
-        }
-	if (f.isDirectory()) {
-            return true;
-        }
-	String extension = getExtension(f);
-        for (String suffix : suffixes) {
-            if (suffix.equalsIgnoreCase(extension)) {
-                return true;
-            }
-        }
-	return false;
-    }
-
-    /**
-     * @param f the file to get the extension from
-     * @return the extension string (without the dot)
-     */
-    public static String getExtension(File f) {
-	if (f == null) {
-            return null;
-        }
-	return getExtension(f.getName());
-    }
-
-    /**
-     * @param filename the name of the file to get the extension from
-     * @return the extension string (without the dot)
-     */
-    public static String getExtension(String filename) {
-	int i = filename.lastIndexOf('.');
-	if (i > 0 && i < filename.length() - 1) {
-	    return filename.substring(i + 1).toLowerCase();
+	/**
+	 * Construct a file filter files with the given suffix and description.
+	 *
+	 * @param suffix
+	 *            the suffix string
+	 * @param d
+	 *            the file type description
+	 */
+	public SuffixFilter(String suffix, String d) {
+		suffixes = new String[] { suffix };
+		desc = d;
 	}
-	return null;
-    }
 
-    /*
-     * @see javax.swing.filechooser.FileFilter#getDescription()
-     */
-    public String getDescription() {
-        StringBuffer result = new StringBuffer(desc);
-        result.append(" (");
-        for (int i = 0; i < suffixes.length; i++) {
-            result.append('.');
-            result.append(suffixes[i]);
-            if (i < suffixes.length - 1) {
-                result.append(", ");
-            }
-        }
-        result.append(')');
-        return result.toString();
-    }
+	/**
+	 * Construct a filter for an array of suffixes
+	 *
+	 * @param s
+	 *            the suffixes string
+	 * @param d
+	 *            the file type description
+	 */
+	public SuffixFilter(String[] s, String d) {
+		suffixes = new String[s.length];
+		System.arraycopy(s, 0, suffixes, 0, s.length);
+		desc = d;
+	}
 
-    /**
-     * @return Returns the default or preferred suffix for this type of file.
-     */
-    public String getSuffix() {
-        return suffixes[0];
-    }
+	/*
+	 * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+	 */
+	public boolean accept(File f) {
+		if (f == null) {
+			return false;
+		}
+		if (f.isDirectory()) {
+			return true;
+		}
+		String extension = getExtension(f);
+		for (String suffix : suffixes) {
+			if (suffix.equalsIgnoreCase(extension)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    /**
-     * @return Returns the list of all acceptable suffixes.
-     */
-    public String[] getSuffixes() {
-        return suffixes;
-    }
-    
-    /**
-     * Adding this function enables easy selection of suffixfilters
-     * e.g. in a combobox.
-     *
-     * {@inheritDoc}
-     */
-    public String toString() {
-        return getDescription();
-    }
+	/**
+	 * @param f
+	 *            the file to get the extension from
+	 * @return the extension string (without the dot)
+	 */
+	public static String getExtension(File f) {
+		if (f == null) {
+			return null;
+		}
+		return getExtension(f.getName());
+	}
+
+	/**
+	 * @param filename
+	 *            the name of the file to get the extension from
+	 * @return the extension string (without the dot)
+	 */
+	public static String getExtension(String filename) {
+		int i = filename.lastIndexOf('.');
+		if (i > 0 && i < filename.length() - 1) {
+			return filename.substring(i + 1).toLowerCase();
+		}
+		return null;
+	}
+
+	/*
+	 * @see javax.swing.filechooser.FileFilter#getDescription()
+	 */
+	public String getDescription() {
+		StringBuffer result = new StringBuffer(desc);
+		result.append(" (");
+		for (int i = 0; i < suffixes.length; i++) {
+			result.append('.');
+			result.append(suffixes[i]);
+			if (i < suffixes.length - 1) {
+				result.append(", ");
+			}
+		}
+		result.append(')');
+		return result.toString();
+	}
+
+	/**
+	 * @return Returns the default or preferred suffix for this type of file.
+	 */
+	public String getSuffix() {
+		return suffixes[0];
+	}
+
+	/**
+	 * @return Returns the list of all acceptable suffixes.
+	 */
+	public String[] getSuffixes() {
+		return suffixes;
+	}
+
+	/**
+	 * Adding this function enables easy selection of suffixfilters e.g. in a
+	 * combobox.
+	 *
+	 * {@inheritDoc}
+	 */
+	public String toString() {
+		return getDescription();
+	}
 
 }

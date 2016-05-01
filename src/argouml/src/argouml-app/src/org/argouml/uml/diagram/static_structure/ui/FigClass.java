@@ -51,180 +51,185 @@ import org.tigris.gef.presentation.FigGroup;
 import org.tigris.gef.presentation.FigText;
 
 /**
- * Class to display graphics for a UML Class in a diagram.<p>
+ * Class to display graphics for a UML Class in a diagram.
+ * <p>
  * 
- * A Class may show stereotypes, a name and compartments for
- * attributes and operations.
+ * A Class may show stereotypes, a name and compartments for attributes and
+ * operations.
  */
 public class FigClass extends FigClassifierBox {
 
-    private static final long serialVersionUID = -4952197121588346256L;
+	private static final long serialVersionUID = -4952197121588346256L;
 
 	/**
-     * Constructor for a {@link FigClass} during file load.<p>
-     *
-     * Parent {@link org.argouml.uml.diagram.ui.FigNodeModelElement}
-     * will have created the main box {@link #getBigPort()} and its
-     * name {@link #getNameFig()} and stereotype
-     * (@link #getStereotypeFig()}. This constructor
-     * creates a box for the attributes and operations.<p>
-     *
-     * The properties of all these graphic elements are adjusted
-     * appropriately. The main boxes are all filled and have
-     * outlines. 
-     * TODO: which is wrong, since the bigPort is filled, too.
-     * 
-     * @param element model element to be represented by this fig.
-     * @param bounds rectangle describing bounds
-     * @param settings rendering settings
-     */
-    public FigClass(Object element, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(element, bounds, settings);
-        constructFigs(bounds);
-    }
+	 * Constructor for a {@link FigClass} during file load.
+	 * <p>
+	 *
+	 * Parent {@link org.argouml.uml.diagram.ui.FigNodeModelElement} will have
+	 * created the main box {@link #getBigPort()} and its name
+	 * {@link #getNameFig()} and stereotype (@link #getStereotypeFig()}. This
+	 * constructor creates a box for the attributes and operations.
+	 * <p>
+	 *
+	 * The properties of all these graphic elements are adjusted appropriately.
+	 * The main boxes are all filled and have outlines. TODO: which is wrong,
+	 * since the bigPort is filled, too.
+	 * 
+	 * @param element
+	 *            model element to be represented by this fig.
+	 * @param bounds
+	 *            rectangle describing bounds
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigClass(Object element, Rectangle bounds, DiagramSettings settings) {
+		super(element, bounds, settings);
+		constructFigs(bounds);
+	}
 
-    private void constructFigs(Rectangle bounds) {
-        enableSizeChecking(false);
-        setSuppressCalcBounds(true);
-        
-        addFig(getBigPort());
-        addFig(getNameFig());
-        /* Stereotype covers NameFig: */
-        addFig(getStereotypeFig());
-        /* Compartments from top to bottom: */
-        createCompartments();
-        
-        // Make all the parts match the main fig
-        setFilled(true);
-        setFillColor(FILL_COLOR);
-        setLineColor(LINE_COLOR);
-        setLineWidth(LINE_WIDTH);
-        
-        /* Set the drop location in the case of D&D: */
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
-        
-        setSuppressCalcBounds(false);
-        setBounds(getBounds());
-        enableSizeChecking(true);
-    }
+	private void constructFigs(Rectangle bounds) {
+		enableSizeChecking(false);
+		setSuppressCalcBounds(true);
 
-    @Override
-    public Object clone() {
-        FigClass figClone = (FigClass) super.clone();
-        Iterator thisIter = this.getFigs().iterator();
-        Iterator cloneIter = figClone.getFigs().iterator();
-        while (thisIter.hasNext()) {
-            thisIter.next();
-            cloneIter.next();
-        }
-        return figClone;
-    }
+		addFig(getBigPort());
+		addFig(getNameFig());
+		/* Stereotype covers NameFig: */
+		addFig(getStereotypeFig());
+		/* Compartments from top to bottom: */
+		createCompartments();
 
-    public Selection makeSelection() {
-        return new SelectionClass(this);
-    }
+		// Make all the parts match the main fig
+		setFilled(true);
+		setFillColor(FILL_COLOR);
+		setLineColor(LINE_COLOR);
+		setLineWidth(LINE_WIDTH);
 
-    protected Object buildModifierPopUp() {
-        return buildModifierPopUp(ABSTRACT | LEAF | ROOT | ACTIVE);
-    }
+		/* Set the drop location in the case of D&D: */
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
 
-    /**
-     * @param fgVec the FigGroup
-     * @param ft    the Figtext
-     * @param i     get the fig before fig i
-     * @return the FigText
-     */
-    protected FigText getPreviousVisibleFeature(FigGroup fgVec,
-						FigText ft, int i) {
-        if (fgVec == null || i < 1) {
-            return null;
-        }
-        FigText ft2 = null;
-        List figs = fgVec.getFigs();
-        if (i >= figs.size() || !((FigText) figs.get(i)).isVisible()) {
-            return null;
-        }
-        do {
-            i--;
-            while (i < 1) {
-                if (fgVec == getCompartment(Model.getMetaTypes().getAttribute())) {
-                    fgVec = getCompartment(Model.getMetaTypes().getOperation());
-                } else {
-                    fgVec = getCompartment(Model.getMetaTypes().getAttribute());
-                }
-                figs = fgVec.getFigs();
-                i = figs.size() - 1;
-            }
-            ft2 = (FigText) figs.get(i);
-            if (!ft2.isVisible()) {
-                ft2 = null;
-            }
-        } while (ft2 == null);
-        return ft2;
-    }
+		setSuppressCalcBounds(false);
+		setBounds(getBounds());
+		enableSizeChecking(true);
+	}
 
-    /**
-     * @param fgVec the FigGroup
-     * @param ft    the FigText
-     * @param i     get the fig after fig i
-     * @return the FigText
-     */
-    protected FigText getNextVisibleFeature(FigGroup fgVec, FigText ft, int i) {
-        if (fgVec == null || i < 1) {
-            return null;
-        }
-        FigText ft2 = null;
-        List v = fgVec.getFigs();
-        if (i >= v.size() || !((FigText) v.get(i)).isVisible()) {
-            return null;
-        }
-        do {
-            i++;
-            while (i >= v.size()) {
-                if (fgVec == getCompartment(Model.getMetaTypes().getAttribute())) {
-                    fgVec = getCompartment(Model.getMetaTypes().getOperation());
-                } else {
-                    fgVec = getCompartment(Model.getMetaTypes().getAttribute());
-                }
-                v = new ArrayList(fgVec.getFigs());
-                i = 1;
-            }
-            ft2 = (FigText) v.get(i);
-            if (!ft2.isVisible()) {
-                ft2 = null;
-            }
-        } while (ft2 == null);
-        return ft2;
-    }
+	@Override
+	public Object clone() {
+		FigClass figClone = (FigClass) super.clone();
+		Iterator thisIter = this.getFigs().iterator();
+		Iterator cloneIter = figClone.getFigs().iterator();
+		while (thisIter.hasNext()) {
+			thisIter.next();
+			cloneIter.next();
+		}
+		return figClone;
+	}
 
-    public void setEnclosingFig(Fig encloser) {
-        if (encloser == getEncloser()) {
-            return;
-        }
-        if (encloser == null
-                || (encloser != null
-                && !Model.getFacade().isAInstance(encloser.getOwner()))) {
-            super.setEnclosingFig(encloser);
-        }
-        if (!(Model.getFacade().isAUMLElement(getOwner()))) {
-            return;
-        }
-        if (encloser != null
-                && (Model.getFacade().isAComponent(encloser.getOwner()))) {
-            moveIntoComponent(encloser);
-            super.setEnclosingFig(encloser);
-        }
+	public Selection makeSelection() {
+		return new SelectionClass(this);
+	}
 
-    }
+	protected Object buildModifierPopUp() {
+		return buildModifierPopUp(ABSTRACT | LEAF | ROOT | ACTIVE);
+	}
 
-    @Override
-    protected void updateNameText() {
-        super.updateNameText();
-        calcBounds();
-        setBounds(getBounds());
-    }
-    
+	/**
+	 * @param fgVec
+	 *            the FigGroup
+	 * @param ft
+	 *            the Figtext
+	 * @param i
+	 *            get the fig before fig i
+	 * @return the FigText
+	 */
+	protected FigText getPreviousVisibleFeature(FigGroup fgVec, FigText ft, int i) {
+		if (fgVec == null || i < 1) {
+			return null;
+		}
+		FigText ft2 = null;
+		List figs = fgVec.getFigs();
+		if (i >= figs.size() || !((FigText) figs.get(i)).isVisible()) {
+			return null;
+		}
+		do {
+			i--;
+			while (i < 1) {
+				if (fgVec == getCompartment(Model.getMetaTypes().getAttribute())) {
+					fgVec = getCompartment(Model.getMetaTypes().getOperation());
+				} else {
+					fgVec = getCompartment(Model.getMetaTypes().getAttribute());
+				}
+				figs = fgVec.getFigs();
+				i = figs.size() - 1;
+			}
+			ft2 = (FigText) figs.get(i);
+			if (!ft2.isVisible()) {
+				ft2 = null;
+			}
+		} while (ft2 == null);
+		return ft2;
+	}
+
+	/**
+	 * @param fgVec
+	 *            the FigGroup
+	 * @param ft
+	 *            the FigText
+	 * @param i
+	 *            get the fig after fig i
+	 * @return the FigText
+	 */
+	protected FigText getNextVisibleFeature(FigGroup fgVec, FigText ft, int i) {
+		if (fgVec == null || i < 1) {
+			return null;
+		}
+		FigText ft2 = null;
+		List v = fgVec.getFigs();
+		if (i >= v.size() || !((FigText) v.get(i)).isVisible()) {
+			return null;
+		}
+		do {
+			i++;
+			while (i >= v.size()) {
+				if (fgVec == getCompartment(Model.getMetaTypes().getAttribute())) {
+					fgVec = getCompartment(Model.getMetaTypes().getOperation());
+				} else {
+					fgVec = getCompartment(Model.getMetaTypes().getAttribute());
+				}
+				v = new ArrayList(fgVec.getFigs());
+				i = 1;
+			}
+			ft2 = (FigText) v.get(i);
+			if (!ft2.isVisible()) {
+				ft2 = null;
+			}
+		} while (ft2 == null);
+		return ft2;
+	}
+
+	public void setEnclosingFig(Fig encloser) {
+		if (encloser == getEncloser()) {
+			return;
+		}
+		if (encloser == null || (encloser != null && !Model.getFacade().isAInstance(encloser.getOwner()))) {
+			super.setEnclosingFig(encloser);
+		}
+		if (!(Model.getFacade().isAUMLElement(getOwner()))) {
+			return;
+		}
+		if (encloser != null && (Model.getFacade().isAComponent(encloser.getOwner()))) {
+			moveIntoComponent(encloser);
+			super.setEnclosingFig(encloser);
+		}
+
+	}
+
+	@Override
+	protected void updateNameText() {
+		super.updateNameText();
+		calcBounds();
+		setBounds(getBounds());
+	}
+
 }

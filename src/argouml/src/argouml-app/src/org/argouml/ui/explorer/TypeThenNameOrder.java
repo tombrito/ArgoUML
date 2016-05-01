@@ -42,92 +42,85 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.argouml.i18n.Translator;
 
 /**
- * Sorts by user object type,
- * diagrams first,
- * then packages,
- * then other types.
+ * Sorts by user object type, diagrams first, then packages, then other types.
  *
  * sorts by name within type groups.
  *
  * @since 0.15.2, Created on 28 September 2003, 10:02
  *
- * @author  alexb
+ * @author alexb
  */
 public class TypeThenNameOrder extends NameOrder {
 
-    /** Creates a new instance of TypeThenNameOrder */
-    public TypeThenNameOrder() {
-    }
-
-    /*
-     * Compares obj1 and obj2 sorting by user object type, then name. Diagrams
-     * are sorted first, then packages, then other types. sorts by name within
-     * type groups. Nulls are sorted first for names.
-     * 
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */
-    @Override
-    public int compare(Object obj1, Object obj2) {
-	if (obj1 instanceof DefaultMutableTreeNode) {
-	    DefaultMutableTreeNode node = (DefaultMutableTreeNode) obj1;
-	    obj1 = node.getUserObject();
+	/** Creates a new instance of TypeThenNameOrder */
+	public TypeThenNameOrder() {
 	}
 
-	if (obj2 instanceof DefaultMutableTreeNode) {
-	    DefaultMutableTreeNode node = (DefaultMutableTreeNode) obj2;
-	    obj2 = node.getUserObject();
+	/*
+	 * Compares obj1 and obj2 sorting by user object type, then name. Diagrams
+	 * are sorted first, then packages, then other types. sorts by name within
+	 * type groups. Nulls are sorted first for names.
+	 * 
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
+	@Override
+	public int compare(Object obj1, Object obj2) {
+		if (obj1 instanceof DefaultMutableTreeNode) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) obj1;
+			obj1 = node.getUserObject();
+		}
+
+		if (obj2 instanceof DefaultMutableTreeNode) {
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) obj2;
+			obj2 = node.getUserObject();
+		}
+
+		if (obj1 == null) {
+			if (obj2 == null) {
+				return 0;
+			}
+			return -1;
+		} else if (obj2 == null) {
+			return 1;
+		}
+
+		String typeName = obj1.getClass().getName();
+		String typeName1 = obj2.getClass().getName();
+
+		// all diagram types treated equally, see issue 2260
+		// if (typeName.indexOf("Diagram") != -1
+		// && typeName1.indexOf("Diagram") != -1)
+		// return compareUserObjects(obj1, obj2);
+
+		int typeNameOrder = typeName.compareTo(typeName1);
+		if (typeNameOrder == 0) {
+			return compareUserObjects(obj1, obj2);
+		}
+
+		if (typeName.indexOf("Diagram") == -1 && typeName1.indexOf("Diagram") != -1) {
+			return 1;
+		}
+
+		if (typeName.indexOf("Diagram") != -1 && typeName1.indexOf("Diagram") == -1) {
+			return -1;
+		}
+
+		if (typeName.indexOf("Package") == -1 && typeName1.indexOf("Package") != -1) {
+			return 1;
+		}
+
+		if (typeName.indexOf("Package") != -1 && typeName1.indexOf("Package") == -1) {
+			return -1;
+		}
+
+		return typeNameOrder;
 	}
 
-	if (obj1 == null) {
-	    if (obj2 == null) {
-	        return 0;
-	    }
-	    return -1;
-	} else if (obj2 == null) {
-	    return 1;
+	/*
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return Translator.localize("combobox.order-by-type-name");
 	}
-
-        String typeName = obj1.getClass().getName();
-        String typeName1 = obj2.getClass().getName();
-
-        // all diagram types treated equally, see issue 2260
-	// if (typeName.indexOf("Diagram") != -1
-	//     && typeName1.indexOf("Diagram") != -1)
-	//     return compareUserObjects(obj1, obj2);
-
-        int typeNameOrder = typeName.compareTo(typeName1);
-        if (typeNameOrder == 0) {
-            return compareUserObjects(obj1, obj2);
-        }
-
-        if (typeName.indexOf("Diagram") == -1
-	    && typeName1.indexOf("Diagram") != -1) {
-            return 1;
-        }
-
-        if (typeName.indexOf("Diagram") != -1
-	    && typeName1.indexOf("Diagram") == -1) {
-            return -1;
-        }
-
-        if (typeName.indexOf("Package") == -1
-	    && typeName1.indexOf("Package") != -1) {
-            return 1;
-        }
-
-        if (typeName.indexOf("Package") != -1
-	    && typeName1.indexOf("Package") == -1) {
-            return -1;
-        }
-
-        return typeNameOrder;
-    }
-
-    /*
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return Translator.localize("combobox.order-by-type-name");
-    }
 }

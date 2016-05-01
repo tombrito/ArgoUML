@@ -37,32 +37,33 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.configuration;
+
 import java.beans.PropertyChangeEvent;
 
 /**
- *   This class provides definition and manipulation of configuration keys.
- *   All keys in the configuration system will be accessed using the
- *   ConfigurationKey interface.
+ * This class provides definition and manipulation of configuration keys. All
+ * keys in the configuration system will be accessed using the ConfigurationKey
+ * interface.
  *
- *   @author Thierry Lach
- *   @since 0.9.4
+ * @author Thierry Lach
+ * @since 0.9.4
  */
 public interface ConfigurationKey {
 
-    /**
-     * Return the actual key used to access the configuration.
-     *
-     * @return the key.
-     */
-    String getKey();
+	/**
+	 * Return the actual key used to access the configuration.
+	 *
+	 * @return the key.
+	 */
+	String getKey();
 
-    /**
-     * Tells if this configuration key is the one changed in the
-     * <code>PropertyChangeEvent</code>.
-     *
-     * @param pce PropertyChangeEvent to check
-     * @return true if the changed property is for the key.
-     */
-    boolean isChangedProperty(PropertyChangeEvent pce);
+	/**
+	 * Tells if this configuration key is the one changed in the
+	 * <code>PropertyChangeEvent</code>.
+	 *
+	 * @param pce
+	 *            PropertyChangeEvent to check
+	 * @return true if the changed property is for the key.
+	 */
+	boolean isChangedProperty(PropertyChangeEvent pce);
 }
-

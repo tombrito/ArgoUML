@@ -49,34 +49,33 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewSynchState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -7124712437760864307L;
-	private static final ActionNewSynchState SINGLETON =
-        new ActionNewSynchState();
+	private static final long serialVersionUID = -7124712437760864307L;
+	private static final ActionNewSynchState SINGLETON = new ActionNewSynchState();
 
-    /**
-     * Constructor for ActionNewPseudoState.
-     */
-    protected ActionNewSynchState() {
-        super();
-        putValue(Action.NAME, Translator.localize("button.new-synchstate"));
-    }
+	/**
+	 * Constructor for ActionNewPseudoState.
+	 */
+	protected ActionNewSynchState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-synchstate"));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getStateMachinesFactory().buildSynchState(getTarget());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getStateMachinesFactory().buildSynchState(getTarget());
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewSynchState getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewSynchState getInstance() {
+		return SINGLETON;
+	}
 }

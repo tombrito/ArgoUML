@@ -51,128 +51,130 @@ import org.argouml.cognitive.ToDoListListener;
  * Represents a perspective for ToDo items: grouping by type.
  *
  */
-public class ToDoByType extends ToDoPerspective
-    implements ToDoListListener {
-    private static final Logger LOG =
-        Logger.getLogger(ToDoByType.class.getName());
+public class ToDoByType extends ToDoPerspective implements ToDoListListener {
+	private static final Logger LOG = Logger.getLogger(ToDoByType.class.getName());
 
-    /**
-     * The constructor.
-     *
-     */
-    public ToDoByType() {
-	super("combobox.todo-perspective-type");
-	addSubTreeModel(new GoListToTypeToItem());
-    }
-
-
-    ////////////////////////////////////////////////////////////////
-    // ToDoListListener implementation
-
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsChanged(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemsChanged");
-        List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
-
-        for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
-	    String kt = ktn.getName();
-	    path[1] = ktn;
-	    int nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.containsKnowledgeType(kt)) {
-                    continue;
-                }
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-                continue;
-            }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.containsKnowledgeType(kt)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(ktn, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesChanged(this, path, childIndices, children);
+	/**
+	 * The constructor.
+	 *
+	 */
+	public ToDoByType() {
+		super("combobox.todo-perspective-type");
+		addSubTreeModel(new GoListToTypeToItem());
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsAdded(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemAdded");
-        List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	////////////////////////////////////////////////////////////////
+	// ToDoListListener implementation
 
-        for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
-	    String kt = ktn.getName();
-	    path[1] = ktn;
-	    int nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.containsKnowledgeType(kt)) {
-                    continue;
-                }
-		nMatchingItems++;
-	    }
-	    if (nMatchingItems == 0) {
-                continue;
-            }
-	    int[] childIndices = new int[nMatchingItems];
-	    Object[] children = new Object[nMatchingItems];
-	    nMatchingItems = 0;
-            for (ToDoItem item : items) {
-		if (!item.containsKnowledgeType(kt)) {
-                    continue;
-                }
-		childIndices[nMatchingItems] = getIndexOfChild(ktn, item);
-		children[nMatchingItems] = item;
-		nMatchingItems++;
-	    }
-	    fireTreeNodesInserted(this, path, childIndices, children);
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsChanged(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemsChanged");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
+
+		for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
+			String kt = ktn.getName();
+			path[1] = ktn;
+			int nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.containsKnowledgeType(kt)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.containsKnowledgeType(kt)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(ktn, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesChanged(this, path, childIndices, children);
+		}
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoItemsRemoved(ToDoListEvent tde) {
-        LOG.log(Level.FINE, "toDoItemRemoved");
-        List<ToDoItem> items = tde.getToDoItemList();
-	Object[] path = new Object[2];
-	path[0] = Designer.theDesigner().getToDoList();
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsAdded(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsAdded(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemAdded");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
 
-        for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
-	    boolean anyInKT = false;
-	    String kt = ktn.getName();
-            for (ToDoItem item : items) {
-		if (item.containsKnowledgeType(kt)) {
-                    anyInKT = true;
-                }
-	    }
-	    if (!anyInKT) {
-                continue;
-            }
-            LOG.log(Level.FINE, "toDoItemRemoved updating PriorityNode");
-	    path[1] = ktn;
-	    //fireTreeNodesChanged(this, path, childIndices, children);
-	    fireTreeStructureChanged(path);
+		for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
+			String kt = ktn.getName();
+			path[1] = ktn;
+			int nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.containsKnowledgeType(kt)) {
+					continue;
+				}
+				nMatchingItems++;
+			}
+			if (nMatchingItems == 0) {
+				continue;
+			}
+			int[] childIndices = new int[nMatchingItems];
+			Object[] children = new Object[nMatchingItems];
+			nMatchingItems = 0;
+			for (ToDoItem item : items) {
+				if (!item.containsKnowledgeType(kt)) {
+					continue;
+				}
+				childIndices[nMatchingItems] = getIndexOfChild(ktn, item);
+				children[nMatchingItems] = item;
+				nMatchingItems++;
+			}
+			fireTreeNodesInserted(this, path, childIndices, children);
+		}
 	}
-    }
 
-    /*
-     * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.cognitive.ToDoListEvent)
-     */
-    public void toDoListChanged(ToDoListEvent tde) { }
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoItemsRemoved(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoItemsRemoved(ToDoListEvent tde) {
+		LOG.log(Level.FINE, "toDoItemRemoved");
+		List<ToDoItem> items = tde.getToDoItemList();
+		Object[] path = new Object[2];
+		path[0] = Designer.theDesigner().getToDoList();
+
+		for (KnowledgeTypeNode ktn : KnowledgeTypeNode.getTypeList()) {
+			boolean anyInKT = false;
+			String kt = ktn.getName();
+			for (ToDoItem item : items) {
+				if (item.containsKnowledgeType(kt)) {
+					anyInKT = true;
+				}
+			}
+			if (!anyInKT) {
+				continue;
+			}
+			LOG.log(Level.FINE, "toDoItemRemoved updating PriorityNode");
+			path[1] = ktn;
+			// fireTreeNodesChanged(this, path, childIndices, children);
+			fireTreeStructureChanged(path);
+		}
+	}
+
+	/*
+	 * @see org.argouml.cognitive.ToDoListListener#toDoListChanged(org.argouml.
+	 * cognitive.ToDoListEvent)
+	 */
+	public void toDoListChanged(ToDoListEvent tde) {
+	}
 
 }

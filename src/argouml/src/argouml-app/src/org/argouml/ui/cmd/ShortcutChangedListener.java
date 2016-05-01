@@ -46,11 +46,12 @@ import java.util.EventListener;
  * @author andrea.nironi@gmail.com
  */
 public interface ShortcutChangedListener extends EventListener {
-    
-    /**
-     * Called when a ShortcutChangedEvent is fired
-     * 
-     * @param event     the ShortcutChangedEvent fired
-     */
-    void shortcutChange(ShortcutChangedEvent event);
+
+	/**
+	 * Called when a ShortcutChangedEvent is fired
+	 * 
+	 * @param event
+	 *            the ShortcutChangedEvent fired
+	 */
+	void shortcutChange(ShortcutChangedEvent event);
 }

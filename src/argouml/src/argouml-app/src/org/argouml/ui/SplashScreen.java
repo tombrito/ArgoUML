@@ -56,146 +56,142 @@ import org.tigris.gef.ui.IStatusBar;
 /**
  * The splash screen.
  */
-public class SplashScreen 
-    extends JWindow 
-    implements IStatusBar, ProgressMonitor {
+public class SplashScreen extends JWindow implements IStatusBar, ProgressMonitor {
 
-    private static final long serialVersionUID = -7969911294226186392L;
+	private static final long serialVersionUID = -7969911294226186392L;
 
 	private StatusBar statusBar = new StatusBar();
-    
-    /**
-     * Flag indicating that the splash screen has been painted.
-     */
-    private boolean paintCalled = false;
 
-    /**
-     * The constructor.
-     */
-    public SplashScreen() {
-        this("Splash");
-    }
+	/**
+	 * Flag indicating that the splash screen has been painted.
+	 */
+	private boolean paintCalled = false;
 
-    /**
-     * The constructor.
-     *
-     * @param title the title of the window
-     * @param iconName the icon for the window
-     */
-    private SplashScreen(String iconName) {
-	super();
-
-	setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	getContentPane().setLayout(new BorderLayout(0, 0));
-
-	SplashPanel panel = new SplashPanel(iconName);
-	if (panel.getImage() != null) {
-	    int imgWidth = panel.getImage().getIconWidth();
-	    int imgHeight = panel.getImage().getIconHeight();
-            Point scrCenter = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getCenterPoint();
-	    setLocation(scrCenter.x - imgWidth / 2,
-			scrCenter.y - imgHeight / 2);
+	/**
+	 * The constructor.
+	 */
+	public SplashScreen() {
+		this("Splash");
 	}
 
-	JPanel splash = new JPanel(new BorderLayout());
-	splash.setBorder(new EtchedBorder(EtchedBorder.RAISED));
-	splash.add(panel, BorderLayout.CENTER);
-	splash.add(statusBar, BorderLayout.SOUTH);
-	getContentPane().add(splash);
-	// add preloading progress bar?
-	Dimension contentPaneSize = getContentPane().getPreferredSize();
-	setSize(contentPaneSize.width, contentPaneSize.height);
-	pack();
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param title
+	 *            the title of the window
+	 * @param iconName
+	 *            the icon for the window
+	 */
+	private SplashScreen(String iconName) {
+		super();
 
-    /**
-     * @return the status bar of this dialog
-     * @deprecated for 0.31.7 by tfmorris. Use methods from the
-     *             {@link IStatusBar} interface implemented by this class 
-     *             e.g. {@link #showStatus(String)}/
-     */
-    @Deprecated
-    public StatusBar getStatusBar() {
-        return statusBar;
-    }
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		getContentPane().setLayout(new BorderLayout(0, 0));
 
-    /*
-     * @see org.tigris.gef.ui.IStatusBar#showStatus(java.lang.String)
-     */
-    public void showStatus(String s) {
-        statusBar.showStatus(s);
-    }
-    
-    /*
-     * Override paint so we can set a flag the first time we're called
-     * and notify any waiting threads that the splash screen has been
-     * painted.
-     * @see java.awt.Component#paint(java.awt.Graphics)
-     */
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        if (!paintCalled) {
-            synchronized (this) {
-                paintCalled = true;
-                notifyAll();
-            }
-        }
-    }
+		SplashPanel panel = new SplashPanel(iconName);
+		if (panel.getImage() != null) {
+			int imgWidth = panel.getImage().getIconWidth();
+			int imgHeight = panel.getImage().getIconHeight();
+			Point scrCenter = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+			setLocation(scrCenter.x - imgWidth / 2, scrCenter.y - imgHeight / 2);
+		}
 
-    /**
-     * @param called true if paint() is already called
-     */
-    public void setPaintCalled(boolean called) {
-        this.paintCalled = called;
-    }
+		JPanel splash = new JPanel(new BorderLayout());
+		splash.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+		splash.add(panel, BorderLayout.CENTER);
+		splash.add(statusBar, BorderLayout.SOUTH);
+		getContentPane().add(splash);
+		// add preloading progress bar?
+		Dimension contentPaneSize = getContentPane().getPreferredSize();
+		setSize(contentPaneSize.width, contentPaneSize.height);
+		pack();
+	}
 
-    /**
-     * @return true if paint() is already called
-     */
-    public boolean isPaintCalled() {
-        return paintCalled;
-    }
+	/**
+	 * @return the status bar of this dialog
+	 * @deprecated for 0.31.7 by tfmorris. Use methods from the
+	 *             {@link IStatusBar} interface implemented by this class e.g.
+	 *             {@link #showStatus(String)}/
+	 */
+	@Deprecated
+	public StatusBar getStatusBar() {
+		return statusBar;
+	}
 
-    public void progress(ProgressEvent event) throws InterruptedException {
-        statusBar.progress(event);        
-    }
+	/*
+	 * @see org.tigris.gef.ui.IStatusBar#showStatus(java.lang.String)
+	 */
+	public void showStatus(String s) {
+		statusBar.showStatus(s);
+	}
 
-    public void updateProgress(int progress) {
-        statusBar.updateProgress(progress);
-    }
+	/*
+	 * Override paint so we can set a flag the first time we're called and
+	 * notify any waiting threads that the splash screen has been painted.
+	 * 
+	 * @see java.awt.Component#paint(java.awt.Graphics)
+	 */
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		if (!paintCalled) {
+			synchronized (this) {
+				paintCalled = true;
+				notifyAll();
+			}
+		}
+	}
 
-    public void updateSubTask(String name) {
-        statusBar.updateSubTask(name);
-    }
+	/**
+	 * @param called
+	 *            true if paint() is already called
+	 */
+	public void setPaintCalled(boolean called) {
+		this.paintCalled = called;
+	}
 
-    public void updateMainTask(String name) {
-        statusBar.updateMainTask(name);
-    }
+	/**
+	 * @return true if paint() is already called
+	 */
+	public boolean isPaintCalled() {
+		return paintCalled;
+	}
 
-    public boolean isCanceled() {
-        return false;
-    }
+	public void progress(ProgressEvent event) throws InterruptedException {
+		statusBar.progress(event);
+	}
 
-    public void setMaximumProgress(int max) {
-        statusBar.setMaximumProgress(max);
-    }
+	public void updateProgress(int progress) {
+		statusBar.updateProgress(progress);
+	}
 
-    public void notifyNullAction() {
-        // ignored - will never be called
-    }
+	public void updateSubTask(String name) {
+		statusBar.updateSubTask(name);
+	}
 
-    public void notifyMessage(
-            String title, 
-            String introduction, 
-            String message) {
-        // TODO: Auto-generated method stub
-        
-    }
+	public void updateMainTask(String name) {
+		statusBar.updateMainTask(name);
+	}
 
-    public void close() {
-        // TODO: Auto-generated method stub        
-    }
+	public boolean isCanceled() {
+		return false;
+	}
+
+	public void setMaximumProgress(int max) {
+		statusBar.setMaximumProgress(max);
+	}
+
+	public void notifyNullAction() {
+		// ignored - will never be called
+	}
+
+	public void notifyMessage(String title, String introduction, String message) {
+		// TODO: Auto-generated method stub
+
+	}
+
+	public void close() {
+		// TODO: Auto-generated method stub
+	}
 
 }

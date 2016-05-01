@@ -54,149 +54,149 @@ import org.tigris.gef.presentation.FigRect;
  */
 public class FigJoinState extends FigStateVertex {
 
-    private static final int X = X0;
-    private static final int Y = Y0;
-    private static final int STATE_WIDTH = 80;
-    private static final int HEIGHT = 7;
+	private static final int X = X0;
+	private static final int Y = Y0;
+	private static final int STATE_WIDTH = 80;
+	private static final int HEIGHT = 7;
 
-    private FigRect head;
+	private FigRect head;
 
+	/**
+	 * Construct a new FigJoinState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigJoinState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		initFigs();
+	}
 
-    /**
-     * Construct a new FigJoinState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigJoinState(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        initFigs();
-    }
+	@Override
+	protected Fig createBigPortFig() {
+		return new FigRect(X, Y, STATE_WIDTH, HEIGHT, DEBUG_COLOR, DEBUG_COLOR);
+	}
 
-    @Override
-    protected Fig createBigPortFig() {
-        return new FigRect(X, Y, STATE_WIDTH, HEIGHT, DEBUG_COLOR,
-                DEBUG_COLOR);
-    }
+	private void initFigs() {
+		setEditable(false);
+		head = new FigRect(X, Y, STATE_WIDTH, HEIGHT, LINE_COLOR, SOLID_FILL_COLOR);
+		// add Figs to the FigNode in back-to-front order
+		addFig(getBigPort());
+		addFig(head);
 
-    private void initFigs() {
-        setEditable(false);
-        head = new FigRect(X, Y, STATE_WIDTH, HEIGHT, LINE_COLOR,
-                SOLID_FILL_COLOR);
-        // add Figs to the FigNode in back-to-front order
-        addFig(getBigPort());
-        addFig(head);
+		setBlinkPorts(false); // make port invisible unless mouse enters
+	}
 
-        setBlinkPorts(false); //make port invisible unless mouse enters
-    }
+	/*
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() {
+		FigJoinState figClone = (FigJoinState) super.clone();
+		Iterator it = figClone.getFigs().iterator();
+		figClone.setBigPort((FigRect) it.next());
+		figClone.head = (FigRect) it.next();
+		return figClone;
+	}
 
-    /*
-     * @see java.lang.Object#clone()
-     */
-    @Override
-    public Object clone() {
-        FigJoinState figClone = (FigJoinState) super.clone();
-        Iterator it = figClone.getFigs().iterator();
-        figClone.setBigPort((FigRect) it.next());
-        figClone.head = (FigRect) it.next();
-        return figClone;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setBounds(int, int, int, int)
+	 */
+	@Override
+	protected void setStandardBounds(int x, int y, int w, int h) {
+		Rectangle oldBounds = getBounds();
+		if (w > h) {
+			h = HEIGHT;
+		} else {
+			w = HEIGHT;
+		}
+		getBigPort().setBounds(x, y, w, h);
+		head.setBounds(x, y, w, h);
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setBounds(int, int, int, int)
-     */
-    @Override
-    protected void setStandardBounds(int x, int y, int w, int h) {
-        Rectangle oldBounds = getBounds();
-        if (w > h) {
-            h = HEIGHT;
-        } else {
-            w = HEIGHT;
-        }
-        getBigPort().setBounds(x, y, w, h);
-        head.setBounds(x, y, w, h);
+		calcBounds();
+		updateEdges();
+		firePropChange("bounds", oldBounds, getBounds());
+	}
 
-        calcBounds();
-        updateEdges();
-        firePropChange("bounds", oldBounds, getBounds());
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
+	 */
+	@Override
+	public void setLineColor(Color col) {
+		head.setLineColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineColor(java.awt.Color)
-     */
-    @Override
-    public void setLineColor(Color col) {
-        head.setLineColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineColor()
+	 */
+	@Override
+	public Color getLineColor() {
+		return head.getLineColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineColor()
-     */
-    @Override
-    public Color getLineColor() {
-        return head.getLineColor();
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
+	 */
+	@Override
+	public void setFillColor(Color col) {
+		head.setFillColor(col);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setFillColor(java.awt.Color)
-     */
-    @Override
-    public void setFillColor(Color col) {
-        head.setFillColor(col);
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getFillColor()
+	 */
+	@Override
+	public Color getFillColor() {
+		return head.getFillColor();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getFillColor()
-     */
-    @Override
-    public Color getFillColor() {
-        return head.getFillColor();
-    }
+	/**
+	 * Ignored - figure has fixed rendering
+	 * 
+	 * @param f
+	 *            ignored
+	 */
+	@Override
+	public void setFilled(boolean f) {
+		// ignored
+	}
 
-    /**
-     * Ignored - figure has fixed rendering
-     * @param f ignored
-     */
-    @Override
-    public void setFilled(boolean f) {
-        // ignored
-    }
+	@Override
+	public boolean isFilled() {
+		return true;
+	}
 
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		head.setLineWidth(w);
+	}
 
-    @Override
-    public boolean isFilled() {
-        return true;
-    }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#getLineWidth()
+	 */
+	@Override
+	public int getLineWidth() {
+		return head.getLineWidth();
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setLineWidth(int)
-     */
-    @Override
-    public void setLineWidth(int w) {
-        head.setLineWidth(w);
-    }
+	/*
+	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
+	 */
+	@Override
+	public void mouseClicked(MouseEvent me) {
+		// ignored
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#getLineWidth()
-     */
-    @Override
-    public int getLineWidth() {
-        return head.getLineWidth();
-    }
-
-    /*
-     * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-     */
-    @Override
-    public void mouseClicked(MouseEvent me) {
-        // ignored
-    }
-
-    /**
-     * The UID.
-     */
-    static final long serialVersionUID = 2075803883819230367L;
+	/**
+	 * The UID.
+	 */
+	static final long serialVersionUID = 2075803883819230367L;
 
 }

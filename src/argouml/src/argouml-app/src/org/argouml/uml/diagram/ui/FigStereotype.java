@@ -50,101 +50,101 @@ import org.tigris.gef.presentation.FigText;
 /**
  * Fig to show one stereotype within a FigStereotypesGroup.
  * <p>
- * The stereotype is not editable on the fig, hence we
- * do not use a Notation Provider. <p>
+ * The stereotype is not editable on the fig, hence we do not use a Notation
+ * Provider.
+ * <p>
  * This Fig listens to model changes regarding the name of the stereotype.
  *
  * @author Bob Tarling
  */
 public class FigStereotype extends FigSingleLineText {
 
-    private static final long serialVersionUID = 1024281419476358090L;
+	private static final long serialVersionUID = 1024281419476358090L;
 
 	/**
-     * Construct a fig for a Stereotype or a keyword (which visually resembles a
-     * stereotype).
-     * 
-     * @param owner owning UML element or null if this fig is being used for a
-     *            keyword.
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigStereotype(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings, true,
-                new String[] {"name"});
-        assert owner != null;
-        initialize();
-        setText();
-    }
+	 * Construct a fig for a Stereotype or a keyword (which visually resembles a
+	 * stereotype).
+	 * 
+	 * @param owner
+	 *            owning UML element or null if this fig is being used for a
+	 *            keyword.
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigStereotype(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings, true, new String[] { "name" });
+		assert owner != null;
+		initialize();
+		setText();
+	}
 
-    private void initialize() {
-        setEditable(false);
-        setTextColor(TEXT_COLOR);
-        setTextFilled(false);
-        setJustification(FigText.JUSTIFY_CENTER);
-        setRightMargin(3);
-        setLeftMargin(3);
-    }
+	private void initialize() {
+		setEditable(false);
+		setTextColor(TEXT_COLOR);
+		setTextFilled(false);
+		setJustification(FigText.JUSTIFY_CENTER);
+		setRightMargin(3);
+		setLeftMargin(3);
+	}
 
-    /* Force the line-width to 0, since the FigGroup that contains the 
-     * stereotype may want to show a border, but we don't. */
-    @Override
-    public void setLineWidth(int w) {
-        super.setLineWidth(0);
-    }
+	/*
+	 * Force the line-width to 0, since the FigGroup that contains the
+	 * stereotype may want to show a border, but we don't.
+	 */
+	@Override
+	public void setLineWidth(int w) {
+		super.setLineWidth(0);
+	}
 
-    // Called by propertyChange
-    protected void updateLayout(UmlChangeEvent event) {
-        assert event != null;
+	// Called by propertyChange
+	protected void updateLayout(UmlChangeEvent event) {
+		assert event != null;
 
-        Rectangle oldBounds = getBounds();
+		Rectangle oldBounds = getBounds();
 
-        setText(); // this does a calcBounds()
+		setText(); // this does a calcBounds()
 
-        if (oldBounds != getBounds()) {
-            setBounds(getBounds());
-        }
+		if (oldBounds != getBounds()) {
+			setBounds(getBounds());
+		}
 
-        if (getGroup() != null ) {
-            /* TODO: Why do I need to do this? */
-            getGroup().calcBounds();
-            getGroup().setBounds(getGroup().getBounds());
-            if (oldBounds != getBounds()) {
-                Fig sg = getGroup().getGroup();
-                /* TODO: Why do I need to do this? */
-                if (sg != null) {
-                    sg.calcBounds();
-                    sg.setBounds(sg.getBounds());
-                }
-            }
-        }
-        /* Test-case for the above code: 
-         * Draw a class. 
-         * Create a stereotype for it by clicking on the prop-panel tool, and 
-         * name it.
-         * Remove the class from the diagram.
-         * Drag the class from the explorer on the diagram.
-         * Select the stereotype in the explorer, and change
-         * its name in the prop-panel to something longer.
-         * The longer name does not make the class Fig wider 
-         * unless the above code is added.*/
-        damage();
-    }
+		if (getGroup() != null) {
+			/* TODO: Why do I need to do this? */
+			getGroup().calcBounds();
+			getGroup().setBounds(getGroup().getBounds());
+			if (oldBounds != getBounds()) {
+				Fig sg = getGroup().getGroup();
+				/* TODO: Why do I need to do this? */
+				if (sg != null) {
+					sg.calcBounds();
+					sg.setBounds(sg.getBounds());
+				}
+			}
+		}
+		/*
+		 * Test-case for the above code: Draw a class. Create a stereotype for
+		 * it by clicking on the prop-panel tool, and name it. Remove the class
+		 * from the diagram. Drag the class from the explorer on the diagram.
+		 * Select the stereotype in the explorer, and change its name in the
+		 * prop-panel to something longer. The longer name does not make the
+		 * class Fig wider unless the above code is added.
+		 */
+		damage();
+	}
 
-    @Override
-    protected void setText() {
-        setText(Model.getFacade().getName(getOwner()));
-    }
+	@Override
+	protected void setText() {
+		setText(Model.getFacade().getName(getOwner()));
+	}
 
-    /**
-     * Add guillemets to any text set to this Fig.
-     * {@inheritDoc}
-     */
-    public void setText(String text) {
-        super.setText(NotationUtilityUml.formatStereotype(text,
-                getSettings().getNotationSettings().isUseGuillemets()));
-        damage();
-    }
+	/**
+	 * Add guillemets to any text set to this Fig. {@inheritDoc}
+	 */
+	public void setText(String text) {
+		super.setText(NotationUtilityUml.formatStereotype(text, getSettings().getNotationSettings().isUseGuillemets()));
+		damage();
+	}
 
 }

@@ -55,85 +55,88 @@ import tudresden.ocl.parser.node.Start;
  */
 public class OclInterpreter {
 
-    /**
-     * Parser OCL tree
-     */
-    private Start tree = null;
+	/**
+	 * Parser OCL tree
+	 */
+	private Start tree = null;
 
-    /**
-     * The model interpreter
-     */
-    private ModelInterpreter modelInterpreter;
+	/**
+	 * The model interpreter
+	 */
+	private ModelInterpreter modelInterpreter;
 
-    /**
-     * Creates a new OCL interpreter for a given OCL expression
-     * 
-     * @param ocl expression
-     * @param interpreter the interpreter
-     * @throws InvalidOclException if the expression is not valid
-     */
-    public OclInterpreter(String ocl, ModelInterpreter interpreter)
-        throws InvalidOclException {
-        this.modelInterpreter = interpreter;
+	/**
+	 * Creates a new OCL interpreter for a given OCL expression
+	 * 
+	 * @param ocl
+	 *            expression
+	 * @param interpreter
+	 *            the interpreter
+	 * @throws InvalidOclException
+	 *             if the expression is not valid
+	 */
+	public OclInterpreter(String ocl, ModelInterpreter interpreter) throws InvalidOclException {
+		this.modelInterpreter = interpreter;
 
-        Lexer lexer = new Lexer(new PushbackReader(new StringReader(ocl), 2));
+		Lexer lexer = new Lexer(new PushbackReader(new StringReader(ocl), 2));
 
-        OclParser parser = new OclParser(lexer);
+		OclParser parser = new OclParser(lexer);
 
-        try {
-            tree = parser.parse();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new InvalidOclException(ocl);
-        }
-    }
+		try {
+			tree = parser.parse();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new InvalidOclException(ocl);
+		}
+	}
 
-    /**
-     * Checks whether this OCL expression is applicable to a given model element
-     * 
-     * @param modelElement the ModelElement
-     * @return if is applicable
-     */
-    public boolean applicable(Object modelElement) {
-        ContextApplicable ca = new ContextApplicable(modelElement);
-        tree.apply(ca);
-        return ca.isApplicable();
-    }
+	/**
+	 * Checks whether this OCL expression is applicable to a given model element
+	 * 
+	 * @param modelElement
+	 *            the ModelElement
+	 * @return if is applicable
+	 */
+	public boolean applicable(Object modelElement) {
+		ContextApplicable ca = new ContextApplicable(modelElement);
+		tree.apply(ca);
+		return ca.isApplicable();
+	}
 
-    /**
-     * Checks if this expression (invariant) is satisfied for the given model
-     * element
-     * 
-     * @param modelElement the ModelElement
-     * @return if is satisfied
-     */
-    public boolean check(Object modelElement) {
-        EvaluateInvariant ei = new EvaluateInvariant(modelElement,
-                modelInterpreter);
-        tree.apply(ei);
-        return ei.isOK();
-    }
+	/**
+	 * Checks if this expression (invariant) is satisfied for the given model
+	 * element
+	 * 
+	 * @param modelElement
+	 *            the ModelElement
+	 * @return if is satisfied
+	 */
+	public boolean check(Object modelElement) {
+		EvaluateInvariant ei = new EvaluateInvariant(modelElement, modelInterpreter);
+		tree.apply(ei);
+		return ei.isOK();
+	}
 
-    /**
-     * Computes and returns the set of triggers for this constraint.
-     * 
-     * @see org.argouml.cognitive.Critic#addTrigger(String)
-     * @return the set of triggers
-     */
-    public List<String> getTriggers() {
-        ComputeTriggers ct = new ComputeTriggers();
-        tree.apply(ct);
-        return ct.getTriggers();
-    }
+	/**
+	 * Computes and returns the set of triggers for this constraint.
+	 * 
+	 * @see org.argouml.cognitive.Critic#addTrigger(String)
+	 * @return the set of triggers
+	 */
+	public List<String> getTriggers() {
+		ComputeTriggers ct = new ComputeTriggers();
+		tree.apply(ct);
+		return ct.getTriggers();
+	}
 
-    /**
-     * @return the design materials to be criticized by this ocl, no metatype
-     * is assumed by default.
-     */
-    public Set<Object> getCriticizedDesignMaterials() {
-        ComputeDesignMaterials cdm = new ComputeDesignMaterials();
-        tree.apply(cdm);        
-        return cdm.getCriticizedDesignMaterials();
-    }
+	/**
+	 * @return the design materials to be criticized by this ocl, no metatype is
+	 *         assumed by default.
+	 */
+	public Set<Object> getCriticizedDesignMaterials() {
+		ComputeDesignMaterials cdm = new ComputeDesignMaterials();
+		tree.apply(cdm);
+		return cdm.getCriticizedDesignMaterials();
+	}
 
 }

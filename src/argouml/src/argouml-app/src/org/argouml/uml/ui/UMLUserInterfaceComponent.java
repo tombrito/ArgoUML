@@ -39,23 +39,23 @@
 package org.argouml.uml.ui;
 
 /**
- * This interface accepts notification that a
- * container's target model element has been changed (typically due to
- * navigation).
+ * This interface accepts notification that a container's target model element
+ * has been changed (typically due to navigation).
  *
  * @author Curt Arnold
  */
 public interface UMLUserInterfaceComponent {
-    /**
-     *  This method is called when the target of a UMLUserInterfaceContainer
-     *  has been changed.
-     */
-    public void targetChanged();
+	/**
+	 * This method is called when the target of a UMLUserInterfaceContainer has
+	 * been changed.
+	 */
+	public void targetChanged();
 
-    /**  This method is called when the navigation history has been changed
-     *     (and navigation buttons may need to be updated).  targetChanged
-     *     implies navigationHistoryChanged, so this method will not
-     *     be called after a targetChange.
-     */
-    public void targetReasserted();
+	/**
+	 * This method is called when the navigation history has been changed (and
+	 * navigation buttons may need to be updated). targetChanged implies
+	 * navigationHistoryChanged, so this method will not be called after a
+	 * targetChange.
+	 */
+	public void targetReasserted();
 }

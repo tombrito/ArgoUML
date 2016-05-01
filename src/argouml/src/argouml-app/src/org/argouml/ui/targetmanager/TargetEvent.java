@@ -45,145 +45,154 @@ import java.util.EventObject;
 import java.util.List;
 
 /**
- * An event indicating that the target of ArgoUML has changed
- * from the old set of Targets to the new set of Targets.
+ * An event indicating that the target of ArgoUML has changed from the old set
+ * of Targets to the new set of Targets.
  * 
  * @author jaap.branderhorst@xs4all.nl
  */
 public class TargetEvent extends EventObject {
 
-    /**
-     * Indicates that a total new set of targets is set.
-     */
-    public static final String TARGET_SET = "set";
+	/**
+	 * Indicates that a total new set of targets is set.
+	 */
+	public static final String TARGET_SET = "set";
 
-    /**
-     * Indicates that a target is being added to the list of targets.
-     */
-    public static final String TARGET_ADDED = "added";
+	/**
+	 * Indicates that a target is being added to the list of targets.
+	 */
+	public static final String TARGET_ADDED = "added";
 
-    /**
-     * Indicates that a target is being removed from the list of targets.
-     */
-    public static final String TARGET_REMOVED = "removed";
+	/**
+	 * Indicates that a target is being removed from the list of targets.
+	 */
+	public static final String TARGET_REMOVED = "removed";
 
-    /**
-     * The name of the event.
-     */
-    private String theEventName;
+	/**
+	 * The name of the event.
+	 */
+	private String theEventName;
 
-    /**
-     * The old targets before the change took place.
-     */
-    private Object[] theOldTargets;
+	/**
+	 * The old targets before the change took place.
+	 */
+	private Object[] theOldTargets;
 
-    /**
-     * The new targets after the change took place.
-     */
-    private Object[] theNewTargets;
+	/**
+	 * The new targets after the change took place.
+	 */
+	private Object[] theNewTargets;
 
-    /**
-     * Constructs a new TargetEvent.
-     * 
-     * @param source The source that fired the TargetEvent, will always be the
-     *                TargetManager
-     * @param tEName The name of the TargetEvent, can be TARGET_SET,
-     *                TARGET_REMOVED or TARGET_ADDED
-     * @param oldTargets The old targets before the change took place
-     * @param newTargets The new targets after the change took place
-     */
-    public TargetEvent(Object source, String tEName,
-		       Object[] oldTargets, Object[] newTargets) {
-	super(source);
-	theEventName = tEName;
-        theOldTargets = oldTargets;
-        theNewTargets = newTargets;
-    }
+	/**
+	 * Constructs a new TargetEvent.
+	 * 
+	 * @param source
+	 *            The source that fired the TargetEvent, will always be the
+	 *            TargetManager
+	 * @param tEName
+	 *            The name of the TargetEvent, can be TARGET_SET, TARGET_REMOVED
+	 *            or TARGET_ADDED
+	 * @param oldTargets
+	 *            The old targets before the change took place
+	 * @param newTargets
+	 *            The new targets after the change took place
+	 */
+	public TargetEvent(Object source, String tEName, Object[] oldTargets, Object[] newTargets) {
+		super(source);
+		theEventName = tEName;
+		theOldTargets = oldTargets;
+		theNewTargets = newTargets;
+	}
 
-    /**
-     * Getter for the name.
-     * @return the name of the event
-     */
-    public String getName() {
-	return theEventName;
-    }
+	/**
+	 * Getter for the name.
+	 * 
+	 * @return the name of the event
+	 */
+	public String getName() {
+		return theEventName;
+	}
 
-    /**
-     * Getter for the old targets.
-     * @return an object array with the old targets
-     */
-    public Object[] getOldTargets() {
-	return theOldTargets == null ? new Object[] {} : theOldTargets;
-    }
+	/**
+	 * Getter for the old targets.
+	 * 
+	 * @return an object array with the old targets
+	 */
+	public Object[] getOldTargets() {
+		return theOldTargets == null ? new Object[] {} : theOldTargets;
+	}
 
-    /**
-     * Getter for the new targets.
-     * @return an object array with the new targets
-     */
-    public Object[] getNewTargets() {
-        return theNewTargets == null ? new Object[] {} : theNewTargets;
-    }
+	/**
+	 * Getter for the new targets.
+	 * 
+	 * @return an object array with the new targets
+	 */
+	public Object[] getNewTargets() {
+		return theNewTargets == null ? new Object[] {} : theNewTargets;
+	}
 
-    /**
-     * Helper for getting the new target.
-     * @return the zero'th element in _newTargets, or null
-     */
-    public Object getNewTarget() {
-        return theNewTargets == null
-            || theNewTargets.length < 1 ? null : theNewTargets[0];
-    }
+	/**
+	 * Helper for getting the new target.
+	 * 
+	 * @return the zero'th element in _newTargets, or null
+	 */
+	public Object getNewTarget() {
+		return theNewTargets == null || theNewTargets.length < 1 ? null : theNewTargets[0];
+	}
 
-    /**
-     * Gets the targets that are removed from the selection.
-     * @return the removed targets
-     */
-    public Collection getRemovedTargetCollection() {
-        List removedTargets = new ArrayList();
-        List oldTargets = Arrays.asList(theOldTargets);
-        List newTargets = Arrays.asList(theNewTargets);
-        for (Object o : oldTargets) {
-            if (!newTargets.contains(o)) {
-                removedTargets.add(o);
-            }
-        }
-        return removedTargets;
-    }
+	/**
+	 * Gets the targets that are removed from the selection.
+	 * 
+	 * @return the removed targets
+	 */
+	public Collection getRemovedTargetCollection() {
+		List removedTargets = new ArrayList();
+		List oldTargets = Arrays.asList(theOldTargets);
+		List newTargets = Arrays.asList(theNewTargets);
+		for (Object o : oldTargets) {
+			if (!newTargets.contains(o)) {
+				removedTargets.add(o);
+			}
+		}
+		return removedTargets;
+	}
 
-    /**
-     * Gets the targets that are removed from the selection.
-     * @return the removed targets
-     */
-    public Object[] getRemovedTargets() {
-        return getRemovedTargetCollection().toArray();
-    }
+	/**
+	 * Gets the targets that are removed from the selection.
+	 * 
+	 * @return the removed targets
+	 */
+	public Object[] getRemovedTargets() {
+		return getRemovedTargetCollection().toArray();
+	}
 
-    /**
-     * Returns the targets that are added to the selection.
-     * @return the added targets
-     */
-    public Collection getAddedTargetCollection() {
-        List addedTargets = new ArrayList();
-        List oldTargets = Arrays.asList(theOldTargets);
-        List newTargets = Arrays.asList(theNewTargets);
-        for (Object o : newTargets) {
-            if (!oldTargets.contains(o)) {
-                addedTargets.add(o);
-            }
-        }
-        return addedTargets;
-    }
+	/**
+	 * Returns the targets that are added to the selection.
+	 * 
+	 * @return the added targets
+	 */
+	public Collection getAddedTargetCollection() {
+		List addedTargets = new ArrayList();
+		List oldTargets = Arrays.asList(theOldTargets);
+		List newTargets = Arrays.asList(theNewTargets);
+		for (Object o : newTargets) {
+			if (!oldTargets.contains(o)) {
+				addedTargets.add(o);
+			}
+		}
+		return addedTargets;
+	}
 
-    /**
-     * Returns the targets that are added to the selection.
-     * @return the added targets
-     */
-    public Object[] getAddedTargets() {
-        return getAddedTargetCollection().toArray();
-    }
+	/**
+	 * Returns the targets that are added to the selection.
+	 * 
+	 * @return the added targets
+	 */
+	public Object[] getAddedTargets() {
+		return getAddedTargetCollection().toArray();
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -307886693486269426L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -307886693486269426L;
 }
-

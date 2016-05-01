@@ -46,32 +46,31 @@ import org.argouml.application.helpers.ResourceLoaderWrapper;
 import org.argouml.i18n.Translator;
 import org.argouml.ui.HelpBox;
 
-
 /**
  * The action to show the ArgoUML help dialog.
  */
 public class ActionHelp extends AbstractAction {
 
-    /**
-     * Constructor.
-     */
-    public ActionHelp() {
-        super(Translator.localize("action.help"),
-                ResourceLoaderWrapper.lookupIcon("action.help"));
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionHelp() {
+		super(Translator.localize("action.help"), ResourceLoaderWrapper.lookupIcon("action.help"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-	HelpBox box = new HelpBox( Translator.localize("action.help"));
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		HelpBox box = new HelpBox(Translator.localize("action.help"));
 
-	// box.setLocationRelativeTo(jframe);
-	box.setVisible(true);
-    }
+		// box.setLocationRelativeTo(jframe);
+		box.setVisible(true);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 0L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 0L;
 } /* end class ActionHelp */

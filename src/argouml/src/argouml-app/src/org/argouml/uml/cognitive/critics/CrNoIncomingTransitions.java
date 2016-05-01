@@ -49,114 +49,124 @@ import org.argouml.uml.cognitive.UMLDecision;
 /**
  * A critic to detect whether a state has no incoming transitions.
  * <p>
- * Also a transition to a state contained in the design material 
- * counts as an "incoming" transition thanks to issue 689.
+ * Also a transition to a state contained in the design material counts as an
+ * "incoming" transition thanks to issue 689.
  *
  * @author jrobbins
  */
 public class CrNoIncomingTransitions extends CrUML {
 
-    private static final long serialVersionUID = -701866707421151063L;
+	private static final long serialVersionUID = -701866707421151063L;
 
 	/**
-     * Constructor.
-     */
-    public CrNoIncomingTransitions() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.STATE_MACHINES);
-	addTrigger("incoming");
-    }
+	 * Constructor.
+	 */
+	public CrNoIncomingTransitions() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.STATE_MACHINES);
+		addTrigger("incoming");
+	}
 
-    /**
-     * This is the decision routine for the critic.
-     *
-     * @param dm is the design material, i.e. the 
-     *     UML entity that is being checked.
-     * @param dsgr is for future development and can be ignored.
-     *
-     * @return boolean problem found
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        if (!(Model.getFacade().isAStateVertex(dm))) {
-            return NO_PROBLEM;
-        }
-        /* Now we are sure dm is a StateVertex. */
-        if (Model.getFacade().isAPseudostate(dm)) {
-            Object k = Model.getFacade().getKind(dm);
-            if (k.equals(Model.getPseudostateKind().getChoice())) {
-                return NO_PROBLEM;
-            }
-            if (k.equals(Model.getPseudostateKind().getJunction())) {
-                return NO_PROBLEM;
-            }
-            if (k.equals(Model.getPseudostateKind().getInitial())) {
-                return NO_PROBLEM;
-            }
-        }
-        if (!Model.getFacade().isAState(dm)) {
-            return NO_PROBLEM;
-        }
-        /* Now we are sure dm is a State. */
-        Object sm = Model.getStateMachinesHelper().getStateMachine(dm);
-        if (sm != null && Model.getFacade().getTop(sm) == dm) {
-            /* If dm is the top state of the statemachine, then it is 
-             * not supposed to have incoming transitions. */
-            return NO_PROBLEM;
-        }
+	/**
+	 * This is the decision routine for the critic.
+	 *
+	 * @param dm
+	 *            is the design material, i.e. the UML entity that is being
+	 *            checked.
+	 * @param dsgr
+	 *            is for future development and can be ignored.
+	 *
+	 * @return boolean problem found
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAStateVertex(dm))) {
+			return NO_PROBLEM;
+		}
+		/* Now we are sure dm is a StateVertex. */
+		if (Model.getFacade().isAPseudostate(dm)) {
+			Object k = Model.getFacade().getKind(dm);
+			if (k.equals(Model.getPseudostateKind().getChoice())) {
+				return NO_PROBLEM;
+			}
+			if (k.equals(Model.getPseudostateKind().getJunction())) {
+				return NO_PROBLEM;
+			}
+			if (k.equals(Model.getPseudostateKind().getInitial())) {
+				return NO_PROBLEM;
+			}
+		}
+		if (!Model.getFacade().isAState(dm)) {
+			return NO_PROBLEM;
+		}
+		/* Now we are sure dm is a State. */
+		Object sm = Model.getStateMachinesHelper().getStateMachine(dm);
+		if (sm != null && Model.getFacade().getTop(sm) == dm) {
+			/*
+			 * If dm is the top state of the statemachine, then it is not
+			 * supposed to have incoming transitions.
+			 */
+			return NO_PROBLEM;
+		}
 
-        Collection incoming = Model.getFacade().getIncomings(dm);
-        if (incoming.size() > 0) {
-            return NO_PROBLEM;
-        }
+		Collection incoming = Model.getFacade().getIncomings(dm);
+		if (incoming.size() > 0) {
+			return NO_PROBLEM;
+		}
 
-        if (!Model.getFacade().isACompositeState(dm)) {
-            return PROBLEM_FOUND;
-        }
-        /* Now we are sure dm is a Composite State. */
+		if (!Model.getFacade().isACompositeState(dm)) {
+			return PROBLEM_FOUND;
+		}
+		/* Now we are sure dm is a Composite State. */
 
-        /* Issue 689: Look for a transition that arrives 
-         * at a sub-state of the composite state: */
-        Collection transitions = Model.getFacade().getTransitions(sm);
-        for (Object t : transitions) {
-            Object sourceState = Model.getFacade().getSource(t);
-            Object targetState = Model.getFacade().getTarget(t);
-            if (!isSomeSubvertexOf(sourceState, dm) && isSomeSubvertexOf(targetState, dm)) {
-                return NO_PROBLEM;
-            }
-        }
+		/*
+		 * Issue 689: Look for a transition that arrives at a sub-state of the
+		 * composite state:
+		 */
+		Collection transitions = Model.getFacade().getTransitions(sm);
+		for (Object t : transitions) {
+			Object sourceState = Model.getFacade().getSource(t);
+			Object targetState = Model.getFacade().getTarget(t);
+			if (!isSomeSubvertexOf(sourceState, dm) && isSomeSubvertexOf(targetState, dm)) {
+				return NO_PROBLEM;
+			}
+		}
 
-        return PROBLEM_FOUND;
-    }
-    
-    /**
-     * Test if a state is contained within a composite state recursively. 
-     * This is done by checking if the parent of the subject 
-     * equals the composite, or the parent of the parent, etc.
-     * 
-     * @param subject the StateVertex that is investigated
-     * @param composite the Composite state that may or may not contain the subject
-     * @return true if and only if the given composite contains recursively the given subject
-     */
-    private boolean isSomeSubvertexOf(Object subject, Object composite) {
-        Object c = subject;
-        while (c != null) {
-            if (c == composite) {
-                return true;
-            }
-            c = Model.getFacade().getContainer(c);
-        }
-        return false;
-    }
+		return PROBLEM_FOUND;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getStateVertex());
-        return ret;
-    }
-    
+	/**
+	 * Test if a state is contained within a composite state recursively. This
+	 * is done by checking if the parent of the subject equals the composite, or
+	 * the parent of the parent, etc.
+	 * 
+	 * @param subject
+	 *            the StateVertex that is investigated
+	 * @param composite
+	 *            the Composite state that may or may not contain the subject
+	 * @return true if and only if the given composite contains recursively the
+	 *         given subject
+	 */
+	private boolean isSomeSubvertexOf(Object subject, Object composite) {
+		Object c = subject;
+		while (c != null) {
+			if (c == composite) {
+				return true;
+			}
+			c = Model.getFacade().getContainer(c);
+		}
+		return false;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getStateVertex());
+		return ret;
+	}
+
 }

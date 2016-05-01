@@ -39,28 +39,33 @@
 package org.argouml.uml.diagram;
 
 /**
- * An interface to be implemented by any Fig that contains
- * a Extensions Compartment.
- *@deprecated in 0.29.2 by MVW. We can't assume at compile time what
- * Figs contain what compartments. This is proved in the UML1.4 to 
- * UML2 conversion where UML1.4 does not want this interface for 
- * FigInterface but UML2 does.
- * Use FigCompartment.getCompartment(Object metaType) to fetch a compartment
- * and check the existence and methods of the returned object.
+ * An interface to be implemented by any Fig that contains a Extensions
+ * Compartment.
+ * 
+ * @deprecated in 0.29.2 by MVW. We can't assume at compile time what Figs
+ *             contain what compartments. This is proved in the UML1.4 to UML2
+ *             conversion where UML1.4 does not want this interface for
+ *             FigInterface but UML2 does. Use
+ *             FigCompartment.getCompartment(Object metaType) to fetch a
+ *             compartment and check the existence and methods of the returned
+ *             object.
  * @author mvw
  */
 public interface ExtensionPointsCompartmentContainer {
 
-    /**
-     * Determine if the operations compartment is visible.
-     * @return true if the operations compartment is visible.
-     */
-    boolean isExtensionPointsVisible();
+	/**
+	 * Determine if the operations compartment is visible.
+	 * 
+	 * @return true if the operations compartment is visible.
+	 */
+	boolean isExtensionPointsVisible();
 
-    /**
-     * Set the visibility of the operations compartment.
-     * @param visible the new visibility status.
-     */
-    void setExtensionPointsVisible(boolean visible);
+	/**
+	 * Set the visibility of the operations compartment.
+	 * 
+	 * @param visible
+	 *            the new visibility status.
+	 */
+	void setExtensionPointsVisible(boolean visible);
 
 }

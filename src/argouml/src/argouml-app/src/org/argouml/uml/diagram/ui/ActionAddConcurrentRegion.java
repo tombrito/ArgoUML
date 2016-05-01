@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.diagram.ui;
 
 import java.awt.Rectangle;
@@ -70,9 +69,8 @@ import org.tigris.gef.presentation.Fig;
 /**
  * Add a concurrent region to a concurrent composite state
  * <p>
- * This action can be executed with either
- * the composite concurrent state selected,
- * or one of its concurrent regions.
+ * This action can be executed with either the composite concurrent state
+ * selected, or one of its concurrent regions.
  * <p>
  * TODO: Move all the magic numbers to constants
  *
@@ -80,151 +78,138 @@ import org.tigris.gef.presentation.Fig;
  */
 public class ActionAddConcurrentRegion extends UndoableAction {
 
-
-    private static final long serialVersionUID = -5624824495307753841L;
+	private static final long serialVersionUID = -5624824495307753841L;
 	/** logger */
-    private static final Logger LOG =
-        Logger.getLogger(ActionAddConcurrentRegion.class.getName());
+	private static final Logger LOG = Logger.getLogger(ActionAddConcurrentRegion.class.getName());
 
-    /**
-     * Constructor
-     */
-    public ActionAddConcurrentRegion() {
-        super(Translator.localize("action.add-concurrent-region"),
-                ResourceLoaderWrapper.lookupIcon(
-                        "action.add-concurrent-region"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.add-concurrent-region"));
-    }
+	/**
+	 * Constructor
+	 */
+	public ActionAddConcurrentRegion() {
+		super(Translator.localize("action.add-concurrent-region"),
+				ResourceLoaderWrapper.lookupIcon("action.add-concurrent-region"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.add-concurrent-region"));
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
-    /*
-     * @see javax.swing.Action#isEnabled()
-     */
-    public boolean isEnabled() {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getStateMachinesHelper().isTopState(target)) {
-            return false;
-        }
-        return TargetManager.getInstance().getModelTargets().size() < 2;
-    }
+	/*
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	public boolean isEnabled() {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getStateMachinesHelper().isTopState(target)) {
+			return false;
+		}
+		return TargetManager.getInstance().getModelTargets().size() < 2;
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        super.actionPerformed(ae);
-        try {
-            /*Here the actions to divide a region*/
-            Fig f = TargetManager.getInstance().getFigTarget();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		try {
+			/* Here the actions to divide a region */
+			Fig f = TargetManager.getInstance().getFigTarget();
 
-            if (Model.getFacade().isAConcurrentRegion(f.getOwner())) {
-                f = f.getEnclosingFig();
-            }
+			if (Model.getFacade().isAConcurrentRegion(f.getOwner())) {
+				f = f.getEnclosingFig();
+			}
 
-            final FigCompositeState figCompositeState = (FigCompositeState) f;
+			final FigCompositeState figCompositeState = (FigCompositeState) f;
 
-            final List<FigConcurrentRegion> regionFigs =
-                ((List<FigConcurrentRegion>) f.getEnclosedFigs().clone());
-            final Object umlCompositeState = figCompositeState.getOwner();
-            Editor editor = Globals.curEditor();
-            GraphModel gm = editor.getGraphModel();
-            LayerDiagram lay =
-                ((LayerDiagram) editor.getLayerManager().getActiveLayer());
+			final List<FigConcurrentRegion> regionFigs = ((List<FigConcurrentRegion>) f.getEnclosedFigs().clone());
+			final Object umlCompositeState = figCompositeState.getOwner();
+			Editor editor = Globals.curEditor();
+			GraphModel gm = editor.getGraphModel();
+			LayerDiagram lay = ((LayerDiagram) editor.getLayerManager().getActiveLayer());
 
-            Rectangle rName =
-                ((FigNodeModelElement) f).getNameFig().getBounds();
-            Rectangle rFig = f.getBounds();
-            if (!(gm instanceof MutableGraphModel)) {
-                return;
-            }
+			Rectangle rName = ((FigNodeModelElement) f).getNameFig().getBounds();
+			Rectangle rFig = f.getBounds();
+			if (!(gm instanceof MutableGraphModel)) {
+				return;
+			}
 
-            StateDiagramGraphModel mgm = (StateDiagramGraphModel) gm;
+			StateDiagramGraphModel mgm = (StateDiagramGraphModel) gm;
 
-            final StateMachinesFactory factory =
-                Model.getStateMachinesFactory();
+			final StateMachinesFactory factory = Model.getStateMachinesFactory();
 
-            if (!Model.getFacade().isConcurrent(umlCompositeState)) {
+			if (!Model.getFacade().isConcurrent(umlCompositeState)) {
 
-                final Object umlRegion1 =
-                    factory.buildCompositeState(umlCompositeState);
-                Rectangle bounds = new Rectangle(
-                        f.getX() + FigConcurrentRegion.INSET_HORZ,
-                        f.getY() + rName.height
-                            + FigConcurrentRegion.INSET_VERT,
-                        rFig.width - 2 * FigConcurrentRegion.INSET_HORZ,
-                        rFig.height - rName.height
-                            - 2 * FigConcurrentRegion.INSET_VERT);
-                DiagramSettings settings = figCompositeState.getSettings();
-                final FigConcurrentRegion firstRegionFig =
-                    new FigConcurrentRegion(
-                        umlRegion1, bounds, settings);
-                /* The 1st region has an invisible divider line
-                 * (the box is always invisible): */
-                firstRegionFig.setLineColor(ArgoFig.INVISIBLE_LINE_COLOR);
+				final Object umlRegion1 = factory.buildCompositeState(umlCompositeState);
+				Rectangle bounds = new Rectangle(f.getX() + FigConcurrentRegion.INSET_HORZ,
+						f.getY() + rName.height + FigConcurrentRegion.INSET_VERT,
+						rFig.width - 2 * FigConcurrentRegion.INSET_HORZ,
+						rFig.height - rName.height - 2 * FigConcurrentRegion.INSET_VERT);
+				DiagramSettings settings = figCompositeState.getSettings();
+				final FigConcurrentRegion firstRegionFig = new FigConcurrentRegion(umlRegion1, bounds, settings);
+				/*
+				 * The 1st region has an invisible divider line (the box is
+				 * always invisible):
+				 */
+				firstRegionFig.setLineColor(ArgoFig.INVISIBLE_LINE_COLOR);
 
-                firstRegionFig.setEnclosingFig(figCompositeState);
-                firstRegionFig.setLayer(lay);
-                lay.add(firstRegionFig);
+				firstRegionFig.setEnclosingFig(figCompositeState);
+				firstRegionFig.setLayer(lay);
+				lay.add(firstRegionFig);
 
-                if (mgm.canAddNode(umlRegion1)) {
-                    mgm.getNodes().add(umlRegion1);
-                    mgm.fireNodeAdded(umlRegion1);
-                }
+				if (mgm.canAddNode(umlRegion1)) {
+					mgm.getNodes().add(umlRegion1);
+					mgm.fireNodeAdded(umlRegion1);
+				}
 
-                /* Throw out any previous elements that were
-                 * enclosed but are not a concurrent region;
-                 * let's move them onto the first region: */
-                if (!regionFigs.isEmpty()) {
-                    for (int i = 0; i < regionFigs.size(); i++) {
-                        FigStateVertex curFig = regionFigs.get(i);
-                        curFig.setEnclosingFig(firstRegionFig);
-                        firstRegionFig.addEnclosedFig(curFig);
-                        curFig.redrawEnclosedFigs();
-                    }
-                }
-            }
+				/*
+				 * Throw out any previous elements that were enclosed but are
+				 * not a concurrent region; let's move them onto the first
+				 * region:
+				 */
+				if (!regionFigs.isEmpty()) {
+					for (int i = 0; i < regionFigs.size(); i++) {
+						FigStateVertex curFig = regionFigs.get(i);
+						curFig.setEnclosingFig(firstRegionFig);
+						firstRegionFig.addEnclosedFig(curFig);
+						curFig.redrawEnclosedFigs();
+					}
+				}
+			}
 
-            final Object umlRegion2 =
-                factory.buildCompositeState(umlCompositeState);
-            // TODO: What are these magic numbers?
-            Rectangle bounds = new Rectangle(
-                    f.getX() + FigConcurrentRegion.INSET_HORZ,
-                    f.getY() + rFig.height - 1, //linewidth?
-                    rFig.width - 2 * FigConcurrentRegion.INSET_HORZ,
-                    126);
-            DiagramSettings settings = figCompositeState.getSettings();
-            final FigConcurrentRegion newRegionFig =
-                new FigConcurrentRegion(umlRegion2, bounds, settings);
-            /* The divider line should be visible, so no need to change its color. */
+			final Object umlRegion2 = factory.buildCompositeState(umlCompositeState);
+			// TODO: What are these magic numbers?
+			Rectangle bounds = new Rectangle(f.getX() + FigConcurrentRegion.INSET_HORZ, f.getY() + rFig.height - 1, // linewidth?
+					rFig.width - 2 * FigConcurrentRegion.INSET_HORZ, 126);
+			DiagramSettings settings = figCompositeState.getSettings();
+			final FigConcurrentRegion newRegionFig = new FigConcurrentRegion(umlRegion2, bounds, settings);
+			/*
+			 * The divider line should be visible, so no need to change its
+			 * color.
+			 */
 
-            /* Make the composite state 1 region higher: */
-            figCompositeState.setCompositeStateHeight(
-                    rFig.height + newRegionFig.getInitialHeight());
-            newRegionFig.setEnclosingFig(figCompositeState);
-            figCompositeState.addEnclosedFig(newRegionFig);
-            newRegionFig.setLayer(lay);
-            lay.add(newRegionFig);
-            editor.getSelectionManager().select(f);
-            if (mgm.canAddNode(umlRegion2)) {
-                mgm.getNodes().add(umlRegion2);
-                mgm.fireNodeAdded(umlRegion2);
-            }
+			/* Make the composite state 1 region higher: */
+			figCompositeState.setCompositeStateHeight(rFig.height + newRegionFig.getInitialHeight());
+			newRegionFig.setEnclosingFig(figCompositeState);
+			figCompositeState.addEnclosedFig(newRegionFig);
+			newRegionFig.setLayer(lay);
+			lay.add(newRegionFig);
+			editor.getSelectionManager().select(f);
+			if (mgm.canAddNode(umlRegion2)) {
+				mgm.getNodes().add(umlRegion2);
+				mgm.fireNodeAdded(umlRegion2);
+			}
 
-            /* TODO: Verify this.
-             * IIUC, then this triggers the CompountStateFig
-             * to draw itself correctly.
-             * Hence, there was a reason to wait this long
-             * to make the state concurrent. */
-            Model.getStateMachinesHelper().setConcurrent(
-                    umlCompositeState, true);
+			/*
+			 * TODO: Verify this. IIUC, then this triggers the CompountStateFig
+			 * to draw itself correctly. Hence, there was a reason to wait this
+			 * long to make the state concurrent.
+			 */
+			Model.getStateMachinesHelper().setConcurrent(umlCompositeState, true);
 
-        } catch (Exception ex) {
-            LOG.log(Level.SEVERE, "Exception caught", ex);
-        }
-    }
+		} catch (Exception ex) {
+			LOG.log(Level.SEVERE, "Exception caught", ex);
+		}
+	}
 
 }

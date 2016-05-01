@@ -65,9 +65,9 @@ import org.tigris.gef.presentation.FigNode;
 // could be singleton
 
 /**
- * This class defines a renderer object for UML Use Case Diagrams. In a
- * Class Diagram the following UML objects are displayed with the
- * following Figs:<p>
+ * This class defines a renderer object for UML Use Case Diagrams. In a Class
+ * Diagram the following UML objects are displayed with the following Figs:
+ * <p>
  *
  * <pre>
  *   UML Object       ---  Fig
@@ -79,186 +79,179 @@ import org.tigris.gef.presentation.FigNode;
  * Provides {@link #getFigNodeFor} to implement the
  * {@link org.tigris.gef.graph.GraphNodeRenderer} interface and
  * {@link #getFigEdgeFor} to implement the
- * {@link org.tigris.gef.graph.GraphEdgeRenderer} interface.<p>
+ * {@link org.tigris.gef.graph.GraphEdgeRenderer} interface.
+ * <p>
  *
- * <em>Note</em>. Should be implemented as a singleton - we don't really
- * need a separate instance for each use case diagram.<p>
+ * <em>Note</em>. Should be implemented as a singleton - we don't really need a
+ * separate instance for each use case diagram.
+ * <p>
  *
  * @author abonner
  */
 public class UseCaseDiagramRenderer extends UmlDiagramRenderer {
 
-    static final long serialVersionUID = 2217410137377934879L;
+	static final long serialVersionUID = 2217410137377934879L;
 
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(UseCaseDiagramRenderer.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(UseCaseDiagramRenderer.class.getName());
 
+	/**
+	 * Return a Fig that can be used to represent the given node.
+	 * <p>
+	 *
+	 * @param gm
+	 *            The graph model for which we are rendering.
+	 *
+	 * @param lay
+	 *            The layer in the graph on which we want this figure.
+	 *
+	 * @param node
+	 *            The node to be rendered (an model element object)
+	 *
+	 * @param styleAttributes
+	 *            an optional map of attributes to style the fig
+	 *
+	 * @return The fig to be used, or <code>null</code> if we can't create one.
+	 */
+	public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node, Map styleAttributes) {
 
-    /**
-     * Return a Fig that can be used to represent the given node.<p>
-     *
-     * @param gm    The graph model for which we are rendering.
-     *
-     * @param lay   The layer in the graph on which we want this figure.
-     *
-     * @param node  The node to be rendered (an model element object)
-     *
-     * @param styleAttributes an optional map of attributes to style the fig
-     *
-     * @return      The fig to be used, or <code>null</code> if we can't create
-     *              one.
-     */
-    public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node,
-            Map styleAttributes) {
+		FigNodeModelElement figNode = null;
 
-        FigNodeModelElement figNode = null;
+		// Create a new version of the relevant fig
 
-        // Create a new version of the relevant fig
+		ArgoDiagram diag = DiagramUtils.getActiveDiagram();
+		if (diag instanceof UMLDiagram && ((UMLDiagram) diag).doesAccept(node)) {
+			figNode = (FigNodeModelElement) ((UMLDiagram) diag).drop(node, null);
 
-        ArgoDiagram diag = DiagramUtils.getActiveDiagram();
-        if (diag instanceof UMLDiagram
-            && ((UMLDiagram) diag).doesAccept(node)) {
-            figNode =
-                (FigNodeModelElement) ((UMLDiagram) diag).drop(node, null);
+		} else {
+			LOG.log(Level.FINE, "{0}: getFigNodeFor({1}, {2}, {3}) - cannot create this sort of node.",
+					new Object[] { this.getClass(), gm, lay, node });
+			return null;
+			// TODO: Shouldn't we throw an exception here?!?!
+		}
 
-        } else {
-            LOG.log(Level.FINE,
-                  "{0}: getFigNodeFor({1}, {2}, {3}) - cannot create this sort of node.",
-                  new Object[]{this.getClass(), gm, lay, node});
-            return null;
-            // TODO: Shouldn't we throw an exception here?!?!
-        }
+		lay.add(figNode);
+		figNode.setDiElement(GraphChangeAdapter.getInstance().createElement(gm, node));
 
-        lay.add(figNode);
-        figNode.setDiElement(
-                GraphChangeAdapter.getInstance().createElement(gm, node));
+		return figNode;
+	}
 
-        return figNode;
-    }
+	/**
+	 * Return a Fig that can be used to represent the given edge.
+	 * <p>
+	 *
+	 * Generally the same code as for the ClassDiagram, since it's very related
+	 * to it. Deal with each of the edge types in turn.
+	 * <p>
+	 *
+	 * @param gm
+	 *            The graph model for which we are rendering.
+	 *
+	 * @param lay
+	 *            The layer in the graph on which we want this figure.
+	 *
+	 * @param edge
+	 *            The edge to be rendered (an model element object)
+	 *
+	 * @param styleAttributes
+	 *            an optional map of attributes to style the fig
+	 *
+	 * @return The fig to be used, or <code>null</code> if we can't create one.
+	 *
+	 * @see org.tigris.gef.graph.GraphEdgeRenderer#getFigEdgeFor(
+	 *      org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
+	 *      java.lang.Object, java.util.Map)
+	 */
+	public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge, Map styleAttributes) {
 
+		LOG.log(Level.FINE, "making figedge for {0}", edge);
 
-    /**
-     * Return a Fig that can be used to represent the given edge.<p>
-     *
-     * Generally the same code as for the ClassDiagram, since it's very
-     * related to it. Deal with each of the edge types in turn.<p>
-     *
-     * @param gm    The graph model for which we are rendering.
-     *
-     * @param lay   The layer in the graph on which we want this figure.
-     *
-     * @param edge  The edge to be rendered (an model element object)
-     *
-     * @param styleAttributes an optional map of attributes to style the fig
-     *
-     * @return      The fig to be used, or <code>null</code> if we can't create
-     *              one.
-     *
-     * @see org.tigris.gef.graph.GraphEdgeRenderer#getFigEdgeFor(
-     *         org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
-     *         java.lang.Object, java.util.Map)
-     */
-    public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge,
-            Map styleAttributes) {
+		if (edge == null) {
+			throw new IllegalArgumentException("A model edge must be supplied");
+		}
 
-        LOG.log(Level.FINE, "making figedge for {0}", edge);
+		assert lay instanceof LayerPerspective;
+		ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
+		DiagramSettings settings = diag.getDiagramSettings();
 
-        if (edge == null) {
-            throw new IllegalArgumentException("A model edge must be supplied");
-        }
+		FigEdge newEdge = null;
 
-        assert lay instanceof LayerPerspective;
-        ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
-        DiagramSettings settings = diag.getDiagramSettings();
+		if (Model.getFacade().isAAssociation(edge)) {
+			final Object[] associationEnds = Model.getFacade().getConnections(edge).toArray();
+			newEdge = new FigAssociation(new DiagramEdgeSettings(edge, associationEnds[0], associationEnds[1]),
+					settings);
+			final FigNode sourceFig = getFigNodeForAssociationEnd(diag, associationEnds[0]);
+			final FigNode destFig = getFigNodeForAssociationEnd(diag, associationEnds[1]);
+			newEdge.setSourceFigNode(sourceFig);
+			newEdge.setSourcePortFig(sourceFig);
+			newEdge.setDestFigNode(destFig);
+			newEdge.setDestPortFig(destFig);
+		} else if (Model.getFacade().isAGeneralization(edge)) {
+			newEdge = new FigGeneralization(edge, settings);
+		} else if (Model.getFacade().isAExtend(edge)) {
+			newEdge = new FigExtend(edge, settings);
 
-        FigEdge newEdge = null;
+			// The nodes at the two ends
+			Object base = Model.getFacade().getBase(edge);
+			Object extension = Model.getFacade().getExtension(edge);
 
-        if (Model.getFacade().isAAssociation(edge)) {
-            final Object[] associationEnds =
-                Model.getFacade().getConnections(edge).toArray();
-            newEdge = new FigAssociation(
-                    new DiagramEdgeSettings(
-                            edge,
-                            associationEnds[0],
-                            associationEnds[1]),
-                            settings);
-            final FigNode sourceFig =
-                getFigNodeForAssociationEnd(diag, associationEnds[0]);
-            final FigNode destFig =
-                getFigNodeForAssociationEnd(diag, associationEnds[1]);
-            newEdge.setSourceFigNode(sourceFig);
-            newEdge.setSourcePortFig(sourceFig);
-            newEdge.setDestFigNode(destFig);
-            newEdge.setDestPortFig(destFig);
-        } else if (Model.getFacade().isAGeneralization(edge)) {
-            newEdge = new FigGeneralization(edge, settings);
-        } else if (Model.getFacade().isAExtend(edge)) {
-            newEdge = new FigExtend(edge, settings);
+			// The figs for the two end nodes
+			FigNode baseFN = (FigNode) lay.presentationFor(base);
+			FigNode extensionFN = (FigNode) lay.presentationFor(extension);
 
-            // The nodes at the two ends
-            Object base = Model.getFacade().getBase(edge);
-            Object extension = Model.getFacade().getExtension(edge);
+			// Link the new extend relationship in to the ends. Remember we
+			// draw from the extension use case to the base use case.
+			newEdge.setSourcePortFig(extensionFN);
+			newEdge.setSourceFigNode(extensionFN);
 
-            // The figs for the two end nodes
-            FigNode baseFN = (FigNode) lay.presentationFor(base);
-            FigNode extensionFN = (FigNode) lay.presentationFor(extension);
+			newEdge.setDestPortFig(baseFN);
+			newEdge.setDestFigNode(baseFN);
 
-            // Link the new extend relationship in to the ends. Remember we
-            // draw from the extension use case to the base use case.
-            newEdge.setSourcePortFig(extensionFN);
-            newEdge.setSourceFigNode(extensionFN);
+		} else if (Model.getFacade().isAInclude(edge)) {
+			newEdge = new FigInclude(edge, settings);
 
-            newEdge.setDestPortFig(baseFN);
-            newEdge.setDestFigNode(baseFN);
+			Object base = Model.getFacade().getBase(edge);
+			Object addition = Model.getFacade().getAddition(edge);
 
-        } else if (Model.getFacade().isAInclude(edge)) {
-            newEdge = new FigInclude(edge, settings);
+			// The figs for the two end nodes
+			FigNode baseFN = (FigNode) lay.presentationFor(base);
+			FigNode additionFN = (FigNode) lay.presentationFor(addition);
 
-            Object base = Model.getFacade().getBase(edge);
-            Object addition = Model.getFacade().getAddition(edge);
+			// Link the new include relationship in to the ends
+			newEdge.setSourcePortFig(baseFN);
+			newEdge.setSourceFigNode(baseFN);
 
-            // The figs for the two end nodes
-            FigNode baseFN = (FigNode) lay.presentationFor(base);
-            FigNode additionFN = (FigNode) lay.presentationFor(addition);
+			newEdge.setDestPortFig(additionFN);
+			newEdge.setDestFigNode(additionFN);
+		} else if (Model.getFacade().isADependency(edge)) {
+			newEdge = new FigDependency(edge, settings);
 
-            // Link the new include relationship in to the ends
-            newEdge.setSourcePortFig(baseFN);
-            newEdge.setSourceFigNode(baseFN);
+			// Where there is more than one supplier or client, take the first
+			// element in each case. There really ought to be a check that
+			// there are some here for safety.
 
-            newEdge.setDestPortFig(additionFN);
-            newEdge.setDestFigNode(additionFN);
-        } else if (Model.getFacade().isADependency(edge)) {
-            newEdge = new FigDependency(edge, settings);
+			Object supplier = ((Model.getFacade().getSuppliers(edge).toArray())[0]);
+			Object client = ((Model.getFacade().getClients(edge).toArray())[0]);
 
-            // Where there is more than one supplier or client, take the first
-            // element in each case. There really ought to be a check that
-            // there are some here for safety.
+			// The figs for the two end nodes
+			FigNode supplierFN = (FigNode) lay.presentationFor(supplier);
+			FigNode clientFN = (FigNode) lay.presentationFor(client);
 
-            Object supplier =
-                 ((Model.getFacade().getSuppliers(edge).toArray())[0]);
-            Object client =
-                 ((Model.getFacade().getClients(edge).toArray())[0]);
+			// Link the new dependency in to the ends
+			newEdge.setSourcePortFig(clientFN);
+			newEdge.setSourceFigNode(clientFN);
 
-            // The figs for the two end nodes
-            FigNode supplierFN = (FigNode) lay.presentationFor(supplier);
-            FigNode clientFN = (FigNode) lay.presentationFor(client);
+			newEdge.setDestPortFig(supplierFN);
+			newEdge.setDestFigNode(supplierFN);
 
-            // Link the new dependency in to the ends
-            newEdge.setSourcePortFig(clientFN);
-            newEdge.setSourceFigNode(clientFN);
+		} else if (edge instanceof CommentEdge) {
+			newEdge = new FigEdgeNote(edge, settings);
+		}
 
-            newEdge.setDestPortFig(supplierFN);
-            newEdge.setDestFigNode(supplierFN);
-
-        } else if (edge instanceof CommentEdge) {
-            newEdge = new FigEdgeNote(edge, settings);
-        }
-
-        addEdge(lay, newEdge, edge);
-        return newEdge;
-    }
+		addEdge(lay, newEdge, edge);
+		return newEdge;
+	}
 
 }

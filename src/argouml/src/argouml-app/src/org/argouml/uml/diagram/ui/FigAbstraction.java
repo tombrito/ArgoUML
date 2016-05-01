@@ -45,34 +45,36 @@ import org.tigris.gef.presentation.ArrowHeadTriangle;
 /**
  * Fig representing a UML Abstraction.
  * <p>
-
+ * 
  * Graphical representation is a dashed line and a triangle arrow-head.
  * 
  * @author agauthie
  */
 public class FigAbstraction extends FigDependency {
 
-    private static final long serialVersionUID = 7812659392429033459L;
+	private static final long serialVersionUID = 7812659392429033459L;
 
 	/**
-     * Create the arrow head for the abstraction. This overrides the
-     * superclass to create a filled arrow head.
-     * @return the arrow head.
-     */
-    protected ArrowHead createEndArrow() {
-        final ArrowHead arrow = new ArrowHeadTriangle();
-        arrow.setFillColor(FILL_COLOR);
-        return arrow;
-    }
+	 * Create the arrow head for the abstraction. This overrides the superclass
+	 * to create a filled arrow head.
+	 * 
+	 * @return the arrow head.
+	 */
+	protected ArrowHead createEndArrow() {
+		final ArrowHead arrow = new ArrowHeadTriangle();
+		arrow.setFillColor(FILL_COLOR);
+		return arrow;
+	}
 
-    /**
-     * Construct a Fig.
-     * 
-     * @param owner owning UML element
-     * @param settings render settings
-     */
-    public FigAbstraction(Object owner, DiagramSettings settings) {
-        super(owner, settings);
-    }
+	/**
+	 * Construct a Fig.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param settings
+	 *            render settings
+	 */
+	public FigAbstraction(Object owner, DiagramSettings settings) {
+		super(owner, settings);
+	}
 }
-

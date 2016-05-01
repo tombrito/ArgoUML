@@ -38,21 +38,23 @@
 package org.argouml.ui.targetmanager;
 
 /**
- * Marker interface to indicate that some Swing view element (such as a
- * JList or a JComboBox) has a Model that implements TargetListener. <p>
+ * Marker interface to indicate that some Swing view element (such as a JList or
+ * a JComboBox) has a Model that implements TargetListener.
+ * <p>
  *
- * UMLLinkedList is such an implementor. Via this interface it is
- * easy to collect all targetlisteners on a property panel as is done in
+ * UMLLinkedList is such an implementor. Via this interface it is easy to
+ * collect all targetlisteners on a property panel as is done in
  * {@link org.argouml.uml.ui.PropPanel#collectTargetListeners}.
  *
  * @author jaap.branderhorst@xs4all.nl
  */
 public interface TargettableModelView {
 
-    /**
-     * Returns the Swing model that implements targetlistener.
-     * @return the Swing model
-     */
-    public TargetListener getTargettableModel();
+	/**
+	 * Returns the Swing model that implements targetlistener.
+	 * 
+	 * @return the Swing model
+	 */
+	public TargetListener getTargettableModel();
 
 }

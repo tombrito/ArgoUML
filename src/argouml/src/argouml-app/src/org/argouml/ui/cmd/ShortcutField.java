@@ -56,118 +56,117 @@ import org.argouml.util.KeyEventUtils;
  */
 public class ShortcutField extends JTextField {
 
-    /**
-     * The UID
-     */
-    private static final long serialVersionUID = -62483698420802557L;
+	/**
+	 * The UID
+	 */
+	private static final long serialVersionUID = -62483698420802557L;
 
-    private EventListenerList listenerList = new EventListenerList();
+	private EventListenerList listenerList = new EventListenerList();
 
-    /**
-     * Main constructor for ShortcutField
-     * 
-     * @param text      the initial text of the field
-     * @param columns   the number of columns
-     */
-    public ShortcutField(String text, int columns) {
-        super(null, text, columns);
-        
-        // trap focus traversal keys also 
-        this.setFocusTraversalKeys(
-                KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, 
-                Collections.EMPTY_SET); 
-        this.setFocusTraversalKeys(
-                KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, 
-                Collections.EMPTY_SET); 
- 
-        // let's add the key printing logic
-        this.addKeyListener(new KeyListener() { 
-            private int currentKeyCode = 0; 
-            public void keyPressed(KeyEvent ke) { 
-                ke.consume(); 
-                JTextField tf = (JTextField) ke.getSource(); 
-                tf.setText(toString(ke)); 
-            } 
- 
-            public void keyReleased(KeyEvent ke) { 
-                ke.consume(); 
-                JTextField tf = (JTextField) ke.getSource(); 
-                switch(currentKeyCode) { 
-                case KeyEvent.VK_ALT: 
-                case KeyEvent.VK_ALT_GRAPH: 
-                case KeyEvent.VK_CONTROL: 
-                case KeyEvent.VK_SHIFT: 
-                    tf.setText(""); 
-                    return; 
-                } 
-            } 
- 
-            public void keyTyped(KeyEvent ke) { 
-                ke.consume(); 
-            } 
-            
-            private String toString(KeyEvent ke) { 
-                currentKeyCode = ke.getKeyCode(); 
-                int keyCode = currentKeyCode; 
-                String modifText = 
-                    KeyEventUtils.getModifiersText(ke.getModifiers());
-                
-                if ("".equals(modifText)) {
-                    // no modifiers - let's check if the key is valid
-                    if (KeyEventUtils.isActionEvent(ke)) {
-                        return KeyEventUtils.getKeyText(keyCode);
-                    } else {
-                        return "";
-                    }
-                } else {
-                    switch(keyCode) { 
-                    case KeyEvent.VK_ALT: 
-                    case KeyEvent.VK_ALT_GRAPH: 
-                    case KeyEvent.VK_CONTROL: 
-                    case KeyEvent.VK_SHIFT: 
-                        return modifText; // middle of shortcut 
-                    default: 
-                        modifText += KeyEventUtils.getKeyText(ke.getKeyCode());
-                        fireShortcutChangedEvent(modifText);
-                        return modifText;
-                    }
-                } 
-            } 
-        });
-    }
+	/**
+	 * Main constructor for ShortcutField
+	 * 
+	 * @param text
+	 *            the initial text of the field
+	 * @param columns
+	 *            the number of columns
+	 */
+	public ShortcutField(String text, int columns) {
+		super(null, text, columns);
 
-    /**
-     * Adds a ShortcutChangedListener to the listener list
-     *  
-     * @param listener          the ShortcutChangedListener to be added
-     */
-    public void addShortcutChangedListener(ShortcutChangedListener listener) {
-        listenerList.add(ShortcutChangedListener.class, listener);
-    }
+		// trap focus traversal keys also
+		this.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
+		this.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, Collections.EMPTY_SET);
 
-    /**
-     * Inform listeners of any shortcut notifications.
-     * 
-     * @param text      the text of the field
-     */
-    protected void fireShortcutChangedEvent(String text) {
-        ShortcutChangedEvent event = null;
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+		// let's add the key printing logic
+		this.addKeyListener(new KeyListener() {
+			private int currentKeyCode = 0;
 
-        KeyStroke keyStroke = ShortcutMgr.decodeKeyStroke(text);
+			public void keyPressed(KeyEvent ke) {
+				ke.consume();
+				JTextField tf = (JTextField) ke.getSource();
+				tf.setText(toString(ke));
+			}
 
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ShortcutChangedListener.class) {
-                // Lazily create the event:
-                if (event == null) {
-                    event = new ShortcutChangedEvent(this, keyStroke);
-                }
-                ((ShortcutChangedListener) listeners[i + 1])
-                        .shortcutChange(event);
-            }
-        }
-    }
+			public void keyReleased(KeyEvent ke) {
+				ke.consume();
+				JTextField tf = (JTextField) ke.getSource();
+				switch (currentKeyCode) {
+				case KeyEvent.VK_ALT:
+				case KeyEvent.VK_ALT_GRAPH:
+				case KeyEvent.VK_CONTROL:
+				case KeyEvent.VK_SHIFT:
+					tf.setText("");
+					return;
+				}
+			}
+
+			public void keyTyped(KeyEvent ke) {
+				ke.consume();
+			}
+
+			private String toString(KeyEvent ke) {
+				currentKeyCode = ke.getKeyCode();
+				int keyCode = currentKeyCode;
+				String modifText = KeyEventUtils.getModifiersText(ke.getModifiers());
+
+				if ("".equals(modifText)) {
+					// no modifiers - let's check if the key is valid
+					if (KeyEventUtils.isActionEvent(ke)) {
+						return KeyEventUtils.getKeyText(keyCode);
+					} else {
+						return "";
+					}
+				} else {
+					switch (keyCode) {
+					case KeyEvent.VK_ALT:
+					case KeyEvent.VK_ALT_GRAPH:
+					case KeyEvent.VK_CONTROL:
+					case KeyEvent.VK_SHIFT:
+						return modifText; // middle of shortcut
+					default:
+						modifText += KeyEventUtils.getKeyText(ke.getKeyCode());
+						fireShortcutChangedEvent(modifText);
+						return modifText;
+					}
+				}
+			}
+		});
+	}
+
+	/**
+	 * Adds a ShortcutChangedListener to the listener list
+	 * 
+	 * @param listener
+	 *            the ShortcutChangedListener to be added
+	 */
+	public void addShortcutChangedListener(ShortcutChangedListener listener) {
+		listenerList.add(ShortcutChangedListener.class, listener);
+	}
+
+	/**
+	 * Inform listeners of any shortcut notifications.
+	 * 
+	 * @param text
+	 *            the text of the field
+	 */
+	protected void fireShortcutChangedEvent(String text) {
+		ShortcutChangedEvent event = null;
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+
+		KeyStroke keyStroke = ShortcutMgr.decodeKeyStroke(text);
+
+		// Process the listeners last to first, notifying
+		// those that are interested in this event
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == ShortcutChangedListener.class) {
+				// Lazily create the event:
+				if (event == null) {
+					event = new ShortcutChangedEvent(this, keyStroke);
+				}
+				((ShortcutChangedListener) listeners[i + 1]).shortcutChange(event);
+			}
+		}
+	}
 }

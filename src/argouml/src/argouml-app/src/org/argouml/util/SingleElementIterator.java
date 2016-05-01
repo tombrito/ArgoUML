@@ -47,35 +47,36 @@ import java.util.NoSuchElementException;
  * the overhead of creating a collection just so that we can iterate over its
  * single element.
  * 
- * @param <T> type of object to be iterated over
+ * @param <T>
+ *            type of object to be iterated over
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class SingleElementIterator<T> implements Iterator {
 
-    private boolean done = false;
-    private T target;
-    
-    public SingleElementIterator(T o) {
-        target = o;
-    }
-    
-    public boolean hasNext() {
-        if (!done) {
-            return true;
-        } 
-        return false;
-    }
+	private boolean done = false;
+	private T target;
 
-    public T next() {
-        if (!done) {
-            done = true;
-            return target;
-        }
-        throw new NoSuchElementException();
-    }
+	public SingleElementIterator(T o) {
+		target = o;
+	}
 
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+	public boolean hasNext() {
+		if (!done) {
+			return true;
+		}
+		return false;
+	}
+
+	public T next() {
+		if (!done) {
+			done = true;
+			return target;
+		}
+		throw new NoSuchElementException();
+	}
+
+	public void remove() {
+		throw new UnsupportedOperationException();
+	}
 
 }

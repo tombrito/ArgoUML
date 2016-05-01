@@ -41,34 +41,37 @@ package org.argouml.model;
 import java.util.EventObject;
 
 /**
- * A change event due to adding an association between one model element
- * and another (eg notifies that an association has been added between
- * an existing generization element and a an existing class element.
+ * A change event due to adding an association between one model element and
+ * another (eg notifies that an association has been added between an existing
+ * generization element and a an existing class element.
  *
  * @author Bob Tarling
  */
 public class AddAssociationEvent extends AssociationChangeEvent {
-    /**
-     * Constructor.
-     *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property
-     *		that was changed.
-     * @param oldValue  The old value of the property.
-     * @param newValue  The new value of the property.
-     * @param originalEvent The event that was fired internally
-     *     in the Model subsystem that caused this.
-     * @param changedValue The object that was actually added or removed.
-     */
-    public AddAssociationEvent(Object source, String propertyName,
-            Object oldValue, Object newValue, Object changedValue,
-            EventObject originalEvent) {
-        super(source, propertyName, oldValue, newValue, changedValue,
-                originalEvent);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param source
+	 *            The bean that fired the event.
+	 * @param propertyName
+	 *            The programmatic name of the property that was changed.
+	 * @param oldValue
+	 *            The old value of the property.
+	 * @param newValue
+	 *            The new value of the property.
+	 * @param originalEvent
+	 *            The event that was fired internally in the Model subsystem
+	 *            that caused this.
+	 * @param changedValue
+	 *            The object that was actually added or removed.
+	 */
+	public AddAssociationEvent(Object source, String propertyName, Object oldValue, Object newValue,
+			Object changedValue, EventObject originalEvent) {
+		super(source, propertyName, oldValue, newValue, changedValue, originalEvent);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1672552190650651905L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1672552190650651905L;
 }

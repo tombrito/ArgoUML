@@ -51,142 +51,138 @@ import org.argouml.cognitive.ToDoItem;
 import org.argouml.cognitive.ToDoList;
 import org.argouml.uml.PredicateNotInTrash;
 
-
 /**
  * Rule for sorting the ToDo list: Offender -> Item.
  *
  */
 public class GoListToOffenderToItem extends AbstractGoList2 {
 
-    private Object lastParent;
-    
-    private List<ToDoItem> cachedChildrenList;
-    
-    /**
-     * The constructor.
-     */
-    public GoListToOffenderToItem() {
-        setListPredicate(new PredicateNotInTrash());
-    }
+	private Object lastParent;
 
-    ////////////////////////////////////////////////////////////////
-    // TreeModel implementation
+	private List<ToDoItem> cachedChildrenList;
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
-    public Object getChild(Object parent, int index) {
-        // TODO: This should only be building list up to 'index'
-	return getChildrenList(parent).get(index);
-    }
+	/**
+	 * The constructor.
+	 */
+	public GoListToOffenderToItem() {
+		setListPredicate(new PredicateNotInTrash());
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    public int getChildCount(Object parent) {
-	return getChildrenList(parent).size();
-    }
+	////////////////////////////////////////////////////////////////
+	// TreeModel implementation
 
-    /*
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(
-     * java.lang.Object, java.lang.Object)
-     */
-    public int getIndexOfChild(Object parent, Object child) {
-	return getChildrenList(parent).indexOf(child);
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+	 */
+	public Object getChild(Object parent, int index) {
+		// TODO: This should only be building list up to 'index'
+		return getChildrenList(parent).get(index);
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
-     */
-    public boolean isLeaf(Object node) {
-        if (node instanceof ToDoList) {
-            return false;
-        }
-        // TODO: This is a very expensive way to do this
-//        if (getChildCount(node) > 0) {
-//            return false;
-//        }
-        
-        List<ToDoItem> itemList = 
-            Designer.theDesigner().getToDoList().getToDoItemList();
-        synchronized (itemList) {
-            for (ToDoItem item : itemList) {
-                if (item.getOffenders().contains(node)) {
-                    return false;
-                }
-            }
-        }
-        
-        return true;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
+	public int getChildCount(Object parent) {
+		return getChildrenList(parent).size();
+	}
 
+	/*
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild( java.lang.Object,
+	 * java.lang.Object)
+	 */
+	public int getIndexOfChild(Object parent, Object child) {
+		return getChildrenList(parent).indexOf(child);
+	}
 
-    /**
-     * Get a list of children. Note that unlike its predecessor getChildren(),
-     * this never returns null. If there are no children, it will return an
-     * empty list.
-     * 
-     * @param parent the parent object to check
-     * @return a list of children for the given object
-     */
-    public List<ToDoItem> getChildrenList(Object parent) {
-        if (parent.equals(lastParent)) {
-            return cachedChildrenList;
-        }
-        lastParent = parent;
-        ListSet<ToDoItem> allOffenders = new ListSet<ToDoItem>();
-        ListSet<ToDoItem> designerOffenders = 
-            Designer.theDesigner().getToDoList().getOffenders();
-        synchronized (designerOffenders) {
-            allOffenders.addAllElementsSuchThat(designerOffenders,
-                    getPredicate());
-        }
+	/*
+	 * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
+	 */
+	public boolean isLeaf(Object node) {
+		if (node instanceof ToDoList) {
+			return false;
+		}
+		// TODO: This is a very expensive way to do this
+		// if (getChildCount(node) > 0) {
+		// return false;
+		// }
 
-        if (parent instanceof ToDoList) {
-            cachedChildrenList = allOffenders;
-            return cachedChildrenList;
-        }
-        
-        //otherwise parent must be an offending design material
-        if (allOffenders.contains(parent)) {
-            List<ToDoItem> result = new ArrayList<ToDoItem>();
-            List<ToDoItem> itemList = 
-                Designer.theDesigner().getToDoList().getToDoItemList();
-            synchronized (itemList) {
-                for (ToDoItem item : itemList) {
-                    ListSet offs = new ListSet();
-                    offs.addAllElementsSuchThat(item.getOffenders(),
-                            getPredicate());
-                    if (offs.contains(parent)) {
-                        result.add(item);
-                    }
-                }
-            }
-            cachedChildrenList = result;
-            return cachedChildrenList;
-        }
-        cachedChildrenList = Collections.emptyList();
-        return cachedChildrenList;
-    }
-    
-    /*
-     * @see javax.swing.tree.TreeModel#valueForPathChanged(
-     * javax.swing.tree.TreePath, java.lang.Object)
-     */
-    public void valueForPathChanged(TreePath path, Object newValue) {
-    }
+		List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+		synchronized (itemList) {
+			for (ToDoItem item : itemList) {
+				if (item.getOffenders().contains(node)) {
+					return false;
+				}
+			}
+		}
 
-    /*
-     * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void addTreeModelListener(TreeModelListener l) {
-    }
+		return true;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.TreeModelListener)
-     */
-    public void removeTreeModelListener(TreeModelListener l) {
-    }
+	/**
+	 * Get a list of children. Note that unlike its predecessor getChildren(),
+	 * this never returns null. If there are no children, it will return an
+	 * empty list.
+	 * 
+	 * @param parent
+	 *            the parent object to check
+	 * @return a list of children for the given object
+	 */
+	public List<ToDoItem> getChildrenList(Object parent) {
+		if (parent.equals(lastParent)) {
+			return cachedChildrenList;
+		}
+		lastParent = parent;
+		ListSet<ToDoItem> allOffenders = new ListSet<ToDoItem>();
+		ListSet<ToDoItem> designerOffenders = Designer.theDesigner().getToDoList().getOffenders();
+		synchronized (designerOffenders) {
+			allOffenders.addAllElementsSuchThat(designerOffenders, getPredicate());
+		}
 
+		if (parent instanceof ToDoList) {
+			cachedChildrenList = allOffenders;
+			return cachedChildrenList;
+		}
 
-} 
+		// otherwise parent must be an offending design material
+		if (allOffenders.contains(parent)) {
+			List<ToDoItem> result = new ArrayList<ToDoItem>();
+			List<ToDoItem> itemList = Designer.theDesigner().getToDoList().getToDoItemList();
+			synchronized (itemList) {
+				for (ToDoItem item : itemList) {
+					ListSet offs = new ListSet();
+					offs.addAllElementsSuchThat(item.getOffenders(), getPredicate());
+					if (offs.contains(parent)) {
+						result.add(item);
+					}
+				}
+			}
+			cachedChildrenList = result;
+			return cachedChildrenList;
+		}
+		cachedChildrenList = Collections.emptyList();
+		return cachedChildrenList;
+	}
+
+	/*
+	 * @see javax.swing.tree.TreeModel#valueForPathChanged(
+	 * javax.swing.tree.TreePath, java.lang.Object)
+	 */
+	public void valueForPathChanged(TreePath path, Object newValue) {
+	}
+
+	/*
+	 * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void addTreeModelListener(TreeModelListener l) {
+	}
+
+	/*
+	 * @see
+	 * javax.swing.tree.TreeModel#removeTreeModelListener(javax.swing.event.
+	 * TreeModelListener)
+	 */
+	public void removeTreeModelListener(TreeModelListener l) {
+	}
+
+}

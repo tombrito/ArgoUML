@@ -38,86 +38,84 @@
 
 package org.argouml.persistence;
 
-
 /**
- * An utility class that defines the strings required by the XML framework
- * and other strings needed to work with todo XML files.
+ * An utility class that defines the strings required by the XML framework and
+ * other strings needed to work with todo XML files.
  *
  * @author Michael Stockman
  */
 class TodoTokenTable extends XMLTokenTableBase {
 
-    private static final String STRING_TO_DO                = "todo";
-    private static final String STRING_TO_DO_LIST           = "todolist";
-    private static final String STRING_TO_DO_ITEM           = "todoitem";
-    private static final String STRING_HEADLINE             = "headline";
-    private static final String STRING_DESCRIPTION          = "description";
-    private static final String STRING_PRIORITY             = "priority";
-    private static final String STRING_MOREINFOURL          = "moreinfourl";
+	private static final String STRING_TO_DO = "todo";
+	private static final String STRING_TO_DO_LIST = "todolist";
+	private static final String STRING_TO_DO_ITEM = "todoitem";
+	private static final String STRING_HEADLINE = "headline";
+	private static final String STRING_DESCRIPTION = "description";
+	private static final String STRING_PRIORITY = "priority";
+	private static final String STRING_MOREINFOURL = "moreinfourl";
 
-    private static final String STRING_RESOLVEDCRITICS      = "resolvedcritics";
-    private static final String STRING_ISSUE                = "issue";
-    private static final String STRING_POSTER               = "poster";
-    private static final String STRING_OFFENDER             = "offender";
+	private static final String STRING_RESOLVEDCRITICS = "resolvedcritics";
+	private static final String STRING_ISSUE = "issue";
+	private static final String STRING_POSTER = "poster";
+	private static final String STRING_OFFENDER = "offender";
 
-    /** The String to use for High Priority. */
-    public static final String STRING_PRIO_HIGH            = "high";
-    /** The String to use for Medium Priority. */
-    public static final String STRING_PRIO_MED             = "medium";
-    /** The String to use for Low Priority. */
-    public static final String STRING_PRIO_LOW             = "low";
+	/** The String to use for High Priority. */
+	public static final String STRING_PRIO_HIGH = "high";
+	/** The String to use for Medium Priority. */
+	public static final String STRING_PRIO_MED = "medium";
+	/** The String to use for Low Priority. */
+	public static final String STRING_PRIO_LOW = "low";
 
-    /** The token for todo. */
-    public static final int    TOKEN_TO_DO                 = 1;
-    /** The token for todo list. */
-    public static final int    TOKEN_TO_DO_LIST            = 2;
-    /** The token for todoitem. */
-    public static final int    TOKEN_TO_DO_ITEM            = 3;
-    /** The token for headline. */
-    public static final int    TOKEN_HEADLINE              = 4;
-    /** The token for description. */
-    public static final int    TOKEN_DESCRIPTION           = 5;
-    /** The token for priority. */
-    public static final int    TOKEN_PRIORITY              = 6;
-    /** The token for moreinfourl. */
-    public static final int    TOKEN_MOREINFOURL           = 7;
+	/** The token for todo. */
+	public static final int TOKEN_TO_DO = 1;
+	/** The token for todo list. */
+	public static final int TOKEN_TO_DO_LIST = 2;
+	/** The token for todoitem. */
+	public static final int TOKEN_TO_DO_ITEM = 3;
+	/** The token for headline. */
+	public static final int TOKEN_HEADLINE = 4;
+	/** The token for description. */
+	public static final int TOKEN_DESCRIPTION = 5;
+	/** The token for priority. */
+	public static final int TOKEN_PRIORITY = 6;
+	/** The token for moreinfourl. */
+	public static final int TOKEN_MOREINFOURL = 7;
 
-    /** The token for resolvedcritics. */
-    public static final int    TOKEN_RESOLVEDCRITICS       = 8;
-    /** The token for issue. */
-    public static final int    TOKEN_ISSUE                 = 9;
-    /** The token for poster. */
-    public static final int    TOKEN_POSTER                = 10;
-    /** The token for offender. */
-    public static final int    TOKEN_OFFENDER              = 11;
+	/** The token for resolvedcritics. */
+	public static final int TOKEN_RESOLVEDCRITICS = 8;
+	/** The token for issue. */
+	public static final int TOKEN_ISSUE = 9;
+	/** The token for poster. */
+	public static final int TOKEN_POSTER = 10;
+	/** The token for offender. */
+	public static final int TOKEN_OFFENDER = 11;
 
-    /** The token for undefined. */
-    public static final int    TOKEN_UNDEFINED             = 12;
+	/** The token for undefined. */
+	public static final int TOKEN_UNDEFINED = 12;
 
-    /**
-     * The constructor.
-     *
-     */
-    public TodoTokenTable() {
-	super(32);
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public TodoTokenTable() {
+		super(32);
+	}
 
-    /*
-     * @see org.argouml.persistence.XMLTokenTableBase#setupTokens()
-     */
-    protected void setupTokens() {
-	addToken(STRING_TO_DO, Integer.valueOf(TOKEN_TO_DO));
-	addToken(STRING_TO_DO_LIST, Integer.valueOf(TOKEN_TO_DO_LIST));
-	addToken(STRING_TO_DO_ITEM, Integer.valueOf(TOKEN_TO_DO_ITEM));
-	addToken(STRING_HEADLINE, Integer.valueOf(TOKEN_HEADLINE));
-	addToken(STRING_DESCRIPTION, Integer.valueOf(TOKEN_DESCRIPTION));
-	addToken(STRING_PRIORITY, Integer.valueOf(TOKEN_PRIORITY));
-	addToken(STRING_MOREINFOURL, Integer.valueOf(TOKEN_MOREINFOURL));
+	/*
+	 * @see org.argouml.persistence.XMLTokenTableBase#setupTokens()
+	 */
+	protected void setupTokens() {
+		addToken(STRING_TO_DO, Integer.valueOf(TOKEN_TO_DO));
+		addToken(STRING_TO_DO_LIST, Integer.valueOf(TOKEN_TO_DO_LIST));
+		addToken(STRING_TO_DO_ITEM, Integer.valueOf(TOKEN_TO_DO_ITEM));
+		addToken(STRING_HEADLINE, Integer.valueOf(TOKEN_HEADLINE));
+		addToken(STRING_DESCRIPTION, Integer.valueOf(TOKEN_DESCRIPTION));
+		addToken(STRING_PRIORITY, Integer.valueOf(TOKEN_PRIORITY));
+		addToken(STRING_MOREINFOURL, Integer.valueOf(TOKEN_MOREINFOURL));
 
-	addToken(STRING_RESOLVEDCRITICS, Integer.valueOf(TOKEN_RESOLVEDCRITICS));
-	addToken(STRING_ISSUE, Integer.valueOf(TOKEN_ISSUE));
-	addToken(STRING_POSTER, Integer.valueOf(TOKEN_POSTER));
-	addToken(STRING_OFFENDER, Integer.valueOf(TOKEN_OFFENDER));
-    }
+		addToken(STRING_RESOLVEDCRITICS, Integer.valueOf(TOKEN_RESOLVEDCRITICS));
+		addToken(STRING_ISSUE, Integer.valueOf(TOKEN_ISSUE));
+		addToken(STRING_POSTER, Integer.valueOf(TOKEN_POSTER));
+		addToken(STRING_OFFENDER, Integer.valueOf(TOKEN_OFFENDER));
+	}
 }
-

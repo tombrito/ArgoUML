@@ -50,7 +50,8 @@ import org.argouml.model.Model;
 import org.argouml.uml.diagram.ArgoDiagram;
 
 /**
- * Rule for ModelElement -> Contained diagrams. <p>
+ * Rule for ModelElement -> Contained diagrams.
+ * <p>
  *
  * The Contained diagrams are all the diagrams which, if the owner is deleted,
  * will be deleted, too.
@@ -59,39 +60,43 @@ import org.argouml.uml.diagram.ArgoDiagram;
  */
 public class GoModelElementToContainedDiagrams extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.model-element.contained-diagrams");
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.model-element.contained-diagrams");
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-        if (Model.getFacade().isAModelElement(parent)) {
-            Project p = ProjectManager.getManager().getCurrentProject();
-            Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
-            for (ArgoDiagram diagram : p.getDiagramList()) {
-                if (diagram.getNamespace() == parent) {
-                    ret.add(diagram);
-                }
-            }
-            return ret;
-        }
-        return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.AbstractPerspectiveRule#getChildren(java.
+	 * lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAModelElement(parent)) {
+			Project p = ProjectManager.getManager().getCurrentProject();
+			Set<ArgoDiagram> ret = new HashSet<ArgoDiagram>();
+			for (ArgoDiagram diagram : p.getDiagramList()) {
+				if (diagram.getNamespace() == parent) {
+					ret.add(diagram);
+				}
+			}
+			return ret;
+		}
+		return Collections.EMPTY_SET;
+	}
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        Set set = new HashSet();
-        if (Model.getFacade().isAModelElement(parent)) {
-            set.add(parent);
-        }
-        return set;
-    }
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		Set set = new HashSet();
+		if (Model.getFacade().isAModelElement(parent)) {
+			set.add(parent);
+		}
+		return set;
+	}
 
 }

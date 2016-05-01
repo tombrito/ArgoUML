@@ -46,38 +46,37 @@ import org.argouml.uml.ui.UMLPlainTextDocument;
  */
 public class UMLOperationSpecificationDocument extends UMLPlainTextDocument {
 
-    /**
-     * The serial version.
-     */
-    private static final long serialVersionUID = -152721992761681537L;
+	/**
+	 * The serial version.
+	 */
+	private static final long serialVersionUID = -152721992761681537L;
 
-    /**
-     * Constructor.
-     */
-    public UMLOperationSpecificationDocument() {
-        super("specification");
-    }
+	/**
+	 * Constructor.
+	 */
+	public UMLOperationSpecificationDocument() {
+		super("specification");
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
-     */
-    protected void setProperty(String text) {
-        if (Model.getFacade().isAOperation(getTarget())
-                || Model.getFacade().isAReception(getTarget())) {
-            Model.getCoreHelper().setSpecification(getTarget(), text);
-        }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLPlainTextDocument#setProperty(java.lang.String)
+	 */
+	protected void setProperty(String text) {
+		if (Model.getFacade().isAOperation(getTarget()) || Model.getFacade().isAReception(getTarget())) {
+			Model.getCoreHelper().setSpecification(getTarget(), text);
+		}
 
-    }
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
-     */
-    protected String getProperty() {
-        if (Model.getFacade().isAOperation(getTarget())
-                || Model.getFacade().isAReception(getTarget())) {
-            return Model.getFacade().getSpecification(getTarget());
-        }
-        return null;
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLPlainTextDocument#getProperty()
+	 */
+	protected String getProperty() {
+		if (Model.getFacade().isAOperation(getTarget()) || Model.getFacade().isAReception(getTarget())) {
+			return Model.getFacade().getSpecification(getTarget());
+		}
+		return null;
+	}
 
 }

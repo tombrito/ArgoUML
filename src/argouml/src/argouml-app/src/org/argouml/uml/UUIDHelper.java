@@ -46,36 +46,38 @@ import org.tigris.gef.presentation.Fig;
  */
 public final class UUIDHelper {
 
-    /**
-     * Hide constructor for the UUIDManager. This is private to make sure that
-     * we are a utility.
-     */
-    private UUIDHelper() { }
+	/**
+	 * Hide constructor for the UUIDManager. This is private to make sure that
+	 * we are a utility.
+	 */
+	private UUIDHelper() {
+	}
 
-    /**
-     * Return the UUID of the element.
-     *
-     * @param base A model element or a Fig representing a model element
-     * @return UUID
-     */
-    public static String getUUID(Object base) {
-        if (base instanceof Fig) {
-            base = ((Fig) base).getOwner();
-        }
-        if (base == null) {
-            return null;
-        }
-        if (base instanceof CommentEdge) {
-            return (String) ((CommentEdge) base).getUUID();
-        }
-        return Model.getFacade().getUUID(base);
-    }
+	/**
+	 * Return the UUID of the element.
+	 *
+	 * @param base
+	 *            A model element or a Fig representing a model element
+	 * @return UUID
+	 */
+	public static String getUUID(Object base) {
+		if (base instanceof Fig) {
+			base = ((Fig) base).getOwner();
+		}
+		if (base == null) {
+			return null;
+		}
+		if (base instanceof CommentEdge) {
+			return (String) ((CommentEdge) base).getUUID();
+		}
+		return Model.getFacade().getUUID(base);
+	}
 
-    /**
-     * @return a new UUID
-     */
-    public static String getNewUUID() {
-        return org.argouml.model.UUIDManager.getInstance().getNewUUID();
-    }
+	/**
+	 * @return a new UUID
+	 */
+	public static String getNewUUID() {
+		return org.argouml.model.UUIDManager.getInstance().getNewUUID();
+	}
 
 } /* end class UUIDManager */

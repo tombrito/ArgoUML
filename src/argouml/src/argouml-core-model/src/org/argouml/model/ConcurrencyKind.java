@@ -42,18 +42,18 @@ package org.argouml.model;
  * The different ConcurrencyKinds.
  */
 public interface ConcurrencyKind {
-    /**
-     * @return Returns the Concurrent CallConcurrencyKind.
-     */
-    Object getConcurrent();
+	/**
+	 * @return Returns the Concurrent CallConcurrencyKind.
+	 */
+	Object getConcurrent();
 
-    /**
-     * @return Returns the Guarded CallConcurrencyKind.
-     */
-    Object getGuarded();
+	/**
+	 * @return Returns the Guarded CallConcurrencyKind.
+	 */
+	Object getGuarded();
 
-    /**
-     * @return Returns the Sequential CallConcurrencyKind.
-     */
-    Object getSequential();
+	/**
+	 * @return Returns the Sequential CallConcurrencyKind.
+	 */
+	Object getSequential();
 }

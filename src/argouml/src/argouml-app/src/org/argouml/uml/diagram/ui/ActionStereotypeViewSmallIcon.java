@@ -41,22 +41,22 @@ package org.argouml.uml.diagram.ui;
 import org.argouml.uml.diagram.DiagramAppearance;
 
 /**
- * When this action is triggered the selected node visualization changes into 
+ * When this action is triggered the selected node visualization changes into
  * <code>SmallIcon</code> mode. At this mode, all the stereotypes that provide
  * an alternate icon should be replaced by the a reduced version of the icon.
  *
  * @author maurelio1234
  */
 public class ActionStereotypeViewSmallIcon extends ActionStereotypeView {
-    private static final long serialVersionUID = 2595914542256459419L;
+	private static final long serialVersionUID = 2595914542256459419L;
 
 	/**
-     * Default constructor for this action
-     * 
-     * @param node the current node
-     */
-    public ActionStereotypeViewSmallIcon(FigNodeModelElement node) {
-	super(node, "menu.popup.stereotype-view.small-icon",
-		DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON);
-    }
+	 * Default constructor for this action
+	 * 
+	 * @param node
+	 *            the current node
+	 */
+	public ActionStereotypeViewSmallIcon(FigNodeModelElement node) {
+		super(node, "menu.popup.stereotype-view.small-icon", DiagramAppearance.STEREOTYPE_VIEW_SMALL_ICON);
+	}
 }

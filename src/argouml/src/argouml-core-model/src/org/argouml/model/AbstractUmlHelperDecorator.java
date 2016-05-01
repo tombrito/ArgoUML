@@ -47,51 +47,51 @@ import java.util.Collection;
  */
 public abstract class AbstractUmlHelperDecorator implements UmlHelper {
 
-    /**
-     * The component.
-     */
-    private UmlHelper impl;
+	/**
+	 * The component.
+	 */
+	private UmlHelper impl;
 
+	/**
+	 * @param component
+	 *            The component to decorate.
+	 */
+	public AbstractUmlHelperDecorator(UmlHelper component) {
+		impl = component;
+	}
 
-    /**
-     * @param component The component to decorate.
-     */
-    public AbstractUmlHelperDecorator(UmlHelper component) {
-        impl = component;
-    }
+	/*
+	 * @see org.argouml.model.UmlHelper#addListenersToModel(java.lang.Object)
+	 */
+	public void addListenersToModel(Object model) {
+		impl.addListenersToModel(model);
+	}
 
-    /*
-     * @see org.argouml.model.UmlHelper#addListenersToModel(java.lang.Object)
-     */
-    public void addListenersToModel(Object model) {
-        impl.addListenersToModel(model);
-    }
+	public void deleteCollection(Collection col) {
+		impl.deleteCollection(col);
+	}
 
-    public void deleteCollection(Collection col) {
-        impl.deleteCollection(col);
-    }
+	public Object getSource(Object relationship) {
+		return impl.getSource(relationship);
+	}
 
-    public Object getSource(Object relationship) {
-        return impl.getSource(relationship);
-    }
+	public Object getDestination(Object relationship) {
+		return impl.getDestination(relationship);
+	}
 
-    public Object getDestination(Object relationship) {
-        return impl.getDestination(relationship);
-    }
+	/*
+	 * @see org.argouml.model.UmlHelper#move(java.lang.Object,
+	 * org.argouml.model.UmlHelper.Direction)
+	 */
+	public void move(Object parent, Object element, Direction direction) {
+		impl.move(parent, element, direction);
+	}
 
-
-    /*
-     * @see org.argouml.model.UmlHelper#move(java.lang.Object, org.argouml.model.UmlHelper.Direction)
-     */
-    public void move(Object parent, Object element, Direction direction) {
-        impl.move(parent, element, direction);
-    }
-
-    /*
-     * @see org.argouml.model.UmlHelper#move(java.lang.Object)
-     */
-    public boolean isMovable(Object element) {
-        return impl.isMovable(element);
-    }
+	/*
+	 * @see org.argouml.model.UmlHelper#move(java.lang.Object)
+	 */
+	public boolean isMovable(Object element) {
+		return impl.isMovable(element);
+	}
 
 }

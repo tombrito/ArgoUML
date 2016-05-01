@@ -54,26 +54,27 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 public class ActionNewInnerClass extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -740852894054688786L;
+	private static final long serialVersionUID = -740852894054688786L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewInnerClass() {
-        super("button.new-inner-class");
-        putValue(Action.NAME, Translator.localize("button.new-inner-class"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewInnerClass() {
+		super("button.new-inner-class");
+		putValue(Action.NAME, Translator.localize("button.new-inner-class"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAClassifier(target)) {
-            Object classifier = /* (MClassifier) */target;
-            Object inner = Model.getCoreFactory().buildClass(classifier);
-            TargetManager.getInstance().setTarget(inner);
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAClassifier(target)) {
+			Object classifier = /* (MClassifier) */target;
+			Object inner = Model.getCoreFactory().buildClass(classifier);
+			TargetManager.getInstance().setTarget(inner);
+			super.actionPerformed(e);
+		}
+	}
 }

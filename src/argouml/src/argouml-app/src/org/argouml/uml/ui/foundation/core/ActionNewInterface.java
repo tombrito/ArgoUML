@@ -47,7 +47,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
-
 /**
  * This action will create a new interface "next to" an existing interface.
  *
@@ -56,30 +55,28 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
  */
 class ActionNewInterface extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -3357204384171699881L;
+	private static final long serialVersionUID = -3357204384171699881L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewInterface() {
-        super("button.new-interface");
-        putValue(Action.NAME, Translator.localize("button.new-interface"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewInterface() {
+		super("button.new-interface");
+		putValue(Action.NAME, Translator.localize("button.new-interface"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAInterface(target)) {
-            Object iface = target;
-            Object newInterface =
-                Model.getCoreFactory().createInterface();
-            Model.getCoreHelper().addOwnedElement(
-                    Model.getFacade().getNamespace(iface),
-                    newInterface);
-            TargetManager.getInstance().setTarget(newInterface);
-            super.actionPerformed(e);
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAInterface(target)) {
+			Object iface = target;
+			Object newInterface = Model.getCoreFactory().createInterface();
+			Model.getCoreHelper().addOwnedElement(Model.getFacade().getNamespace(iface), newInterface);
+			TargetManager.getInstance().setTarget(newInterface);
+			super.actionPerformed(e);
+		}
+	}
 }

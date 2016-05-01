@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.configuration;
 
 import java.util.logging.Logger;
@@ -48,66 +47,61 @@ import java.util.logging.Logger;
  * @since 0.9.4
  */
 public class ConfigurationFactory implements IConfigurationFactory {
-    /**
-     * The only occurance of the configuration factory.
-     */
-    private static final IConfigurationFactory SINGLETON;
+	/**
+	 * The only occurance of the configuration factory.
+	 */
+	private static final IConfigurationFactory SINGLETON;
 
-    /**
-     * The active configuration handler.
-     */
-    private static ConfigurationHandler handler =
-        new ConfigurationProperties();
+	/**
+	 * The active configuration handler.
+	 */
+	private static ConfigurationHandler handler = new ConfigurationProperties();
 
-    /**
-     * Initialize the factory singleton based on system
-     * property argo.ConfigurationFactory, or use the default
-     * if not set.
-     */
-    static {
-        String name = System.getProperty("argo.ConfigurationFactory");
-        IConfigurationFactory newFactory = null;
-        if (name != null) {
-            try {
-                newFactory =
-                    (IConfigurationFactory) Class.forName(name).newInstance();
-            } catch (Exception e) {
-                Logger.getLogger(ConfigurationFactory.class.getName()).
-                    warning("Can't create configuration factory "
-                            + name
-                            + ", using default factory");
-            }
-        }
-        if (newFactory == null) {
-            newFactory = new ConfigurationFactory();
-        }
-        SINGLETON = newFactory;
-    }
+	/**
+	 * Initialize the factory singleton based on system property
+	 * argo.ConfigurationFactory, or use the default if not set.
+	 */
+	static {
+		String name = System.getProperty("argo.ConfigurationFactory");
+		IConfigurationFactory newFactory = null;
+		if (name != null) {
+			try {
+				newFactory = (IConfigurationFactory) Class.forName(name).newInstance();
+			} catch (Exception e) {
+				Logger.getLogger(ConfigurationFactory.class.getName())
+						.warning("Can't create configuration factory " + name + ", using default factory");
+			}
+		}
+		if (newFactory == null) {
+			newFactory = new ConfigurationFactory();
+		}
+		SINGLETON = newFactory;
+	}
 
-    /**
-     * Private constructor to not allow instantiation.
-     */
-    private ConfigurationFactory() {
-    }
+	/**
+	 * Private constructor to not allow instantiation.
+	 */
+	private ConfigurationFactory() {
+	}
 
-    /**
-     * Returns the instance of the singleton.
-     *
-     * @return the only instance of the configuration factory.
-     */
-    public static final IConfigurationFactory getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * Returns the instance of the singleton.
+	 *
+	 * @return the only instance of the configuration factory.
+	 */
+	public static final IConfigurationFactory getInstance() {
+		return SINGLETON;
+	}
 
-    /**
-     * Returns the customized configuration for the user.
-     *
-     * @return a concrete class which extends ConfigurationHandler and
-     *         can be used to access and manipulate the configuration.
-     */
-    public ConfigurationHandler getConfigurationHandler() {
-        // TODO:  Allow other configuration handlers.
-        return handler;
-    }
+	/**
+	 * Returns the customized configuration for the user.
+	 *
+	 * @return a concrete class which extends ConfigurationHandler and can be
+	 *         used to access and manipulate the configuration.
+	 */
+	public ConfigurationHandler getConfigurationHandler() {
+		// TODO: Allow other configuration handlers.
+		return handler;
+	}
 
 } /* end class ConfigurationFactory */

@@ -47,99 +47,107 @@ import java.util.logging.Logger;
  */
 
 abstract class XMLTokenTableBase {
-    private static final Logger LOG =
-        Logger.getLogger(XMLTokenTableBase.class.getName());
+	private static final Logger LOG = Logger.getLogger(XMLTokenTableBase.class.getName());
 
-    ////////////////////////////////////////////////////////////////
-    // instance variables
+	////////////////////////////////////////////////////////////////
+	// instance variables
 
-    private  Hashtable tokens       = null;
-    private  boolean   dbg          = false;
-    private  String[]  openTags   = new String[100];
-    private  int[]     openTokens = new int[100];
-    private  int       numOpen      = 0;
+	private Hashtable tokens = null;
+	private boolean dbg = false;
+	private String[] openTags = new String[100];
+	private int[] openTokens = new int[100];
+	private int numOpen = 0;
 
+	////////////////////////////////////////////////////////////////
+	// constructors
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
-
-    /**
-     * The constructor.
-     *
-     * @param tableSize the size of the table
-     */
-    public XMLTokenTableBase(int tableSize) {
-	tokens = new Hashtable(tableSize);
-	setupTokens();
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // accessors
-
-    /**
-     * @param s the string
-     * @param push true if the token is to be pushed
-     * @return the token
-     */
-    public final int toToken(String s, boolean push) {
-	if (push) {
-	    openTags[++numOpen] = s;
-	} else if (s.equals(openTags[numOpen])) {
-            LOG.log(Level.FINE, "matched: {0}", s);
-	    return openTokens[numOpen--];
+	/**
+	 * The constructor.
+	 *
+	 * @param tableSize
+	 *            the size of the table
+	 */
+	public XMLTokenTableBase(int tableSize) {
+		tokens = new Hashtable(tableSize);
+		setupTokens();
 	}
-	Integer i = (Integer) tokens.get(s);
-	if (i != null) {
-	    openTokens[numOpen] = i.intValue();
-	    return openTokens[numOpen];
-	} else {
-	    return -1;
+
+	////////////////////////////////////////////////////////////////
+	// accessors
+
+	/**
+	 * @param s
+	 *            the string
+	 * @param push
+	 *            true if the token is to be pushed
+	 * @return the token
+	 */
+	public final int toToken(String s, boolean push) {
+		if (push) {
+			openTags[++numOpen] = s;
+		} else if (s.equals(openTags[numOpen])) {
+			LOG.log(Level.FINE, "matched: {0}", s);
+			return openTokens[numOpen--];
+		}
+		Integer i = (Integer) tokens.get(s);
+		if (i != null) {
+			openTokens[numOpen] = i.intValue();
+			return openTokens[numOpen];
+		} else {
+			return -1;
+		}
 	}
-    }
 
-    /**
-     * @param d true if debugging
-     */
-    public void    setDbg(boolean d)       { dbg = d; }
-
-    /**
-     * @return true if debugging is turned on
-     */
-    public boolean getDbg()                { return dbg; }
-
-    ////////////////////////////////////////////////////////////////
-    // class methods
-
-    /**
-     * @param s the string represented by the token number
-     * @param i the token number
-     */
-    protected void addToken(String s, Integer i) {
-        boolean error = false;
-	if (dbg) {
-	    if (tokens.contains(i) || tokens.containsKey(s)) {
-                LOG.log(Level.SEVERE,
-                        "ERROR: token table already contains " + s);
-		error = true;
-	    }
+	/**
+	 * @param d
+	 *            true if debugging
+	 */
+	public void setDbg(boolean d) {
+		dbg = d;
 	}
-	tokens.put(s, i);
-	if (dbg && !error) {
-            LOG.log(Level.FINE, "NOTE: added {0} to token table", s);
-        }
-    }
 
-    /**
-     * @param token the given token
-     * @return true if the token is present
-     */
-    public boolean contains(String token) {
-        return tokens.containsKey(token);
-    }
+	/**
+	 * @return true if debugging is turned on
+	 */
+	public boolean getDbg() {
+		return dbg;
+	}
 
-    /**
-     * This function shall set up all the tokens with the addToken function.
-     */
-    protected abstract void setupTokens();
+	////////////////////////////////////////////////////////////////
+	// class methods
+
+	/**
+	 * @param s
+	 *            the string represented by the token number
+	 * @param i
+	 *            the token number
+	 */
+	protected void addToken(String s, Integer i) {
+		boolean error = false;
+		if (dbg) {
+			if (tokens.contains(i) || tokens.containsKey(s)) {
+				LOG.log(Level.SEVERE, "ERROR: token table already contains " + s);
+				error = true;
+			}
+		}
+		tokens.put(s, i);
+		if (dbg && !error) {
+			LOG.log(Level.FINE, "NOTE: added {0} to token table", s);
+		}
+	}
+
+	/**
+	 * @param token
+	 *            the given token
+	 * @return true if the token is present
+	 */
+	public boolean contains(String token) {
+		return tokens.containsKey(token);
+	}
+
+	/**
+	 * This function shall set up all the tokens with the addToken function.
+	 */
+	protected abstract void setupTokens();
 
 } /* end class XMLTokenTableBase */

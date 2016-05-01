@@ -45,29 +45,30 @@ import java.util.Iterator;
  * Adapter class to provide legacy Enumeration interface for more modern
  * Iterator. For use with GEF or other legacy API implementations.
  * 
- * @param <T> type of object in Enumeration
+ * @param <T>
+ *            type of object in Enumeration
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public class IteratorEnumeration<T> implements Enumeration<T> {
 
-    private Iterator<T> it;
-    
-    /**
-     * Construct an Enumeration based on the given Iterator.
-     * 
-     * @param iterator the iterator to be wrapped 
-     */
-    public IteratorEnumeration(Iterator<T> iterator) {
-        it = iterator;
-    }
-    
-    public boolean hasMoreElements() {
-        return it.hasNext();
-    }
+	private Iterator<T> it;
 
-    public T nextElement() {
-        return it.next();
-    }
+	/**
+	 * Construct an Enumeration based on the given Iterator.
+	 * 
+	 * @param iterator
+	 *            the iterator to be wrapped
+	 */
+	public IteratorEnumeration(Iterator<T> iterator) {
+		it = iterator;
+	}
 
+	public boolean hasMoreElements() {
+		return it.hasNext();
+	}
+
+	public T nextElement() {
+		return it.next();
+	}
 
 }

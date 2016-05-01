@@ -36,32 +36,32 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.ui;
 
 import org.argouml.model.Model;
 import org.argouml.uml.diagram.ui.UMLDiagram;
 
-
 /**
  * Navigate along the namespace.
+ * 
  * @author mkl
  *
  */
 public class ActionNavigateNamespace extends AbstractActionNavigate {
 
-    private static final long serialVersionUID = 856917494110309143L;
+	private static final long serialVersionUID = 856917494110309143L;
 
 	/*
-     * @see org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
-     */
-    protected Object navigateTo(Object elem) {
-        if (elem instanceof UMLDiagram) {
-            return ((UMLDiagram) elem).getNamespace();
-        } else if (Model.getFacade().isANamedElement(elem)) {
-            return Model.getFacade().getNamespace(elem);
-        }
-        return null;
-    }
+	 * @see
+	 * org.argouml.uml.ui.AbstractActionNavigate#navigateTo(java.lang.Object)
+	 */
+	protected Object navigateTo(Object elem) {
+		if (elem instanceof UMLDiagram) {
+			return ((UMLDiagram) elem).getNamespace();
+		} else if (Model.getFacade().isANamedElement(elem)) {
+			return Model.getFacade().getNamespace(elem);
+		}
+		return null;
+	}
 
 }

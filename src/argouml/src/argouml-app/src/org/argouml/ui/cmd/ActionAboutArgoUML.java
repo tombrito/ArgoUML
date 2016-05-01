@@ -48,32 +48,31 @@ import org.argouml.i18n.Translator;
 import org.argouml.ui.AboutBox;
 import org.argouml.util.ArgoFrame;
 
-
 /**
  * The action to show the About ArgoUML dialog.
  */
 public class ActionAboutArgoUML extends AbstractAction {
 
-    /**
-     * Constructor.
-     */
-    public ActionAboutArgoUML() {
-        super(Translator.localize("action.about-argouml"),
-                ResourceLoaderWrapper.lookupIcon("action.about-argouml"));
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionAboutArgoUML() {
+		super(Translator.localize("action.about-argouml"), ResourceLoaderWrapper.lookupIcon("action.about-argouml"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-	Frame frame = ArgoFrame.getFrame();
-	AboutBox box = new AboutBox(frame, true);
-	box.setLocationRelativeTo(frame);
-	box.setVisible(true);
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		Frame frame = ArgoFrame.getFrame();
+		AboutBox box = new AboutBox(frame, true);
+		box.setLocationRelativeTo(frame);
+		box.setVisible(true);
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 7988731727182091682L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 7988731727182091682L;
 } /* end class ActionAboutArgoUML */

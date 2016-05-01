@@ -47,7 +47,6 @@ import org.argouml.model.Model;
 import org.argouml.ui.UndoableAction;
 import org.argouml.uml.ui.UMLCheckBox2;
 
-
 /**
  *
  * @author jaap.branderhorst@xs4all.nl
@@ -55,46 +54,43 @@ import org.argouml.uml.ui.UMLCheckBox2;
  */
 public class ActionSetAssociationEndOrdering extends UndoableAction {
 
-    private static final long serialVersionUID = 4576950714837529512L;
-	private static final ActionSetAssociationEndOrdering SINGLETON =
-	new ActionSetAssociationEndOrdering();
+	private static final long serialVersionUID = 4576950714837529512L;
+	private static final ActionSetAssociationEndOrdering SINGLETON = new ActionSetAssociationEndOrdering();
 
-    /**
-     * Constructor for ActionSetElementOwnershipSpecification.
-     */
-    protected ActionSetAssociationEndOrdering() {
-        super(Translator.localize("Set"), null);
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("Set"));
-    }
+	/**
+	 * Constructor for ActionSetElementOwnershipSpecification.
+	 */
+	protected ActionSetAssociationEndOrdering() {
+		super(Translator.localize("Set"), null);
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("Set"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        if (e.getSource() instanceof UMLCheckBox2) {
-            UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
-            Object target = source.getTarget();
-            if (Model.getFacade().isAAssociationEnd(target)) {
-                Object m = target;
-                if (source.isSelected()) {
-                    Model.getCoreHelper().setOrdering(m,
-                            Model.getOrderingKind().getOrdered());
-                } else {
-                    Model.getCoreHelper().setOrdering(m,
-                            Model.getOrderingKind().getUnordered());
-                }
-            }
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		if (e.getSource() instanceof UMLCheckBox2) {
+			UMLCheckBox2 source = (UMLCheckBox2) e.getSource();
+			Object target = source.getTarget();
+			if (Model.getFacade().isAAssociationEnd(target)) {
+				Object m = target;
+				if (source.isSelected()) {
+					Model.getCoreHelper().setOrdering(m, Model.getOrderingKind().getOrdered());
+				} else {
+					Model.getCoreHelper().setOrdering(m, Model.getOrderingKind().getUnordered());
+				}
+			}
+		}
+	}
 
-    /**
-     * @return Returns the sINGLETON.
-     */
-    public static ActionSetAssociationEndOrdering getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the sINGLETON.
+	 */
+	public static ActionSetAssociationEndOrdering getInstance() {
+		return SINGLETON;
+	}
 
 }

@@ -42,22 +42,20 @@ import org.argouml.model.AbstractExtensionMechanismsHelperDecorator;
 import org.argouml.model.ExtensionMechanismsHelper;
 
 /**
- * This Decorator is responsible for generating commands for any
- * mutable methods.
+ * This Decorator is responsible for generating commands for any mutable
+ * methods.
  *
  * @author Linus Tolke
  */
-class UndoExtensionMechanismsHelperDecorator
-	extends AbstractExtensionMechanismsHelperDecorator {
+class UndoExtensionMechanismsHelperDecorator extends AbstractExtensionMechanismsHelperDecorator {
 
-    /**
-     * Constructor.
-     *
-     * @param component The component we are decorating.
-     */
-    UndoExtensionMechanismsHelperDecorator(
-            ExtensionMechanismsHelper component) {
-        super(component);
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param component
+	 *            The component we are decorating.
+	 */
+	UndoExtensionMechanismsHelperDecorator(ExtensionMechanismsHelper component) {
+		super(component);
+	}
 }
-

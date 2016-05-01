@@ -42,39 +42,37 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Checkbox who's state is tied to a boolean tagged value of a specific
- * name on the current target ModelElement.  Currently the value is constrained
- * to be a string with the value "true" or "false".
+ * Checkbox who's state is tied to a boolean tagged value of a specific name on
+ * the current target ModelElement. Currently the value is constrained to be a
+ * string with the value "true" or "false".
  * 
  * @author tfmorris
  */
 public class UMLTaggedValueCheckBox extends UMLCheckBox2 {
 
-    private static final long serialVersionUID = 8602091865067825609L;
+	private static final long serialVersionUID = 8602091865067825609L;
 	private String tagName;
-    
-    public UMLTaggedValueCheckBox(String name) {
-        super(Translator.localize("checkbox." + name + "-lc"), 
-                new ActionBooleanTaggedValue(name), 
-                name);
-        tagName = name;
-    }
 
-    /**
-     * Set the checkbox according to the tagged values of the target.
-     * 
-     * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
-     */
-    public void buildModel() {
-        Object tv = Model.getFacade().getTaggedValue(getTarget(), tagName);
-        if (tv != null) {
-            String tag = Model.getFacade().getValueOfTag(tv);
-            if ("true".equals(tag)) {
-                setSelected(true);
-                return;
-            }
-        }
-        setSelected(false);
-    }
+	public UMLTaggedValueCheckBox(String name) {
+		super(Translator.localize("checkbox." + name + "-lc"), new ActionBooleanTaggedValue(name), name);
+		tagName = name;
+	}
+
+	/**
+	 * Set the checkbox according to the tagged values of the target.
+	 * 
+	 * @see org.argouml.uml.ui.UMLCheckBox2#buildModel()
+	 */
+	public void buildModel() {
+		Object tv = Model.getFacade().getTaggedValue(getTarget(), tagName);
+		if (tv != null) {
+			String tag = Model.getFacade().getValueOfTag(tv);
+			if ("true".equals(tag)) {
+				setSelected(true);
+				return;
+			}
+		}
+		setSelected(false);
+	}
 
 }

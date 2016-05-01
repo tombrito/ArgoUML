@@ -40,180 +40,205 @@ package org.argouml.model;
 
 import java.util.List;
 
-
 /**
  * The interface for the factory for DataTypes.
  */
 public interface DataTypesFactory extends Factory {
-    /**
-     * Create an initialized instance of a UML ActionExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML ActionExpression instance.
-     */
-    Object createActionExpression(String language,
-            String body);
+	/**
+	 * Create an initialized instance of a UML ActionExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML ActionExpression instance.
+	 */
+	Object createActionExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML ArgListsExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML ArgListsExpression instance.
-     */
-    Object createArgListsExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML ArgListsExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML ArgListsExpression instance.
+	 */
+	Object createArgListsExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML BooleanExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML BooleanExpression instance.
-     */
-    Object createBooleanExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML BooleanExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML BooleanExpression instance.
+	 */
+	Object createBooleanExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML Expression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML Expression instance.
-     */
-    Object createExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML Expression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML Expression instance.
+	 */
+	Object createExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML IterationExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML IterationExpression instance.
-     */
-    Object createIterationExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML IterationExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML IterationExpression instance.
+	 */
+	Object createIterationExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML MappingExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML MappingExpression instance.
-     */
-    Object createMappingExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML MappingExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML MappingExpression instance.
+	 */
+	Object createMappingExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML ObjectSetExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML ObjectSetExpression instance.
-     */
-    Object createObjectSetExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML ObjectSetExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML ObjectSetExpression instance.
+	 */
+	Object createObjectSetExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML ProcedureExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML ProcedureExpression instance.
-     */
-    Object createProcedureExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML ProcedureExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML ProcedureExpression instance.
+	 */
+	Object createProcedureExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML TimeExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML TimeExpression instance.
-     */
-    Object createTimeExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML TimeExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML TimeExpression instance.
+	 */
+	Object createTimeExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML TypeExpression.
-     *
-     * @param language the language for the expression
-     * @param body the body for the expression
-     * @return an initialized UML TypeExpression instance.
-     */
-    Object createTypeExpression(String language, String body);
+	/**
+	 * Create an initialized instance of a UML TypeExpression.
+	 *
+	 * @param language
+	 *            the language for the expression
+	 * @param body
+	 *            the body for the expression
+	 * @return an initialized UML TypeExpression instance.
+	 */
+	Object createTypeExpression(String language, String body);
 
-    /**
-     * Create an initialized instance of a UML Multiplicity. Quote
-     * from the standard: "In the metamodel a MultiplicityRange defines a range
-     * of integers. The upper bound of the range cannot be below the lower
-     * bound. The lower bound must be a nonnegative integer. The upper bound
-     * must be a nonnegative integer or the special value unlimited, which
-     * indicates there is no upper bound on the range."<p>
-     *
-     * Although the UML specification doesn't say so, the special
-     * value 'unlimited' is encoded as -1 by convention.
-     *
-     * @param lower
-     *            the lower bound of the range
-     * @param upper
-     *            the upper bound of the range. The integer value -1 represents
-     *            the special UML value 'unlimited'
-     * @return an initialized UML Multiplicity instance.
-     * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
-     * Multiplicity has instead become an abstract MultiplicityElement.  Use
-     * {@link CoreHelper#setMultiplicity(Object, int, int)}
-     */
-    @Deprecated
-    Object createMultiplicity(int lower, int upper);
+	/**
+	 * Create an initialized instance of a UML Multiplicity. Quote from the
+	 * standard: "In the metamodel a MultiplicityRange defines a range of
+	 * integers. The upper bound of the range cannot be below the lower bound.
+	 * The lower bound must be a nonnegative integer. The upper bound must be a
+	 * nonnegative integer or the special value unlimited, which indicates there
+	 * is no upper bound on the range."
+	 * <p>
+	 *
+	 * Although the UML specification doesn't say so, the special value
+	 * 'unlimited' is encoded as -1 by convention.
+	 *
+	 * @param lower
+	 *            the lower bound of the range
+	 * @param upper
+	 *            the upper bound of the range. The integer value -1 represents
+	 *            the special UML value 'unlimited'
+	 * @return an initialized UML Multiplicity instance.
+	 * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
+	 *             Multiplicity has instead become an abstract
+	 *             MultiplicityElement. Use
+	 *             {@link CoreHelper#setMultiplicity(Object, int, int)}
+	 */
+	@Deprecated
+	Object createMultiplicity(int lower, int upper);
 
-    /**
-     * Create an initialized instance of a UML Multiplicity (UML1.4 only).
-     *
-     * @param range a List containing the range
-     * @return an initialized UML Multiplicity instance.
-     * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
-     * Multiplicity has instead become an abstract MultiplicityElement.  Use
-     * {@link CoreHelper#setMultiplicity(Object, int, int)}
-     */
-    @Deprecated
-    Object createMultiplicity(List range);
+	/**
+	 * Create an initialized instance of a UML Multiplicity (UML1.4 only).
+	 *
+	 * @param range
+	 *            a List containing the range
+	 * @return an initialized UML Multiplicity instance.
+	 * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
+	 *             Multiplicity has instead become an abstract
+	 *             MultiplicityElement. Use
+	 *             {@link CoreHelper#setMultiplicity(Object, int, int)}
+	 */
+	@Deprecated
+	Object createMultiplicity(List range);
 
-    /**
-     * Create an initialized instance of a UML Multiplicity (UML1.4 only).
-     *
-     * @param str a String representing the multiplicity
-     * @return an initialized UML Multiplicity instance.
-     * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
-     * Multiplicity has instead become an abstract MultiplicityElement.  Use
-     * {@link CoreHelper#setMultiplicity(Object, String)}.
-     */
-    @Deprecated
-    Object createMultiplicity(String str);
-    
-    /**
-     * Create a MultiplicityRange from a string.
-     * 
-     * @since UML 1.4
-     * @param str
-     *                the string definition of the range. The string has the
-     *                form <code>lower..upper</code> where <code>lower</code>
-     *                and <code>upper</code> are non-negative integers are the
-     *                asterisk character (*) representing "unlimited". The
-     *                string "*" is equivalent to "0..*".
-     * @return MultiplicityRange A multiplicity range
-     * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
-     * Multiplicity has instead become an abstract MultiplicityElement.  Use
-     * {@link CoreHelper#setMultiplicity(Object, String)}
-     */
-    @Deprecated
-    public Object createMultiplicityRange(String str);
-    
-    /**
-     * Create a MultiplicityRange from a pair of integers.
-     * 
-     * @since UML 1.4
-     * @param lower
-     *            the lower bound of the range
-     * @param upper
-     *            the upper bound of the range
-     * @return MultiplictyRange A multiplicity range
-     * @deprecated by Bob Tarling in 0.31.5 use
-     * CoreHelper.setMultiplicity(Object, Object);
-     */
-    @Deprecated
-    public Object createMultiplicityRange(int lower, int upper);
+	/**
+	 * Create an initialized instance of a UML Multiplicity (UML1.4 only).
+	 *
+	 * @param str
+	 *            a String representing the multiplicity
+	 * @return an initialized UML Multiplicity instance.
+	 * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
+	 *             Multiplicity has instead become an abstract
+	 *             MultiplicityElement. Use
+	 *             {@link CoreHelper#setMultiplicity(Object, String)}.
+	 */
+	@Deprecated
+	Object createMultiplicity(String str);
+
+	/**
+	 * Create a MultiplicityRange from a string.
+	 * 
+	 * @since UML 1.4
+	 * @param str
+	 *            the string definition of the range. The string has the form
+	 *            <code>lower..upper</code> where <code>lower</code> and
+	 *            <code>upper</code> are non-negative integers are the asterisk
+	 *            character (*) representing "unlimited". The string "*" is
+	 *            equivalent to "0..*".
+	 * @return MultiplicityRange A multiplicity range
+	 * @deprecated by Bob Tarling in 0.31.5 because in UML 2.x the data value
+	 *             Multiplicity has instead become an abstract
+	 *             MultiplicityElement. Use
+	 *             {@link CoreHelper#setMultiplicity(Object, String)}
+	 */
+	@Deprecated
+	public Object createMultiplicityRange(String str);
+
+	/**
+	 * Create a MultiplicityRange from a pair of integers.
+	 * 
+	 * @since UML 1.4
+	 * @param lower
+	 *            the lower bound of the range
+	 * @param upper
+	 *            the upper bound of the range
+	 * @return MultiplictyRange A multiplicity range
+	 * @deprecated by Bob Tarling in 0.31.5 use
+	 *             CoreHelper.setMultiplicity(Object, Object);
+	 */
+	@Deprecated
+	public Object createMultiplicityRange(int lower, int upper);
 }

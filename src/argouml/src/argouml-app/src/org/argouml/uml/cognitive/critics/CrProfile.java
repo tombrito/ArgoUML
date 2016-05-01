@@ -41,10 +41,9 @@ package org.argouml.uml.cognitive.critics;
 import org.argouml.cognitive.Translator;
 
 /**
- * "Abstract" Critic subclass that captures commonalities among all
- * critics defined by profiles. This class also defines and registers
- * the categories of design decisions that the critics can
- * address. 
+ * "Abstract" Critic subclass that captures commonalities among all critics
+ * defined by profiles. This class also defines and registers the categories of
+ * design decisions that the critics can address.
  *
  * @see org.argouml.cognitive.Designer
  * @see org.argouml.cognitive.DecisionModel
@@ -52,38 +51,39 @@ import org.argouml.cognitive.Translator;
  * @author maurelio1234
  */
 public class CrProfile extends CrUML {
-    private String localizationPrefix;
-    
-    /**
-     * The constructor for this class.<br>
-     * <br>
-     * By default, CrUML looks for localized strings under the <code>"critics"
-     * </code> prefix. Since profiles cannot include their strings at the 
-     * <code>critics.profile</code> file located at the ArgoUML source code this
-     * class allows critics defined on profile plug-ins to define look for 
-     * localized strings at other files.  
-     * 
-     * @param prefix the prefix of the localized strings
-     */
-    public CrProfile(final String prefix) {
-	super();
-	
-	if (prefix == null || "".equals(prefix)) {
-	    this.localizationPrefix = "critics";
-	} else {
-	    this.localizationPrefix = prefix;
-	}
-	
-	setupHeadAndDesc();
-    }
-    
-    @Override
-    protected String getLocalizedString(String key, String suffix) {
-        return Translator.localize(localizationPrefix + "." + key + suffix);
-    }
+	private String localizationPrefix;
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 1785043010468681602L;
+	/**
+	 * The constructor for this class.<br>
+	 * <br>
+	 * By default, CrUML looks for localized strings under the <code>"critics"
+	 * </code> prefix. Since profiles cannot include their strings at the
+	 * <code>critics.profile</code> file located at the ArgoUML source code this
+	 * class allows critics defined on profile plug-ins to define look for
+	 * localized strings at other files.
+	 * 
+	 * @param prefix
+	 *            the prefix of the localized strings
+	 */
+	public CrProfile(final String prefix) {
+		super();
+
+		if (prefix == null || "".equals(prefix)) {
+			this.localizationPrefix = "critics";
+		} else {
+			this.localizationPrefix = prefix;
+		}
+
+		setupHeadAndDesc();
+	}
+
+	@Override
+	protected String getLocalizedString(String key, String suffix) {
+		return Translator.localize(localizationPrefix + "." + key + suffix);
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 1785043010468681602L;
 }

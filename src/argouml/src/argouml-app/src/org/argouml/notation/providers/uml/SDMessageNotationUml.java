@@ -48,28 +48,28 @@ import org.argouml.notation.SDNotationSettings;
  */
 public class SDMessageNotationUml extends AbstractMessageNotationUml {
 
-    /**
-     * The constructor.
-     *
-     * @param message the UML object
-     */
-    public SDMessageNotationUml(Object message) {
-        super(message);        
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param message
+	 *            the UML object
+	 */
+	public SDMessageNotationUml(Object message) {
+		super(message);
+	}
 
-    /**
-     * Generate a textual description for a Message m.
-     * {@inheritDoc}
-     * @see org.argouml.notation.NotationProvider#toString(Object, NotationSettings)
-     */
-    public String toString(final Object modelElement, 
-            NotationSettings settings) {
-        if (settings instanceof SDNotationSettings) {
-            return toString(modelElement, 
-                    ((SDNotationSettings) settings).isShowSequenceNumbers());
-        } else {
-            return toString(modelElement, true);
-        }
-    }
+	/**
+	 * Generate a textual description for a Message m. {@inheritDoc}
+	 * 
+	 * @see org.argouml.notation.NotationProvider#toString(Object,
+	 *      NotationSettings)
+	 */
+	public String toString(final Object modelElement, NotationSettings settings) {
+		if (settings instanceof SDNotationSettings) {
+			return toString(modelElement, ((SDNotationSettings) settings).isShowSequenceNumbers());
+		} else {
+			return toString(modelElement, true);
+		}
+	}
 
 }

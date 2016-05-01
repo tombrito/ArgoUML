@@ -50,78 +50,77 @@ import org.argouml.util.ArgoFrame;
 import org.tigris.gef.undo.UndoManager;
 
 /**
- * The specialized SwingWorker used for saving projects.
- * Package visibility only. This class is currently only used by
- * ProjectBrowser and any client calling should use methods there for save.
+ * The specialized SwingWorker used for saving projects. Package visibility
+ * only. This class is currently only used by ProjectBrowser and any client
+ * calling should use methods there for save.
  */
 class SaveSwingWorker extends SwingWorker {
 
-    private final File file;
-    private boolean result;
-    private final Project project;
-    private boolean exitAfterSave;
+	private final File file;
+	private boolean result;
+	private final Project project;
+	private boolean exitAfterSave;
 
-    /**
-     * This is the only constructor for SaveSwingWorker.
-     *
-     * @param project   the project to save
-     * @param aFile     the file that's going to be saved
-     * @param exit      if true: exit ArgoUML when done
-     */
-    public SaveSwingWorker(
-            final Project project,
-            final File aFile,
-            final boolean exit) {
-        super("ArgoSaveProjectThread");
-        file = aFile;
-        this.project = project;
-        exitAfterSave = exit;
-    }
+	/**
+	 * This is the only constructor for SaveSwingWorker.
+	 *
+	 * @param project
+	 *            the project to save
+	 * @param aFile
+	 *            the file that's going to be saved
+	 * @param exit
+	 *            if true: exit ArgoUML when done
+	 */
+	public SaveSwingWorker(final Project project, final File aFile, final boolean exit) {
+		super("ArgoSaveProjectThread");
+		file = aFile;
+		this.project = project;
+		exitAfterSave = exit;
+	}
 
-    /**
-     * Implements org.argouml.swingext.SwingWorker#construct(); this is
-     * the main method for this SwingWorker.
-     * In this case, it simply loads the project.
-     *
-     * @param pmw       the ProgressMonitorWindow used by ProjectBrowser
-     * @return          always null
-     */
-    public Object construct(ProgressMonitor pmw) {
-        // Save project at slightly lower priority to keep UI responsive
-        Thread currentThread = Thread.currentThread();
-        currentThread.setPriority(currentThread.getPriority() - 1);
-        // saves the project
-        result = ProjectBrowser.getInstance().trySave(file, pmw, project);
-        return null;
-    }
+	/**
+	 * Implements org.argouml.swingext.SwingWorker#construct(); this is the main
+	 * method for this SwingWorker. In this case, it simply loads the project.
+	 *
+	 * @param pmw
+	 *            the ProgressMonitorWindow used by ProjectBrowser
+	 * @return always null
+	 */
+	public Object construct(ProgressMonitor pmw) {
+		// Save project at slightly lower priority to keep UI responsive
+		Thread currentThread = Thread.currentThread();
+		currentThread.setPriority(currentThread.getPriority() - 1);
+		// saves the project
+		result = ProjectBrowser.getInstance().trySave(file, pmw, project);
+		return null;
+	}
 
-    /**
-     * Implements org.argouml.swingext.SwingWorker#initProgressMonitorWindow();
-     * it just creates an instance of ProgressMonitor.
-     *
-     * @return  an instance of ProgressMonitor
-     */
-    public ProgressMonitor initProgressMonitorWindow() {
-        Object[] msgArgs = new Object[] {file.getPath()};
-        UIManager.put("ProgressMonitor.progressText", 
-                Translator.localize("filechooser.save-as-project"));
-        return new ProgressMonitorWindow(ArgoFrame.getFrame(),
-                Translator.messageFormat("dialog.saveproject.title", msgArgs));
-    }
+	/**
+	 * Implements org.argouml.swingext.SwingWorker#initProgressMonitorWindow();
+	 * it just creates an instance of ProgressMonitor.
+	 *
+	 * @return an instance of ProgressMonitor
+	 */
+	public ProgressMonitor initProgressMonitorWindow() {
+		Object[] msgArgs = new Object[] { file.getPath() };
+		UIManager.put("ProgressMonitor.progressText", Translator.localize("filechooser.save-as-project"));
+		return new ProgressMonitorWindow(ArgoFrame.getFrame(),
+				Translator.messageFormat("dialog.saveproject.title", msgArgs));
+	}
 
-    /**
-     * Overrides the finished method of the SwingWorker class to update the GUI
-     */
-    public void finished() {
-        super.finished();
-        if (result) {
-            if (exitAfterSave) {
-                ProjectBrowser.getInstance().exit();
-            } else {
-                ProjectBrowser.getInstance().buildTitleWithCurrentProjectName();
-                // TODO: Why isn't this done in save?
-                UndoManager.getInstance().empty();
-            }
-        }
-    }
+	/**
+	 * Overrides the finished method of the SwingWorker class to update the GUI
+	 */
+	public void finished() {
+		super.finished();
+		if (result) {
+			if (exitAfterSave) {
+				ProjectBrowser.getInstance().exit();
+			} else {
+				ProjectBrowser.getInstance().buildTitleWithCurrentProjectName();
+				// TODO: Why isn't this done in save?
+				UndoManager.getInstance().empty();
+			}
+		}
+	}
 }

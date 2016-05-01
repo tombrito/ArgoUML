@@ -49,42 +49,39 @@ import org.argouml.model.Model;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
-
 /**
- * Action to create a new parameter, either for the currently
- * selected element (operation, event), or "next to" an existing parameter
- * (that is actually selected by the user).
+ * Action to create a new parameter, either for the currently selected element
+ * (operation, event), or "next to" an existing parameter (that is actually
+ * selected by the user).
  *
  * @author Michiel
  */
 public class ActionNewParameter extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 4213606596873805950L;
+	private static final long serialVersionUID = 4213606596873805950L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewParameter() {
-        super("button.new-parameter");
-        putValue(Action.NAME, Translator.localize("button.new-parameter"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewParameter() {
+		super("button.new-parameter");
+		putValue(Action.NAME, Translator.localize("button.new-parameter"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAParameter(target)) {
-            target = Model.getFacade().getModelElementContainer(target);
-        }
-        if (target != null) {
-            super.actionPerformed(e);
-            Project currentProject =
-                ProjectManager.getManager().getCurrentProject();
-            Object paramType = currentProject.getDefaultParameterType();
-            TargetManager.getInstance().setTarget(
-                Model.getCoreFactory().buildParameter(
-                    target, paramType));
-        }
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAParameter(target)) {
+			target = Model.getFacade().getModelElementContainer(target);
+		}
+		if (target != null) {
+			super.actionPerformed(e);
+			Project currentProject = ProjectManager.getManager().getCurrentProject();
+			Object paramType = currentProject.getDefaultParameterType();
+			TargetManager.getInstance().setTarget(Model.getCoreFactory().buildParameter(target, paramType));
+		}
+	}
 }

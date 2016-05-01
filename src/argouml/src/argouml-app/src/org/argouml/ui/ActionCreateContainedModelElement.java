@@ -47,85 +47,76 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.ui.AbstractActionNewModelElement;
 
 /**
- * An action to create a model element to be contained by the 
- * target model element.
+ * An action to create a model element to be contained by the target model
+ * element.
  *
  * @author Scott Roberts
  */
-public class ActionCreateContainedModelElement
-            extends AbstractActionNewModelElement {
+public class ActionCreateContainedModelElement extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = 635512789390426721L;
-	private final Object metaType; 
-    private final String property; 
+	private static final long serialVersionUID = 635512789390426721L;
+	private final Object metaType;
+	private final String property;
 
-    /**
-     * Construct the action.
-     * 
-     * @param theMetaType the element to be created
-     * @param container the container that will own the new element
-     */
-    public ActionCreateContainedModelElement(
-            Object theMetaType, 
-            Object container) {
-        this(theMetaType, container,
-                "button.new-"
-                + Model.getMetaTypes().getName(theMetaType).toLowerCase());
-    }
-    
-    
-    /**
-     * Construct the action.
-     * 
-     * @param theMetaType the element to be created
-     * @param container the container that will own the new element
-     * @param menuDescr the description for the menu item label.
-     */
-    public ActionCreateContainedModelElement(
-            Object theMetaType, 
-            Object container,
-            String menuDescr) {
-        super(menuDescr);
-        
-        metaType = theMetaType;
-        property = null;
-        
-        setTarget(container);
-    }
+	/**
+	 * Construct the action.
+	 * 
+	 * @param theMetaType
+	 *            the element to be created
+	 * @param container
+	 *            the container that will own the new element
+	 */
+	public ActionCreateContainedModelElement(Object theMetaType, Object container) {
+		this(theMetaType, container, "button.new-" + Model.getMetaTypes().getName(theMetaType).toLowerCase());
+	}
 
-    /**
-     * Construct the action.
-     * 
-     * @param theMetaType the element to be created
-     * @param container the container that will own the new element
-     * @param property the property name that represents the new element with
-     *        the container
-     * @param menuDescr the description for the menu item label.
-     */
-    public ActionCreateContainedModelElement(
-            Object theMetaType, 
-            Object container,
-            String property,
-            String menuDescr) {
-        super(menuDescr);
-        
-        metaType = theMetaType;
-        this.property = property;
-        
-        setTarget(container);
-    }
+	/**
+	 * Construct the action.
+	 * 
+	 * @param theMetaType
+	 *            the element to be created
+	 * @param container
+	 *            the container that will own the new element
+	 * @param menuDescr
+	 *            the description for the menu item label.
+	 */
+	public ActionCreateContainedModelElement(Object theMetaType, Object container, String menuDescr) {
+		super(menuDescr);
 
-    public void actionPerformed(ActionEvent e) {
-        // TODO - lets pass in Project as a constructor argument
-        Project project = ProjectManager.getManager().getCurrentProject();
-        
-        Object newElement =
-            Model.getUmlFactory().buildNode(
-                    metaType,
-                    getTarget(),
-                    property,
-                    project.getDefaults());
-            
-        TargetManager.getInstance().setTarget(newElement);                
-    }
+		metaType = theMetaType;
+		property = null;
+
+		setTarget(container);
+	}
+
+	/**
+	 * Construct the action.
+	 * 
+	 * @param theMetaType
+	 *            the element to be created
+	 * @param container
+	 *            the container that will own the new element
+	 * @param property
+	 *            the property name that represents the new element with the
+	 *            container
+	 * @param menuDescr
+	 *            the description for the menu item label.
+	 */
+	public ActionCreateContainedModelElement(Object theMetaType, Object container, String property, String menuDescr) {
+		super(menuDescr);
+
+		metaType = theMetaType;
+		this.property = property;
+
+		setTarget(container);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO - lets pass in Project as a constructor argument
+		Project project = ProjectManager.getManager().getCurrentProject();
+
+		Object newElement = Model.getUmlFactory().buildNode(metaType, getTarget(), property, project.getDefaults());
+
+		TargetManager.getInstance().setTarget(newElement);
+	}
 }

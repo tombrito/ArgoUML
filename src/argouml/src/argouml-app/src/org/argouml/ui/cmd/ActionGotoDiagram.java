@@ -55,46 +55,44 @@ import org.argouml.uml.diagram.ArgoDiagram;
 // items on view menu
 
 /**
- * This Action will display a dialogbox listing all diagrams.
- * Doubleclicking on any listed diagram selects it.
+ * This Action will display a dialogbox listing all diagrams. Doubleclicking on
+ * any listed diagram selects it.
  *
  */
-public class ActionGotoDiagram
-	extends UndoableAction
-	implements CommandLineInterface {
+public class ActionGotoDiagram extends UndoableAction implements CommandLineInterface {
 
-    private static final long serialVersionUID = 8718976362785794884L;
+	private static final long serialVersionUID = 8718976362785794884L;
 
 	/**
-     * The constructor.
-     */
-    public ActionGotoDiagram() {
-        super(Translator.localize("action.goto-diagram"), null);
+	 * The constructor.
+	 */
+	public ActionGotoDiagram() {
+		super(Translator.localize("action.goto-diagram"), null);
 		// Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, Translator
-				.localize("action.goto-diagram"));
-    }
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.goto-diagram"));
+	}
 
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		new GotoDialog().setVisible(true);
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-    	super.actionPerformed(ae);
-        new GotoDialog().setVisible(true);
-    }
-
-    /*
-     * @see org.argouml.application.api.CommandLineInterface#doCommand(java.lang.String)
-     */
-    public boolean doCommand(String argument) {
-	Project p = ProjectManager.getManager().getCurrentProject();
-        ArgoDiagram d = p.getDiagram(argument);
-        if (d != null) {
-            TargetManager.getInstance().setTarget(d);
-            return true;
-        }
-        return false;
-    }
+	/*
+	 * @see
+	 * org.argouml.application.api.CommandLineInterface#doCommand(java.lang.
+	 * String)
+	 */
+	public boolean doCommand(String argument) {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		ArgoDiagram d = p.getDiagram(argument);
+		if (d != null) {
+			TargetManager.getInstance().setTarget(d);
+			return true;
+		}
+		return false;
+	}
 } /* end class ActionGotoDiagram */
-

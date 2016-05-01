@@ -57,49 +57,47 @@ import org.argouml.uml.cognitive.critics.InitCognitiveCritics;
  * StartCritics is a thread which helps to start the critiquing thread.
  */
 public class StartCritics implements Runnable {
-    /**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(StartCritics.class.getName());
+	/**
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(StartCritics.class.getName());
 
-    /*
-     * @see java.lang.Runnable#run()
-     */
-    public void run() {
-        Designer dsgr = Designer.theDesigner();
-        SubsystemUtility.initSubsystem(new InitCognitiveCritics());
-        SubsystemUtility.initSubsystem(new InitPatternCritics());
-        org.argouml.uml.cognitive.checklist.Init.init();
-        // set the icon for this poster
-        dsgr.setClarifier(ResourceLoaderWrapper.lookupIconResource("PostItD0"));
-        dsgr.setDesignerName(Configuration.getString(Argo.KEY_USER_FULLNAME));
-        Configuration.addListener(Argo.KEY_USER_FULLNAME, dsgr); //MVW
-        Project p = ProjectManager.getManager().getCurrentProject();
-        dsgr.spawnCritiquer(p);
-        dsgr.setChildGenerator(new ChildGenUML());
-        for (Object model : p.getUserDefinedModelList()) {
-            Model.getPump().addModelEventListener(dsgr, model);
-        }
-        LOG.log(Level.INFO, "spawned critiquing thread");
-        dsgr.getDecisionModel().startConsidering(UMLDecision.CLASS_SELECTION);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.BEHAVIOR);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.NAMING);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.STORAGE);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.INHERITANCE);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.CONTAINMENT);
-        dsgr.getDecisionModel()
-                .startConsidering(UMLDecision.PLANNED_EXTENSIONS);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.STATE_MACHINES);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.PATTERNS);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.RELATIONSHIPS);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.INSTANCIATION);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.MODULARITY);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.EXPECTED_USAGE);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.METHODS);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.CODE_GEN);
-        dsgr.getDecisionModel().startConsidering(UMLDecision.STEREOTYPES);
-        Designer.setUserWorking(true);
-    }
+	/*
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
+		Designer dsgr = Designer.theDesigner();
+		SubsystemUtility.initSubsystem(new InitCognitiveCritics());
+		SubsystemUtility.initSubsystem(new InitPatternCritics());
+		org.argouml.uml.cognitive.checklist.Init.init();
+		// set the icon for this poster
+		dsgr.setClarifier(ResourceLoaderWrapper.lookupIconResource("PostItD0"));
+		dsgr.setDesignerName(Configuration.getString(Argo.KEY_USER_FULLNAME));
+		Configuration.addListener(Argo.KEY_USER_FULLNAME, dsgr); // MVW
+		Project p = ProjectManager.getManager().getCurrentProject();
+		dsgr.spawnCritiquer(p);
+		dsgr.setChildGenerator(new ChildGenUML());
+		for (Object model : p.getUserDefinedModelList()) {
+			Model.getPump().addModelEventListener(dsgr, model);
+		}
+		LOG.log(Level.INFO, "spawned critiquing thread");
+		dsgr.getDecisionModel().startConsidering(UMLDecision.CLASS_SELECTION);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.BEHAVIOR);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.NAMING);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.STORAGE);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.INHERITANCE);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.CONTAINMENT);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.PLANNED_EXTENSIONS);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.STATE_MACHINES);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.PATTERNS);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.RELATIONSHIPS);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.INSTANCIATION);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.MODULARITY);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.EXPECTED_USAGE);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.METHODS);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.CODE_GEN);
+		dsgr.getDecisionModel().startConsidering(UMLDecision.STEREOTYPES);
+		Designer.setUserWorking(true);
+	}
 
 } /* end class StartCritics */

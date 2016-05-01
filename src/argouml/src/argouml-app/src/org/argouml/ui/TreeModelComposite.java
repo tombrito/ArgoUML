@@ -45,107 +45,109 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
 /**
- * This class is the TreeModel for the navigator and todo list panels.<p>
+ * This class is the TreeModel for the navigator and todo list panels.
+ * <p>
  *
- * It is called <strong>Composite</strong> because there are a set of rules
- * that determine how to link parents to children in the tree. Those
- * rules can now be found in PerspectiveSupport.<p>
+ * It is called <strong>Composite</strong> because there are a set of rules that
+ * determine how to link parents to children in the tree. Those rules can now be
+ * found in PerspectiveSupport.
+ * <p>
  */
 public class TreeModelComposite extends TreeModelSupport implements TreeModel {
 
-    private static final Logger LOG =
-        Logger.getLogger(TreeModelComposite.class.getName());
+	private static final Logger LOG = Logger.getLogger(TreeModelComposite.class.getName());
 
-    /** The root of the model. */
-    private Object root;
+	/** The root of the model. */
+	private Object root;
 
-    /**
-     * The constructor.
-     *
-     * @param name the name that will be localized
-     */
-    public TreeModelComposite(String name) {
-        super(name);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param name
+	 *            the name that will be localized
+	 */
+	public TreeModelComposite(String name) {
+		super(name);
+	}
 
+	/*
+	 * @see javax.swing.tree.TreeModel#getRoot()
+	 */
+	public Object getRoot() {
+		return root;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#getRoot()
-     */
-    public Object getRoot() {
-        return root;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
+	 */
+	public Object getChild(Object parent, int index) {
+		for (TreeModel tm : getGoRuleList()) {
+			int childCount = tm.getChildCount(parent);
+			if (index < childCount) {
+				return tm.getChild(parent, index);
+			}
+			index -= childCount;
+		}
+		return null;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChild(java.lang.Object, int)
-     */
-    public Object getChild(Object parent, int index) {
-        for (TreeModel tm : getGoRuleList()) {
-            int childCount = tm.getChildCount(parent);
-            if (index < childCount) {
-                return tm.getChild(parent, index);
-            }
-            index -= childCount;
-        }
-        return null;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
+	 */
+	public int getChildCount(Object parent) {
+		int childCount = 0;
+		for (TreeModel tm : getGoRuleList()) {
+			childCount += tm.getChildCount(parent);
+		}
+		return childCount;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#getChildCount(java.lang.Object)
-     */
-    public int getChildCount(Object parent) {
-        int childCount = 0;
-        for (TreeModel tm : getGoRuleList()) {
-            childCount += tm.getChildCount(parent);
-        }
-        return childCount;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
+	 * java.lang.Object)
+	 */
+	public int getIndexOfChild(Object parent, Object child) {
+		int childCount = 0;
+		for (TreeModel tm : getGoRuleList()) {
+			int childIndex = tm.getIndexOfChild(parent, child);
+			if (childIndex != -1) {
+				return childIndex + childCount;
+			}
+			childCount += tm.getChildCount(parent);
+		}
+		LOG.log(Level.FINE, "child not found!");
 
-    /*
-     * @see javax.swing.tree.TreeModel#getIndexOfChild(java.lang.Object,
-     * java.lang.Object)
-     */
-    public int getIndexOfChild(Object parent, Object child) {
-        int childCount = 0;
-        for (TreeModel tm : getGoRuleList()) {
-            int childIndex = tm.getIndexOfChild(parent, child);
-            if (childIndex != -1) {
-                return childIndex + childCount;
-            }
-            childCount += tm.getChildCount(parent);
-        }
-        LOG.log(Level.FINE, "child not found!");
+		// The child is sometimes not found when the tree is being updated
+		return -1;
+	}
 
-        //The child is sometimes not found when the tree is being updated
-        return -1;
-    }
+	/*
+	 * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
+	 */
+	public boolean isLeaf(Object node) {
+		for (TreeModel tm : getGoRuleList()) {
+			if (!tm.isLeaf(node)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    /*
-     * @see javax.swing.tree.TreeModel#isLeaf(java.lang.Object)
-     */
-    public boolean isLeaf(Object node) {
-        for (TreeModel tm : getGoRuleList()) {
-            if (!tm.isLeaf(node)) {
-                return false;
-            }
-        }
-        return true;
-    }
+	/*
+	 * @see
+	 * javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath,
+	 * java.lang.Object)
+	 */
+	public void valueForPathChanged(TreePath path, Object newValue) {
+		// Empty implementation - not used.
+	}
 
-
-    /*
-     * @see javax.swing.tree.TreeModel#valueForPathChanged(javax.swing.tree.TreePath, java.lang.Object)
-     */
-    public void valueForPathChanged(TreePath path, Object newValue) {
-        //  Empty implementation - not used.
-    }
-
-
-    /**
-     * @param r the root of the model
-     */
-    public void setRoot(Object r) {
-        root = r;
-    }
+	/**
+	 * @param r
+	 *            the root of the model
+	 */
+	public void setRoot(Object r) {
+		root = r;
+	}
 
 }

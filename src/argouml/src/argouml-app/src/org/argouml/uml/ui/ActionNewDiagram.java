@@ -57,7 +57,8 @@ import org.argouml.uml.diagram.ArgoDiagram;
 import org.argouml.uml.diagram.DiagramSettings;
 
 /**
- * Abstract action to trigger creation of a new diagram. <p>
+ * Abstract action to trigger creation of a new diagram.
+ * <p>
  *
  * ArgoUML shall never create a diagram for a read-only modelelement.
  * <p>
@@ -67,145 +68,138 @@ import org.argouml.uml.diagram.DiagramSettings;
  */
 public abstract class ActionNewDiagram extends UndoableAction {
 
-    private static final long serialVersionUID = 3882944191886509131L;
-	private static final Logger LOG =
-        Logger.getLogger(ActionNewDiagram.class.getName());
+	private static final long serialVersionUID = 3882944191886509131L;
+	private static final Logger LOG = Logger.getLogger(ActionNewDiagram.class.getName());
 
-    /**
-     * The constructor.
-     * @param name the i18n key for this action name.
-     */
-    protected ActionNewDiagram(String name) {
-        super(Translator.localize(name),
-                ResourceLoaderWrapper.lookupIcon(name));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize(name));
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param name
+	 *            the i18n key for this action name.
+	 */
+	protected ActionNewDiagram(String name) {
+		super(Translator.localize(name), ResourceLoaderWrapper.lookupIcon(name));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize(name));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(
-     *      java.awt.event.ActionEvent)
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(
+	 * java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
 
-        // TODO: Get Project or other necessary context from source??
-        // e.getSource();
+		// TODO: Get Project or other necessary context from source??
+		// e.getSource();
 
-        // TODO: Since there may be multiple top level elements in
-        // a project, this should be using the default Namespace (currently
-        // undefined) or something similar
-        Project p = ProjectManager.getManager().getCurrentProject();
-        Object ns = findNamespace();
+		// TODO: Since there may be multiple top level elements in
+		// a project, this should be using the default Namespace (currently
+		// undefined) or something similar
+		Project p = ProjectManager.getManager().getCurrentProject();
+		Object ns = findNamespace();
 
-        if (ns != null && isValidNamespace(ns)) {
-            super.actionPerformed(e);
-            DiagramSettings settings =
-                p.getProjectSettings().getDefaultDiagramSettings();
-            ArgoDiagram diagram = createDiagram(ns, settings);
-            assert (diagram != null)
-            : "No diagram was returned by the concrete class";
+		if (ns != null && isValidNamespace(ns)) {
+			super.actionPerformed(e);
+			DiagramSettings settings = p.getProjectSettings().getDefaultDiagramSettings();
+			ArgoDiagram diagram = createDiagram(ns, settings);
+			assert (diagram != null) : "No diagram was returned by the concrete class";
 
-            p.addMember(diagram);
-            //TODO: make the explorer listen to project member property
-            //changes...  to eliminate coupling on gui.
-            ExplorerEventAdaptor.getInstance().modelElementAdded(
-                    diagram.getNamespace());
-            TargetManager.getInstance().setTarget(diagram);
-        } else {
-            LOG.log(Level.SEVERE, "No valid namespace found");
-            throw new IllegalStateException("No valid namespace found");
-        }
-    }
+			p.addMember(diagram);
+			// TODO: make the explorer listen to project member property
+			// changes... to eliminate coupling on gui.
+			ExplorerEventAdaptor.getInstance().modelElementAdded(diagram.getNamespace());
+			TargetManager.getInstance().setTarget(diagram);
+		} else {
+			LOG.log(Level.SEVERE, "No valid namespace found");
+			throw new IllegalStateException("No valid namespace found");
+		}
+	}
 
-    /**
-     * Find an alternative namespace for the diagram, only to be used
-     * if the target is not suitable.
-     *
-     * @return the namespace or null
-     */
-    protected Object findNamespace() {
-        Project p = ProjectManager.getManager().getCurrentProject();
-        return p.getRoot();
-    }
+	/**
+	 * Find an alternative namespace for the diagram, only to be used if the
+	 * target is not suitable.
+	 *
+	 * @return the namespace or null
+	 */
+	protected Object findNamespace() {
+		Project p = ProjectManager.getManager().getCurrentProject();
+		return p.getRoot();
+	}
 
-    /**
-     * @param namespace the namespace in which to create the diagram
-     * @return the new diagram
-     * @deprecated for 0.29.1 by tfmorris. Use
-     *             {@link #createDiagram(Object, DiagramSettings)}/
-     */
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    protected ArgoDiagram createDiagram(Object namespace) {
-        DiagramSettings settings = ProjectManager.getManager()
-                .getCurrentProject().getProjectSettings()
-                .getDefaultDiagramSettings();
+	/**
+	 * @param namespace
+	 *            the namespace in which to create the diagram
+	 * @return the new diagram
+	 * @deprecated for 0.29.1 by tfmorris. Use
+	 *             {@link #createDiagram(Object, DiagramSettings)}/
+	 */
+	@SuppressWarnings("deprecation")
+	@Deprecated
+	protected ArgoDiagram createDiagram(Object namespace) {
+		DiagramSettings settings = ProjectManager.getManager().getCurrentProject().getProjectSettings()
+				.getDefaultDiagramSettings();
 
-        return createDiagram(namespace, settings);
-    }
+		return createDiagram(namespace, settings);
+	}
 
-    /**
-     * @param namespace the namespace in which to create the diagram
-     * @param settings the render settings for the diagram
-     * @return the new diagram
-     */
-    protected abstract ArgoDiagram createDiagram(Object namespace,
-            DiagramSettings settings);
+	/**
+	 * @param namespace
+	 *            the namespace in which to create the diagram
+	 * @param settings
+	 *            the render settings for the diagram
+	 * @return the new diagram
+	 */
+	protected abstract ArgoDiagram createDiagram(Object namespace, DiagramSettings settings);
 
-    /**
-     * Test if the given namespace is a valid namespace to add the diagram to.
-     * TODO: This method was created to facilitate the merge
-     * of this class with ActionAddDiagram.
-     *
-     * @param ns the namespace to check
-     * @return Returns <code>true</code> if valid.
-     */
-    public boolean isValidNamespace(Object ns) {
-        return true;
-    }
+	/**
+	 * Test if the given namespace is a valid namespace to add the diagram to.
+	 * TODO: This method was created to facilitate the merge of this class with
+	 * ActionAddDiagram.
+	 *
+	 * @param ns
+	 *            the namespace to check
+	 * @return Returns <code>true</code> if valid.
+	 */
+	public boolean isValidNamespace(Object ns) {
+		return true;
+	}
 
-    /**
-     * Utility function to create a collaboration.
-     *
-     * @return a new collaboration
-     * @param namespace the back-up namespace to put the collaboration in
-     */
-    protected static Object createCollaboration(Object namespace) {
-        Object target = TargetManager.getInstance().getModelTarget();
-        if (Model.getFacade().isAUMLElement(target)
-                && Model.getModelManagementHelper().isReadOnly(target)) {
-            target = namespace;
-        }
-        Object collaboration = null;
-        if (Model.getFacade().isAOperation(target)) {
-            Object ns = Model.getFacade().getNamespace(
-                    Model.getFacade().getOwner(target));
-            collaboration =
-                Model.getCollaborationsFactory().buildCollaboration(ns, target);
-        } else if (Model.getFacade().isAClassifier(target)) {
-            Object ns = Model.getFacade().getNamespace(target);
-            collaboration =
-                Model.getCollaborationsFactory().buildCollaboration(ns, target);
-        } else {
-            collaboration =
-                Model.getCollaborationsFactory().createCollaboration();
-            if (Model.getFacade().isANamespace(target)) {
-                /* TODO: Not all namespaces are useful here - any WFRs? */
-                namespace = target;
-            } else {
-                if (Model.getFacade().isAModelElement(target)) {
-                    Object ns = Model.getFacade().getNamespace(target);
-                    if (Model.getFacade().isANamespace(ns)) {
-                        namespace = ns;
-                    }
-                }
-            }
-            Model.getCoreHelper().setNamespace(collaboration, namespace);
-            Model.getCoreHelper().setName(collaboration,
-                    "unattachedCollaboration");
-        }
-        return collaboration;
-    }
+	/**
+	 * Utility function to create a collaboration.
+	 *
+	 * @return a new collaboration
+	 * @param namespace
+	 *            the back-up namespace to put the collaboration in
+	 */
+	protected static Object createCollaboration(Object namespace) {
+		Object target = TargetManager.getInstance().getModelTarget();
+		if (Model.getFacade().isAUMLElement(target) && Model.getModelManagementHelper().isReadOnly(target)) {
+			target = namespace;
+		}
+		Object collaboration = null;
+		if (Model.getFacade().isAOperation(target)) {
+			Object ns = Model.getFacade().getNamespace(Model.getFacade().getOwner(target));
+			collaboration = Model.getCollaborationsFactory().buildCollaboration(ns, target);
+		} else if (Model.getFacade().isAClassifier(target)) {
+			Object ns = Model.getFacade().getNamespace(target);
+			collaboration = Model.getCollaborationsFactory().buildCollaboration(ns, target);
+		} else {
+			collaboration = Model.getCollaborationsFactory().createCollaboration();
+			if (Model.getFacade().isANamespace(target)) {
+				/* TODO: Not all namespaces are useful here - any WFRs? */
+				namespace = target;
+			} else {
+				if (Model.getFacade().isAModelElement(target)) {
+					Object ns = Model.getFacade().getNamespace(target);
+					if (Model.getFacade().isANamespace(ns)) {
+						namespace = ns;
+					}
+				}
+			}
+			Model.getCoreHelper().setNamespace(collaboration, namespace);
+			Model.getCoreHelper().setName(collaboration, "unattachedCollaboration");
+		}
+		return collaboration;
+	}
 }

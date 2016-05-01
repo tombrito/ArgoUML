@@ -55,34 +55,31 @@ import org.argouml.util.ArgoDialog;
  */
 public class ActionSettings extends AbstractAction {
 
-    /**
-     * The settings dialog.
-     */
-    private ArgoDialog dialog;
+	/**
+	 * The settings dialog.
+	 */
+	private ArgoDialog dialog;
 
-    /**
-     * Constructor.
-     */
-    public ActionSettings() {
-        super(Translator.localize("action.settings"),
-                ResourceLoaderWrapper.lookupIcon("action.settings"));
-    }
+	/**
+	 * Constructor.
+	 */
+	public ActionSettings() {
+		super(Translator.localize("action.settings"), ResourceLoaderWrapper.lookupIcon("action.settings"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(
-     *         java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent event) {
-        if (dialog == null) {
-            dialog = new SettingsDialog();
-        }
-        dialog.setVisible(true);
-    }
+	/*
+	 * @see java.awt.event.ActionListener#actionPerformed(
+	 * java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent event) {
+		if (dialog == null) {
+			dialog = new SettingsDialog();
+		}
+		dialog.setVisible(true);
+	}
 
-
-    /**
-     * The serial version.
-     */
-    private static final long serialVersionUID = -3646595772633674514L;
+	/**
+	 * The serial version.
+	 */
+	private static final long serialVersionUID = -3646595772633674514L;
 }
-

@@ -52,66 +52,64 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * PerspectiveRule to navigate from statemachine to the subvertices of
- * its top state (1 level deep only).
+ * PerspectiveRule to navigate from statemachine to the subvertices of its top
+ * state (1 level deep only).
  *
  * @author jaap.branderhorst@xs4all.nl
  */
 public class GoStateMachineToState extends AbstractPerspectiveRule {
 
-    private static final Logger LOG =
-        Logger.getLogger(GoStateMachineToState.class.getName());
+	private static final Logger LOG = Logger.getLogger(GoStateMachineToState.class.getName());
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.state-machine.state");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
-     *         java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-
-        if (Model.getFacade().isAStateMachine(parent)) {
-            if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
-                if (Model.getFacade().getTop(parent) != null) {
-                    return Model.getFacade().getSubvertices(
-                            Model.getFacade().getTop(parent));
-                }
-            } else {
-                // TODO: UML2 - what do we do here?
-                return Collections.EMPTY_SET;
-            }
-        }
-        return Collections.EMPTY_SET;
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
-     *         java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAStateMachine(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    try {
-	        if (Model.getFacade().getTop(parent) != null) {
-	            set.add(Model.getFacade().getTop(parent));
-	        }
-	    } catch (RuntimeException e) {
-	        if (Model.getFacade().getUmlVersion().startsWith("2")) {
-                    // TODO: Ignore and report exception until getTop
-	            // implemented.
-                    LOG.log(Level.SEVERE, "Explorer caught exception ", e);
-	        } else {
-                    throw e;
-	        }
-	    }
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.state-machine.state");
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
+	 * java.lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+
+		if (Model.getFacade().isAStateMachine(parent)) {
+			if (Model.getFacade().getUmlVersion().charAt(0) == '1') {
+				if (Model.getFacade().getTop(parent) != null) {
+					return Model.getFacade().getSubvertices(Model.getFacade().getTop(parent));
+				}
+			} else {
+				// TODO: UML2 - what do we do here?
+				return Collections.EMPTY_SET;
+			}
+		}
+		return Collections.EMPTY_SET;
+	}
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
+	 * java.lang.Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAStateMachine(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			try {
+				if (Model.getFacade().getTop(parent) != null) {
+					set.add(Model.getFacade().getTop(parent));
+				}
+			} catch (RuntimeException e) {
+				if (Model.getFacade().getUmlVersion().startsWith("2")) {
+					// TODO: Ignore and report exception until getTop
+					// implemented.
+					LOG.log(Level.SEVERE, "Explorer caught exception ", e);
+				} else {
+					throw e;
+				}
+			}
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

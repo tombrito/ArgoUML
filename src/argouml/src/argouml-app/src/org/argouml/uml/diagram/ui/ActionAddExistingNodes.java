@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.diagram.ui;
 
 import java.awt.event.ActionEvent;
@@ -52,65 +51,63 @@ import org.tigris.gef.graph.GraphModel;
 import org.tigris.gef.graph.MutableGraphModel;
 
 /**
-* ActionAddExistingNodes enables pasting of existing nodes into a Diagram.
-*
-* @author Thomas Neustupny
-*/
+ * ActionAddExistingNodes enables pasting of existing nodes into a Diagram.
+ *
+ * @author Thomas Neustupny
+ */
 public class ActionAddExistingNodes extends UndoableAction {
 
-    private static final long serialVersionUID = -7734592197971929118L;
+	private static final long serialVersionUID = -7734592197971929118L;
 	/**
-     * The UML objects to be added to the diagram.
-     */
-    private Collection objects;
+	 * The UML objects to be added to the diagram.
+	 */
+	private Collection objects;
 
-    /**
-     * The Constructor.
-     *
-     * @param name the localized name of the action
-     * @param coll the UML objects to be added
-     */
-    public ActionAddExistingNodes(String name, Collection coll) {
-        super(name);
-        objects = coll;
-    }
+	/**
+	 * The Constructor.
+	 *
+	 * @param name
+	 *            the localized name of the action
+	 * @param coll
+	 *            the UML objects to be added
+	 */
+	public ActionAddExistingNodes(String name, Collection coll) {
+		super(name);
+		objects = coll;
+	}
 
-    /*
-     * @see javax.swing.Action#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-        ArgoDiagram dia = DiagramUtils.getActiveDiagram();
-        if (dia == null) {
-            return false;
-        }
-        MutableGraphModel gm = (MutableGraphModel) dia.getGraphModel();
-        for (Object o : objects) {
-            if (gm.canAddNode(o)) {
-                return true;
-            }
-        }
-        return false;
-    }
+	/*
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		ArgoDiagram dia = DiagramUtils.getActiveDiagram();
+		if (dia == null) {
+			return false;
+		}
+		MutableGraphModel gm = (MutableGraphModel) dia.getGraphModel();
+		for (Object o : objects) {
+			if (gm.canAddNode(o)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent ae) {
-        super.actionPerformed(ae);
-        Editor ce = Globals.curEditor();
-        GraphModel gm = ce.getGraphModel();
-        if (!(gm instanceof MutableGraphModel)) {
-            return;
-        }
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
+		Editor ce = Globals.curEditor();
+		GraphModel gm = ce.getGraphModel();
+		if (!(gm instanceof MutableGraphModel)) {
+			return;
+		}
 
-        String instructions =
-            Translator.localize(
-                "misc.message.click-on-diagram-to-add");
-        Globals.showStatus(instructions);
-        
-        final ModeAddToDiagram placeMode = new ModeAddToDiagram(
-                objects,
-                instructions);
+		String instructions = Translator.localize("misc.message.click-on-diagram-to-add");
+		Globals.showStatus(instructions);
 
-        Globals.mode(placeMode, false);
-    }
+		final ModeAddToDiagram placeMode = new ModeAddToDiagram(objects, instructions);
+
+		Globals.mode(placeMode, false);
+	}
 }

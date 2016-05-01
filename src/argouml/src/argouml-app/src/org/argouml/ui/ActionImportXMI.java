@@ -57,88 +57,80 @@ import org.argouml.persistence.ProjectFileView;
  * This Action allows import of a XMI file.
  *
  * @author mvw@tigris.org
-  */
+ */
 public class ActionImportXMI extends AbstractAction {
 
-    /**
-     * The constructor.
-     */
-    public ActionImportXMI() {
-        super(Translator.localize("action.import-xmi"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionImportXMI() {
+		super(Translator.localize("action.import-xmi"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        // Most of this code originates from ActionOpenProject.
-        ProjectBrowser pb = ProjectBrowser.getInstance();
-        Project p = ProjectManager.getManager().getCurrentProject();
-        PersistenceManager pm = PersistenceManager.getInstance();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		// Most of this code originates from ActionOpenProject.
+		ProjectBrowser pb = ProjectBrowser.getInstance();
+		Project p = ProjectManager.getManager().getCurrentProject();
+		PersistenceManager pm = PersistenceManager.getInstance();
 
-        if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
-            return;
-        }
+		if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
+			return;
+		}
 
-        JFileChooser chooser = null;
-        if (p != null && p.getURI() != null) {
-            File file = new File(p.getURI());
-            if (file.getParentFile() != null) {
-                chooser = new JFileChooser(file.getParent());
-            }
-        } else {
-            chooser = new JFileChooser();
-        }
+		JFileChooser chooser = null;
+		if (p != null && p.getURI() != null) {
+			File file = new File(p.getURI());
+			if (file.getParentFile() != null) {
+				chooser = new JFileChooser(file.getParent());
+			}
+		} else {
+			chooser = new JFileChooser();
+		}
 
-        if (chooser == null) {
-            chooser = new JFileChooser();
-        }
+		if (chooser == null) {
+			chooser = new JFileChooser();
+		}
 
-        chooser.setDialogTitle(
-                Translator.localize("filechooser.import-xmi"));
+		chooser.setDialogTitle(Translator.localize("filechooser.import-xmi"));
 
-        chooser.setFileView(ProjectFileView.getInstance());
+		chooser.setFileView(ProjectFileView.getInstance());
 
-        chooser.setAcceptAllFileFilterUsed(true);
+		chooser.setAcceptAllFileFilterUsed(true);
 
-        pm.setXmiFileChooserFilter(chooser);
+		pm.setXmiFileChooserFilter(chooser);
 
-        String fn =
-            Configuration.getString(
-                PersistenceManager.KEY_IMPORT_XMI_PATH);
-        if (fn.length() > 0) {
-            chooser.setSelectedFile(new File(fn));
-        }
+		String fn = Configuration.getString(PersistenceManager.KEY_IMPORT_XMI_PATH);
+		if (fn.length() > 0) {
+			chooser.setSelectedFile(new File(fn));
+		}
 
-        int retval = chooser.showOpenDialog(pb);
-        if (retval == JFileChooser.APPROVE_OPTION) {
-            File theFile = chooser.getSelectedFile();
+		int retval = chooser.showOpenDialog(pb);
+		if (retval == JFileChooser.APPROVE_OPTION) {
+			File theFile = chooser.getSelectedFile();
 
-            if (!theFile.canRead()) {
-                /* Try adding the extension from the chosen filter. */
-                FileFilter ffilter = chooser.getFileFilter();
-                if (ffilter instanceof AbstractFilePersister) {
-                    AbstractFilePersister afp =
-                        (AbstractFilePersister) ffilter;
-                    File m =
-                        new File(theFile.getPath() + "."
-                                + afp.getExtension());
-                    if (m.canRead()) {
-                        theFile = m;
-                    }
-                }
-            }
-            Configuration.setString(
-                    PersistenceManager.KEY_IMPORT_XMI_PATH,
-                    theFile.getPath());
+			if (!theFile.canRead()) {
+				/* Try adding the extension from the chosen filter. */
+				FileFilter ffilter = chooser.getFileFilter();
+				if (ffilter instanceof AbstractFilePersister) {
+					AbstractFilePersister afp = (AbstractFilePersister) ffilter;
+					File m = new File(theFile.getPath() + "." + afp.getExtension());
+					if (m.canRead()) {
+						theFile = m;
+					}
+				}
+			}
+			Configuration.setString(PersistenceManager.KEY_IMPORT_XMI_PATH, theFile.getPath());
 
-            ProjectBrowser.getInstance().loadProjectWithProgressMonitor(
-                    theFile, true);
-        }
-    }
+			ProjectBrowser.getInstance().loadProjectWithProgressMonitor(theFile, true);
+		}
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -8756142027376622496L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -8756142027376622496L;
 }

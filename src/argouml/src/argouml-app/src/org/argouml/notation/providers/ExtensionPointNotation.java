@@ -42,24 +42,24 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the extension point compartment of a 
- * UseCase. Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the extension point compartment of a UseCase. Subclass this for all
+ * languages.
  * 
  * @author michiel
  */
 public abstract class ExtensionPointNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param ep the represented extensionpoint
-     */
-    public ExtensionPointNotation(Object ep) {
-        if (!Model.getFacade().isAExtensionPoint(ep)) {
-            throw new IllegalArgumentException(
-                    "This is not an ExtensionPoint.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param ep
+	 *            the represented extensionpoint
+	 */
+	public ExtensionPointNotation(Object ep) {
+		if (!Model.getFacade().isAExtensionPoint(ep)) {
+			throw new IllegalArgumentException("This is not an ExtensionPoint.");
+		}
+	}
 
 }

@@ -41,50 +41,54 @@ package org.argouml.application.events;
 import org.argouml.application.api.ArgoEventListener;
 
 /**
- * An interface that objects that are interested in StatusEvents 
- * must extend.
+ * An interface that objects that are interested in StatusEvents must extend.
  *
  * @author Tom Morris <tfmorris@gmail.com>
  */
 public interface ArgoStatusEventListener extends ArgoEventListener {
 
-    /**
-     * Invoked when there is a new status text to be shown, 
-     * that should replace any previous one.
-     * 
-     * @param e <code>ArgoStatusEvent</code> describing the changed text
-     */
-    public void statusText(ArgoStatusEvent e);
-    
-    /**
-     * Invoked when a previously shown status text has to be removed.
-     * 
-     * @param e <code>ArgoStatusEvent</code> describing the removed event
-     */
-    public void statusCleared(ArgoStatusEvent e);
-    
-    /**
-     * A project has been saved.
-     * 
-     * @param e <code>ArgoStatusEvent</code> with the name of the project that
-     *            was saved.
-     */
-    public void projectSaved(ArgoStatusEvent e);
-    
-    /**
-     * A project has been loaded.
-     * 
-     * @param e <code>ArgoStatusEvent</code> with the name of the project that
-     *            was loaded.
-     */
-    public void projectLoaded(ArgoStatusEvent e);
-    
-    /**
-     * A project has been modified.
-     * 
-     * @param e <code>ArgoStatusEvent</code> with the name of the project that
-     *            was modified (ignored for current ArgoUML implementation where
-     *            there is only a single project open at a time).
-     */
-    public void projectModified(ArgoStatusEvent e);
+	/**
+	 * Invoked when there is a new status text to be shown, that should replace
+	 * any previous one.
+	 * 
+	 * @param e
+	 *            <code>ArgoStatusEvent</code> describing the changed text
+	 */
+	public void statusText(ArgoStatusEvent e);
+
+	/**
+	 * Invoked when a previously shown status text has to be removed.
+	 * 
+	 * @param e
+	 *            <code>ArgoStatusEvent</code> describing the removed event
+	 */
+	public void statusCleared(ArgoStatusEvent e);
+
+	/**
+	 * A project has been saved.
+	 * 
+	 * @param e
+	 *            <code>ArgoStatusEvent</code> with the name of the project that
+	 *            was saved.
+	 */
+	public void projectSaved(ArgoStatusEvent e);
+
+	/**
+	 * A project has been loaded.
+	 * 
+	 * @param e
+	 *            <code>ArgoStatusEvent</code> with the name of the project that
+	 *            was loaded.
+	 */
+	public void projectLoaded(ArgoStatusEvent e);
+
+	/**
+	 * A project has been modified.
+	 * 
+	 * @param e
+	 *            <code>ArgoStatusEvent</code> with the name of the project that
+	 *            was modified (ignored for current ArgoUML implementation where
+	 *            there is only a single project open at a time).
+	 */
+	public void projectModified(ArgoStatusEvent e);
 }

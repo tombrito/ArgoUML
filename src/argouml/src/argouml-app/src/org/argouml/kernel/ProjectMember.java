@@ -39,49 +39,49 @@
 package org.argouml.kernel;
 
 /**
- * A member of the project is a part of the datastructure that
- * makes up the project. A saved project data file contains all members.<p>
+ * A member of the project is a part of the datastructure that makes up the
+ * project. A saved project data file contains all members.
+ * <p>
  *
  * Examples: The UML model, the ToDo list.
  *
  */
 public interface ProjectMember {
 
-    /**
-     * In contrast to {@link #getZipName()} returns the member's
-     * name without the prepended name of the project.
-     *
-     * @author Steffen Zschaler
-     *
-     * @return the member's name without any prefix or suffix
-     */
-    String getUniqueDiagramName();
+	/**
+	 * In contrast to {@link #getZipName()} returns the member's name without
+	 * the prepended name of the project.
+	 *
+	 * @author Steffen Zschaler
+	 *
+	 * @return the member's name without any prefix or suffix
+	 */
+	String getUniqueDiagramName();
 
-    /**
-     * Returns a unique member's name for storage in a zipfile.
-     * The project's base name is prepended followed by an
-     * underscore '_'.
-     *
-     * @return the name for zip file storage
-     */
-    String getZipName();
+	/**
+	 * Returns a unique member's name for storage in a zipfile. The project's
+	 * base name is prepended followed by an underscore '_'.
+	 *
+	 * @return the name for zip file storage
+	 */
+	String getZipName();
 
-    /**
-     * @return a short string defining the member type.
-     * Usually equals the file extension.
-     */
-    String getType();
+	/**
+	 * @return a short string defining the member type. Usually equals the file
+	 *         extension.
+	 */
+	String getType();
 
-    /**
-     * @return the file extension string
-     */
-    String getZipFileExtension();
-    
-    /**
-     * Repair any corruptions in the project member. Executed before a save in
-     * order to ensure persistence is robust.
-     *
-     * @return A text that explains what is repaired.
-     */
-    String repair();
+	/**
+	 * @return the file extension string
+	 */
+	String getZipFileExtension();
+
+	/**
+	 * Repair any corruptions in the project member. Executed before a save in
+	 * order to ensure persistence is robust.
+	 *
+	 * @return A text that explains what is repaired.
+	 */
+	String repair();
 }

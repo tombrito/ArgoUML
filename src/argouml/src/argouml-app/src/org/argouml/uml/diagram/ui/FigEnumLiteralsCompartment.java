@@ -48,68 +48,72 @@ import org.argouml.uml.diagram.DiagramSettings;
 import org.argouml.uml.diagram.static_structure.ui.FigEnumerationLiteral;
 
 /**
- * The Fig for the compartment of an Enumeration 
- * that shows a list of enumeration literals.
+ * The Fig for the compartment of an Enumeration that shows a list of
+ * enumeration literals.
  * 
  * @author Tom Morris
  */
 public class FigEnumLiteralsCompartment extends FigCompartment {
 
-    private static final long serialVersionUID = 2836976843592319318L;
+	private static final long serialVersionUID = 2836976843592319318L;
 
 	/**
-     * Constructor.
-     * 
-     * @param owner owning UML element
-     * @param bounds bounding rectangle
-     * @param settings render settings
-     */
-    public FigEnumLiteralsCompartment(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        super.populate();
-        
-        // TODO: We don't really want this to be filled, but if it's not then
-        // the user can't double click in the compartment to add a new literal
-        // Apparently GEF thinks unfilled figs are only selectable by border
-//        setFilled(false);
-    }
-    
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getUmlCollection()
-     */
-    protected Collection getUmlCollection() {
-        return Model.getFacade().getEnumerationLiterals(getOwner());
-    }
+	 * Constructor.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            bounding rectangle
+	 * @param settings
+	 *            render settings
+	 */
+	public FigEnumLiteralsCompartment(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		super.populate();
 
-    /*
-     * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getNotationType()
-     */
-    protected int getNotationType() {
-        /* The EnumerationLiteral uses a dedicated notation that supports 
-         * parsing "name1;name2;name3" and stereotypes. 
-         * Also supports deleting a literal by erasing text. */
-        return NotationProviderFactory2.TYPE_ENUMERATION_LITERAL;
-    }
+		// TODO: We don't really want this to be filled, but if it's not then
+		// the user can't double click in the compartment to add a new literal
+		// Apparently GEF thinks unfilled figs are only selectable by border
+		// setFilled(false);
+	}
 
-    @Override
-    protected FigSingleLineTextWithNotation createFigText(Object owner,
-            Rectangle bounds, DiagramSettings settings) {
-        return new FigEnumerationLiteral(owner, bounds, settings);
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getUmlCollection()
+	 */
+	protected Collection getUmlCollection() {
+		return Model.getFacade().getEnumerationLiterals(getOwner());
+	}
 
-    @Override
-    public String getName() {
-        /* TODO: The UML does not seem to define this name. Or is it? */
-        return "enumeration literals";
-    }
-    
-    /**
-     * Returns the meta type for Enumeration-Literal to indicate the type of
-     * model element within this compartment.
-     * @return a model element type
-     */
-    public Object getCompartmentType() {
-        return Model.getMetaTypes().getEnumerationLiteral();
-    }
+	/*
+	 * @see org.argouml.uml.diagram.ui.FigEditableCompartment#getNotationType()
+	 */
+	protected int getNotationType() {
+		/*
+		 * The EnumerationLiteral uses a dedicated notation that supports
+		 * parsing "name1;name2;name3" and stereotypes. Also supports deleting a
+		 * literal by erasing text.
+		 */
+		return NotationProviderFactory2.TYPE_ENUMERATION_LITERAL;
+	}
+
+	@Override
+	protected FigSingleLineTextWithNotation createFigText(Object owner, Rectangle bounds, DiagramSettings settings) {
+		return new FigEnumerationLiteral(owner, bounds, settings);
+	}
+
+	@Override
+	public String getName() {
+		/* TODO: The UML does not seem to define this name. Or is it? */
+		return "enumeration literals";
+	}
+
+	/**
+	 * Returns the meta type for Enumeration-Literal to indicate the type of
+	 * model element within this compartment.
+	 * 
+	 * @return a model element type
+	 */
+	public Object getCompartmentType() {
+		return Model.getMetaTypes().getEnumerationLiteral();
+	}
 }

@@ -56,109 +56,104 @@ import org.argouml.uml.cognitive.UMLToDoItem;
  * @author jrobbins@ics.uci.edu
  */
 public class CrCircularComposition extends CrUML {
-    private static final long serialVersionUID = -8622440448569183759L;
-	private static final Logger LOG =
-        Logger.getLogger(CrCircularComposition.class.getName());
+	private static final long serialVersionUID = -8622440448569183759L;
+	private static final Logger LOG = Logger.getLogger(CrCircularComposition.class.getName());
 
-    /**
-     * The constructor.
-     */
-    public CrCircularComposition() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.CONTAINMENT);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-	setPriority(ToDoItem.LOW_PRIORITY);
-	// no good trigger
-    }
-
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAClassifier(dm))) {
-            return NO_PROBLEM;
-        }
-	ListSet reach =
-	    (new ListSet(dm)).reachable(GenCompositeClasses2.getInstance());
-	if (reach.contains(dm)) {
-            return PROBLEM_FOUND;
-        }
-	return NO_PROBLEM;
-    }
-
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-
-        ListSet offs = computeOffenders(dm);
-	return new UMLToDoItem(this, offs, dsgr);
-    }
-
-    /**
-     * @param dm is the UML entity that is being checked
-     * @return the list of offenders
-     */
-    protected ListSet computeOffenders(Object dm) {
-	ListSet offs = new ListSet(dm);
-	ListSet above = offs.reachable(GenCompositeClasses2.getInstance());
-        for (Object cls2 : above) {
-	    ListSet trans = (new ListSet(cls2))
-	        .reachable(GenCompositeClasses2.getInstance());
-	    if (trans.contains(dm)) {
-                offs.add(cls2);
-            }
+	/**
+	 * The constructor.
+	 */
+	public CrCircularComposition() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.CONTAINMENT);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		setPriority(ToDoItem.LOW_PRIORITY);
+		// no good trigger
 	}
-	return offs;
-    }
 
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-	if (!isActive()) {
-	    return false;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAClassifier(dm))) {
+			return NO_PROBLEM;
+		}
+		ListSet reach = (new ListSet(dm)).reachable(GenCompositeClasses2.getInstance());
+		if (reach.contains(dm)) {
+			return PROBLEM_FOUND;
+		}
+		return NO_PROBLEM;
 	}
-	ListSet offs = i.getOffenders();
-	Object dm =  offs.get(0);
-	if (!predicate(dm, dsgr)) {
-	    return false;
+
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem(java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+
+		ListSet offs = computeOffenders(dm);
+		return new UMLToDoItem(this, offs, dsgr);
 	}
-	ListSet newOffs = computeOffenders(dm);
-	boolean res = offs.equals(newOffs);
 
-        LOG.log(Level.FINE,
-                "offs={0} newOffs={1} res = {2}",
-                new Object[] {
-                    offs,
-                    newOffs,
-                    res
-                });
-	return res;
-    }
+	/**
+	 * @param dm
+	 *            is the UML entity that is being checked
+	 * @return the list of offenders
+	 */
+	protected ListSet computeOffenders(Object dm) {
+		ListSet offs = new ListSet(dm);
+		ListSet above = offs.reachable(GenCompositeClasses2.getInstance());
+		for (Object cls2 : above) {
+			ListSet trans = (new ListSet(cls2)).reachable(GenCompositeClasses2.getInstance());
+			if (trans.contains(dm)) {
+				offs.add(cls2);
+			}
+		}
+		return offs;
+	}
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive.ToDoItem)
-     */
-    @Override
-    public Class getWizardClass(ToDoItem item) {
-	return WizBreakCircularComp.class;
-    }
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
+		Object dm = offs.get(0);
+		if (!predicate(dm, dsgr)) {
+			return false;
+		}
+		ListSet newOffs = computeOffenders(dm);
+		boolean res = offs.equals(newOffs);
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getUMLClass());
-        return ret;
-    }
+		LOG.log(Level.FINE, "offs={0} newOffs={1} res = {2}", new Object[] { offs, newOffs, res });
+		return res;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.cognitive.critics.Critic#getWizardClass(org.argouml.cognitive
+	 * .ToDoItem)
+	 */
+	@Override
+	public Class getWizardClass(ToDoItem item) {
+		return WizBreakCircularComp.class;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getUMLClass());
+		return ret;
+	}
 
 }

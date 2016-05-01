@@ -42,13 +42,13 @@ package org.argouml.model;
  * The different OrderingKinds.
  */
 public interface OrderingKind {
-    /**
-     * @return Returns the Ordered OrderingKind.
-     */
-    Object getOrdered();
+	/**
+	 * @return Returns the Ordered OrderingKind.
+	 */
+	Object getOrdered();
 
-    /**
-     * @return Returns the Unordered OrderingKind.
-     */
-    Object getUnordered();
+	/**
+	 * @return Returns the Unordered OrderingKind.
+	 */
+	Object getUnordered();
 }

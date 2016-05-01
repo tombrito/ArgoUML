@@ -60,60 +60,57 @@ import org.argouml.ui.targetmanager.TargetManager;
  * @author EnDaRos
  */
 public class ContextActionFactoryManager {
-    private static List<ContextActionFactory> epfactories =
-        new ArrayList<ContextActionFactory>();
+	private static List<ContextActionFactory> epfactories = new ArrayList<ContextActionFactory>();
 
-    /**
-     * @param factory
-     *            add the given factory
-     */
-    public static void addContextPopupFactory(ContextActionFactory factory) {
-	epfactories.add(0, factory);
-    }
-
-    /**
-     * For modules, it would be useful to be able to remove their factories.
-     * <p>
-     * 
-     * TODO: The effect of this method is not yet tested!
-     * 
-     * @param factory
-     *            the factory to remove
-     */
-    public static void removeContextPopupFactory(ContextActionFactory factory) {
-	epfactories.remove(factory);
-    }
-
-    /**
-     * This method is not public since it is meant to be used exclusively by
-     * TabProps.
-     */
-    static Collection<ContextActionFactory> getFactories() {
-        return epfactories;
-    }
-
-    /**
-     * Adds to the default actions the new menus for the registered factories.
-     *
-     * @return all actions found.
-     */
-    public static List<Action> getContextPopupActions() {
-	List<Action> allActionsFound = new ArrayList<Action>();
-	Object element = TargetManager.getInstance().getSingleModelTarget();
-
-	List tmpActionsContainer = null;
-	for (ContextActionFactory factory : ContextActionFactoryManager
-				.getFactories()) {
-	    tmpActionsContainer = factory.createContextPopupActions(element);
-	    if (tmpActionsContainer instanceof ActionList) {
-	        allActionsFound.add((Action) tmpActionsContainer);
-	    } else {
-                if (tmpActionsContainer != null 
-                        && tmpActionsContainer.size() > 0) {
-                    allActionsFound.addAll(tmpActionsContainer);
-                }
-	    }
+	/**
+	 * @param factory
+	 *            add the given factory
+	 */
+	public static void addContextPopupFactory(ContextActionFactory factory) {
+		epfactories.add(0, factory);
 	}
-	return allActionsFound;
-    }
+
+	/**
+	 * For modules, it would be useful to be able to remove their factories.
+	 * <p>
+	 * 
+	 * TODO: The effect of this method is not yet tested!
+	 * 
+	 * @param factory
+	 *            the factory to remove
+	 */
+	public static void removeContextPopupFactory(ContextActionFactory factory) {
+		epfactories.remove(factory);
+	}
+
+	/**
+	 * This method is not public since it is meant to be used exclusively by
+	 * TabProps.
+	 */
+	static Collection<ContextActionFactory> getFactories() {
+		return epfactories;
+	}
+
+	/**
+	 * Adds to the default actions the new menus for the registered factories.
+	 *
+	 * @return all actions found.
+	 */
+	public static List<Action> getContextPopupActions() {
+		List<Action> allActionsFound = new ArrayList<Action>();
+		Object element = TargetManager.getInstance().getSingleModelTarget();
+
+		List tmpActionsContainer = null;
+		for (ContextActionFactory factory : ContextActionFactoryManager.getFactories()) {
+			tmpActionsContainer = factory.createContextPopupActions(element);
+			if (tmpActionsContainer instanceof ActionList) {
+				allActionsFound.add((Action) tmpActionsContainer);
+			} else {
+				if (tmpActionsContainer != null && tmpActionsContainer.size() > 0) {
+					allActionsFound.addAll(tmpActionsContainer);
+				}
+			}
+		}
+		return allActionsFound;
+	}
 }

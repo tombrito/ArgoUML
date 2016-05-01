@@ -47,42 +47,44 @@ import org.argouml.i18n.Translator;
 import org.argouml.model.Model;
 
 /**
- * Rule for Summary->Operation.
- * This class is a Go Rule for the "Class - centric" Navigation perspective.
+ * Rule for Summary->Operation. This class is a Go Rule for the
+ * "Class - centric" Navigation perspective.
  *
- * @author  alexb, d00mst
+ * @author alexb, d00mst
  * @since argo 0.13.4, Created on 21 March 2003, 23:18
  */
 public class GoSummaryToOperation extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-        return Translator.localize("misc.summary.operation");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (parent instanceof OperationsNode) {
-            return Model.getFacade().getOperations(
-                    ((OperationsNode) parent).getParent());
-        }
-	return Collections.EMPTY_SET;
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (parent instanceof OperationsNode) {
-	    Set set = new HashSet();
-	    set.add(((OperationsNode) parent).getParent());
-	    return set;
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.summary.operation");
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(java.lang.
+	 * Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (parent instanceof OperationsNode) {
+			return Model.getFacade().getOperations(((OperationsNode) parent).getParent());
+		}
+		return Collections.EMPTY_SET;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(java.lang.
+	 * Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (parent instanceof OperationsNode) {
+			Set set = new HashSet();
+			set.add(((OperationsNode) parent).getParent());
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 
 }

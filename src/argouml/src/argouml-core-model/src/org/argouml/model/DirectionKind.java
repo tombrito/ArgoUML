@@ -42,23 +42,23 @@ package org.argouml.model;
  * The different DirectionKinds.
  */
 public interface DirectionKind {
-    /**
-     * @return Returns the In ParameterDirectionKind.
-     */
-    Object getInParameter();
+	/**
+	 * @return Returns the In ParameterDirectionKind.
+	 */
+	Object getInParameter();
 
-    /**
-     * @return Returns the Inout ParameterDirectionKind.
-     */
-    Object getInOutParameter();
+	/**
+	 * @return Returns the Inout ParameterDirectionKind.
+	 */
+	Object getInOutParameter();
 
-    /**
-     * @return Returns the Out ParameterDirectionKind.
-     */
-    Object getOutParameter();
+	/**
+	 * @return Returns the Out ParameterDirectionKind.
+	 */
+	Object getOutParameter();
 
-    /**
-     * @return Returns the Return ParameterDirectionKind.
-     */
-    Object getReturnParameter();
+	/**
+	 * @return Returns the Return ParameterDirectionKind.
+	 */
+	Object getReturnParameter();
 }

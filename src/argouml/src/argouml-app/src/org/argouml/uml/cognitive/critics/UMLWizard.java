@@ -36,7 +36,6 @@
 // CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE MAINTENANCE, SUPPORT,
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
-
 package org.argouml.uml.cognitive.critics;
 
 import org.argouml.cognitive.ListSet;
@@ -44,81 +43,82 @@ import org.argouml.cognitive.ToDoItem;
 import org.argouml.cognitive.critics.Wizard;
 import org.argouml.model.Model;
 
-
 /**
- * UMLWizard is an abstract convenience implementation for UML Wizards,
- * which provides common methods to all its subclasses.
+ * UMLWizard is an abstract convenience implementation for UML Wizards, which
+ * provides common methods to all its subclasses.
+ * 
  * @author mkl
  * @see org.argouml.cognitive.critics.Wizard
  */
 public abstract class UMLWizard extends Wizard {
 
-    private static final long serialVersionUID = 4503611591015151953L;
+	private static final long serialVersionUID = 4503611591015151953L;
 	/**
-     * The suggestion string.
-     */
-    private String suggestion;
+	 * The suggestion string.
+	 */
+	private String suggestion;
 
-    /**
-     * The constructor.
-     *
-     */
-    public UMLWizard() {
-        super();
-    }
+	/**
+	 * The constructor.
+	 *
+	 */
+	public UMLWizard() {
+		super();
+	}
 
-    /**
-     * Preset the number of steps to 1. You need to override this
-     * method, in case your Wizard requires a different number of steps.
-     * This method is a convenience implementation.
-     * 
-     * {@inheritDoc}
-     */
-    public int getNumSteps() {
-        return 1;
-    }
+	/**
+	 * Preset the number of steps to 1. You need to override this method, in
+	 * case your Wizard requires a different number of steps. This method is a
+	 * convenience implementation.
+	 * 
+	 * {@inheritDoc}
+	 */
+	public int getNumSteps() {
+		return 1;
+	}
 
-    /**
-     * @return the offending modelelement
-     */
-    public Object getModelElement() {
-        if (getToDoItem() != null) {
-            ToDoItem item = (ToDoItem) getToDoItem();
-            ListSet offs = item.getOffenders();
-            if (offs.size() >= 1) {
-                Object me = offs.get(0);
-                return me;
-            }
-        }
-        return null;
-    }
+	/**
+	 * @return the offending modelelement
+	 */
+	public Object getModelElement() {
+		if (getToDoItem() != null) {
+			ToDoItem item = (ToDoItem) getToDoItem();
+			ListSet offs = item.getOffenders();
+			if (offs.size() >= 1) {
+				Object me = offs.get(0);
+				return me;
+			}
+		}
+		return null;
+	}
 
-    /**
-     * @return the suggestion string
-     */
-    public String offerSuggestion() {
-        if (suggestion != null) {
-            return suggestion;
-        }
-        Object me = getModelElement();
-        if (me != null) {
-            String n = Model.getFacade().getName(me);
-            return n;
-        }
-        return "";
-    }
+	/**
+	 * @return the suggestion string
+	 */
+	public String offerSuggestion() {
+		if (suggestion != null) {
+			return suggestion;
+		}
+		Object me = getModelElement();
+		if (me != null) {
+			String n = Model.getFacade().getName(me);
+			return n;
+		}
+		return "";
+	}
 
-    /**
-     * @param s set a new suggestion string
-     */
-    public void setSuggestion(String s) {
-	suggestion = s;
-    }
+	/**
+	 * @param s
+	 *            set a new suggestion string
+	 */
+	public void setSuggestion(String s) {
+		suggestion = s;
+	}
 
-    /**
-     * @return returns the suggestion string
-     */
-    public String getSuggestion() {
-        return suggestion;
-    }
+	/**
+	 * @return returns the suggestion string
+	 */
+	public String getSuggestion() {
+		return suggestion;
+	}
 }

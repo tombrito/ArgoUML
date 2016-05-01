@@ -53,24 +53,23 @@ import org.argouml.application.api.InitSubsystem;
  */
 public class InitUiCmdSubsystem implements InitSubsystem {
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        List<GUISettingsTabInterface> result = 
-            new ArrayList<GUISettingsTabInterface>();
-        result.add(new SettingsTabShortcuts());
-        return result;
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		List<GUISettingsTabInterface> result = new ArrayList<GUISettingsTabInterface>();
+		result.add(new SettingsTabShortcuts());
+		return result;
+	}
 
-    public void init() {
-        ActionAdjustSnap.init();
-        ActionAdjustGrid.init();
-    }
+	public void init() {
+		ActionAdjustSnap.init();
+		ActionAdjustGrid.init();
+	}
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        return Collections.emptyList();
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		return Collections.emptyList();
+	}
 
 }

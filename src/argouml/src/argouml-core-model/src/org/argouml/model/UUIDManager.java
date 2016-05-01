@@ -47,64 +47,63 @@ import java.rmi.server.UID;
  * @stereotype singleton
  */
 public final class UUIDManager {
-    ////////////////////////////////////////////////////////////////
-    // static variables
-    /**
-     * The singleton instance.
-     */
-    private static final UUIDManager INSTANCE = new UUIDManager();
+	////////////////////////////////////////////////////////////////
+	// static variables
+	/**
+	 * The singleton instance.
+	 */
+	private static final UUIDManager INSTANCE = new UUIDManager();
 
-    /**
-     * The inet address, used in generating UUIDs.
-     */
-    private InetAddress address;
+	/**
+	 * The inet address, used in generating UUIDs.
+	 */
+	private InetAddress address;
 
-    ////////////////////////////////////////////////////////////////
-    // constructors
+	////////////////////////////////////////////////////////////////
+	// constructors
 
-    /**
-     * Constructor for the UUIDManager. This is private to make sure that
-     * we are a proper singleton.
-     */
-    private UUIDManager() {
-        try {
-            address = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            // The application should have checked for availability at
-            // startup.
-            // For tests we would expect unix developers to be correctly
-            // configured.
-            // Replace with an assert when we are JRE1.4+
-            throw new IllegalStateException(
-                    "UnknownHostException caught - set up your /etc/hosts");
-        }
-    }
-
-    /**
-     * Return the UUIDManager.
-     *
-     * @return an UUIDManager
-     */
-    public static UUIDManager getInstance() {
-	return INSTANCE;
-    }
-
-    ////////////////////////////////////////////////////////////////
-    // public methods
-
-    /**
-     * @return the new uuid
-     */
-    public synchronized String getNewUUID() {
-	UID uid = new UID();
-	StringBuffer s = new StringBuffer();
-	if (address != null) {
-	    byte[] b = address.getAddress();
-	    for (int i = 0; i < b.length; i++) {
-		s.append((long) b[i]).append("-");
-	    }
+	/**
+	 * Constructor for the UUIDManager. This is private to make sure that we are
+	 * a proper singleton.
+	 */
+	private UUIDManager() {
+		try {
+			address = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			// The application should have checked for availability at
+			// startup.
+			// For tests we would expect unix developers to be correctly
+			// configured.
+			// Replace with an assert when we are JRE1.4+
+			throw new IllegalStateException("UnknownHostException caught - set up your /etc/hosts");
+		}
 	}
-	s.append(uid.toString());
-	return s.toString();
-    }
+
+	/**
+	 * Return the UUIDManager.
+	 *
+	 * @return an UUIDManager
+	 */
+	public static UUIDManager getInstance() {
+		return INSTANCE;
+	}
+
+	////////////////////////////////////////////////////////////////
+	// public methods
+
+	/**
+	 * @return the new uuid
+	 */
+	public synchronized String getNewUUID() {
+		UID uid = new UID();
+		StringBuffer s = new StringBuffer();
+		if (address != null) {
+			byte[] b = address.getAddress();
+			for (int i = 0; i < b.length; i++) {
+				s.append((long) b[i]).append("-");
+			}
+		}
+		s.append(uid.toString());
+		return s.toString();
+	}
 } /* end class UUIDManager */

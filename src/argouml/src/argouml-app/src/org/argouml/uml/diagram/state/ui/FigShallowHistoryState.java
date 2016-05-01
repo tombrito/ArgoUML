@@ -42,32 +42,34 @@ import java.awt.Rectangle;
 
 import org.argouml.uml.diagram.DiagramSettings;
 
-/** Class to display graphics for a UML ShallowHistoryState in a diagram.
+/**
+ * Class to display graphics for a UML ShallowHistoryState in a diagram.
  *
  * @author jrobbins
  */
 public class FigShallowHistoryState extends FigHistoryState {
 
-    
-    private static final long serialVersionUID = -2422035514865876406L;
+	private static final long serialVersionUID = -2422035514865876406L;
 
 	/**
-     * Construct a new FigSubactivityState.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings rendering settings
-     */
-    public FigShallowHistoryState(Object owner, Rectangle bounds, 
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-    }
+	 * Construct a new FigSubactivityState.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            rendering settings
+	 */
+	public FigShallowHistoryState(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+	}
 
-    /*
-     * @see org.argouml.uml.diagram.state.ui.FigHistoryState#getH()
-     */
-    public String getH() {
-        return "H";
-    }
+	/*
+	 * @see org.argouml.uml.diagram.state.ui.FigHistoryState#getH()
+	 */
+	public String getH() {
+		return "H";
+	}
 
 }

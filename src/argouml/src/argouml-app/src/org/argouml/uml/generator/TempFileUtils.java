@@ -53,142 +53,145 @@ import java.util.logging.Logger;
  */
 public class TempFileUtils {
 
-    private static final Logger LOG =
-        Logger.getLogger(TempFileUtils.class.getName());
+	private static final Logger LOG = Logger.getLogger(TempFileUtils.class.getName());
 
-    /**
-     * Create a temporary directory.
-     *
-     * @return a newly created, empty, temporary directory
-     */
-    public static File createTempDir() {
-        File tmpdir = null;
-        try  {
-            tmpdir = File.createTempFile("argouml", null);
-            tmpdir.delete();
-            if (!tmpdir.mkdir()) {
-                return null;
-            }
-            return tmpdir;
-        } catch (IOException ioe) {
-            LOG.log(Level.SEVERE, "Error while creating a temporary directory", ioe);
-            return null;
-        }
-    }
+	/**
+	 * Create a temporary directory.
+	 *
+	 * @return a newly created, empty, temporary directory
+	 */
+	public static File createTempDir() {
+		File tmpdir = null;
+		try {
+			tmpdir = File.createTempFile("argouml", null);
+			tmpdir.delete();
+			if (!tmpdir.mkdir()) {
+				return null;
+			}
+			return tmpdir;
+		} catch (IOException ioe) {
+			LOG.log(Level.SEVERE, "Error while creating a temporary directory", ioe);
+			return null;
+		}
+	}
 
-    private interface FileAction {
-        /**
-         * Execute some action on the specified file.
-         *
-         * @param file the file on which to perform the action
-         * @throws IOException
-         */
-        void act(File file) throws IOException;
-    }
+	private interface FileAction {
+		/**
+		 * Execute some action on the specified file.
+		 *
+		 * @param file
+		 *            the file on which to perform the action
+		 * @throws IOException
+		 */
+		void act(File file) throws IOException;
+	}
 
-    /**
-     * Visit directory in post-order fashion.
-     */
-    private static void traverseDir(File dir, FileAction action)
-        throws IOException {
-        if (dir.exists()) {
-            File[] files = dir.listFiles();
-            for (int i = 0; i < files.length; i++) {
-                if (files[i].isDirectory()) {
-                    traverseDir(files[i], action);
-                } else {
-                    action.act(files[i]);
-                }
-            }
-            action.act(dir);
-        }
-    }
+	/**
+	 * Visit directory in post-order fashion.
+	 */
+	private static void traverseDir(File dir, FileAction action) throws IOException {
+		if (dir.exists()) {
+			File[] files = dir.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					traverseDir(files[i], action);
+				} else {
+					action.act(files[i]);
+				}
+			}
+			action.act(dir);
+		}
+	}
 
-    /**
-     * Reads all files in a directory in memory.
-     * @param dir directory to read files from
-     * @return A collection of SourceUnit objects.
-     */
-    public static Collection<SourceUnit> readAllFiles(File dir) {
-        try {
-            final List<SourceUnit> ret = new ArrayList<SourceUnit>();
-            final int prefix = dir.getPath().length() + 1;
-            traverseDir(dir, new FileAction() {
+	/**
+	 * Reads all files in a directory in memory.
+	 * 
+	 * @param dir
+	 *            directory to read files from
+	 * @return A collection of SourceUnit objects.
+	 */
+	public static Collection<SourceUnit> readAllFiles(File dir) {
+		try {
+			final List<SourceUnit> ret = new ArrayList<SourceUnit>();
+			final int prefix = dir.getPath().length() + 1;
+			traverseDir(dir, new FileAction() {
 
-                public void act(File f) throws IOException {
-                    // skip backup files. This is actually a workaround for the
-                    // cpp generator, which always creates backup files (it's a
-                    // bug).
-                    if (!f.isDirectory() && !f.getName().endsWith(".bak")) {
-                        // TODO: This is using the default platform character
-                        // encoding.  Specifying an encoding will produce more
-                        // predictable results
-                        FileReader fr = new FileReader(f);
-                        BufferedReader bfr = new BufferedReader(fr);
-                        try {
-                            StringBuffer result =
-                                new StringBuffer((int) f.length());
-                            String line = bfr.readLine();
-                            do {
-                                result.append(line);
-                                line = bfr.readLine();
-                                if (line != null) {
-                                    result.append('\n');
-                                }
-                            } while (line != null);
-                            ret.add(new SourceUnit(f.toString().substring(
-                                    prefix), result.toString()));
-                        } finally {
-                            bfr.close();
-                            fr.close();
-                        }
-                    }
-                }
+				public void act(File f) throws IOException {
+					// skip backup files. This is actually a workaround for the
+					// cpp generator, which always creates backup files (it's a
+					// bug).
+					if (!f.isDirectory() && !f.getName().endsWith(".bak")) {
+						// TODO: This is using the default platform character
+						// encoding. Specifying an encoding will produce more
+						// predictable results
+						FileReader fr = new FileReader(f);
+						BufferedReader bfr = new BufferedReader(fr);
+						try {
+							StringBuffer result = new StringBuffer((int) f.length());
+							String line = bfr.readLine();
+							do {
+								result.append(line);
+								line = bfr.readLine();
+								if (line != null) {
+									result.append('\n');
+								}
+							} while (line != null);
+							ret.add(new SourceUnit(f.toString().substring(prefix), result.toString()));
+						} finally {
+							bfr.close();
+							fr.close();
+						}
+					}
+				}
 
-            });
-            return ret;
-        } catch (IOException ioe) {
-            LOG.log(Level.SEVERE, "Exception reading files", ioe);
-        }
-        return null;
-    }
+			});
+			return ret;
+		} catch (IOException ioe) {
+			LOG.log(Level.SEVERE, "Exception reading files", ioe);
+		}
+		return null;
+	}
 
-    /**
-     * Deletes a directory and all of its contents.
-     * @param dir The directory to delete.
-     */
-    public static void deleteDir(File dir) {
-        try {
-            traverseDir(dir, new FileAction() {
-                public void act(File f) {
-                    f.delete();
-                }
-            });
-        } catch (IOException ioe) {
-            LOG.log(Level.SEVERE, "Exception deleting directory", ioe);
-        }
-    }
+	/**
+	 * Deletes a directory and all of its contents.
+	 * 
+	 * @param dir
+	 *            The directory to delete.
+	 */
+	public static void deleteDir(File dir) {
+		try {
+			traverseDir(dir, new FileAction() {
+				public void act(File f) {
+					f.delete();
+				}
+			});
+		} catch (IOException ioe) {
+			LOG.log(Level.SEVERE, "Exception deleting directory", ioe);
+		}
+	}
 
-    /**
-     * Reads all the files within a directory tree.
-     * @param dir The base directory.
-     * @return The collection of files.
-     */
-    public static Collection<String> readFileNames(File dir) {
-        final List<String> ret = new ArrayList<String>();
-        final int prefix = dir.getPath().length() + 1;
-        try {
-            traverseDir(dir, new FileAction() {
-                public void act(File f) {
-                    if (!f.isDirectory()) {
-                        ret.add(f.toString().substring(prefix));
-                    }
-                }
-            });
-        } catch (IOException ioe) {
-            LOG.log(Level.SEVERE, "Exception reading file names", ioe);
-        }
-        return ret;
-    }
+	/**
+	 * Reads all the files within a directory tree.
+	 * 
+	 * @param dir
+	 *            The base directory.
+	 * @return The collection of files.
+	 */
+	public static Collection<String> readFileNames(File dir) {
+		final List<String> ret = new ArrayList<String>();
+		final int prefix = dir.getPath().length() + 1;
+		try {
+			traverseDir(dir, new FileAction() {
+				public void act(File f) {
+					if (!f.isDirectory()) {
+						ret.add(f.toString().substring(prefix));
+					}
+				}
+			});
+		} catch (IOException ioe) {
+			LOG.log(Level.SEVERE, "Exception reading file names", ioe);
+		}
+		return ret;
+	}
 
 }

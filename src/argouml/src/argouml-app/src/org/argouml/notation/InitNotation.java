@@ -52,20 +52,20 @@ import org.argouml.application.api.InitSubsystem;
  */
 public class InitNotation implements InitSubsystem {
 
-    public void init() {
-        NotationProviderFactory2.getInstance();
-    }
+	public void init() {
+		NotationProviderFactory2.getInstance();
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        return Collections.emptyList();
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		return Collections.emptyList();
+	}
 
 }

@@ -55,41 +55,41 @@ import org.argouml.model.Model;
  */
 public class GoMessageToAction extends AbstractPerspectiveRule {
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
-     */
-    public String getRuleName() {
-	return Translator.localize("misc.message.action");
-    }
-
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
-     *         java.lang.Object)
-     */
-    public Collection getChildren(Object parent) {
-	if (Model.getFacade().isAMessage(parent)) {
-	    Object action = Model.getFacade().getAction(parent);
-
-	    if (action != null) {
-		List children = new ArrayList();
-		children.add(action);
-		return children;
-	    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getRuleName()
+	 */
+	public String getRuleName() {
+		return Translator.localize("misc.message.action");
 	}
 
-	return Collections.EMPTY_SET;
-    }
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getChildren(
+	 * java.lang.Object)
+	 */
+	public Collection getChildren(Object parent) {
+		if (Model.getFacade().isAMessage(parent)) {
+			Object action = Model.getFacade().getAction(parent);
 
-    /*
-     * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
-     *         java.lang.Object)
-     */
-    public Set getDependencies(Object parent) {
-        if (Model.getFacade().isAMessage(parent)) {
-	    Set set = new HashSet();
-	    set.add(parent);
-	    return set;
+			if (action != null) {
+				List children = new ArrayList();
+				children.add(action);
+				return children;
+			}
+		}
+
+		return Collections.EMPTY_SET;
 	}
-	return Collections.EMPTY_SET;
-    }
+
+	/*
+	 * @see org.argouml.ui.explorer.rules.PerspectiveRule#getDependencies(
+	 * java.lang.Object)
+	 */
+	public Set getDependencies(Object parent) {
+		if (Model.getFacade().isAMessage(parent)) {
+			Set set = new HashSet();
+			set.add(parent);
+			return set;
+		}
+		return Collections.EMPTY_SET;
+	}
 }

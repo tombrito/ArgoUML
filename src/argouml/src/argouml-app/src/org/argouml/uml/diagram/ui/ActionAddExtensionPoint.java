@@ -52,147 +52,151 @@ import org.argouml.ui.targetmanager.TargetListener;
 import org.argouml.ui.targetmanager.TargetManager;
 
 /**
- * A class to implement the addition of extension points to use cases.<p>
+ * A class to implement the addition of extension points to use cases.
+ * <p>
  *
  * This is a singleton. Implemented with a private constructor and a static
  * access method. Marked as final, since it can't sensibly be subclassed (the
- * access method wouldn't work properly).<p>
+ * access method wouldn't work properly).
+ * <p>
  *
- * @author  Jeremy Bennett (mail@jeremybennett.com).
+ * @author Jeremy Bennett (mail@jeremybennett.com).
  * @stereotype singleton
  */
 public final class ActionAddExtensionPoint extends UndoableAction {
 
-    private static final long serialVersionUID = -4636319612927934680L;
+	private static final long serialVersionUID = -4636319612927934680L;
 	/**
-     * Our private copy of the instance. Only accessible through the proper
-     * access method.
-     */
-    private static ActionAddExtensionPoint singleton;
+	 * Our private copy of the instance. Only accessible through the proper
+	 * access method.
+	 */
+	private static ActionAddExtensionPoint singleton;
 
+	///////////////////////////////////////////////////////////////////////////
+	//
+	// Constructors
+	//
+	///////////////////////////////////////////////////////////////////////////
 
-    ///////////////////////////////////////////////////////////////////////////
-    //
-    // Constructors
-    //
-    ///////////////////////////////////////////////////////////////////////////
+	/**
+	 * Constructor is private, since it cannot be called directly for a
+	 * singleton. Make use of the access funtion.
+	 * <p>
+	 */
+	public ActionAddExtensionPoint() {
+		super(Translator.localize("button.new-extension-point"),
+				ResourceLoaderWrapper.lookupIcon("button.new-extension-point"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("button.new-extension-point"));
+	}
 
-    /**
-     * Constructor is private, since it cannot be called directly for a
-     * singleton. Make use of the access funtion.<p>
-     */
-    public ActionAddExtensionPoint() {
-        super(Translator.localize("button.new-extension-point"),
-                ResourceLoaderWrapper.lookupIcon("button.new-extension-point"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION, 
-                Translator.localize("button.new-extension-point"));
-    }
+	///////////////////////////////////////////////////////////////////////////
+	//
+	// Main methods
+	//
+	///////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Get the single instance of the action.
+	 * <p>
+	 *
+	 * Since we are a singleton, this is the only way of accessing the instance,
+	 * which is created if it does not exist.
+	 * <p>
+	 *
+	 * @return The singleton instance.
+	 */
+	public static ActionAddExtensionPoint singleton() {
 
-    ///////////////////////////////////////////////////////////////////////////
-    //
-    // Main methods
-    //
-    ///////////////////////////////////////////////////////////////////////////
+		// Create the singleton if it does not exist, and then return it
 
+		if (singleton == null) {
+			singleton = new ActionAddExtensionPoint();
 
-    /**
-     * Get the single instance of the action.<p>
-     *
-     * Since we are a singleton, this is the only way of accessing the
-     * instance, which is created if it does not exist.<p>
-     *
-     * @return The singleton instance.
-     */
-    public static ActionAddExtensionPoint singleton() {
+			// When a new target is selected, we have to check if it 's a use
+			// case.
+			// Then, the icone "add extension point" have to become enabled.
+			TargetManager.getInstance().addTargetListener(new TargetListener() {
 
-        // Create the singleton if it does not exist, and then return it
+				public void targetAdded(TargetEvent e) {
+					setTarget();
+				}
 
-        if (singleton == null) {
-            singleton = new ActionAddExtensionPoint();
-            
-            // When a new target is selected, we have to check if it 's a use case.
-            //Then, the icone "add extension point" have to become enabled.
-            TargetManager.getInstance().addTargetListener(new TargetListener() {
-               
-                public void targetAdded(TargetEvent e) {
-                    setTarget();
-                }
-                public void targetRemoved(TargetEvent e) {
-                    setTarget();
-                }
+				public void targetRemoved(TargetEvent e) {
+					setTarget();
+				}
 
-                public void targetSet(TargetEvent e) {
-                    setTarget();
-                }
-                private void setTarget() {
-                    singleton.setEnabled(singleton.shouldBeEnabled());
-                }
-            });
-            singleton.setEnabled(singleton.shouldBeEnabled());
-        }
+				public void targetSet(TargetEvent e) {
+					setTarget();
+				}
 
-        return singleton;
-    }
+				private void setTarget() {
+					singleton.setEnabled(singleton.shouldBeEnabled());
+				}
+			});
+			singleton.setEnabled(singleton.shouldBeEnabled());
+		}
 
-    /**
-     * Called if this action is invoked.<p>
-     *
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     * @param ae  The action that caused us to be invoked.
-     */
-    public void actionPerformed(ActionEvent ae) {
-        super.actionPerformed(ae);
+		return singleton;
+	}
 
-        // Find the target in the project browser. We can only do anything if
-        // its a use case.
+	/**
+	 * Called if this action is invoked.
+	 * <p>
+	 *
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * @param ae
+	 *            The action that caused us to be invoked.
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		super.actionPerformed(ae);
 
-        Object target = TargetManager.getInstance().getModelTarget();
+		// Find the target in the project browser. We can only do anything if
+		// its a use case.
 
-        if (!(Model.getFacade().isAUseCase(target))) {
-            return;
-        }
+		Object target = TargetManager.getInstance().getModelTarget();
 
-        // Create a new extension point and make it the browser target. Then
-        // invoke the superclass action method.
+		if (!(Model.getFacade().isAUseCase(target))) {
+			return;
+		}
 
-        Object ep =
-            Model.getUseCasesFactory()
-                .buildExtensionPoint(target);
+		// Create a new extension point and make it the browser target. Then
+		// invoke the superclass action method.
 
-        TargetManager.getInstance().setTarget(ep);
-    }
+		Object ep = Model.getUseCasesFactory().buildExtensionPoint(target);
 
+		TargetManager.getInstance().setTarget(ep);
+	}
 
-    /**
-     * A predicate to determine if this action is enabled.<p>
-     *
-     * @see org.tigris.gef.undo.UndoableAction#isEnabled()
-     * @return  <code>true</code> if the superclass affirms this action is
-     *          enabled and the target is a use case. <code>false</code>
-     *          otherwise.
-     */
-    public boolean isEnabled() {
-        Object target = TargetManager.getInstance().getModelTarget();
+	/**
+	 * A predicate to determine if this action is enabled.
+	 * <p>
+	 *
+	 * @see org.tigris.gef.undo.UndoableAction#isEnabled()
+	 * @return <code>true</code> if the superclass affirms this action is
+	 *         enabled and the target is a use case. <code>false</code>
+	 *         otherwise.
+	 */
+	public boolean isEnabled() {
+		Object target = TargetManager.getInstance().getModelTarget();
 
-        return super.isEnabled()
-                && (Model.getFacade().isAUseCase(target));
-        
-    }
-    
-    /**
-     * Called when a new target is selected, in order to display Action
-     * @return true if the target is a use case, otherwise false
-     * 
-     * @since 2010-08-30
-     */
-    public boolean shouldBeEnabled() {
-        Object target = TargetManager.getInstance().getSingleModelTarget();
-        if (target == null) {
-            return false;
-        }
-        return Model.getFacade().isAUseCase(target);
-    }
+		return super.isEnabled() && (Model.getFacade().isAUseCase(target));
+
+	}
+
+	/**
+	 * Called when a new target is selected, in order to display Action
+	 * 
+	 * @return true if the target is a use case, otherwise false
+	 * 
+	 * @since 2010-08-30
+	 */
+	public boolean shouldBeEnabled() {
+		Object target = TargetManager.getInstance().getSingleModelTarget();
+		if (target == null) {
+			return false;
+		}
+		return Model.getFacade().isAUseCase(target);
+	}
 
 } /* end class ActionAddExtensionPoint */

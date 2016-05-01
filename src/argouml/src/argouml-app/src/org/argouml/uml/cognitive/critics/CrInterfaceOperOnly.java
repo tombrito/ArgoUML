@@ -49,8 +49,8 @@ import org.argouml.model.Model;
 import org.argouml.uml.cognitive.UMLDecision;
 
 /**
- * Well-formedness rule [1] for Interface. See page 32 of UML 1.1
- * Semantics. OMG document ad/97-08-04.
+ * Well-formedness rule [1] for Interface. See page 32 of UML 1.1 Semantics. OMG
+ * document ad/97-08-04.
  *
  * Well-formedness rule [2] for GeneralizableElement. See page 60 of UML 1.4
  * Semantics. OMG document UML 1.4.2 formal/04-07-02.
@@ -59,48 +59,49 @@ import org.argouml.uml.cognitive.UMLDecision;
  */
 public class CrInterfaceOperOnly extends CrUML {
 
-    private static final long serialVersionUID = 5843930606616863255L;
+	private static final long serialVersionUID = 5843930606616863255L;
 
 	/**
-     * The constructor.
-     */
-    public CrInterfaceOperOnly() {
-        setupHeadAndDesc();
-	addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
-	setKnowledgeTypes(Critic.KT_SYNTAX);
-	addTrigger("structuralFeature");
-    }
+	 * The constructor.
+	 */
+	public CrInterfaceOperOnly() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.PLANNED_EXTENSIONS);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("structuralFeature");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-	if (!(Model.getFacade().isAInterface(dm))) {
-	    return NO_PROBLEM;
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		if (!(Model.getFacade().isAInterface(dm))) {
+			return NO_PROBLEM;
+		}
+		Object inf = dm;
+		Collection sf = Model.getFacade().getFeatures(inf);
+		if (sf == null) {
+			return NO_PROBLEM;
+		}
+		for (Iterator iter = sf.iterator(); iter.hasNext();) {
+			if (Model.getFacade().isAStructuralFeature(iter.next())) {
+				return PROBLEM_FOUND;
+			}
+		}
+		return NO_PROBLEM;
 	}
-	Object inf = dm;
-	Collection sf = Model.getFacade().getFeatures(inf);
-	if (sf == null) {
-	    return NO_PROBLEM;
-	}
-	for (Iterator iter = sf.iterator(); iter.hasNext();) {
-	    if (Model.getFacade().isAStructuralFeature(iter.next())) {
-		return PROBLEM_FOUND;
-	    }
-	}
-	return NO_PROBLEM;
-    }
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getInterface());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getInterface());
+		return ret;
+	}
+
 } /* end class CrInterfaceOperOnly */

@@ -60,9 +60,10 @@ import org.tigris.gef.presentation.FigEdge;
 import org.tigris.gef.presentation.FigNode;
 
 /**
- * This class defines a renderer object for UML Collaboration Diagrams.
- * In a collaboration Diagram the following UML objects are displayed with the
- * following Figs:<p>
+ * This class defines a renderer object for UML Collaboration Diagrams. In a
+ * collaboration Diagram the following UML objects are displayed with the
+ * following Figs:
+ * <p>
  *
  * <pre>
  *   UML Object       ---  Fig
@@ -75,112 +76,95 @@ import org.tigris.gef.presentation.FigNode;
  * Provides {@link #getFigNodeFor} to implement the
  * {@link org.tigris.gef.graph.GraphNodeRenderer} interface and
  * {@link #getFigEdgeFor} to implement the
- * {@link org.tigris.gef.graph.GraphEdgeRenderer} interface.<p>
+ * {@link org.tigris.gef.graph.GraphEdgeRenderer} interface.
+ * <p>
  *
- * <em>Note</em>. Should be implemented as a singleton - we don't really
- * need a separate instance for each use case diagram.<p>
+ * <em>Note</em>. Should be implemented as a singleton - we don't really need a
+ * separate instance for each use case diagram.
+ * <p>
  *
  *
  * @author agauthie
  */
 public class CollabDiagramRenderer extends UmlDiagramRenderer {
-    private static final long serialVersionUID = -8801058393247175485L;
+	private static final long serialVersionUID = -8801058393247175485L;
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(CollabDiagramRenderer.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(CollabDiagramRenderer.class.getName());
 
-    /*
-     * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
-     *         org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
-     *         java.lang.Object, java.util.Map)
-     */
-    public FigNode getFigNodeFor(GraphModel gm, Layer lay,
-				 Object node, Map styleAttributes) {
+	/*
+	 * @see org.tigris.gef.graph.GraphNodeRenderer#getFigNodeFor(
+	 * org.tigris.gef.graph.GraphModel, org.tigris.gef.base.Layer,
+	 * java.lang.Object, java.util.Map)
+	 */
+	public FigNode getFigNodeFor(GraphModel gm, Layer lay, Object node, Map styleAttributes) {
 
-        FigNode figNode = null;
+		FigNode figNode = null;
 
-        assert node != null;
+		assert node != null;
 
-        // Although not generally true for GEF, for Argo we know that the layer
-        // is a LayerPerspective which knows the associated diagram
-        Diagram diag = ((LayerPerspective) lay).getDiagram();
-        if (diag instanceof UMLDiagram
-                && ((UMLDiagram) diag).doesAccept(node)) {
-            figNode = (FigNode) ((UMLDiagram) diag).drop(node, null);
-        } else {
-            LOG.log(Level.SEVERE, "TODO: CollabDiagramRenderer getFigNodeFor");
-            throw new IllegalArgumentException(
-                    "Node is not a recognised type. Received "
-                    + node.getClass().getName());
-        }
+		// Although not generally true for GEF, for Argo we know that the layer
+		// is a LayerPerspective which knows the associated diagram
+		Diagram diag = ((LayerPerspective) lay).getDiagram();
+		if (diag instanceof UMLDiagram && ((UMLDiagram) diag).doesAccept(node)) {
+			figNode = (FigNode) ((UMLDiagram) diag).drop(node, null);
+		} else {
+			LOG.log(Level.SEVERE, "TODO: CollabDiagramRenderer getFigNodeFor");
+			throw new IllegalArgumentException("Node is not a recognised type. Received " + node.getClass().getName());
+		}
 
-        lay.add(figNode);
-        return figNode;
-    }
+		lay.add(figNode);
+		return figNode;
+	}
 
-    /**
-     * Return a Fig that can be used to represent the given edge,
-     * Generally the same code as for the ClassDiagram, since its
-     * very related to it.
-     *
-     * {@inheritDoc}
-     */
-    public FigEdge getFigEdgeFor(GraphModel gm, Layer lay,
-				 Object edge, Map styleAttributes) {
-        LOG.log(Level.FINE, "making figedge for {0}", edge);
+	/**
+	 * Return a Fig that can be used to represent the given edge, Generally the
+	 * same code as for the ClassDiagram, since its very related to it.
+	 *
+	 * {@inheritDoc}
+	 */
+	public FigEdge getFigEdgeFor(GraphModel gm, Layer lay, Object edge, Map styleAttributes) {
+		LOG.log(Level.FINE, "making figedge for {0}", edge);
 
-        if (edge == null) {
-            throw new IllegalArgumentException("A model edge must be supplied");
-        }
+		if (edge == null) {
+			throw new IllegalArgumentException("A model edge must be supplied");
+		}
 
-        assert lay instanceof LayerPerspective;
-        ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
-        DiagramSettings settings = diag.getDiagramSettings();
+		assert lay instanceof LayerPerspective;
+		ArgoDiagram diag = (ArgoDiagram) ((LayerPerspective) lay).getDiagram();
+		DiagramSettings settings = diag.getDiagramSettings();
 
-        FigEdge newEdge = null;
-        if (Model.getFacade().isAAssociationRole(edge)
-                || Model.getFacade().isAConnector(edge)) {
-            Object[] associationEnds =
-                Model.getFacade().getConnections(edge).toArray();
-            newEdge = new FigAssociationRole(
-                    new DiagramEdgeSettings(
-                            edge,
-                            associationEnds[0],
-                            associationEnds[1]),
-                            settings);
-            FigNode sourceFig =
-                getFigNodeForAssociationEnd(diag, associationEnds[0]);
-            FigNode destFig =
-                getFigNodeForAssociationEnd(diag, associationEnds[1]);
-            newEdge.setSourceFigNode(sourceFig);
-            newEdge.setSourcePortFig(sourceFig);
-            newEdge.setDestFigNode(destFig);
-            newEdge.setDestPortFig(destFig);
-        } else if (Model.getFacade().isAGeneralization(edge)) {
-            newEdge = new FigGeneralization(edge, settings);
-        } else if (Model.getFacade().isADependency(edge)) {
-            newEdge = new FigDependency(edge , settings);
-        } else if (edge instanceof CommentEdge) {
-            newEdge = new FigEdgeNote(edge, settings); // TODO -> settings
-        }
+		FigEdge newEdge = null;
+		if (Model.getFacade().isAAssociationRole(edge) || Model.getFacade().isAConnector(edge)) {
+			Object[] associationEnds = Model.getFacade().getConnections(edge).toArray();
+			newEdge = new FigAssociationRole(new DiagramEdgeSettings(edge, associationEnds[0], associationEnds[1]),
+					settings);
+			FigNode sourceFig = getFigNodeForAssociationEnd(diag, associationEnds[0]);
+			FigNode destFig = getFigNodeForAssociationEnd(diag, associationEnds[1]);
+			newEdge.setSourceFigNode(sourceFig);
+			newEdge.setSourcePortFig(sourceFig);
+			newEdge.setDestFigNode(destFig);
+			newEdge.setDestPortFig(destFig);
+		} else if (Model.getFacade().isAGeneralization(edge)) {
+			newEdge = new FigGeneralization(edge, settings);
+		} else if (Model.getFacade().isADependency(edge)) {
+			newEdge = new FigDependency(edge, settings);
+		} else if (edge instanceof CommentEdge) {
+			newEdge = new FigEdgeNote(edge, settings); // TODO -> settings
+		}
 
-        addEdge(lay, newEdge, edge);
-        return newEdge;
-    }
+		addEdge(lay, newEdge, edge);
+		return newEdge;
+	}
 
-    protected FigNode getFigNodeForAssociationEnd(
-            final ArgoDiagram diagram,
-            final Object associationEnd) {
-        final Object element;
-        if (Model.getFacade().getUmlVersion().startsWith("1")) {
-            element =
-                Model.getFacade().getClassifier(associationEnd);
-        } else {
-            element =
-                Model.getFacade().getLifeline(associationEnd);
-        }
-        return getNodePresentationFor(diagram.getLayer(), element);
-    }
+	protected FigNode getFigNodeForAssociationEnd(final ArgoDiagram diagram, final Object associationEnd) {
+		final Object element;
+		if (Model.getFacade().getUmlVersion().startsWith("1")) {
+			element = Model.getFacade().getClassifier(associationEnd);
+		} else {
+			element = Model.getFacade().getLifeline(associationEnd);
+		}
+		return getNodePresentationFor(diagram.getLayer(), element);
+	}
 }

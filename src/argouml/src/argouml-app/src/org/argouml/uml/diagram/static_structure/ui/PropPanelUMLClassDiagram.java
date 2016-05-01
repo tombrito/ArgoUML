@@ -47,14 +47,13 @@ import org.argouml.uml.diagram.ui.PropPanelDiagram;
  */
 class PropPanelUMLClassDiagram extends PropPanelDiagram {
 
-    private static final long serialVersionUID = 1279212563524703948L;
+	private static final long serialVersionUID = 1279212563524703948L;
 
 	/**
-     * Constructor for PropPanelUMLClassDiagram.
-     */
-    public PropPanelUMLClassDiagram() {
-        super(Translator.localize("label.class-diagram"),
-                lookupIcon("ClassDiagram"));
-    }
+	 * Constructor for PropPanelUMLClassDiagram.
+	 */
+	public PropPanelUMLClassDiagram() {
+		super(Translator.localize("label.class-diagram"), lookupIcon("ClassDiagram"));
+	}
 
 }

@@ -48,43 +48,42 @@ import org.argouml.i18n.Translator;
 import org.argouml.ui.ProjectBrowser;
 
 /**
- * Action to exit ArgoUML.
- * If the project is dirty, then ask the user if he wants to save first.
+ * Action to exit ArgoUML. If the project is dirty, then ask the user if he
+ * wants to save first.
  */
-public class ActionExit extends AbstractAction
-    implements CommandLineInterface {
+public class ActionExit extends AbstractAction implements CommandLineInterface {
 
-    /**
-     * The constructor.
-     */
-    public ActionExit() {
-        super(Translator.localize("action.exit"),
-                ResourceLoaderWrapper.lookupIcon("action.exit"));
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionExit() {
+		super(Translator.localize("action.exit"), ResourceLoaderWrapper.lookupIcon("action.exit"));
+	}
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent ae) {
-        ProjectBrowser.getInstance().tryExit();
-    }
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent ae) {
+		ProjectBrowser.getInstance().tryExit();
+	}
 
+	/**
+	 * Execute this action from the command line.
+	 *
+	 * @param argument
+	 *            is not used.
+	 * @return true if it is OK.
+	 *
+	 * @see org.argouml.application.api.CommandLineInterface#doCommand(java.lang.String)
+	 */
+	public boolean doCommand(String argument) {
+		System.exit(0);
+		return true;
+	}
 
-    /**
-     * Execute this action from the command line.
-     *
-     * @param argument is not used.
-     * @return true if it is OK.
-     *
-     * @see org.argouml.application.api.CommandLineInterface#doCommand(java.lang.String)
-     */
-    public boolean doCommand(String argument) {
-        System.exit(0);
-        return true;
-    }
-
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -6264722939329644183L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -6264722939329644183L;
 } /* end class ActionExit */

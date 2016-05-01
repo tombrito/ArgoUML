@@ -54,70 +54,56 @@ import org.argouml.uml.ui.ActionUseCaseDiagram;
  * The Menu and Toolbar for UML2.x
  */
 public class MenuBar2 extends GenericArgoMenuBar {
-    
-    private static final long serialVersionUID = 1778187437152188191L;
+
+	private static final long serialVersionUID = 1778187437152188191L;
 
 	/**
-     * Build the menu "Create" and the toolbar for diagram creation. These are
-     * build together to guarantee that the same items are present in both, and
-     * in the same sequence.
-     * <p>
-     * 
-     * The sequence of these items was determined by issue 1821.
-     */
-    protected void initMenuCreate() {
-        super.initMenuCreate();
-        getCreateDiagramMenu().removeAll();
-        getCreateDiagramToolbar().removeAll();
-        JMenuItem usecaseDiagram = getCreateDiagramMenu()
-                .add(new ActionUseCaseDiagram());
-        setMnemonic(usecaseDiagram, "Usecase Diagram");
-        getCreateDiagramToolbar().add((new ActionUseCaseDiagram()));
-        ShortcutMgr.assignAccelerator(usecaseDiagram,
-                ShortcutMgr.ACTION_USE_CASE_DIAGRAM);
+	 * Build the menu "Create" and the toolbar for diagram creation. These are
+	 * build together to guarantee that the same items are present in both, and
+	 * in the same sequence.
+	 * <p>
+	 * 
+	 * The sequence of these items was determined by issue 1821.
+	 */
+	protected void initMenuCreate() {
+		super.initMenuCreate();
+		getCreateDiagramMenu().removeAll();
+		getCreateDiagramToolbar().removeAll();
+		JMenuItem usecaseDiagram = getCreateDiagramMenu().add(new ActionUseCaseDiagram());
+		setMnemonic(usecaseDiagram, "Usecase Diagram");
+		getCreateDiagramToolbar().add((new ActionUseCaseDiagram()));
+		ShortcutMgr.assignAccelerator(usecaseDiagram, ShortcutMgr.ACTION_USE_CASE_DIAGRAM);
 
-        JMenuItem classDiagram =
-            getCreateDiagramMenu().add(new ActionClassDiagram());
-        setMnemonic(classDiagram, "Class Diagram");
-        getCreateDiagramToolbar().add((new ActionClassDiagram()));
-        ShortcutMgr.assignAccelerator(classDiagram,
-                ShortcutMgr.ACTION_CLASS_DIAGRAM);
+		JMenuItem classDiagram = getCreateDiagramMenu().add(new ActionClassDiagram());
+		setMnemonic(classDiagram, "Class Diagram");
+		getCreateDiagramToolbar().add((new ActionClassDiagram()));
+		ShortcutMgr.assignAccelerator(classDiagram, ShortcutMgr.ACTION_CLASS_DIAGRAM);
 
-        JMenuItem sequenzDiagram =
-            getCreateDiagramMenu().add(new ActionSequenceDiagram());
-        setMnemonic(sequenzDiagram, "Sequenz Diagram");
-        getCreateDiagramToolbar().add((new ActionSequenceDiagram()));
-        ShortcutMgr.assignAccelerator(sequenzDiagram,
-                ShortcutMgr.ACTION_SEQUENCE_DIAGRAM);
-        
-        JMenuItem collaborationDiagram =
-            getCreateDiagramMenu().add(new ActionCollaborationDiagram());
-        setMnemonic(collaborationDiagram, "Collaboration Diagram");
-        getCreateDiagramToolbar().add((new ActionCollaborationDiagram()));
-        ShortcutMgr.assignAccelerator(collaborationDiagram,
-                ShortcutMgr.ACTION_COLLABORATION_DIAGRAM);
-        
-        JMenuItem stateDiagram =
-            getCreateDiagramMenu().add(new ActionStateDiagram());
-        setMnemonic(stateDiagram, "State Diagram");
-        getCreateDiagramToolbar().add((new ActionStateDiagram()));
-        ShortcutMgr.assignAccelerator(stateDiagram,
-                ShortcutMgr.ACTION_STATE_DIAGRAM);
+		JMenuItem sequenzDiagram = getCreateDiagramMenu().add(new ActionSequenceDiagram());
+		setMnemonic(sequenzDiagram, "Sequenz Diagram");
+		getCreateDiagramToolbar().add((new ActionSequenceDiagram()));
+		ShortcutMgr.assignAccelerator(sequenzDiagram, ShortcutMgr.ACTION_SEQUENCE_DIAGRAM);
 
-        JMenuItem activityDiagram =
-            getCreateDiagramMenu().add(new ActionActivityDiagram());
-        setMnemonic(activityDiagram, "Activity Diagram");
-        getCreateDiagramToolbar().add((new ActionActivityDiagram()));
-        ShortcutMgr.assignAccelerator(activityDiagram,
-                ShortcutMgr.ACTION_ACTIVITY_DIAGRAM);
+		JMenuItem collaborationDiagram = getCreateDiagramMenu().add(new ActionCollaborationDiagram());
+		setMnemonic(collaborationDiagram, "Collaboration Diagram");
+		getCreateDiagramToolbar().add((new ActionCollaborationDiagram()));
+		ShortcutMgr.assignAccelerator(collaborationDiagram, ShortcutMgr.ACTION_COLLABORATION_DIAGRAM);
 
-        JMenuItem deploymentDiagram =
-            getCreateDiagramMenu().add(new ActionDeploymentDiagram());
-        setMnemonic(deploymentDiagram, "Deployment Diagram");
-        getCreateDiagramToolbar().add((new ActionDeploymentDiagram()));
-        ShortcutMgr.assignAccelerator(deploymentDiagram,
-                ShortcutMgr.ACTION_DEPLOYMENT_DIAGRAM);
+		JMenuItem stateDiagram = getCreateDiagramMenu().add(new ActionStateDiagram());
+		setMnemonic(stateDiagram, "State Diagram");
+		getCreateDiagramToolbar().add((new ActionStateDiagram()));
+		ShortcutMgr.assignAccelerator(stateDiagram, ShortcutMgr.ACTION_STATE_DIAGRAM);
 
-        getCreateDiagramToolbar().setFloatable(true);
-    }
+		JMenuItem activityDiagram = getCreateDiagramMenu().add(new ActionActivityDiagram());
+		setMnemonic(activityDiagram, "Activity Diagram");
+		getCreateDiagramToolbar().add((new ActionActivityDiagram()));
+		ShortcutMgr.assignAccelerator(activityDiagram, ShortcutMgr.ACTION_ACTIVITY_DIAGRAM);
+
+		JMenuItem deploymentDiagram = getCreateDiagramMenu().add(new ActionDeploymentDiagram());
+		setMnemonic(deploymentDiagram, "Deployment Diagram");
+		getCreateDiagramToolbar().add((new ActionDeploymentDiagram()));
+		ShortcutMgr.assignAccelerator(deploymentDiagram, ShortcutMgr.ACTION_DEPLOYMENT_DIAGRAM);
+
+		getCreateDiagramToolbar().setFloatable(true);
+	}
 }

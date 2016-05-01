@@ -59,160 +59,151 @@ import org.argouml.cognitive.GoalModel;
 import org.argouml.cognitive.Translator;
 import org.argouml.util.ArgoDialog;
 
-
 /**
  * The dialog to set the user's goals.
  *
  */
 public class GoalsDialog extends ArgoDialog implements ChangeListener {
 
-    private static final int DIALOG_WIDTH = 320;
-    private static final int DIALOG_HEIGHT = 400;
+	private static final int DIALOG_WIDTH = 320;
+	private static final int DIALOG_HEIGHT = 400;
 
+	private JPanel mainPanel = new JPanel();
 
-    private JPanel mainPanel = new JPanel();
+	private Hashtable<JSlider, Goal> slidersToGoals = new Hashtable<JSlider, Goal>();
 
-    private Hashtable<JSlider, Goal> slidersToGoals = 
-        new Hashtable<JSlider, Goal>();
+	private Hashtable<JSlider, JLabel> slidersToDigits = new Hashtable<JSlider, JLabel>();
 
-    private Hashtable<JSlider, JLabel> slidersToDigits = 
-        new Hashtable<JSlider, JLabel>();
+	/**
+	 * The constructor.
+	 */
+	public GoalsDialog() {
+		super(Translator.localize("dialog.title.design-goals"), false);
 
-    /**
-     * The constructor.
-     */
-    public GoalsDialog() {
-	super(Translator.localize("dialog.title.design-goals"), false);
+		initMainPanel();
 
-	initMainPanel();
+		JScrollPane scroll = new JScrollPane(mainPanel);
+		scroll.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
 
-	JScrollPane scroll = new JScrollPane(mainPanel);
-	scroll.setPreferredSize(new Dimension(DIALOG_WIDTH, DIALOG_HEIGHT));
-
-	setContent(scroll);
-    }
-
-
-    private void initMainPanel() {
-	GoalModel gm = Designer.theDesigner().getGoalModel();
-	List<Goal> goals = gm.getGoalList();
-
-	GridBagLayout gb = new GridBagLayout();
-	mainPanel.setLayout(gb);
-	mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-
-	GridBagConstraints c = new GridBagConstraints();
-	c.fill = GridBagConstraints.BOTH;
-	c.weightx = 1.0;
-	c.weighty = 0.0;
-	c.ipadx = 3; c.ipady = 3;
-
-
-
-	//     c.gridy = 0;
-	//     c.gridx = 0;
-	//     JLabel priLabel = new JLabel("Priority:");
-	//     gb.setConstraints(priLabel, c);
-	//     _mainPanel.add(priLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 1;
-	//     JLabel offLabel = new JLabel("Off");
-	//     gb.setConstraints(offLabel, c);
-	//     _mainPanel.add(offLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 2;
-	//     JLabel lowLabel = new JLabel("Low");
-	//     gb.setConstraints(lowLabel, c);
-	//     _mainPanel.add(lowLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 3;
-	//     JLabel twoLabel = new JLabel("ad");
-	//     gb.setConstraints(twoLabel, c);
-	//     _mainPanel.add(twoLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 4;
-	//     JLabel threeLabel = new JLabel("asd");
-	//     gb.setConstraints(threeLabel, c);
-	//     _mainPanel.add(threeLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 5;
-	//     JLabel fourLabel = new JLabel("asd");
-	//     gb.setConstraints(fourLabel, c);
-	//     _mainPanel.add(fourLabel);
-
-	//     c.gridy = 0;
-	//     c.gridx = 6;
-	//     JLabel highLabel = new JLabel("High");
-	//     gb.setConstraints(highLabel, c);
-	//     _mainPanel.add(highLabel);
-
-
-	c.gridy = 1;
-        for (Goal goal : goals) {
-	    JLabel decLabel = new JLabel(goal.getName());
-	    JLabel valueLabel = new JLabel("    " + goal.getPriority());
-	    JSlider decSlide =
-                new JSlider(SwingConstants.HORIZONTAL,
-                            0, 5, goal.getPriority());
-	    decSlide.setPaintTicks(true);
-	    decSlide.setPaintLabels(true);
-	    decSlide.addChangeListener(this);
-	    Dimension origSize = decSlide.getPreferredSize();
-	    Dimension smallSize =
-		new Dimension(origSize.width / 2, origSize.height);
-	    decSlide.setSize(smallSize);
-	    decSlide.setPreferredSize(smallSize);
-
-	    slidersToGoals.put(decSlide, goal);
-	    slidersToDigits.put(decSlide, valueLabel);
-
-	    c.gridx = 0;
-	    c.gridwidth = 1;
-	    c.weightx = 0.0;
-	    c.ipadx = 3;
-	    gb.setConstraints(decLabel, c);
-	    mainPanel.add(decLabel);
-
-	    c.gridx = 1;
-	    c.gridwidth = 1;
-	    c.weightx = 0.0;
-	    c.ipadx = 0;
-	    gb.setConstraints(valueLabel, c);
-	    mainPanel.add(valueLabel);
-
-	    c.gridx = 2;
-	    c.gridwidth = 6;
-	    c.weightx = 1.0;
-	    gb.setConstraints(decSlide, c);
-	    mainPanel.add(decSlide);
-
-	    c.gridy++;
+		setContent(scroll);
 	}
-    }
 
-    /*
-     * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.ChangeEvent)
-     */
-    public void stateChanged(ChangeEvent ce) {
-	JSlider srcSlider = (JSlider) ce.getSource();
-	Goal goal = slidersToGoals.get(srcSlider);
-	JLabel valLab = slidersToDigits.get(srcSlider);
-	int pri = srcSlider.getValue();
-	goal.setPriority(pri);
-	if (pri == 0) {
-	    valLab.setText(Translator.localize("label.off"));
-	} else {
-	    valLab.setText("    " + pri);
+	private void initMainPanel() {
+		GoalModel gm = Designer.theDesigner().getGoalModel();
+		List<Goal> goals = gm.getGoalList();
+
+		GridBagLayout gb = new GridBagLayout();
+		mainPanel.setLayout(gb);
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1.0;
+		c.weighty = 0.0;
+		c.ipadx = 3;
+		c.ipady = 3;
+
+		// c.gridy = 0;
+		// c.gridx = 0;
+		// JLabel priLabel = new JLabel("Priority:");
+		// gb.setConstraints(priLabel, c);
+		// _mainPanel.add(priLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 1;
+		// JLabel offLabel = new JLabel("Off");
+		// gb.setConstraints(offLabel, c);
+		// _mainPanel.add(offLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 2;
+		// JLabel lowLabel = new JLabel("Low");
+		// gb.setConstraints(lowLabel, c);
+		// _mainPanel.add(lowLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 3;
+		// JLabel twoLabel = new JLabel("ad");
+		// gb.setConstraints(twoLabel, c);
+		// _mainPanel.add(twoLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 4;
+		// JLabel threeLabel = new JLabel("asd");
+		// gb.setConstraints(threeLabel, c);
+		// _mainPanel.add(threeLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 5;
+		// JLabel fourLabel = new JLabel("asd");
+		// gb.setConstraints(fourLabel, c);
+		// _mainPanel.add(fourLabel);
+
+		// c.gridy = 0;
+		// c.gridx = 6;
+		// JLabel highLabel = new JLabel("High");
+		// gb.setConstraints(highLabel, c);
+		// _mainPanel.add(highLabel);
+
+		c.gridy = 1;
+		for (Goal goal : goals) {
+			JLabel decLabel = new JLabel(goal.getName());
+			JLabel valueLabel = new JLabel("    " + goal.getPriority());
+			JSlider decSlide = new JSlider(SwingConstants.HORIZONTAL, 0, 5, goal.getPriority());
+			decSlide.setPaintTicks(true);
+			decSlide.setPaintLabels(true);
+			decSlide.addChangeListener(this);
+			Dimension origSize = decSlide.getPreferredSize();
+			Dimension smallSize = new Dimension(origSize.width / 2, origSize.height);
+			decSlide.setSize(smallSize);
+			decSlide.setPreferredSize(smallSize);
+
+			slidersToGoals.put(decSlide, goal);
+			slidersToDigits.put(decSlide, valueLabel);
+
+			c.gridx = 0;
+			c.gridwidth = 1;
+			c.weightx = 0.0;
+			c.ipadx = 3;
+			gb.setConstraints(decLabel, c);
+			mainPanel.add(decLabel);
+
+			c.gridx = 1;
+			c.gridwidth = 1;
+			c.weightx = 0.0;
+			c.ipadx = 0;
+			gb.setConstraints(valueLabel, c);
+			mainPanel.add(valueLabel);
+
+			c.gridx = 2;
+			c.gridwidth = 6;
+			c.weightx = 1.0;
+			gb.setConstraints(decSlide, c);
+			mainPanel.add(decSlide);
+
+			c.gridy++;
+		}
 	}
-    }
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = -1871200638199122363L;
+	/*
+	 * @see javax.swing.event.ChangeListener#stateChanged(javax.swing.event.
+	 * ChangeEvent)
+	 */
+	public void stateChanged(ChangeEvent ce) {
+		JSlider srcSlider = (JSlider) ce.getSource();
+		Goal goal = slidersToGoals.get(srcSlider);
+		JLabel valLab = slidersToDigits.get(srcSlider);
+		int pri = srcSlider.getValue();
+		goal.setPriority(pri);
+		if (pri == 0) {
+			valLab.setText(Translator.localize("label.off"));
+		} else {
+			valLab.setText("    " + pri);
+		}
+	}
+
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = -1871200638199122363L;
 }

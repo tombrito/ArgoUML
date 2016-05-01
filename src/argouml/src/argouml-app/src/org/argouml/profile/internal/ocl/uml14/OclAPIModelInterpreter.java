@@ -50,79 +50,80 @@ import org.argouml.profile.internal.ocl.ModelInterpreter;
  */
 public class OclAPIModelInterpreter implements ModelInterpreter {
 
-    /*
-     * @see org.argouml.profile.internal.ocl.ModelInterpreter#invokeFeature(java.util.Map,
-     *      java.lang.Object, java.lang.String, java.lang.String,
-     *      java.lang.Object[])
-     */
-    public Object invokeFeature(Map<String, Object> vt, Object subject,
-            String feature, String type, Object[] parameters) {
-        if (type.equals(".")) {
-            // TODO implement the difference between oclIsKindOf and oclIsTypeOf
-            if (feature.toString().trim().equals("oclIsKindOf")
-                    || feature.toString().trim().equals("oclIsTypeOf")) {
+	/*
+	 * @see
+	 * org.argouml.profile.internal.ocl.ModelInterpreter#invokeFeature(java.util
+	 * .Map, java.lang.Object, java.lang.String, java.lang.String,
+	 * java.lang.Object[])
+	 */
+	public Object invokeFeature(Map<String, Object> vt, Object subject, String feature, String type,
+			Object[] parameters) {
+		if (type.equals(".")) {
+			// TODO implement the difference between oclIsKindOf and oclIsTypeOf
+			if (feature.toString().trim().equals("oclIsKindOf") || feature.toString().trim().equals("oclIsTypeOf")) {
 
-                String typeName = ((OclType) parameters[0]).getName();
+				String typeName = ((OclType) parameters[0]).getName();
 
-                if (typeName.equals("OclAny")) {
-                    return true;
-                } else {
-                    return  Model.getFacade().isA(typeName, subject);
-                }
-            }
+				if (typeName.equals("OclAny")) {
+					return true;
+				} else {
+					return Model.getFacade().isA(typeName, subject);
+				}
+			}
 
-            if (feature.toString().trim().equals("oclAsType")) {
-                return subject;
-            }
+			if (feature.toString().trim().equals("oclAsType")) {
+				return subject;
+			}
 
-            if (subject instanceof OclType) {
-                if (feature.toString().trim().equals("name")) {
-                    return ((OclType) subject).getName();
-                }
-            }
+			if (subject instanceof OclType) {
+				if (feature.toString().trim().equals("name")) {
+					return ((OclType) subject).getName();
+				}
+			}
 
-            if (subject instanceof String) {
-                if (feature.toString().trim().equals("size")) {
-                    return ((String) subject).length();
-                }
-                
-                if (feature.toString().trim().equals("concat")) {
-                    return ((String) subject).concat((String) parameters[0]);
-                }
+			if (subject instanceof String) {
+				if (feature.toString().trim().equals("size")) {
+					return ((String) subject).length();
+				}
 
-                if (feature.toString().trim().equals("toLower")) {
-                    return ((String) subject).toLowerCase();
-                }
-                
-                if (feature.toString().trim().equals("toUpper")) {
-                    return ((String) subject).toUpperCase();
-                }
-                
-                if (feature.toString().trim().equals("substring")) {
-                    return ((String) subject).substring(
-                            (Integer) parameters[0], (Integer) parameters[1]);
-                }
-                
-            }
+				if (feature.toString().trim().equals("concat")) {
+					return ((String) subject).concat((String) parameters[0]);
+				}
 
-        }
-        return null;
-    }
+				if (feature.toString().trim().equals("toLower")) {
+					return ((String) subject).toLowerCase();
+				}
 
-    /*
-     * @see org.argouml.profile.internal.ocl.ModelInterpreter#getBuiltInSymbol(java.lang.String)
-     */
-    public Object getBuiltInSymbol(String sym) {        
-        if (sym.equals("OclType")) {
-            return new OclType("OclType");
-        // TODO implement OCLExpression
-        } else if (sym.equals("OclExpression")) {
-            return new OclType("OclExpression");
-        }
-        if (sym.equals("OclAny")) {
-            return new OclType("OclAny");
-        }
-        return null;
-    }
+				if (feature.toString().trim().equals("toUpper")) {
+					return ((String) subject).toUpperCase();
+				}
+
+				if (feature.toString().trim().equals("substring")) {
+					return ((String) subject).substring((Integer) parameters[0], (Integer) parameters[1]);
+				}
+
+			}
+
+		}
+		return null;
+	}
+
+	/*
+	 * @see
+	 * org.argouml.profile.internal.ocl.ModelInterpreter#getBuiltInSymbol(java.
+	 * lang.String)
+	 */
+	public Object getBuiltInSymbol(String sym) {
+		if (sym.equals("OclType")) {
+			return new OclType("OclType");
+			// TODO implement OCLExpression
+		} else if (sym.equals("OclExpression")) {
+			return new OclType("OclExpression");
+		}
+		if (sym.equals("OclAny")) {
+			return new OclType("OclAny");
+		}
+		return null;
+	}
 
 }

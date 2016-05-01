@@ -42,13 +42,17 @@ import java.util.EventListener;
 
 /**
  * A listener to be implemented by those interested in ProgressEvents.
+ * 
  * @author Bob Tarling
  */
 public interface ProgressListener extends EventListener {
-    /**
-     * Called when a ProgressEvent is fired.
-     * @param event the ProgressEvent
-     * @throws InterruptedException     if thread is interrupted
-     */
-    void progress(ProgressEvent event) throws InterruptedException;
+	/**
+	 * Called when a ProgressEvent is fired.
+	 * 
+	 * @param event
+	 *            the ProgressEvent
+	 * @throws InterruptedException
+	 *             if thread is interrupted
+	 */
+	void progress(ProgressEvent event) throws InterruptedException;
 }

@@ -84,656 +84,655 @@ import org.tigris.toolbar.ToolBarFactory;
 
 /**
  * This abstract class provides the basic layout and event dispatching support
- * for all Property Panels.<p>
+ * for all Property Panels.
+ * <p>
  *
  * The property panel is {@link org.argouml.uml.ui.LabelledLayout} layed out as
  * a number (specified in the constructor) of equally sized panels that split
  * the available space. Each panel has a column of "captions" and matching
- * column of "fields" which are laid out independently from the other
- * panels.<p>
+ * column of "fields" which are laid out independently from the other panels.
+ * <p>
  *
  * The Properties panels for UML Model Elements are structured in an inheritance
  * hierarchy that matches the UML metamodel.
  */
-public abstract class PropPanel extends AbstractArgoJPanel implements
-        UMLUserInterfaceContainer, ComponentListener {
+public abstract class PropPanel extends AbstractArgoJPanel implements UMLUserInterfaceContainer, ComponentListener {
 
-    private static final long serialVersionUID = -2362145015233724933L;
+	private static final long serialVersionUID = -2362145015233724933L;
 
 	/**
-     * Logger.
-     */
-    private static final Logger LOG =
-        Logger.getLogger(PropPanel.class.getName());
+	 * Logger.
+	 */
+	private static final Logger LOG = Logger.getLogger(PropPanel.class.getName());
 
-    private Object target;
+	private Object target;
 
-    private Object modelElement;
+	private Object modelElement;
 
-    /**
-     * List of event listeners to notify. This is computed one time and frozen
-     * the first time any target change method (e.g. setTarget, targetAdded) is
-     * called.
-     */
-    private EventListenerList listenerList;
+	/**
+	 * List of event listeners to notify. This is computed one time and frozen
+	 * the first time any target change method (e.g. setTarget, targetAdded) is
+	 * called.
+	 */
+	private EventListenerList listenerList;
 
-    private JPanel buttonPanel = new JPanel(new GridLayout());
+	private JPanel buttonPanel = new JPanel(new GridLayout());
 
-    private JLabel titleLabel;
+	private JLabel titleLabel;
 
-    /**
-     * A list with "actions".<p>
-     *
-     * Action in this respect are one of:<ul>
-     * <li> {@link Action}
-     * <li> {@link JButton}
-     * <li> {@link Object}[]
-     * </ul>
-     */
-    private List actions = new ArrayList();
+	/**
+	 * A list with "actions".
+	 * <p>
+	 *
+	 * Action in this respect are one of:
+	 * <ul>
+	 * <li>{@link Action}
+	 * <li>{@link JButton}
+	 * <li>{@link Object}[]
+	 * </ul>
+	 */
+	private List actions = new ArrayList();
 
-    private static Font stdFont =
-        LookAndFeelMgr.getInstance().getStandardFont();
+	private static Font stdFont = LookAndFeelMgr.getInstance().getStandardFont();
 
-    /**
-     * Construct new PropPanel using LabelledLayout.
-     * <p>
-     * @param icon The icon to display for the panel
-     * @param label The label for the title of the panel (to be localized).
-     */
-    public PropPanel(String label, ImageIcon icon) {
-        super(Translator.localize(label));
+	/**
+	 * Construct new PropPanel using LabelledLayout.
+	 * <p>
+	 * 
+	 * @param icon
+	 *            The icon to display for the panel
+	 * @param label
+	 *            The label for the title of the panel (to be localized).
+	 */
+	public PropPanel(String label, ImageIcon icon) {
+		super(Translator.localize(label));
 
-        LabelledLayout layout = new LabelledLayout();
-        layout.setHgap(5);
-        setLayout(layout);
+		LabelledLayout layout = new LabelledLayout();
+		layout.setHgap(5);
+		setLayout(layout);
 
-        if (icon != null) {
-            setTitleLabel(new JLabel(Translator.localize(label), icon,
-                    SwingConstants.LEFT));
-        } else {
-            setTitleLabel(new JLabel(Translator.localize(label)));
-        }
-        titleLabel.setLabelFor(buttonPanel);
-        add(titleLabel);
-        add(buttonPanel);
+		if (icon != null) {
+			setTitleLabel(new JLabel(Translator.localize(label), icon, SwingConstants.LEFT));
+		} else {
+			setTitleLabel(new JLabel(Translator.localize(label)));
+		}
+		titleLabel.setLabelFor(buttonPanel);
+		add(titleLabel);
+		add(buttonPanel);
 
-        addComponentListener(this);
-    }
+		addComponentListener(this);
+	}
 
+	/*
+	 * @see org.tigris.swidgets.Orientable#setOrientation(org.tigris.swidgets.
+	 * Orientation)
+	 */
+	@Override
+	public void setOrientation(Orientation orientation) {
+		// TODO: Do we need to change the layout manager when
+		// changing orientation to match the behavior of the constructor?
+		// if (getOrientation() != orientation) {
+		// LabelledLayout layout = new LabelledLayout(orientation == Vertical
+		// .getInstance());
+		// setLayout(layout);
+		// }
+		super.setOrientation(orientation);
+	}
 
-    /*
-     * @see org.tigris.swidgets.Orientable#setOrientation(org.tigris.swidgets.Orientation)
-     */
-    @Override
-    public void setOrientation(Orientation orientation) {
-        // TODO: Do we need to change the layout manager when
-        // changing orientation to match the behavior of the constructor?
-//        if (getOrientation() != orientation) {
-//            LabelledLayout layout = new LabelledLayout(orientation == Vertical
-//                    .getInstance());
-//            setLayout(layout);
-//        }
-        super.setOrientation(orientation);
-    }
+	/**
+	 * Add a button to the toolbar of a property panel using the action to
+	 * control the behavior of the action.
+	 *
+	 * @param action
+	 *            the action which will be used in the toolbar button.
+	 */
+	protected void addAction(Action action) {
+		actions.add(action);
+	}
 
-    /**
-     * Add a button to the toolbar of a property panel using the action to
-     * control the behavior of the action.
-     *
-     * @param action
-     *            the action which will be used in the toolbar button.
-     */
-    protected void addAction(Action action) {
-        actions.add(action);
-    }
+	/**
+	 * Add a button to the toolbar of a property panel using the action to
+	 * control the behavior of the action.
+	 *
+	 * @param action
+	 *            the action which will be used in the toolbar button.
+	 * @param tooltip
+	 *            the tooltip to set, or null to skip setting of a new tooltip.
+	 */
+	protected void addAction(Action action, String tooltip) {
+		JButton button = new TargettableButton(action);
+		if (tooltip != null) {
+			button.setToolTipText(tooltip);
+		}
+		button.setText("");
+		button.setFocusable(false);
+		actions.add(button);
+	}
 
-    /**
-     * Add a button to the toolbar of a property panel using the action to
-     * control the behavior of the action.
-     *
-     * @param action
-     *            the action which will be used in the toolbar button.
-     * @param tooltip
-     *            the tooltip to set, or null to skip setting of a new tooltip.
-     */
-    protected void addAction(Action action, String tooltip) {
-        JButton button = new TargettableButton(action);
-        if (tooltip != null) {
-            button.setToolTipText(tooltip);
-        }
-        button.setText("");
-        button.setFocusable(false);
-        actions.add(button);
-    }
+	/**
+	 * Add multiple buttons at once.
+	 *
+	 * @param actionArray
+	 *            the Actions.
+	 */
+	protected void addAction(Object[] actionArray) {
+		actions.add(actionArray);
+	}
 
-    /**
-     * Add multiple buttons at once.
-     *
-     * @param actionArray the Actions.
-     */
-    protected void addAction(Object[] actionArray) {
-        actions.add(actionArray);
-    }
+	public void buildToolbar() {
+		LOG.log(Level.FINE, "Building toolbar");
 
-    public void buildToolbar() {
-        LOG.log(Level.FINE, "Building toolbar");
+		ToolBarFactory factory = new ToolBarFactory(getActions());
+		factory.setRollover(true);
+		factory.setFloatable(false);
+		JToolBar toolBar = factory.createToolBar();
+		toolBar.setName("misc.toolbar.properties");
 
-        ToolBarFactory factory = new ToolBarFactory(getActions());
-        factory.setRollover(true);
-        factory.setFloatable(false);
-        JToolBar toolBar = factory.createToolBar();
-        toolBar.setName("misc.toolbar.properties");
+		buttonPanel.removeAll();
+		buttonPanel.add(BorderLayout.WEST, toolBar);
+		// Set the tooltip of the arrow to open combined tools:
+		buttonPanel.putClientProperty("ToolBar.toolTipSelectTool", Translator.localize("action.select"));
+	}
 
-	buttonPanel.removeAll();
-        buttonPanel.add(BorderLayout.WEST, toolBar);
-        // Set the tooltip of the arrow to open combined tools:
-        buttonPanel.putClientProperty("ToolBar.toolTipSelectTool",
-                Translator.localize("action.select"));
-    }
+	/**
+	 * Get the actions that will make up the toolbar on this panel.
+	 * 
+	 * @return The list of actions to show for this panel.
+	 */
+	protected List getActions() {
+		return actions;
+	}
 
-    /**
-     * Get the actions that will make up the toolbar on this panel.
-     * @return The list of actions to show for this panel.
-     */
-    protected List getActions() {
-        return actions;
-    }
+	private static class TargettableButton extends JButton implements TargettableModelView {
 
-    private static class TargettableButton extends JButton
-        implements TargettableModelView {
-
-        private static final long serialVersionUID = -2407530122884186399L;
+		private static final long serialVersionUID = -2407530122884186399L;
 
 		public TargettableButton(Action action) {
-            super(action);
-        }
+			super(action);
+		}
 
-        public TargetListener getTargettableModel() {
-            if (getAction() instanceof TargetListener) {
-                return (TargetListener) getAction();
-            }
-            return null;
-        }
+		public TargetListener getTargettableModel() {
+			if (getAction() instanceof TargetListener) {
+				return (TargetListener) getAction();
+			}
+			return null;
+		}
 
-    }
+	}
 
-    /**
-     * Add a component with the specified label.<p>
-     *
-     * @param label
-     *            the label for the component
-     * @param component
-     *            the component
-     * @return the label added
-     */
-    public JLabel addField(String label, Component component) {
-        JLabel jlabel = createLabelFor(label, component);
-        component.setFont(stdFont);
-        add(jlabel);
-        add(component);
-        if (component instanceof UMLStereotypeList) {
-            UMLModelElementListModel2 list =
-                (UMLModelElementListModel2) ((UMLStereotypeList) component).getModel();
-            new ActionCreateContainedModelElement(
-			        list.getMetaType(),
-			        list.getTarget(),
-			        "New...");
-        }
-        return jlabel;
-    }
+	/**
+	 * Add a component with the specified label.
+	 * <p>
+	 *
+	 * @param label
+	 *            the label for the component
+	 * @param component
+	 *            the component
+	 * @return the label added
+	 */
+	public JLabel addField(String label, Component component) {
+		JLabel jlabel = createLabelFor(label, component);
+		component.setFont(stdFont);
+		add(jlabel);
+		add(component);
+		if (component instanceof UMLStereotypeList) {
+			UMLModelElementListModel2 list = (UMLModelElementListModel2) ((UMLStereotypeList) component).getModel();
+			new ActionCreateContainedModelElement(list.getMetaType(), list.getTarget(), "New...");
+		}
+		return jlabel;
+	}
 
-    /**
-     * @param label The text of the label (the method cares about i18n)
-     * @param comp The component that this label is for
-     * @return a new JLabel
-     */
-    private JLabel createLabelFor(String label, Component comp) {
-        JLabel jlabel = new JLabel(Translator.localize(label));
-        jlabel.setToolTipText(Translator.localize(label));
-        jlabel.setFont(stdFont);
-        jlabel.setLabelFor(comp);
-        return jlabel;
-    }
+	/**
+	 * @param label
+	 *            The text of the label (the method cares about i18n)
+	 * @param comp
+	 *            The component that this label is for
+	 * @return a new JLabel
+	 */
+	private JLabel createLabelFor(String label, Component comp) {
+		JLabel jlabel = new JLabel(Translator.localize(label));
+		jlabel.setToolTipText(Translator.localize(label));
+		jlabel.setFont(stdFont);
+		jlabel.setLabelFor(comp);
+		return jlabel;
+	}
 
-    /**
-     * Add a component with the specified label positioned after another
-     * component.
-     *
-     * @param label
-     *            the label for the component
-     * @param component
-     *            the component
-     * @param afterComponent
-     *            the component before
-     * @return the newly added label
-     */
-    public JLabel addFieldAfter(String label, Component component,
-            Component afterComponent) {
-        int nComponent = getComponentCount();
-        for (int i = 0; i < nComponent; ++i) {
-            if (getComponent(i) == afterComponent) {
-                JLabel jlabel = createLabelFor(label, component);
-                component.setFont(stdFont);
-                add(jlabel, ++i);
-                add(component, ++i);
-                return jlabel;
-            }
-        }
-        throw new IllegalArgumentException("Component not found");
-    }
+	/**
+	 * Add a component with the specified label positioned after another
+	 * component.
+	 *
+	 * @param label
+	 *            the label for the component
+	 * @param component
+	 *            the component
+	 * @param afterComponent
+	 *            the component before
+	 * @return the newly added label
+	 */
+	public JLabel addFieldAfter(String label, Component component, Component afterComponent) {
+		int nComponent = getComponentCount();
+		for (int i = 0; i < nComponent; ++i) {
+			if (getComponent(i) == afterComponent) {
+				JLabel jlabel = createLabelFor(label, component);
+				component.setFont(stdFont);
+				add(jlabel, ++i);
+				add(component, ++i);
+				return jlabel;
+			}
+		}
+		throw new IllegalArgumentException("Component not found");
+	}
 
-    /**
-     * Add a component with the specified label positioned before another
-     * component.<p>
-     *
-     * @param label
-     *            the label for the component
-     * @param component
-     *            the to be added component
-     * @param beforeComponent
-     *            the component before its label we add
-     * @return the newly added component
-     */
-    public JLabel addFieldBefore(String label, Component component,
-            Component beforeComponent) {
-        int nComponent = getComponentCount();
-        for (int i = 0; i < nComponent; ++i) {
-            if (getComponent(i) == beforeComponent) {
-                JLabel jlabel = createLabelFor(label, component);
-                component.setFont(stdFont);
-                add(jlabel, i - 1);
-                add(component, i++);
-                return jlabel;
-            }
-        }
-        throw new IllegalArgumentException("Component not found");
-    }
+	/**
+	 * Add a component with the specified label positioned before another
+	 * component.
+	 * <p>
+	 *
+	 * @param label
+	 *            the label for the component
+	 * @param component
+	 *            the to be added component
+	 * @param beforeComponent
+	 *            the component before its label we add
+	 * @return the newly added component
+	 */
+	public JLabel addFieldBefore(String label, Component component, Component beforeComponent) {
+		int nComponent = getComponentCount();
+		for (int i = 0; i < nComponent; ++i) {
+			if (getComponent(i) == beforeComponent) {
+				JLabel jlabel = createLabelFor(label, component);
+				component.setFont(stdFont);
+				add(jlabel, i - 1);
+				add(component, i++);
+				return jlabel;
+			}
+		}
+		throw new IllegalArgumentException("Component not found");
+	}
 
-    /**
-     * Add a separator.
-     */
-    protected final void addSeparator() {
-        add(LabelledLayout.getSeparator());
-    }
+	/**
+	 * Add a separator.
+	 */
+	protected final void addSeparator() {
+		add(LabelledLayout.getSeparator());
+	}
 
-    /**
-     * Set the target to be associated with a particular property panel.<p>
-     *
-     * This involves resetting the third party listeners.
-     *
-     * @param t
-     *            The object to be set as a target.
-     */
-    public void setTarget(Object t) {
+	/**
+	 * Set the target to be associated with a particular property panel.
+	 * <p>
+	 *
+	 * This involves resetting the third party listeners.
+	 *
+	 * @param t
+	 *            The object to be set as a target.
+	 */
+	public void setTarget(Object t) {
 
-        LOG.log(Level.FINE, "setTarget called with {0} as parameter (not target!)", t);
+		LOG.log(Level.FINE, "setTarget called with {0} as parameter (not target!)", t);
 
-        t = (t instanceof Fig) ? ((Fig) t).getOwner() : t;
+		t = (t instanceof Fig) ? ((Fig) t).getOwner() : t;
 
-        // If the target has changed notify the third party listener if it
-        // exists and dispatch a new element event listener to
-        // ourself. Otherwise dispatch a target reasserted to ourself.
-        Runnable dispatch = null;
-        if (t != target) {
+		// If the target has changed notify the third party listener if it
+		// exists and dispatch a new element event listener to
+		// ourself. Otherwise dispatch a target reasserted to ourself.
+		Runnable dispatch = null;
+		if (t != target) {
 
-            // Set up the target and its model element variant.
+			// Set up the target and its model element variant.
 
-            target = t;
-            modelElement = null;
-            if (listenerList == null) {
-                listenerList = collectTargetListeners(this);
-            }
+			target = t;
+			modelElement = null;
+			if (listenerList == null) {
+				listenerList = collectTargetListeners(this);
+			}
 
-            if (Model.getFacade().isAUMLElement(target)) {
-                modelElement = target;
-            }
+			if (Model.getFacade().isAUMLElement(target)) {
+				modelElement = target;
+			}
 
-            // This will add a new ModelElement event listener
-            // after update is complete
+			// This will add a new ModelElement event listener
+			// after update is complete
 
-            dispatch = new UMLChangeDispatch(this,
-                    UMLChangeDispatch.TARGET_CHANGED_ADD);
+			dispatch = new UMLChangeDispatch(this, UMLChangeDispatch.TARGET_CHANGED_ADD);
 
-            buildToolbar();
-        } else {
-            dispatch = new UMLChangeDispatch(this,
-                    UMLChangeDispatch.TARGET_REASSERTED);
+			buildToolbar();
+		} else {
+			dispatch = new UMLChangeDispatch(this, UMLChangeDispatch.TARGET_REASSERTED);
 
-        }
-        SwingUtilities.invokeLater(dispatch);
+		}
+		SwingUtilities.invokeLater(dispatch);
 
-        // update the titleLabel
-        // MVW: This overrules the icon set initiallly... Why do we need this?
-        if (titleLabel != null) {
-            Icon icon = null;
-            if (t != null) {
-                icon = ResourceLoaderWrapper.getInstance().lookupIcon(t);
-            }
-            if (icon != null) {
-                titleLabel.setIcon(icon);
-            }
-        }
-    }
+		// update the titleLabel
+		// MVW: This overrules the icon set initiallly... Why do we need this?
+		if (titleLabel != null) {
+			Icon icon = null;
+			if (t != null) {
+				icon = ResourceLoaderWrapper.getInstance().lookupIcon(t);
+			}
+			if (icon != null) {
+				titleLabel.setIcon(icon);
+			}
+		}
+	}
 
-    /**
-     * Builds a eventlistenerlist of all targetlisteners that are part of this
-     * container and its children. Components do not need to register
-     * themselves. They are registered implicitly if they implement the
-     * TargetListener interface.
-     *
-     * @param container
-     *            the container to search for targetlisteners
-     * @return an EventListenerList with all TargetListeners on this container
-     *         and its children.
-     */
-    private EventListenerList collectTargetListeners(Container container) {
-        Component[] components = container.getComponents();
-        EventListenerList list = new EventListenerList();
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof TargetListener) {
-                list.add(TargetListener.class, (TargetListener) components[i]);
-            }
-            if (components[i] instanceof TargettableModelView) {
-                list.add(TargetListener.class,
-                        ((TargettableModelView) components[i])
-                                .getTargettableModel());
-            }
-            if (components[i] instanceof Container) {
-                EventListenerList list2 = collectTargetListeners(
-                                                (Container) components[i]);
-                Object[] objects = list2.getListenerList();
-                for (int j = 1; j < objects.length; j += 2) {
-                    list.add(TargetListener.class, (TargetListener) objects[j]);
-                }
-            }
-        }
-        if (container instanceof PropPanel) {
-            /* We presume that the container equals this PropPanel. */
-            for (TargetListener action : collectTargetListenerActions()) {
-                list.add(TargetListener.class, action);
-            }
-        }
-        return list;
-    }
+	/**
+	 * Builds a eventlistenerlist of all targetlisteners that are part of this
+	 * container and its children. Components do not need to register
+	 * themselves. They are registered implicitly if they implement the
+	 * TargetListener interface.
+	 *
+	 * @param container
+	 *            the container to search for targetlisteners
+	 * @return an EventListenerList with all TargetListeners on this container
+	 *         and its children.
+	 */
+	private EventListenerList collectTargetListeners(Container container) {
+		Component[] components = container.getComponents();
+		EventListenerList list = new EventListenerList();
+		for (int i = 0; i < components.length; i++) {
+			if (components[i] instanceof TargetListener) {
+				list.add(TargetListener.class, (TargetListener) components[i]);
+			}
+			if (components[i] instanceof TargettableModelView) {
+				list.add(TargetListener.class, ((TargettableModelView) components[i]).getTargettableModel());
+			}
+			if (components[i] instanceof Container) {
+				EventListenerList list2 = collectTargetListeners((Container) components[i]);
+				Object[] objects = list2.getListenerList();
+				for (int j = 1; j < objects.length; j += 2) {
+					list.add(TargetListener.class, (TargetListener) objects[j]);
+				}
+			}
+		}
+		if (container instanceof PropPanel) {
+			/* We presume that the container equals this PropPanel. */
+			for (TargetListener action : collectTargetListenerActions()) {
+				list.add(TargetListener.class, action);
+			}
+		}
+		return list;
+	}
 
-    private Collection<TargetListener> collectTargetListenerActions() {
-        Collection<TargetListener> set = new HashSet<TargetListener>();
-        for (Object obj : actions) {
-            if (obj instanceof TargetListener) {
-                set.add((TargetListener) obj);
-            }
-        }
-        return set;
-    }
+	private Collection<TargetListener> collectTargetListenerActions() {
+		Collection<TargetListener> set = new HashSet<TargetListener>();
+		for (Object obj : actions) {
+			if (obj instanceof TargetListener) {
+				set.add((TargetListener) obj);
+			}
+		}
+		return set;
+	}
 
-    /*
-     * @see org.argouml.ui.TabTarget#getTarget()
-     */
-    public final Object getTarget() {
-        return target;
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#getTarget()
+	 */
+	public final Object getTarget() {
+		return target;
+	}
 
-    /*
-     * @see org.argouml.ui.TabTarget#refresh()
-     */
-    public void refresh() {
-        SwingUtilities.invokeLater(new UMLChangeDispatch(this, 0));
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#refresh()
+	 */
+	public void refresh() {
+		SwingUtilities.invokeLater(new UMLChangeDispatch(this, 0));
+	}
 
-    /*
-     * @see org.argouml.ui.TabTarget#shouldBeEnabled(java.lang.Object)
-     */
-    public boolean shouldBeEnabled(Object t) {
-        t = (t instanceof Fig) ? ((Fig) t).getOwner() : t;
-        return Model.getFacade().isAUMLElement(t);
-    }
+	/*
+	 * @see org.argouml.ui.TabTarget#shouldBeEnabled(java.lang.Object)
+	 */
+	public boolean shouldBeEnabled(Object t) {
+		t = (t instanceof Fig) ? ((Fig) t).getOwner() : t;
+		return Model.getFacade().isAUMLElement(t);
+	}
 
-    /**
-     * This method can be overridden in derived Panels where the appropriate
-     * namespace for display may not be the same as the namespace of the target.
-     *
-     * @return the namespace
-     */
-    protected Object getDisplayNamespace() {
-        Object ns = null;
-        Object theTarget = getTarget();
-        if (Model.getFacade().isAModelElement(theTarget)) {
-            ns = Model.getFacade().getNamespace(theTarget);
-        }
-        return ns;
-    }
+	/**
+	 * This method can be overridden in derived Panels where the appropriate
+	 * namespace for display may not be the same as the namespace of the target.
+	 *
+	 * @return the namespace
+	 */
+	protected Object getDisplayNamespace() {
+		Object ns = null;
+		Object theTarget = getTarget();
+		if (Model.getFacade().isAModelElement(theTarget)) {
+			ns = Model.getFacade().getNamespace(theTarget);
+		}
+		return ns;
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceContainer#getProfile()
-     */
-    public ProfileConfiguration getProfile() {
-        return ProjectManager.getManager().getCurrentProject()
-                .getProfileConfiguration();
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceContainer#getProfile()
+	 */
+	public ProfileConfiguration getProfile() {
+		return ProjectManager.getManager().getCurrentProject().getProfileConfiguration();
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceContainer#getModelElement()
-     */
-    public final Object getModelElement() {
-        return modelElement;
-    }
+	/*
+	 * @see org.argouml.uml.ui.UMLUserInterfaceContainer#getModelElement()
+	 */
+	public final Object getModelElement() {
+		return modelElement;
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceContainer#formatElement(java.lang.Object)
-     */
-    public String formatElement(Object element) {
-        return getProfile().getFormatingStrategy().formatElement(element,
-                getDisplayNamespace());
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLUserInterfaceContainer#formatElement(java.lang.
+	 * Object)
+	 */
+	public String formatElement(Object element) {
+		return getProfile().getFormatingStrategy().formatElement(element, getDisplayNamespace());
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceContainer#formatNamespace(java.lang.Object)
-     */
-    public String formatNamespace(Object namespace) {
-        return getProfile().getFormatingStrategy().formatElement(namespace,
-                null);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLUserInterfaceContainer#formatNamespace(java.lang.
+	 * Object)
+	 */
+	public String formatNamespace(Object namespace) {
+		return getProfile().getFormatingStrategy().formatElement(namespace, null);
+	}
 
-    /*
-     * @see org.argouml.uml.ui.UMLUserInterfaceContainer#formatCollection(java.util.Iterator)
-     */
-    public String formatCollection(Iterator iter) {
-        Object namespace = getDisplayNamespace();
-        return getProfile().getFormatingStrategy().formatCollection(iter,
-                namespace);
-    }
+	/*
+	 * @see
+	 * org.argouml.uml.ui.UMLUserInterfaceContainer#formatCollection(java.util.
+	 * Iterator)
+	 */
+	public String formatCollection(Iterator iter) {
+		Object namespace = getDisplayNamespace();
+		return getProfile().getFormatingStrategy().formatCollection(iter, namespace);
+	}
 
+	/**
+	 * Get the delete action.
+	 *
+	 * @return the delete action
+	 */
+	protected final Action getDeleteAction() {
+		return ActionDeleteModelElements.getTargetFollower();
+	}
 
-    /**
-     * Get the delete action.
-     *
-     * @return the delete action
-     */
-    protected final Action getDeleteAction() {
-        return ActionDeleteModelElements.getTargetFollower();
-    }
+	/**
+	 * Check whether this element can be deleted. Currently it only checks
+	 * whether we delete the main model. ArgoUML does not like that.
+	 *
+	 * @since 0.13.2
+	 * @return whether this element can be deleted
+	 */
+	public boolean isRemovableElement() {
+		return ((getTarget() != null) && (getTarget() != (ProjectManager.getManager().getCurrentProject().getModel())));
+	}
 
-    /**
-     * Check whether this element can be deleted. Currently it only checks
-     * whether we delete the main model. ArgoUML does not like that.
-     *
-     * @since 0.13.2
-     * @return whether this element can be deleted
-     */
-    public boolean isRemovableElement() {
-        return ((getTarget() != null) && (getTarget() != (ProjectManager
-                .getManager().getCurrentProject().getModel())));
-    }
+	/*
+	 * @see TargetListener#targetAdded(TargetEvent)
+	 */
+	public void targetAdded(TargetEvent e) {
+		if (listenerList == null) {
+			listenerList = collectTargetListeners(this);
+		}
+		setTarget(e.getNewTarget());
+		if (isVisible()) {
+			fireTargetAdded(e);
+		}
+	}
 
-    /*
-     * @see TargetListener#targetAdded(TargetEvent)
-     */
-    public void targetAdded(TargetEvent e) {
-        if (listenerList == null) {
-            listenerList = collectTargetListeners(this);
-        }
-        setTarget(e.getNewTarget());
-        if (isVisible()) {
-            fireTargetAdded(e);
-        }
-    }
+	/*
+	 * @see TargetListener#targetRemoved(TargetEvent)
+	 */
+	public void targetRemoved(TargetEvent e) {
+		setTarget(e.getNewTarget());
+		if (isVisible()) {
+			fireTargetRemoved(e);
+		}
+	}
 
-    /*
-     * @see TargetListener#targetRemoved(TargetEvent)
-     */
-    public void targetRemoved(TargetEvent e) {
-        setTarget(e.getNewTarget());
-        if (isVisible()) {
-            fireTargetRemoved(e);
-        }
-    }
+	/*
+	 * @see TargetListener#targetSet(TargetEvent)
+	 */
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget());
+		if (isVisible()) {
+			fireTargetSet(e);
+		}
+	}
 
-    /*
-     * @see TargetListener#targetSet(TargetEvent)
-     */
-    public void targetSet(TargetEvent e) {
-        setTarget(e.getNewTarget());
-        if (isVisible()) {
-            fireTargetSet(e);
-        }
-    }
+	private void fireTargetSet(TargetEvent targetEvent) {
+		if (listenerList == null) {
+			listenerList = collectTargetListeners(this);
+		}
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				((TargetListener) listeners[i + 1]).targetSet(targetEvent);
+			}
+		}
+	}
 
-    private void fireTargetSet(TargetEvent targetEvent) {
-        if (listenerList == null) {
-            listenerList = collectTargetListeners(this);
-        }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                ((TargetListener) listeners[i + 1]).targetSet(targetEvent);
-            }
-        }
-    }
+	private void fireTargetAdded(TargetEvent targetEvent) {
+		if (listenerList == null) {
+			listenerList = collectTargetListeners(this);
+		}
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
 
-    private void fireTargetAdded(TargetEvent targetEvent) {
-        if (listenerList == null) {
-            listenerList = collectTargetListeners(this);
-        }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				((TargetListener) listeners[i + 1]).targetAdded(targetEvent);
+			}
+		}
+	}
 
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                ((TargetListener) listeners[i + 1]).targetAdded(targetEvent);
-            }
-        }
-    }
+	private void fireTargetRemoved(TargetEvent targetEvent) {
+		if (listenerList == null) {
+			listenerList = collectTargetListeners(this);
+		}
+		// Guaranteed to return a non-null array
+		Object[] listeners = listenerList.getListenerList();
+		for (int i = listeners.length - 2; i >= 0; i -= 2) {
+			if (listeners[i] == TargetListener.class) {
+				((TargetListener) listeners[i + 1]).targetRemoved(targetEvent);
+			}
+		}
+	}
 
-    private void fireTargetRemoved(TargetEvent targetEvent) {
-        if (listenerList == null) {
-            listenerList = collectTargetListeners(this);
-        }
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == TargetListener.class) {
-                ((TargetListener) listeners[i + 1]).targetRemoved(targetEvent);
-            }
-        }
-    }
+	/**
+	 * @param theTitleLabel
+	 *            the title of the panel shown at the top
+	 */
+	protected void setTitleLabel(JLabel theTitleLabel) {
+		titleLabel = theTitleLabel;
+		titleLabel.setFont(stdFont);
+	}
 
-    /**
-     * @param theTitleLabel
-     *            the title of the panel shown at the top
-     */
-    protected void setTitleLabel(JLabel theTitleLabel) {
-        titleLabel = theTitleLabel;
-        titleLabel.setFont(stdFont);
-    }
+	/**
+	 * @return the title of the panel shown at the top
+	 */
+	protected JLabel getTitleLabel() {
+		return titleLabel;
+	}
 
-    /**
-     * @return the title of the panel shown at the top
-     */
-    protected JLabel getTitleLabel() {
-        return titleLabel;
-    }
+	protected final JPanel createBorderPanel(String title) {
+		return new GroupPanel(Translator.localize(title));
+	}
 
-    protected final JPanel createBorderPanel(String title) {
-    	return new GroupPanel(Translator.localize(title));
-    }
+	private class GroupPanel extends JPanel {
 
-    private class GroupPanel extends JPanel {
-
-        private static final long serialVersionUID = -3931817353777965075L;
+		private static final long serialVersionUID = -3931817353777965075L;
 
 		public GroupPanel(String title) {
-            super(new GridLayout2());
-            TitledBorder border = new TitledBorder(Translator.localize(title));
-            border.setTitleFont(stdFont);
-            setBorder(border);
-        }
+			super(new GridLayout2());
+			TitledBorder border = new TitledBorder(Translator.localize(title));
+			border.setTitleFont(stdFont);
+			setBorder(border);
+		}
 
-        public void setEnabled(boolean enabled) {
-            super.setEnabled(enabled);
-            for (final Component component : getComponents()) {
-                component.setEnabled(enabled);
-            }
-        }
-    }
+		public void setEnabled(boolean enabled) {
+			super.setEnabled(enabled);
+			for (final Component component : getComponents()) {
+				component.setEnabled(enabled);
+			}
+		}
+	}
 
-    /**
-     * If there are no buttons to show in the toolbar,
-     * then set the height to e.g. 18, so that the title
-     * is aligned right by the LabelledLayout.
-     *
-     * @param height the height
-     */
-    protected void setButtonPanelSize(int height) {
-        /* Set the minimum and preferred equal,
-         * so that the size is fixed for the labelledlayout.
-         */
-        buttonPanel.setMinimumSize(new Dimension(0, height));
-        buttonPanel.setPreferredSize(new Dimension(0, height));
-    }
+	/**
+	 * If there are no buttons to show in the toolbar, then set the height to
+	 * e.g. 18, so that the title is aligned right by the LabelledLayout.
+	 *
+	 * @param height
+	 *            the height
+	 */
+	protected void setButtonPanelSize(int height) {
+		/*
+		 * Set the minimum and preferred equal, so that the size is fixed for
+		 * the labelledlayout.
+		 */
+		buttonPanel.setMinimumSize(new Dimension(0, height));
+		buttonPanel.setPreferredSize(new Dimension(0, height));
+	}
 
-    /**
-     * Look up an icon.
-     *
-     * @param name
-     *            the resource name.
-     * @return an ImageIcon corresponding to the given resource name
-     */
-    protected static ImageIcon lookupIcon(String name) {
-        return ResourceLoaderWrapper.lookupIconResource(name);
-    }
+	/**
+	 * Look up an icon.
+	 *
+	 * @param name
+	 *            the resource name.
+	 * @return an ImageIcon corresponding to the given resource name
+	 */
+	protected static ImageIcon lookupIcon(String name) {
+		return ResourceLoaderWrapper.lookupIconResource(name);
+	}
 
+	/*
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentHidden(ComponentEvent e) {
+		// TODO: do we want to fire targetRemoved here or is it enough to just
+		// stop updating the targets?
+	}
 
-    /*
-     * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
-     */
-    public void componentHidden(ComponentEvent e) {
-        // TODO: do we want to fire targetRemoved here or is it enough to just
-        // stop updating the targets?
-    }
+	/*
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentShown(ComponentEvent e) {
+		// Refresh the target for all our children which weren't getting
+		// while not visible
+		fireTargetSet(new TargetEvent(this, TargetEvent.TARGET_SET, null, new Object[] { target }));
+	}
 
-    /*
-     * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
-     */
-    public void componentShown(ComponentEvent e) {
-        // Refresh the target for all our children which weren't getting
-        // while not visible
-        fireTargetSet(new TargetEvent(
-                this, TargetEvent.TARGET_SET, null, new Object[] {target}));
-    }
+	/*
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentMoved(ComponentEvent e) {
+		// ignored
+	}
 
-    /*
-     * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
-     */
-    public void componentMoved(ComponentEvent e) {
-        // ignored
-    }
-
-    /*
-     * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
-     */
-    public void componentResized(ComponentEvent e) {
-        // ignored
-    }
+	/*
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
+	 * ComponentEvent)
+	 */
+	public void componentResized(ComponentEvent e) {
+		// ignored
+	}
 }

@@ -50,91 +50,90 @@ import org.tigris.gef.base.Selection;
 import org.tigris.gef.presentation.Fig;
 
 /**
- * Class to display graphics for a UML NodeInstance in a diagram.<p>
+ * Class to display graphics for a UML NodeInstance in a diagram.
+ * <p>
  *
  * @author 5eichler@informatik.uni-hamburg.de
  */
 public class FigNodeInstance extends AbstractFigNode {
-    
-    private static final long serialVersionUID = 4449909026084671964L;
 
+	private static final long serialVersionUID = 4449909026084671964L;
 
 	/**
-     * Construct a new FigNodeInstance.
-     * 
-     * @param owner owning UML element
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigNodeInstance(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        getNameFig().setUnderline(true);
-    }
-    
-    @Override
-    protected int getNotationProviderType() {
-        return NotationProviderFactory2.TYPE_NODEINSTANCE;
-    }
+	 * Construct a new FigNodeInstance.
+	 * 
+	 * @param owner
+	 *            owning UML element
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigNodeInstance(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		getNameFig().setUnderline(true);
+	}
 
-    @Override
-    public Object clone() {
-        Object clone = super.clone();
-        return clone;
-    }
+	@Override
+	protected int getNotationProviderType() {
+		return NotationProviderFactory2.TYPE_NODEINSTANCE;
+	}
 
+	@Override
+	public Object clone() {
+		Object clone = super.clone();
+		return clone;
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#makeSelection()
-     */
-    @Override
-    public Selection makeSelection() {
-        return new SelectionNodeInstance(this);
-    }
-    
+	/*
+	 * @see org.tigris.gef.presentation.Fig#makeSelection()
+	 */
+	@Override
+	public Selection makeSelection() {
+		return new SelectionNodeInstance(this);
+	}
 
-    /*
-     * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.presentation.Fig)
-     */
-    @Override
-    public void setEnclosingFig(Fig encloser) {
-        if (getOwner() != null) {
-            Object nod = getOwner();
-            if (encloser != null) {
-                Object comp = encloser.getOwner();
-                if (Model.getFacade().isAComponentInstance(comp)) {
-                    if (Model.getFacade().getComponentInstance(nod) != comp) {
-                        Model.getCommonBehaviorHelper()
-                                .setComponentInstance(nod, comp);
-                        super.setEnclosingFig(encloser);
-                    }
-                } else if (Model.getFacade().isANode(comp)) {
-                    super.setEnclosingFig(encloser);
-                }
-            } else if (encloser == null) {
-                if (isVisible()
-                        // If we are not visible most likely
-                        // we're being deleted.
-                        // TODO: This indicates a more fundamental problem that
-                        // should be investigated - tfm - 20061230
-                        && Model.getFacade().getComponentInstance(nod) != null) {
-                    Model.getCommonBehaviorHelper()
-                            .setComponentInstance(nod, null);
-                    super.setEnclosingFig(encloser);
-                }
-            }
-        }
+	/*
+	 * @see org.tigris.gef.presentation.Fig#setEnclosingFig(org.tigris.gef.
+	 * presentation.Fig)
+	 */
+	@Override
+	public void setEnclosingFig(Fig encloser) {
+		if (getOwner() != null) {
+			Object nod = getOwner();
+			if (encloser != null) {
+				Object comp = encloser.getOwner();
+				if (Model.getFacade().isAComponentInstance(comp)) {
+					if (Model.getFacade().getComponentInstance(nod) != comp) {
+						Model.getCommonBehaviorHelper().setComponentInstance(nod, comp);
+						super.setEnclosingFig(encloser);
+					}
+				} else if (Model.getFacade().isANode(comp)) {
+					super.setEnclosingFig(encloser);
+				}
+			} else if (encloser == null) {
+				if (isVisible()
+						// If we are not visible most likely
+						// we're being deleted.
+						// TODO: This indicates a more fundamental problem that
+						// should be investigated - tfm - 20061230
+						&& Model.getFacade().getComponentInstance(nod) != null) {
+					Model.getCommonBehaviorHelper().setComponentInstance(nod, null);
+					super.setEnclosingFig(encloser);
+				}
+			}
+		}
 
-        if (getLayer() != null) {
-            // elementOrdering(figures);
-            Collection contents = new ArrayList(getLayer().getContents());
-            for (Object o : contents) {
-                if (o instanceof FigEdgeModelElement) {
-                    FigEdgeModelElement figedge = (FigEdgeModelElement) o;
-                    figedge.getLayer().bringToFront(figedge);
-                }
-            }
-        }
-    }
+		if (getLayer() != null) {
+			// elementOrdering(figures);
+			Collection contents = new ArrayList(getLayer().getContents());
+			for (Object o : contents) {
+				if (o instanceof FigEdgeModelElement) {
+					FigEdgeModelElement figedge = (FigEdgeModelElement) o;
+					figedge.getLayer().bringToFront(figedge);
+				}
+			}
+		}
+	}
 
 }

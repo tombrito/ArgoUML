@@ -17,34 +17,34 @@ package org.argouml.model;
  * The different AggregationKinds.
  */
 public interface MessageSort {
-    
-    /**
-     * @return Returns the SynchCall MessageSort
-     */
-    Object getSynchCall();
 
-    /**
-     * @return Returns the ASynchCall MessageSort
-     */
-    Object getASynchCall();
-    
-    /**
-     * @return Returns the CreateMessage MessageSort
-     */
-    Object getCreateMessage();
+	/**
+	 * @return Returns the SynchCall MessageSort
+	 */
+	Object getSynchCall();
 
-    /**
-     * @return Returns the DeleteMessage MessageSort
-     */
-    Object getDeleteMessage();
+	/**
+	 * @return Returns the ASynchCall MessageSort
+	 */
+	Object getASynchCall();
 
-    /**
-     * @return Returns the Reply MessageSort
-     */
-    Object getReply();
-    
-    /**
-     * @return Returns the ASynchSignal MessageSort
-     */
-    Object getASynchSignal();    
+	/**
+	 * @return Returns the CreateMessage MessageSort
+	 */
+	Object getCreateMessage();
+
+	/**
+	 * @return Returns the DeleteMessage MessageSort
+	 */
+	Object getDeleteMessage();
+
+	/**
+	 * @return Returns the Reply MessageSort
+	 */
+	Object getReply();
+
+	/**
+	 * @return Returns the ASynchSignal MessageSort
+	 */
+	Object getASynchSignal();
 }

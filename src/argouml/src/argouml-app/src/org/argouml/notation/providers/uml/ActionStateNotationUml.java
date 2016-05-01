@@ -37,11 +37,10 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.notation.providers.uml;
+
 import org.argouml.model.Model;
 import org.argouml.notation.NotationSettings;
 import org.argouml.notation.providers.ActionStateNotation;
-
-
 
 /**
  * The Notation for an ActionState.
@@ -50,58 +49,58 @@ import org.argouml.notation.providers.ActionStateNotation;
  */
 public class ActionStateNotationUml extends ActionStateNotation {
 
-    /**
-     * The constructor.
-     *
-     * @param actionState the UML ActionState
-     */
-    public ActionStateNotationUml(Object actionState) {
-        super(actionState);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param actionState
+	 *            the UML ActionState
+	 */
+	public ActionStateNotationUml(Object actionState) {
+		super(actionState);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#parse(java.lang.Object, java.lang.String)
-     */
-    public void parse(Object modelElement, String text) {
-        Object entry = Model.getFacade().getEntry(modelElement);
-        String language = "";
-        if (entry == null) {
-            entry =
-                Model.getCommonBehaviorFactory()
-                        .buildUninterpretedAction(modelElement);
-        } else {
-            Object script = Model.getFacade().getScript(entry);
-            if (script != null) {
-                language = Model.getDataTypesHelper().getLanguage(script);
-            }
-        }
-        Object actionExpression =
-            Model.getDataTypesFactory().createActionExpression(language, text);
-        Model.getCommonBehaviorHelper().setScript(entry, actionExpression);
-    }
+	/*
+	 * @see
+	 * org.argouml.notation.providers.NotationProvider#parse(java.lang.Object,
+	 * java.lang.String)
+	 */
+	public void parse(Object modelElement, String text) {
+		Object entry = Model.getFacade().getEntry(modelElement);
+		String language = "";
+		if (entry == null) {
+			entry = Model.getCommonBehaviorFactory().buildUninterpretedAction(modelElement);
+		} else {
+			Object script = Model.getFacade().getScript(entry);
+			if (script != null) {
+				language = Model.getDataTypesHelper().getLanguage(script);
+			}
+		}
+		Object actionExpression = Model.getDataTypesFactory().createActionExpression(language, text);
+		Model.getCommonBehaviorHelper().setScript(entry, actionExpression);
+	}
 
-    /*
-     * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
-     */
-    public String getParsingHelp() {
-        return "parsing.help.fig-actionstate";
-    }
+	/*
+	 * @see org.argouml.notation.providers.NotationProvider#getParsingHelp()
+	 */
+	public String getParsingHelp() {
+		return "parsing.help.fig-actionstate";
+	}
 
-    private String toString(Object modelElement) {
-        String ret = "";
-        Object action = Model.getFacade().getEntry(modelElement);
-        if (action != null) {
-            Object expression = Model.getFacade().getScript(action);
-            if (expression != null) {
-                ret = (String) Model.getFacade().getBody(expression);
-            }
-        }
-        return (ret == null) ? "" : ret;
-    }
+	private String toString(Object modelElement) {
+		String ret = "";
+		Object action = Model.getFacade().getEntry(modelElement);
+		if (action != null) {
+			Object expression = Model.getFacade().getScript(action);
+			if (expression != null) {
+				ret = (String) Model.getFacade().getBody(expression);
+			}
+		}
+		return (ret == null) ? "" : ret;
+	}
 
-    @Override
-    public String toString(Object modelElement, NotationSettings settings) {
-        return toString(modelElement);
-    }
+	@Override
+	public String toString(Object modelElement, NotationSettings settings) {
+		return toString(modelElement);
+	}
 
 }

@@ -43,42 +43,43 @@ import java.net.URI;
 /**
  * Factory for creating new Project instances.
  * <p>
- * Consumers who need an instance of a Project
- * should use this factory to get an instance which implements the
- * Project interface. This allows us to decouple the specification from its
- * implementation and break the dependency cycle that would otherwise exist
- * between Projects and ArgoDiagrams.
+ * Consumers who need an instance of a Project should use this factory to get an
+ * instance which implements the Project interface. This allows us to decouple
+ * the specification from its implementation and break the dependency cycle that
+ * would otherwise exist between Projects and ArgoDiagrams.
  * 
  * @author Tom Morris <tfmorris@gmail.com>
  * @stereotype singleton
  */
 public class ProjectFactory {
 
-    private ProjectFactory() {
-        super();
-    }
+	private ProjectFactory() {
+		super();
+	}
 
-    private static final ProjectFactory INSTANCE = new ProjectFactory();
+	private static final ProjectFactory INSTANCE = new ProjectFactory();
 
-    /**
-     * Create a new empty project.
-     * 
-     * @return a new NOT initialised project
-     */
-    public Project createProject() {
-        return new ProjectImpl();
-    }
+	/**
+	 * Create a new empty project.
+	 * 
+	 * @return a new NOT initialised project
+	 */
+	public Project createProject() {
+		return new ProjectImpl();
+	}
 
-    /**
-     * Create a project with the given URI as its location
-     * @param uri the URI to use as the name/location of the project
-     * @return a newly created project
-     */
-    public Project createProject(URI uri) {
-        return new ProjectImpl(Project.UML_PROJECT, uri);
-    }
+	/**
+	 * Create a project with the given URI as its location
+	 * 
+	 * @param uri
+	 *            the URI to use as the name/location of the project
+	 * @return a newly created project
+	 */
+	public Project createProject(URI uri) {
+		return new ProjectImpl(Project.UML_PROJECT, uri);
+	}
 
-    public static ProjectFactory getInstance() {
-        return INSTANCE;
-    }
+	public static ProjectFactory getInstance() {
+		return INSTANCE;
+	}
 }

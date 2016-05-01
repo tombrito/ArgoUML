@@ -45,32 +45,31 @@ package org.argouml.uml.reveng;
 
 public interface ImportSettings {
 
-    /**
-     * Import only classifiers
-     */
-    public static final int DETAIL_CLASSIFIER = 0;
+	/**
+	 * Import only classifiers
+	 */
+	public static final int DETAIL_CLASSIFIER = 0;
 
-    /**
-     * Import classifiers and their features
-     */
-    public static final int DETAIL_CLASSIFIER_FEATURE = 1;
+	/**
+	 * Import classifiers and their features
+	 */
+	public static final int DETAIL_CLASSIFIER_FEATURE = 1;
 
-    /**
-     * Import full detail
-     */
-    public static final int DETAIL_FULL = 2;
+	/**
+	 * Import full detail
+	 */
+	public static final int DETAIL_FULL = 2;
 
-    /**
-     * @return the level of import detail requested by the user. One of
-     *         DETAIL_CLASSIFIER, DETAIL_CLASSIFIER_FEATURE, or DETAIL_FULL.
-     */
-    public int getImportLevel();
+	/**
+	 * @return the level of import detail requested by the user. One of
+	 *         DETAIL_CLASSIFIER, DETAIL_CLASSIFIER_FEATURE, or DETAIL_FULL.
+	 */
+	public int getImportLevel();
 
-    /**
-     * @return string representing the character encoding of the input source
-     *         files.
-     */
-    public String getInputSourceEncoding();
-
+	/**
+	 * @return string representing the character encoding of the input source
+	 *         files.
+	 */
+	public String getInputSourceEncoding();
 
 }

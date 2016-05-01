@@ -53,28 +53,27 @@ import org.argouml.application.api.InitSubsystem;
  */
 public class InitUmlUI implements InitSubsystem {
 
-    public void init() {
-    }
+	public void init() {
+	}
 
-    public List<AbstractArgoJPanel> getDetailsTabs() {
-        List<AbstractArgoJPanel> result = 
-            new ArrayList<AbstractArgoJPanel>();
-        result.add(new TabProps());
-        result.add(new TabDocumentation());
-        result.add(new TabStyle());
-        result.add(new TabSrc());
-        result.add(new TabConstraints());
-        result.add(new TabStereotype());
-        result.add(new TabTaggedValues());
-        return result;
-    }
+	public List<AbstractArgoJPanel> getDetailsTabs() {
+		List<AbstractArgoJPanel> result = new ArrayList<AbstractArgoJPanel>();
+		result.add(new TabProps());
+		result.add(new TabDocumentation());
+		result.add(new TabStyle());
+		result.add(new TabSrc());
+		result.add(new TabConstraints());
+		result.add(new TabStereotype());
+		result.add(new TabTaggedValues());
+		return result;
+	}
 
-    public List<GUISettingsTabInterface> getProjectSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getProjectSettingsTabs() {
+		return Collections.emptyList();
+	}
 
-    public List<GUISettingsTabInterface> getSettingsTabs() {
-        return Collections.emptyList();
-    }
+	public List<GUISettingsTabInterface> getSettingsTabs() {
+		return Collections.emptyList();
+	}
 
 }

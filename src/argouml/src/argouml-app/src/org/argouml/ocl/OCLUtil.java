@@ -50,84 +50,83 @@ import org.argouml.model.Model;
  */
 public final class OCLUtil {
 
-    /** OCLUtil shall not be instantiated! */
-    private OCLUtil () { }
-
-    /**
-     * Get the inner-most enclosing namespace for the model element.
-     *
-     * @param me the modelelement
-     * @return a namespace
-     */
-    public static Object getInnerMostEnclosingNamespace (Object me) {
-
-        if (Model.getFacade().isAFeature(me)) {
-            me = Model.getFacade().getOwner(me);
-        }
-
-        if (!Model.getFacade().isANamespace(me)) {
-            throw new IllegalArgumentException();
-        }
-
-	return me;
-    }
-
-    /**
-     * Return a context string for the given model element.
-     *
-     * @param me the model element for which to create a context string.
-     *
-     * @return the context string for the model element.
-     */
-    public static String getContextString (final Object me) {
-        // TODO: Do we want isaUMLElement here?
-	if (me == null || !(Model.getFacade().isAModelElement(me))) {
-	    return "";
+	/** OCLUtil shall not be instantiated! */
+	private OCLUtil() {
 	}
-	Object mnsContext =
-	    getInnerMostEnclosingNamespace (me);
 
-	if (Model.getFacade().isABehavioralFeature(me)) {
-	    StringBuffer sbContext = new StringBuffer ("context ");
-	    sbContext.append (Model.getFacade().getName(mnsContext));
-	    sbContext.append ("::");
-	    sbContext.append (Model.getFacade().getName(me));
-	    sbContext.append (" (");
+	/**
+	 * Get the inner-most enclosing namespace for the model element.
+	 *
+	 * @param me
+	 *            the modelelement
+	 * @return a namespace
+	 */
+	public static Object getInnerMostEnclosingNamespace(Object me) {
 
-	    Collection lParams = Model.getFacade().getParameters(me);
-	    String sReturnType = null;
-	    boolean fFirstParam = true;
-
-	    for (Iterator i = lParams.iterator(); i.hasNext();) {
-		Object mp = i.next(); //MParameter
-
-		if (Model.getFacade().isReturn(mp)) {
-		    sReturnType = Model.getFacade().getName(
-                                    Model.getFacade().getType(mp));
-                } else {
-		    if (fFirstParam) {
-			fFirstParam = false;
-		    } else {
-			sbContext.append ("; ");
-		    }
-
-		    sbContext.append(
-		            Model.getFacade().getType(mp)).append(": ");
-		    sbContext.append(Model.getFacade().getName(
-		            Model.getFacade().getType(mp)));
+		if (Model.getFacade().isAFeature(me)) {
+			me = Model.getFacade().getOwner(me);
 		}
-	    }
 
-	    sbContext.append (")");
+		if (!Model.getFacade().isANamespace(me)) {
+			throw new IllegalArgumentException();
+		}
 
-	    // The ocl toolkit does not like void return types
-	    if (sReturnType != null && !sReturnType.equalsIgnoreCase("void")) {
-		sbContext.append (": ").append (sReturnType);
-	    }
-
-	    return sbContext.toString();
-	} else {
-	    return "context " + Model.getFacade().getName(mnsContext);
+		return me;
 	}
-    }
+
+	/**
+	 * Return a context string for the given model element.
+	 *
+	 * @param me
+	 *            the model element for which to create a context string.
+	 *
+	 * @return the context string for the model element.
+	 */
+	public static String getContextString(final Object me) {
+		// TODO: Do we want isaUMLElement here?
+		if (me == null || !(Model.getFacade().isAModelElement(me))) {
+			return "";
+		}
+		Object mnsContext = getInnerMostEnclosingNamespace(me);
+
+		if (Model.getFacade().isABehavioralFeature(me)) {
+			StringBuffer sbContext = new StringBuffer("context ");
+			sbContext.append(Model.getFacade().getName(mnsContext));
+			sbContext.append("::");
+			sbContext.append(Model.getFacade().getName(me));
+			sbContext.append(" (");
+
+			Collection lParams = Model.getFacade().getParameters(me);
+			String sReturnType = null;
+			boolean fFirstParam = true;
+
+			for (Iterator i = lParams.iterator(); i.hasNext();) {
+				Object mp = i.next(); // MParameter
+
+				if (Model.getFacade().isReturn(mp)) {
+					sReturnType = Model.getFacade().getName(Model.getFacade().getType(mp));
+				} else {
+					if (fFirstParam) {
+						fFirstParam = false;
+					} else {
+						sbContext.append("; ");
+					}
+
+					sbContext.append(Model.getFacade().getType(mp)).append(": ");
+					sbContext.append(Model.getFacade().getName(Model.getFacade().getType(mp)));
+				}
+			}
+
+			sbContext.append(")");
+
+			// The ocl toolkit does not like void return types
+			if (sReturnType != null && !sReturnType.equalsIgnoreCase("void")) {
+				sbContext.append(": ").append(sReturnType);
+			}
+
+			return sbContext.toString();
+		} else {
+			return "context " + Model.getFacade().getName(mnsContext);
+		}
+	}
 }

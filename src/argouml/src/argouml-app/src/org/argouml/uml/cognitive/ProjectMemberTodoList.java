@@ -51,86 +51,82 @@ import org.argouml.persistence.ResolvedCriticXMLHelper;
 import org.argouml.persistence.ToDoItemXMLHelper;
 
 /**
- * Helper class to act as a project member on behalf of the todo list.
- * It helps the todo list get loaded and saved together with the rest
- * of the project.
+ * Helper class to act as a project member on behalf of the todo list. It helps
+ * the todo list get loaded and saved together with the rest of the project.
  *
- * @author	Michael Stockman
+ * @author Michael Stockman
  */
 public class ProjectMemberTodoList extends AbstractProjectMember {
 
-    private static final String TO_DO_EXT = ".todo";
+	private static final String TO_DO_EXT = ".todo";
 
-    /**
-     * The constructor.
-     *
-     * @param name the name
-     * @param p the project
-     */
-    public ProjectMemberTodoList(String name, Project p) {
-    	super(name, p);
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param name
+	 *            the name
+	 * @param p
+	 *            the project
+	 */
+	public ProjectMemberTodoList(String name, Project p) {
+		super(name, p);
+	}
 
-    /*
-     * @see org.argouml.kernel.AbstractProjectMember#getType()
-     */
-    public String getType() {
-        return "todo";
-    }
+	/*
+	 * @see org.argouml.kernel.AbstractProjectMember#getType()
+	 */
+	public String getType() {
+		return "todo";
+	}
 
-    /*
-     * @see org.argouml.kernel.AbstractProjectMember#getZipFileExtension()
-     */
-    @Override
-    public String getZipFileExtension() {
-        return TO_DO_EXT;
-    }
+	/*
+	 * @see org.argouml.kernel.AbstractProjectMember#getZipFileExtension()
+	 */
+	@Override
+	public String getZipFileExtension() {
+		return TO_DO_EXT;
+	}
 
-    /**
-     * @return a vector containing the to do list
-     * Used by todo.tee
-     */
-    public Vector<ToDoItemXMLHelper> getToDoList() {
-        Vector<ToDoItemXMLHelper> out = new Vector<ToDoItemXMLHelper>();
-        List<ToDoItem> tdiList = 
-            Designer.theDesigner().getToDoList().getToDoItemList();
-        synchronized (tdiList) {
-            for (ToDoItem tdi : tdiList) {
-                if (tdi != null && tdi.getPoster() instanceof Designer) {
-                    out.addElement(new ToDoItemXMLHelper(tdi));
-                }
-            }
-        }
-        return out;
-    }
+	/**
+	 * @return a vector containing the to do list Used by todo.tee
+	 */
+	public Vector<ToDoItemXMLHelper> getToDoList() {
+		Vector<ToDoItemXMLHelper> out = new Vector<ToDoItemXMLHelper>();
+		List<ToDoItem> tdiList = Designer.theDesigner().getToDoList().getToDoItemList();
+		synchronized (tdiList) {
+			for (ToDoItem tdi : tdiList) {
+				if (tdi != null && tdi.getPoster() instanceof Designer) {
+					out.addElement(new ToDoItemXMLHelper(tdi));
+				}
+			}
+		}
+		return out;
+	}
 
-    /**
-     * @return Vector containing the resolved critics list
-     * Used by todo.tee
-     */
-    public Vector<ResolvedCriticXMLHelper> getResolvedCriticsList() {
-        Vector<ResolvedCriticXMLHelper> out = 
-            new Vector<ResolvedCriticXMLHelper>();
-    	Set<ResolvedCritic> resolvedSet = 
-    	    Designer.theDesigner().getToDoList().getResolvedItems();
-    	synchronized (resolvedSet) {
-            for (ResolvedCritic rci : resolvedSet) {
-                if (rci != null) {
-                    out.addElement(new ResolvedCriticXMLHelper(rci));
-                }
-            }
-        }
-    	return out;
-    }
+	/**
+	 * @return Vector containing the resolved critics list Used by todo.tee
+	 */
+	public Vector<ResolvedCriticXMLHelper> getResolvedCriticsList() {
+		Vector<ResolvedCriticXMLHelper> out = new Vector<ResolvedCriticXMLHelper>();
+		Set<ResolvedCritic> resolvedSet = Designer.theDesigner().getToDoList().getResolvedItems();
+		synchronized (resolvedSet) {
+			for (ResolvedCritic rci : resolvedSet) {
+				if (rci != null) {
+					out.addElement(new ResolvedCriticXMLHelper(rci));
+				}
+			}
+		}
+		return out;
+	}
 
-    /**
-     * There is not yet any repair task for the ToDo model but this is open to
-     * implement as and when any problems areas are discovered.
-     * 
-     * {@inheritDoc}
-     */
-    public String repair() {
-        return "";
-    }
+	/**
+	 * There is not yet any repair task for the ToDo model but this is open to
+	 * implement as and when any problems areas are discovered.
+	 * 
+	 * {@inheritDoc}
+	 */
+	public String repair() {
+		return "";
+	}
 
 }

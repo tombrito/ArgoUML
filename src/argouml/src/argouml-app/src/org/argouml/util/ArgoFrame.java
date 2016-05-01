@@ -58,82 +58,83 @@ import javax.swing.JOptionPane;
  */
 public class ArgoFrame {
 
-    private static final Logger LOG =
-        Logger.getLogger(ArgoFrame.class.getName());
+	private static final Logger LOG = Logger.getLogger(ArgoFrame.class.getName());
 
-    private static Frame topFrame;
+	private static Frame topFrame;
 
-    private ArgoFrame() {
-        // prohibit instantiation
-    }
+	private ArgoFrame() {
+		// prohibit instantiation
+	}
 
-    /**
-     * Get a top level JFrame which can be used as the parent for creating new
-     * dialogs. The method name and return type were the same as the old
-     * ProjectBrowser.getInstance() usage for compatibility, but getFrame should
-     * be used for new uses.
-     *
-     * @return a top level JFrame to use as parent for new dialogs
-     * @deprecated for 0.29.1 by tfmorris. Use {@link #getFrame()}.
-     */
-    public static JFrame getInstance() {
-        Frame frame = getFrame();
-        if (frame instanceof JFrame) {
-            return (JFrame) frame;
-        }
-        return null;
-    }
-    /**
-     * Get a top level frame which can be used as the parent for creating new
-     * dialogs.
-     *
-     * @return a top level JFrame to use as parent for new dialogs
-     */
-    public static Frame getFrame() {
-        if (topFrame == null) {
-            Frame rootFrame = JOptionPane.getRootFrame();
-            if ( rootFrame instanceof JFrame) {
-                setFrame(rootFrame);
-            } else {
-                Frame[] frames = Frame.getFrames();
-                for (int i = 0; i < frames.length; i++) {
-                    if (frames[i] instanceof JFrame) {
-                        if (topFrame != null) {
-                            LOG.log(Level.WARNING, "Found multiple JFrames");
-                        } else {
-                            setFrame(frames[i]);
-                        }
-                    }
-                }
-                if (topFrame == null) {
-                    LOG.log(Level.WARNING,
-                            "Failed to find JFrame - using rootFrame");
-                    setFrame(JOptionPane.getRootFrame());
-                }
-            }
-        }
+	/**
+	 * Get a top level JFrame which can be used as the parent for creating new
+	 * dialogs. The method name and return type were the same as the old
+	 * ProjectBrowser.getInstance() usage for compatibility, but getFrame should
+	 * be used for new uses.
+	 *
+	 * @return a top level JFrame to use as parent for new dialogs
+	 * @deprecated for 0.29.1 by tfmorris. Use {@link #getFrame()}.
+	 */
+	public static JFrame getInstance() {
+		Frame frame = getFrame();
+		if (frame instanceof JFrame) {
+			return (JFrame) frame;
+		}
+		return null;
+	}
 
-        return topFrame;
-    }
+	/**
+	 * Get a top level frame which can be used as the parent for creating new
+	 * dialogs.
+	 *
+	 * @return a top level JFrame to use as parent for new dialogs
+	 */
+	public static Frame getFrame() {
+		if (topFrame == null) {
+			Frame rootFrame = JOptionPane.getRootFrame();
+			if (rootFrame instanceof JFrame) {
+				setFrame(rootFrame);
+			} else {
+				Frame[] frames = Frame.getFrames();
+				for (int i = 0; i < frames.length; i++) {
+					if (frames[i] instanceof JFrame) {
+						if (topFrame != null) {
+							LOG.log(Level.WARNING, "Found multiple JFrames");
+						} else {
+							setFrame(frames[i]);
+						}
+					}
+				}
+				if (topFrame == null) {
+					LOG.log(Level.WARNING, "Failed to find JFrame - using rootFrame");
+					setFrame(JOptionPane.getRootFrame());
+				}
+			}
+		}
 
-    /**
-     * Set the given JFrame to use as the main application frame.
-     *
-     * @param frame the main application frame.
-     * @deprecated for 0.29.1 by tfmorris.  Use {@link #setFrame(Frame)}.
-     */
-    @Deprecated
-    public static void setInstance(JFrame frame) {
-        setFrame(frame);
-    }
+		return topFrame;
+	}
 
-    /**
-     * Set the given Frame to use as the main application frame.
-     *
-     * @param frame the main application frame.
-     */
-    public static void setFrame(Frame frame) {
-        topFrame = frame;
-        ArgoDialog.setFrame(topFrame);
-    }
+	/**
+	 * Set the given JFrame to use as the main application frame.
+	 *
+	 * @param frame
+	 *            the main application frame.
+	 * @deprecated for 0.29.1 by tfmorris. Use {@link #setFrame(Frame)}.
+	 */
+	@Deprecated
+	public static void setInstance(JFrame frame) {
+		setFrame(frame);
+	}
+
+	/**
+	 * Set the given Frame to use as the main application frame.
+	 *
+	 * @param frame
+	 *            the main application frame.
+	 */
+	public static void setFrame(Frame frame) {
+		topFrame = frame;
+		ArgoDialog.setFrame(topFrame);
+	}
 }

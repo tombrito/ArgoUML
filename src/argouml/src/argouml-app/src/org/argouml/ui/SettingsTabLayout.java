@@ -49,130 +49,135 @@ import org.argouml.application.api.GUISettingsTabInterface;
 import org.argouml.i18n.Translator;
 
 /**
- * Settings dialog tab panel for layout options.<p>
+ * Settings dialog tab panel for layout options.
+ * <p>
  *
- * TODO: This class contains a lot of references to org.argouml.uml.ui.
- * It would probably be better to move it there.
+ * TODO: This class contains a lot of references to org.argouml.uml.ui. It would
+ * probably be better to move it there.
  * 
- * TODO: This class breaks too many dependency limitations. 
- * And it is not used anywhere. So I (MVW) disabled its functionality. 
+ * TODO: This class breaks too many dependency limitations. And it is not used
+ * anywhere. So I (MVW) disabled its functionality.
  *
  * @author Linus Tolke
  */
-class SettingsTabLayout extends JPanel
-    implements GUISettingsTabInterface {
+class SettingsTabLayout extends JPanel implements GUISettingsTabInterface {
 
-//    private Property	prpTodo;
-//    private Property	prpProperties;
-//    private Property	prpDocumentation;
-//    private Property	prpStyle;
-//    private Property	prpSource;
-//    private Property	prpConstraints;
-//    private Property	prpTaggedValues;
+	// private Property prpTodo;
+	// private Property prpProperties;
+	// private Property prpDocumentation;
+	// private Property prpStyle;
+	// private Property prpSource;
+	// private Property prpConstraints;
+	// private Property prpTaggedValues;
 
-    /**
-     * The constructor.
-     *
-     */
-    SettingsTabLayout() {
-        super();
-        setLayout(new BorderLayout());
+	/**
+	 * The constructor.
+	 *
+	 */
+	SettingsTabLayout() {
+		super();
+		setLayout(new BorderLayout());
 
-        JPanel top = new JPanel(new BorderLayout());
+		JPanel top = new JPanel(new BorderLayout());
 
-//        prpTodo = createProperty("label.todo-pane", positions, TabToDo.class);
-//        prpProperties =
-//            createProperty("label.properties-pane",
-//                    positions, TabProps.class);
-//        prpDocumentation =
-//            createProperty("label.documentation-pane",
-//                    positions, TabDocumentation.class);
-//        prpStyle =
-//            createProperty("label.style-pane",
-//                    positions, TabStyle.class);
-//        prpSource =
-//            createProperty("label.source-pane",
-//                    positions, TabSrc.class);
-//        prpConstraints =
-//            createProperty("label.constraints-pane",
-//                    positions, TabConstraints.class);
-//        prpTaggedValues =
-//            createProperty("label.tagged-values-pane",
-//                    positions, TabTaggedValues.class);
-//
-//        Property[] propertyList = new Property[] {
-//            prpTodo, prpProperties, prpDocumentation, prpStyle,
-//	    prpSource, prpConstraints, prpTaggedValues,
-//        };
-//        Arrays.sort(propertyList);
-//
-//        top.add(new JScrollPane(new PropertyTable(
-//						  propertyList,
-//						  paneColumnHeader,
-//						  positionColumnHeader)),
-//		BorderLayout.CENTER);
+		// prpTodo = createProperty("label.todo-pane", positions,
+		// TabToDo.class);
+		// prpProperties =
+		// createProperty("label.properties-pane",
+		// positions, TabProps.class);
+		// prpDocumentation =
+		// createProperty("label.documentation-pane",
+		// positions, TabDocumentation.class);
+		// prpStyle =
+		// createProperty("label.style-pane",
+		// positions, TabStyle.class);
+		// prpSource =
+		// createProperty("label.source-pane",
+		// positions, TabSrc.class);
+		// prpConstraints =
+		// createProperty("label.constraints-pane",
+		// positions, TabConstraints.class);
+		// prpTaggedValues =
+		// createProperty("label.tagged-values-pane",
+		// positions, TabTaggedValues.class);
+		//
+		// Property[] propertyList = new Property[] {
+		// prpTodo, prpProperties, prpDocumentation, prpStyle,
+		// prpSource, prpConstraints, prpTaggedValues,
+		// };
+		// Arrays.sort(propertyList);
+		//
+		// top.add(new JScrollPane(new PropertyTable(
+		// propertyList,
+		// paneColumnHeader,
+		// positionColumnHeader)),
+		// BorderLayout.CENTER);
 
-        top.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
-        add(top, BorderLayout.CENTER);
+		top.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
+		add(top, BorderLayout.CENTER);
 
-        JLabel restart =
-            new JLabel(Translator.localize("label.restart-application"));
-        restart.setHorizontalAlignment(SwingConstants.CENTER);
-        restart.setVerticalAlignment(SwingConstants.CENTER);
-        restart.setBorder(BorderFactory.createEmptyBorder(10, 2, 10, 2));
-        add(restart, BorderLayout.SOUTH);
-    }
+		JLabel restart = new JLabel(Translator.localize("label.restart-application"));
+		restart.setHorizontalAlignment(SwingConstants.CENTER);
+		restart.setVerticalAlignment(SwingConstants.CENTER);
+		restart.setBorder(BorderFactory.createEmptyBorder(10, 2, 10, 2));
+		add(restart, BorderLayout.SOUTH);
+	}
 
-    /**
-     * When the setting values should be reloaded.
-     */
-    public void handleSettingsTabRefresh() {
-//        loadPosition(prpTodo, TabToDo.class);
-//        loadPosition(prpProperties, TabProps.class);
-//        loadPosition(prpDocumentation, TabDocumentation.class);
-//        loadPosition(prpStyle, TabStyle.class);
-//        loadPosition(prpSource, TabSrc.class);
-//        loadPosition(prpConstraints, TabConstraints.class);
-//        loadPosition(prpTaggedValues, TabTaggedValues.class);
-    }
+	/**
+	 * When the setting values should be reloaded.
+	 */
+	public void handleSettingsTabRefresh() {
+		// loadPosition(prpTodo, TabToDo.class);
+		// loadPosition(prpProperties, TabProps.class);
+		// loadPosition(prpDocumentation, TabDocumentation.class);
+		// loadPosition(prpStyle, TabStyle.class);
+		// loadPosition(prpSource, TabSrc.class);
+		// loadPosition(prpConstraints, TabConstraints.class);
+		// loadPosition(prpTaggedValues, TabTaggedValues.class);
+	}
 
-    /**
-     * When the ok or apply button is pressed.
-     */
-    public void handleSettingsTabSave() {
-//        savePosition(prpTodo, TabToDo.class);
-//        savePosition(prpProperties, TabProps.class);
-//        savePosition(prpDocumentation, TabDocumentation.class);
-//        savePosition(prpStyle, TabStyle.class);
-//        savePosition(prpSource, TabSrc.class);
-//        savePosition(prpConstraints, TabConstraints.class);
-//        savePosition(prpTaggedValues, TabTaggedValues.class);
-    }
+	/**
+	 * When the ok or apply button is pressed.
+	 */
+	public void handleSettingsTabSave() {
+		// savePosition(prpTodo, TabToDo.class);
+		// savePosition(prpProperties, TabProps.class);
+		// savePosition(prpDocumentation, TabDocumentation.class);
+		// savePosition(prpStyle, TabStyle.class);
+		// savePosition(prpSource, TabSrc.class);
+		// savePosition(prpConstraints, TabConstraints.class);
+		// savePosition(prpTaggedValues, TabTaggedValues.class);
+	}
 
-    /*
-     * @see GUISettingsTabInterface#handleSettingsTabCancel()
-     */
-    public void handleSettingsTabCancel() { }
+	/*
+	 * @see GUISettingsTabInterface#handleSettingsTabCancel()
+	 */
+	public void handleSettingsTabCancel() {
+	}
 
-    /*
-     * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
-     */
-    public void handleResetToDefault() {
-        // Do nothing - these buttons are not shown.
-    }
+	/*
+	 * @see org.argouml.ui.GUISettingsTabInterface#handleResetToDefault()
+	 */
+	public void handleResetToDefault() {
+		// Do nothing - these buttons are not shown.
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabKey()
-     */
-    public String getTabKey() { return "tab.layout"; }
+	/*
+	 * @see GUISettingsTabInterface#getTabKey()
+	 */
+	public String getTabKey() {
+		return "tab.layout";
+	}
 
-    /*
-     * @see GUISettingsTabInterface#getTabPanel()
-     */
-    public JPanel getTabPanel() { return this; }
+	/*
+	 * @see GUISettingsTabInterface#getTabPanel()
+	 */
+	public JPanel getTabPanel() {
+		return this;
+	}
 
-    /**
-     * The UID.
-     */
-    private static final long serialVersionUID = 739259705815092510L;
+	/**
+	 * The UID.
+	 */
+	private static final long serialVersionUID = 739259705815092510L;
 }

@@ -44,33 +44,32 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers 
- * for the text shown in the Fig that represents a nodeInstance. 
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents a nodeInstance. Subclass this for all
+ * languages.
  * 
  * @author Michiel van der Wulp
  */
 public abstract class NodeInstanceNotation extends NotationProvider {
-    
-    /**
-     * The constructor.
-     * 
-     * @param nodeInstance the nodeInstance of which we handle the text
-     */
-    public NodeInstanceNotation(Object nodeInstance) {
-        if (!Model.getFacade().isANodeInstance(nodeInstance)) {
-            throw new IllegalArgumentException("This is not a NodeInstance.");
-        }
-    }
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        addElementListener(modelElement,
-                new String[] {"name", "classifier", "remove"});
-        Collection<Object> c = Model.getFacade().getClassifiers(modelElement);
-        for (Object classifier : c) {
-            addElementListener(classifier,
-                    new String[] {"name", "remove"});
-        }
-    }
+	/**
+	 * The constructor.
+	 * 
+	 * @param nodeInstance
+	 *            the nodeInstance of which we handle the text
+	 */
+	public NodeInstanceNotation(Object nodeInstance) {
+		if (!Model.getFacade().isANodeInstance(nodeInstance)) {
+			throw new IllegalArgumentException("This is not a NodeInstance.");
+		}
+	}
+
+	@Override
+	public void initialiseListener(Object modelElement) {
+		addElementListener(modelElement, new String[] { "name", "classifier", "remove" });
+		Collection<Object> c = Model.getFacade().getClassifiers(modelElement);
+		for (Object classifier : c) {
+			addElementListener(classifier, new String[] { "name", "remove" });
+		}
+	}
 }

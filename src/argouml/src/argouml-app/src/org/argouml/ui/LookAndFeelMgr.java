@@ -418,6 +418,7 @@ public final class LookAndFeelMgr {
 
 	/**
 	 * TODO unused, but may be something I want
+	 * 
 	 * @return the small font
 	 */
 	public Font getSmallFont() {

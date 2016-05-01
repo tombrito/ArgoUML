@@ -40,10 +40,10 @@ package org.argouml.ocl;
 
 import org.tigris.gef.ocl.ExpansionException;
 
-
 /**
  * CriticOclEvaluator is singleton version of OCLEvaluator which is used for
- * evaluating simple OCL expressions used in the critiques.<p>
+ * evaluating simple OCL expressions used in the critiques.
+ * <p>
  * 
  * Implementation History: As best I was able to reconstruct the history in
  * early 2007, OclEvaluator was originally implemented as a singleton, but that
@@ -60,42 +60,36 @@ import org.tigris.gef.ocl.ExpansionException;
 @Deprecated
 public class CriticOclEvaluator {
 
-    private static final CriticOclEvaluator INSTANCE =
-        new CriticOclEvaluator();
+	private static final CriticOclEvaluator INSTANCE = new CriticOclEvaluator();
 
-    private static final OCLEvaluator EVALUATOR =
-        new OCLEvaluator();
-    
-    private CriticOclEvaluator() {
-        // no instantiations
-    }
+	private static final OCLEvaluator EVALUATOR = new OCLEvaluator();
 
-    /**
-     * @return the singleton of CriticOclEvaluator
-     */
-    public static final CriticOclEvaluator getInstance() {
-        return INSTANCE;
-    }
+	private CriticOclEvaluator() {
+		// no instantiations
+	}
 
-    /*
-     * @see OCLEvaluator#evalToString(java.lang.Object, java.lang.String)
-     */
-    public synchronized String evalToString(Object self, String expr)
-        throws ExpansionException {
-        
-        return EVALUATOR.evalToString(self, expr);
-    }
+	/**
+	 * @return the singleton of CriticOclEvaluator
+	 */
+	public static final CriticOclEvaluator getInstance() {
+		return INSTANCE;
+	}
 
-    /*
-     * @see OCLEvaluator#evalToString(java.lang.Object, java.lang.String, java.lang.String)
-     */
-    public synchronized String evalToString(
-            Object self,
-            String expr,
-            String sep)
-    	throws ExpansionException {
-        
-        return EVALUATOR.evalToString(self, expr, sep);
-    }
+	/*
+	 * @see OCLEvaluator#evalToString(java.lang.Object, java.lang.String)
+	 */
+	public synchronized String evalToString(Object self, String expr) throws ExpansionException {
+
+		return EVALUATOR.evalToString(self, expr);
+	}
+
+	/*
+	 * @see OCLEvaluator#evalToString(java.lang.Object, java.lang.String,
+	 * java.lang.String)
+	 */
+	public synchronized String evalToString(Object self, String expr, String sep) throws ExpansionException {
+
+		return EVALUATOR.evalToString(self, expr, sep);
+	}
 
 }

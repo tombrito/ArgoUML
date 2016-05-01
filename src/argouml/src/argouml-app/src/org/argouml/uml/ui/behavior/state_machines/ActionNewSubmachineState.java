@@ -49,36 +49,34 @@ import org.argouml.uml.ui.AbstractActionNewModelElement;
 /**
  * @since Dec 14, 2002
  * @author jaap.branderhorst@xs4all.nl
- * @deprecated by Bob Tarling in 0.33.4. This is no longer used.
- * Use {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
+ * @deprecated by Bob Tarling in 0.33.4. This is no longer used. Use
+ *             {@link org.argouml.ui.ActionCreateContainedModelElement} instead.
  */
 @Deprecated
 public class ActionNewSubmachineState extends AbstractActionNewModelElement {
 
-    private static final long serialVersionUID = -8207700145422665627L;
-	private static final ActionNewSubmachineState SINGLETON =
-        new ActionNewSubmachineState();
+	private static final long serialVersionUID = -8207700145422665627L;
+	private static final ActionNewSubmachineState SINGLETON = new ActionNewSubmachineState();
 
-    /**
-     * Constructor for ActionNewFinalState.
-     */
-    protected ActionNewSubmachineState() {
-        super();
-        putValue(Action.NAME, Translator.localize(
-                "button.new-submachinestate"));
-    }
+	/**
+	 * Constructor for ActionNewFinalState.
+	 */
+	protected ActionNewSubmachineState() {
+		super();
+		putValue(Action.NAME, Translator.localize("button.new-submachinestate"));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        super.actionPerformed(e);
-        Model.getStateMachinesFactory().buildSubmachineState(getTarget());
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		super.actionPerformed(e);
+		Model.getStateMachinesFactory().buildSubmachineState(getTarget());
+	}
 
-    /**
-     * @return Returns the SINGLETON.
-     */
-    public static ActionNewSubmachineState getInstance() {
-        return SINGLETON;
-    }
+	/**
+	 * @return Returns the SINGLETON.
+	 */
+	public static ActionNewSubmachineState getInstance() {
+		return SINGLETON;
+	}
 
 }

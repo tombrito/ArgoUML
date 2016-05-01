@@ -42,48 +42,46 @@ import org.argouml.model.Model;
 import org.argouml.notation.NotationProvider;
 
 /**
- * This abstract class forms the basis of all Notation providers
- * for the text shown in the Fig that represents the CallState.
- * Subclass this for all languages.
+ * This abstract class forms the basis of all Notation providers for the text
+ * shown in the Fig that represents the CallState. Subclass this for all
+ * languages.
  *
  * @author Michiel van der Wulp
  */
 public abstract class CallStateNotation extends NotationProvider {
 
-    /**
-     * The constructor.
-     *
-     * @param callState the UML element
-     */
-    public CallStateNotation(Object callState) {
-        if (!Model.getFacade().isACallState(callState)) {
-            throw new IllegalArgumentException("This is not an CallState.");
-        }
-    }
+	/**
+	 * The constructor.
+	 *
+	 * @param callState
+	 *            the UML element
+	 */
+	public CallStateNotation(Object callState) {
+		if (!Model.getFacade().isACallState(callState)) {
+			throw new IllegalArgumentException("This is not an CallState.");
+		}
+	}
 
-    @Override
-    public void initialiseListener(Object modelElement) {
-        // register for events from all modelelements
-        // that change the name and body text
-        // i.e. when the CallAction is replaced:
-        addElementListener(modelElement, 
-                new String[] {"entry", "name", "remove"});
-        Object entryAction = Model.getFacade().getEntry(modelElement);
-        if (Model.getFacade().isACallAction(entryAction)) {
-            // and when the Operation is replaced:
-            addElementListener(entryAction, "operation");
-            Object operation = Model.getFacade().getOperation(entryAction);
-            if (operation != null) {
-                // and when the owner is replaced (unlikely for operations),
-                // and when the operation changes name:
-                addElementListener(operation,
-                        new String[] {"owner", "name"});
-                Object classifier = Model.getFacade().getOwner(operation);
-                // and when the class changes name:
-                addElementListener(classifier, "name");
-            }
-        }
-    }
+	@Override
+	public void initialiseListener(Object modelElement) {
+		// register for events from all modelelements
+		// that change the name and body text
+		// i.e. when the CallAction is replaced:
+		addElementListener(modelElement, new String[] { "entry", "name", "remove" });
+		Object entryAction = Model.getFacade().getEntry(modelElement);
+		if (Model.getFacade().isACallAction(entryAction)) {
+			// and when the Operation is replaced:
+			addElementListener(entryAction, "operation");
+			Object operation = Model.getFacade().getOperation(entryAction);
+			if (operation != null) {
+				// and when the owner is replaced (unlikely for operations),
+				// and when the operation changes name:
+				addElementListener(operation, new String[] { "owner", "name" });
+				Object classifier = Model.getFacade().getOwner(operation);
+				// and when the class changes name:
+				addElementListener(classifier, "name");
+			}
+		}
+	}
 
 }
-

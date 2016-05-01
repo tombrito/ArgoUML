@@ -39,26 +39,29 @@
 package org.argouml.application.events;
 
 /**
- * ArgoNotationEvent is used to notify interested parties
- * that the notation has been changed.
+ * ArgoNotationEvent is used to notify interested parties that the notation has
+ * been changed.
  */
 public class ArgoNotationEvent extends ArgoEvent {
 
-    private static final long serialVersionUID = -445499786274114632L;
+	private static final long serialVersionUID = -445499786274114632L;
 
 	/**
-     * @param eventType reported by this event.
-     * @param src object that caused the event.
-     */
-    public ArgoNotationEvent(int eventType, Object src) {
-        super(eventType, src);
-    }
+	 * @param eventType
+	 *            reported by this event.
+	 * @param src
+	 *            object that caused the event.
+	 */
+	public ArgoNotationEvent(int eventType, Object src) {
+		super(eventType, src);
+	}
 
-    /**
-     * Indicates the start of the 100-digit range for notation events.
-     *
-     * @return the first id reserved for events.
-     */
-    public int getEventStartRange() { return ANY_NOTATION_EVENT; }
+	/**
+	 * Indicates the start of the 100-digit range for notation events.
+	 *
+	 * @return the first id reserved for events.
+	 */
+	public int getEventStartRange() {
+		return ANY_NOTATION_EVENT;
+	}
 }
-

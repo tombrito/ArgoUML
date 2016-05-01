@@ -38,56 +38,54 @@
 
 package org.argouml.util.osdep;
 
-
-/** Utility class providing hooks to
- *  operating-system-specific functionality.
+/**
+ * Utility class providing hooks to operating-system-specific functionality.
  *
- *  @author Thierry Lach
- *  @since ARGO0.9.8
+ * @author Thierry Lach
+ * @since ARGO0.9.8
  */
 
 public class OsUtil {
 
-    /** Do not allow this class to be instantiated.
-     */
-    private OsUtil() {
-    }
+	/**
+	 * Do not allow this class to be instantiated.
+	 */
+	private OsUtil() {
+	}
 
-    /**
-     * Check whether we deal with a Windows Operating System.
-     *
-     * @return true if this is Windows
-     */
-    public static boolean isWin32() {
-        return (System.getProperty("os.name").indexOf("Windows") != -1);
-    }
+	/**
+	 * Check whether we deal with a Windows Operating System.
+	 *
+	 * @return true if this is Windows
+	 */
+	public static boolean isWin32() {
+		return (System.getProperty("os.name").indexOf("Windows") != -1);
+	}
 
-    /**
-     * Check whether we deal with a Macintosh.
-     *
-     * @return true if this is a Mac
-     */
-    public static boolean isMac() {
-        return (System.getProperty("mrj.version") != null);
-    }
+	/**
+	 * Check whether we deal with a Macintosh.
+	 *
+	 * @return true if this is a Mac
+	 */
+	public static boolean isMac() {
+		return (System.getProperty("mrj.version") != null);
+	}
 
-    /**
-     * Check whether this is a Mac running OS X.
-     *
-     * @return true if this is a Mac running OS X
-     */
-    public static boolean isMacOSX() {
-        return (System.getProperty("os.name").toLowerCase()
-                .startsWith("mac os x"));
-    }
-    
-    /**
-     * Check whether we deal with a Sun Java.
-     *
-     * @return true if this is a Sun Java
-     */
-    public static boolean isSunJdk() {
-        return (System.getProperty("java.vendor")
-                .equals("Sun Microsystems Inc."));
-    }
+	/**
+	 * Check whether this is a Mac running OS X.
+	 *
+	 * @return true if this is a Mac running OS X
+	 */
+	public static boolean isMacOSX() {
+		return (System.getProperty("os.name").toLowerCase().startsWith("mac os x"));
+	}
+
+	/**
+	 * Check whether we deal with a Sun Java.
+	 *
+	 * @return true if this is a Sun Java
+	 */
+	public static boolean isSunJdk() {
+		return (System.getProperty("java.vendor").equals("Sun Microsystems Inc."));
+	}
 }

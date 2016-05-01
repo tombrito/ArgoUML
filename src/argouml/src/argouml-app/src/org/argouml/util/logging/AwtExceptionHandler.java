@@ -46,27 +46,26 @@ import java.util.logging.Logger;
  */
 public class AwtExceptionHandler {
 
-    private static final Logger LOG =
-        Logger.getLogger(AwtExceptionHandler.class.getName());
+	private static final Logger LOG = Logger.getLogger(AwtExceptionHandler.class.getName());
 
-    /**
-     * DO NOT CHANGE THIS METHOD SIGNATURE.
-     * @param t the uncaught exception
-     */
-    public void handle(Throwable t) {
-        try {
-            LOG.log(Level.SEVERE,
-                    "Last chance error handler in AWT thread caught", t);
-        } catch (Throwable t2) {
-            // Ignore any nested exceptions. We don't want infinite loop.
-        }
-    }
+	/**
+	 * DO NOT CHANGE THIS METHOD SIGNATURE.
+	 * 
+	 * @param t
+	 *            the uncaught exception
+	 */
+	public void handle(Throwable t) {
+		try {
+			LOG.log(Level.SEVERE, "Last chance error handler in AWT thread caught", t);
+		} catch (Throwable t2) {
+			// Ignore any nested exceptions. We don't want infinite loop.
+		}
+	}
 
-    /**
-     * Register our exception handler with AWT.
-     */
-    public static void registerExceptionHandler() {
-        System.setProperty("sun.awt.exception.handler",
-                AwtExceptionHandler.class.getName());
-    }
+	/**
+	 * Register our exception handler with AWT.
+	 */
+	public static void registerExceptionHandler() {
+		System.setProperty("sun.awt.exception.handler", AwtExceptionHandler.class.getName());
+	}
 }

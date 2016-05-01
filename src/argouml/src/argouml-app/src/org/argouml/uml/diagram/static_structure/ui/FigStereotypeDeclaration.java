@@ -59,127 +59,126 @@ import org.argouml.uml.ui.foundation.extension_mechanisms.ActionNewTagDefinition
 import org.tigris.gef.base.Selection;
 
 /**
- * Class to display a Stereotype declaration figure using
- * Classifier box notation.<p>
+ * Class to display a Stereotype declaration figure using Classifier box
+ * notation.
+ * <p>
  *
- * TODO: This is just a place-holder right now! - tfm
- * This needs to show tags and constraints.
+ * TODO: This is just a place-holder right now! - tfm This needs to show tags
+ * and constraints.
  */
 public class FigStereotypeDeclaration extends FigCompartmentBox {
 
-    private static final long serialVersionUID = 3278972862726775237L;
+	private static final long serialVersionUID = 3278972862726775237L;
 
 	private void constructFigs(Rectangle bounds) {
-        // Put all the bits together, suppressing bounds calculations until
-        // we're all done for efficiency.
-        enableSizeChecking(false);
-        setSuppressCalcBounds(true);
+		// Put all the bits together, suppressing bounds calculations until
+		// we're all done for efficiency.
+		enableSizeChecking(false);
+		setSuppressCalcBounds(true);
 
-        getStereotypeFig().setKeyword("stereotype");
-        getStereotypeFig().setVisible(true);
-        /* The next line is needed so that we have the right dimension 
-         * when drawing this Fig on the diagram by pressing down 
-         * the mouse button, even before releasing the mouse button: */
-        getNameFig().setTopMargin(
-                getStereotypeFig().getMinimumSize().height);
+		getStereotypeFig().setKeyword("stereotype");
+		getStereotypeFig().setVisible(true);
+		/*
+		 * The next line is needed so that we have the right dimension when
+		 * drawing this Fig on the diagram by pressing down the mouse button,
+		 * even before releasing the mouse button:
+		 */
+		getNameFig().setTopMargin(getStereotypeFig().getMinimumSize().height);
 
-        addFig(getBigPort());
-        addFig(getNameFig());
-        // stereotype fig covers the name fig:
-        addFig(getStereotypeFig());
+		addFig(getBigPort());
+		addFig(getNameFig());
+		// stereotype fig covers the name fig:
+		addFig(getStereotypeFig());
 
-        // TODO: Need named Tags and Constraints compartments here
-//        addFig(tagsFig);
-//        addFig(constraintsFig);
+		// TODO: Need named Tags and Constraints compartments here
+		// addFig(tagsFig);
+		// addFig(constraintsFig);
 
-        // Make all the parts match the main fig
-        setFilled(true);
-        setFillColor(FILL_COLOR);
-        setLineColor(LINE_COLOR);
-        setLineWidth(LINE_WIDTH);
+		// Make all the parts match the main fig
+		setFilled(true);
+		setFillColor(FILL_COLOR);
+		setLineColor(LINE_COLOR);
+		setLineWidth(LINE_WIDTH);
 
-        /* Set the drop location in the case of D&D: */
-        if (bounds != null) {
-            setLocation(bounds.x, bounds.y);
-        }
+		/* Set the drop location in the case of D&D: */
+		if (bounds != null) {
+			setLocation(bounds.x, bounds.y);
+		}
 
-        setSuppressCalcBounds(false);
-        setBounds(getBounds());
-    }
+		setSuppressCalcBounds(false);
+		setBounds(getBounds());
+	}
 
-    /**
-     * Construct a Fig for a Stereotype on a diagram.
-     * 
-     * @param owner owning stereotype
-     * @param bounds position and size
-     * @param settings render settings
-     */
-    public FigStereotypeDeclaration(Object owner, Rectangle bounds,
-            DiagramSettings settings) {
-        super(owner, bounds, settings);
-        constructFigs(bounds);
-        enableSizeChecking(true);
-    }
-    
-    @Override
-    public Selection makeSelection() {
-        return new SelectionStereotype(this);
-    }
+	/**
+	 * Construct a Fig for a Stereotype on a diagram.
+	 * 
+	 * @param owner
+	 *            owning stereotype
+	 * @param bounds
+	 *            position and size
+	 * @param settings
+	 *            render settings
+	 */
+	public FigStereotypeDeclaration(Object owner, Rectangle bounds, DiagramSettings settings) {
+		super(owner, bounds, settings);
+		constructFigs(bounds);
+		enableSizeChecking(true);
+	}
 
-    /**
-     * Build a collection of menu items relevant for a right-click
-     * pop-up menu on a Stereotype.
-     * {@inheritDoc}
-     */
-    @Override
-    public Vector getPopUpActions(MouseEvent me) {
-        Vector popUpActions = super.getPopUpActions(me);
+	@Override
+	public Selection makeSelection() {
+		return new SelectionStereotype(this);
+	}
 
-        // Add...
-        ArgoJMenu addMenu = new ArgoJMenu("menu.popup.add");
-        // TODO: Add Tags & Constraints
-//        addMenu.add(TargetManager.getInstance().getAddAttributeAction());
-//        addMenu.add(TargetManager.getInstance().getAddOperationAction());
-        addMenu.add(new ActionAddNote());
-        addMenu.add(new ActionNewTagDefinition());
-        addMenu.add(ActionEdgesDisplay.getShowEdges());
-        addMenu.add(ActionEdgesDisplay.getHideEdges());
-        popUpActions.add(popUpActions.size() - getPopupAddOffset(), addMenu);
+	/**
+	 * Build a collection of menu items relevant for a right-click pop-up menu
+	 * on a Stereotype. {@inheritDoc}
+	 */
+	@Override
+	public Vector getPopUpActions(MouseEvent me) {
+		Vector popUpActions = super.getPopUpActions(me);
 
-        // Show ...
-        ArgoJMenu showMenu = new ArgoJMenu("menu.popup.show");
-        for (Action action : ActionCompartmentDisplay.getActions()) {
-            showMenu.add(action);
-        }
-        if (showMenu.getComponentCount() > 0) {
-            popUpActions.add(popUpActions.size() - getPopupAddOffset(),
-                    showMenu);
-        }
+		// Add...
+		ArgoJMenu addMenu = new ArgoJMenu("menu.popup.add");
+		// TODO: Add Tags & Constraints
+		// addMenu.add(TargetManager.getInstance().getAddAttributeAction());
+		// addMenu.add(TargetManager.getInstance().getAddOperationAction());
+		addMenu.add(new ActionAddNote());
+		addMenu.add(new ActionNewTagDefinition());
+		addMenu.add(ActionEdgesDisplay.getShowEdges());
+		addMenu.add(ActionEdgesDisplay.getHideEdges());
+		popUpActions.add(popUpActions.size() - getPopupAddOffset(), addMenu);
 
-        // Modifiers ...
-        popUpActions.add(popUpActions.size() - getPopupAddOffset(),
-                buildModifierPopUp(ABSTRACT | LEAF | ROOT));
+		// Show ...
+		ArgoJMenu showMenu = new ArgoJMenu("menu.popup.show");
+		for (Action action : ActionCompartmentDisplay.getActions()) {
+			showMenu.add(action);
+		}
+		if (showMenu.getComponentCount() > 0) {
+			popUpActions.add(popUpActions.size() - getPopupAddOffset(), showMenu);
+		}
 
-        // Visibility ...
-        popUpActions.add(popUpActions.size() - getPopupAddOffset(),
-                buildVisibilityPopUp());
+		// Modifiers ...
+		popUpActions.add(popUpActions.size() - getPopupAddOffset(), buildModifierPopUp(ABSTRACT | LEAF | ROOT));
 
-        return popUpActions;
-    }
+		// Visibility ...
+		popUpActions.add(popUpActions.size() - getPopupAddOffset(), buildVisibilityPopUp());
 
-    @Override
-    protected void updateListeners(Object oldOwner, Object newOwner) {
-        
-        Set<Object[]> listeners = new HashSet<Object[]>();
-        if (newOwner != null) {
-            listeners.add(new Object[] {newOwner, null});
-            // register for tagDefinitions:
-            for (Object td : Model.getFacade().getTagDefinitions(newOwner)) {
-                listeners.add(new Object[] {td,
-                    new String[] {"name", "tagType", "multiplicity"}});
-            }
-            /* TODO: constraints, ... */
-        }
-        updateElementListeners(listeners);
-    }
+		return popUpActions;
+	}
+
+	@Override
+	protected void updateListeners(Object oldOwner, Object newOwner) {
+
+		Set<Object[]> listeners = new HashSet<Object[]>();
+		if (newOwner != null) {
+			listeners.add(new Object[] { newOwner, null });
+			// register for tagDefinitions:
+			for (Object td : Model.getFacade().getTagDefinitions(newOwner)) {
+				listeners.add(new Object[] { td, new String[] { "name", "tagType", "multiplicity" } });
+			}
+			/* TODO: constraints, ... */
+		}
+		updateElementListeners(listeners);
+	}
 }

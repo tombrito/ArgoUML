@@ -48,92 +48,91 @@ import javax.swing.KeyStroke;
  */
 class ActionWrapper {
 
-    private KeyStroke defaultShortcut;
+	private KeyStroke defaultShortcut;
 
-    private KeyStroke currentShortcut;
+	private KeyStroke currentShortcut;
 
-    private String key;
+	private String key;
 
-    private AbstractAction actionInstance;
+	private AbstractAction actionInstance;
 
-    private String actionInstanceName;
+	private String actionInstanceName;
 
-    /**
-     * Constructor for ActionWrapper class
-     * 
-     * @param actionKey
-     *            the key of this action
-     * @param currentKeyStroke
-     *            the current shortcut for this action, if present
-     * @param defaultKeyStroke
-     *            the default shortcut for this action, if present
-     * @param action
-     *            the AbstractAction that represents the real class
-     * @param actionName
-     *            the name of the action
-     */
-    protected ActionWrapper(String actionKey, KeyStroke currentKeyStroke,
-            KeyStroke defaultKeyStroke, AbstractAction action, 
-            String actionName) {
-        this.key = actionKey;
-        this.currentShortcut = currentKeyStroke;
-        this.defaultShortcut = defaultKeyStroke;
-        this.actionInstance = action;
-        this.actionInstanceName = actionName;
-    }
+	/**
+	 * Constructor for ActionWrapper class
+	 * 
+	 * @param actionKey
+	 *            the key of this action
+	 * @param currentKeyStroke
+	 *            the current shortcut for this action, if present
+	 * @param defaultKeyStroke
+	 *            the default shortcut for this action, if present
+	 * @param action
+	 *            the AbstractAction that represents the real class
+	 * @param actionName
+	 *            the name of the action
+	 */
+	protected ActionWrapper(String actionKey, KeyStroke currentKeyStroke, KeyStroke defaultKeyStroke,
+			AbstractAction action, String actionName) {
+		this.key = actionKey;
+		this.currentShortcut = currentKeyStroke;
+		this.defaultShortcut = defaultKeyStroke;
+		this.actionInstance = action;
+		this.actionInstanceName = actionName;
+	}
 
-    /**
-     * Getter for key
-     * 
-     * @return the id for this shortcut
-     */
-    public String getKey() {
-        return key;
-    }
+	/**
+	 * Getter for key
+	 * 
+	 * @return the id for this shortcut
+	 */
+	public String getKey() {
+		return key;
+	}
 
-    /**
-     * Getter for currentShortcut
-     * 
-     * @return the current keyStroke for this shortcut
-     */
-    public KeyStroke getCurrentShortcut() {
-        return currentShortcut;
-    }
+	/**
+	 * Getter for currentShortcut
+	 * 
+	 * @return the current keyStroke for this shortcut
+	 */
+	public KeyStroke getCurrentShortcut() {
+		return currentShortcut;
+	}
 
-    /**
-     * Setter for currentShortcut
-     * 
-     * @param actualShortcut
-     *            the new shortCut
-     */
-    public void setCurrentShortcut(KeyStroke actualShortcut) {
-        this.currentShortcut = actualShortcut;
-    }
+	/**
+	 * Setter for currentShortcut
+	 * 
+	 * @param actualShortcut
+	 *            the new shortCut
+	 */
+	public void setCurrentShortcut(KeyStroke actualShortcut) {
+		this.currentShortcut = actualShortcut;
+	}
 
-    /**
-     * Getter for defaultShortcut
-     * 
-     * @return the default keyStroke for this shortcut
-     */
-    public KeyStroke getDefaultShortcut() {
-        return defaultShortcut;
-    }
+	/**
+	 * Getter for defaultShortcut
+	 * 
+	 * @return the default keyStroke for this shortcut
+	 */
+	public KeyStroke getDefaultShortcut() {
+		return defaultShortcut;
+	}
 
-    /**
-     * Getter for Action's name
-     * 
-     * @return the name of the Action
-     */
-    public String getActionName() {
-        return actionInstanceName;
-    }
+	/**
+	 * Getter for Action's name
+	 * 
+	 * @return the name of the Action
+	 */
+	public String getActionName() {
+		return actionInstanceName;
+	}
 
-    /**
-     * Getter for Action instance
-     * 
-     * @return the Action
-     */
-    public AbstractAction getActionInstance() {
-        return this.actionInstance;
-    }
+	/**
+	 * Getter for Action instance
+	 * 
+	 * @return the Action
+	 */
+	public AbstractAction getActionInstance() {
+		return this.actionInstance;
+	}
 }

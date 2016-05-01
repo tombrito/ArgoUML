@@ -54,68 +54,66 @@ import org.argouml.profile.Profile;
  */
 public class ProfileGoodPractices extends Profile {
 
-    private Set<Critic>  critics = null;
+	private Set<Critic> critics = null;
 
-    private CrMissingClassName crMissingClassName = new CrMissingClassName();
+	private CrMissingClassName crMissingClassName = new CrMissingClassName();
 
-    /**
-     * Default Constructor 
-     */
-    public ProfileGoodPractices() {
-        super();
-    }
+	/**
+	 * Default Constructor
+	 */
+	public ProfileGoodPractices() {
+		super();
+	}
 
-    private void loadCritics() {
-        // general
-        critics = new HashSet<Critic>();
-        critics.add(new CrEmptyPackage());
-        critics.add(new CrNodesOverlap());
-        critics.add(new CrZeroLengthEdge());
-        critics.add(new CrCircularComposition());
-        critics.add(new CrMissingAttrName());
-        critics.add(crMissingClassName);
-        critics.add(new CrMissingStateName());
-        critics.add(new CrMissingOperName());
-        critics.add(new CrNonAggDataType());
-        critics.add(new CrSubclassReference());
-        critics.add(new CrTooManyAssoc());
-        critics.add(new CrTooManyAttr());
-        critics.add(new CrTooManyOper());
-        critics.add(new CrTooManyTransitions());
-        if (Model.getFacade().getUmlVersion().startsWith("1")) {
-            critics.add(new CrTooManyStates());
-        }
-        critics.add(new CrTooManyClasses());
-        critics.add(new CrWrongLinkEnds());
-        critics.add(new CrUtilityViolated());
+	private void loadCritics() {
+		// general
+		critics = new HashSet<Critic>();
+		critics.add(new CrEmptyPackage());
+		critics.add(new CrNodesOverlap());
+		critics.add(new CrZeroLengthEdge());
+		critics.add(new CrCircularComposition());
+		critics.add(new CrMissingAttrName());
+		critics.add(crMissingClassName);
+		critics.add(new CrMissingStateName());
+		critics.add(new CrMissingOperName());
+		critics.add(new CrNonAggDataType());
+		critics.add(new CrSubclassReference());
+		critics.add(new CrTooManyAssoc());
+		critics.add(new CrTooManyAttr());
+		critics.add(new CrTooManyOper());
+		critics.add(new CrTooManyTransitions());
+		if (Model.getFacade().getUmlVersion().startsWith("1")) {
+			critics.add(new CrTooManyStates());
+		}
+		critics.add(new CrTooManyClasses());
+		critics.add(new CrWrongLinkEnds());
+		critics.add(new CrUtilityViolated());
 
-        this.setCritics(critics);
-    }
-    
-    @Override
-    public Set<Critic> getCritics() {
-        if (critics == null ) {
-            loadCritics();
-        }
-        return super.getCritics();
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return Translator.localize(
-                "misc.project.profile-critics-for-good-practices");
-    }
+		this.setCritics(critics);
+	}
 
+	@Override
+	public Set<Critic> getCritics() {
+		if (critics == null) {
+			loadCritics();
+		}
+		return super.getCritics();
+	}
 
-    @Override
-    public String getProfileIdentifier() {
-        return "GoodPractices";
-    }
+	@Override
+	public String getDisplayName() {
+		return Translator.localize("misc.project.profile-critics-for-good-practices");
+	}
 
-    /**
-     * @return the missing class name critic
-     */
-    public Critic getCrMissingClassName() {
-        return crMissingClassName;
-    }
+	@Override
+	public String getProfileIdentifier() {
+		return "GoodPractices";
+	}
+
+	/**
+	 * @return the missing class name critic
+	 */
+	public Critic getCrMissingClassName() {
+		return crMissingClassName;
+	}
 }

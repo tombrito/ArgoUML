@@ -51,119 +51,120 @@ import org.argouml.uml.cognitive.UMLDecision;
 import org.argouml.uml.cognitive.UMLToDoItem;
 
 /**
- * Well-formedness rule [1] for Namespace. See page 33 of UML 1.1 Semantics.
- * OMG document ad/97-08-04. <p>
+ * Well-formedness rule [1] for Namespace. See page 33 of UML 1.1 Semantics. OMG
+ * document ad/97-08-04.
+ * <p>
  *
- * Well-formedness rule [1] for Namespace. See page 62 of UML 1.4
- * Semantics. OMG document UML 1.4.2 formal/04-07-02.
+ * Well-formedness rule [1] for Namespace. See page 62 of UML 1.4 Semantics. OMG
+ * document UML 1.4.2 formal/04-07-02.
  *
- * Names of contained elements in a namespace (i.e. the design material) 
- * must be unique. 
- * This condition does not apply to names of Generalizations, 
- * or elements without name.
+ * Names of contained elements in a namespace (i.e. the design material) must be
+ * unique. This condition does not apply to names of Generalizations, or
+ * elements without name.
  */
 public class CrNameConflict extends CrUML {
 
-    private static final long serialVersionUID = -7232956933387314311L;
+	private static final long serialVersionUID = -7232956933387314311L;
 
 	/**
-     * The constructor.
-     */
-    public CrNameConflict() {
-        setupHeadAndDesc();
-        addSupportedDecision(UMLDecision.NAMING);
-        setKnowledgeTypes(Critic.KT_SYNTAX);
-        addTrigger("name");
-        addTrigger("feature_name");
-    }
+	 * The constructor.
+	 */
+	public CrNameConflict() {
+		setupHeadAndDesc();
+		addSupportedDecision(UMLDecision.NAMING);
+		setKnowledgeTypes(Critic.KT_SYNTAX);
+		addTrigger("name");
+		addTrigger("feature_name");
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
-     *      java.lang.Object, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean predicate2(Object dm, Designer dsgr) {
-        return computeOffenders(dm).size() > 1;
-    }
+	/*
+	 * @see org.argouml.uml.cognitive.critics.CrUML#predicate2(
+	 * java.lang.Object, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean predicate2(Object dm, Designer dsgr) {
+		return computeOffenders(dm).size() > 1;
+	}
 
-    /*
-     * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
-     *      org.argouml.cognitive.Designer)
-     */
-    @Override
-    public ToDoItem toDoItem(Object dm, Designer dsgr) {
-        ListSet offs = computeOffenders(dm);
-        return new UMLToDoItem(this, offs, dsgr);
-    }
+	/*
+	 * @see org.argouml.cognitive.critics.Critic#toDoItem( java.lang.Object,
+	 * org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public ToDoItem toDoItem(Object dm, Designer dsgr) {
+		ListSet offs = computeOffenders(dm);
+		return new UMLToDoItem(this, offs, dsgr);
+	}
 
-    /**
-     * @param dm
-     *            the object to check
-     * @return the set of offenders
-     */
-    protected ListSet computeOffenders(Object dm) {
-        ListSet offenderResult = new ListSet();
-        if (Model.getFacade().isANamespace(dm)) {
-            HashMap<String, Object> names = new HashMap<String, Object>();
-            for (Object name1Object :  Model.getFacade().getOwnedElements(dm)) {
-                if (!Model.getFacade().isANamedElement(name1Object)) {
-                    continue;
-                }
-                // TODO: Do we need this Generalization is not a named element
-                if (Model.getFacade().isAGeneralization(name1Object)) {
-                    continue;
-                }
-                String name = Model.getFacade().getName(name1Object);
-                if (name == null) {
-                    continue;
-                }
-                if ("".equals(name)) {
-                    continue;
-                }
-                if (names.containsKey(name)) {
-                    Object offender = names.get(name);
-                    if (!offenderResult.contains(offender)) {
-                        offenderResult.add(offender);
-                    }
-                    offenderResult.add(name1Object);
-                }
-                names.put(name, name1Object);
-            }
-        }
-        return offenderResult;
-    }
+	/**
+	 * @param dm
+	 *            the object to check
+	 * @return the set of offenders
+	 */
+	protected ListSet computeOffenders(Object dm) {
+		ListSet offenderResult = new ListSet();
+		if (Model.getFacade().isANamespace(dm)) {
+			HashMap<String, Object> names = new HashMap<String, Object>();
+			for (Object name1Object : Model.getFacade().getOwnedElements(dm)) {
+				if (!Model.getFacade().isANamedElement(name1Object)) {
+					continue;
+				}
+				// TODO: Do we need this Generalization is not a named element
+				if (Model.getFacade().isAGeneralization(name1Object)) {
+					continue;
+				}
+				String name = Model.getFacade().getName(name1Object);
+				if (name == null) {
+					continue;
+				}
+				if ("".equals(name)) {
+					continue;
+				}
+				if (names.containsKey(name)) {
+					Object offender = names.get(name);
+					if (!offenderResult.contains(offender)) {
+						offenderResult.add(offender);
+					}
+					offenderResult.add(name1Object);
+				}
+				names.put(name, name1Object);
+			}
+		}
+		return offenderResult;
+	}
 
-    /*
-     * @see org.argouml.cognitive.Poster#stillValid(
-     *      org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
-     */
-    @Override
-    public boolean stillValid(ToDoItem i, Designer dsgr) {
-        if (!isActive()) {
-            return false;
-        }
-        ListSet offs = i.getOffenders();
+	/*
+	 * @see org.argouml.cognitive.Poster#stillValid(
+	 * org.argouml.cognitive.ToDoItem, org.argouml.cognitive.Designer)
+	 */
+	@Override
+	public boolean stillValid(ToDoItem i, Designer dsgr) {
+		if (!isActive()) {
+			return false;
+		}
+		ListSet offs = i.getOffenders();
 
-        // first element is e.g. the class, but we need to have its namespace
-        // to recompute the offenders.
-        Object f = offs.get(0);
-        Object ns = Model.getFacade().getNamespace(f);
-        if (!predicate(ns, dsgr)) {
-            return false;
-        }
-        ListSet newOffs = computeOffenders(ns);
-        boolean res = offs.equals(newOffs);
-        return res;
-    }
+		// first element is e.g. the class, but we need to have its namespace
+		// to recompute the offenders.
+		Object f = offs.get(0);
+		Object ns = Model.getFacade().getNamespace(f);
+		if (!predicate(ns, dsgr)) {
+			return false;
+		}
+		ListSet newOffs = computeOffenders(ns);
+		boolean res = offs.equals(newOffs);
+		return res;
+	}
 
-    /*
-     * @see org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
-     */
-    @Override
-    public Set<Object> getCriticizedDesignMaterials() {
-        Set<Object> ret = new HashSet<Object>();
-        ret.add(Model.getMetaTypes().getNamespace());
-        return ret;
-    }
-    
+	/*
+	 * @see
+	 * org.argouml.uml.cognitive.critics.CrUML#getCriticizedDesignMaterials()
+	 */
+	@Override
+	public Set<Object> getCriticizedDesignMaterials() {
+		Set<Object> ret = new HashSet<Object>();
+		ret.add(Model.getMetaTypes().getNamespace());
+		return ret;
+	}
+
 }

@@ -61,91 +61,95 @@ import org.tigris.gef.presentation.Fig;
  * @since Oct 12, 2002
  * @author jaap.branderhorst@xs4all.nl
  */
-public abstract class UMLCheckBox2 extends JCheckBox
-    implements TargetListener, PropertyChangeListener {
+public abstract class UMLCheckBox2 extends JCheckBox implements TargetListener, PropertyChangeListener {
 
-    private static final long serialVersionUID = 746074781475929035L;
+	private static final long serialVersionUID = 746074781475929035L;
 	private Object checkBoxTarget;
-    private String propertySetName;
+	private String propertySetName;
 
-    /**
-     * Constructor for UMLCheckBox2.
-     * @param text the text of the check box
-     * @param a the action we're going to listen to
-     * @param name the property set name
-     */
-    public UMLCheckBox2(String text, Action a, String name) {
-        super(text);
-        setFont(LookAndFeelMgr.getInstance().getStandardFont());
-        propertySetName = name;
-        addActionListener(a);
+	/**
+	 * Constructor for UMLCheckBox2.
+	 * 
+	 * @param text
+	 *            the text of the check box
+	 * @param a
+	 *            the action we're going to listen to
+	 * @param name
+	 *            the property set name
+	 */
+	public UMLCheckBox2(String text, Action a, String name) {
+		super(text);
+		setFont(LookAndFeelMgr.getInstance().getStandardFont());
+		propertySetName = name;
+		addActionListener(a);
 
-        setActionCommand((String) a.getValue(Action.ACTION_COMMAND_KEY));
-    }
+		setActionCommand((String) a.getValue(Action.ACTION_COMMAND_KEY));
+	}
 
-    /*
-     * The property value has changed so rebuild our view.
-     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-     */
-    public void propertyChange(PropertyChangeEvent evt) {
-        buildModel();
-    }
+	/*
+	 * The property value has changed so rebuild our view.
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
+	 */
+	public void propertyChange(PropertyChangeEvent evt) {
+		buildModel();
+	}
 
-    /**
-     * Return the target. 
-     *
-     * @return the target
-     */
-    public Object getTarget() {
-        return checkBoxTarget;
-    }
+	/**
+	 * Return the target.
+	 *
+	 * @return the target
+	 */
+	public Object getTarget() {
+		return checkBoxTarget;
+	}
 
-    /**
-     * Sets the target. This method will not be used until the target does
-     * not come via the container.
-     * @param target The target to set
-     */
-    public void setTarget(Object target) {
-        target = target instanceof Fig ? ((Fig) target).getOwner() : target;
-        if (Model.getFacade().isAUMLElement(checkBoxTarget)) {
-            Model.getPump().removeModelEventListener(
-                    this, checkBoxTarget, propertySetName);
-        }
+	/**
+	 * Sets the target. This method will not be used until the target does not
+	 * come via the container.
+	 * 
+	 * @param target
+	 *            The target to set
+	 */
+	public void setTarget(Object target) {
+		target = target instanceof Fig ? ((Fig) target).getOwner() : target;
+		if (Model.getFacade().isAUMLElement(checkBoxTarget)) {
+			Model.getPump().removeModelEventListener(this, checkBoxTarget, propertySetName);
+		}
 
-        if (Model.getFacade().isAUMLElement(target)) {
-            checkBoxTarget = target;
-            Model.getPump().addModelEventListener(
-                    this, checkBoxTarget, propertySetName);
-            buildModel();
-        }
-    }
+		if (Model.getFacade().isAUMLElement(target)) {
+			checkBoxTarget = target;
+			Model.getPump().addModelEventListener(this, checkBoxTarget, propertySetName);
+			buildModel();
+		}
+	}
 
-    /**
-     * Builds the model. That is: it sets the checkbox to true or
-     * false. The name of this method is chosen to be compliant with
-     * for example UMLModelElementListModel2.
-     */
-    public abstract void buildModel();
+	/**
+	 * Builds the model. That is: it sets the checkbox to true or false. The
+	 * name of this method is chosen to be compliant with for example
+	 * UMLModelElementListModel2.
+	 */
+	public abstract void buildModel();
 
+	/*
+	 * @see TargetListener#targetAdded(TargetEvent)
+	 */
+	public void targetAdded(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
-    /*
-     * @see TargetListener#targetAdded(TargetEvent)
-     */
-    public void targetAdded(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	/*
+	 * @see TargetListener#targetRemoved(TargetEvent)
+	 */
+	public void targetRemoved(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 
-    /*
-     * @see TargetListener#targetRemoved(TargetEvent)
-     */
-    public void targetRemoved(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
-
-    /*
-     * @see TargetListener#targetSet(TargetEvent)
-     */
-    public void targetSet(TargetEvent e) {
-        setTarget(e.getNewTarget());
-    }
+	/*
+	 * @see TargetListener#targetSet(TargetEvent)
+	 */
+	public void targetSet(TargetEvent e) {
+		setTarget(e.getNewTarget());
+	}
 }

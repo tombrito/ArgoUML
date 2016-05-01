@@ -57,47 +57,46 @@ import org.argouml.ui.targetmanager.TargetManager;
  */
 public class ActionNewProfile extends AbstractAction {
 
-    private static final long serialVersionUID = 5435117948523352587L;
+	private static final long serialVersionUID = 5435117948523352587L;
 
 	/**
-     * The constructor.
-     */
-    public ActionNewProfile() {
-        // Set the name and icon:
-        super(Translator.localize("action.new-profile"),
-                ResourceLoaderWrapper.lookupIcon("action.new-profile"));
-        // Set the tooltip string:
-        putValue(Action.SHORT_DESCRIPTION,
-                Translator.localize("action.new-profile"));
-    }
+	 * The constructor.
+	 */
+	public ActionNewProfile() {
+		// Set the name and icon:
+		super(Translator.localize("action.new-profile"), ResourceLoaderWrapper.lookupIcon("action.new-profile"));
+		// Set the tooltip string:
+		putValue(Action.SHORT_DESCRIPTION, Translator.localize("action.new-profile"));
+	}
 
-    ////////////////////////////////////////////////////////////////
-    // main methods
+	////////////////////////////////////////////////////////////////
+	// main methods
 
-    /*
-     * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     */
-    public void actionPerformed(ActionEvent e) {
-        Model.getPump().flushModelEvents();
-        Model.getPump().stopPumpingEvents();
-        Model.getPump().flushModelEvents();
-        Project p = ProjectManager.getManager().getCurrentProject();
+	/*
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent e) {
+		Model.getPump().flushModelEvents();
+		Model.getPump().stopPumpingEvents();
+		Model.getPump().flushModelEvents();
+		Project p = ProjectManager.getManager().getCurrentProject();
 
-        if (getValue("non-interactive") == null) {
-            if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
-                return;
-            }
-        }
+		if (getValue("non-interactive") == null) {
+			if (!ProjectBrowser.getInstance().askConfirmationAndSave()) {
+				return;
+			}
+		}
 
-        ProjectBrowser.getInstance().clearDialogs();
-        Designer.disableCritiquing();
-        Designer.clearCritiquing();
-        // clean the history
-        TargetManager.getInstance().cleanHistory();
-        p.remove();
-        p = ProjectManager.getManager().makeEmptyProfileProject();
-        TargetManager.getInstance().setTarget(p.getDiagramList().get(0));
-        Designer.enableCritiquing();
-        Model.getPump().startPumpingEvents();
-    }
+		ProjectBrowser.getInstance().clearDialogs();
+		Designer.disableCritiquing();
+		Designer.clearCritiquing();
+		// clean the history
+		TargetManager.getInstance().cleanHistory();
+		p.remove();
+		p = ProjectManager.getManager().makeEmptyProfileProject();
+		TargetManager.getInstance().setTarget(p.getDiagramList().get(0));
+		Designer.enableCritiquing();
+		Model.getPump().startPumpingEvents();
+	}
 }

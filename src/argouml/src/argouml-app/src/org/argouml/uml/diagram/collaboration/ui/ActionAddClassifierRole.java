@@ -46,37 +46,33 @@ import org.tigris.gef.base.Globals;
 import org.tigris.gef.graph.GraphModel;
 
 /**
- * Action to add a classifier role to a collaboration diagram.
- * Based on org.argouml.uml.diagram.sequence.ui.ActionAddClassifierRole
+ * Action to add a classifier role to a collaboration diagram. Based on
+ * org.argouml.uml.diagram.sequence.ui.ActionAddClassifierRole
  */
 public class ActionAddClassifierRole extends CmdCreateNode {
 
-    private static final long serialVersionUID = 8939546123926523391L;
+	private static final long serialVersionUID = 8939546123926523391L;
 
-    /**
-     * The constructor.
-     */
-    public ActionAddClassifierRole() {
-        super(Model.getMetaTypes().getClassifierRole(),
-                "button.new-classifierrole");
-    }
+	/**
+	 * The constructor.
+	 */
+	public ActionAddClassifierRole() {
+		super(Model.getMetaTypes().getClassifierRole(), "button.new-classifierrole");
+	}
 
-    /*
-     * @see org.tigris.gef.graph.GraphFactory#makeNode()
-     */
-    public Object makeNode() {
-        Object node = null;
-        Editor ce = Globals.curEditor();
-        GraphModel gm = ce.getGraphModel();
-        if (gm instanceof CollabDiagramGraphModel) {
-            Object collaboration =
-                ((CollabDiagramGraphModel) gm).getOwner();
-            node =
-                Model.getCollaborationsFactory().buildLifeline(collaboration);
-        } else {
-            throw new IllegalStateException("Graphmodel is not a "
-                    + "collaboration diagram graph model");
-        }
-        return node;
-    }
+	/*
+	 * @see org.tigris.gef.graph.GraphFactory#makeNode()
+	 */
+	public Object makeNode() {
+		Object node = null;
+		Editor ce = Globals.curEditor();
+		GraphModel gm = ce.getGraphModel();
+		if (gm instanceof CollabDiagramGraphModel) {
+			Object collaboration = ((CollabDiagramGraphModel) gm).getOwner();
+			node = Model.getCollaborationsFactory().buildLifeline(collaboration);
+		} else {
+			throw new IllegalStateException("Graphmodel is not a " + "collaboration diagram graph model");
+		}
+		return node;
+	}
 }
