@@ -166,6 +166,10 @@ public class Main {
             // Get the splash screen up as early as possible
             st.mark("create splash");
             SplashScreen splash = null;
+            
+            // XXX workaround para testar no Windows
+//            LookAndFeelMgr.getInstance().setCurrentTheme(UIManager.getSystemLookAndFeelClassName());
+            
             if (!batch) {
                 // We have to do this to set the LAF for the splash screen
                 st.mark("initialize laf");
