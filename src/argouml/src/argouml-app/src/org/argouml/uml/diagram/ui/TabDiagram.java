@@ -520,9 +520,7 @@ class ArgoEditor extends Editor {
 	 */
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		if (getActiveTextEditor() != null) {
-			getActiveTextEditor().requestFocus();
-		}
+		requestFocusActiveTextEditor();
 		translateMouseEvent(me);
 		Globals.curEditor(this);
 		pushMode((FigModifyingMode) Globals.mode());

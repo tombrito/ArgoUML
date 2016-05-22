@@ -460,6 +460,7 @@ public abstract class FigCompartmentBox extends FigNodeModelElement {
 			return;
 		}
 		super.mouseClicked(mouseEvent);
+		
 		if (mouseEvent.isShiftDown() && TargetManager.getInstance().getTargets().size() > 0) {
 			return;
 		}

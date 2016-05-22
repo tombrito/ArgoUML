@@ -118,7 +118,7 @@ public class Main {
 	/**
 	 * The location of the default logging configuration (.lcf) file.
 	 */
-	public static final String DEFAULT_LOGGING_CONFIGURATION = "org/argouml/resource/default.lcf";
+	public static final String DEFAULT_LOGGING_CONFIGURATION = "org/argouml/resource/default_console.lcf";
 
 	/**
 	 * The default implementation to start.

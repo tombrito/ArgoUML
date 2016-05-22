@@ -38,7 +38,6 @@
 
 package org.argouml.uml.ui;
 
-import java.awt.Component;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.text.MessageFormat;
@@ -65,10 +64,12 @@ import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.CommentEdge;
 import org.argouml.uml.diagram.ArgoDiagram;
 import org.argouml.util.ArgoFrame;
+import org.tigris.gef.JavaFXTest;
 import org.tigris.gef.base.Editor;
 import org.tigris.gef.base.Globals;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigTextEditor;
+import org.tigris.gef.presentation.FigTextEditorFX;
 
 /**
  * Action for removing objects from the model. Objects can be Modelelements,
@@ -128,20 +129,36 @@ public class ActionDeleteModelElements extends UndoableAction {
 	public void actionPerformed(ActionEvent ae) {
 		super.actionPerformed(ae);
 		KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		Component focusOwner = focusManager.getFocusOwner();
-		if (focusOwner instanceof FigTextEditor) {
-			// TODO: Probably really want to cancel editing
-			// ((FigTextEditor) focusOwner).cancelEditing();
-			((FigTextEditor) focusOwner).endEditing();
-		} else if (focusOwner instanceof JTable) {
-			JTable table = (JTable) focusOwner;
-			if (table.isEditing()) {
-				TableCellEditor ce = table.getCellEditor();
-				if (ce != null) {
-					ce.cancelCellEditing();
+		Object focusOwner = focusManager.getFocusOwner();
+        if (JavaFXTest.ON) {
+			if (focusOwner instanceof FigTextEditorFX) {
+				// TODO: Probably really want to cancel editing
+				// ((FigTextEditor) focusOwner).cancelEditing();
+				((FigTextEditorFX) focusOwner).endEditing();
+			} else if (focusOwner instanceof JTable) {
+				JTable table = (JTable) focusOwner;
+				if (table.isEditing()) {
+					TableCellEditor ce = table.getCellEditor();
+					if (ce != null) {
+						ce.cancelCellEditing();
+					}
 				}
 			}
-		}
+        } else {
+			if (focusOwner instanceof FigTextEditor) {
+				// TODO: Probably really want to cancel editing
+				// ((FigTextEditor) focusOwner).cancelEditing();
+				((FigTextEditor) focusOwner).endEditing();
+			} else if (focusOwner instanceof JTable) {
+				JTable table = (JTable) focusOwner;
+				if (table.isEditing()) {
+					TableCellEditor ce = table.getCellEditor();
+					if (ce != null) {
+						ce.cancelCellEditing();
+					}
+				}
+			}
+        }
 
 		Project p = ProjectManager.getManager().getCurrentProject();
 		Object[] targets = TargetManager.getInstance().getTargets().toArray();

@@ -186,6 +186,8 @@ public class TabProps extends AbstractArgoJPanel implements TabModelTarget {
 	 */
 	@Deprecated
 	public void setTarget(Object target) {
+		assert(false) : "there were fails here before, I did call now org.argouml.ui.targetmanager.TargetManager.setTarget";
+		
 		// targets ought to be UML objects or diagrams
 		LOG.log(Level.INFO, "setTarget: there are {0} targets", TargetManager.getInstance().getTargets().size());
 
@@ -242,7 +244,8 @@ public class TabProps extends AbstractArgoJPanel implements TabModelTarget {
 	 * @see org.argouml.ui.TabTarget#refresh()
 	 */
 	public void refresh() {
-		setTarget(TargetManager.getInstance().getTarget());
+//		setTarget(TargetManager.getInstance().getTarget());
+		org.argouml.ui.targetmanager.TargetManager.getInstance().setTarget(TargetManager.getInstance().getSingleTarget());
 	}
 
 	/**
@@ -357,7 +360,8 @@ public class TabProps extends AbstractArgoJPanel implements TabModelTarget {
 	 * targetmanager.TargetEvent)
 	 */
 	public void targetAdded(TargetEvent targetEvent) {
-		setTarget(TargetManager.getInstance().getSingleTarget());
+//		setTarget(TargetManager.getInstance().getSingleTarget());
+        org.argouml.ui.targetmanager.TargetManager.getInstance().setTarget(TargetManager.getInstance().getSingleTarget());
 		fireTargetAdded(targetEvent);
 		if (listenerList.getListenerCount() > 0) {
 			validate();
@@ -372,7 +376,8 @@ public class TabProps extends AbstractArgoJPanel implements TabModelTarget {
 	 * targetmanager.TargetEvent)
 	 */
 	public void targetRemoved(TargetEvent targetEvent) {
-		setTarget(TargetManager.getInstance().getSingleTarget());
+//		setTarget(TargetManager.getInstance().getSingleTarget());
+        org.argouml.ui.targetmanager.TargetManager.getInstance().setTarget(TargetManager.getInstance().getSingleTarget());
 		fireTargetRemoved(targetEvent);
 		validate();
 		repaint();
@@ -384,7 +389,8 @@ public class TabProps extends AbstractArgoJPanel implements TabModelTarget {
 	 * targetmanager.TargetEvent)
 	 */
 	public void targetSet(TargetEvent targetEvent) {
-		setTarget(TargetManager.getInstance().getSingleTarget());
+//		setTarget(TargetManager.getInstance().getSingleTarget());
+		org.argouml.ui.targetmanager.TargetManager.getInstance().setTarget(TargetManager.getInstance().getSingleTarget());
 		fireTargetSet(targetEvent);
 		validate();
 		repaint();
