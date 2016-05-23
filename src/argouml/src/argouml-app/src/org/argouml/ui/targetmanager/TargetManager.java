@@ -765,7 +765,7 @@ public final class TargetManager {
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			try {
 				if (listeners[i] == TargetListener.class) {
-					if (i==16) {
+					if (i == 16) {
 						System.out.println("TargetManager::removeTargetListener() debug");
 					}
 					// Lazily create the event:

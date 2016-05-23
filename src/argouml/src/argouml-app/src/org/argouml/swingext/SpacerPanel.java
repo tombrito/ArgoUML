@@ -39,6 +39,7 @@
 package org.argouml.swingext;
 
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 /**

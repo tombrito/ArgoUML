@@ -130,7 +130,7 @@ public class ActionDeleteModelElements extends UndoableAction {
 		super.actionPerformed(ae);
 		KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		Object focusOwner = focusManager.getFocusOwner();
-        if (JavaFXTest.ON) {
+		if (JavaFXTest.ON) {
 			if (focusOwner instanceof FigTextEditorFX) {
 				// TODO: Probably really want to cancel editing
 				// ((FigTextEditor) focusOwner).cancelEditing();
@@ -144,7 +144,7 @@ public class ActionDeleteModelElements extends UndoableAction {
 					}
 				}
 			}
-        } else {
+		} else {
 			if (focusOwner instanceof FigTextEditor) {
 				// TODO: Probably really want to cancel editing
 				// ((FigTextEditor) focusOwner).cancelEditing();
@@ -158,7 +158,7 @@ public class ActionDeleteModelElements extends UndoableAction {
 					}
 				}
 			}
-        }
+		}
 
 		Project p = ProjectManager.getManager().getCurrentProject();
 		Object[] targets = TargetManager.getInstance().getTargets().toArray();

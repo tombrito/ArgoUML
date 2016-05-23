@@ -14,6 +14,7 @@
 package org.argouml.uml.diagram.state.ui;
 
 import java.awt.Dimension;
+
 import org.tigris.gef.presentation.FigRect;
 
 /**

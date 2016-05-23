@@ -45,6 +45,8 @@ import javax.swing.Icon;
 import org.argouml.cognitive.critics.Wizard;
 import org.argouml.cognitive.critics.WizardItem;
 import org.argouml.util.CollectionUtil;
+import org.tigris.gef.base.Diagram;
+import org.tigris.gef.presentation.Fig;
 
 /**
  * This class defines the feedback items that can be placed on the Designer's

@@ -39,6 +39,7 @@
 package org.argouml.uml.diagram.activity.ui;
 
 import java.awt.event.MouseEvent;
+
 import org.tigris.gef.base.ModePlace;
 import org.tigris.gef.graph.GraphFactory;
 

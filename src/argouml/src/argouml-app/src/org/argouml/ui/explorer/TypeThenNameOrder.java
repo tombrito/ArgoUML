@@ -39,6 +39,7 @@
 package org.argouml.ui.explorer;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.argouml.i18n.Translator;
 
 /**

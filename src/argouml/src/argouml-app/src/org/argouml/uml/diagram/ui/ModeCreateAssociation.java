@@ -39,6 +39,7 @@
 package org.argouml.uml.diagram.ui;
 
 import java.awt.Color;
+
 import org.argouml.model.Model;
 import org.tigris.gef.base.Layer;
 import org.tigris.gef.graph.MutableGraphModel;

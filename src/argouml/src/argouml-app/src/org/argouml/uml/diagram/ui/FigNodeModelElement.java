@@ -1316,7 +1316,7 @@ public abstract class FigNodeModelElement extends FigNode
 		if (me.isConsumed()) {
 			return;
 		}
-		
+
 		// DOUBLE CLICK
 		if (me.getClickCount() >= 2 && !(me.isPopupTrigger() || me.getModifiers() == InputEvent.BUTTON3_MASK)
 				&& getOwner() != null && !isReadOnly()) {
@@ -1336,7 +1336,7 @@ public abstract class FigNodeModelElement extends FigNode
 			}
 		}
 	}
-	
+
 	/*
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
