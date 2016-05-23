@@ -1907,7 +1907,7 @@ public abstract class FigNodeModelElement extends FigNode
 	@Override
 	public boolean hit(Rectangle r) {
 		int cornersHit = countCornersContained(r.x, r.y, r.width, r.height);
-		if (_filled) {
+		if (getFilled()) {
 			return cornersHit > 0 || intersects(r);
 		}
 		return (cornersHit > 0 && cornersHit < 4) || intersects(r);

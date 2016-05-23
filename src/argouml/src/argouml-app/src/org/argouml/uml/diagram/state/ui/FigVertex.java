@@ -426,10 +426,10 @@ public class FigVertex extends FigNodeModelElement {
 		@Override
 		protected void setBoundsImpl(final int x, int y, final int w, int h) {
 
-			_x = x;
-			_y = y;
-			_w = w;
-			_h = h;
+			set_x(x);
+			set_y(y);
+			set_w(w);
+			set_h(h);
 
 			for (Iterator it = getFigs().iterator(); it.hasNext();) {
 				Fig fig = (Fig) it.next();

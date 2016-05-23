@@ -151,7 +151,7 @@ class FigMessageGroup extends ArgoFigGroup {
 			Fig first = null;
 			// _x = first.getX();
 			// _y = first.getY();
-			_w = 0;
+			set_w(0);
 			Iterator it = figs.iterator();
 			int size = figs.size();
 			for (int i = 0; i < size; i++) {
@@ -164,14 +164,14 @@ class FigMessageGroup extends ArgoFigGroup {
 					last = fig;
 				}
 
-				if (fig.getWidth() > _w) {
-					_w = fig.getWidth();
+				if (fig.getWidth() > getWidth()) {
+					set_w(fig.getWidth());
 				}
 			}
-			_h = last.getY() + last.getHeight() - first.getY();
+			set_h(last.getY() + last.getHeight() - first.getY());
 		} else {
-			_w = 0;
-			_h = 0;
+			set_w(0);
+			set_h(0);
 		}
 	}
 

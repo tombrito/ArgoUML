@@ -115,8 +115,8 @@ public class FigTextGroup extends ArgoFigGroup implements MouseListener {
 				fig.setHeight(fig.getMinimumSize().height);
 				height += fig.getHeight();
 			}
-			_w = maxWidth;
-			_h = height;
+			set_w(maxWidth);
+			set_h(height);
 		}
 	}
 
@@ -249,6 +249,6 @@ public class FigTextGroup extends ArgoFigGroup implements MouseListener {
 	 * @see org.tigris.gef.presentation.FigGroup#contains(int, int)
 	 */
 	public boolean contains(int x, int y) {
-		return (_x <= x) && (x <= _x + _w) && (_y <= y) && (y <= _y + _h);
+		return (getX() <= x) && (x <= getX() + getWidth()) && (getY() <= y) && (y <= getY() + getHeight());
 	}
 }

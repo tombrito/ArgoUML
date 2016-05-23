@@ -186,10 +186,10 @@ public abstract class AbstractFigNode extends FigNodeModelElement {
 		Dimension nameDim = getNameFig().getMinimumSize();
 		getNameFig().setBounds(x + 4, y + DEPTH + stereoDim.height + 1, w - DEPTH - 8, nameDim.height);
 		getStereotypeFig().setBounds(x + 1, y + DEPTH + 1, w - DEPTH - 2, stereoDim.height);
-		_x = x;
-		_y = y;
-		_w = w;
-		_h = h;
+		set_x(x);
+		set_y(y);
+		set_w(w);
+		set_h(h);
 		firePropChange("bounds", oldBounds, getBounds());
 		updateEdges();
 	}

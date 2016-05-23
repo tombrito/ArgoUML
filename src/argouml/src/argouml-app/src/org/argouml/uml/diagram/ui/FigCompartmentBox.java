@@ -585,7 +585,11 @@ public abstract class FigCompartmentBox extends FigNodeModelElement {
 
 	@Override
 	public int getLineWidth() {
-		return getBigPort().getLineWidth();
+		if (getBigPort() != null)
+			return getBigPort().getLineWidth();
+		// XXX entender melhor o que deveria acontecer aqui
+		System.err.println("FigCompartmentBox::getLineWidth() - retornando super.getLineWidth()");
+		return super.getLineWidth();
 	}
 
 	@Override
@@ -597,7 +601,11 @@ public abstract class FigCompartmentBox extends FigNodeModelElement {
 
 	@Override
 	public Color getFillColor() {
-		return getBigPort().getFillColor();
+		if (getBigPort() != null)
+			return getBigPort().getFillColor();
+		// XXX entender melhor o que deveria acontecer aqui
+		System.err.println("FigCompartmentBox::getFillColor() - retornando super.getFillColor()");
+		return super.getFillColor();
 	}
 
 	@Override

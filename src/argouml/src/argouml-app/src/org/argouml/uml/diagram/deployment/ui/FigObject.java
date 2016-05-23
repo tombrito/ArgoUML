@@ -243,10 +243,10 @@ public class FigObject extends FigNodeModelElement {
 		getNameFig().setBounds(x, y, nameMin.width + 10, nameMin.height + 4);
 
 		// _bigPort.setBounds(x+1, y+1, w-2, h-2);
-		_x = x;
-		_y = y;
-		_w = w;
-		_h = h;
+		set_x(x);
+		set_y(y);
+		set_w(w);
+		set_h(h);
 
 		firePropChange("bounds", oldBounds, getBounds());
 		calcBounds(); // _x = x; _y = y; _w = w; _h = h;

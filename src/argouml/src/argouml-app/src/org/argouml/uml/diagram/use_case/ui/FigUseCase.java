@@ -540,14 +540,14 @@ public class FigUseCase extends FigCompartmentBox {
 		 */
 		@Override
 		public Point connectionPoint(Point anotherPt) {
-			double rx = _w / 2;
-			double ry = _h / 2;
-			double dx = anotherPt.x - (_x + rx);
-			double dy = anotherPt.y - (_y + ry);
+			double rx = getWidth() / 2;
+			double ry = getHeight() / 2;
+			double dx = anotherPt.x - (getX() + rx);
+			double dy = anotherPt.y - (getY() + ry);
 			double dd = ry * ry * dx * dx + rx * rx * dy * dy;
 			double mu = rx * ry / Math.sqrt(dd);
 
-			Point res = new Point((int) (mu * dx + _x + rx), (int) (mu * dy + _y + ry));
+			Point res = new Point((int) (mu * dx + getX() + rx), (int) (mu * dy + getY() + ry));
 			return res;
 		}
 

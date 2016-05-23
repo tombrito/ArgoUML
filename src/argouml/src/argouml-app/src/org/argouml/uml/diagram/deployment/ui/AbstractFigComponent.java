@@ -190,10 +190,10 @@ public abstract class AbstractFigComponent extends FigNodeModelElement {
 		getStereotypeFig().setBounds(x + FINGER_WIDTH + 1, y + 1, w - FINGER_WIDTH - 2, stereoDim.height);
 		getNameFig().setBounds(x + FINGER_WIDTH + 1, y + stereoDim.height - OVERLAP + 1, w - FINGER_WIDTH - 2,
 				nameDim.height);
-		_x = x;
-		_y = y;
-		_w = w;
-		_h = h;
+		set_x(x);
+		set_y(y);
+		set_w(w);
+		set_h(h);
 		firePropChange("bounds", oldBounds, getBounds());
 		updateEdges();
 	}
