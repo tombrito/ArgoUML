@@ -359,17 +359,6 @@ public class FigPackage extends FigNodeModelElement implements StereotypeContain
 		setBounds(bbox.x, bbox.y, bbox.width, bbox.height);
 	}
 
-	/**
-	 * USED BY PGML.tee.
-	 * 
-	 * @return the class name and bounds together with compartment visibility.
-	 */
-	@Override
-	public String classNameAndBounds() {
-		return super.classNameAndBounds() + "stereotypeVisible=" + isStereotypeVisible() + ";" + "visibilityVisible="
-				+ isVisibilityVisible();
-	}
-
 	/*
 	 * @see org.tigris.gef.presentation.Fig#getUseTrapRect()
 	 */

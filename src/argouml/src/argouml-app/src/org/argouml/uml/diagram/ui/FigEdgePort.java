@@ -106,15 +106,6 @@ public class FigEdgePort extends FigNodeModelElement {
 	}
 
 	/*
-	 * @see org.tigris.gef.presentation.Fig#classNameAndBounds()
-	 */
-	// USED BY PGML.tee
-	@Override
-	public String classNameAndBounds() {
-		return getClass().getName() + "[" + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + "]";
-	}
-
-	/*
 	 * @see org.tigris.gef.presentation.FigNode#hitPort(int, int)
 	 */
 	@Override

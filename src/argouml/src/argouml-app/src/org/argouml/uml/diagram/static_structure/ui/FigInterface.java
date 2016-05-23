@@ -168,18 +168,6 @@ public class FigInterface extends FigClassifierBox {
 		}
 	}
 
-	/**
-	 * USED BY PGML.tee.
-	 * 
-	 * @return the class name and bounds together with compartment visibility.
-	 *         TODO: Is this not duplicate with the parent?
-	 */
-	@Override
-	public String classNameAndBounds() {
-		return super.classNameAndBounds() + "operationsVisible="
-				+ isCompartmentVisible(Model.getMetaTypes().getOperation());
-	}
-
 	@Override
 	protected void updateListeners(Object oldOwner, Object newOwner) {
 		Set<Object[]> listeners = new HashSet<Object[]>();

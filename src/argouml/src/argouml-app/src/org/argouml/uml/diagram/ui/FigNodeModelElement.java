@@ -1660,16 +1660,6 @@ public abstract class FigNodeModelElement extends FigNode
 		// either layer or owner was null
 	}
 
-	/*
-	 * @see org.tigris.gef.presentation.Fig#classNameAndBounds()
-	 */
-	@Deprecated
-	@Override
-	public String classNameAndBounds() {
-		return getClass().getName() + "[" + getX() + ", " + getY() + ", " + getWidth() + ", " + getHeight() + "]"
-				+ "pathVisible=" + isPathVisible() + ";" + "stereotypeView=" + getStereotypeView() + ";";
-	}
-
 	/**
 	 * Implementations of this method should register/unregister the fig for all
 	 * (model)events. For FigNodeModelElement only the fig itself is registered

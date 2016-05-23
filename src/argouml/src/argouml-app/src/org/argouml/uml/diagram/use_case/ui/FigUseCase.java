@@ -275,16 +275,6 @@ public class FigUseCase extends FigCompartmentBox {
 		return showMenu;
 	}
 
-	/**
-	 * USED BY PGML.tee.
-	 * 
-	 * @return the class name and bounds together with compartment visibility.
-	 */
-	@Override
-	public String classNameAndBounds() {
-		return super.classNameAndBounds() + "extensionPointVisible=" + isExtensionPointsVisible();
-	}
-
 	public boolean isExtensionPointsVisible() {
 		return extensionPointsFigCompartment != null && extensionPointsFigCompartment.isVisible();
 	}

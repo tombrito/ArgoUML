@@ -357,23 +357,6 @@ public abstract class FigClassifierBox extends FigCompartmentBox {
 		return addMenu;
 	}
 
-	/**
-	 * USED BY PGML.tee. TODO We should loop round the compartments to build
-	 * this string. That way we have no attribute/operation knowledge at this
-	 * level.
-	 * 
-	 * @return the class name and bounds together with compartment visibility.
-	 */
-	public String classNameAndBounds() {
-		String classNameAndBounds = super.classNameAndBounds() + "operationsVisible="
-				+ isCompartmentVisible(Model.getMetaTypes().getOperation()) + ";";
-		FigCompartment fc = getCompartment(Model.getMetaTypes().getAttribute());
-		if (fc != null) {
-			classNameAndBounds += "attributesVisible=" + fc.isVisible() + ";";
-		}
-		return classNameAndBounds;
-	}
-
 	protected Object buildModifierPopUp() {
 		return buildModifierPopUp(ABSTRACT | LEAF | ROOT);
 	}

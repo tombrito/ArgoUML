@@ -121,14 +121,4 @@ public class FigEnumeration extends FigDataType {
 
 	}
 
-	/**
-	 * USED BY PGML.tee.
-	 * 
-	 * @return the class name and bounds together with compartment visibility.
-	 */
-	@Override
-	public String classNameAndBounds() {
-		return super.classNameAndBounds() + "enumerationLiteralsVisible="
-				+ isCompartmentVisible(Model.getMetaTypes().getEnumerationLiteral());
-	}
 }
